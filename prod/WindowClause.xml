@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="prod-WhereClause" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.w3.org/2010/09/qt-fots-catalog file:///C:/Users/BenG/Documents/Recherche/W3C/FOTS/fots/catalog-schema.xsd">
+	<description>Tests for the Window Clause production</description>
+	<link type="spec" document="http://www.w3.org/TR/xquery-30/" idref="doc-xquery30-WindowClause"/>
+	<link type="spec" document="XQuery" section-number="3.9.4" idref="id-windows"/>
+	<dependency type="spec" value="XQ30+"/>
+	
+	<test-case name="SlidingWindowExpr501">
+		<description>Sliding Window Clause, using variables : window, start item position, end item position</description>
+		<created by="Benjamin Nguyen" on="2011-07-28"/>
+		<dependency type="spec" value="XQ30+"/>
+		<test>for sliding window $w in (1, 2, 3, 4) 
+      start at $s when fn:true()
+      end at $e when $e - $s eq 1
+      return $w</test>
+		<result>
+			<assert-deep-eq>(1, 2, 2, 3, 3, 4, 4)</assert-deep-eq>
+		</result>
+	</test-case>
+	
+	<test-case name="SlidingWindowExpr502">
+		<description>Sliding Window Clause, using only keyword, using variables : window, start item position, end item position</description>
+		<created by="Benjamin Nguyen" on="2011-07-28"/>
+		<dependency type="spec" value="XQ30+"/>
+		<test>for sliding window $w in (1, 2, 3, 4) 
+      start at $s when fn:true()
+      only end at $e when $e - $s eq 1
+      return $w</test>
+		<result>
+			<assert-deep-eq>(1, 2, 2, 3, 3, 4)</assert-deep-eq>
+		</result>
+	</test-case>
+
+	<test-case name="SlidingWindowExpr503">
+		<description>Sliding Window Clause, with errors due to having similar variable names</description>
+		<created by="Benjamin Nguyen" on="2011-07-28"/>
+		<dependency type="spec" value="XQ30+"/>
+		<test>for sliding window $w in (1, 2, 3, 4) 
+      start $s at $s previous $s when fn:true()
+      only end $s at $s previous $s when $s - $s eq 1
+      return $w</test>
+		<result>
+			<error code="XQST0103"/>
+		</result>
+	</test-case>
+	
+		<test-case name="TumblingWindowExpr503">
+		<description>Sliding Window Clause, with errors due to having similar variable names</description>
+		<created by="Benjamin Nguyen" on="2011-07-28"/>
+		<dependency type="spec" value="XQ30+"/>
+		<test>for tumbling window $w in (1, 2, 3, 4) 
+      start $s at $s previous $s when fn:true()
+      only end $s at $s previous $s when $s - $s eq 1
+      return $w</test>
+		<result>
+			<error code="XQST0103"/>
+		</result>
+	</test-case>
+
+	
+</test-set>
