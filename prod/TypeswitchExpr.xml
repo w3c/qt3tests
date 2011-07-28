@@ -484,4 +484,153 @@
          <assert-eq>1</assert-eq>
       </result>
    </test-case>
+
+   <test-case name="typeswitch-union-nomatch">
+	 <description>Typeswitch with union, no match</description>
+	 <created by="Mary Holstege" on="2011-07-28"/>
+	 <dependency type="spec" value="XQ30+"/>
+	 <test><![CDATA[
+	 typeswitch (<e/>) 
+	 case $i as xs:integer | xs:string return $i
+	 default $v return 0
+	 ]]></test>
+	 <result>
+	   <assert-eq>0</assert-eq>
+	 </result>
+   </test-case>
+
+   <test-case name="typeswitch-union-nomatch-2">
+	 <description>Typeswitch with union, no match</description>
+	 <created by="Mary Holstege" on="2011-07-28"/>
+	 <dependency type="spec" value="XQ30+"/>
+	 <test><![CDATA[
+	 typeswitch (<e/>) 
+	 case xs:integer | xs:string return 1
+	 default $v return 0
+	 ]]></test>
+	 <result>
+	   <assert-eq>0</assert-eq>
+	 </result>
+   </test-case>
+
+   <test-case name="typeswitch-union-branch-1">
+	 <description>Typeswitch with union, a match first branch only; check type of bound variable</description>
+	 <created by="Mary Holstege" on="2011-07-28"/>
+	 <dependency type="spec" value="XQ30+"/>
+	 <test><![CDATA[
+	 typeswitch (47) 
+	 case $i as xs:integer | xs:string return $i
+	 default $v return 0
+	 ]]></test>
+	 <result>
+	   <all-of>
+		 <assert-eq>47</assert-eq>
+		 <assert-type>xs:integer</assert-type>
+	   </all-of>
+	 </result>
+   </test-case>
+
+   <test-case name="typeswitch-union-branch-1-dup">
+	 <description>Typeswitch with union, a match first branch only; check type of bound variable</description>
+	 <created by="Mary Holstege" on="2011-07-28"/>
+	 <dependency type="spec" value="XQ30+"/>
+	 <test><![CDATA[
+	 typeswitch (47) 
+	 case $i as xs:integer | xs:string return $i
+	 case $i as xs:integer return $i
+	 default $v return 0
+	 ]]></test>
+	 <result>
+	   <all-of>
+		 <assert-eq>47</assert-eq>
+		 <assert-type>xs:integer</assert-type>
+	   </all-of>
+	 </result>
+   </test-case>
+
+   <test-case name="typeswitch-union-branch-2">
+	 <description>Typeswitch with union, a match second branch only; check type of bound variable</description>
+	 <created by="Mary Holstege" on="2011-07-28"/>
+	 <dependency type="spec" value="XQ30+"/>
+	 <test><![CDATA[
+	 typeswitch (47) 
+	 case $i as xs:string | xs:integer return $i
+	 default $v return 0
+	 ]]></test>
+	 <result>
+	   <all-of>
+		 <assert-eq>47</assert-eq>
+		 <assert-type>xs:integer</assert-type>
+	   </all-of>
+	 </result>
+   </test-case>
+
+   <test-case name="typeswitch-union-branch-2-dup">
+	 <description>Typeswitch with union, a match second branch only; check type of bound variable</description>
+	 <created by="Mary Holstege" on="2011-07-28"/>
+	 <dependency type="spec" value="XQ30+"/>
+	 <test><![CDATA[
+	 typeswitch (47) 
+	 case $i as xs:string | xs:integer return $i
+	 case $i as xs:integer return $i
+	 default $v return 0
+	 ]]></test>
+	 <result>
+	   <all-of>
+		 <assert-eq>47</assert-eq>
+		 <assert-type>xs:integer</assert-type>
+	   </all-of>
+	 </result>
+   </test-case>
+
+   <test-case name="typeswitch-union-branch-both">
+	 <description>Typeswitch with union, a match second branch only; check type of bound variable</description>
+	 <created by="Mary Holstege" on="2011-07-28"/>
+	 <dependency type="spec" value="XQ30+"/>
+	 <test><![CDATA[
+	 typeswitch (xs:integer(47)) 
+	 case $i as xs:decimal | xs:integer return $i
+	 default $v return 0
+	 ]]></test>
+	 <result>
+	   <all-of>
+		 <assert-eq>47</assert-eq>
+		 <assert-type>xs:decimal</assert-type>
+	   </all-of>
+	 </result>
+   </test-case>
+
+   <test-case name="typeswitch-union-branch-both-dup">
+	 <description>Typeswitch with union, a match second branch only; check type of bound variable</description>
+	 <created by="Mary Holstege" on="2011-07-28"/>
+	 <dependency type="spec" value="XQ30+"/>
+	 <test><![CDATA[
+	 typeswitch (xs:integer(47)) 
+	 case $i as xs:decimal | xs:integer return $i
+	 case $i as xs:decimal return $i
+	 default $v return 0
+	 ]]></test>
+	 <result>
+	   <all-of>
+		 <assert-eq>47</assert-eq>
+		 <assert-type>xs:decimal</assert-type>
+	   </all-of>
+	 </result>
+   </test-case>
+
+   <test-case name="typeswitch-union-multi">
+	 <description>Typeswitch with N-way union</description>
+	 <created by="Mary Holstege" on="2011-07-28"/>
+	 <dependency type="spec" value="XQ30+"/>
+	 <test><![CDATA[
+	 for $x in (<e/>, 1, "x") return
+	 typeswitch ($x) 
+	 case $i as xs:integer | xs:boolean | element() return 1
+	 default $v return 0
+	 ]]></test>
+	 <result>
+	   <assert-deep-eq>1, 1, 0</assert-deep-eq>
+	 </result>
+   </test-case>
+
 </test-set>
