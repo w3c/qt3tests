@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="us-ascii"?>
-<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="prod-WhereClause">
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="prod-WhereClause"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.w3.org/2010/09/qt-fots-catalog file:///C:/Users/BenG/Documents/Recherche/W3C/FOTS/fots/catalog-schema.xsd">
 	<description>Tests for the Window Clause production</description>
 	<link type="spec" document="http://www.w3.org/TR/xquery-30/" idref="doc-xquery30-WindowClause"/>
 	<link type="spec" document="XQuery" section-number="3.9.4" idref="id-windows"/>
@@ -32,7 +33,7 @@
 	</test-case>
 
 	<test-case name="SlidingWindowExpr503">
-		<description>Sliding Window Clause, with errors due to having similar variable names</description>
+		<description>Sliding Window Clause, with errors due to having similar variable names : http://www.w3.org/TR/xquery-30/#ERRXQST0089 or http://www.w3.org/TR/xquery-30/#ERRXQST0103</description>
 		<created by="Benjamin Nguyen" on="2011-07-28"/>
 		<dependency type="spec" value="XQ30+"/>
 		<test>for sliding window $w in (1, 2, 3, 4) 
@@ -40,12 +41,15 @@
       only end $s at $s previous $s when $s - $s eq 1
       return $w</test>
 		<result>
-			<error code="XQST0103"/>
+			<any-of>
+				<error code="XQST0089"/>
+				<error code="XQST0103"/>
+			</any-of>
 		</result>
 	</test-case>
 	
 		<test-case name="TumblingWindowExpr503">
-		<description>Sliding Window Clause, with errors due to having similar variable names</description>
+		<description>Sliding Window Clause, with errors due to having similar variable names : http://www.w3.org/TR/xquery-30/#ERRXQST0089 or http://www.w3.org/TR/xquery-30/#ERRXQST0103</description>
 		<created by="Benjamin Nguyen" on="2011-07-28"/>
 		<dependency type="spec" value="XQ30+"/>
 		<test>for tumbling window $w in (1, 2, 3, 4) 
@@ -53,7 +57,62 @@
       only end $s at $s previous $s when $s - $s eq 1
       return $w</test>
 		<result>
-			<error code="XQST0103"/>
+			<any-of>
+				<error code="XQST0089"/>
+				<error code="XQST0103"/>
+			</any-of>
+		</result>
+	</test-case>
+	
+	<test-case name="TumblingWindowExpr504">
+		<description>Tumbling Window Clause, with errors due to having similar variable names : http://www.w3.org/TR/xquery-30/#ERRXQST0103</description>
+		<created by="Benjamin Nguyen" on="2011-07-28"/>
+		<dependency type="spec" value="XQ30+"/>
+		<test>for tumbling window $w in (1, 2, 3, 4) 
+      start $s at $ps previous $pps when fn:true()
+      only end $s at $ps previous $pps when $ps - $ps eq 1
+      return $w</test>
+		<result>
+				<error code="XQST0103"/>
+		</result>
+	</test-case>
+	
+		<test-case name="SlidingWindowExpr504">
+		<description>Sliding Window Clause, with errors due to having similar variable names : http://www.w3.org/TR/xquery-30/#ERRXQST0103</description>
+		<created by="Benjamin Nguyen" on="2011-07-28"/>
+		<dependency type="spec" value="XQ30+"/>
+		<test>for sliding window $w in (1, 2, 3, 4) 
+      start $s at $ps previous $pps when fn:true()
+      only end $s at $ps previous $pps when $ps - $ps eq 1
+      return $w</test>
+		<result>
+				<error code="XQST0103"/>
+		</result>
+	</test-case>
+	
+		<test-case name="SlidingWindowExpr505">
+		<description>Sliding Window Clause, positional variable is integer : http://www.w3.org/TR/xquery-30/#dt-positional-variable</description>
+		<created by="Benjamin Nguyen" on="2011-07-28"/>
+		<dependency type="spec" value="XQ30+"/>
+		<test>for sliding window $w in (1, 2, 3, 4) 
+      start at $s when fn:true()
+      end at $e  when $s - $e eq 1
+      return $s</test>
+		<result>
+			<assert>$result[1] instance of xs:integer</assert>
+		</result>
+	</test-case>
+	
+			<test-case name="TumblingWindowExpr505">
+		<description>Sliding Window Clause, positional variable is integer : http://www.w3.org/TR/xquery-30/#dt-positional-variable</description>
+		<created by="Benjamin Nguyen" on="2011-07-28"/>
+		<dependency type="spec" value="XQ30+"/>
+		<test>for tumbling window $w in (1, 2, 3, 4) 
+      start at $s when fn:true()
+      end at $e  when $s - $e eq 1
+      return $s</test>
+		<result>
+			<assert>$result[1] instance of xs:integer</assert>
 		</result>
 	</test-case>
 
