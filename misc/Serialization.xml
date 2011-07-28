@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="misc-Serialization">
+   <description>Tests for the Serialization</description>
+   <link type="spec" document="http://www.w3.org/TR/xquery-30/"
+         idref="doc-xquery30-Serialization"/>
+
+   <test-case name="K2-Serialization-1">
+      <description> A standalone attribute node cannot be serialized. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[attribute name {<anElement/>}]]></test>
+      <result>
+         <assert-serialization-error code="SENR0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-Serialization-2">
+      <description> An attribute node appearing after an element cannot be serialized. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e/>, attribute name {<anElement/>}]]></test>
+      <result>
+         <assert-serialization-error code="SENR0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-Serialization-3">
+      <description> An attribute node appearing before an element cannot be serialized. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[attribute name {<anElement/>}, <e/>]]></test>
+      <result>
+         <assert-serialization-error code="SENR0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-Serialization-4">
+      <description> An attribute node appearing between two element nodes cannot be serialized. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e/>, attribute name {<anElement/>}, <e/>]]></test>
+      <result>
+         <assert-serialization-error code="SENR0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-Serialization-5">
+      <description> Ensure that CR, NEL and LINE SEPARATOR in text nodes are escaped when serialized. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<a>&#xD;&#x85;&#x2028;</a>]]></test>
+      <result>
+         <assert-serialization><![CDATA[<a>&#xD;&#x85;&#x2028;</a>]]></assert-serialization>
+      </result>
+   </test-case>
+
+   <test-case name="K2-Serialization-6">
+      <description> Ensure that CR, NL, TAB, NEL and LINE SEPARATOR in attributes are escaped when serialized. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<a attr="&#xD;&#xA;&#x9;&#x85;&#x2028;"/>]]></test>
+      <result>
+         <assert-serialization><![CDATA[<a attr="&#xD;&#xA;&#x9;&#x85;&#x2028;"/>]]></assert-serialization>
+      </result>
+   </test-case>
+
+   <test-case name="K2-Serialization-7">
+      <description> Use characters in a text node that in XML 1.0 are invalid, and in XML 1.1 must be escaped. #x1 - #x1F </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<a>{codepoints-to-string(1 to 31)}</a>]]></test>
+      <result>
+         <any-of>
+            <assert-serialization><![CDATA[<a>&#x1;&#x2;&#x3;&#x4;&#x5;&#x6;&#x7;&#x8;&#x9;&#xA;&#xB;&#xC;&#xD;&#xE;&#xF;&#x10;&#x11;&#x12;&#x13;&#x14;&#x15;&#x16;&#x17;&#x18;&#x19;&#x1A;&#x1B;&#x1C;&#x1D;&#x1E;&#x1F;</a>]]></assert-serialization>
+            <error code="FOCH0001"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K2-Serialization-8">
+      <description> Use characters in an attribute node that in XML 1.0 are invalid, and in XML 1.1 must be escaped. #x1 - #x1F </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<a attr="{codepoints-to-string(1 to 31)}"></a>]]></test>
+      <result>
+         <any-of>
+            <assert-serialization><![CDATA[<a attr="&#x1;&#x2;&#x3;&#x4;&#x5;&#x6;&#x7;&#x8;&#x9;&#xA;&#xB;&#xC;&#xD;&#xE;&#xF;&#x10;&#x11;&#x12;&#x13;&#x14;&#x15;&#x16;&#x17;&#x18;&#x19;&#x1A;&#x1B;&#x1C;&#x1D;&#x1E;&#x1F;"/>]]></assert-serialization>
+            <error code="FOCH0001"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K2-Serialization-9">
+      <description> Use characters in the range of #x7F through #x9F in an attribute node and ensure they are escaped properly. #x7F - #x9F </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<a attr="{codepoints-to-string(127 to 159)}"/>]]></test>
+      <result>
+         <assert-serialization><![CDATA[<a attr="&#127;&#128;&#129;&#130;&#131;&#132;&#133;&#134;&#135;&#136;&#137;&#138;&#139;&#140;&#141;&#142;&#143;&#144;&#145;&#146;&#147;&#148;&#149;&#150;&#151;&#152;&#153;&#154;&#155;&#156;&#157;&#158;&#159;"/>]]></assert-serialization>
+      </result>
+   </test-case>
+
+   <test-case name="K2-Serialization-10">
+      <description> Use characters in the range of #x7F through #x9F in an attribute node and ensure they are escaped properly. #x7F - #x9F </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<a>{codepoints-to-string(127 to 159)}</a>]]></test>
+      <result>
+         <assert-serialization><![CDATA[<a>&#127;&#128;&#129;&#130;&#131;&#132;&#133;&#134;&#135;&#136;&#137;&#138;&#139;&#140;&#141;&#142;&#143;&#144;&#145;&#146;&#147;&#148;&#149;&#150;&#151;&#152;&#153;&#154;&#155;&#156;&#157;&#158;&#159;</a>]]></assert-serialization>
+      </result>
+   </test-case>
+
+   <test-case name="K2-Serialization-11">
+      <description> Ensure a new-line character is properly escaped. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA["a&#xD;aa&#xD;&#xA;a&#xD;&#xA;"]]></test>
+      <result>
+         <assert-string-value>a&amp;#xD;aa&amp;#xD;&amp;#xA;a&amp;#xD;&amp;#xA;</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K2-Serialization-12">
+      <description> Write out elements and attributes that have the same names except for their prefixes. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e> <a:a xmlns:a="http://www.example.com/A" a:a="value"/> <b:a xmlns:b="http://www.example.com/A" b:a="value"/> </e>]]></test>
+      <result>
+         <assert-serialization><![CDATA[<e><a:a xmlns:a="http://www.example.com/A" a:a="value"/><b:a xmlns:b="http://www.example.com/A" b:a="value"/></e>]]></assert-serialization>
+      </result>
+   </test-case>
+</test-set>

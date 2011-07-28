@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="op-CombinedErrorCodes">
+   <description>Tests for the CombinedErrorCodes operator</description>
+   <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/"
+         idref="func-CombinedErrorCodes"/>
+   <link type="spec" document="XQuery" section-number="5.2.5" idref="id-module-feature"/>
+   
+   <dependency type="spec" value="XQ10+"/>
+
+   <test-case name="combined-errors-1">
+      <description> Evaluates simple module import to generate error code if feature not supported. </description>
+      <created by="Carmelo Montanez" on="2006-06-06"/>
+      <test>import module namespace defs="http://www.w3.org/TestModules/defs"; "ABC"</test>
+      <result>
+         <any-of>
+            <assert-string-value>ABC</assert-string-value>
+            <error code="XQST0016"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="combined-errors-2">
+      <description> Simple evaluation to test for import schema support. </description>
+      <created by="Carmelo Montanez" on="2006-06-06"/>
+      <test>import schema namespace atomic="http://www.w3.org/XQueryTest"; "ABC"</test>
+      <result>
+         <any-of>
+            <assert-string-value>ABC</assert-string-value>
+            <error code="XQST0009"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="combined-errors-3">
+      <description> Evaluates simple Schema Validation feature to generate error code if feature not supported. </description>
+      <created by="Carmelo Montanez" on="2006-06-06"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare default element namespace "http://www.w3.org/XQueryTestOrderBy"; 
+        import schema "http://www.w3.org/XQueryTestOrderBy"; 
+        validate strict {<Strings><orderData>one string</orderData></Strings>}]]></test>
+      <result>
+         <any-of>
+            <assert-serialization><![CDATA[<Strings xmlns="http://www.w3.org/XQueryTestOrderBy"><orderData>one string</orderData></Strings>]]></assert-serialization>
+            <error code="XQST0075"/>
+            <error code="XQST0009"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="combined-errors-4">
+      <description> Evaluates simple full axis feature (preceding axis) to generate error code if feature not supported. </description>
+      <created by="Carmelo Montanez" on="2006-06-06"/>
+      <environment ref="works-mod"/>
+      <test>declare variable $input-context1 external; ($input-context1/works[1]/employee[2]/preceding::employee)</test>
+      <result>
+         <any-of>
+            <assert-serialization><![CDATA[<employee name="Jane Doe 1" gender="female">
+   <empnum>E1</empnum>
+   <pnum>P1</pnum>
+   <hours>40</hours>
+  </employee>]]></assert-serialization>
+            <error code="XPST0010"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K-CombinedErrorCodes-1">
+      <description> Schema import binding to no namespace, and no location hint. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>importschema "http://example.com/NSNOTRECOGNIZED"; 1 eq 1</test>
+      <result>
+         <any-of>
+            <error code="XQST0009"/>
+            <error code="XQST0059"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K-CombinedErrorCodes-2">
+      <description> Schema import binding to no namespace, but has a location hint. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>importschema "http://example.com/NSNOTRECOGNIZED" at "http://example.com/DOESNOTEXIST"; 1 eq 1</test>
+      <result>
+         <any-of>
+            <error code="XQST0009"/>
+            <error code="XQST0059"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K-CombinedErrorCodes-3">
+      <description> Schema import binding to no namespace, but has three location hints. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>importschema"http://example.com/NSNOTRECOGNIZED"at"http://example.com/DOESNOTEXIST", "http://example.com/2","http://example.com/3"; 1 eq 1</test>
+      <result>
+         <any-of>
+            <error code="XQST0009"/>
+            <error code="XQST0059"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K-CombinedErrorCodes-4">
+      <description> Schema import binding to no namespace, but has three location hints. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>importschema"http://example.com/NSNOTRECOGNIZED"at"http://example.com/DOESNOTEXIST", "http://example.com/2", "http://example.com/3"; 1 eq 1</test>
+      <result>
+         <any-of>
+            <error code="XQST0009"/>
+            <error code="XQST0059"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K-CombinedErrorCodes-5">
+      <description> Schema import binding to a namespace, and has three location hints. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>importschemanamespaceprefix="http://example.com/NSNOTRECOGNIZED" at"http://example.com/DOESNOTEXIST","http://example.com/2DOESNOTEXIST", "http://example.com/3DOESNOTEXIST"; 1 eq 1</test>
+      <result>
+         <any-of>
+            <error code="XQST0009"/>
+            <error code="XQST0059"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K-CombinedErrorCodes-6">
+      <description> Schema import binding to the default element namespace, and has three location hints. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>importschemadefaultelementnamespace "http://example.com/NSNOTRECOGNIZED" at"http://example.com/DOESNOTEXIST","http://example.com/2DOESNOTEXIST", "http://example.com/3DOESNOTEXIST"; 1 eq 1</test>
+      <result>
+         <any-of>
+            <error code="XQST0009"/>
+            <error code="XQST0059"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K-CombinedErrorCodes-7">
+      <description> ':=' cannot be used to assing namespaces in 'import schema'. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>import schema namespace NCName := "http://example.com/Dummy"; 1</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-CombinedErrorCodes-9">
+      <description> A 'validate' expression with an invalid operand. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>validate { 1 }</test>
+      <result>
+         <any-of>
+            <error code="XQTY0030"/>
+            <error code="XQST0075"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K-CombinedErrorCodes-10">
+      <description> A 'validate' expression with an invalid operand. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>validate { () }</test>
+      <result>
+         <any-of>
+            <error code="XQTY0030"/>
+            <error code="XQST0075"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K-CombinedErrorCodes-11">
+      <description> A 'validate' expression with an invalid operand. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>validate lax { 1 }</test>
+      <result>
+         <any-of>
+            <error code="XQTY0030"/>
+            <error code="XQST0075"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K-CombinedErrorCodes-12">
+      <description> A 'validate' expression with an invalid operand. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>validate strict { 1 }</test>
+      <result>
+         <any-of>
+            <error code="XQTY0030"/>
+            <error code="XQST0075"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K-CombinedErrorCodes-13">
+      <description> A 'validate' expression with an invalid operand. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>validate lax { }</test>
+      <result>
+         <any-of>
+            <error code="XPST0003"/>
+            <error code="XQST0075"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K-CombinedErrorCodes-14">
+      <description> A 'validate' expression with an invalid operand. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>validate strict { }</test>
+      <result>
+         <any-of>
+            <error code="XPST0003"/>
+            <error code="XQST0075"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K-CombinedErrorCodes-15">
+      <description> A 'validate' expression with an invalid operand. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>validate { }</test>
+      <result>
+         <any-of>
+            <error code="XPST0003"/>
+            <error code="XQST0075"/>
+         </any-of>
+      </result>
+   </test-case>
+</test-set>

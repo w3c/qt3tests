@@ -1,0 +1,74 @@
+<?xml version="1.1" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="app-Catalog">
+   <description>Tests for the Catalog</description>
+   <link type="spec" document="http://www.w3.org/TR/xquery-30/"
+         idref="doc-xquery30-Catalog"/>
+   <link type="spec" document="XQuery" section-number="1.0" idref="title"/>
+   
+   <environment name="catalog">
+     <source role="." file="../catalog.xml" validation="strict">
+        <description>Catalog for the FOTS test suite</description>
+        <created by="Michael Kay" on="2011-07-10"/>
+     </source>
+     <schema uri="" file="../catalog-schema.xsd">
+        <description>Schema for the catalog of the FOTS test suite</description>
+        <created by="Michael Kay" on="2011-07-10"/>
+     </schema>
+     <namespace prefix="fots" uri="http://www.w3.org/2010/09/qt-fots-catalog"/>
+   </environment>
+        
+   <test-case name="Catalog001">
+      <description> test that all named environments are present </description>
+      <created by="Michael Kay" on="2011-07-10"/>
+      <environment ref="catalog"/>
+      <dependency type="spec" value="XP30+ XQ10+"/>
+      <test>
+        let $testsets := //fots:test-set/@href/doc(resolve-uri(., base-uri(..))),
+            $tests := $testsets//fots-test-case,
+            $environments := (//fots:environment | $testsets//fots:environment)[@name],
+            $refs := $testsets//fots:environment[@ref]
+            return $refs[not(@ref = $environments/@name)]
+      </test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+
+   <test-case name="Catalog002">
+      <description> test all tests containing certain constructs require an XQuery processor </description>
+      <created by="Michael Kay" on="2011-07-10"/>
+      <environment ref="catalog"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaValidation"/>
+      <test>
+        let $testsets := //fots:test-set/@href/validate{doc(resolve-uri(., base-uri(..)))}
+        for $test in $testsets//fots:test-case[not(fots:result/fots:error)][
+                contains(test, "declare variable") or
+                contains(test, "declare function") or
+                matches(test, "&lt;.+&gt;") or
+                contains(test, "typeswitch")]
+        where empty($test/(fots:dependency | ../fots:dependency)) or
+              exists($test/(fots:dependency | ../fots:dependency)[contains(., "XP")])
+        return $test
+      </test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+
+   <test-case name="Catalog003">
+      <description> test all tests containing an "import schema" constructs have an appropriate dependency </description>
+      <created by="Michael Kay" on="2011-07-10"/>
+      <environment ref="catalog"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        let $testsets := //fots:test-set/@href/doc(resolve-uri(., base-uri(..)))
+        for $test in $testsets//fots:test-case[contains(test, "import schema")]
+        where empty($test/(fots:dependency | ../fots:dependency)[@type='feature' and @value="schemaImport"]) 
+        return $test
+      </test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+</test-set>

@@ -1,0 +1,797 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="misc-EQName">
+   <description>Tests for the EQName</description>
+   <link type="spec" document="http://www.w3.org/TR/xquery-30/"
+         idref="doc-xquery30-EQName"/>
+   <link type="spec" document="XQuery" section-number="H.0.0.0.0.0.0.0" idref="__HOF"/>
+   
+   <environment name="user-defined-types">
+      <schema uri="http://www.w3.org/XQueryTest/userDefinedTypes" file="../docs/userdefined.xsd">
+         <description>A schema user defined types and constructor tests</description>
+         <created by="Anonymous" on="2006-04-03"/>
+      </schema>   
+   </environment>        
+
+   <test-case name="hof-001">
+      <description> inline function literal, user-defined function  </description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>
+        declare function local:f($x as xs:integer) as xs:integer { $x + 1 }; 
+        let $f := local:f#1 return $f(2)</test>
+      <result>
+         <assert-eq>3</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="hof-002">
+      <description> inline function literal, user-defined function  </description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>declare function local:f() as xs:integer { 42 }; declare function local:f($x as xs:integer) as xs:integer { $x + 1 }; let $f := local:f#0 return $f()</test>
+      <result>
+         <assert-eq>42</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="hof-003">
+      <description> inline function literal, imported user-defined function  </description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <module uri="http://example.com/hof-003" file="HigherOrderFunctions/module-hof-003.xq"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>
+        import module namespace m="http://example.com/hof-003"; 
+        let $f := m:f#1 return $f(17)</test>
+      <result>
+         <assert-eq>18</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="hof-004">
+      <description> inline function literal, system function  </description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>let $f := fn:round#1 return $f(1.2345)</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="hof-005">
+      <description> inline function literal, system function  </description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>let $f := concat#8 return $f('a','b','c','d','e','f','g','h')</test>
+      <result>
+         <assert-string-value>abcdefgh</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="hof-006">
+      <description> inline function literal, user-defined function, default function namespace  </description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>declare default function namespace "http://example.com/hof-006"; declare function g($x as xs:integer) as xs:integer { $x + 1 }; let $f := g#1 return $f(21)</test>
+      <result>
+         <assert-eq>22</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="hof-007">
+      <description> inline function literal, constructor function, default namespace  </description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>declare default function namespace "http://www.w3.org/2001/XMLSchema"; let $f := date#1 return $f('2008-01-31')</test>
+      <result>
+         <assert-string-value>2008-01-31</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="hof-008">
+      <description> inline function literal, constructor function, non default namespace  </description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>let $f := xs:date#1 return $f('2008-01-31')</test>
+      <result>
+         <assert-string-value>2008-01-31</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="hof-009">
+      <description> inline function literal, constructor function, used-defined atomic type  </description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <environment ref="user-defined-types"/>
+      <dependency type="spec" value="XQ30+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>
+        import schema namespace a = "http://www.w3.org/XQueryTest/userDefinedTypes"; 
+        let $f := a:hatsize#1 
+        return ($f(8) instance of a:hatsize)
+      </test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="hof-010">
+      <description> SequenceType function()  </description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>declare function local:f($x as xs:integer) as xs:integer { $x + 1 }; let $f as function(*) := local:f#1 return $f(2)</test>
+      <result>
+         <assert-eq>3</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="hof-011">
+      <description> SequenceType function(x) as z  </description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>declare function local:f($x as xs:integer) as xs:integer { $x + 3 }; let $f as function(xs:integer) as xs:integer := local:f#1 return $f(2)</test>
+      <result>
+         <assert-eq>5</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="hof-012">
+      <description> SequenceType function(x,y) as z  </description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>declare function local:f($x as xs:integer, $y as xs:long) as xs:integer { $x + $y }; let $f as function(xs:integer, xs:long) as xs:integer := local:f#2 return $f(2, xs:long(5))</test>
+      <result>
+         <assert-eq>7</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="hof-013">
+      <description> Selecting from a sequence of functions  </description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>declare function local:f($x as xs:integer) as xs:integer { $x + 3 }; declare function local:g($x as xs:integer) as xs:integer { $x + 4 }; declare function local:h($x as xs:integer) as xs:integer { $x + 5 }; let $f as (function(xs:integer) as xs:integer)* := (local:f#1, local:g#1, local:h#1) return $f[3](2)[1]</test>
+      <result>
+         <assert-eq>7</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="hof-014">
+      <description> Function returning a function  </description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>declare function local:case($x as xs:boolean) as function(*) { if ($x) then fn:upper-case#1 else fn:lower-case#1 }; local:case(true())("Mike"), local:case(false())("Mike")</test>
+      <result>
+         <assert-string-value>MIKE mike</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="hof-015">
+      <description> Function returning a function  </description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>declare function local:case($x as xs:boolean) as function(xs:string?) as xs:string { if ($x) then fn:upper-case#1 else fn:lower-case#1 }; local:case(true())("Mike"), local:case(false())("Mike")</test>
+      <result>
+         <assert-string-value>MIKE mike</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="hof-016">
+      <description> Function expecting a function  </description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>declare function local:case($x as function(*), $y as xs:string) as xs:string { $x($y) }; local:case(upper-case#1, "Mike"), local:case(lower-case#1, "Mike")</test>
+      <result>
+         <assert-string-value>MIKE mike</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="hof-017">
+      <description> Function expecting a function, full signature  </description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>declare function local:case($x as function(xs:string?) as xs:string, $y as xs:string) as xs:string { $x($y) }; local:case(upper-case#1, "Mike"), local:case(lower-case#1, "Mike")</test>
+      <result>
+         <assert-string-value>MIKE mike</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="hof-018">
+      <description> Function expecting a function, caller supplies local function  </description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>declare function local:scramble($x as function(xs:string) as xs:string, $y as xs:string) as xs:string { $x($y) }; declare function local:rot13($x as xs:string) as xs:string { translate($x, "abcdefghijklmnopqrstuvwxyz", "nopqrstuvwxyzabcdefghijklm") }; local:scramble(local:rot13#1, "mike")</test>
+      <result>
+         <assert-string-value>zvxr</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="hof-019">
+      <description> Function expecting a function, caller supplies local function  </description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>declare function local:scramble($x as function(*), $y as xs:string) as xs:string { $x($y) }; declare function local:rot13($x as xs:string) as xs:string { translate($x, "abcdefghijklmnopqrstuvwxyz", "nopqrstuvwxyzabcdefghijklm") }; local:scramble(local:rot13#1, "mike")</test>
+      <result>
+         <assert-string-value>zvxr</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="hof-020">
+      <description> Function expecting a function, caller supplies inline function  </description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>declare function local:scramble($x as function(*), $y as xs:string) as xs:string { $x($y) }; local:scramble(function($x){translate($x, "abcdefghijklmnopqrstuvwxyz", "nopqrstuvwxyzabcdefghijklm")}, "john")</test>
+      <result>
+         <assert-string-value>wbua</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="hof-021">
+      <description> Function expecting a function, caller supplies inline function. Needs function coercion  </description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>declare function local:scramble($x as function(xs:string) as xs:string, $y as xs:string) as xs:string { $x($y) }; local:scramble(function($x){translate($x, "abcdefghijklmnopqrstuvwxyz", "nopqrstuvwxyzabcdefghijklm")}, "john")</test>
+      <result>
+         <assert-string-value>wbua</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="hof-022">
+      <description> Name and arity of a user-defined function  </description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>declare function local:scramble($x as function(xs:string) as xs:string, $y as xs:string) as xs:string { $x($y) }; let $n := function-name(local:scramble#2) return (local-name-from-QName($n), namespace-uri-from-QName($n), function-arity(local:scramble#2))</test>
+      <result>
+         <assert-string-value>scramble http://www.w3.org/2005/xquery-local-functions 2</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="hof-023">
+      <description> Name and arity of a system function  </description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>
+        let $f := fn:function-name#1, $n := function-name($f) 
+        return (local-name-from-QName($n), namespace-uri-from-QName($n), function-arity($f))</test>
+      <result>
+         <assert-string-value>function-name http://www.w3.org/2005/xpath-functions 1</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="hof-024">
+      <description> Name and arity of a constructor function  </description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>
+        let $f := xs:dateTime#1, $n := function-name($f) 
+        return (local-name-from-QName($n), namespace-uri-from-QName($n), function-arity($f))</test>
+      <result>
+         <assert-string-value>dateTime http://www.w3.org/2001/XMLSchema 1</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="hof-025">
+      <description> Name and arity of a concat function  </description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>let $f := concat#123456, $n := function-name($f) 
+        return (local-name-from-QName($n), namespace-uri-from-QName($n), function-arity($f))</test>
+      <result>
+         <assert-string-value>concat http://www.w3.org/2005/xpath-functions 123456</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="hof-026">
+      <description> Name and arity of an inline function  </description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        let $f := function($x as xs:string) as xs:string { upper-case($x) } 
+        let $n := function-name($f) return <a loc="{local-name-from-QName($n)}" uri="{namespace-uri-from-QName($n)}" arity="{function-arity($f)}" eloc="{empty(local-name-from-QName($n))}" euri="{empty(namespace-uri-from-QName($n))}"/>]]></test>
+      <result>
+         <assert-serialization><![CDATA[<a uri="" loc="" euri="true" eloc="true" arity="1"/>]]></assert-serialization>
+      </result>
+   </test-case>
+
+   <test-case name="hof-027">
+      <description> Curry a system function  </description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>
+        let $f := fn:contains(?, "e") 
+        return for $s in ("Mike", "John", "Dave", "Mary", "Jane") return $f($s)</test>
+      <result>
+         <assert-string-value>true false true false true</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="hof-028">
+      <description> Return an inline function from a user-defined function. Needs function coercion  </description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>declare function local:splitter() as (function(xs:string) as xs:string*) { function($x as xs:string) { tokenize($x, '\s') } }; string-join(local:splitter()("A nice cup of tea"), '|')</test>
+      <result>
+         <assert-string-value>A|nice|cup|of|tea</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="hof-029">
+      <description> Return an inline function that uses internal variables. Needs function coercion  </description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>declare function local:splitter() as (function(xs:string) as xs:string+)? { function($x as xs:string) { for $i in tokenize($x, '\s') return upper-case($i)} }; string-join(local:splitter()("A nice cup of tea"), '|')</test>
+      <result>
+         <assert-string-value>A|NICE|CUP|OF|TEA</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="hof-030">
+      <description> Return an inline function that uses global variables  </description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>declare variable $sep as xs:string external := "\s"; declare function local:splitter() as (function(xs:string) as xs:string*)? { function($x as xs:string) { for $i in tokenize($x, $sep) return upper-case($i)} }; string-join(local:splitter()("A nice cup of tea"), '|')</test>
+      <result>
+         <assert-string-value>A|NICE|CUP|OF|TEA</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="hof-031">
+      <description> Return an inline function that uses local parameters  </description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>declare function local:splitter($sep as xs:string) as (function(xs:string) as xs:string*) { function($x as xs:string) { for $i in tokenize($x, $sep) return upper-case($i)} }; string-join(local:splitter("\s")("A nice cup of tea"), '|')</test>
+      <result>
+         <assert-string-value>A|NICE|CUP|OF|TEA</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="hof-032">
+      <description> Parenthesized expression in a function call  </description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>(if (current-date() gt xs:date('2000-12-31')) then upper-case#1 else lower-case#1)("Mike")</test>
+      <result>
+         <assert-string-value>MIKE</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="hof-033">
+      <description> Context item is a function item  </description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>local-name-from-QName(function-name((upper-case#1, lower-case#1)[.("Mike") = "MIKE"]))</test>
+      <result>
+         <assert-string-value>upper-case</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="hof-034">
+      <description> ordered{} applied to a function item  </description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>local-name-from-QName(function-name((upper-case#1, lower-case#1)[ordered{.}("Mike") = "MIKE"]))</test>
+      <result>
+         <assert-string-value>upper-case</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="hof-035">
+      <description> unordered{} applied to a function item  </description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>local-name-from-QName(function-name((upper-case#1, lower-case#1)[ordered{.}("Mike") = "MIKE"]))</test>
+      <result>
+         <assert-string-value>upper-case</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="hof-036">
+      <description> Heterogeneous sequence of atomics and functions on rhs of "/" - not clear if this is allowed  </description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[(<a b="3"/>/(string(@b), upper-case#1, 17))[. instance of xs:anyAtomicType]]]></test>
+      <result>
+         <assert-string-value>3 17</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="hof-037">
+      <description> instance-of tests on user-defined function, varying the argument types - all true  </description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        declare function local:f($x as xs:long, $y as xs:NCName) as element(e) { 
+            <e x="{$x}" y="{$y}"/> 
+        }; 
+        local:f#2 instance of function(*), 
+        local:f#2 instance of function(xs:long, xs:NCName) as element(e), 
+        local:f#2 instance of function(xs:anyAtomicType?, xs:anyAtomicType?) as element(e), 
+        local:f#2 instance of function(item()*, item()*) as element(e)
+      ]]></test>
+      <result>
+         <assert-string-value>true true false false</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="hof-038">
+      <description> instance-of tests on user-defined function, varying the argument types - all false  </description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        declare function local:f($x as xs:long?, $y as xs:NCName?) as element(e) { 
+            <e x="{$x}" y="{$y}"/> 
+        }; 
+        local:f#2 instance of function(xs:int?, xs:NCName?) as element(e), 
+        local:f#2 instance of function(xs:long?) as element(e), 
+        local:f#2 instance of function(xs:long?, xs:NCName?, item()*) as element(e), 
+        local:f#2 instance of function(xs:long, xs:anyAtomicType?) as element(e), 
+        local:f#2 instance of function(item()+, item()+) as element(e)
+      ]]></test>
+      <result>
+         <assert-string-value>true false false false false</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="hof-039">
+      <description> instance-of tests on user-defined function, varying the result types  </description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[declare function local:f($x as xs:long, $y as xs:NCName) as element(e)? { <e x="{$x}" y="{$y}"/> }; local:f#2 instance of function(xs:long, xs:NCName) as element(), local:f#2 instance of function(xs:long, xs:NCName) as element()+, local:f#2 instance of function(xs:long, xs:NCName) as element()?, local:f#2 instance of function(xs:long, xs:NCName) as element()*, local:f#2 instance of function(xs:long, xs:NCName) as element(e)*, local:f#2 instance of function(xs:long, xs:NCName) as element(e, xs:anyType)*, local:f#2 instance of function(xs:long, xs:NCName) as element(*, xs:anyType)?, local:f#2 instance of function(xs:long, xs:NCName) as element(*, xs:untyped)?]]></test>
+      <result>
+         <assert-string-value>false false true true true true true false</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="hof-040">
+      <description> Pass a sequence of functions that require coercion in different ways  </description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>declare function local:apply($fns as (function(xs:string) as xs:string)*, $s as xs:string) as xs:string* { for $f in $fns return $f($s) }; let $ops := (upper-case#1, lower-case#1, function($x){translate($x, 'e', 'i')}, substring-before(?, ' ')) return string-join(local:apply($ops, 'Michael Kay'), '~')</test>
+      <result>
+         <assert-string-value>MICHAEL KAY~michael kay~Michail Kay~Michael</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="hof-041">
+      <description> Return a sequence of functions that require coercion in different ways  </description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>declare function local:ops() as (function(xs:string) as xs:string)* { (upper-case#1, lower-case#1, function($x){translate($x, 'e', 'i')}, substring-before(?, ' ')) }; string-join(for $f in local:ops() return $f('Michael Kay'), '~')</test>
+      <result>
+         <assert-string-value>MICHAEL KAY~michael kay~Michail Kay~Michael</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="hof-042">
+      <description> Implicit atomization works for various kinds of functions  </description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        declare function local:lower-case($x as xs:string) as xs:string { concat("'", fn:lower-case($x), "'") }; 
+        declare function local:ops() as (function(xs:string) as xs:string)* { (upper-case#1, local:lower-case#1, function($x){translate($x, 'e', 'i')}, substring-before(?, ' ')) }; 
+        string-join(for $f in local:ops() return $f(<a name="Michael Kay"/>/@name), '~')]]></test>
+      <result>
+         <assert-string-value>MICHAEL KAY~'michael kay'~Michail Kay~Michael</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="hof-043">
+      <description> untypedAtomic conversion works for various kinds of functions  </description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>declare function local:round($x as xs:double) as xs:double { fn:floor($x) }; declare function local:ops() as (function(xs:double) as xs:double)* { (abs#1, local:round#1, function($x){$x+1}, round-half-to-even(?, 2)) }; string-join(for $f in local:ops() return string($f(xs:untypedAtomic('123.456'))), '~')</test>
+      <result>
+         <assert-string-value>123.456~123~124.456~123.46</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="hof-044">
+      <description> numeric promotion works for various kinds of functions  </description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>declare function local:round($x as xs:double) as xs:double { fn:floor($x) }; declare function local:ops() as (function(xs:double) as xs:double)* { (abs#1, local:round#1, function($x as xs:float){$x+1}, round-half-to-even(?, 2)) }; string-join(for $f in local:ops() return string(round-half-to-even($f(xs:decimal('123.456')), 4)), '~')</test>
+      <result>
+         <assert-string-value>123.456~123~124.456~123.46</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="hof-045">
+      <description>partial-apply supplying a function parameter </description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>declare function local:round($x as xs:double, $algorithm as (function(xs:double) as xs:double)) as xs:double { $algorithm($x) }; declare variable $roundToCeiling := local:round(?, ceiling#1); $roundToCeiling(12.4)</test>
+      <result>
+         <assert-eq>13</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="hof-046">
+      <description>Return an inline function that uses inner and outer local variables</description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        declare function local:splitter($x as xs:string) as (function() as xs:string*)* { 
+            for $sep in ('\s', ',', '!') 
+            return function() { for $i in tokenize($x, $sep) return upper-case($i) } 
+        }; 
+        <out>{ 
+            for $f as function(*) in local:splitter("How nice! Thank you, I enjoyed that.") 
+            return <tokens>{ for $t in $f() 
+                             return <t>{$t}</t> 
+                   }</tokens> 
+       }</out>
+    ]]></test>
+      <result>
+         <assert-serialization><![CDATA[<out><tokens><t>HOW</t><t>NICE!</t><t>THANK</t><t>YOU,</t><t>I</t><t>ENJOYED</t><t>THAT.</t></tokens><tokens><t>HOW NICE! THANK YOU</t><t> I ENJOYED THAT.</t></tokens><tokens><t>HOW NICE</t><t> THANK YOU, I ENJOYED THAT.</t></tokens></out>]]></assert-serialization>
+      </result>
+   </test-case>
+
+   <test-case name="hof-047">
+      <description> Nested inline functions referencing grandfather local variables </description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        declare function local:splitter($x as xs:string) as (function() as xs:string*)* { 
+            for $sep in ('\s', ',', '!') return function() { 
+                for $i in tokenize($x, $sep) return 
+                    let $f := function(){ concat($sep, ':', upper-case($i)) } 
+                    return $f() } 
+        }; 
+        <out>{ 
+            for $f as function(*) in local:splitter("How nice! Thank you, I enjoyed that.") 
+            return <tokens>{ for $t in $f() 
+                             return <t>{$t}</t> }</tokens> 
+        }</out>
+     ]]></test>
+      <result>
+         <assert-serialization><![CDATA[<out><tokens><t>\s:HOW</t><t>\s:NICE!</t><t>\s:THANK</t><t>\s:YOU,</t><t>\s:I</t><t>\s:ENJOYED</t><t>\s:THAT.</t></tokens><tokens><t>,:HOW NICE! THANK YOU</t><t>,: I ENJOYED THAT.</t></tokens><tokens><t>!:HOW NICE</t><t>!: THANK YOU, I ENJOYED THAT.</t></tokens></out>]]></assert-serialization>
+      </result>
+   </test-case>
+
+   <test-case name="hof-048">
+      <description> Forwards reference to a literal function item  </description>
+      <created by="Michael Kay" on="2010-08-14"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>
+        declare function local:do() as xs:integer { (local:f#1)(5) }; 
+        declare function local:f($x as xs:integer) as xs:integer { $x + 1 }; 
+        local:do()</test>
+      <result>
+         <assert-eq>6</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="hof-049">
+      <description> true#0 and false# as literal function items  </description>
+      <created by="Michael Kay" on="2011-01-12"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        declare function local:tf($i as xs:integer) as function () as xs:boolean { 
+            if ($i) then true#0 else false#0 
+        }; 
+        <out>{(local:tf(0)(), local:tf(1)())}</out>
+      ]]></test>
+      <result>
+         <assert-serialization><![CDATA[<out>false true</out>]]></assert-serialization>
+      </result>
+   </test-case>
+
+   <test-case name="hof-050">
+      <description> Partial application of a literal function item  </description>
+      <created by="Michael Kay" on="2011-06-20"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[let $f := fn:substring-before#2(?, '-') return <out>{$f('the-end-of-the-world')}</out>]]></test>
+      <result>
+         <assert-serialization><![CDATA[<out>the</out>]]></assert-serialization>
+      </result>
+   </test-case>
+
+   <test-case name="hof-051">
+      <description> Partial application of an inline function item  </description>
+      <created by="Michael Kay" on="2011-06-20"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        let $f := function($a as xs:string, $b as xs:string) { 
+            starts-with($a, $b) and ends-with($a, $b)}(?, 'a') 
+        return <out>{$f('abracadabra')}</out>]]></test>
+      <result>
+         <assert-serialization><![CDATA[<out>true</out>]]></assert-serialization>
+      </result>
+   </test-case>
+
+   <test-case name="hof-052">
+      <description> Repeated partial application of a function  </description>
+      <created by="Michael Kay" on="2011-06-20"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[let $f := fn:concat#3(?, '*', ?) let $g := $f('[', ?) return <out>{$g(']')}</out>]]></test>
+      <result>
+         <assert-serialization><![CDATA[<out>[*]</out>]]></assert-serialization>
+      </result>
+   </test-case>
+
+   <test-case name="hof-901">
+      <description> inline function literal, unknown user-defined function  </description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>declare function local:f($x as xs:integer) as xs:integer { $x + 1 }; let $f := local:g#1 return $f(2)</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="hof-902">
+      <description> inline function literal, unknown user-defined function  </description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>declare function local:f($x as xs:integer) as xs:integer { $x + 1 }; let $f := local:f#3 return $f(2)</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="hof-903">
+      <description> inline function literal, unknown function  </description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>declare function local:f($x as xs:integer) as xs:integer { $x + 1 }; let $f := xs:date#2 return $f('2008-03-01')</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="hof-904">
+      <description> inline function literal, unknown function  </description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>declare function local:f($x as xs:integer) as xs:integer { $x + 1 }; let $f := concat#1 return $f('2008-03-01')</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="hof-905">
+      <description> apply string() to a function item  </description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>declare function local:f($x as xs:integer) as xs:integer { $x + 1 }; string(local:f#1)</test>
+      <result>
+         <error code="FOTY0014"/>
+      </result>
+   </test-case>
+
+   <test-case name="hof-906">
+      <description> apply data() to a function item  </description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>declare function local:f($x as xs:integer) as xs:integer { $x + 1 }; exists(data(local:f#1))</test>
+      <result>
+         <error code="FOTY0013"/>
+      </result>
+   </test-case>
+
+   <test-case name="hof-907">
+      <description> apply deep-equal() to a function item  </description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>declare function local:f($x as xs:integer) as xs:integer { $x + 1 }; deep-equal((1,2,3,4,local:f#1), (1,2,3,4,local:f#1))</test>
+      <result>
+         <error code="FOTY0015"/>
+      </result>
+   </test-case>
+
+   <test-case name="hof-908">
+      <description> atomize a function item implicitly  </description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>declare function local:f($x as xs:integer) as xs:integer { $x + 1 }; local:f#1 eq 3</test>
+      <result>
+         <error code="FOTY0013"/>
+      </result>
+   </test-case>
+
+   <test-case name="hof-909">
+      <description> atomize a function item implicitly  </description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>declare function local:f($x as xs:integer) as xs:integer { $x + 1 }; number(local:f#1)</test>
+      <result>
+         <error code="FOTY0013"/>
+      </result>
+   </test-case>
+
+   <test-case name="hof-910">
+      <description> In SequenceType syntax, Result type required if argument type given  </description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>
+        declare function local:f($x as xs:integer) as xs:integer {
+            $x + 1
+        };
+        let $f as function(xs:integer) := local:f#1
+        return $f(3)
+      </test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="hof-911">
+      <description> Heterogeneous sequence on rhs of "/" </description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <dependency type="spec" value="XQ30+"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<a b="3"/>/(@b, upper-case#1)]]></test>
+      <result>
+         <error code="XPTY0018"/>
+      </result>
+   </test-case>
+
+   <test-case name="hof-912">
+      <description> Pass a sequence of functions that cannot be coerced to the required type  </description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>declare function local:apply($fns as (function(xs:string) as xs:string)*, $s as xs:string) as xs:string* { for $f in $fns return $f($s) }; let $ops := (upper-case#1, lower-case#1, function($x){translate($x, 'e', 'i')}, substring-before(?, ' ', ?)) return string-join(local:apply($ops, 'Michael Kay'), '~')</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="hof-913">
+      <description> Pass a sequence of functions that cannot be coerced to the required type  </description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>declare function local:apply($fns as (function(xs:string) as xs:string)*, $s as xs:string) as xs:string* { for $f in $fns return $f($s) }; let $ops := (upper-case#1, lower-case#1, function($x){translate($x, 'e', 'i')}, string-length#1) return string-join(local:apply($ops, 'Michael Kay'), '~')</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="hof-914">
+      <description> Pass a sequence of functions that cannot be coerced to the required type  </description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>declare function local:apply($fns as (function(xs:string) as xs:string)*, $s as xs:string) as xs:string* { for $f in $fns return $f($s) }; let $ops := (upper-case#1, lower-case#1, function($x as xs:double){string($x)}) return string-join(local:apply($ops, 'Michael Kay'), '~')</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="hof-915">
+      <description> partial-apply, argument number out of range  </description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>let $ops := substring-before('abc', ' ', (), ?) return $ops('Michael Kay')</test>
+      <result>
+         <error code="FOFU0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="hof-916">
+      <description> partial-apply, argument number out of range  </description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>let $ops := substring-before(?, ?) return $ops('Michael Kay')</test>
+      <result>
+         <error code="FOFU0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="hof-917">
+      <description> partial-apply, argument value invalid for target function  </description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>let $ops := substring-before(?, 2) return $ops('Michael Kay')</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="hof-918">
+      <description> partial-apply supplying an incorrect function parameter  </description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>declare function local:round($x as xs:double, $algorithm as (function(xs:double) as xs:double)) as xs:double { $algorithm($x) }; declare variable $roundToCeiling := local:round(?, upper-case#1); $roundToCeiling(12.4)</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+
+</test-set>

@@ -1,0 +1,645 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="prod-CastExpr.schema">
+   <description>Tests for the CastExpr production with user-defined types</description>
+   <link type="spec" document="http://www.w3.org/TR/xquery-30/"
+         idref="doc-xquery30-CastExpr.schema"/>
+   <link type="spec" document="FuncOps" section-number="5.1"
+         idref="constructor-functions-for-xsd-types"/>
+         
+   <dependency type="spec" value="XQ10+"/>
+   <dependency type="feature" value="schemaImport"/>
+   
+   <environment name="user-defined-types">
+      <schema uri="http://www.w3.org/XQueryTest/userDefinedTypes" file="../docs/userdefined.xsd">
+         <description>A schema user defined types and constructor tests</description>
+         <created by="Anonymous" on="2006-04-03"/>
+      </schema>   
+   </environment>     
+
+   <test-case name="qname-cast-1">
+      <description> Evaluates casting an xs:QName type to another xs:QName type. </description>
+      <created by="Carmelo Montanez" on="2006-04-13"/>
+      <test>xs:QName("value1") cast as xs:QName</test>
+      <result>
+         <assert-string-value>value1</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="qname-cast-2">
+      <description> Evaluates casting a type derived from an xs:QName to an xs:QName type. </description>
+      <created by="Carmelo Montanez" on="2006-04-13"/>
+      <environment ref="user-defined-types"/>
+      <test>
+        import schema namespace myType="http://www.w3.org/XQueryTest/userDefinedTypes"; 
+        let $var := myType:QNameBased("value1") return $var cast as xs:QName</test>
+      <result>
+         <assert-string-value>value1</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="qname-cast-3">
+      <description> Evaluates casting a type derived from an xs:QName to a type derived from xs:QName. </description>
+      <created by="Carmelo Montanez" on="2006-04-13"/>
+      <environment ref="user-defined-types"/>
+      <test>
+        import schema namespace myType="http://www.w3.org/XQueryTest/userDefinedTypes"; 
+        let $var := myType:QNameBased("value1") return $var cast as myType:QNameBased</test>
+      <result>
+         <assert-string-value>value1</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="qname-cast-4">
+      <description> Evaluates casting a xs:QName type to a type derived from xs:QName. </description>
+      <created by="Carmelo Montanez" on="2006-04-13"/>
+      <environment ref="user-defined-types"/>
+      <test>
+        import schema namespace myType="http://www.w3.org/XQueryTest/userDefinedTypes"; 
+        let $var := xs:QName("value1") return $var cast as myType:QNameBased</test>
+      <result>
+            <assert-string-value>value1</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="notation-cast-2">
+      <description> Evaluates casting a type derived from an xs:NOTATION to an xs:NOTATION type. </description>
+      <created by="Carmelo Montanez" on="2006-04-13"/>
+      <environment ref="user-defined-types"/>
+      <test>
+        import schema namespace myType = "http://www.w3.org/XQueryTest/userDefinedTypes"; 
+        myType:NOTATIONBased("myType:value1") cast as xs:NOTATION</test>
+      <result>
+            <error code="XPST0080"/>
+      </result>
+   </test-case>
+
+   <test-case name="notation-cast-3">
+      <description> Evaluates casting a type derived from an xs:NOTATION to a type derived from xs:NOTATION. </description>
+      <created by="Carmelo Montanez" on="2006-04-13"/>
+      <environment ref="user-defined-types"/>
+      <test>
+        import schema namespace myType = "http://www.w3.org/XQueryTest/userDefinedTypes"; 
+        myType:NOTATIONBased("myType:value1") cast as myType:NOTATIONBased</test>
+      <result>
+            <assert-string-value>myType:value1</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="casthcds1">
+      <description> Simple test for evaluation of a simple expression casted as xs:integer - XML Data Source </description>
+      <created by="Carmelo Montanez" on="2005-03-08"/>
+      <environment ref="atomic"/>
+      <test>import schema namespace atomic="http://www.w3.org/XQueryTest"; (/atomic:root/atomic:integer) cast as xs:integer</test>
+      <result>
+         <assert-eq>12678967543233</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="casthcds2">
+      <description> Simple test for evaluation of a simple expression casted as xs:float - xml data source - XML Data Source </description>
+      <created by="Carmelo Montanez" on="2005-03-08"/>
+      <environment ref="atomic"/>
+      <test>import schema namespace atomic="http://www.w3.org/XQueryTest"; 
+      ((/atomic:root/atomic:integer) cast as xs:float) eq xs:float(12678967543233)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="casthcds3">
+      <description> Simple test for evaluation of a simple expression casted as xs:boolean - XML Data Source </description>
+      <created by="Carmelo Montanez" on="2005-03-08"/>
+      <environment ref="atomic"/>
+      <test>import schema namespace atomic="http://www.w3.org/XQueryTest"; 
+      (/atomic:root/atomic:integer) cast as xs:boolean</test>
+      <result>
+            <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="casthcds4">
+      <description> Simple test for evaluation of a simple expression casted as xs:double - XML Data Source </description>
+      <created by="Carmelo Montanez" on="2005-03-08"/>
+      <environment ref="atomic"/>
+      <test>import schema namespace atomic="http://www.w3.org/XQueryTest"; (/atomic:root/atomic:integer) cast as xs:double</test>
+      <result>
+         <assert-string-value>1.2678967543233E13</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="casthcds5">
+      <description> Simple test for evaluation of a simple expression casted as xs:decimal - XML Data Source </description>
+      <created by="Carmelo Montanez" on="2005-03-08"/>
+      <environment ref="atomic"/>
+      <test>import schema namespace atomic="http://www.w3.org/XQueryTest"; (/atomic:root/atomic:integer) cast as xs:decimal</test>
+      <result>
+         <assert-eq>12678967543233</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="casthcds6">
+      <description> Simple test for evaluation of a simple expression casted as xs:string - XML Data Source </description>
+      <created by="Carmelo Montanez" on="2005-03-08"/>
+      <environment ref="atomic"/>
+      <test>import schema namespace atomic="http://www.w3.org/XQueryTest"; (/atomic:root/atomic:integer) cast as xs:string</test>
+      <result>
+         <assert-string-value>12678967543233</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="casthcds7">
+      <description> Simple test for evaluation a string casted as xs:string - XML Data Source </description>
+      <created by="Carmelo Montanez" on="2005-03-08"/>
+      <environment ref="atomic"/>
+      <test>import schema namespace atomic="http://www.w3.org/XQueryTest"; (/atomic:root/atomic:string) cast as xs:string</test>
+      <result>
+         <assert-string-value>A String Function</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="casthcds8">
+      <description> Simple test for casting a float as a float - XML Data Source </description>
+      <created by="Carmelo Montanez" on="2005-03-08"/>
+      <environment ref="atomic"/>
+      <test>import schema namespace atomic="http://www.w3.org/XQueryTest"; ((/atomic:root/atomic:float) cast as xs:float) eq xs:float(1267.43233E12)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="casthcds9">
+      <description> Simple test for casting a float as a string - XML Data Source </description>
+      <created by="Carmelo Montanez" on="2005-03-08"/>
+      <environment ref="atomic"/>
+      <test>import schema namespace atomic="http://www.w3.org/XQueryTest"; ((/atomic:root/atomic:float) cast as xs:string)</test>
+      <result>
+         <any-of>
+            <assert-string-value>1.26743233E15</assert-string-value>
+            <assert-string-value>1.2674324E15</assert-string-value>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="casthcds10">
+      <description> Simple test for casting a float as a double </description>
+      <created by="Carmelo Montanez" on="2005-03-08"/>
+      <environment ref="atomic"/>
+      <test>import schema namespace atomic="http://www.w3.org/XQueryTest"; xs:float(((/atomic:root/atomic:float) cast as xs:double)) eq xs:float(1267.43233E12)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="casthcds11">
+      <description> Simple test for casting a float as a boolean </description>
+      <created by="Carmelo Montanez" on="2005-03-08"/>
+      <environment ref="atomic"/>
+      <test>import schema namespace atomic="http://www.w3.org/XQueryTest"; (/atomic:root/atomic:float) cast as xs:boolean</test>
+      <result>
+            <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="casthcds12">
+      <description> Simple test for casting a double as a double - XML Data Source </description>
+      <created by="Carmelo Montanez" on="2005-03-08"/>
+      <environment ref="atomic"/>
+      <test>import schema namespace atomic="http://www.w3.org/XQueryTest"; (/atomic:root/atomic:double) cast as xs:double</test>
+      <result>
+         <assert-string-value>1.26743233E15</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="casthcds13">
+      <description> Simple test for casting a double as a string - XML Data Source </description>
+      <created by="Carmelo Montanez" on="2005-03-08"/>
+      <environment ref="atomic"/>
+      <test>import schema namespace atomic="http://www.w3.org/XQueryTest"; ((/atomic:root/atomic:double) cast as xs:string) eq xs:string("A String Function")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="casthcds14">
+      <description> Simple test for casting a double as a float - XML Data Source </description>
+      <created by="Carmelo Montanez" on="2005-03-08"/>
+      <environment ref="atomic"/>
+      <test>import schema namespace atomic="http://www.w3.org/XQueryTest"; ((/atomic:root/atomic:double) cast as xs:float) eq xs:float(1267.43233E12)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="casthcds15">
+      <description> Simple test for casting a double as a boolean - XML Data Source </description>
+      <created by="Carmelo Montanez" on="2005-03-08"/>
+      <environment ref="atomic"/>
+      <test>import schema namespace atomic="http://www.w3.org/XQueryTest"; (/atomic:root/atomic:double) cast as xs:boolean</test>
+      <result>
+            <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="casthcds16">
+      <description> Simple test for casting a decimal as a string - XML Data Source </description>
+      <created by="Carmelo Montanez" on="2005-03-08"/>
+      <environment ref="atomic"/>
+      <test>import schema namespace atomic="http://www.w3.org/XQueryTest"; (/atomic:root/atomic:decimal) cast as xs:string</test>
+      <result>
+         <assert-string-value>12678967.543233</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="casthcds17">
+      <description> Simple test for casting a decimal as a float - XML Data Source </description>
+      <created by="Carmelo Montanez" on="2005-03-08"/>
+      <environment ref="atomic"/>
+      <test>import schema namespace atomic="http://www.w3.org/XQueryTest"; (/atomic:root/atomic:decimal) cast as xs:float</test>
+      <result>
+         <assert-string-value>1.2678968E7</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="casthcds18">
+      <description> Simple test for casting a decimal as a double - XML Data Source </description>
+      <created by="Carmelo Montanez" on="2005-03-08"/>
+      <environment ref="atomic"/>
+      <test>import schema namespace atomic="http://www.w3.org/XQueryTest"; (/atomic:root/atomic:decimal) cast as xs:double</test>
+      <result>
+         <assert-string-value>1.2678967543233E7</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="casthcds19">
+      <description> Simple test for casting a decimal as a decimal - XML Data Source </description>
+      <created by="Carmelo Montanez" on="2005-03-08"/>
+      <environment ref="atomic"/>
+      <test>import schema namespace atomic="http://www.w3.org/XQueryTest"; (/atomic:root/atomic:decimal) cast as xs:decimal</test>
+      <result>
+         <assert-string-value>12678967.543233</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="casthcds20">
+      <description> Simple test for casting a decimal as a integer - XML Data Source </description>
+      <created by="Carmelo Montanez" on="2005-03-08"/>
+      <environment ref="atomic"/>
+      <test>import schema namespace atomic="http://www.w3.org/XQueryTest"; (/atomic:root/atomic:decimal) cast as xs:integer</test>
+      <result>
+         <any-of>
+            <assert-eq>12678967</assert-eq>
+            <error code="FORG0001"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="casthcds21">
+      <description> Simple test for casting a decimal as a boolean - XML Data Source </description>
+      <created by="Carmelo Montanez" on="2005-03-08"/>
+      <environment ref="atomic"/>
+      <test>import schema namespace atomic="http://www.w3.org/XQueryTest"; (/atomic:root/atomic:decimal) cast as xs:boolean</test>
+      <result>
+            <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="casthcds22">
+      <description> Simple test for casting an integer as a string - XML Data Source </description>
+      <created by="Carmelo Montanez" on="2005-03-08"/>
+      <environment ref="atomic"/>
+      <test>import schema namespace atomic="http://www.w3.org/XQueryTest"; (/atomic:root/atomic:integer) cast as xs:string</test>
+      <result>
+         <assert-string-value>12678967543233</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="casthcds23">
+      <description> Simple test for casting an integer as a float - XML Data Source </description>
+      <created by="Carmelo Montanez" on="2005-03-08"/>
+      <environment ref="atomic"/>
+      <test>import schema namespace atomic="http://www.w3.org/XQueryTest"; ((/atomic:root/atomic:integer) cast as xs:float) eq xs:float(12678967543233)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="casthcds24">
+      <description> Simple test for casting an integer as a double - XML Data Source </description>
+      <created by="Carmelo Montanez" on="2005-03-08"/>
+      <environment ref="atomic"/>
+      <test>import schema namespace atomic="http://www.w3.org/XQueryTest"; (/atomic:root/atomic:integer) cast as xs:double</test>
+      <result>
+         <assert-string-value>1.2678967543233E13</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="casthcds25">
+      <description> Simple test for casting an integer as a decimal - XML Data Source </description>
+      <created by="Carmelo Montanez" on="2005-03-08"/>
+      <environment ref="atomic"/>
+      <test>import schema namespace atomic="http://www.w3.org/XQueryTest"; (/atomic:root/atomic:integer) cast as xs:decimal</test>
+      <result>
+         <assert-eq>12678967543233</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="casthcds26">
+      <description> Simple test for casting an integer as an integer - XML Data Source </description>
+      <created by="Carmelo Montanez" on="2005-03-08"/>
+      <environment ref="atomic"/>
+      <test>import schema namespace atomic="http://www.w3.org/XQueryTest"; (/atomic:root/atomic:integer) cast as xs:integer</test>
+      <result>
+         <assert-eq>12678967543233</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="casthcds27">
+      <description> Simple test for casting an integer as a boolean - XML Data Source </description>
+      <created by="Carmelo Montanez" on="2005-03-08"/>
+      <environment ref="atomic"/>
+      <test>import schema namespace atomic="http://www.w3.org/XQueryTest"; (/atomic:root/atomic:integer) cast as xs:boolean</test>
+      <result>
+            <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="casthcds28">
+      <description> Simple test for casting an dateTime as a string - XML Data Source </description>
+      <created by="Carmelo Montanez" on="2005-03-08"/>
+      <environment ref="atomic"/>
+      <test>import schema namespace atomic="http://www.w3.org/XQueryTest"; (/atomic:root/atomic:dateTime) cast as xs:string</test>
+      <result>
+         <assert-string-value>2002-04-02T12:00:00Z</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="casthcds29">
+      <description> Simple test for casting an dateTime as a dateTime - XML Data Source </description>
+      <created by="Carmelo Montanez" on="2005-03-08"/>
+      <environment ref="atomic"/>
+      <test>import schema namespace atomic="http://www.w3.org/XQueryTest"; (/atomic:root/atomic:dateTime) cast as xs:dateTime</test>
+      <result>
+         <assert-string-value>2002-04-02T12:00:00Z</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="casthcds30">
+      <description> Simple test for casting an dateTime as a time - XML Data Source </description>
+      <created by="Carmelo Montanez" on="2005-03-08"/>
+      <environment ref="atomic"/>
+      <test>import schema namespace atomic="http://www.w3.org/XQueryTest"; (/atomic:root/atomic:dateTime) cast as xs:time</test>
+      <result>
+            <assert-string-value>12:00:00Z</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="casthcds31">
+      <description> Simple test for casting an dateTime as a date - XML Data Source </description>
+      <created by="Carmelo Montanez" on="2005-03-08"/>
+      <environment ref="atomic"/>
+      <test>import schema namespace atomic="http://www.w3.org/XQueryTest"; (/atomic:root/atomic:dateTime) cast as xs:date</test>
+      <result>
+            <assert-string-value>2002-04-02Z</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="casthcds32">
+      <description> Simple test for casting an date as a string - XML Data Source </description>
+      <created by="Carmelo Montanez" on="2005-03-08"/>
+      <environment ref="atomic"/>
+      <test>import schema namespace atomic="http://www.w3.org/XQueryTest"; (/atomic:root/atomic:date) cast as xs:string</test>
+      <result>
+         <assert-string-value>2000-01-01+05:00</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="casthcds33">
+      <description> Simple test for casting an date as a dateTime - XML Data Source </description>
+      <created by="Carmelo Montanez" on="2005-03-08"/>
+      <environment ref="atomic"/>
+      <test>import schema namespace atomic="http://www.w3.org/XQueryTest"; (/atomic:root/atomic:date) cast as xs:dateTime</test>
+      <result>
+            <assert-string-value>2000-01-01T00:00:00+05:00</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="casthcds34">
+      <description> Simple test for casting an date as a date - XML Data Source </description>
+      <created by="Carmelo Montanez" on="2005-03-08"/>
+      <environment ref="atomic"/>
+      <test>import schema namespace atomic="http://www.w3.org/XQueryTest"; (/atomic:root/atomic:date) cast as xs:date</test>
+      <result>
+         <assert-string-value>2000-01-01+05:00</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="casthcds35">
+      <description> Simple test for casting an xs:time as a string - XML Data Source </description>
+      <created by="Carmelo Montanez" on="2005-03-08"/>
+      <environment ref="atomic"/>
+      <test>import schema namespace atomic="http://www.w3.org/XQueryTest"; (/atomic:root/atomic:time) cast as xs:string</test>
+      <result>
+         <assert-string-value>13:20:10.5Z</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="casthcds36">
+      <description> Simple test for casting an xs:time as an xs:time - XML Data Source </description>
+      <created by="Carmelo Montanez" on="2005-03-08"/>
+      <environment ref="atomic"/>
+      <test>import schema namespace atomic="http://www.w3.org/XQueryTest"; (/atomic:root/atomic:time) cast as xs:time</test>
+      <result>
+         <assert-string-value>13:20:10.5Z</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="casthcds37">
+      <description> Simple test for casting a boolean as string - XML Data Source </description>
+      <created by="Carmelo Montanez" on="2005-03-08"/>
+      <environment ref="atomic"/>
+      <test>
+        import schema namespace atomic="http://www.w3.org/XQueryTest"; 
+        (/atomic:root/atomic:boolean) cast as xs:string</test>
+      <result>
+         <assert-string-value>true</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="casthcds38">
+      <description> Simple test for casting a boolean as float - XML Data Source </description>
+      <created by="Carmelo Montanez" on="2005-03-08"/>
+      <environment ref="atomic"/>
+      <test>import schema namespace atomic="http://www.w3.org/XQueryTest"; (/atomic:root/atomic:boolean) cast as xs:float</test>
+      <result>
+            <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="casthcds39">
+      <description> Simple test for casting a boolean as double - XML Data Source </description>
+      <created by="Carmelo Montanez" on="2005-03-08"/>
+      <environment ref="atomic"/>
+      <test>import schema namespace atomic="http://www.w3.org/XQueryTest"; (/atomic:root/atomic:boolean) cast as xs:double</test>
+      <result>
+            <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="casthcds40">
+      <description> Simple test for casting a boolean as decimal - XML Data Source </description>
+      <created by="Carmelo Montanez" on="2005-03-08"/>
+      <environment ref="atomic"/>
+      <test>import schema namespace atomic="http://www.w3.org/XQueryTest"; (/atomic:root/atomic:boolean) cast as xs:decimal</test>
+      <result>
+            <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="casthcds41">
+      <description> Simple test for casting a boolean as integer - XML Data Source </description>
+      <created by="Carmelo Montanez" on="2005-03-08"/>
+      <environment ref="atomic"/>
+      <test>import schema namespace atomic="http://www.w3.org/XQueryTest"; (/atomic:root/atomic:boolean) cast as xs:integer</test>
+      <result>
+            <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="casthcds42">
+      <description> Simple test for casting a boolean as boolean - XML Data Source </description>
+      <created by="Carmelo Montanez" on="2005-03-08"/>
+      <environment ref="atomic"/>
+      <test>import schema namespace atomic="http://www.w3.org/XQueryTest"; (/atomic:root/atomic:boolean) cast as xs:boolean</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+      <test-case name="user-defined-1">
+      <description> Evaluation of simple user defined data type restricted from xs:integer. </description>
+      <created by="Carmelo Montanez" on="2006-04-03"/>
+      <environment ref="user-defined-types"/>
+      <test>
+        import schema namespace myType="http://www.w3.org/XQueryTest/userDefinedTypes"; 
+        let $value := myType:sizeType(1) return $value</test>
+      <result>
+            <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="user-defined-2">
+      <description> Evaluation of constructor function vioalation on user 
+      defined data type restricted from xs:integer. </description>
+      <created by="Carmelo Montanez" on="2006-04-03"/>
+      <environment ref="user-defined-types"/>
+      <test>
+        import schema namespace myType="http://www.w3.org/XQueryTest/userDefinedTypes"; 
+        let $value := myType:sizeType(20) return $value</test>
+      <result>
+            <error code="FORG0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="user-defined-3">
+      <description> Evaluation of constructor function used as part of addition 
+      operation user defined data type restricted from xs:integer. </description>
+      <created by="Carmelo Montanez" on="2006-04-03"/>
+      <environment ref="user-defined-types"/>
+      <test>
+        import schema namespace myType="http://www.w3.org/XQueryTest/userDefinedTypes"; 
+        let $value := myType:sizeType(1) + myType:sizeType(2) return $value</test>
+      <result>
+            <assert-eq>3</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="user-defined-4">
+      <description> Evaluation of simple user defined data type restricted from xs:string. </description>
+      <created by="Carmelo Montanez" on="2006-04-03"/>
+      <environment ref="user-defined-types"/>
+      <test>
+        import schema namespace myType="http://www.w3.org/XQueryTest/userDefinedTypes"; 
+        let $value := myType:stringBased("valid value 4") return $value</test>
+      <result>
+            <assert-string-value>valid value 4</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="user-defined-5">
+      <description> Evaluation of constructor function operation on simple user 
+      defined data type restricted from xs:string. </description>
+      <created by="Carmelo Montanez" on="2006-04-03"/>
+      <environment ref="user-defined-types"/>
+      <test>
+        import schema namespace myType="http://www.w3.org/XQueryTest/userDefinedTypes"; 
+        fn:concat(myType:stringBased("valid value 4"),myType:stringBased("valid value 1"))</test>
+      <result>
+            <assert-string-value>valid value 4valid value 1</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="user-defined-6">
+      <description> use constructor function for user defined type and cast value 
+      to base type (xs:integer) restricted from xs:integer. </description>
+      <created by="Carmelo Montanez" on="2006-04-03"/>
+      <environment ref="user-defined-types"/>
+      <test>
+        import schema namespace myType="http://www.w3.org/XQueryTest/userDefinedTypes"; 
+        myType:sizeType(2) cast as xs:integer</test>
+      <result>
+            <assert-eq>2</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="user-defined-7">
+      <description> use constructor function for user defined type and check if it 
+      is castable value to base type (xs:integer) restricted from xs:integer. </description>
+      <created by="Carmelo Montanez" on="2006-04-03"/>
+      <environment ref="user-defined-types"/>
+      <test>
+        import schema namespace myType="http://www.w3.org/XQueryTest/userDefinedTypes"; 
+        myType:sizeType(2) castable as xs:integer</test>
+      <result>
+            <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="user-defined-8">
+      <description> Use constructor function to evaluate if two user defined types can be 
+      casted to another. Restricted from xs:integer and xs;float. </description>
+      <created by="Carmelo Montanez" on="2006-04-03"/>
+      <environment ref="user-defined-types"/>
+      <test>
+        import schema namespace myType="http://www.w3.org/XQueryTest/userDefinedTypes"; 
+        myType:sizeType(16) cast as myType:floatBased</test>
+      <result>
+            <assert-eq>16</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="user-defined-9">
+      <description> Use constructor function to evaluate if two user defined types are castable to 
+      another restricted from xs:integer and xs:float </description>
+      <created by="Carmelo Montanez" on="2006-04-03"/>
+      <environment ref="user-defined-types"/>
+      <test>
+        import schema namespace myType="http://www.w3.org/XQueryTest/userDefinedTypes"; 
+        myType:sizeType(16) castable as myType:floatBased</test>
+      <result>
+            <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="user-defined-10">
+      <description> Use constructor function to use addition operation on two user defined types. 
+      Restricted from xs:integer and xs:float </description>
+      <created by="Carmelo Montanez" on="2006-04-03"/>
+      <environment ref="user-defined-types"/>
+      <test>
+        import schema namespace myType="http://www.w3.org/XQueryTest/userDefinedTypes"; 
+        myType:sizeType(16) + myType:floatBased (16)</test>
+      <result>
+            <assert-eq>32</assert-eq>
+      </result>
+   </test-case>
+</test-set>

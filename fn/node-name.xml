@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="fn-node-name">
+   <description>Tests for the node-name() function</description>
+   <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/"
+         idref="func-node-name"/>
+
+   <test-case name="fn-node-name-1">
+      <description> Evaluation of node function with argument set empty sequence. Use fn:count to avoid empty file </description>
+      <created by="Carmelo Montanez" on="2005-11-16"/>
+      <test>fn:count(fn:node-name(()))</test>
+      <result>
+         <assert-string-value>0</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-node-name-2">
+      <description> Evaluation of node-name function with argument set to comment node. Use fn:count to avoid empty file </description>
+      <created by="Carmelo Montanez" on="2005-11-16"/>
+      <environment ref="works-mod"/>
+      <test>fn:count(fn:node-name(/works[1]/employee[2]/child::text()[last()]))</test>
+      <result>
+         <assert-string-value>0</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-node-name-3">
+      <description> Evaluation of node-name function with argument set to an element node. Uses local-name-from-QName to get local part </description>
+      <created by="Carmelo Montanez" on="2005-11-16"/>
+      <environment ref="works-mod"/>
+      <test>fn:local-name-from-QName(fn:node-name(/works[1]/employee[2]))</test>
+      <result>
+         <assert-string-value>employee</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-node-name-4">
+      <description> Evaluation of node-name function with argument set to an element node. use local-name-from-QName to get the local part. </description>
+      <created by="Carmelo Montanez" on="2005-11-16"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[fn:local-name-from-QName(fn:node-name(<shoe size = "5"/>))]]></test>
+      <result>
+         <assert-string-value>shoe</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-node-name-5">
+      <description> Evaluation of node-name function with argument set to comment node. Use of fn:count to avoid empty file. </description>
+      <created by="Carmelo Montanez" on="2005-11-16"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[fn:count(fn:node-name(<!-- This a comment node -->))]]></test>
+      <result>
+         <assert-string-value>0</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-node-name-6">
+      <description> Evaluation of node-name function with argument set to a Processing Instruction node. Use local-name-from-QName to get local part </description>
+      <created by="Carmelo Montanez" on="2005-11-16"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[fn:local-name-from-QName(fn:node-name(<?format role="output" ?>))]]></test>
+      <result>
+         <assert-string-value>format</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-node-name-7">
+      <description> Evaluation of node-name function with argument set to a directly constructed element node with namespace declaration. Use namespace-uri-from-qName to retrive values from QName. </description>
+      <created by="Carmelo Montanez" on="2005-11-16"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[fn:namespace-uri-from-QName(fn:node-name(<anelement xmlns = "http://example.com/examples"></anelement>))]]></test>
+      <result>
+         <assert-string-value>http://example.com/examples</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-node-name-8">
+      <description> Evaluation of node-name function with argument set to a computed constructed element node with no namespace declaration and no children. Use local-name-from-qName to retrieve local part. </description>
+      <created by="Carmelo Montanez" on="2005-11-17"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>fn:local-name-from-QName(fn:node-name(element elementName {}))</test>
+      <result>
+         <assert-string-value>elementName</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-node-name-9">
+      <description> Evaluation of node-name function with argument set to a computed constructed element node with no namespace declaration and no children. Use fn:namespace-uri-from-qName to retrieve namespace. Should return empty string. Use fn:count to avoid empty file. </description>
+      <created by="Carmelo Montanez" on="2005-11-17"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>fn:count(fn:namespace-uri-from-QName(fn:node-name(element elementName {})))</test>
+      <result>
+         <assert-string-value>1</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-node-name-10">
+      <description> Evaluation of node-name function with argument set to a computed constructed element node with no namespace declaration and one child. Use fn:local-name-from-qName to retrieve local part. </description>
+      <created by="Carmelo Montanez" on="2005-11-17"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>fn:local-name-from-QName(fn:node-name(element elementName { element achild {"some text"}}))</test>
+      <result>
+         <assert-string-value>elementName</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-node-name-11">
+      <description> Evaluation of node-name function with argument set to a computed constructed attribute node with value set to empty string. Use fn:local-name-from-qName to retrieve local name. </description>
+      <created by="Carmelo Montanez" on="2005-11-17"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>fn:local-name-from-QName(fn:node-name(attribute attributeName {""}))</test>
+      <result>
+         <assert-string-value>attributeName</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-node-name-12">
+      <description> Evaluation of node-name function with argument set to a computed constructed attribute node with value set to a non empty value. Use fn:local-name-from-qName to retrieve local name. </description>
+      <created by="Carmelo Montanez" on="2005-11-17"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>fn:local-name-from-QName(fn:node-name(attribute attributeName {"an attribute value"}))</test>
+      <result>
+         <assert-string-value>attributeName</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-node-name-13">
+      <description> Evaluation of node-name function with argument set to a computed constructed attribute node with value set to a non empty value. Use fn:namespace-uri-from-qName to retrieve local name and fn:count. to avoid empty file. </description>
+      <created by="Carmelo Montanez" on="2005-11-17"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>fn:count(fn:namespace-uri-from-QName(fn:node-name(attribute attributeName {"an attribute value"})))</test>
+      <result>
+         <assert-string-value>1</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-node-name-14">
+      <description> Evaluation of node-name function with argument set to a computed constructed document node with value set to the empty string. Use fn:local-name-from-qName to retrieve local name and fn:count to avoid empty file. </description>
+      <created by="Carmelo Montanez" on="2005-11-17"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>fn:count(fn:local-name-from-QName(fn:node-name(document {""})))</test>
+      <result>
+         <assert-string-value>0</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-node-name-15">
+      <description> Evaluation of node-name function with argument set to a computed constructed document node with value set to the empty string. Use fn:namspace-uri-from-qName to retrieve local name and fn:count to avoid empty file. </description>
+      <created by="Carmelo Montanez" on="2005-11-17"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>fn:count(fn:namespace-uri-from-QName(fn:node-name(document {""})))</test>
+      <result>
+         <assert-string-value>0</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-node-name-16">
+      <description> Evaluation of node-name function with argument set to a computed constructed document node with value set to the a non empty value. Use fn:local-name-from-qName to retrieve local name and fn:count to avoid empty file. </description>
+      <created by="Carmelo Montanez" on="2005-11-17"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[fn:count(fn:local-name-from-QName(fn:node-name(document {"<element1> text </element1>"})))]]></test>
+      <result>
+         <assert-string-value>0</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-node-name-17">
+      <description> Evaluation of node-name function with argument set to a computed constructed document node with value set to the a non empty value. Use fn:namespace-uri-from-qName to retrieve local name and fn:count to avoid empty file. </description>
+      <created by="Carmelo Montanez" on="2005-11-17"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[fn:count(fn:namespace-uri-from-QName(fn:node-name(document {"<element1> text </element1>"})))]]></test>
+      <result>
+         <assert-string-value>0</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-node-name-18">
+      <description> Evaluation of node-name function with argument set to a computed constructed text node with value set to the the empty string. Use fn:local-name-from-qName to retrieve local name and fn:count to avoid empty file. </description>
+      <created by="Carmelo Montanez" on="2005-11-17"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>fn:count(fn:local-name-from-QName(fn:node-name(text {""})))</test>
+      <result>
+         <assert-string-value>0</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-node-name-19">
+      <description> Evaluation of node-name function with argument set to a computed constructed text node with value set to the the empty string. Use fn:namespace-uri-from-qName to retrieve namespace and fn:count to avoid empty file. </description>
+      <created by="Carmelo Montanez" on="2005-11-17"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>fn:count(fn:namespace-uri-from-QName(fn:node-name(text {""})))</test>
+      <result>
+         <assert-string-value>0</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-node-name-20">
+      <description> Evaluation of node-name function with argument set to a computed constructed text node with value set to a non empty value. Use fn:local-name-from-QName to retrieve local name and fn:count to avoid empty file. </description>
+      <created by="Carmelo Montanez" on="2005-11-17"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>fn:count(fn:local-name-from-QName(fn:node-name(text {"a text value"})))</test>
+      <result>
+         <assert-string-value>0</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-node-name-21">
+      <description> Evaluation of node-name function with argument set to a computed constructed text node with value set to a non empty value. Use fn:namespace-uri-from-QName to retrieve namespace and fn:count to avoid empty file. </description>
+      <created by="Carmelo Montanez" on="2005-11-17"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>fn:count(fn:namespace-uri-from-QName(fn:node-name(text {"a text value"})))</test>
+      <result>
+         <assert-string-value>0</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-node-name-22">
+      <description> Evaluation of node-name function with argument set to a computed constructed processing instruction node. Use fn:fn-local-name-from-QName to retrieve local name. </description>
+      <created by="Carmelo Montanez" on="2005-11-17"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>fn:local-name-from-QName(fn:node-name(processing-instruction piName {"Processing Instruction content"}))</test>
+      <result>
+         <assert-string-value>piName</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-node-name-23">
+      <description> Evaluation of node-name function with argument set to a computed constructed processing instruction node. Use fn:fn-namespace-uri-from-QName to retrieve namespace and fn:count to avoid empty file. </description>
+      <created by="Carmelo Montanez" on="2005-11-17"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>fn:count(fn:namespace-uri-from-QName(fn:node-name(processing-instruction piName {"Processing Instruction content"})))</test>
+      <result>
+         <assert-string-value>1</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-node-name-24">
+      <description> Evaluation of node-name function with wrong number of arguments. </description>
+      <created by="Carmelo Montanez" on="2005-11-17"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>fn:node-name(processing-instruction piName {"Processing Instruction content"},"A Second Argument")</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-NodeNameFunc-1">
+      <description> node-name() must be passed one argument, it doesn't use the context item by default in XPath 2.0. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XP20"/>
+      <test>node-name()</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-NodeNameFunc-1a">
+      <description>Written by: Frans Englich modified by Michael Kay  node-name() does use the context item by default in XPath 3.0. </description>
+      <created by="Frans Englich / Michael Kay" on="2011-07-04"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>node-name()</test>
+      <result>
+         <error code="XPDY0002"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-NodeNameFunc-2">
+      <description> A test whose essence is: `node-name((), "wrong param")`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>node-name((), "wrong param")</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-NodeNameFunc-3">
+      <description> A test whose essence is: `empty(node-name(()))`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>empty(node-name(()))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NodeNameFunc-1">
+      <description> Invoke fn:node-name() with too many arguments. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <environment ref="works-mod"/>
+      <test>node-name(/*, ())</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NodeNameFunc-2">
+      <description> Invoke fn:node-name() with an invalid argument. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>node-name("string")</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-NodeNameFunc-3">
+      <description> Check the return value of fn:node-name(). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <environment ref="works-mod"/>
+      <test>node-name(/*) instance of xs:QName</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+</test-set>

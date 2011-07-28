@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="fn-map-pairs">
+    <description>Tests the fn:map-pairs() function introduced in XPath 3.0</description>
+    <link type="spec" document="http://www.w3.org/TR/xpath-functions-11/" idref="func-map-pairs"/>
+    <dependency type="spec" value="XP30+ XQ30+"/>
+    <test-case name="map-pairs-001">
+        <description>Apply deep-equal to corresponding pairs</description>
+        <created by="Michael Kay" on="2010-02-10"/>
+        <test>map-pairs(deep-equal#2, ("aa", "bb", "cc", "dd", "ee"), ("AA", "BB", "cc", "dd", "EE"))</test>
+        <result>
+            <assert-deep-eq>false(), false(), true(), true(), false()</assert-deep-eq>
+        </result>
+    </test-case>
+    <test-case name="map-pairs-002">
+        <description>Apply deep-equal to corresponding pairs</description>
+        <created by="Michael Kay" on="2010-02-10"/>
+        <test>map-pairs(deep-equal#2, ("aa", "bb", "cc", "dd", "ee", "ff"), ("AA", "BB", "cc", "dd", "EE"))</test>
+        <result>
+            <assert-deep-eq>false(), false(), true(), true(), false()</assert-deep-eq>
+        </result>
+    </test-case>
+    <test-case name="map-pairs-003">
+        <description>Apply deep-equal to corresponding pairs</description>
+        <created by="Michael Kay" on="2010-02-10"/>
+        <test>map-pairs(deep-equal#2, ("aa", "bb", "cc", "dd", "ee"), ("AA", "BB", "cc", "dd", "EE", "ff"))</test>
+        <result>
+                <assert-deep-eq>false(), false(), true(), true(), false()</assert-deep-eq>
+        </result>
+    </test-case>
+    <test-case name="map-pairs-004">
+        <description>Apply concat to corresponding pairs</description>
+        <created by="Michael Kay" on="2010-02-10"/>
+        <test>map-pairs(concat(?, '-', ?), ("aa", "bb", "cc", "dd", "ee"), ("AA", "BB", "cc", "dd", "EE"))</test>
+        <result>
+                <assert-deep-eq>'aa-AA', 'bb-BB', 'cc-cc', 'dd-dd', 'ee-EE'</assert-deep-eq>
+        </result>
+    </test-case>
+    <test-case name="map-pairs-005">
+        <description>Apply user-defined anonymous function to corresponding pairs</description>
+        <created by="Michael Kay" on="2010-02-10"/>
+        <test>map-pairs(function($a as xs:integer, $b as xs:integer) as xs:integer{$a + $b}, 1 to 5, 1 to 5)</test>
+        <result>
+                <assert-deep-eq>2, 4, 6, 8, 10</assert-deep-eq>
+        </result>
+    </test-case>
+    <test-case name="map-pairs-006">
+        <description>Use a function that has a closure</description>
+        <created by="Michael Kay" on="2010-02-10"/>
+        <test> 
+            let $millenium := year-from-date(current-date()) idiv 1000 
+            return map-pairs(function($a as xs:integer, $b as xs:integer) as xs:integer{$a + $b + $millenium}, 1 to 5, 2 to 6)</test>
+        <result>
+                <assert-deep-eq>5, 7, 9, 11, 13</assert-deep-eq>
+        </result>
+    </test-case>
+    <test-case name="map-pairs-007">
+        <description>Use a function that has a closure</description>
+        <created by="Michael Kay" on="2010-02-10"/>
+        <test> 
+            let $millenium := year-from-date(current-date()) idiv 1000 
+            return map-pairs(function($a, $b) as xs:integer* {1 to (string-length($a) + string-length($b))}, ("a", "ab", "abc", ""), ("", "", "", ""))</test>
+        <result>
+                <assert-deep-eq>1, 1, 2, 1, 2, 3</assert-deep-eq>
+        </result>
+    </test-case>
+    <test-case name="map-pairs-008">
+        <description>map-pairs function - exercise from XML Prague 2010:
+            form sum of adjacent values in an input sequence</description>
+        <created by="Michael Kay" on="2010-03-14"/>
+        <test> let $in := 1 to 5 return map-pairs(function($a, $b){$a+$b}, $in, tail($in)) </test>
+        <result>
+                <assert-deep-eq>3, 5, 7, 9</assert-deep-eq>
+        </result>
+    </test-case>
+    <test-case name="map-pairs-901">
+        <description>map-pairs function, wrong arity function</description>
+        <created by="Michael Kay" on="2010-02-10"/>
+        <test>map-pairs(deep-equal#3, ("aa", "bb", "cc", "dd", "ee"), ("AA", "BB", "cc", "dd", "EE"))</test>
+        <result>
+                <error code="XQST0031"/>
+        </result>
+    </test-case>
+    <test-case name="map-pairs-902">
+        <description>map-pairs function, wrong input to function</description>
+        <created by="Michael Kay" on="2010-02-10"/>
+        <test>map-pairs(contains#2, ("aa", "bb", "cc", "dd", "ee"), ("AA", "BB", "cc", "dd", 12))</test>
+        <result>
+                <error code="XPTY0004"/>
+        </result>
+    </test-case>
+    
+</test-set>

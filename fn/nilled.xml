@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="fn-nilled">
+   <description>Tests for the nilled() function</description>
+   <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/"
+         idref="func-nilled"/>
+
+   <test-case name="fn-nilled-1">
+      <description> Evaluation of nilled function with argument set to empty sequence. Use fn:count to avoid empty file </description>
+      <created by="Carmelo Montanez" on="2005-11-16"/>
+      <test>fn:count(fn:nilled(()))</test>
+      <result>
+         <assert-string-value>0</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-nilled-2">
+      <description> Evaluation of nilled function with argument set to comment node. Use fn:count to avoid empty file </description>
+      <created by="Carmelo Montanez" on="2005-11-16"/>
+      <environment ref="works-mod"/>
+      <test> fn:count(fn:nilled(/works[1]/employee[2]/child::text()[last()]))</test>
+      <result>
+         <assert-string-value>0</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-nilled-3">
+      <description> Evaluation of nilled function with argument set to an element node. </description>
+      <created by="Carmelo Montanez" on="2005-11-16"/>
+      <environment ref="works-mod"/>
+      <test> fn:nilled(/works[1]/employee[2])</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-nilled-4">
+      <description> Evaluation of nilled function with argument set to an element node. </description>
+      <created by="Carmelo Montanez" on="2005-11-16"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[ fn:nilled(<shoe size = "5"/>)]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-nilled-5">
+      <description> Evaluation of nilled function with argument set to an element node with xsi:nill = true. </description>
+      <created by="Carmelo Montanez" on="2005-11-16"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[ fn:nilled(<shoe xsi:nil="true"/>)]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-nilled-6">
+      <description> Evaluation of nilled function with argument set to an element node with xsi:nill = false. </description>
+      <created by="Carmelo Montanez" on="2005-11-16"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[ fn:nilled(<shoe xsi:nil="false"/>)]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-nilled-7">
+      <description> Evaluation of nilled function with argument set to an element node with xsi:nill = fn:true(). </description>
+      <created by="Carmelo Montanez" on="2005-11-16"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[ fn:nilled(<shoe xsi:nil="{fn:true()}"/>)]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-nilled-8">
+      <description> Evaluation of nilled function with argument set to an element node with xsi:nill = fn:false(). </description>
+      <created by="Carmelo Montanez" on="2005-11-16"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[ fn:nilled(<shoe xsi:nil="{fn:false()}"/>)]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-nilled-9">
+      <description> Evaluation of nilled function with more than one argument. </description>
+      <created by="Carmelo Montanez" on="2005-11-16"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[ fn:nilled(<shoe xsi:nil="{fn:true()}"/>,"A Second Argument")]]></test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-nilled-10">
+      <description> Evaluation of nilled function as argument to fn:not function. returns true. </description>
+      <created by="Carmelo Montanez" on="2005-11-16"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[ fn:not(fn:nilled(<shoe xsi:nil="{fn:false()}"/>))]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-nilled-11">
+      <description> Evaluation of nilled function as argument to fn:not function. returns false. </description>
+      <created by="Carmelo Montanez" on="2005-11-16"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[ fn:not(fn:nilled(<shoe xsi:nil="{fn:true()}"/>))]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-nilled-12">
+      <description> Evaluation of nilled function used a part of boolean expression ("and" operator and fn:true() </description>
+      <created by="Carmelo Montanez" on="2005-11-16"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[ fn:nilled(<shoe xsi:nil="{fn:true()}"/>) and fn:true()]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-nilled-13">
+      <description> Evaluation of nilled function used a part of boolean expression ("and" operator and fn:false() </description>
+      <created by="Carmelo Montanez" on="2005-11-16"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[ fn:nilled(<shoe xsi:nil="{fn:true()}"/>) and fn:false()]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-nilled-14">
+      <description> Evaluation of nilled function used a part of boolean expression ("or" operator and fn:true() </description>
+      <created by="Carmelo Montanez" on="2005-11-16"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[ fn:nilled(<shoe xsi:nil="{fn:true()}"/>) or fn:true()]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-nilled-15">
+      <description> Evaluation of nilled function used a part of boolean expression ("or" operator and fn:false() </description>
+      <created by="Carmelo Montanez" on="2005-11-16"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[ fn:nilled(<shoe xsi:nil="{fn:true()}"/>) or fn:false()]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-nilled-16">
+      <description> Evaluation of nilled function used as argument to fn:string function. </description>
+      <created by="Carmelo Montanez" on="2005-11-16"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[ fn:nilled(<shoe xsi:nil="{fn:true()}"/>) ]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-nilled-17">
+      <description> Evaluation of nilled function used as argument to xs:boolean function. Returns true </description>
+      <created by="Carmelo Montanez" on="2005-11-16"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[ xs:boolean(fn:nilled(<shoe xsi:nil="{fn:true()}"/>))]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-nilled-18">
+      <description> Evaluation of nilled function used as argument to xs:boolean function. Returns false </description>
+      <created by="Carmelo Montanez" on="2005-11-16"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[ xs:boolean(fn:nilled(<shoe xsi:nil="{fn:false()}"/>))]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-nilled-19">
+      <description> Evaluation of nilled function with argument set to a document node Uses fn:count to avoid empty file. </description>
+      <created by="Carmelo Montanez" on="2005-11-16"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[ fn:count(fn:nilled(document {<aList><anElement>data</anElement></aList>}))]]></test>
+      <result>
+         <assert-string-value>0</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-nilled-20">
+      <description> Evaluation of nilled function with argument set to an attribute node Uses fn:count to avoid empty file. </description>
+      <created by="Carmelo Montanez" on="2005-11-16"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test> fn:count(fn:nilled(attribute size {1}))</test>
+      <result>
+         <assert-string-value>0</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-nilled-21">
+      <description> Evaluation of nilled function with argument set to a comment node Uses fn:count to avoid empty file. </description>
+      <created by="Carmelo Montanez" on="2005-11-16"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[ fn:count(fn:nilled(<!-- This is a comment node -->))]]></test>
+      <result>
+         <assert-string-value>0</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-nilled-22">
+      <description> Evaluation of nilled function with argument set to a processing instruction node Uses fn:count to avoid empty file. </description>
+      <created by="Carmelo Montanez" on="2005-11-16"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[ fn:count(fn:nilled(<?format role="output" ?>))]]></test>
+      <result>
+         <assert-string-value>0</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K-NilledFunc-1">
+      <description> A test whose essence is: `nilled()`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>nilled()</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-NilledFunc-2">
+      <description> A test whose essence is: `nilled((), "wrong param")`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>nilled((), "wrong param")</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-NilledFunc-3">
+      <description> A test whose essence is: `empty(nilled( () ))`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>empty(nilled( () ))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-NilledFunc-4">
+      <description> A test whose essence is: `nilled(1)`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>nilled(1)</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+</test-set>

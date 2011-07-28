@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="op-prod-VarDefaultValue">
+   <description>Tests for the prod-VarDefaultValue operator</description>
+   <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/"
+         idref="func-prod-VarDefaultValue"/>
+   <link type="spec" document="XQuery 1.1" section-number="4.15"
+         idref="id-variable-declarations"/>
+         
+   <dependency type="spec" value="XQ30+"/>      
+
+   <test-case name="extvardef-001">
+      <description>external variable with a default value </description>
+      <created by="Michael Kay" on="2008-12-01"/>
+      <test><![CDATA[declare variable $ext external := 0; <a>{$ext}</a>]]></test>
+      <result>
+         <assert-serialization><![CDATA[<a>0</a>]]></assert-serialization>
+      </result>
+   </test-case>
+
+   <test-case name="extvardef-001a">
+      <description>external variable with a default value </description>
+      <created by="Michael Kay" on="2008-12-01"/>
+      <environment>
+         <param name="ext" select="5" declared="true"/>
+      </environment>
+      <test><![CDATA[declare variable $ext external := 0; $ext]]></test>
+      <result>
+         <assert-eq>5</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="extvardef-002">
+      <description>external variable with a default value and a required type </description>
+      <created by="Michael Kay" on="2008-12-01"/>
+      <test><![CDATA[declare variable $ext as xs:integer external := 0; <a>{$ext}</a>]]></test>
+      <result>
+         <assert-serialization><![CDATA[<a>0</a>]]></assert-serialization>
+      </result>
+   </test-case>
+
+   <test-case name="extvardef-002a">
+      <description>external variable with a default value and a required type </description>
+      <created by="Michael Kay" on="2008-12-01"/>
+      <environment>
+         <param name="ext" select="5" declared="true"/>
+      </environment>
+      <test><![CDATA[declare variable $ext as xs:integer external := 0; <a>{$ext}</a>]]></test>
+      <result>
+         <assert-serialization><![CDATA[<a>5</a>]]></assert-serialization>
+      </result>
+   </test-case>
+
+   <test-case name="extvardef-002b">
+      <description>external variable with a default value and a required type </description>
+      <created by="Michael Kay" on="2008-12-01"/>
+      <environment>
+         <param name="ext" select="xs:date('2008-12-01')" declared="true"/>
+      </environment>
+      <test><![CDATA[declare variable $ext as xs:integer external := 0; <a>{$ext}</a>]]></test>
+      <result>
+         <error code="XXXX0000"/>
+      </result>
+   </test-case>
+
+   <test-case name="extvardef-003">
+      <description>external variable with a default value and a required type </description>
+      <created by="Michael Kay" on="2008-12-01"/>
+      <test><![CDATA[declare variable $ext as xs:integer* external := (0,1,2); <a>{sum($ext)}</a>]]></test>
+      <result>
+         <assert-serialization><![CDATA[<a>3</a>]]></assert-serialization>
+      </result>
+   </test-case>
+
+   <test-case name="extvardef-003a">
+      <description>external variable with a default value and a required type </description>
+      <created by="Michael Kay" on="2008-12-01"/>
+      <environment>
+         <param name="ext" select="4,5,6" declared="true"/>
+      </environment>
+      <test><![CDATA[declare variable $ext as xs:integer* external := (0,1,2); <a>{sum($ext)}</a>]]></test>
+      <result>
+         <assert-serialization><![CDATA[<a>15</a>]]></assert-serialization>
+      </result>
+   </test-case>
+
+   <test-case name="extvardef-003b">
+      <description>external variable with a default value and a required type </description>
+      <created by="Michael Kay" on="2008-12-01"/>
+      <environment>
+         <param name="ext" select="42" declared="true"/>
+      </environment>
+      <test><![CDATA[declare variable $ext as xs:integer* external := (0,1,2); <a>{sum($ext)}</a>]]></test>
+      <result>
+         <assert-serialization><![CDATA[<a>42</a>]]></assert-serialization>
+      </result>
+   </test-case>
+
+   <test-case name="extvardef-004">
+      <description>external variable with a default value - static error - it must be an ExprSingle </description>
+      <created by="Michael Kay" on="2008-12-01"/>
+      <test><![CDATA[declare variable $ext as xs:integer* external := 0,1,2; <a>{sum($ext)}</a>]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="extvardef-005">
+      <description>external variable with a default value - static error - it must be an ExprSingle </description>
+      <created by="Michael Kay" on="2008-12-01"/>
+      <test><![CDATA[declare variable $ext as xs:integer* external := ; <a></a>]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="extvardef-006">
+      <description>external variable with a default value that depends on other vars </description>
+      <created by="Michael Kay" on="2008-12-01"/>
+      <test><![CDATA[declare variable $var as xs:integer := 17; declare variable $ext as element(a) external := <a>{$var}</a>; <out>{$ext}</out>]]></test>
+      <result>
+         <assert-serialization><![CDATA[<out><a>17</a></out>]]></assert-serialization>
+      </result>
+   </test-case>
+
+   <test-case name="extvardef-006a">
+      <description>external variable with a default value that depends on other vars </description>
+      <created by="Michael Kay" on="2008-12-01"/>
+      <environment>
+         <param name="ext" select="862" declared="true"/>
+      </environment>
+      <test><![CDATA[
+        declare variable $var as xs:integer := 17; 
+        declare variable $ext as xs:integer external := $var</a>; 
+        <out>{$ext}</out>
+      ]]></test>
+      <result>
+         <assert-eq>862</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="extvardef-006b">
+      <description>external variable with a default value that depends on other vars </description>
+      <created by="Michael Kay" on="2008-12-01"/>
+      <environment>
+         <param name="ext" select="862" declared="true"/>
+      </environment>
+      <test><![CDATA[
+        declare variable $var as xs:integer := 17; 
+        declare variable $ext as xs:integer external := $var; 
+        <out>{$ext}</out>
+      ]]></test>
+      <result>
+         <error code="XXXX0000"/>
+      </result>
+   </test-case>
+
+   <test-case name="extvardef-007">
+      <description>external variable with a default value that depends on context </description>
+      <created by="Michael Kay" on="2008-12-01"/>
+      <test><![CDATA[
+        declare variable $ext as xs:date external := current-date() + xs:dayTimeDuration('P30D'); 
+        $ext gt xs:date('2008-12-30')
+      ]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+</test-set>

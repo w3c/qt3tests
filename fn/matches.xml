@@ -1,0 +1,828 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="fn-matches">
+   <description>Test the fn:matches() function</description>
+   <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/"
+         idref="func-matches"/>
+
+   <test-case name="fn-matches2args-1">
+      <description> Evaluates The "matches" function with the arguments set as follows: $input = xs:string(lower bound) $pattern = xs:string(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:matches("This is a characte","This is a characte")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-matches2args-2">
+      <description> Evaluates The "matches" function with the arguments set as follows: $input = xs:string(mid range) $pattern = xs:string(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:matches("This is a characte","This is a characte")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-matches2args-3">
+      <description> Evaluates The "matches" function with the arguments set as follows: $input = xs:string(upper bound) $pattern = xs:string(lower bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:matches("This is a characte","This is a characte")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-matches2args-4">
+      <description> Evaluates The "matches" function with the arguments set as follows: $input = xs:string(lower bound) $pattern = xs:string(mid range) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:matches("This is a characte","This is a characte")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-matches2args-5">
+      <description> Evaluates The "matches" function with the arguments set as follows: $input = xs:string(lower bound) $pattern = xs:string(upper bound) </description>
+      <created by="Carmelo Montanez" on="2004-12-13"/>
+      <test>fn:matches("This is a characte","This is a characte")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-matchesErr-1">
+      <description> Invalid flag for third argument of fn:matches. </description>
+      <created by="Carmelo Montanez" on="2005-10-04"/>
+      <test>fn:matches("abracadabra", "bra", "p")</test>
+      <result>
+         <error code="FORX0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-matchesErr-2">
+      <description> back-reference illegal in square brackets See erratum FO.E24 </description>
+      <created by="Michael Kay" on="2009-03-04"/>
+      <test>fn:matches("#abc#1", "^(#)abc[\1]1$")</test>
+      <result>
+         <error code="FORX0002"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-matchesErr-3">
+      <description> single-digit back-reference to non-existent group See erratum FO.E24 </description>
+      <created by="Michael Kay" on="2009-03-04"/>
+      <test>fn:matches("#abc#1", "^(#)abc\2$")</test>
+      <result>
+         <error code="FORX0002"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-matchesErr-4">
+      <description> single-digit back-reference to group not yet closed See erratum FO.E24 </description>
+      <created by="Michael Kay" on="2009-03-04"/>
+      <test>fn:matches("#abc#1", "^((#)abc\1)$")</test>
+      <result>
+         <error code="FORX0002"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-matchesErr-5">
+      <description> double-digit back-reference to group not yet closed See erratum FO.E24 </description>
+      <created by="Michael Kay" on="2009-03-04"/>
+      <test>fn:matches("abcdefghijklmnopq", "(a)(b)(c)(d)(e)(f)(g)(h)(i)(j)(k)(l)((m)(n)(o)(p)(q)\13)$")</test>
+      <result>
+         <error code="FORX0002"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-matches-1">
+      <description> Evaluation of matches function as per example 1 (for this function) </description>
+      <created by="Carmelo Montanez" on="2005-10-14"/>
+      <test>fn:matches("abracadabra", "bra")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-matches-2">
+      <description> Evaluation of matches function as per example 2 (for this function). Pattern set to "^a.*a$". </description>
+      <created by="Carmelo Montanez" on="2005-10-14"/>
+      <test>fn:matches("abracadabra", "^a.*a$")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-matches-3">
+      <description> Evaluation of matches function as per example 3 (for this function). Pattern set to "^bra" </description>
+      <created by="Carmelo Montanez" on="2005-10-14"/>
+      <test>fn:matches("abracadabra", "^bra")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-matches-4">
+      <description> Test that calling the function with flags set to the empty string is the same as ommiting the flags. </description>
+      <created by="Carmelo Montanez" on="2005-10-14"/>
+      <test>fn:concat(fn:matches("abracadabra", "^bra"),fn:matches("abracadabra", "^bra", ""))</test>
+      <result>
+         <assert-string-value>falsefalse</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-matches-5">
+      <description> Evaluate the fn:mathes function with the input string set to the empty sequence. fn:count used to avoid empty file. </description>
+      <created by="Carmelo Montanez" on="2005-10-14"/>
+      <test>fn:count(fn:matches("()", "^bra"))</test>
+      <result>
+         <assert-string-value>1</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-matches-6">
+      <description> Evaluation of matches function with pattern set to "\^". </description>
+      <created by="Carmelo Montanez" on="2005-10-14"/>
+      <test>fn:matches("abracadabra^abracadabra", "\^")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-matches-7">
+      <description> Evaluation of matches function with pattern set to "\?" for an input string that contains "?". </description>
+      <created by="Carmelo Montanez" on="2005-10-14"/>
+      <test>fn:matches("abracadabra?abracadabra", "\?")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-matches-8">
+      <description> Evaluation of matches function with pattern set to "\*" for an input string that contains "*". </description>
+      <created by="Carmelo Montanez" on="2005-10-14"/>
+      <test>fn:matches("abracadabra*abracadabra", "\*")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-matches-9">
+      <description> Evaluation of matches function with pattern set to "\+" for an input string that contains "+". </description>
+      <created by="Carmelo Montanez" on="2005-10-14"/>
+      <test>fn:matches("abracadabra+abracadabra", "\+")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-matches-10">
+      <description> Evaluation of matches function with pattern set to "\{" for an input string that contains "}". </description>
+      <created by="Carmelo Montanez" on="2005-10-14"/>
+      <test>fn:matches("abracadabra{abracadabra", "\{")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-matches-11">
+      <description> Evaluation of matches function with pattern set to "\}" for an input string that contains "}". </description>
+      <created by="Carmelo Montanez" on="2005-10-14"/>
+      <test>fn:matches("abracadabra}abracadabra", "\}")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-matches-12">
+      <description> Evaluation of matches function with pattern set to "\(" for an input string that contains "(". </description>
+      <created by="Carmelo Montanez" on="2005-10-14"/>
+      <test>fn:matches("abracadabra(abracadabra", "\(")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-matches-13">
+      <description> Evaluation of matches function with pattern set to "\)" for an input string that contains ")". </description>
+      <created by="Carmelo Montanez" on="2005-10-14"/>
+      <test>fn:matches("abracadabra)abracadabra", "\)")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-matches-14">
+      <description> Evaluation of matches function with pattern set to "\[" for an input string that contains "[". </description>
+      <created by="Carmelo Montanez" on="2005-10-14"/>
+      <test>fn:matches("abracadabra[abracadabra", "\[")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-matches-15">
+      <description> Evaluation of matches function with pattern set to "\]" for an input string that contains "]". </description>
+      <created by="Carmelo Montanez" on="2005-10-14"/>
+      <test>fn:matches("abracadabra]abracadabra", "\]")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-matches-16">
+      <description> Evaluation of matches function with pattern set to "\-" for an input string that contains "-". </description>
+      <created by="Carmelo Montanez" on="2005-10-14"/>
+      <test>fn:matches("abracadabra-abracadabra", "\-")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-matches-17">
+      <description> Evaluation of matches function with pattern set to "\." for an input string that contains ".". </description>
+      <created by="Carmelo Montanez" on="2005-10-14"/>
+      <test>fn:matches("abracadabra.abracadabra", "\.")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-matches-18">
+      <description> Evaluation of matches function with pattern set to "\|" for an input string that contains "|". </description>
+      <created by="Carmelo Montanez" on="2005-10-14"/>
+      <test>fn:matches("abracadabra|abracadabra", "\|")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-matches-19">
+      <description> Evaluation of matches function with pattern set to "\\" for an input string that contains "\". </description>
+      <created by="Carmelo Montanez" on="2005-10-14"/>
+      <test>fn:matches("abracadabra\abracadabra", "\\")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-matches-20">
+      <description> Evaluation of matches function with pattern set to "\t" for an input string that contains the tab character. </description>
+      <created by="Carmelo Montanez" on="2005-10-14"/>
+      <test>fn:matches("abracadabra	abracadabra", "\t")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-matches-21">
+      <description> Evaluation of matches function with pattern set to "\n" for an input string that contains the newline character. </description>
+      <created by="Carmelo Montanez" on="2005-10-14"/>
+      <test>fn:matches("abracadabra
+abracadabra", "\n")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-matches-22">
+      <description> Evaluation of matches function with pattern set to "aa{1}" (exact quantity) for an input string that contains the "aa" string. </description>
+      <created by="Carmelo Montanez" on="2005-10-14"/>
+      <test>fn:matches("abracadabraabracadabra", "aa{1}")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-matches-23">
+      <description> Evaluation of matches function with pattern set to "aa{1,}" (min quantity) for an input string that contains the "aa" string twice. </description>
+      <created by="Carmelo Montanez" on="2005-10-14"/>
+      <test>fn:matches("abracadabraabracadabraabracadabra", "aa{1,}")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-matches-24">
+      <description> Evaluation of matches function with pattern set to "aa{1,2}" (range quantity) for an input string that contains the "aa" string twice. </description>
+      <created by="Carmelo Montanez" on="2005-10-14"/>
+      <test>fn:matches("abracadabraabracadabraabracadabra", "aa{1,2}")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-matches-25">
+      <description> Evaluation of matches function with invalid regular expression </description>
+      <created by="Carmelo Montanez" on="2005-12-07"/>
+      <test>fn:matches("abracadabra", "**%%")</test>
+      <result>
+         <error code="FORX0002"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-matches-26">
+      <description> Check for the correct behavior of ^ and $ in multi-line mode This test case was motivated by the resolution of Bug Report 4543 </description>
+      <created by="Andrew Eisenberg" on="2006-09-25"/>
+      <test><![CDATA[fn:matches("abcd&#x0a;defg&#x0a;", "^$", "m")]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-matches-27">
+      <description> Check for the correct behavior of ^ and $ in multi-line mode This test case was motivated by the resolution of Bug Report 4543 </description>
+      <created by="Andrew Eisenberg" on="2006-09-25"/>
+      <test>fn:matches("
+abcd
+defg
+", "^$", "m")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-matches-28">
+      <description> Check for the correct behavior of ^ and $ in multi-line mode This test case was motivated by the resolution of Bug Report 4543 </description>
+      <created by="Andrew Eisenberg" on="2006-09-25"/>
+      <test>fn:matches("abcd
+
+defg
+", "^$", "m")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-matches-29">
+      <description> 2-digits not treated as a back-reference See erratum FO.E24 </description>
+      <created by="Michael Kay" on="2009-03-05"/>
+      <test>fn:matches("#abc#1", "^(#)abc\11$")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-matches-30">
+      <description> 2-digits treated as a back-reference See erratum FO.E24 </description>
+      <created by="Michael Kay" on="2009-03-05"/>
+      <test>fn:matches("#abcdefghijklmnopq#1", "^(#)(a)(b)(c)(d)(e)(f)(g)(h)(i)(j)(k)(l)(m)(n)(o)(p)(q)\11$")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-matches-31">
+      <description> Evaluation of matches function with non-capturing groups (allowed in XPath 3.0) </description>
+      <created by="Michael Kay" on="2009-10-23"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:matches("abracadabra", "(?:abra(?:cad)?)*")</test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <error code="XQST0031"/>
+            <error code="FORX0002"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="fn-matches-32">
+      <description> Evaluation of matches function with "q" flag (allowed in XQuery 1.1 </description>
+      <created by="Michael Kay" on="2009-10-23"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:matches("abracadabra", "(?:abra(?:cad)?)*", "q")</test>
+      <result>
+         <any-of>
+            <assert-false/>
+            <error code="XQST0031"/>
+            <error code="FORX0002"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="fn-matches-33">
+      <description> Evaluation of matches function with "q" flag (allowed in XQuery 1.1 </description>
+      <created by="Michael Kay" on="2009-10-23"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:matches("x[y-z]", "x[y-z]", "q")</test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <error code="XQST0031"/>
+            <error code="FORX0002"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="fn-matches-34">
+      <description> Evaluation of matches function with "q" and "i" flags (allowed in XQuery 1.1 </description>
+      <created by="Michael Kay" on="2009-10-23"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:matches("x[Y-z]", "X[y-Z]", "qi")</test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <error code="XQST0031"/>
+            <error code="FORX0002"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="fn-matches-35">
+      <description> Test for bug fix of 5348 in Errata for F&amp;O. Expect FORX0002 err because \99 is an invalide reference as 99th subexpression does not exist </description>
+      <created by="Zhen Hua  Liu" on="2009-11-15"/>
+      <test>fn:matches('aA', '(a)\99')</test>
+      <result>
+         <error code="FORX0002"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-matches-36">
+      <description> Test for bug fix of 5348 in Errata for F&amp;O. ok match here </description>
+      <created by="Zhen Hua  Liu" on="2009-11-15"/>
+      <test>fn:matches('abcdefghijj', '(a)(b)(c)(d)(e)(f)(g)(h)(i)(j)\10')</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-matches-37">
+      <description> Test for bug fix of 5348 in Errata for F&amp;O. Expect FORX0002 err because \11 reference is made before the closing right parenthesis of 11th reference </description>
+      <created by="Zhen Hua  Liu" on="2009-11-15"/>
+      <test>fn:matches('abcdefghijk', '(a)(b)(c)(d)(e)(f)(g)(h)(i)(j)(k\11)')</test>
+      <result>
+         <error code="FORX0002"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-matches-38">
+      <description> Test for bug fix of 5348 in Errata for F&amp;O. Expect FORX0002 err because \10 reference is made before the closing right parenthesis of 10th reference </description>
+      <created by="Andrew Eisenberg" on="2009-12-23"/>
+      <test>fn:matches('abcdefghijj', '(a)(b)(c)(d)(e)(f)(g)(h)(i)(j\10)')</test>
+      <result>
+         <error code="FORX0002"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-matches-39">
+      <description> Test for bug fix of 5348 in Errata for F&amp;O. Expect FORX0002 err because \9 reference is made before the closing right parenthesis of 9th reference </description>
+      <created by="Andrew Eisenberg" on="2009-12-23"/>
+      <test>fn:matches('abcdefghii', '(a)(b)(c)(d)(e)(f)(g)(h)(i\9)')</test>
+      <result>
+         <error code="FORX0002"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-matches-40">
+      <description> Test for bug fix of 5348 in Errata for F&amp;O. Expect FORX0002 err because \1 reference is made before the closing right parenthesis of 1st reference </description>
+      <created by="Andrew Eisenberg" on="2009-12-23"/>
+      <test>fn:matches('aa', '(a\1)')</test>
+      <result>
+         <error code="FORX0002"/>
+      </result>
+   </test-case>
+
+   <test-case name="caselessmatch01">
+      <description> Simple call of matches() with "i" flag </description>
+      <created by="Michael Kay, Saxonica" on="2006-02-01"/>
+      <test>matches('abc', 'ABC', 'i')</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="caselessmatch02">
+      <description> Call of matches() with "i" flag and a character range </description>
+      <created by="Michael Kay, Saxonica" on="2006-02-01"/>
+      <test>matches('abZ', '[A-Z]*', 'i')</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="caselessmatch03">
+      <description> Call of matches() with "i" flag and a character range </description>
+      <created by="Michael Kay, Saxonica" on="2006-02-01"/>
+      <test>matches('abZ', '[a-z]*', 'i')</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="caselessmatch04">
+      <description> Call of matches() with "i" flag and Kelvin sign Kelvin sign </description>
+      <created by="Michael Kay, Saxonica" on="2006-02-01"/>
+      <test><![CDATA[matches('&#x212A;', '[A-Z]', 'i')]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="caselessmatch05">
+      <description> Call of matches() with "i" flag and Kelvin sign Kelvin sign </description>
+      <created by="Michael Kay, Saxonica" on="2006-02-01"/>
+      <test><![CDATA[matches('&#x212A;', '[a-z]', 'i')]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="caselessmatch06">
+      <description> Call of matches() with "i" flag and Kelvin sign Kelvin sign </description>
+      <created by="Michael Kay, Saxonica" on="2006-02-01"/>
+      <test>matches('&#8490;', 'K', 'i')</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="caselessmatch07">
+      <description> Call of matches() with "i" flag and Kelvin sign Kelvin sign </description>
+      <created by="Michael Kay, Saxonica" on="2006-02-01"/>
+      <test>matches('&#8490;', 'k', 'i')</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="caselessmatch08">
+      <description> Call of matches() with "i" flag and range subtraction </description>
+      <created by="Michael Kay, Saxonica" on="2006-02-01"/>
+      <test>matches('x', '[A-Z-[OI]]', 'i')</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="caselessmatch09">
+      <description> Call of matches() with "i" flag and range subtraction </description>
+      <created by="Michael Kay, Saxonica" on="2006-02-01"/>
+      <test>matches('X', '[A-Z-[OI]]', 'i')</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="caselessmatch10">
+      <description> Call of matches() with "i" flag and range subtraction </description>
+      <created by="Michael Kay, Saxonica" on="2006-02-01"/>
+      <test>matches('O', '[A-Z-[OI]]', 'i')</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="caselessmatch11">
+      <description> Call of matches() with "i" flag and range subtraction </description>
+      <created by="Michael Kay, Saxonica" on="2006-02-01"/>
+      <test>matches('i', '[A-Z-[OI]]', 'i')</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="caselessmatch12">
+      <description> Call of matches() with "i" flag and negation </description>
+      <created by="Michael Kay, Saxonica" on="2006-02-01"/>
+      <test>matches('Q', '[^Q]', 'i')</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="caselessmatch13">
+      <description> Call of matches() with "i" flag and negation </description>
+      <created by="Michael Kay, Saxonica" on="2006-02-01"/>
+      <test>matches('q', '[^Q]', 'i')</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="caselessmatch14">
+      <description> Call of matches() with "i" flag and upper-case category </description>
+      <created by="Michael Kay, Saxonica" on="2006-02-01"/>
+      <test>matches('m', '\p{Lu}', 'i')</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="caselessmatch15">
+      <description> Call of matches() with "i" flag and upper-case category </description>
+      <created by="Michael Kay, Saxonica" on="2006-02-01"/>
+      <test>matches('m', '\P{Lu}', 'i')</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-MatchesFunc-1">
+      <description> The pattern can't be the empty sequence. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>matches("input", ())</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-MatchesFunc-2">
+      <description> fn:matches() takes at least two arguments, not one. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>matches("input")</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-MatchesFunc-3">
+      <description> The third argument cannot be the empty sequence. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>matches("input", "pattern", ())</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-MatchesFunc-4">
+      <description> Only three arguments are accepted. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>matches("input", "pattern", "", ())</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-MatchesFunc-5">
+      <description> The flags argument cannot contain whitespace. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>matches("input", "pattern", " ")</test>
+      <result>
+         <error code="FORX0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-MatchesFunc-6">
+      <description> The flags argument cannot contain 'X'. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>matches("input", "pattern", "X")</test>
+      <result>
+         <error code="FORX0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-MatchesFunc-1">
+      <description> Whitespace in the regexp is collapsed. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>fn:matches("hello world", "hello\ sworld", "x")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-MatchesFunc-2">
+      <description> Whitespace(before) in the regexp is collapsed, but not inside a character class. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>fn:matches("hello world", " hello[ ]world", "x")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-MatchesFunc-3">
+      <description> Whitespace(after) in the regexp is collapsed, but not inside a character class. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>fn:matches("hello world", "hello[ ]world ", "x")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-MatchesFunc-4">
+      <description> Whitespace(in the middle) in the regexp is collapsed, but not inside a character class. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>fn:matches("hello world", "he ll o[ ]worl d", "x")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-MatchesFunc-5">
+      <description> whitespace in the regexp is collapsed, and should therefore compile. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>fn:matches("hello world", "\p{ IsBasicLatin}+", "x")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-MatchesFunc-6">
+      <description> whitespace in the regexp is collapsed completely, and should therefore compile and match. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>fn:matches("hello world", "\p{ I s B a s i c L a t i n }+", "x")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-MatchesFunc-7">
+      <description> whitespace in the regexp is not collapsed, and should therefore not compile. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>fn:matches("hello world", "\p{ IsBasicLatin}+")</test>
+      <result>
+         <error code="FORX0002"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-MatchesFunc-8">
+      <description> Since no string is captured by the back-reference, the single character is matched. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>fn:matches("h", "(.)\3")</test>
+      <result>
+         <error code="FORX0002"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-MatchesFunc-9">
+      <description> Since no string is captured by the back-reference, the single character is matched(#2). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>fn:matches("h", "(.)\2")</test>
+      <result>
+         <error code="FORX0002"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-MatchesFunc-10">
+      <description> A non-matching backwards-reference matches the empty string. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>matches("input", "\3")</test>
+      <result>
+         <error code="FORX0002"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-MatchesFunc-11">
+      <description> Use a back reference inside a character class. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>matches("abcd", "(asd)[\1]")</test>
+      <result>
+         <error code="FORX0002"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-MatchesFunc-12">
+      <description> Use a back reference inside a character class(#2). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>matches("abcd", "(asd)[asd\1]")</test>
+      <result>
+         <error code="FORX0002"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-MatchesFunc-13">
+      <description> Use a back reference inside a character class(#3). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>matches("abcd", "(asd)[asd\0]")</test>
+      <result>
+         <error code="FORX0002"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-MatchesFunc-14">
+      <description> Use a back reference inside a character class(#3). </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>matches("abcd", "1[asd\0]")</test>
+      <result>
+         <error code="FORX0002"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-MatchesFunc-15">
+      <description> A negative character class never match a non-character. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>fn:matches("a", "a[^b]"), fn:matches("a ", "a[^b]")</test>
+      <result>
+         <assert-deep-eq>false(), true()</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="K2-MatchesFunc-16">
+      <description> Use a pattern whose interpretation is unknown. See public report 4466. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>fn:matches("input", "[0-9-.]*/")</test>
+      <result>
+         <any-of>
+            <assert-string-value>false</assert-string-value>
+            <error code="FORG0001"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K2-MatchesFunc-17">
+      <description> Caseless match with back-reference. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>matches('aA', '(a)\1', 'i')</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+</test-set>

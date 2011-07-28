@@ -1,0 +1,1161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="fn-higher-order">
+   <description/>
+   <link type="spec" document="http://www.w3.org/TR/xpath-functions-11/"
+         idref="func-map"/>
+   <environment name="functx">
+      <namespace prefix="functx" uri="http://www.functx.com" />
+      <function-library name="functx" xslt-location="../libs/functx.xsl" xquery-location="../libs/functx.xquery" />
+   </environment>
+   <environment>
+      <schema uri="http://www.w3.org/XQueryTest/userDefinedTypes" />
+      <namespace prefix="a" uri="http://www.w3.org/XQueryTest/userDefinedTypes" />
+   </environment>
+   <dependency type="spec" value="XP30+ XQ30+" />
+   
+   <!--
+   <test-case name="hof-001">
+     
+      <description>
+ Higher Order Functions 
+ inline function literal, user-defined function 
+ Author - Michael Kay, Saxonica 
+</description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <environment ref="functx"/>
+      <test>let $f := functx:is-a-number#1 return $f(2)</test>
+      <result>
+            <assert-true/>
+      </result>
+   </test-case>-->
+   <test-case name="hof-002">
+      <description>
+ Higher Order Functions 
+ inline function literal, system function 
+ Author - Michael Kay, Saxonica 
+</description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <test>let $f := fn:true#0 return $f()</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <!-- remove the below -->
+  <!-- <test-case name="hof-003">
+      <description>
+ Higher Order Functions 
+ inline function literal, imported user-defined function 
+ Author - Michael Kay, Saxonica 
+</description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <environment ref=""/>
+      <test>xquery version "1.1"; import module namespace m="http://example.com/hof-003" at "hof-003.lib"; let $f := m:f#1 return $f(17)</test>
+      <result>
+         <any-of>
+            <assert-string-value>&lt;?xml version="1.0" encoding="UTF-8"?&gt;18</assert-string-value>
+            <error code="XQST0031"/>
+            <error code="XPST0003"/>
+         </any-of>
+      </result>
+   </test-case>-->
+   <test-case name="hof-004">
+      <description>
+ Higher Order Functions 
+ inline function literal, system function 
+ Author - Michael Kay, Saxonica 
+</description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <environment ref=""/>
+      <test>let $f := fn:round#1 return $f(1.2345)</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+   <test-case name="hof-005">
+      <description>
+ Higher Order Functions 
+ inline function literal, system function 
+ Author - Michael Kay, Saxonica 
+</description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <environment ref=""/>
+      <test>let $f := concat#8 return $f('a','b','c','d','e','f','g','h')</test>
+      <result>
+            <assert-eq>abcdefgh</assert-eq>
+      </result>
+   </test-case>
+   <!-- remove the below -->
+ <!--  <test-case name="hof-006">
+      <description>
+ Higher Order Functions 
+ inline function literal, user-defined function, default function namespace 
+ Author - Michael Kay, Saxonica 
+</description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <environment ref=""/>
+      <test>xquery version "1.1"; declare default function namespace "http://example.com/hof-006"; declare function g($x as xs:integer) as xs:integer { $x + 1 }; let $f := g#1 return $f(21)</test>
+      <result>
+         <any-of>
+            <assert-string-value>&lt;?xml version="1.0" encoding="UTF-8"?&gt;22</assert-string-value>
+            <error code="XQST0031"/>
+            <error code="XPST0003"/>
+         </any-of>
+      </result>
+      </test-case>-->
+   
+   <!-- Remove the below -->
+   <!--<test-case name="hof-007">
+      <description>
+ Higher Order Functions 
+ inline function literal, constructor function, default namespace 
+ Author - Michael Kay, Saxonica 
+</description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <environment ref=""/>
+      <test><!-\- xquery version "1.1"; declare default function namespace "http://www.w3.org/2001/XMLSchema"; -\-> let $f := date#1 return $f('2008-01-31')</test>
+      <result>
+            <assert-eq>2008-01-31</assert-eq>
+      </result>
+   </test-case>-->
+   <test-case name="hof-008">
+      <description>
+ Higher Order Functions 
+ inline function literal, constructor function, non default namespace 
+ Author - Michael Kay, Saxonica 
+</description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <environment ref=""/>
+      <test>let $f := xs:date#1 return $f('2008-01-31')</test>
+      <result>
+            <assert-eq>2008-01-31</assert-eq>
+      </result>
+   </test-case>
+   
+   <!-- candidate to remove -->
+   <test-case name="hof-009">
+      <description>
+ Higher Order Functions 
+ inline function literal, constructor function, used-defined atomic type 
+ Author - Michael Kay, Saxonica 
+</description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <environment ref=""/>
+      <test>let $f := a:hatsize#1 return ($f(8) instance of a:hatsize)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="hof-010">
+      <description>
+ Higher Order Functions 
+ SequenceType function() 
+ Author - Michael Kay, Saxonica 
+</description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <environment ref="functx"/>
+      <test>let $f as function(*) := functx:is-a-number#1 return $f(2)</test>
+      <result>
+        <assert-true/>
+      </result>
+   </test-case>
+   <!--<test-case name="hof-011">
+      <description>
+ Higher Order Functions 
+ SequenceType function(x) as z 
+ Author - Michael Kay, Saxonica 
+</description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <environment ref=""/>
+      <test>xquery version "1.1"; declare function local:f($x as xs:integer) as xs:integer { $x + 3 }; let $f as function(xs:integer) as xs:integer := local:f#1 return $f(2)</test>
+      <test>let $f := functx:ordinal-number-en#1, $g := $f treat as function(xs:integer) as xs:string  return $g(5)</test>
+      <result>
+         <all-of>
+            <assert-eq>5th</assert-eq>
+            <assert-type>xs:string</assert-type>
+         </all-of>
+      </result>
+   </test-case>-->
+   <!--<test-case name="hof-012">
+      <description>
+ Higher Order Functions 
+ SequenceType function(x,y) as z 
+ Author - Michael Kay, Saxonica 
+</description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <environment ref=""/>
+      <test>let $f := functx:pad-integer-to-length#2, $g := $f treat as function(xs:integer, xs:long) as xs:string return $g(2, xs:long(5))</test>
+      <result>
+         <all-of>
+            <assert-eq>00002</assert-eq>
+            <assert-type>xs:string</assert-type>
+         </all-of>
+      </result>
+   </test-case>-->
+   <test-case name="hof-013">
+      <description>
+ Higher Order Functions 
+ Selecting from a sequence of functions 
+ Author - Michael Kay, Saxonica 
+</description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <!--<test>xquery version "1.1"; declare function local:f($x as xs:integer) as xs:integer { $x + 3 };
+         declare function local:g($x as xs:integer) as xs:integer { $x + 4 };
+         declare function local:h($x as xs:integer) as xs:integer { $x + 5 }; 
+         let $f as (function(xs:integer) as xs:integer)* := (local:f#1, local:g#1, local:h#1) return $f[3](2)[1]</test>-->
+      <test>let $f := (fn:ceiling#1, fn:ceiling#1, fn:floor#1), $g := $f treat as (function(xs:double) as xs:double)* return $f[3](xs:double(2.6))[1]</test>
+      <result>
+         <any-of>
+            <assert-eq>3</assert-eq>
+         </any-of>
+      </result>
+   </test-case>
+   <test-case name="hof-014">
+      <description>
+ Higher Order Functions 
+ Function returning a function 
+ Author - Michael Kay, Saxonica 
+</description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <environment ref="empty"/>
+      <test>let $local-case := function ($x as xs:boolean) as function(*) 
+         { if ($x) then fn:upper-case#1 else fn:lower-case#1 } return 
+         $local-case(true())("Mike"), $local-case(false())("Mike")</test>
+      <result>
+         <any-of>
+            <assert-string-value>MIKE mike</assert-string-value>
+            <error code="XQST0031"/>
+            <error code="XPST0003"/>
+         </any-of>
+      </result>
+   </test-case>
+   <test-case name="hof-015">
+      <description>
+ Higher Order Functions 
+ Function returning a function 
+ Author - Michael Kay, Saxonica 
+</description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <environment ref=""/>
+      <test>xquery version "1.1"; declare function local:case($x as xs:boolean) as function(xs:string?) as xs:string
+         { if ($x) then fn:upper-case#1 else fn:lower-case#1 }; local:case(true())("Mike"), local:case(false())("Mike")</test>
+      <result>
+         <any-of>
+            <assert-string-value>&lt;?xml version="1.0" encoding="UTF-8"?&gt;MIKE mike</assert-string-value>
+            <error code="XQST0031"/>
+            <error code="XPST0003"/>
+         </any-of>
+      </result>
+   </test-case>
+   <test-case name="hof-016">
+      <description>
+ Higher Order Functions 
+ Function expecting a function 
+ Author - Michael Kay, Saxonica 
+</description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <environment ref=""/>
+      <test>xquery version "1.1"; declare function local:case($x as function(*), $y as xs:string) as xs:string { $x($y) }; local:case(upper-case#1, "Mike"), local:case(lower-case#1, "Mike")</test>
+      <result>
+         <any-of>
+            <assert-string-value>&lt;?xml version="1.0" encoding="UTF-8"?&gt;MIKE mike</assert-string-value>
+            <error code="XQST0031"/>
+            <error code="XPST0003"/>
+         </any-of>
+      </result>
+   </test-case>
+   <test-case name="hof-017">
+      <description>
+ Higher Order Functions 
+ Function expecting a function, full signature 
+ Author - Michael Kay, Saxonica 
+</description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <environment ref=""/>
+      <test>xquery version "1.1"; declare function local:case($x as function(xs:string?) as xs:string, $y as xs:string) as xs:string { $x($y) }; local:case(upper-case#1, "Mike"), local:case(lower-case#1, "Mike")</test>
+      <result>
+         <any-of>
+            <assert-string-value>&lt;?xml version="1.0" encoding="UTF-8"?&gt;MIKE mike</assert-string-value>
+            <error code="XQST0031"/>
+            <error code="XPST0003"/>
+         </any-of>
+      </result>
+   </test-case>
+   <test-case name="hof-018">
+      <description>
+ Higher Order Functions 
+ Function expecting a function, caller supplies local function 
+ Author - Michael Kay, Saxonica 
+</description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <environment ref=""/>
+      <test>xquery version "1.1"; declare function local:scramble($x as function(xs:string) as xs:string, $y as xs:string) as xs:string { $x($y) }; declare function local:rot13($x as xs:string) as xs:string { translate($x, "abcdefghijklmnopqrstuvwxyz", "nopqrstuvwxyzabcdefghijklm") }; local:scramble(local:rot13#1, "mike")</test>
+      <result>
+         <any-of>
+            <assert-string-value>&lt;?xml version="1.0" encoding="UTF-8"?&gt;zvxr</assert-string-value>
+            <error code="XQST0031"/>
+            <error code="XPST0003"/>
+         </any-of>
+      </result>
+   </test-case>
+   <test-case name="hof-019">
+      <description>
+ Higher Order Functions 
+ Function expecting a function, caller supplies local function 
+ Author - Michael Kay, Saxonica 
+</description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <environment ref=""/>
+      <test>xquery version "1.1"; declare function local:scramble($x as function(*), $y as xs:string) as xs:string { $x($y) }; declare function local:rot13($x as xs:string) as xs:string { translate($x, "abcdefghijklmnopqrstuvwxyz", "nopqrstuvwxyzabcdefghijklm") }; local:scramble(local:rot13#1, "mike")</test>
+      <result>
+         <any-of>
+            <assert-string-value>&lt;?xml version="1.0" encoding="UTF-8"?&gt;zvxr</assert-string-value>
+            <error code="XQST0031"/>
+            <error code="XPST0003"/>
+         </any-of>
+      </result>
+   </test-case>
+   <test-case name="hof-020">
+      <description>
+ Higher Order Functions 
+ Function expecting a function, caller supplies inline function 
+ Author - Michael Kay, Saxonica 
+</description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <environment ref=""/>
+      <test>xquery version "1.1"; declare function local:scramble($x as function(*), $y as xs:string) as xs:string { $x($y) }; local:scramble(function($x){translate($x, "abcdefghijklmnopqrstuvwxyz", "nopqrstuvwxyzabcdefghijklm")}, "john")</test>
+      <result>
+         <any-of>
+            <assert-string-value>&lt;?xml version="1.0" encoding="UTF-8"?&gt;wbua</assert-string-value>
+            <error code="XQST0031"/>
+            <error code="XPST0003"/>
+         </any-of>
+      </result>
+   </test-case>
+   <test-case name="hof-021">
+      <description>
+ Higher Order Functions 
+ Function expecting a function, caller supplies inline function. Needs function coercion 
+ Author - Michael Kay, Saxonica 
+</description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <environment ref=""/>
+      <test>xquery version "1.1"; declare function local:scramble($x as function(xs:string) as xs:string, $y as xs:string) as xs:string { $x($y) }; local:scramble(function($x){translate($x, "abcdefghijklmnopqrstuvwxyz", "nopqrstuvwxyzabcdefghijklm")}, "john")</test>
+      <result>
+         <any-of>
+            <assert-string-value>&lt;?xml version="1.0" encoding="UTF-8"?&gt;wbua</assert-string-value>
+            <error code="XQST0031"/>
+            <error code="XPST0003"/>
+         </any-of>
+      </result>
+   </test-case>
+   <test-case name="hof-022">
+      <description>
+ Higher Order Functions 
+ Name and arity of a user-defined function 
+ Author - Michael Kay, Saxonica 
+</description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <environment ref=""/>
+      <test>xquery version "1.1"; declare function local:scramble($x as function(xs:string) as xs:string, $y as xs:string) as xs:string { $x($y) }; let $n := function-name(local:scramble#2) return (local-name-from-QName($n), namespace-uri-from-QName($n), function-arity(local:scramble#2))</test>
+      <result>
+         <any-of>
+            <assert-string-value>&lt;?xml version="1.0" encoding="UTF-8"?&gt;scramble http://www.w3.org/2005/xquery-local-functions 2</assert-string-value>
+            <error code="XQST0031"/>
+            <error code="XPST0003"/>
+         </any-of>
+      </result>
+   </test-case>
+   <test-case name="hof-023">
+      <description>
+ Higher Order Functions 
+ Name and arity of a system function 
+ Author - Michael Kay, Saxonica 
+</description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <environment ref=""/>
+      <test>xquery version "1.1"; let $f := fn:function-name#1 let $n := function-name($f) return (local-name-from-QName($n), namespace-uri-from-QName($n), function-arity($f))</test>
+      <result>
+         <any-of>
+            <assert-string-value>&lt;?xml version="1.0" encoding="UTF-8"?&gt;function-name http://www.w3.org/2005/xpath-functions 1</assert-string-value>
+            <error code="XQST0031"/>
+            <error code="XPST0003"/>
+         </any-of>
+      </result>
+   </test-case>
+   <test-case name="hof-024">
+      <description>
+ Higher Order Functions 
+ Name and arity of a constructor function 
+ Author - Michael Kay, Saxonica 
+</description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <environment ref=""/>
+      <test>xquery version "1.1"; let $f := xs:dateTime#1 let $n := function-name($f) return (local-name-from-QName($n), namespace-uri-from-QName($n), function-arity($f))</test>
+      <result>
+         <any-of>
+            <assert-string-value>&lt;?xml version="1.0" encoding="UTF-8"?&gt;dateTime http://www.w3.org/2001/XMLSchema 1</assert-string-value>
+            <error code="XQST0031"/>
+            <error code="XPST0003"/>
+         </any-of>
+      </result>
+   </test-case>
+   <test-case name="hof-025">
+      <description>
+ Higher Order Functions 
+ Name and arity of a concat function 
+ Author - Michael Kay, Saxonica 
+</description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <environment ref=""/>
+      <test>xquery version "1.1"; let $f := concat#123456 let $n := function-name($f) return (local-name-from-QName($n), namespace-uri-from-QName($n), function-arity($f))</test>
+      <result>
+         <any-of>
+            <assert-string-value>&lt;?xml version="1.0" encoding="UTF-8"?&gt;concat http://www.w3.org/2005/xpath-functions 123456</assert-string-value>
+            <error code="XQST0031"/>
+            <error code="XPST0003"/>
+         </any-of>
+      </result>
+   </test-case>
+   <test-case name="hof-026">
+      <description>
+ Higher Order Functions 
+ Name and arity of an inline function 
+ Author - Michael Kay, Saxonica 
+</description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <environment ref=""/>
+      <test>xquery version "1.1"; let $f := function($x as xs:string) as xs:string { upper-case($x) } let $n := function-name($f) return &lt;a loc="{local-name-from-QName($n)}" uri="{namespace-uri-from-QName($n)}" arity="{function-arity($f)}" eloc="{empty(local-name-from-QName($n))}" euri="{empty(namespace-uri-from-QName($n))}"/&gt;</test>
+      <result>
+         <any-of>
+            <assert-string-value>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&#xD;
+&lt;a uri="" loc="" euri="true" eloc="true" arity="1"/&gt;</assert-string-value>
+            <error code="XQST0031"/>
+            <error code="XPST0003"/>
+         </any-of>
+      </result>
+   </test-case>
+   <test-case name="hof-027">
+      <description>
+ Higher Order Functions 
+ Curry a system function 
+ Author - Michael Kay, Saxonica 
+</description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <environment ref=""/>
+      <test>xquery version "1.1"; let $f := fn:partial-apply(fn:contains#2, "e", 2) for $s in ("Mike", "John", "Dave", "Mary", "Jane") return $f($s)</test>
+      <result>
+         <any-of>
+            <assert-string-value>&lt;?xml version="1.0" encoding="UTF-8"?&gt;true false true false true</assert-string-value>
+            <error code="XQST0031"/>
+            <error code="XPST0003"/>
+         </any-of>
+      </result>
+   </test-case>
+   <test-case name="hof-028">
+      <description>
+ Higher Order Functions 
+ Return an inline function from a user-defined function. Needs function coercion 
+ Author - Michael Kay, Saxonica 
+</description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <environment ref=""/>
+      <test>xquery version "1.1"; declare function local:splitter() as (function(xs:string) as xs:string*) { function($x as xs:string) { tokenize($x, '\s') } }; string-join(local:splitter()("A nice cup of tea"), '|')</test>
+      <result>
+         <any-of>
+            <assert-string-value>&lt;?xml version="1.0" encoding="UTF-8"?&gt;A|nice|cup|of|tea</assert-string-value>
+            <error code="XQST0031"/>
+            <error code="XPST0003"/>
+         </any-of>
+      </result>
+   </test-case>
+   <test-case name="hof-029">
+      <description>
+ Higher Order Functions 
+ Return an inline function that uses internal variables. Needs function coercion 
+ Author - Michael Kay, Saxonica 
+</description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <environment ref=""/>
+      <test>xquery version "1.1"; declare function local:splitter() as (function(xs:string) as xs:string+)? { function($x as xs:string) { for $i in tokenize($x, '\s') return upper-case($i)} }; string-join(local:splitter()("A nice cup of tea"), '|')</test>
+      <result>
+         <any-of>
+            <assert-string-value>&lt;?xml version="1.0" encoding="UTF-8"?&gt;A|NICE|CUP|OF|TEA</assert-string-value>
+            <error code="XQST0031"/>
+            <error code="XPST0003"/>
+         </any-of>
+      </result>
+   </test-case>
+   <test-case name="hof-030">
+      <description>
+ Higher Order Functions 
+ Return an inline function that uses global variables 
+ Author - Michael Kay, Saxonica 
+</description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <environment ref=""/>
+      <test>xquery version "1.1"; declare variable $sep as xs:string external := "\s"; declare function local:splitter() as (function(xs:string) as xs:string*)? { function($x as xs:string) { for $i in tokenize($x, $sep) return upper-case($i)} }; string-join(local:splitter()("A nice cup of tea"), '|')</test>
+      <result>
+         <any-of>
+            <assert-string-value>&lt;?xml version="1.0" encoding="UTF-8"?&gt;A|NICE|CUP|OF|TEA</assert-string-value>
+            <error code="XQST0031"/>
+            <error code="XPST0003"/>
+         </any-of>
+      </result>
+   </test-case>
+   <test-case name="hof-031">
+      <description>
+ Higher Order Functions 
+ Return an inline function that uses local parameters 
+ Author - Michael Kay, Saxonica 
+</description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <environment ref=""/>
+      <test>xquery version "1.1"; declare function local:splitter($sep as xs:string) as (function(xs:string) as xs:string*) { function($x as xs:string) { for $i in tokenize($x, $sep) return upper-case($i)} }; string-join(local:splitter("\s")("A nice cup of tea"), '|')</test>
+      <result>
+         <any-of>
+            <assert-string-value>&lt;?xml version="1.0" encoding="UTF-8"?&gt;A|NICE|CUP|OF|TEA</assert-string-value>
+            <error code="XQST0031"/>
+            <error code="XPST0003"/>
+         </any-of>
+      </result>
+   </test-case>
+   <test-case name="hof-032">
+      <description>
+ Higher Order Functions 
+ Parenthesized expression in a function call 
+ Author - Michael Kay, Saxonica 
+</description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <environment ref=""/>
+      <test>xquery version "1.1"; (if (current-date() gt xs:date('2000-12-31')) then upper-case#1 else lower-case#1)("Mike")</test>
+      <result>
+         <any-of>
+            <assert-string-value>&lt;?xml version="1.0" encoding="UTF-8"?&gt;MIKE</assert-string-value>
+            <error code="XQST0031"/>
+            <error code="XPST0003"/>
+         </any-of>
+      </result>
+   </test-case>
+   <test-case name="hof-033">
+      <description>
+ Higher Order Functions 
+ Context item is a function item 
+ Author - Michael Kay, Saxonica 
+</description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <environment ref=""/>
+      <test>xquery version "1.1"; function-name((upper-case#1, lower-case#1)[.("Mike") = "MIKE"])</test>
+      <result>
+         <any-of>
+            <assert-string-value>&lt;?xml version="1.0" encoding="UTF-8"?&gt;upper-case</assert-string-value>
+            <error code="XQST0031"/>
+            <error code="XPST0003"/>
+         </any-of>
+      </result>
+   </test-case>
+   <test-case name="hof-034">
+      <description>
+ Higher Order Functions 
+ ordered{} applied to a function item 
+ Author - Michael Kay, Saxonica 
+</description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <environment ref=""/>
+      <test>xquery version "1.1"; function-name((upper-case#1, lower-case#1)[ordered{.}("Mike") = "MIKE"])</test>
+      <result>
+         <any-of>
+            <assert-string-value>&lt;?xml version="1.0" encoding="UTF-8"?&gt;upper-case</assert-string-value>
+            <error code="XQST0031"/>
+            <error code="XPST0003"/>
+         </any-of>
+      </result>
+   </test-case>
+   <test-case name="hof-035">
+      <description>
+ Higher Order Functions 
+ unordered{} applied to a function item 
+ Author - Michael Kay, Saxonica 
+</description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <environment ref=""/>
+      <test>xquery version "1.1"; function-name((upper-case#1, lower-case#1)[ordered{.}("Mike") = "MIKE"])</test>
+      <result>
+         <any-of>
+            <assert-string-value>&lt;?xml version="1.0" encoding="UTF-8"?&gt;upper-case</assert-string-value>
+            <error code="XQST0031"/>
+            <error code="XPST0003"/>
+         </any-of>
+      </result>
+   </test-case>
+   <test-case name="hof-036">
+      <description>
+ Higher Order Functions 
+ Heterogeneous sequence of atomics and functions on rhs of "/" - not clear if this is allowed 
+ Author - Michael Kay, Saxonica 
+</description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <environment ref=""/>
+      <test>xquery version "1.1"; (&lt;a b="3"/&gt;/(string(@b), upper-case#1, 17))[. instance of xs:anyAtomicType]</test>
+      <result>
+         <any-of>
+            <assert-string-value>&lt;?xml version="1.0" encoding="UTF-8"?&gt;3 17</assert-string-value>
+            <error code="XQST0031"/>
+            <error code="XPST0003"/>
+         </any-of>
+      </result>
+   </test-case>
+   <test-case name="hof-037">
+      <description>
+ Higher Order Functions 
+ instance-of tests on user-defined function, varying the argument types - all true 
+ Author - Michael Kay, Saxonica 
+</description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <environment ref=""/>
+      <test>xquery version "1.1"; declare function local:f($x as xs:long, $y as xs:NCName) as element(e) { &lt;e x="{$x}" y="{$y}"/&gt; }; local:f#2 instance of function(*), local:f#2 instance of function(xs:long, xs:NCName) as element(e), local:f#2 instance of function(xs:anyAtomicType?, xs:anyAtomicType?) as element(e), local:f#2 instance of function(item()*, item()*) as element(e)</test>
+      <result>
+         <any-of>
+            <assert-string-value>&lt;?xml version="1.0" encoding="UTF-8"?&gt;true true false false</assert-string-value>
+            <error code="XQST0031"/>
+            <error code="XPST0003"/>
+         </any-of>
+      </result>
+   </test-case>
+   <test-case name="hof-038">
+      <description>
+ Higher Order Functions 
+ instance-of tests on user-defined function, varying the argument types - all false 
+ Author - Michael Kay, Saxonica 
+</description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <environment ref=""/>
+      <test>xquery version "1.1"; declare function local:f($x as xs:long?, $y as xs:NCName?) as element(e) { &lt;e x="{$x}" y="{$y}"/&gt; }; local:f#2 instance of function(xs:int?, xs:NCName?) as element(e), local:f#2 instance of function(xs:long?) as element(e), local:f#2 instance of function(xs:long?, xs:NCName?, item()*) as element(e), local:f#2 instance of function(xs:long, xs:anyAtomicType?) as element(e), local:f#2 instance of function(item()+, item()+) as element(e)</test>
+      <result>
+         <any-of>
+            <assert-string-value>&lt;?xml version="1.0" encoding="UTF-8"?&gt;true false false false false</assert-string-value>
+            <error code="XQST0031"/>
+            <error code="XPST0003"/>
+         </any-of>
+      </result>
+   </test-case>
+   <test-case name="hof-039">
+      <description>
+ Higher Order Functions 
+ instance-of tests on user-defined function, varying the result types 
+ Author - Michael Kay, Saxonica 
+</description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <environment ref=""/>
+      <test>xquery version "1.1"; declare function local:f($x as xs:long, $y as xs:NCName) as element(e)? { &lt;e x="{$x}" y="{$y}"/&gt; }; local:f#2 instance of function(xs:long, xs:NCName) as element(), local:f#2 instance of function(xs:long, xs:NCName) as element()+, local:f#2 instance of function(xs:long, xs:NCName) as element()?, local:f#2 instance of function(xs:long, xs:NCName) as element()*, local:f#2 instance of function(xs:long, xs:NCName) as element(e)*, local:f#2 instance of function(xs:long, xs:NCName) as element(e, xs:anyType)*, local:f#2 instance of function(xs:long, xs:NCName) as element(*, xs:anyType)?, local:f#2 instance of function(xs:long, xs:NCName) as element(*, xs:untyped)?</test>
+      <result>
+         <any-of>
+            <assert-string-value>&lt;?xml version="1.0" encoding="UTF-8"?&gt;false false true true true true true false</assert-string-value>
+            <error code="XQST0031"/>
+            <error code="XPST0003"/>
+         </any-of>
+      </result>
+   </test-case>
+   <test-case name="hof-040">
+      <description>
+ Higher Order Functions 
+ Pass a sequence of functions that require coercion in different ways 
+ Author - Michael Kay, Saxonica 
+</description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <environment ref=""/>
+      <test>xquery version "1.1"; declare function local:apply($fns as (function(xs:string) as xs:string)*, $s as xs:string) as xs:string* { for $f in $fns return $f($s) }; let $ops := (upper-case#1, lower-case#1, function($x){translate($x, 'e', 'i')}, partial-apply(substring-before#2, ' ', 2)) return string-join(local:apply($ops, 'Michael Kay'), '~')</test>
+      <result>
+         <any-of>
+            <assert-string-value>&lt;?xml version="1.0" encoding="UTF-8"?&gt;MICHAEL KAY~michael kay~Michail Kay~Michael</assert-string-value>
+            <error code="XQST0031"/>
+            <error code="XPST0003"/>
+         </any-of>
+      </result>
+   </test-case>
+   <test-case name="hof-041">
+      <description>
+ Higher Order Functions 
+ Return a sequence of functions that require coercion in different ways 
+ Author - Michael Kay, Saxonica 
+</description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <environment ref=""/>
+      <test>xquery version "1.1"; declare function local:ops() as (function(xs:string) as xs:string)* { (upper-case#1, lower-case#1, function($x){translate($x, 'e', 'i')}, partial-apply(substring-before#2, ' ', 2)) }; string-join(for $f in local:ops() return $f('Michael Kay'), '~')</test>
+      <result>
+         <any-of>
+            <assert-string-value>&lt;?xml version="1.0" encoding="UTF-8"?&gt;MICHAEL KAY~michael kay~Michail Kay~Michael</assert-string-value>
+            <error code="XQST0031"/>
+            <error code="XPST0003"/>
+         </any-of>
+      </result>
+   </test-case>
+   <test-case name="hof-042">
+      <description>
+ Higher Order Functions 
+ Implicit atomization works for various kinds of functions 
+ Author - Michael Kay, Saxonica 
+</description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <environment ref=""/>
+      <test>xquery version "1.1"; declare function local:lower-case($x as xs:string) as xs:string { concat("'", fn:lower-case($x), "'") }; declare function local:ops() as (function(xs:string) as xs:string)* { (upper-case#1, local:lower-case#1, function($x){translate($x, 'e', 'i')}, partial-apply(substring-before#2, ' ', 2)) }; string-join(for $f in local:ops() return $f(&lt;a name="Michael Kay"/&gt;/@name), '~')</test>
+      <result>
+         <any-of>
+            <assert-string-value>&lt;?xml version="1.0" encoding="UTF-8"?&gt;MICHAEL KAY~'michael kay'~Michail Kay~Michael</assert-string-value>
+            <error code="XQST0031"/>
+            <error code="XPST0003"/>
+         </any-of>
+      </result>
+   </test-case>
+   <test-case name="hof-043">
+      <description>
+ Higher Order Functions 
+ untypedAtomic conversion works for various kinds of functions 
+ Author - Michael Kay, Saxonica 
+</description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <environment ref=""/>
+      <test>xquery version "1.1"; declare function local:round($x as xs:double) as xs:double { fn:floor($x) }; declare function local:ops() as (function(xs:double) as xs:double)* { (abs#1, local:round#1, function($x){$x+1}, partial-apply(round-half-to-even#2, 2, 2)) }; string-join(for $f in local:ops() return string($f(xs:untypedAtomic('123.456'))), '~')</test>
+      <result>
+         <any-of>
+            <assert-string-value>&lt;?xml version="1.0" encoding="UTF-8"?&gt;123.456~123~124.456~123.46</assert-string-value>
+            <error code="XQST0031"/>
+            <error code="XPST0003"/>
+         </any-of>
+      </result>
+   </test-case>
+   <test-case name="hof-044">
+      <description>
+ Higher Order Functions 
+ numeric promotion works for various kinds of functions 
+ Author - Michael Kay, Saxonica 
+</description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <environment ref=""/>
+      <test>xquery version "1.1"; declare function local:round($x as xs:double) as xs:double { fn:floor($x) }; declare function local:ops() as (function(xs:double) as xs:double)* { (abs#1, local:round#1, function($x as xs:float){$x+1}, partial-apply(round-half-to-even#2, 2, 2)) }; string-join(for $f in local:ops() return string(round-half-to-even($f(xs:decimal('123.456')), 4)), '~')</test>
+      <result>
+         <any-of>
+            <assert-string-value>&lt;?xml version="1.0" encoding="UTF-8"?&gt;123.456~123~124.456~123.46</assert-string-value>
+            <error code="XQST0031"/>
+            <error code="XPST0003"/>
+         </any-of>
+      </result>
+   </test-case>
+   <test-case name="hof-045">
+      <description>
+ Higher Order Functions 
+ partial-apply supplying a function parameter 
+ Author - Michael Kay, Saxonica 
+</description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <environment ref=""/>
+      <test>xquery version "1.1"; declare function local:round($x as xs:double, $algorithm as (function(xs:double) as xs:double)) as xs:double { $algorithm($x) }; declare variable $roundToCeiling := partial-apply(local:round#2, ceiling#1, 2); $roundToCeiling(12.4)</test>
+      <result>
+         <any-of>
+            <assert-string-value>&lt;?xml version="1.0" encoding="UTF-8"?&gt;13</assert-string-value>
+            <error code="XQST0031"/>
+            <error code="XPST0003"/>
+         </any-of>
+      </result>
+   </test-case>
+   <test-case name="hof-046">
+      <description>
+ Higher Order Functions 
+ Return an inline function that uses inner and outer local variables 
+ Author - Michael Kay, Saxonica 
+</description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <environment ref=""/>
+      <test>xquery version "1.1"; declare function local:splitter($x as xs:string) as (function() as xs:string*)* { for $sep in ('\s', ',', '!') return function() { for $i in tokenize($x, $sep) return upper-case($i) } }; &lt;out&gt;{ for $f as function(*) in local:splitter("How nice! Thank you, I enjoyed that.") return &lt;tokens&gt;{ for $t in $f() return &lt;token&gt;{$t}&lt;/token&gt; }&lt;/tokens&gt; }&lt;/out&gt;</test>
+      <result>
+         <any-of>
+            <assert-string-value>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&#xD;
+&lt;out&gt;&#xD;
+   &lt;tokens&gt;&#xD;
+      &lt;token&gt;HOW&lt;/token&gt;&#xD;
+      &lt;token&gt;NICE!&lt;/token&gt;&#xD;
+      &lt;token&gt;THANK&lt;/token&gt;&#xD;
+      &lt;token&gt;YOU,&lt;/token&gt;&#xD;
+      &lt;token&gt;I&lt;/token&gt;&#xD;
+      &lt;token&gt;ENJOYED&lt;/token&gt;&#xD;
+      &lt;token&gt;THAT.&lt;/token&gt;&#xD;
+   &lt;/tokens&gt;&#xD;
+   &lt;tokens&gt;&#xD;
+      &lt;token&gt;HOW NICE! THANK YOU&lt;/token&gt;&#xD;
+      &lt;token&gt; I ENJOYED THAT.&lt;/token&gt;&#xD;
+   &lt;/tokens&gt;&#xD;
+   &lt;tokens&gt;&#xD;
+      &lt;token&gt;HOW NICE&lt;/token&gt;&#xD;
+      &lt;token&gt; THANK YOU, I ENJOYED THAT.&lt;/token&gt;&#xD;
+   &lt;/tokens&gt;&#xD;
+&lt;/out&gt;</assert-string-value>
+            <error code="XQST0031"/>
+            <error code="XPST0003"/>
+         </any-of>
+      </result>
+   </test-case>
+   <test-case name="hof-047">
+      <description>
+ Higher Order Functions 
+ Nested inline functions referencing grandfather local variables 
+ Author - Michael Kay, Saxonica 
+</description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <environment ref=""/>
+      <test>xquery version "1.1"; declare function local:splitter($x as xs:string) as (function() as xs:string*)* { for $sep in ('\s', ',', '!') return function() { for $i in tokenize($x, $sep) return let $f := function(){ concat($sep, ':', upper-case($i)) } return $f() } }; &lt;out&gt;{ for $f as function(*) in local:splitter("How nice! Thank you, I enjoyed that.") return &lt;tokens&gt;{ for $t in $f() return &lt;token&gt;{$t}&lt;/token&gt; }&lt;/tokens&gt; }&lt;/out&gt;</test>
+      <result>
+         <any-of>
+            <assert-string-value>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&#xD;
+&lt;out&gt;&#xD;
+   &lt;tokens&gt;&#xD;
+      &lt;token&gt;\s:HOW&lt;/token&gt;&#xD;
+      &lt;token&gt;\s:NICE!&lt;/token&gt;&#xD;
+      &lt;token&gt;\s:THANK&lt;/token&gt;&#xD;
+      &lt;token&gt;\s:YOU,&lt;/token&gt;&#xD;
+      &lt;token&gt;\s:I&lt;/token&gt;&#xD;
+      &lt;token&gt;\s:ENJOYED&lt;/token&gt;&#xD;
+      &lt;token&gt;\s:THAT.&lt;/token&gt;&#xD;
+   &lt;/tokens&gt;&#xD;
+   &lt;tokens&gt;&#xD;
+      &lt;token&gt;,:HOW NICE! THANK YOU&lt;/token&gt;&#xD;
+      &lt;token&gt;,: I ENJOYED THAT.&lt;/token&gt;&#xD;
+   &lt;/tokens&gt;&#xD;
+   &lt;tokens&gt;&#xD;
+      &lt;token&gt;!:HOW NICE&lt;/token&gt;&#xD;
+      &lt;token&gt;!: THANK YOU, I ENJOYED THAT.&lt;/token&gt;&#xD;
+   &lt;/tokens&gt;&#xD;
+&lt;/out&gt;</assert-string-value>
+            <error code="XQST0031"/>
+            <error code="XPST0003"/>
+         </any-of>
+      </result>
+   </test-case>
+   <test-case name="hof-048">
+      <description>
+ Higher Order Functions 
+ Forwards reference to a literal function item 
+ Author - Michael Kay, Saxonica 
+</description>
+      <created by="Michael Kay" on="2010-08-14"/>
+      <environment ref=""/>
+      <test>xquery version "1.1"; declare function local:do() as xs:integer { (local:f#1)(5) }; declare function local:f($x as xs:integer) as xs:integer { $x + 1 }; local:do()</test>
+      <result>
+         <any-of>
+            <assert-string-value>6</assert-string-value>
+            <error code="XQST0031"/>
+            <error code="XPST0003"/>
+         </any-of>
+      </result>
+   </test-case>
+   <test-case name="hof-901">
+      <description>
+ Higher Order Functions 
+ inline function literal, unknown user-defined function 
+ Author - Michael Kay, Saxonica 
+</description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <environment ref=""/>
+      <test>xquery version "1.1"; declare function local:f($x as xs:integer) as xs:integer { $x + 1 }; let $f := local:g#1 return $f(2)</test>
+      <result>
+         <any-of>
+            <error code="XPST0017"/>
+            <error code="XQST0031"/>
+            <error code="XPST0003"/>
+         </any-of>
+      </result>
+   </test-case>
+   <test-case name="hof-902">
+      <description>
+ Higher Order Functions 
+ inline function literal, unknown user-defined function 
+ Author - Michael Kay, Saxonica 
+</description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <environment ref=""/>
+      <test>xquery version "1.1"; declare function local:f($x as xs:integer) as xs:integer { $x + 1 }; let $f := local:f#3 return $f(2)</test>
+      <result>
+         <any-of>
+            <error code="XPST0017"/>
+            <error code="XQST0031"/>
+            <error code="XPST0003"/>
+         </any-of>
+      </result>
+   </test-case>
+   <test-case name="hof-903">
+      <description>
+ Higher Order Functions 
+ inline function literal, unknown function 
+ Author - Michael Kay, Saxonica 
+</description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <environment ref=""/>
+      <test>xquery version "1.1"; declare function local:f($x as xs:integer) as xs:integer { $x + 1 }; let $f := xs:date#2 return $f('2008-03-01')</test>
+      <result>
+         <any-of>
+            <error code="XPST0017"/>
+            <error code="XQST0031"/>
+            <error code="XPST0003"/>
+         </any-of>
+      </result>
+   </test-case>
+   <test-case name="hof-904">
+      <description>
+ Higher Order Functions 
+ inline function literal, unknown function 
+ Author - Michael Kay, Saxonica 
+</description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <environment ref=""/>
+      <test>xquery version "1.1"; declare function local:f($x as xs:integer) as xs:integer { $x + 1 }; let $f := concat#1 return $f('2008-03-01')</test>
+      <result>
+         <any-of>
+            <error code="XPST0017"/>
+            <error code="XQST0031"/>
+            <error code="XPST0003"/>
+         </any-of>
+      </result>
+   </test-case>
+   <test-case name="hof-905">
+      <description>
+ Higher Order Functions 
+ apply string() to a function item 
+ Author - Michael Kay, Saxonica 
+</description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <environment ref=""/>
+      <test>xquery version "1.1"; declare function local:f($x as xs:integer) as xs:integer { $x + 1 }; string(local:f#1)</test>
+      <result>
+         <any-of>
+            <error code="FOTY0014"/>
+            <error code="XQST0031"/>
+            <error code="XPST0003"/>
+         </any-of>
+      </result>
+   </test-case>
+   <test-case name="hof-906">
+      <description>
+ Higher Order Functions 
+ apply data() to a function item 
+ Author - Michael Kay, Saxonica 
+</description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <environment ref=""/>
+      <test>xquery version "1.1"; declare function local:f($x as xs:integer) as xs:integer { $x + 1 }; exists(data(local:f#1))</test>
+      <result>
+         <any-of>
+            <error code="FOTY0013"/>
+            <error code="XQST0031"/>
+            <error code="XPST0003"/>
+         </any-of>
+      </result>
+   </test-case>
+   <test-case name="hof-907">
+      <description>
+ Higher Order Functions 
+ apply deep-equal() to a function item 
+ Author - Michael Kay, Saxonica 
+</description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <environment ref=""/>
+      <test>xquery version "1.1"; declare function local:f($x as xs:integer) as xs:integer { $x + 1 }; deep-equal((1,2,3,4,local:f#1), (1,2,3,4,local:f#1))</test>
+      <result>
+         <any-of>
+            <error code="FOTY0015"/>
+            <error code="XQST0031"/>
+            <error code="XPST0003"/>
+         </any-of>
+      </result>
+   </test-case>
+   <test-case name="hof-908">
+      <description>
+ Higher Order Functions 
+ atomize a function item implicitly 
+ Author - Michael Kay, Saxonica 
+</description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <environment ref=""/>
+      <test>xquery version "1.1"; declare function local:f($x as xs:integer) as xs:integer { $x + 1 }; local:f#1 eq 3</test>
+      <result>
+         <any-of>
+            <error code="FOTY0013"/>
+            <error code="XQST0031"/>
+            <error code="XPST0003"/>
+         </any-of>
+      </result>
+   </test-case>
+   <test-case name="hof-909">
+      <description>
+ Higher Order Functions 
+ atomize a function item implicitly 
+ Author - Michael Kay, Saxonica 
+</description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <environment ref=""/>
+      <test>xquery version "1.1"; declare function local:f($x as xs:integer) as xs:integer { $x + 1 }; number(local:f#1)</test>
+      <result>
+         <any-of>
+            <error code="FOTY0013"/>
+            <error code="XQST0031"/>
+            <error code="XPST0003"/>
+         </any-of>
+      </result>
+   </test-case>
+   <test-case name="hof-910">
+      <description>
+ Higher Order Functions 
+ In SequenceType syntax, Result type required if argument type given 
+ Author - Michael Kay, Saxonica 
+</description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <environment ref=""/>
+      <test>xquery version "1.1"; declare function local:f($x as xs:integer) as xs:integer { $x + 1 }; let $f as function(xs:integer) := local:f#1</test>
+      <result>
+         <any-of>
+            <error code="XQST0031"/>
+            <error code="XPST0003"/>
+         </any-of>
+      </result>
+   </test-case>
+   <test-case name="hof-911">
+      <description>
+ Higher Order Functions 
+ Heterogeneous sequence on rhs of "/" 
+ Author - Michael Kay, Saxonica 
+</description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <environment ref=""/>
+      <test>xquery version "1.1"; &lt;a b="3"/&gt;/(@b, upper-case#1)</test>
+      <result>
+         <any-of>
+            <error code="XPTY0018"/>
+            <error code="XQST0031"/>
+            <error code="XPST0003"/>
+         </any-of>
+      </result>
+   </test-case>
+   <test-case name="hof-912">
+      <description>
+ Higher Order Functions 
+ Pass a sequence of functions that cannot be coerced to the required type 
+ Author - Michael Kay, Saxonica 
+</description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <environment ref=""/>
+      <test>xquery version "1.1"; declare function local:apply($fns as (function(xs:string) as xs:string)*, $s as xs:string) as xs:string* { for $f in $fns return $f($s) }; let $ops := (upper-case#1, lower-case#1, function($x){translate($x, 'e', 'i')}, partial-apply(substring-before#3, ' ', 2)) return string-join(local:apply($ops, 'Michael Kay'), '~')</test>
+      <result>
+         <any-of>
+            <error code="XPTY0004"/>
+            <error code="XQST0031"/>
+            <error code="XPST0003"/>
+         </any-of>
+      </result>
+   </test-case>
+   <test-case name="hof-913">
+      <description>
+ Higher Order Functions 
+ Pass a sequence of functions that cannot be coerced to the required type 
+ Author - Michael Kay, Saxonica 
+</description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <environment ref=""/>
+      <test>xquery version "1.1"; declare function local:apply($fns as (function(xs:string) as xs:string)*, $s as xs:string) as xs:string* { for $f in $fns return $f($s) }; let $ops := (upper-case#1, lower-case#1, function($x){translate($x, 'e', 'i')}, string-length#1) return string-join(local:apply($ops, 'Michael Kay'), '~')</test>
+      <result>
+         <any-of>
+            <error code="XPTY0004"/>
+            <error code="XQST0031"/>
+            <error code="XPST0003"/>
+         </any-of>
+      </result>
+   </test-case>
+   <test-case name="hof-914">
+      <description>
+ Higher Order Functions 
+ Pass a sequence of functions that cannot be coerced to the required type 
+ Author - Michael Kay, Saxonica 
+</description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <environment ref=""/>
+      <test>xquery version "1.1"; declare function local:apply($fns as (function(xs:string) as xs:string)*, $s as xs:string) as xs:string* { for $f in $fns return $f($s) }; let $ops := (upper-case#1, lower-case#1, function($x as xs:double){string($x)}) return string-join(local:apply($ops, 'Michael Kay'), '~')</test>
+      <result>
+         <any-of>
+            <error code="XPTY0004"/>
+            <error code="XQST0031"/>
+            <error code="XPST0003"/>
+         </any-of>
+      </result>
+   </test-case>
+   <test-case name="hof-915">
+      <description>
+ Higher Order Functions 
+ partial-apply, argument number out of range 
+ Author - Michael Kay, Saxonica 
+</description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <environment ref=""/>
+      <test>xquery version "1.1"; let $ops := (partial-apply(substring-before#2, ' ', 3)) return $ops('Michael Kay')</test>
+      <result>
+         <any-of>
+            <error code="FOFU0001"/>
+            <error code="XQST0031"/>
+            <error code="XPST0003"/>
+         </any-of>
+      </result>
+   </test-case>
+   <test-case name="hof-916">
+      <description>
+ Higher Order Functions 
+ partial-apply, argument number out of range 
+ Author - Michael Kay, Saxonica 
+</description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <environment ref=""/>
+      <test>xquery version "1.1"; let $ops := partial-apply(substring-before#2, ' ', function-arity(true#0) - 7) return $ops('Michael Kay')</test>
+      <result>
+         <any-of>
+            <error code="FOFU0001"/>
+            <error code="XQST0031"/>
+            <error code="XPST0003"/>
+         </any-of>
+      </result>
+   </test-case>
+   <test-case name="hof-917">
+      <description>
+ Higher Order Functions 
+ partial-apply, argument value invalid for target function 
+ Author - Michael Kay, Saxonica 
+</description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <environment ref=""/>
+      <test>xquery version "1.1"; let $ops := partial-apply(substring-before#2, 42, 2) return $ops('Michael Kay')</test>
+      <result>
+         <any-of>
+            <error code="XPTY0004"/>
+            <error code="XQST0031"/>
+            <error code="XPST0003"/>
+         </any-of>
+      </result>
+   </test-case>
+   <test-case name="hof-918">
+      <description>
+ Higher Order Functions 
+ partial-apply supplying an incorrect function parameter 
+ Author - Michael Kay, Saxonica 
+</description>
+      <created by="Michael Kay" on="2009-03-01"/>
+      <environment ref=""/>
+      <test>xquery version "1.1"; declare function local:round($x as xs:double, $algorithm as (function(xs:double) as xs:double)) as xs:double { $algorithm($x) }; declare variable $roundToCeiling := partial-apply(local:round#2, upper-case#1, 2); $roundToCeiling(12.4)</test>
+      <result>
+         <any-of>
+            <error code="XPTY0004"/>
+            <error code="XQST0031"/>
+            <error code="XPST0003"/>
+         </any-of>
+      </result>
+   </test-case>
+
+
+
+
+
+</test-set>

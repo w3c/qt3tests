@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="prod-OptionDecl">
+   <description>Tests for the OptionDecl production</description>
+   <link type="spec" document="http://www.w3.org/TR/xquery-30/"
+         idref="doc-xquery30-OptionDecl"/>
+   <link type="spec" document="XQuery" section-number="4.16"
+         idref="id-option-declaration"/>
+         
+   <dependency type="spec" value="XQ10+"/>      
+
+   <test-case name="optiondeclprolog-1">
+      <description> Evaluation of a simple prolog option declaration. </description>
+      <created by="Carmelo Montanez" on="2006-03-24"/>
+      <test>declare namespace exq = "http://example.org/XQueryImplementation"; declare option exq:java-class "math = java.lang.Math"; "aaa"</test>
+      <result>
+         <assert-string-value>aaa</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="optiondeclprolog-2">
+      <description> Evaluation of prolog option declaration for which namespace prefix is not defined. </description>
+      <created by="Carmelo Montanez" on="2006-03-24"/>
+      <test>declare option exq:java-class "math = java.lang.Math"; "aaa"</test>
+      <result>
+         <error code="XPST0081"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-OptionDeclarationProlog-1">
+      <description> The name of an option must be a full QName. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>declare option myopt "option value"; 1</test>
+      <result>
+         <error code="XPST0081"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-OptionDeclarationProlog-2">
+      <description> Five identical options appearing after each other. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>declare(::)option(::)local:opt(::)"option value"(::); 
+        declare(::)option(::)local:opt(::)"option value"(::); 
+        declare(::)option(::)local:opt(::)"option value"(::); 
+        declare(::)option(::)local:opt(::)"option value"(::); 
+        declare(::)option(::)local:opt(::)"option value";1(::)eq(::)1</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-OptionDeclarationProlog-3">
+      <description> A simple option using double quotes for the value. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>declare(::)option(::)local:opt"option value"; 1 eq 1</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-OptionDeclarationProlog-4">
+      <description> A simple option using single quotes for the value. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>declare(::)option(::)local:opt'option value'; 1 eq 1</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-OptionDeclarationProlog-5">
+      <description> An undeclared prefix in a option declaration is an error regardless of any option support in the implementation. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>declare option prefixnotdeclared:opt 'option value'; 1 eq 1</test>
+      <result>
+         <error code="XPST0081"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-OptionDeclarationProlog-6">
+      <description> A syntactically invalid option declaration. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>declare option localpartmissing: 'option value'; 1 eq 1</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+</test-set>

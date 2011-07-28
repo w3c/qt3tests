@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test-set  xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="fn-parse-xml">
+    <description>Tests for the fn:parse-xml function introduced in XPath 3.0</description>
+    <link type="spec" document="http://www.w3.org/TR/xpath-functions-11/" idref="func-parse-xml"/>
+        <dependency type="spec" value="XP30+ XQ30+"/>
+    
+    <test-case name="parse-xml-001">
+        <description>parse-xml test</description>
+        <created by="ONeil Delpratt, Saxonica" on="2010-10-04"/>        
+        <environment name="empty"/>
+        <test><![CDATA[parse-xml(unparsed-text("../docs/atomic.xml"))]]></test>
+        <result>
+            <assert-type>document-node(element(*,xs:untyped))</assert-type>
+        </result>
+    </test-case>
+    <test-case name="parse-xml-002">
+        <description>parse-xml test - with invalid absolute URI</description>
+        <created by="ONeil Delpratt, Saxonica" on="2010-10-05"/>        
+        <environment name="empty"/>
+        <test><![CDATA[parse-xml(unparsed-text("../docs/atomic.xml"),'###/atomic.xml')]]></test>
+        <result>
+            <error code="FODC0007" />
+        </result>
+    </test-case>
+    <test-case name="parse-xml-003">
+        <description>parse-xml test - with valid absolute URI</description>
+        <created by="ONeil Delpratt, Saxonica" on="2010-10-05"/>        
+        <environment name="empty"/>
+        <test><![CDATA[parse-xml(unparsed-text("../docs/atomic.xml"),'file:/test/fots/../docs/atomic.xml')]]></test>
+        <result>
+            <assert-type>document-node(element(*,xs:untyped))</assert-type>
+        </result>
+    </test-case>
+    <test-case name="parse-xml-004">
+        <description>parse-xml test - invalid XML document</description>
+        <created by="ONeil Delpratt, Saxonica" on="2010-10-05"/>        
+        <environment name="empty"/>
+        <test><![CDATA[parse-xml("<a>Test123")]]></test>
+        <result>
+            <error code="FODC0006" />
+        </result>
+    </test-case>
+</test-set>

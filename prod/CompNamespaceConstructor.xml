@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog"
+          name="op-prod-CompNamespaceConstructor">
+   <description>Tests for the computed namespace constructor expression added in XQuery 3.0</description>
+   <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/"
+         idref="func-prod-CompNamespaceConstructor"/>
+   <link type="spec" document="XQuery 3.0" section-number="3.7.3.7"
+         idref="id-computed-namespaces"/>
+         
+   <dependency type="spec" value="XQ30+"/>      
+
+   <test-case name="nscons-001">
+      <description>nscons-001 - dynamic namespace constructor - variable content </description>
+      <created by="Michael Kay" on="2008-11-25"/>
+      <test><![CDATA[
+        declare variable $s := "http://saxon.sf.net/"; 
+        declare variable $xsl := "http://www.w3.org/1999/XSL/Transform"; 
+        <e>{ namespace saxon {$s}, attribute a {23}, namespace xsl {$xsl} }</e>
+      ]]></test>
+      <result>
+         <assert-serialization><![CDATA[<e xmlns:saxon="http://saxon.sf.net/" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" a="23"/>]]></assert-serialization>
+      </result>
+   </test-case>
+
+   <test-case name="nscons-002">
+      <description>nscons-002 - dynamic namespace constructor - variable name </description>
+      <created by="Michael Kay" on="2008-11-25"/>
+      <test><![CDATA[
+        declare variable $s := "saxon"; 
+        declare variable $xsl := "xsl"; 
+        <e>{ namespace {$s} {"http://saxon.sf.net/"}, 
+             attribute a {23}, 
+             namespace {$xsl} {"http://www.w3.org/1999/XSL/Transform"} }</e>
+      ]]></test>
+      <result>
+         <assert-serialization><![CDATA[<e xmlns:saxon="http://saxon.sf.net/" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" a="23"/>]]></assert-serialization>
+      </result>
+   </test-case>
+
+   <test-case name="nscons-003">
+      <description>nscons-003 - dynamic namespace constructor - default namespace </description>
+      <created by="Michael Kay" on="2008-11-25"/>
+      <test><![CDATA[
+        declare variable $s := "saxon"; 
+        declare variable $xsl := "xsl"; 
+        <out> <t:e xmlns:t="http://www.example.com/">{ 
+            namespace {""} {"http://saxon.sf.net/"}, 
+            attribute a {23}, 
+            namespace {$xsl} {"http://www.w3.org/1999/XSL/Transform"}, <f/> }</t:e> </out>
+      ]]></test>
+      <result>
+         <assert-serialization><![CDATA[<out><t:e xmlns:t="http://www.example.com/" xmlns="http://saxon.sf.net/"
+        xmlns:xsl="http://www.w3.org/1999/XSL/Transform" a="23"><f xmlns=""/></t:e></out>]]></assert-serialization>
+      </result>
+   </test-case>
+
+   <test-case name="nscons-004">
+      <description>nscons-004 - dynamic namespace constructor - xml namespace </description>
+      <created by="Michael Kay" on="2008-11-25"/>
+      <test><![CDATA[
+        declare variable $s := "saxon"; 
+        declare variable $xml := "http://www.w3.org/XML/1998/namespace"; 
+        <out> <t:e xmlns:t="http://www.example.com/" xml:space="preserve">{ 
+            namespace xml {"http://www.w3.org/XML/1998/namespace"}, 
+            attribute a {23}, <f/> }</t:e> </out>
+      ]]></test>
+      <result>
+         <assert-serialization><![CDATA[<out><t:e xmlns:t="http://www.example.com/" xml:space="preserve" a="23"><f/></t:e></out>]]></assert-serialization>
+      </result>
+   </test-case>
+
+   <test-case name="nscons-005">
+      <description>nscons-005 - dynamic namespace constructor - with dynamic element constructor </description>
+      <created by="Michael Kay" on="2008-11-25"/>
+      <test>
+        declare variable $s := "http://saxon.sf.net/"; 
+        declare variable $xsl := "http://www.w3.org/1999/XSL/Transform"; 
+        element {QName("http://saxon.sf.net/", "saxon:extension")} { namespace saxon {$s}, attribute a {23}, namespace xsl {$xsl}, element f {42} }
+      </test>
+      <result>
+         <assert-serialization><![CDATA[<saxon:extension xmlns:saxon="http://saxon.sf.net/" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
+            a="23"><f>42</f></saxon:extension>]]></assert-serialization>
+      </result>
+   </test-case>
+
+   <test-case name="nscons-006">
+      <description>nscons-006 - dynamic namespace constructor - duplicates are OK </description>
+      <created by="Michael Kay" on="2008-11-25"/>
+      <test>
+        declare variable $s := "http://saxon.sf.net/"; 
+        declare variable $xsl := "http://www.w3.org/1999/XSL/Transform"; 
+        element {QName("http://saxon.sf.net/", "saxon:extension")} 
+                { namespace saxon {$s}, attribute a {23}, namespace xsl {$xsl}, namespace saxon {$s}, element f {42} }
+      </test>
+      <result>
+         <assert-serialization><![CDATA[<saxon:extension xmlns:saxon="http://saxon.sf.net/" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                 a="23"><f>42</f></saxon:extension>]]></assert-serialization>
+      </result>
+   </test-case>
+
+   <test-case name="nscons-007">
+      <description>nscons-007 - dynamic namespace constructor - error, misuse of xmlns </description>
+      <created by="Michael Kay" on="2008-11-25"/>
+      <test><![CDATA[
+        declare variable $s := "http://saxon.sf.net/"; 
+        declare variable $xsl := "http://www.w3.org/1999/XSL/Transform"; 
+        declare variable $xmlns := "xmlns"; 
+        <e> { namespace saxon {$s}, attribute a {23}, namespace xsl {$xsl}, namespace xmlns {$s}, element f {42} }</e>
+      ]]></test>
+      <result>
+         <error code="XQDY0101"/>
+      </result>
+   </test-case>
+
+   <test-case name="nscons-008">
+      <description>nscons-008 - dynamic namespace constructor - error, misuse of xml </description>
+      <created by="Michael Kay" on="2008-11-25"/>
+      <test><![CDATA[
+        declare variable $s := "http://saxon.sf.net/"; 
+        declare variable $xsl := "http://www.w3.org/1999/XSL/Transform"; 
+        declare variable $xmlns := "xml"; 
+        <e> { namespace saxon {$s}, attribute a {23}, namespace xsl {$xsl}, namespace {$xmlns} {$s}, element f {42} }</e>
+      ]]></test>
+      <result>
+         <error code="XQDY0101"/>
+      </result>
+   </test-case>
+
+   <test-case name="nscons-009">
+      <description>nscons-009 - dynamic namespace constructor - error, two bindings of same prefix </description>
+      <created by="Michael Kay" on="2008-11-25"/>
+      <test><![CDATA[
+        declare variable $p1 := "http://example.com/one"; 
+        declare variable $p2 := "http://example.com/two"; 
+        <e> { namespace p {$p1}, namespace p {$p2}, element f {42} }</e>
+      ]]></test>
+      <result>
+         <error code="XQDY0102"/>
+      </result>
+   </test-case>
+
+   <test-case name="nscons-010">
+      <description>nscons-010 - dynamic namespace constructor - requires renaming of attribute node creates an arbitrary prefix for the attribute, so this test is designed to remove the arbitrariness </description>
+      <created by="Michael Kay" on="2008-11-25"/>
+      <test><![CDATA[
+        declare variable $p1 := "http://example.com/one"; 
+        declare variable $p2 := "http://example.com/two"; 
+        declare variable $r := <e> { namespace p {$p1}, attribute {QName($p2, "p:att")} {93.7}, element f {42} }</e>; 
+        <out> { exists($r/@*:att[prefix-from-QName(node-name(.))!='p']), exists(in-scope-prefixes($r)[.='p']) }</out>
+      ]]></test>
+      <result>
+         <assert-serialization><![CDATA[<out>true true</out>]]></assert-serialization>
+      </result>
+   </test-case>
+
+   <test-case name="nscons-011">
+      <description>nscons-010 - dynamic namespace constructor - requires renaming of element node creates an arbitrary prefix 
+        for the attribute, so this test is designed to remove the arbitrariness </description>
+      <created by="Michael Kay" on="2008-11-25"/>
+      <test><![CDATA[
+        declare variable $p1 := "http://example.com/one"; 
+        declare variable $p2 := "http://example.com/two"; 
+        declare variable $r := element {QName($p2, 'p:e')} { namespace p {$p1}, element f {42} }; 
+        <out> { exists($r[prefix-from-QName(node-name(.))!='p']), exists(in-scope-prefixes($r)[.='p']) }</out>
+      ]]></test>
+      <result>
+         <assert-serialization><![CDATA[<out>true true</out>]]></assert-serialization>
+      </result>
+   </test-case>
+
+   <test-case name="nscons-012">
+      <description>nscons-012 - dynamic namespace constructor - show some properties of the namespace node </description>
+      <created by="Michael Kay" on="2008-11-25"/>
+      <test><![CDATA[
+        declare variable $p1 := "http://example.com/one"; 
+        declare variable $p2 := "http://example.com/two"; 
+        declare function local:f($ns as namespace-node()) as element() { 
+            <namespace name="{name($ns)}" local-name="{local-name($ns)}" 
+                namespace-uri="{namespace-uri($ns)}" string-value="{string($ns)}" typed-value="{data($ns)}" 
+                is-untyped="{data($ns) instance of xs:untypedAtomic}" parent-exists="{exists($ns/..)}" 
+                is-namespace="{$ns instance of namespace-node()}" 
+                is-node="{$ns instance of node()}" is-item="{$ns instance of item()}" 
+                same-as-self="{$ns is $ns}"/> 
+        }; 
+        <out>{ 
+            local:f(namespace p {"http://example.com/one"}), 
+            local:f(namespace {""} {"http://example.com/two"}) }</out>
+      ]]></test>
+      <result>
+         <assert-serialization><![CDATA[<out><namespace 
+              same-as-self="true" is-namespace="true" namespace-uri="" is-item="true"
+              typed-value="http://example.com/one"
+              is-untyped="false"
+              string-value="http://example.com/one"
+              local-name="p"
+              parent-exists="false"
+              name="p"
+              is-node="true"/><namespace 
+              same-as-self="true" is-namespace="true" namespace-uri="" is-item="true"
+              typed-value="http://example.com/two"
+              is-untyped="false"
+              string-value="http://example.com/two"
+              local-name=""
+              parent-exists="false"
+              name=""
+              is-node="true"/></out>]]></assert-serialization>
+      </result>
+   </test-case>
+</test-set>

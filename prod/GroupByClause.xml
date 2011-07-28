@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="prod-GroupByClause">
+   <description>Tests for the GroupByClause production in XQuery 3.0</description>
+   <link type="spec" document="http://www.w3.org/TR/xquery-30/"
+         idref="doc-xquery30-GroupByClause"/>
+   <link type="spec" document="XQuery" section-number="3.8.1" idref="id-for-group-by"/>
+   
+   <dependency type="spec" value="XQ30+"/>
+   
+   <test-case name="group-001">
+      <description>Group atomic values</description>
+      <created by="Michael Kay" on="2008-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        <out>{ 
+            for $x in 1 to 100 
+            let $key := $x mod 10 
+            group by $key 
+            return <g>{$x}</g> }
+        </out>
+      ]]></test>
+      <result>
+         <assert-serialization><![CDATA[<out><g>1 11 21 31 41 51 61 71 81 91</g><g>2 12 22 32 42 52 62 72 82 92</g><g>3 13 23 33 43 53 63 73 83 93</g><g>4 14 24 34 44 54 64 74 84 94</g><g>5 15 25 35 45 55 65 75 85 95</g><g>6 16 26 36 46 56 66 76 86 96</g><g>7 17 27 37 47 57 67 77 87 97</g><g>8 18 28 38 48 58 68 78 88 98</g><g>9 19 29 39 49 59 69 79 89 99</g><g>10 20 30 40 50 60 70 80 90 100</g></out>]]></assert-serialization>
+      </result>
+   </test-case>
+
+   <test-case name="group-002">
+      <description> Basic grouping test, using nodes as input </description>
+      <created by="Michael Kay" on="2008-11-26"/>
+      <environment ref="works-mod"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        <out>{ 
+            for $x in //employee 
+            let $key := @gender 
+            group by $key 
+            return <group gender="{$key}"> { 
+                        for $e in $x return <person>{$e/@name/string()}</person> 
+                   } </group> 
+        }</out>
+      ]]></test>
+      <result>
+         <assert-serialization><![CDATA[<out><group gender="female"><person>Jane Doe 1</person><person>Jane Doe 3</person><person>Jane Doe 5</person><person>Jane Doe 7</person><person>Jane Doe 9</person><person>Jane Doe 11</person><person>Jane Doe 13</person></group><group gender="male"><person>John Doe 2</person><person>John Doe 4</person><person>John Doe 6</person><person>John Doe 8</person><person>John Doe 10</person><person>John Doe 12</person></group></out>]]></assert-serialization>
+      </result>
+   </test-case>
+
+   <test-case name="group-003">
+      <description> Basic grouping test, using nodes as input, boolean grouping key </description>
+      <created by="Michael Kay" on="2008-11-26"/>
+      <environment ref="works-mod"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        <out>{ 
+            for $x in //employee 
+            let $key := (@gender = 'male') 
+            group by $key 
+            return <group male="{$key}"> { 
+                        for $e in $x return <person>{$e/@name/string()}</person> 
+                   } </group> 
+        }</out>
+      ]]></test>
+      <result>
+         <assert-serialization><![CDATA[<out><group male="false"><person>Jane Doe 1</person><person>Jane Doe 3</person><person>Jane Doe 5</person><person>Jane Doe 7</person><person>Jane Doe 9</person><person>Jane Doe 11</person><person>Jane Doe 13</person></group><group male="true"><person>John Doe 2</person><person>John Doe 4</person><person>John Doe 6</person><person>John Doe 8</person><person>John Doe 10</person><person>John Doe 12</person></group></out>]]></assert-serialization>
+      </result>
+   </test-case>
+
+   <test-case name="group-004">
+      <description> Basic grouping test, using nodes as input, aggregate over a group </description>
+      <created by="Michael Kay" on="2008-11-26"/>
+      <environment ref="works-mod"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        <out>{ 
+            for $x in //employee 
+            let $key := @gender 
+            group by $key 
+            return <group male="{$key}" avHours="{avg($x/hours)}"/> 
+        }</out>
+      ]]></test>
+      <result>
+         <assert-serialization><![CDATA[<out><group avHours="41.25" male="female"/><group avHours="37.75" male="male"/></out>]]></assert-serialization>
+      </result>
+   </test-case>
+
+   <test-case name="group-005">
+      <description> Basic grouping test, multivalued grouping key, currently an error </description>
+      <created by="Michael Kay" on="2008-11-26"/>
+      <environment ref="works-mod"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        <out>{ 
+            for $x in //employee 
+            let $key := hours 
+            group by $key 
+            return <group hours="{$key}" avHours="{avg($x/hours)}"/> 
+        }</out>
+      ]]></test>
+      <result>
+         <error code="XQDY0095"/>
+      </result>
+   </test-case>
+
+   <test-case name="group-006">
+      <description> A grouping key can be empty </description>
+      <created by="Michael Kay" on="2008-11-26"/>
+      <environment ref="works-mod"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        <out>{ 
+            for $x in //employee 
+            let $key := $x/status 
+            group by $key 
+            return <group status="{$key}" count="{count($x)}"/> 
+        }</out>
+      ]]></test>
+      <result>
+         <assert-serialization><![CDATA[<out><group status="" count="12"/><group status="active" count="1"/></out>]]></assert-serialization>
+      </result>
+   </test-case>
+
+   <test-case name="group-007">
+      <description> Group by with a where clause </description>
+      <created by="Michael Kay" on="2008-11-26"/>
+      <environment ref="works-mod"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        <out>{ 
+            for $x in //employee 
+            let $key := $x/hours[1] 
+            group by $key 
+            where count($x) gt 2 
+            return <group hours="{$key}" count="{count($x)}"/> 
+        }</out>
+      ]]></test>
+      <result>
+         <assert-serialization><![CDATA[<out><group count="3" hours="40"/><group count="3" hours="80"/><group count="5" hours="20"/></out>]]></assert-serialization>
+      </result>
+   </test-case>
+
+   <test-case name="group-008">
+      <description> Group by with an order-by clause </description>
+      <created by="Michael Kay" on="2008-11-26"/>
+      <environment ref="works-mod"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        <out>{ 
+            for $x in //employee 
+            let $key := $x/empnum 
+            group by $key 
+            order by count($x) 
+            return <group count="{count($x)}"> {string-join($x/@name, '|')} </group> 
+        }</out>
+      ]]></test>
+      <result>
+         <assert-serialization><![CDATA[<out><group count="2">Jane Doe 7|John Doe 8</group><group count="2">Jane Doe 9|John Doe 10</group><group count="3">Jane Doe 11|John Doe 12|Jane Doe 13</group><group count="6">Jane Doe 1|John Doe 2|Jane Doe 3|John Doe 4|Jane Doe 5|John Doe 6</group></out>]]></assert-serialization>
+      </result>
+   </test-case>
+
+   <test-case name="group-009">
+      <description> Group by with a collation, and with sorting </description>
+      <created by="Michael Kay" on="2008-11-26"/>
+      <environment ref="works-mod"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        <out>{ 
+            for $x in //employee 
+            let $key := $x/empnum 
+            group by $key collation "http://www.w3.org/2005/xpath-functions/collation/codepoint" 
+            order by $key 
+            return <group count="{count($x)}" key="{$key}"> {string-join($x/pnum, '|')} </group> 
+        }</out>
+      ]]></test>
+      <result>
+         <assert-serialization><![CDATA[<out><group count="6" key="E1">P1|P2|P3|P4|P5|P6</group><group count="2" key="E2">P1|P2</group><group count="2" key="E3">P2|P2</group><group count="3" key="E4">P2|P4|P5</group></out>]]></assert-serialization>
+      </result>
+   </test-case>
+
+   <test-case name="group-010">
+      <description> NaN values go in the same group </description>
+      <created by="Michael Kay" on="2008-11-26"/>
+      <environment ref="works-mod"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        <out>{ 
+            for $x in //employee 
+            let $key := if ($x/@gender='male') then number('NaN') else 42 
+            group by $key 
+            order by $key 
+            return <group key="{$key}" count="{count($x)}"/> 
+        }</out>
+      ]]></test>
+      <result>
+         <assert-serialization><![CDATA[<out><group key="NaN" count="6"/><group key="42" count="7"/></out>]]></assert-serialization>
+      </result>
+   </test-case>
+   
+   <test-case name="group-011">
+     <description>Group by with position variable (Bug report on Saxon submitted by Leo Wörteler of BaseX)</description>
+     <created by="Michael Kay" on="2011-07-24"/>
+     <test>
+        for $a at $p in 1 to 10
+        let $g := $p mod 2
+        group by $g
+        return $p  
+     </test>
+     <result>
+        <assert-permutation>1, 1, 1, 1, 1, 0, 0, 0, 0, 0</assert-permutation><!-- guess, replace this with correct result -->
+     </result>
+   </test-case>
+   
+   <test-case name="group-012">
+      <description> Grouping of an empty sequence </description>
+      <created by="Michael Kay" on="2011-07-24"/>
+      <environment ref="works-mod"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        <out>{ 
+            for $x in //employee[age > 300] 
+            let $key := @gender 
+            group by $key 
+            return <group gender="{$key}"> { 
+                        for $e in $x return <person>{$e/@name/string()}</person> 
+                   } </group> 
+        }</out>
+      ]]></test>
+      <result>
+         <assert-serialization><![CDATA[<out/>]]></assert-serialization>
+      </result>
+   </test-case>
+   
+
+</test-set>

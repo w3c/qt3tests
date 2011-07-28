@@ -1,0 +1,870 @@
+<?xml version="1.0" encoding="UTF-8"?><test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="prod-ModuleImport">
+   <description>Tests for the ModuleImport production</description>
+   <link type="spec" document="http://www.w3.org/TR/xquery-30/" idref="doc-xquery30-ModuleImport"/>
+   <link type="spec" document="XQuery" section-number="4.11" idref="id-module-import"/>
+   
+
+   <dependency type="spec" value="XQ10+"/>
+   
+   <environment name="simple-schema">
+      <schema uri="http://www.w3.org/XQueryTest/simple" file="ModuleImport/simple.xsd">
+         <description>A schema for simple context tests</description>
+         <created by="Anonymous" on="2005-12-07"/>
+      </schema>
+   </environment>
+   
+   <environment name="attribute-schema">
+      <schema uri="http://www.w3.org/XQueryTest/sample" file="ModuleImport/attribute.xsd">
+         <description>Test schema that contains an attribute declaration</description>
+         <created by="Anonymous" on="2009-04-01"/>
+      </schema>
+   </environment>
+   
+   <environment name="user-defined-types">
+      <schema uri="http://www.w3.org/XQueryTest/userDefinedTypes" file="../docs/userdefined.xsd">
+         <description>A schema user defined types and constructor tests</description>
+         <created by="Anonymous" on="2006-04-03"/>
+      </schema>   
+   </environment>
+     
+   <test-case name="K2-ModuleProlog-1">
+      <description> A library module that has a query body. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[module namespace example = "http://example.com/"; "an expression"]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="modules-simple">
+      <description> Simple module declaration and import </description>
+      <created by="Mary Holstege" on="2005-12-05"/>
+      <module uri="http://www.w3.org/TestModules/test1" file="ModuleImport/test1-lib.xq"/>
+      <module uri="http://www.w3.org/TestModules/test2" file="ModuleImport/test1-lib.xq"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import module namespace test1="http://www.w3.org/TestModules/test1"; 
+        <result>{test1:ok()}</result>]]></test>
+      <result>
+         <assert-serialization>&lt;result&gt;ok&lt;/result&gt;</assert-serialization>
+      </result>
+   </test-case>
+
+   <test-case name="modules-bad-ns">
+      <description> Negative test: wrong namespace </description>
+      <created by="Mary Holstege" on="2005-12-05"/>
+      <module uri="http://www.w3.org/TestModules/test1" file="ModuleImport/test1-lib.xq"/>
+      <module uri="http://www.w3.org/TestModules/test2" file="ModuleImport/test1-lib.xq"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import module namespace test2="http://www.w3.org/TestModules/test2"; 
+        <result>{test2:ok()}</result>
+      ]]></test>
+      <result>
+         <error code="XQST0059"/>
+      </result>
+   </test-case>
+
+   <test-case name="modules-none">
+      <description>Written By: Carmelo Montanez  Test for importing non-existing library module. </description>
+      <created by="Mary Holstege" on="2005-12-05"/>
+      <module uri="http://www.w3.org/TestModules/none" file="ModuleImport/empty-lib.xq"/>
+      <test><![CDATA[
+        import module namespace none="http://www.w3.org/TestModules/none" at "empty-lib.xq"; 
+        "abc"
+      ]]></test>
+      <result>
+         <error code="XQST0059"/>
+      </result>
+   </test-case>
+
+   <test-case name="modules-two-import">
+      <description> Importing two modules the disapproved way </description>
+      <created by="Mary Holstege" on="2005-12-05"/>
+      <module uri="http://www.w3.org/TestModules/test1" file="ModuleImport/test1-lib.xq"/>
+      <module uri="http://www.w3.org/TestModules/test2" file="ModuleImport/test1-lib.xq"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import module namespace test1="http://www.w3.org/TestModules/test1"; 
+        import module namespace test2="http://www.w3.org/TestModules/test1"; 
+        <result>{test1:ok()}</result>
+      ]]></test>
+      <result>
+         <error code="XQST0047"/>
+      </result>
+   </test-case>
+
+   <test-case name="modules-two-import-ok">
+      <description> Importing two modules, the approved way </description>
+      <created by="Mary Holstege" on="2005-12-05"/>
+      <module uri="http://www.w3.org/TestModules/test1" file="ModuleImport/test1-lib.xq"/>
+      <module uri="http://www.w3.org/TestModules/test2" file="ModuleImport/test1-lib.xq"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import module namespace test1="http://www.w3.org/TestModules/test1"; 
+        <result>{test1:ok()}</result>
+      ]]></test>
+      <result>
+         <assert-serialization>&lt;result&gt;ok&lt;/result&gt;</assert-serialization>
+      </result>
+   </test-case>
+
+   <test-case name="modules-collide-var-001">
+      <description> Colliding variable declarations </description>
+      <created by="Mary Holstege" on="2005-12-05"/>
+      <module uri="http://www.w3.org/TestModules/test1" file="ModuleImport/test1-lib.xq"/>
+      <module uri="http://www.w3.org/TestModules/test1" file="ModuleImport/test1collide1-lib.xq"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import module namespace test1="http://www.w3.org/TestModules/test1"; 
+        <result>{test1:ok()}</result>]]></test>
+      <result>
+         <error code="XQST0049"/>
+      </result>
+   </test-case>
+
+   <test-case name="modules-collide-var-002">
+      <description> Colliding variable declarations </description>
+      <created by="Mary Holstege" on="2005-12-05"/>
+      <module uri="http://www.w3.org/TestModules/test1" file="ModuleImport/test1-lib.xq"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import module namespace test1="http://www.w3.org/TestModules/test1"; 
+        declare variable $test1:flag := 1; 
+        <result>{test1:ok()}</result>
+      ]]></test>
+      <result>
+         <error code="XQST0049"/>
+      </result>
+   </test-case>
+
+   <test-case name="modules-collide-fn-001">
+      <description> Colliding function declarations </description>
+      <created by="Mary Holstege" on="2005-12-05"/>
+      <module uri="http://www.w3.org/TestModules/test1" file="ModuleImport/test1-lib.xq"/>
+      <module uri="http://www.w3.org/TestModules/test1" file="ModuleImport/test1collide2-lib.xq"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import module namespace test1="http://www.w3.org/TestModules/test1"; 
+        <result>{test1:ok()}</result>
+      ]]></test>
+      <result>
+         <error code="XQST0034"/>
+      </result>
+   </test-case>
+
+   <test-case name="modules-collide-fn-002">
+      <description> Colliding function declarations </description>
+      <created by="Mary Holstege" on="2005-12-05"/>
+      <module uri="http://www.w3.org/TestModules/test1" file="ModuleImport/test1-lib.xq"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import module namespace test1="http://www.w3.org/TestModules/test1"; 
+        declare function test1:ok () { "ok" }; 
+        <result>{test1:ok()}</result>
+      ]]></test>
+      <result>
+         <error code="XQST0034"/>
+      </result>
+   </test-case>
+
+   <test-case name="modules-emptyns">
+      <description> Module with an empty namespace </description>
+      <created by="Mary Holstege" on="2005-12-05"/>
+      <module uri="" file="ModuleImport/emptyns-lib.xq"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import module namespace test1= ""; 
+        <result>ok</result>
+      ]]></test>
+      <result>
+         <error code="XQST0088"/>
+      </result>
+   </test-case>
+
+   <test-case name="modules-circular">
+      <description> Importing circular modules </description>
+      <created by="Mary Holstege" on="2005-12-05"/>
+      <module uri="http://www.w3.org/TestModules/test1" file="ModuleImport/test1c1-lib.xq"/>
+      <module uri="http://www.w3.org/TestModules/test2" file="ModuleImport/test2c1-lib.xq"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import module namespace test1="http://www.w3.org/TestModules/test1"; 
+        <result>{test1:ok()}</result>
+      ]]></test>
+      <result>
+         <assert-string-value>ok</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="modules-1">
+      <description> Namespaces from imported modules are not visible. </description>
+      <created by="Carmelo Montanez" on="2006-01-06"/>
+      <module uri="http://www.w3.org/TestModules/defs" file="ModuleImport/moduleDefs-lib.xq"/>
+      <module uri="http://www.w3.org/TestModules/test1" file="ModuleImport/test1-lib.xq"/>
+      <module uri="http://www.w3.org/TestModules/test2" file="ModuleImport/test1-lib.xq"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import module namespace defs="http://www.w3.org/TestModules/defs"; 
+        <foo:anElement>some Content</foo:anElement>
+      ]]></test>
+      <result>
+         <error code="XPST0081"/>
+      </result>
+   </test-case>
+
+   <test-case name="modules-2">
+      <description> Same Namespace used in imported and importing modules. </description>
+      <created by="Carmelo Montanez" on="2006-01-06"/>
+      <module uri="http://www.w3.org/TestModules/defs" file="ModuleImport/moduleDefs-lib.xq"/>
+      <module uri="http://www.w3.org/TestModules/test1" file="ModuleImport/test1-lib.xq"/>
+      <module uri="http://www.w3.org/TestModules/test2" file="ModuleImport/test1-lib.xq"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        import module namespace defs="http://www.w3.org/TestModules/defs"; 
+        declare namespace foo = "http://example.org"; 
+        <foo:anElement>some Content</foo:anElement>
+      ]]></test>
+      <result>
+         <assert-serialization>&lt;foo:anElement xmlns:foo="http://example.org"&gt;some Content&lt;/foo:anElement&gt;</assert-serialization>
+      </result>
+   </test-case>
+
+   <test-case name="modules-3">
+      <description> Evaluates that module importing is not transitive. </description>
+      <created by="Carmelo Montanez" on="2006-01-06"/>
+      <module uri="http://www.w3.org/TestModules/defs" file="ModuleImport/moduleDefs-lib.xq"/>
+      <module uri="http://www.w3.org/TestModules/test1" file="ModuleImport/test1-lib.xq"/>
+      <module uri="http://www.w3.org/TestModules/test2" file="ModuleImport/test1-lib.xq"/>
+      <test><![CDATA[
+        import module namespace defs="http://www.w3.org/TestModules/defs"; 
+        let $var := $test1:flag + 1 return $var
+      ]]></test>
+      <result>
+         <error code="XPST0081"/>
+      </result>
+   </test-case>
+
+   <test-case name="modules-4">
+      <description> Evaluates actual usage of a variable declared in an imported module. </description>
+      <created by="Carmelo Montanez" on="2006-01-06"/>
+      <module uri="http://www.w3.org/TestModules/defs" file="ModuleImport/moduleDefs-lib.xq"/>
+      <module uri="http://www.w3.org/TestModules/test1" file="ModuleImport/test1-lib.xq"/>
+      <module uri="http://www.w3.org/TestModules/test2" file="ModuleImport/test1-lib.xq"/>
+      <test><![CDATA[
+        import module namespace defs="http://www.w3.org/TestModules/defs"; 
+        let $var := $defs:var1+ 1 return $var
+      ]]></test>
+      <result>
+         <assert-eq>2</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="modules-5">
+      <description> Module that uses a variable from an imported module and modifies a variable. 
+        The importing module in turn uses that modified value. </description>
+      <created by="Carmelo Montanez" on="2006-01-06"/>
+      <module uri="http://www.w3.org/TestModules/defs" file="ModuleImport/moduleDefs-lib.xq"/>
+      <module uri="http://www.w3.org/TestModules/test1" file="ModuleImport/test1-lib.xq"/>
+      <module uri="http://www.w3.org/TestModules/test2" file="ModuleImport/test1-lib.xq"/>
+      <test><![CDATA[
+        import module namespace defs="http://www.w3.org/TestModules/defs"; 
+        let $var := $defs:var2 + 1 return $var
+      ]]></test>
+      <result>
+         <assert-eq>4</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="modules-6">
+      <description> Evaluation of usage of variable from imported module and usage of variable with same name in importing module,
+         but with different namespace prefix. </description>
+      <created by="Carmelo Montanez" on="2006-01-06"/>
+      <module uri="http://www.w3.org/TestModules/test1" file="ModuleImport/test1-lib.xq"/>
+      <module uri="http://www.w3.org/TestModules/test2" file="ModuleImport/test1-lib.xq"/>
+      <test><![CDATA[
+        import module namespace test1="http://www.w3.org/TestModules/test1"; 
+        declare namespace foo = "http://example.org"; 
+        declare variable $foo:flag := 3; 
+        let $var := $test1:flag + $foo:flag 
+        return $var]]></test>
+      <result>
+         <assert-eq>4</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="modules-7">
+      <description> Evaluation of of an importing module that uses both a variable and a function from an importing module. </description>
+      <created by="Carmelo Montanez" on="2006-01-06"/>
+      <module uri="http://www.w3.org/TestModules/test1" file="ModuleImport/test1-lib.xq"/>
+      <module uri="http://www.w3.org/TestModules/test2" file="ModuleImport/test1-lib.xq"/>
+      <test><![CDATA[
+        import module namespace test1="http://www.w3.org/TestModules/test1"; 
+        let $var := fn:concat(xs:string($test1:flag),xs:string(test1:ok())) 
+        return $var]]></test>
+      <result>
+         <assert-string-value>1ok</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="modules-8">
+      <description> Evaluation of usage of same function name from imported/importing module, but different namespaces. </description>
+      <created by="Carmelo Montanez" on="2006-01-06"/>
+      <module uri="http://www.w3.org/TestModules/test1" file="ModuleImport/test1-lib.xq"/>
+      <module uri="http://www.w3.org/TestModules/test2" file="ModuleImport/test1-lib.xq"/>
+      <test><![CDATA[
+        import module namespace test1="http://www.w3.org/TestModules/test1"; 
+        declare namespace foo = "http://example.org"; 
+        declare function foo:ok () { "ok" }; 
+        let $var := fn:concat(test1:ok(),foo:ok()) 
+        return $var]]></test>
+      <result>
+         <assert-string-value>okok</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="modules-9">
+      <description> Evaluation of import module feature that applies the upper case function to a value from an imported module. </description>
+      <created by="Carmelo Montanez" on="2006-01-06"/>
+      <module uri="http://www.w3.org/TestModules/test1" file="ModuleImport/test1-lib.xq"/>
+      <module uri="http://www.w3.org/TestModules/test2" file="ModuleImport/test1-lib.xq"/>
+      <test><![CDATA[
+        import module namespace test1="http://www.w3.org/TestModules/test1"; 
+        fn:upper-case(test1:ok())]]></test>
+      <result>
+         <assert-string-value>OK</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="modules-10">
+      <description> Evaluation of import module feature that applies the lower case function to a value from an imported module. </description>
+      <created by="Carmelo Montanez" on="2006-01-06"/>
+      <module uri="http://www.w3.org/TestModules/test1" file="ModuleImport/test1-lib.xq"/>
+      <module uri="http://www.w3.org/TestModules/test2" file="ModuleImport/test1-lib.xq"/>
+      <test><![CDATA[
+        import module namespace test1="http://www.w3.org/TestModules/test1"; 
+        fn:lower-case(test1:ok())
+      ]]></test>
+      <result>
+         <assert-string-value>ok</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="modules-11">
+      <description> Evaluation of import module feature that applies the string-length function to a value from an imported module. </description>
+      <created by="Carmelo Montanez" on="2006-01-06"/>
+      <module uri="http://www.w3.org/TestModules/test1" file="ModuleImport/test1-lib.xq"/>
+      <module uri="http://www.w3.org/TestModules/test2" file="ModuleImport/test1-lib.xq"/>
+      <test><![CDATA[
+        import module namespace test1="http://www.w3.org/TestModules/test1"; 
+        fn:string-length(test1:ok())]]></test>
+      <result>
+         <assert-eq>2</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="modules-12">
+      <description> Evaluation of import module feature that performs and addition operation to a value from an imported module. </description>
+      <created by="Carmelo Montanez" on="2006-01-06"/>
+      <module uri="http://www.w3.org/TestModules/test1" file="ModuleImport/test1-lib.xq"/>
+      <module uri="http://www.w3.org/TestModules/test2" file="ModuleImport/test1-lib.xq"/>
+      <test><![CDATA[
+        import module namespace test1="http://www.w3.org/TestModules/test1";
+        $test1:flag + $test1:flag
+      ]]></test>
+      <result>
+         <assert-eq>2</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="modules-13">
+      <description> Evaluation of import module feature that performs a subtraction operation to a value from an imported module. </description>
+      <created by="Carmelo Montanez" on="2006-01-06"/>
+      <module uri="http://www.w3.org/TestModules/test1" file="ModuleImport/test1-lib.xq"/>
+      <module uri="http://www.w3.org/TestModules/test2" file="ModuleImport/test1-lib.xq"/>
+      <test><![CDATA[
+        import module namespace test1="http://www.w3.org/TestModules/test1"; 
+        $test1:flag - $test1:flag
+      ]]></test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="modules-14">
+      <description> Evaluation of import module feature that applies the xs:integer function to a value from an imported module. </description>
+      <created by="Carmelo Montanez" on="2006-01-06"/>
+      <module uri="http://www.w3.org/TestModules/test1" file="ModuleImport/test1-lib.xq"/>
+      <module uri="http://www.w3.org/TestModules/test2" file="ModuleImport/test1-lib.xq"/>
+      <test><![CDATA[
+        import module namespace test1="http://www.w3.org/TestModules/test1"; 
+        xs:integer($test1:flag)
+      ]]></test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="modules-15">
+      <description> Evaluation of importing a library module whose namespace uri is set to "". </description>
+      <created by="Carmelo Montanez" on="2006-01-19"/>
+      <module uri="http://www.w3.org/TestModules/test2" file="ModuleImport/test2-lib.xq"/>
+      <test><![CDATA[
+        import module namespace test2="http://www.w3.org/TestModules/test2"; 
+        "aaa"
+      ]]></test>
+      <result>
+         <error code="XQST0088"/>
+      </result>
+   </test-case>
+
+   <test-case name="modules-16">
+      <description> Evaluation of module import with "xml" prefix. </description>
+      <created by="Carmelo Montanez" on="2006-03-21"/>
+      <module uri="http://www.w3.org/TestModules/test1" file="ModuleImport/test1-lib.xq"/>
+      <test><![CDATA[
+        import module namespace xml="http://www.w3.org/TestModules/test1"; 
+        xs:string($xml:flag)
+      ]]></test>
+      <result>
+         <error code="XQST0070"/>
+      </result>
+   </test-case>
+
+   <test-case name="modules-17">
+      <description> Evaluation of module import with variables bound to a namespace URI different from the target namespace of the module. </description>
+      <created by="Carmelo Montanez" on="2006-04-11"/>
+      <module uri="http://www.w3.org/TestModules/diffns" file="ModuleImport/modulesdiffns-lib.xq"/>
+      <test><![CDATA[
+        import module namespace defs="http://www.w3.org/TestModules/diffns"; 
+        "abc"
+      ]]></test>
+      <result>
+         <error code="XQST0048"/>
+      </result>
+   </test-case>
+
+   <test-case name="modules-18">
+      <description> Evaluation of module import with two imports, one of which import the other and uses its function. </description>
+      <created by="Carmelo Montanez" on="2006-07-13"/>
+      <module uri="http://www.w3.org/TestModules/module1" file="ModuleImport/module1-lib.xq"/>
+      <module uri="http://www.w3.org/TestModules/module2" file="ModuleImport/module2-lib.xq"/>
+      <test><![CDATA[
+        import module namespace mod1="http://www.w3.org/TestModules/module1"; 
+        import module namespace mod2="http://www.w3.org/TestModules/module2"; 
+        mod1:x(),mod2:y()]]></test>
+      <result>
+         <assert-string-value>x y x y</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="modules-19">
+      <description> Load a library but do not import the schema </description>
+      <created by="Nicolae Brinza" on="2009-04-01"/>
+      <environment ref="simple-schema"/>
+      <module uri="http://www.w3.org/TestModules/module3" file="ModuleImport/module3-lib.xq"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test><![CDATA[
+        import module namespace mod3 = "http://www.w3.org/TestModules/module3"; 
+        $mod3:var1
+      ]]></test>
+      <result>
+         <error code="XQST0036"/>
+      </result>
+   </test-case>
+
+   <test-case name="modules-20">
+      <description> Load a library but do not import the schema </description>
+      <created by="Nicolae Brinza" on="2009-04-01"/>
+      <environment ref="simple-schema"/>
+      <module uri="http://www.w3.org/TestModules/module3" file="ModuleImport/module3-lib.xq"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test><![CDATA[
+        import module namespace mod3 = "http://www.w3.org/TestModules/module3"; 
+        mod3:function1()
+      ]]></test>
+      <result>
+         <error code="XQST0036"/>
+      </result>
+   </test-case>
+
+   <test-case name="modules-21">
+      <description> Load a library but do not import the schema </description>
+      <created by="Nicolae Brinza" on="2009-04-01"/>
+      <environment ref="simple-schema"/>
+      <module uri="http://www.w3.org/TestModules/module3" file="ModuleImport/module3-lib.xq"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test><![CDATA[
+        import module namespace mod3 = "http://www.w3.org/TestModules/module3";
+        mod3:function2(1 cast as simple:myType)]]></test>
+      <result>
+         <any-of>
+            <error code="XPST0081"/>
+            <error code="XQST0036"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="modules-22">
+      <description> Load a library but do not import the schema </description>
+      <created by="Nicolae Brinza" on="2009-04-01"/>
+      <environment ref="simple-schema"/>
+      <module uri="http://www.w3.org/TestModules/module3" file="ModuleImport/module3-lib.xq"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test><![CDATA[
+        import module namespace mod3 = "http://www.w3.org/TestModules/module3"; 
+        $mod3:var2
+      ]]></test>
+      <result>
+         <error code="XQST0036"/>
+      </result>
+   </test-case>
+
+   <test-case name="modules-23">
+      <description> Load a library but do not import the schema </description>
+      <created by="Nicolae Brinza" on="2009-04-01"/>
+      <environment ref="simple-schema"/>
+      <module uri="http://www.w3.org/TestModules/module3" file="ModuleImport/module3-lib.xq"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test><![CDATA[
+        import module namespace mod3 = "http://www.w3.org/TestModules/module3"; 
+        mod3:function3()]]></test>
+      <result>
+         <error code="XQST0036"/>
+      </result>
+   </test-case>
+
+   <test-case name="modules-24">
+      <description> Load a library but do not import the schema </description>
+      <created by="Nicolae Brinza" on="2009-04-01"/>
+      <environment ref="simple-schema"/>
+      <module uri="http://www.w3.org/TestModules/module3" file="ModuleImport/module3-lib.xq"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test><![CDATA[
+        import module namespace mod3 = "http://www.w3.org/TestModules/module3"; 
+        mod3:function4(<simple:integer>1</simple:integer>)
+      ]]></test>
+      <result>
+         <any-of>
+            <error code="XPST0081"/>
+            <error code="XQST0036"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="modules-25">
+      <description> Load a library but do not import the schema </description>
+      <created by="Nicolae Brinza" on="2009-04-01"/>
+      <environment ref="attribute-schema"/>
+      <module uri="http://www.w3.org/TestModules/module4" file="ModuleImport/module4-lib.xq"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test><![CDATA[
+            import module namespace mod3 = "http://www.w3.org/TestModules/module4"; 
+            $mod3:var
+      ]]></test>
+      <result>
+         <error code="XQST0036"/>
+      </result>
+   </test-case>
+
+   <test-case name="modules-26">
+      <description> Load a library but do not import the schema </description>
+      <created by="Nicolae Brinza" on="2009-04-01"/>
+      <environment ref="attribute-schema"/>
+      <module uri="http://www.w3.org/TestModules/module4" file="ModuleImport/module4-lib.xq"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test><![CDATA[
+        import module namespace mod3 = "http://www.w3.org/TestModules/module4"; 
+        mod3:function1()
+      ]]></test>
+      <result>
+         <error code="XQST0036"/>
+      </result>
+   </test-case>
+
+   <test-case name="modules-27">
+      <description> Load a library but do not import the schema </description>
+      <created by="Nicolae Brinza" on="2009-04-01"/>
+      <environment ref="attribute-schema"/>
+      <module uri="http://www.w3.org/TestModules/module4" file="ModuleImport/module4-lib.xq"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test><![CDATA[
+        import module namespace mod3 = "http://www.w3.org/TestModules/module4"; 
+        mod3:function2(())
+      ]]></test>
+      <result>
+         <error code="XQST0036"/>
+      </result>
+   </test-case>
+
+   <test-case name="modules-28">
+      <description> Cyclic module imports </description>
+      <created by="Nicolae Brinza" on="2009-04-01"/>
+      <module uri="http://www.w3.org/TestModules/defs1" file="ModuleImport/modules-recursive1.xq"/>
+      <module uri="http://www.w3.org/TestModules/defs2" file="ModuleImport/modules-recursive2.xq"/>
+      <test><![CDATA[
+        import module namespace defs1 = "http://www.w3.org/TestModules/defs1"; 
+        $defs1:var
+      ]]></test>
+      <result>
+        <any-of>
+          <error code="XQST0093"/>
+          <error code="XQST0054"/>
+        </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K-ModuleImport-1">
+      <description> Module import with empty target namespace. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[import(::)module ""; 1 eq 1]]></test>
+      <result>
+         <error code="XQST0088"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ModuleImport-2">
+      <description> Module import with empty target namespace, and two location hints. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[import(::)module "" at "http://example.com/", "http://example.com/2"; 1 eq 1]]></test>
+      <result>
+         <error code="XQST0088"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-ModuleImport-3">
+      <description> ':=' cannot be used to assing namespaces in 'import module'. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[import module namespace NCName := "http://example.com/Dummy"; 1]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ModuleImport-1">
+      <description> Ensure that a start looking like an import, isn't treated as so. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test><![CDATA[import ne import]]></test>
+      <result>
+         <error code="XPDY0002"/>
+      </result>
+   </test-case>
+
+   <test-case name="errata6-001">
+      <description> Test XQST0036 for unknown simple type in imported function parameter type </description>
+      <created by="John Snelson" on="2009-10-01"/>
+      <environment ref="user-defined-types"/>
+      <module uri="http://www.w3.org/TestModules/errata6-1" file="ModuleImport/errata6-module1.xq"/>
+      <dependency type="feature" value="schemaImport"/>     
+      <test><![CDATA[
+        import module namespace errata6_1="http://www.w3.org/TestModules/errata6-1"; 
+        errata6_1:hatsize-add(3, 5)]]></test>
+      <result>
+         <error code="XQST0036"/>
+      </result>
+   </test-case>
+
+   <test-case name="errata6-002">
+      <description> Test XQST0036 for unknown simple type in imported function return type </description>
+      <created by="John Snelson" on="2009-10-01"/>
+      <environment ref="user-defined-types"/>
+      <module uri="http://www.w3.org/TestModules/errata6-2" file="ModuleImport/errata6-module2.xq"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test><![CDATA[
+        import module namespace errata6_2="http://www.w3.org/TestModules/errata6-2"; 
+        errata6_2:hatsize-add(3, 5)
+      ]]></test>
+      <result>
+         <error code="XQST0036"/>
+      </result>
+   </test-case>
+
+   <test-case name="errata6-003">
+      <description> Test lack of XQST0036 for known simple type in imported function return type </description>
+      <created by="John Snelson" on="2009-10-01"/>
+      <environment ref="user-defined-types"/>
+      <module uri="http://www.w3.org/TestModules/errata6-2" file="ModuleImport/errata6-module2.xq"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test><![CDATA[
+        import module namespace errata6_2="http://www.w3.org/TestModules/errata6-2"; 
+        import schema namespace a = "http://www.w3.org/XQueryTest/userDefinedTypes"; 
+        errata6_2:hatsize-add(3, 5)]]></test>
+      <result>
+         <assert-eq>8</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="errata6-004">
+      <description> Test of XQST0036 for unknown simple type in imported global variable </description>
+      <created by="John Snelson" on="2009-10-01"/>
+      <environment ref="user-defined-types"/>
+      <module uri="http://www.w3.org/TestModules/errata6-4" file="ModuleImport/errata6-module4.xq"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test><![CDATA[
+        import module namespace errata6_4="http://www.w3.org/TestModules/errata6-4"; 
+        $errata6_4:var
+      ]]></test>
+      <result>
+         <error code="XQST0036"/>
+      </result>
+   </test-case>
+
+   <test-case name="errata6-005">
+      <description> Test XQST0036 for unknown element declaration in imported function parameter type </description>
+      <created by="John Snelson" on="2009-10-01"/>
+      <environment>
+         <schema uri="http://www.w3.org/XQueryTest/someExamples"
+              file="../fn/data/examples.xsd">
+           <description>A schema for examples.xml.</description>
+           <created by="Carmelo Montanez" on="2006-05-19"/>
+         </schema>
+      </environment>   
+      <module uri="http://www.w3.org/TestModules/errata6-5" file="ModuleImport/errata6-module5.xq"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test><![CDATA[
+        import module namespace errata6_5="http://www.w3.org/TestModules/errata6-5";
+        errata6_5:fun(<E6-Root/>)
+      ]]></test>
+      <result>
+         <error code="XQST0036"/>
+      </result>
+   </test-case>
+
+   <test-case name="errata6-006">
+      <description> Test XQST0036 for unknown attribute declaration in imported function parameter type </description>
+      <created by="John Snelson" on="2009-10-01"/>
+      <environment>
+         <schema uri="http://www.w3.org/XQueryTest/someExamples2" file="ModuleImport/examples2.xsd"/>
+      </environment>
+      <module uri="http://www.w3.org/TestModules/errata6-6" file="ModuleImport/errata6-module6.xq"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test><![CDATA[
+        import module namespace errata6_6="http://www.w3.org/TestModules/errata6-6"; 
+        errata6_6:fun(attribute attr {})
+      ]]></test>
+      <result>
+         <error code="XQST0036"/>
+      </result>
+   </test-case>
+
+   <test-case name="errata6-007">
+      <description> Test XQST0036 for unknown complex type in imported function parameter type </description>
+      <created by="John Snelson" on="2009-10-01"/>
+      <environment>
+         <schema uri="http://www.w3.org/XQueryTest/someExamples"
+              file="../fn/data/examples.xsd">
+           <description>A schema for examples.xml.</description>
+           <created by="Carmelo Montanez" on="2006-05-19"/>
+         </schema>
+      </environment>  
+      <module uri="http://www.w3.org/TestModules/errata6-7" file="ModuleImport/errata6-module7.xq"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test><![CDATA[
+        import module namespace errata6_7="http://www.w3.org/TestModules/errata6-7"; 
+        errata6_7:fun(<E6/>)
+      ]]></test>
+      <result>
+         <error code="XQST0036"/>
+      </result>
+   </test-case>
+
+   <test-case name="errata8-001">
+      <description> Test XQST0093 by importing a module with a circular dependency </description>
+      <created by="John Snelson" on="2009-10-01"/>
+      <module uri="http://www.w3.org/TestModules/errata8_1a" file="ModuleImport/errata8-module1a.xq"/>
+      <module uri="http://www.w3.org/TestModules/errata8_1b" file="ModuleImport/errata8-module1b.xq"/>
+      <test><![CDATA[
+        import module namespace errata8_1a="http://www.w3.org/TestModules/errata8_1a"; 
+        errata8_1a:fun()
+      ]]></test>
+      <result>
+         <any-of>
+            <error code="XQST0093"/><!-- XQuery 1.0 -->
+            <error code="XQST0054"/><!-- XQuery 3.0 -->
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="errata8-002">
+      <description> Test XQST0093 by importing a module with a circular dependency </description>
+      <created by="John Snelson" on="2009-10-01"/>
+      <module uri="http://www.w3.org/TestModules/errata8_2a" file="ModuleImport/errata8-module2a.xq"/>
+      <module uri="http://www.w3.org/TestModules/errata8_2b" file="ModuleImport/errata8-module2b.xq"/>
+      <test><![CDATA[
+        import module namespace errata8_2a="http://www.w3.org/TestModules/errata8_2a"; 
+        errata8_2a:fun()]]></test>
+      <result>
+         <error code="XQST0093"/>
+      </result>
+   </test-case>
+
+   <test-case name="errata8-003">
+      <description> Test lack of XQST0093 by importing a module without a circular dependency </description>
+      <created by="John Snelson" on="2009-10-01"/>
+      <module uri="http://www.w3.org/TestModules/errata8_3a" file="ModuleImport/errata8-module3a.xq"/>
+      <module uri="http://www.w3.org/TestModules/errata8_3b" file="ModuleImport/errata8-module3b.xq"/>
+      <test><![CDATA[
+        import module namespace errata8_3a="http://www.w3.org/TestModules/errata8_3a"; 
+        errata8_3a:fun()
+      ]]></test>
+      <result>
+         <assert-eq>10</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="modules-pub-priv-1">
+      <description> public functions in imported module are visible. </description>
+      <created by="Michael Kay, Saxonica" on="2009-10-28"/>
+      <module uri="http://www.w3.org/TestModules/module-pub-priv" file="ModuleImport/module-pub-priv.xq"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        import module namespace defs="http://www.w3.org/TestModules/module-pub-priv"; 
+        <a>{defs:g(42)}</a>
+      ]]></test>
+      <result>
+            <assert-serialization><![CDATA[<a>65</a>]]></assert-serialization>
+      </result>
+   </test-case>
+
+   <test-case name="modules-pub-priv-2">
+      <description> private functions in imported module are not visible. </description>
+      <created by="Michael Kay, Saxonica" on="2009-10-28"/>
+      <module uri="http://www.w3.org/TestModules/module-pub-priv" file="ModuleImport/module-pub-priv.xq"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        import module namespace defs="http://www.w3.org/TestModules/module-pub-priv"; 
+        defs:f()
+      ]]></test>
+      <result>
+            <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="modules-pub-priv-3">
+      <description> public variables in imported module are visible. </description>
+      <created by="Michael Kay, Saxonica" on="2010-12-16"/>
+      <module uri="http://www.w3.org/TestModules/module-pub-priv" file="ModuleImport/module-pub-priv.xq"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        import module namespace defs="http://www.w3.org/TestModules/module-pub-priv"; 
+        <a>{defs:g($defs:one)}</a>
+      ]]></test>
+      <result>
+            <assert-serialization><![CDATA[<a>24</a>]]></assert-serialization>
+      </result>
+   </test-case>
+
+   <test-case name="modules-pub-priv-4">
+      <description> private variables in imported module are not visible. </description>
+      <created by="Michael Kay, Saxonica" on="2010-12-16"/>
+      <module uri="http://www.w3.org/TestModules/module-pub-priv" file="ModuleImport/module-pub-priv.xq"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        import module namespace defs="http://www.w3.org/TestModules/module-pub-priv"; 
+        <a>{defs:g($defs:two)}</a>
+      ]]></test>
+      <result>
+            <error code="XPST0008"/>
+      </result>
+   </test-case>
+</test-set>

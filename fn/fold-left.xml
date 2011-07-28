@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="fn-fold-left">
+   <description>Tests for the fn:fold-left() higher-order function introduced in XPath 3.0</description>
+   <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/"
+         idref="func-fold-left"/>
+   <dependency type="spec" value="XP30+ XQ30+"/>
+   <test-case name="fold-left-001">
+      <description>Higher Order Functions fold-left function  </description>
+      <created by="Michael Kay" on="2010-02-10"/>
+
+      <environment ref="empty"/>
+      <test>fold-left(function($a, $b) { $a + $b }, 0, 1 to 5)</test>
+      <result>
+         <assert-eq>15</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fold-left-002">
+      <description>Higher Order Functions fold-left function  </description>
+      <created by="Michael Kay" on="2010-02-10"/>
+
+      <environment ref="empty"/>
+      <test>fold-left(function($a, $b) { $a * $b }, 1, (2,3,5,7))</test>
+      <result>
+         <assert-eq>210</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fold-left-003">
+      <description>Higher Order Functions fold-left function  </description>
+      <created by="Michael Kay" on="2010-02-10"/>
+
+      <environment ref="empty"/>
+      <test>fold-left(function($a, $b) { $a or $b }, false(), (true(), false(), false()))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fold-left-004">
+      <description>Higher Order Functions fold-left function  </description>
+      <created by="Michael Kay" on="2010-02-10"/>
+
+      <environment ref="empty"/>
+      <test>fold-left(function($a, $b) { $a and $b }, false(), (true(), false(), false()))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="fold-left-005">
+      <description>Higher Order Functions fold-left function  </description>
+      <created by="Michael Kay" on="2010-02-10"/>
+
+      <environment ref="empty"/>
+      <test>fold-left(function($a, $b) {($b, $a)}, (), 1 to 5)</test>
+      <result>
+         <assert-deep-eq>5, 4, 3, 2, 1</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fold-left-006">
+      <description>Higher Order Functions fold-left function  </description>
+      <created by="Michael Kay" on="2010-02-10"/>
+
+      <environment ref="empty"/>
+      <test>fold-left(fn:concat(?, ".", ?), "", 1 to 5)</test>
+      <result>
+         <assert-eq>'.1.2.3.4.5'</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fold-left-007">
+      <description>Higher Order Functions fold-left function  </description>
+      <created by="Michael Kay" on="2010-02-10"/>
+
+      <environment ref="empty"/>
+      <test>fold-left(fn:concat("$f(", ?, ", ", ?, ")"), "$zero", 1 to 5)</test>
+      <result>
+         <assert-string-value>$f($f($f($f($f($zero, 1), 2), 3), 4), 5)</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fold-left-008">
+      <description> get the employees who worked the maximum number of hours </description>
+      <created by="Michael Kay" on="2010-02-10"/>
+
+      <environment ref="works-mod"/>
+      <test>
+            let $hours := function ($emp as element(employee)) as xs:integer { sum($emp/hours/xs:integer(.)) },
+                $highest := function ($f as function(item()) as xs:anyAtomicType, $seq as item()*)  {           
+                    fold-left(
+                       function($highestSoFar as item()*, $this as item()*) as item()* {
+                          if (empty($highestSoFar))
+                          then $this
+                          else let $thisValue := $f($this),
+                                   $highestValue := $f($highestSoFar[1])
+                               return if ($thisValue gt $highestValue)
+                                      then $this
+                                      else if ($thisValue eq $highestValue)
+                                           then ($highestSoFar, $this)
+                                           else $highestSoFar
+                       }, (), $seq)
+            }
+            
+            return $highest($hours, /works/employee) 
+        </test>
+      <result>
+        <all-of>
+            <assert-count>1</assert-count>
+            <assert-type>element(employee)</assert-type>
+            <assert>$result/@name = "John Doe 2"</assert>
+        </all-of>
+       </result>
+   </test-case>
+
+   <test-case name="fold-left-009">
+      <description>fold-left-009 author Michael Kay, Saxonica implement eg:distinct-nodes-stable() </description>
+      <created by="Michael Kay" on="2010-02-10"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+            declare function local:distinct-nodes-stable($seq as node()*) { 
+                fold-left( function($foundSoFar as node()*, $this as node()) as node()* { 
+                if ($foundSoFar intersect $this) 
+                then $foundSoFar 
+                else ($foundSoFar, $this) }, (), $seq) 
+            }; 
+            let $nodes := (<a/>, <b/>, <c/>, <d/>, <e/>, <f/>) 
+            let $perm := ($nodes[1], $nodes[2], $nodes[4], $nodes[1], $nodes[2], $nodes[3], $nodes[2], $nodes[1]) 
+            return local:distinct-nodes-stable($perm)/local-name()
+      ]]></test>
+      <result>
+         <assert-string-value>a b d c</assert-string-value>
+      </result>
+   </test-case>
+</test-set>

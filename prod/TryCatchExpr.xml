@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="op-prod-TryCatchExpr">
+   <description>Tests for the prod-TryCatchExpr operator</description>
+   <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/"
+         idref="prod-TryCatchExpr"/>
+   <link type="spec" document="XQuery 1.1" section-number="3.12" idref="id-try-catch"/>
+   
+   <dependency type="spec" value="XQ30+"/>
+
+   <test-case name="try-001">
+      <description/>
+      <created by="Michael Kay" on="2008-11-25"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[try { doc('rubbish.xml') } catch * {"ok"}]]></test>
+      <result>
+         <assert-string-value>ok</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="try-002">
+      <description/>
+      <created by="Michael Kay" on="2008-11-25"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[try { doc('rubbish.xml') } catch err:FODC0001 | err:FODC0002 | err:FODC0005 {"ok"}]]></test>
+      <result>
+         <assert-string-value>ok</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="try-003">
+      <description/>
+      <created by="Michael Kay" on="2008-11-25"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[try { doc('rubbish.xml') } catch *:FODC0001 | *:FODC0002 | *:FODC0005 {"ok"}]]></test>
+      <result>
+         <assert-string-value>ok</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="try-004">
+      <description/>
+      <created by="Michael Kay" on="2008-11-25"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        try { doc('rubbish.xml') } 
+        catch err:FODC0001 {<caught-error code="FODC0001"/>} 
+        catch err:FODC0002 {<caught-error code="FODC0002"/>} 
+        catch err:FODC0005 {<caught-error code="FODC0005"/>} 
+        catch err:* {<caught-error code="other"/>}
+      ]]></test>
+      <result>
+         <assert-serialization><![CDATA[<caught-error code="FODC0002"/>]]></assert-serialization>
+      </result>
+   </test-case>
+
+   <test-case name="try-005">
+      <description>test try/catch as an ExprSingle </description>
+      <created by="Michael Kay" on="2008-11-25"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<out>{ try { doc('rubbish.xml') } catch * {<caught-error/>}, try { doc('rubbish.xml') } catch * {<caught-another/>} }</out>]]></test>
+      <result>
+         <assert-serialization><![CDATA[<out><caught-error/><caught-another/></out>]]></assert-serialization>
+      </result>
+   </test-case>
+
+   <test-case name="try-006">
+      <description>try/catch doesn't catch error evaluating global variable </description>
+      <created by="Michael Kay" on="2008-11-25"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        declare variable $doc := doc('rubbish.xml'); 
+        try { $doc } catch * {<caught-error/>}
+       ]]></test>
+      <result>
+         <error code="FODC0002"/>
+      </result>
+   </test-case>
+
+   <test-case name="try-007">
+      <description>doesn't catch error evaluating local variable </description>
+      <created by="Michael Kay" on="2008-11-25"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        let $doc := doc('rubbish.xml') 
+        return try { $doc } catch * {<caught-error/>}]]></test>
+      <result>
+         <error code="FODC0002"/>
+      </result>
+   </test-case>
+
+   <test-case name="try-008">
+      <description>does catch error evaluating function call </description>
+      <created by="Michael Kay" on="2008-11-25"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        declare function local:f() { doc('rubbish.xml') }; 
+        try { local:f() } catch * {"ok"}
+      ]]></test>
+      <result>
+         <assert-string-value>ok</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="try-009">
+      <description>does catch error evaluating function call </description>
+      <created by="Michael Kay" on="2008-11-25"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        declare function local:f($d as xs:integer) { 10 div $d }; 
+        try { local:f(0) } catch err:FOAR0001 {"ok"}
+      ]]></test>
+      <result>
+         <assert-string-value>ok</assert-string-value>
+      </result>
+   </test-case>
+</test-set>
