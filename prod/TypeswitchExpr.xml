@@ -632,5 +632,34 @@
 	   <assert-deep-eq>1, 1, 0</assert-deep-eq>
 	 </result>
    </test-case>
+   
+   <test-case name="typeswitch-in-xpath">
+	 <description>Typeswitch disallowed in XPath</description>
+	 <created by="Michael Kay" on="2011-07-28"/>
+	 <dependency type="spec" value="XP20+"/>
+	 <test><![CDATA[
+	 typeswitch (10) 
+	 case $i as xs:integer return 1
+	 default $v return 0
+	 ]]></test>
+	 <result>
+	   <error code="XPST0003"/>
+	 </result>
+   </test-case>
+   
+   <test-case name="typeswitch-union-in-xquery-10">
+	 <description>Typeswitch with union of types disallowed in XQuery 1.0</description>
+	 <created by="Michael Kay" on="2011-07-28"/>
+	 <dependency type="spec" value="XQ10"/>
+	 <test><![CDATA[
+	 for $x in (<e/>, 1, "x") return
+	 typeswitch ($x) 
+	 case $i as xs:integer | xs:boolean | element() return 1
+	 default $v return 0
+	 ]]></test>
+	 <result>
+	   <error code="XPST0003"/>
+	 </result>
+   </test-case>
 
 </test-set>

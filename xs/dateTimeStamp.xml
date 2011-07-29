@@ -16,19 +16,20 @@
    <test-case name="xs-dateTimeStamp-2">
       <description>Make sure xs:dateTimeStamp() has a timezone</description>
       <created by="Norman Walsh" on="2011-07-28"/>
-      <test>exists(fn:timezone-from-dateTime(xs:dateTimeStamp("20110728T12:34:56-08:00")))</test>
+      <modified by="Michael Kay" on="2011-07-29" change="add hyphens to date part"/>
+      <test>exists(fn:timezone-from-dateTime(xs:dateTimeStamp("2011-07-28T12:34:56-08:00")))</test>
       <result>
          <assert-eq>true()</assert-eq>
       </result>
    </test-case>
 
-   <test-case name="xs-dateTimeStamp-2">
+   <test-case name="xs-dateTimeStamp-3">
       <description>Make sure an attempt to create an xs:dateTimeStamp() w/o a timezone fails</description>
       <created by="Norman Walsh" on="2011-07-28"/>
-      <test>xs:dateTimeStamp("20110728T12:34:56")</test>
-      <!-- I have no clue what the right error code should be -->
+      <modified by="Michael Kay" on="2011-07-29" change="make test name unique, change expected error"/>
+      <test>xs:dateTimeStamp("2011-07-28T12:34:56")</test>
       <result>
-         <error code="XPST0080"/>
+         <error code="FORG0001"/>
       </result>
    </test-case>
 
