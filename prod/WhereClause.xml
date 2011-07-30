@@ -235,15 +235,37 @@
    </test-case>
 
    <test-case name="WhereExpr020">
-      <description> Multiple 'where' clauses </description>
+      <description> Multiple 'where' clauses (XQuery 1.0)</description>
       <created by="Mike Rorke" on="2005-06-24"/>
+      <modified by="Michael Kay" on="2011-07-30" change="add XQuery 1.0 dependency"/>
       <environment ref="fsx"/>
+      <dependency type="spec" value="XQ10"/>
       <test>for $file in (//Folder)[1]/File where true() where false() return $file/FileName</test>
       <result>
-         <any-of>
-            <assert-string-value/>
-            <error code="XPST0003"/>
-         </any-of>
+        <error code="XPST0003"/>
+      </result>
+   </test-case>
+   
+   <test-case name="WhereExpr020a">
+      <description> Multiple 'where' clauses (XQuery 3,0)</description>
+      <created by="Mike Rorke" on="2005-06-24"/>
+      <modified by="Michael Kay" on="2011-07-30" change="add XQuery 3.0 dependency"/>
+      <environment ref="fsx"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>for $file in (//Folder)[1]/File where true() where false() return $file/FileName</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+   
+   <test-case name="WhereExpr020">
+      <description> Check that context item is NOT changed when evaluating the where clause</description>
+      <created by="Michael Kay" on="2011-07-30"/>
+      <environment ref="fsx"/>
+      <dependency type="spec" value="XQ10"/>
+      <test>for $file in (//Folder)[1]/File where (. instance of element(File)) return $file/FileName</test>
+      <result>
+        <assert-empty/>
       </result>
    </test-case>
 
