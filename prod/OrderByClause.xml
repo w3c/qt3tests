@@ -854,7 +854,12 @@
       <environment ref="orderdata"/>
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[declare default element namespace "http://www.w3.org/XQueryTestOrderBy"; 
-        <results> { for $x in /DataValues/Strings/orderData order by concat($x,"()") ascending collation "http://www.w3.org/2005/xpath-functions/collation/codepoint" return concat($x,"()") } </results>]]></test>
+        <results> { 
+            for $x in /DataValues/Strings/orderData 
+            order by concat($x,"()") ascending collation "http://www.w3.org/2005/xpath-functions/collation/codepoint" 
+            return concat($x,"()") } 
+        </results>
+      ]]></test>
       <result>
          <assert-serialization><![CDATA[<results xmlns="http://www.w3.org/XQueryTestOrderBy">A String() B String() C String() D String() E String() F String() G String() H String() I String() J String() K String() L String() M String() N String() O String() P String() R String() S String() T String() U String() V String() W String() X String() Y String() Z String()</results>]]></assert-serialization>
       </result>
@@ -865,9 +870,35 @@
       <created by="Benjamin NGUYEN &amp; Bogdan BUTNARU" on="2009-11-18"/>
       <environment ref="orderdata"/>
       <dependency type="spec" value="XQ10+"/>
-      <test><![CDATA[declare default element namespace "http://www.w3.org/XQueryTestOrderBy"; <results>{ for $x in /DataValues/NegativeNumbers/orderData/xs:decimal(.) where $x > -1000 order by $x ascending collation "http://www.w3.org/2005/xpath-functions/collation/codepoint" return $x }</results>]]></test>
+      <test><![CDATA[
+        declare default element namespace "http://www.w3.org/XQueryTestOrderBy"; 
+        <results>{ 
+            for $x in /DataValues/NegativeNumbers/orderData/xs:decimal(.) 
+            where $x > -1000 
+            order by $x ascending collation "http://www.w3.org/2005/xpath-functions/collation/codepoint" 
+            return $x }
+        </results>
+      ]]></test>
       <result>
          <assert-serialization><![CDATA[<results xmlns="http://www.w3.org/XQueryTestOrderBy">-100 -10 -1 0</results>]]></assert-serialization>
+      </result>
+   </test-case>
+   
+   <test-case name="orderBy63">
+      <description>Test that the context item for evaluating a sort key is NOT the item whose sort key is being computed</description>
+      <created by="Michael Kay" on="2011-07-30"/>
+      <environment ref="orderdata"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        /DataValues/(
+            for $x in NegativeNumbers/orderData
+            order by xs:decimal(.)
+            return $x)</test>
+      <result>
+         <any-of>
+            <error code="FOTY0004"/>
+            <error code="FORG0001"/>
+         </any-of>
       </result>
    </test-case>
 
@@ -1857,8 +1888,9 @@
    </test-case>
 
    <test-case name="K2-OrderbyExprWithout-10">
-      <description>Updated by Benjamin Nguyen on 2010-10-18T:13:07:50+02:00 to resolve bug 10651  Cardinality error in the order spec. </description>
+      <description>Cardinality error in the order spec. </description>
       <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="Benjamin Nguyen" on="2010-10-18" change="resolve bug 10651 cardinality error in the order spec"/>
       <test>for $a in (1, 4, 2) let $i := (1, $a, 2) order by $i return $i</test>
       <result>
          <error code="XPTY0004"/>
