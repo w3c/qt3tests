@@ -174,6 +174,23 @@
          <assert-serialization><![CDATA[<out><item><x>1</x><y>3</y><remainder>0</remainder><index2>1</index2></item><item><x>2</x><y>2</y><remainder>0</remainder><index2>2</index2></item><item><x>3</x><y>1</y><remainder>0</remainder><index2>3</index2></item><item><x>3</x><y>4</y><remainder>0</remainder><index2>4</index2></item><item><x>4</x><y>3</y><remainder>0</remainder><index2>5</index2></item><item><x>1</x><y>1</y><remainder>1</remainder><index2>6</index2></item><item><x>1</x><y>4</y><remainder>1</remainder><index2>7</index2></item><item><x>2</x><y>3</y><remainder>1</remainder><index2>8</index2></item><item><x>3</x><y>2</y><remainder>1</remainder><index2>9</index2></item><item><x>4</x><y>1</y><remainder>1</remainder><index2>10</index2></item><item><x>4</x><y>4</y><remainder>1</remainder><index2>11</index2></item><item><x>1</x><y>2</y><remainder>2</remainder><index2>12</index2></item><item><x>2</x><y>1</y><remainder>2</remainder><index2>13</index2></item><item><x>2</x><y>4</y><remainder>2</remainder><index2>14</index2></item><item><x>3</x><y>3</y><remainder>2</remainder><index2>15</index2></item><item><x>4</x><y>2</y><remainder>2</remainder><index2>16</index2></item></out>]]></assert-serialization>
       </result>
    </test-case>
+   
+   <test-case name="count-010">
+      <description>Count is reset on each execution of a FLWOR expression</description>
+      <created by="Michael Kay" on="2011-07-30"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>
+		  for $x in 1 to 4 return
+		    for $y in 1 to 4
+		    count $index
+		    return $index
+      </test>
+      <result>
+         <assert-string-value>1 2 3 4 1 2 3 4 1 2 3 4 1 2 3 4</assert-string-value>
+      </result>
+   </test-case>
+   
+   
 
 
 
