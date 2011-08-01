@@ -10,101 +10,98 @@
    <test-case name="group-001">
       <description>Group atomic values</description>
       <created by="Michael Kay" on="2008-11-26"/>
-      <dependency type="spec" value="XQ10+"/>
-      <test><![CDATA[
-        <out>{ 
+      <modified by="Michael Kay" on="2011-08-01" change="order of groups is undefined"/>
+      <test> 
             for $x in 1 to 100 
             let $key := $x mod 10 
             group by $key 
-            return <g>{$x}</g> }
-        </out>
-      ]]></test>
+            return string(text{$x})
+      </test>
       <result>
-         <assert-serialization><![CDATA[<out><g>1 11 21 31 41 51 61 71 81 91</g><g>2 12 22 32 42 52 62 72 82 92</g><g>3 13 23 33 43 53 63 73 83 93</g><g>4 14 24 34 44 54 64 74 84 94</g><g>5 15 25 35 45 55 65 75 85 95</g><g>6 16 26 36 46 56 66 76 86 96</g><g>7 17 27 37 47 57 67 77 87 97</g><g>8 18 28 38 48 58 68 78 88 98</g><g>9 19 29 39 49 59 69 79 89 99</g><g>10 20 30 40 50 60 70 80 90 100</g></out>]]></assert-serialization>
+         <assert-permutation>"1 11 21 31 41 51 61 71 81 91", "2 12 22 32 42 52 62 72 82 92", "3 13 23 33 43 53 63 73 83 93", 
+            "4 14 24 34 44 54 64 74 84 94", "5 15 25 35 45 55 65 75 85 95", "6 16 26 36 46 56 66 76 86 96", 
+            "7 17 27 37 47 57 67 77 87 97", "8 18 28 38 48 58 68 78 88 98", "9 19 29 39 49 59 69 79 89 99", 
+            "10 20 30 40 50 60 70 80 90 100"</assert-permutation>
       </result>
    </test-case>
 
    <test-case name="group-002">
       <description> Basic grouping test, using nodes as input </description>
       <created by="Michael Kay" on="2008-11-26"/>
+      <modified by="Michael Kay" on="2011-08-01" change="correct test and allow permutation of results"/>
       <environment ref="works-mod"/>
-      <dependency type="spec" value="XQ10+"/>
-      <test><![CDATA[
-        <out>{ 
+      <test> 
             for $x in //employee 
-            let $key := @gender 
+            let $key := $x/@gender 
             group by $key 
-            return <group gender="{$key}"> { 
-                        for $e in $x return <person>{$e/@name/string()}</person> 
-                   } </group> 
-        }</out>
-      ]]></test>
+            return concat($key, ':',  
+                   string-join(for $e in $x return $e/@name/string(), ',')) 
+      </test>
       <result>
-         <assert-serialization><![CDATA[<out><group gender="female"><person>Jane Doe 1</person><person>Jane Doe 3</person><person>Jane Doe 5</person><person>Jane Doe 7</person><person>Jane Doe 9</person><person>Jane Doe 11</person><person>Jane Doe 13</person></group><group gender="male"><person>John Doe 2</person><person>John Doe 4</person><person>John Doe 6</person><person>John Doe 8</person><person>John Doe 10</person><person>John Doe 12</person></group></out>]]></assert-serialization>
+         <assert-permutation>
+            "female:Jane Doe 1,Jane Doe 3,Jane Doe 5,Jane Doe 7,Jane Doe 9,Jane Doe 11,Jane Doe 13",
+            "male:John Doe 2,John Doe 4,John Doe 6,John Doe 8,John Doe 10,John Doe 12"
+         </assert-permutation>
       </result>
    </test-case>
 
    <test-case name="group-003">
       <description> Basic grouping test, using nodes as input, boolean grouping key </description>
       <created by="Michael Kay" on="2008-11-26"/>
+      <modified by="Michael Kay" on="2011-08-01" change="correct test and allow permutation of results"/>
       <environment ref="works-mod"/>
-      <dependency type="spec" value="XQ10+"/>
-      <test><![CDATA[
-        <out>{ 
+      <test> 
             for $x in //employee 
-            let $key := (@gender = 'male') 
+            let $key := ($x/@gender = 'male') 
             group by $key 
-            return <group male="{$key}"> { 
-                        for $e in $x return <person>{$e/@name/string()}</person> 
-                   } </group> 
-        }</out>
-      ]]></test>
+            return concat($key, ':',  
+                   string-join(for $e in $x return $e/@name/string(), ',')) 
+      </test>
       <result>
-         <assert-serialization><![CDATA[<out><group male="false"><person>Jane Doe 1</person><person>Jane Doe 3</person><person>Jane Doe 5</person><person>Jane Doe 7</person><person>Jane Doe 9</person><person>Jane Doe 11</person><person>Jane Doe 13</person></group><group male="true"><person>John Doe 2</person><person>John Doe 4</person><person>John Doe 6</person><person>John Doe 8</person><person>John Doe 10</person><person>John Doe 12</person></group></out>]]></assert-serialization>
+         <assert-permutation>
+            "false:Jane Doe 1,Jane Doe 3,Jane Doe 5,Jane Doe 7,Jane Doe 9,Jane Doe 11,Jane Doe 13",
+            "true:John Doe 2,John Doe 4,John Doe 6,John Doe 8,John Doe 10,John Doe 12"
+         </assert-permutation>
       </result>
    </test-case>
 
    <test-case name="group-004">
       <description> Basic grouping test, using nodes as input, aggregate over a group </description>
       <created by="Michael Kay" on="2008-11-26"/>
+      <modified by="Michael Kay" on="2011-08-01" change="correct test and allow permutation of results"/>
       <environment ref="works-mod"/>
-      <dependency type="spec" value="XQ10+"/>
-      <test><![CDATA[
-        <out>{ 
+      <test> 
             for $x in //employee 
-            let $key := @gender 
+            let $key := $x/@gender 
             group by $key 
-            return <group male="{$key}" avHours="{avg($x/hours)}"/> 
-        }</out>
-      ]]></test>
+            return concat($key, ':', avg($x/hours)) 
+      </test>
       <result>
-         <assert-serialization><![CDATA[<out><group avHours="41.25" male="female"/><group avHours="37.75" male="male"/></out>]]></assert-serialization>
+         <assert-permutation>"female:41.25", "male:37.75"</assert-permutation>
       </result>
    </test-case>
 
    <test-case name="group-005">
       <description> Basic grouping test, multivalued grouping key, currently an error </description>
       <created by="Michael Kay" on="2008-11-26"/>
+      <modified by="Michael Kay" on="2011-08-01" change="correct test; change expected error"/>
       <environment ref="works-mod"/>
-      <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[
-        <out>{ 
             for $x in //employee 
-            let $key := hours 
+            let $key := $x/hours 
             group by $key 
             return <group hours="{$key}" avHours="{avg($x/hours)}"/> 
-        }</out>
       ]]></test>
       <result>
-         <error code="XQDY0095"/>
+         <error code="XPTY0004"/>
       </result>
    </test-case>
 
    <test-case name="group-006">
       <description> A grouping key can be empty </description>
       <created by="Michael Kay" on="2008-11-26"/>
+      <modified by="Michael Kay" on="2011-08-01" change="allow permutations of result"/>
       <environment ref="works-mod"/>
-      <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[
         <out>{ 
             for $x in //employee 
@@ -114,40 +111,41 @@
         }</out>
       ]]></test>
       <result>
-         <assert-serialization><![CDATA[<out><group status="" count="12"/><group status="active" count="1"/></out>]]></assert-serialization>
+         <any-of>
+           <assert-serialization><![CDATA[<out><group status="" count="12"/><group status="active" count="1"/></out>]]></assert-serialization>
+           <assert-serialization><![CDATA[<out><group status="active" count="1"/><group status="" count="12"/></out>]]></assert-serialization>
+         </any-of>
       </result>
    </test-case>
 
    <test-case name="group-007">
       <description> Group by with a where clause </description>
       <created by="Michael Kay" on="2008-11-26"/>
+      <modified by="Michael Kay" on="2011-08-01" change="allow permutations of result"/>
       <environment ref="works-mod"/>
-      <dependency type="spec" value="XQ10+"/>
-      <test><![CDATA[
-        <out>{ 
+      <test> 
             for $x in //employee 
             let $key := $x/hours[1] 
             group by $key 
             where count($x) gt 2 
-            return <group hours="{$key}" count="{count($x)}"/> 
-        }</out>
-      ]]></test>
+            return concat($key, ':', count($x)) 
+      </test>
       <result>
-         <assert-serialization><![CDATA[<out><group count="3" hours="40"/><group count="3" hours="80"/><group count="5" hours="20"/></out>]]></assert-serialization>
+         <assert-permutation>"40:3", "80:3", "20:5"</assert-permutation>
       </result>
    </test-case>
 
    <test-case name="group-008">
       <description> Group by with an order-by clause </description>
       <created by="Michael Kay" on="2008-11-26"/>
+      <modified by="Michael Kay" on="2011-08-01" change="make results predictable by adding second order key"/>
       <environment ref="works-mod"/>
-      <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[
         <out>{ 
             for $x in //employee 
             let $key := $x/empnum 
             group by $key 
-            order by count($x) 
+            order by count($x), $key 
             return <group count="{count($x)}"> {string-join($x/@name, '|')} </group> 
         }</out>
       ]]></test>
@@ -160,7 +158,6 @@
       <description> Group by with a collation, and with sorting </description>
       <created by="Michael Kay" on="2008-11-26"/>
       <environment ref="works-mod"/>
-      <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[
         <out>{ 
             for $x in //employee 
@@ -179,7 +176,6 @@
       <description> NaN values go in the same group </description>
       <created by="Michael Kay" on="2008-11-26"/>
       <environment ref="works-mod"/>
-      <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[
         <out>{ 
             for $x in //employee 
@@ -197,14 +193,15 @@
    <test-case name="group-011">
      <description>Group by with position variable (Bug report on Saxon submitted by Leo Wörteler of BaseX)</description>
      <created by="Michael Kay" on="2011-07-24"/>
+     <modified by="Michael Kay" on="2011-08-01" change="correct expected result"/>
      <test>
         for $a at $p in 1 to 10
         let $g := $p mod 2
         group by $g
-        return $p  
+        return string-join($p!string(), ' ')  
      </test>
      <result>
-        <assert-permutation>1, 1, 1, 1, 1, 0, 0, 0, 0, 0</assert-permutation><!-- guess, replace this with correct result -->
+        <assert-permutation>"1 3 5 7 9", "2 4 6 8 10"</assert-permutation>
      </result>
    </test-case>
    
