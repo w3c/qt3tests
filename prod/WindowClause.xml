@@ -130,6 +130,101 @@
             <assert-deep-eq>"1 2 3 4 14 13 12 11", "2 3 4 14 13 12", "3 4 14 13", "4 14"</assert-deep-eq>
         </result>
     </test-case>
-
+    
+    <test-case name="SlidingWindowExpr507">
+        <description>Sliding Window Clause, effect of type declaration: success case</description>
+        <created by="Michael Kay" on="2011-08-08"/>
+        <dependency type="spec" value="XQ30+"/>
+        <test><![CDATA[
+          for sliding window $w as xs:integer+ in (1, 2, "london", 3, 4, "paris")
+          start $start when $start instance of xs:integer
+          only end next $beyond when $beyond instance of xs:string
+          return string-join($w!string(), ' ')
+        ]]></test>
+        <result>
+            <assert-deep-eq>"1 2", "2", "3 4", "4"</assert-deep-eq>
+        </result>
+    </test-case>
+    
+    <test-case name="TumblingWindowExpr507">
+        <description>Tumbling Window Clause, effect of type declaration: success case</description>
+        <created by="Michael Kay" on="2011-08-08"/>
+        <dependency type="spec" value="XQ30+"/>
+        <test><![CDATA[
+          for tumbling window $w as xs:integer+ in (1, 2, "london", 3, 4, "paris")
+          start $start when $start instance of xs:integer
+          only end next $beyond when $beyond instance of xs:string
+          return string-join($w!string(), ' ')
+        ]]></test>
+        <result>
+            <assert-deep-eq>"1 2", "3 4"</assert-deep-eq>
+        </result>
+    </test-case>
+    
+    <test-case name="SlidingWindowExpr508">
+        <description>Sliding Window Clause, effect of type declaration: failure case</description>
+        <created by="Michael Kay" on="2011-08-08"/>
+        <dependency type="spec" value="XQ30+"/>
+        <test><![CDATA[
+          for sliding window $w as xs:integer+ in (1, 2, "london", 3, 4.1, "paris")
+          start $start when $start instance of xs:integer
+          only end next $beyond when $beyond instance of xs:string
+          return string-join($w!string(), ' ')
+        ]]></test>
+        <result>
+            <error code="XPTY0004"/>
+        </result>
+    </test-case>
+    
+    <test-case name="TumblingWindowExpr508">
+        <description>Tumbling Window Clause, effect of type declaration: failure case</description>
+        <created by="Michael Kay" on="2011-08-08"/>
+        <dependency type="spec" value="XQ30+"/>
+        <test><![CDATA[
+          for tumbling window $w as xs:integer+ in (1, 2, "london", 3, 4.1, "paris")
+          start $start when $start instance of xs:integer
+          only end next $beyond when $beyond instance of xs:string
+          return string-join($w!string(), ' ')
+        ]]></test>
+        <result>
+            <error code="XPTY0004"/>
+        </result>
+    </test-case>
+    
+    <test-case name="SlidingWindowExpr509">
+        <description>Sliding Window Clause, average window size</description>
+        <created by="Michael Kay" on="2011-08-08"/>
+        <dependency type="spec" value="XQ30+"/>
+        <test><![CDATA[
+            avg(
+              for sliding window $w in (1, 2, "london", 3, 4, "paris")
+              start $start when $start instance of xs:integer
+              only end next $beyond when $beyond instance of xs:string
+              return count($w)
+            )
+        ]]></test>
+        <result>
+            <assert-eq>1.5</assert-eq>
+        </result>
+    </test-case>
+    
+    <test-case name="TumblingWindowExpr509">
+        <description>Tumbling Window Clause, average window size</description>
+        <created by="Michael Kay" on="2011-08-08"/>
+        <dependency type="spec" value="XQ30+"/>
+        <test><![CDATA[
+          avg(
+              for tumbling window $w in (1, 2, "london", 3, 4, "paris")
+              start $start when $start instance of xs:integer
+              only end next $beyond when $beyond instance of xs:string
+              return count($w)
+            )
+        ]]></test>
+        <result>
+            <assert-eq>2</assert-eq>
+        </result>
+    </test-case>
+    
+ 
     
 </test-set>
