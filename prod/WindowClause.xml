@@ -115,6 +115,21 @@
             <assert>$result[1] instance of xs:integer</assert>
         </result>
     </test-case>
+    
+    <test-case name="SlidingWindowExpr506">
+        <description>Sliding Window Clause, windows must be delivered in order of start position</description>
+        <created by="Michael Kay" on="2011-08-08"/>
+        <dependency type="spec" value="XQ30+"/>
+        <test><![CDATA[
+          for sliding window $w in (1, 2, 3, 4, 14, 13, 12, 11) 
+          start $s when fn:true()
+          only end $e when $e eq $s + 10
+          return string-join($w!string(), ' ')
+        ]]></test>
+        <result>
+            <assert-deep-eq>"1 2 3 4 14 13 12 11", "2 3 4 14 13 12", "3 4 14 13", "4 14"</assert-deep-eq>
+        </result>
+    </test-case>
 
     
 </test-set>
