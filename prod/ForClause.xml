@@ -1445,7 +1445,9 @@
       <created by="Mike Rorke" on="2005-06-27"/>
       <environment ref="orderData"/>
       <dependency type="spec" value="XQ10+"/>
-      <test>declare namespace xqt="http://www.w3.org/XQueryTestOrderBy"; for $num as element(xqt:NegativeNumbers) in /xqt:DataValues/xqt:NegativeNumbers return $num</test>
+      <test>
+        declare namespace xqt="http://www.w3.org/XQueryTestOrderBy"; 
+        for $num as element(xqt:NegativeNumbers) in /xqt:DataValues/xqt:NegativeNumbers return $num</test>
       <result>
          <any-of>
             <assert-serialization><![CDATA[<NegativeNumbers xmlns="http://www.w3.org/XQueryTestOrderBy"><orderData>-100000000000000000</orderData><orderData>-10000000000000000</orderData><orderData>-1000000000000000</orderData><orderData>-100000000000000</orderData><orderData>-10000000000000</orderData><orderData>-1000000000000</orderData><orderData>-100000000000</orderData><orderData>-10000000000</orderData><orderData>-1000000000</orderData><orderData>-100000000</orderData><orderData>-10000000</orderData><orderData>-1000000</orderData><orderData>-100000</orderData><orderData>-10000</orderData><orderData>-1000</orderData><orderData>-100</orderData><orderData>-10</orderData><orderData>-1</orderData><orderData>0</orderData></NegativeNumbers>]]></assert-serialization>
@@ -1459,7 +1461,9 @@
       <created by="Mike Rorke" on="2005-06-27"/>
       <environment ref="orderData"/>
       <dependency type="spec" value="XQ10+"/>
-      <test>declare namespace xqt="http://www.w3.org/XQueryTestOrderBy"; for $num as xs:undefinedType in data( /xqt:DataValues/xqt:NegativeNumbers/xqt:orderData ) return $num</test>
+      <test>
+        declare namespace xqt="http://www.w3.org/XQueryTestOrderBy"; 
+        for $num as xs:undefinedType in data( /xqt:DataValues/xqt:NegativeNumbers/xqt:orderData ) return $num</test>
       <result>
          <error code="XPST0051"/>
       </result>
@@ -1481,7 +1485,9 @@
       <created by="Mike Rorke" on="2005-06-28"/>
       <environment ref="orderData"/>
       <dependency type="spec" value="XQ10+"/>
-      <test>declare namespace xqt="http://www.w3.org/XQueryTestOrderBy"; for $num as xs:decimal as xs:decimal in data( /xqt:DataValues/xqt:NegativeNumbers/xqt:orderData ) return $num</test>
+      <test>
+        declare namespace xqt="http://www.w3.org/XQueryTestOrderBy"; 
+        for $num as xs:decimal as xs:decimal in data( /xqt:DataValues/xqt:NegativeNumbers/xqt:orderData ) return $num</test>
       <result>
          <error code="XPST0003"/>
       </result>
@@ -1492,7 +1498,9 @@
       <created by="Mike Rorke" on="2005-06-28"/>
       <environment ref="orderData"/>
       <dependency type="spec" value="XQ10+"/>
-      <test>declare namespace xqt="http://www.w3.org/XQueryTestOrderBy"; for $num as empty-sequence() in data( /xqt:DataValues/xqt:NegativeNumbers/xqt:orderData ) return $num</test>
+      <test>
+        declare namespace xqt="http://www.w3.org/XQueryTestOrderBy"; 
+        for $num as empty-sequence() in data( /xqt:DataValues/xqt:NegativeNumbers/xqt:orderData ) return $num</test>
       <result>
          <error code="XPTY0004"/>
       </result>
@@ -1583,7 +1591,8 @@
       <test>
         declare default element namespace "http://www.example.com/typedecl"; 
         for $test as attribute(*) in ( /root/InterleaveType2/@integer, /root/InterleaveType2/@decimal ) 
-        return data( $test )</test>
+        return data( $test )
+      </test>
       <result>
          <assert-string-value>10 20</assert-string-value>
       </result>
@@ -1621,7 +1630,11 @@
       <description> FLWOR expressions with type declaration. Value subtype promotion: Numeric based types -&gt; integer </description>
       <created by="Mike Rorke" on="2005-09-13"/>
       <dependency type="spec" value="XQ10+"/>
-      <test>for $test as xs:integer in ( xs:byte("1"), xs:long("10000"), xs:negativeInteger("-10"), xs:short("100"), xs:positiveInteger("100"), xs:nonNegativeInteger("100") ) return $test</test>
+      <test>
+        for $test as xs:integer in ( xs:byte("1"), xs:long("10000"), xs:negativeInteger("-10"), 
+                        xs:short("100"), xs:positiveInteger("100"), xs:nonNegativeInteger("100") ) 
+        return $test
+      </test>
       <result>
          <assert-string-value>1 10000 -10 100 100 100</assert-string-value>
       </result>
@@ -1631,7 +1644,11 @@
       <description> FLWOR expressions with type declaration. Value subtype promotion: Numeric based types -&gt; decimal </description>
       <created by="Mike Rorke" on="2005-09-13"/>
       <dependency type="spec" value="XQ10+"/>
-      <test>for $test as xs:decimal in ( xs:integer("100"), xs:short("1"), xs:int("10000"), xs:nonPositiveInteger("-10"), xs:unsignedShort("100"), xs:positiveInteger("100"), xs:nonNegativeInteger("100") ) return $test</test>
+      <test>
+        for $test as xs:decimal in ( xs:integer("100"), xs:short("1"), xs:int("10000"), 
+                xs:nonPositiveInteger("-10"), xs:unsignedShort("100"), xs:positiveInteger("100"), xs:nonNegativeInteger("100") ) 
+        return $test
+      </test>
       <result>
          <assert-string-value>100 1 10000 -10 100 100 100</assert-string-value>
       </result>
@@ -1641,7 +1658,11 @@
       <description> FLWOR expressions with type declaration. Value subtype promotion: String based types -&gt; normalizedString </description>
       <created by="Mike Rorke" on="2005-09-13"/>
       <dependency type="spec" value="XQ10+"/>
-      <test>for $test as xs:normalizedString in ( xs:language("en-US"), xs:NCName("foobar"), xs:NMTOKEN("token1"), xs:ENTITY("entity1") ) return $test</test>
+      <test>
+        for $test as xs:normalizedString in ( xs:language("en-US"), xs:NCName("foobar"), 
+            xs:NMTOKEN("token1"), xs:ENTITY("entity1") ) 
+        return $test
+      </test>
       <result>
          <assert-string-value>en-US foobar token1 entity1</assert-string-value>
       </result>
@@ -1651,7 +1672,12 @@
       <description> FLWOR expressions with type declaration. Value subtype promotion: Time based types -&gt; anyAtomicType </description>
       <created by="Mike Rorke" on="2005-09-13"/>
       <dependency type="spec" value="XQ10+"/>
-      <test>for $test as xs:anyAtomicType in ( xs:duration("P0Y1347M0D"), xs:dateTime("1999-05-31T13:20:00-05:00"), xs:time("13:00:00-05:00"), xs:date("1999-05-10Z"), xs:gYearMonth("2002-03"), xs:gYear("1999"), xs:gMonthDay("--05-10"), xs:gDay("---10"), xs:gMonth("--05") ) return $test</test>
+      <test>
+        for $test as xs:anyAtomicType in ( xs:duration("P0Y1347M0D"), xs:dateTime("1999-05-31T13:20:00-05:00"), 
+                    xs:time("13:00:00-05:00"), xs:date("1999-05-10Z"), xs:gYearMonth("2002-03"), xs:gYear("1999"), 
+                    xs:gMonthDay("--05-10"), xs:gDay("---10"), xs:gMonth("--05") ) 
+        return $test
+      </test>
       <result>
          <assert-string-value>P112Y3M 1999-05-31T13:20:00-05:00 13:00:00-05:00 1999-05-10Z 2002-03 1999 --05-10 ---10 --05</assert-string-value>
       </result>
@@ -1661,7 +1687,11 @@
       <description> FLWOR expressions with type declaration. Value based subtype promotion: 2nd level derived types </description>
       <created by="Mike Rorke" on="2005-09-13"/>
       <dependency type="spec" value="XQ10+"/>
-      <test>for $test as xs:anyAtomicType in ( xs:boolean("true"), xs:base64Binary("abcd"), xs:hexBinary("1234"), xs:float("5.7"), xs:double("7.5"), xs:anyURI("http://foo") ) return $test</test>
+      <test>
+        for $test as xs:anyAtomicType in ( xs:boolean("true"), xs:base64Binary("abcd"), xs:hexBinary("1234"),
+                     xs:float("5.7"), xs:double("7.5"), xs:anyURI("http://foo") ) 
+        return $test
+      </test>
       <result>
          <assert-string-value>true abcd 1234 5.7 7.5 http://foo</assert-string-value>
       </result>
@@ -1671,7 +1701,12 @@
       <description> FLWOR expressions with type declaration. Value based subtype promotion: Types from all levels </description>
       <created by="Mike Rorke" on="2005-09-13"/>
       <dependency type="spec" value="XQ10+"/>
-      <test>for $test as xs:anyAtomicType in ( xs:unsignedByte("10"), xs:short("20"), xs:positiveInteger("30"), xs:nonPositiveInteger("-40"), xs:decimal("5.5"), xs:ENTITY("entity1"), xs:NCName("foobar"), xs:language("en-US"), xs:string("foobar"), xs:hexBinary("ffff"), xs:gYear("1999") ) return $test</test>
+      <test>
+        for $test as xs:anyAtomicType in ( xs:unsignedByte("10"), xs:short("20"), xs:positiveInteger("30"), 
+                xs:nonPositiveInteger("-40"), xs:decimal("5.5"), xs:ENTITY("entity1"), xs:NCName("foobar"), 
+                xs:language("en-US"), xs:string("foobar"), xs:hexBinary("ffff"), xs:gYear("1999") ) 
+        return $test
+      </test>
       <result>
          <assert-string-value>10 20 30 -40 5.5 entity1 foobar en-US foobar FFFF 1999</assert-string-value>
       </result>
@@ -1702,7 +1737,10 @@
       <created by="Mike Rorke" on="2005-09-13"/>
       <environment ref="SpecialTypes"/>
       <dependency type="spec" value="XQ10+"/>
-      <test>declare default element namespace "http://www.example.com/typedecl"; for $test as element(*) in /root/InterleaveType/* return $test</test>
+      <test>
+        declare default element namespace "http://www.example.com/typedecl"; 
+        for $test as element(*) in /root/InterleaveType/* return $test
+      </test>
       <result>
          <assert-serialization><![CDATA[<integer xmlns="http://www.example.com/typedecl">10</integer><decimal xmlns="http://www.example.com/typedecl">20</decimal>]]></assert-serialization>
       </result>
@@ -1746,7 +1784,10 @@
       <created by="Mike Rorke" on="2005-09-13"/>
       <environment ref="fsx_NS"/>
       <dependency type="spec" value="XQ10+"/>
-      <test>declare namespace fs="http://www.example.com/filesystem"; for $test as item() in data( (//fs:Folder)[1]/fs:File/fs:FileName ) return $test</test>
+      <test>
+        declare namespace fs="http://www.example.com/filesystem"; 
+        for $test as item() in data( (//fs:Folder)[1]/fs:File/fs:FileName ) return $test
+      </test>
       <result>
          <assert-string-value>File00000000000 File00000000001 File00000000002</assert-string-value>
       </result>
@@ -1757,7 +1798,10 @@
       <created by="Mike Rorke" on="2005-09-13"/>
       <environment ref="fsx_NS"/>
       <dependency type="spec" value="XQ10+"/>
-      <test>declare namespace fs="http://www.example.com/filesystem"; for $test as node() in (//fs:Folder)[1]/fs:File return $test/fs:FileName</test>
+      <test>
+        declare namespace fs="http://www.example.com/filesystem"; 
+        for $test as node() in (//fs:Folder)[1]/fs:File return $test/fs:FileName
+      </test>
       <result>
          <assert-serialization><![CDATA[<fs:FileName xmlns:fs="http://www.example.com/filesystem">File00000000000</fs:FileName><fs:FileName xmlns:fs="http://www.example.com/filesystem">File00000000001</fs:FileName><fs:FileName xmlns:fs="http://www.example.com/filesystem">File00000000002</fs:FileName>]]></assert-serialization>
       </result>
@@ -1768,7 +1812,10 @@
       <created by="Mike Rorke" on="2005-09-13"/>
       <environment ref="fsx_NS"/>
       <dependency type="spec" value="XQ10+"/>
-      <test>declare namespace fs="http://www.example.com/filesystem"; for $test as document-node() in (/) return ($test//fs:Folder)[1]/fs:FolderName</test>
+      <test>
+        declare namespace fs="http://www.example.com/filesystem"; 
+        for $test as document-node() in (/) return ($test//fs:Folder)[1]/fs:FolderName
+      </test>
       <result>
          <assert-serialization><![CDATA[<fs:FolderName xmlns:fs="http://www.example.com/filesystem">Folder00000000000</fs:FolderName>]]></assert-serialization>
       </result>
@@ -1779,7 +1826,10 @@
       <created by="Mike Rorke" on="2005-09-13"/>
       <environment ref="fsx_NS"/>
       <dependency type="spec" value="XQ10+"/>
-      <test>declare namespace fs="http://www.example.com/filesystem"; for $test as text() in (//fs:Folder)[1]/fs:File/fs:FileName/text() return $test</test>
+      <test>
+        declare namespace fs="http://www.example.com/filesystem"; 
+        for $test as text() in (//fs:Folder)[1]/fs:File/fs:FileName/text() return $test
+      </test>
       <result>
          <assert-serialization>File00000000000File00000000001File00000000002</assert-serialization>
       </result>
@@ -1790,7 +1840,10 @@
       <created by="Mike Rorke" on="2005-09-13"/>
       <environment ref="fsx_NS"/>
       <dependency type="spec" value="XQ10+"/>
-      <test>declare namespace fs="http://www.example.com/filesystem"; for $test as comment() in (//fs:Folder)[1]/comment() return $test</test>
+      <test>
+        declare namespace fs="http://www.example.com/filesystem"; 
+        for $test as comment() in (//fs:Folder)[1]/comment() return $test
+      </test>
       <result>
          <assert-serialization><![CDATA[<!-- This is a comment for File00000000000 --><!-- This is a comment for File00000000001 --><!-- This is a comment for File00000000002 -->]]></assert-serialization>
       </result>
@@ -1801,7 +1854,10 @@
       <created by="Mike Rorke" on="2005-09-13"/>
       <environment ref="fsx_NS"/>
       <dependency type="spec" value="XQ10+"/>
-      <test>declare namespace fs="http://www.example.com/filesystem"; for $test as processing-instruction() in (//fs:Folder)[1]//processing-instruction() return $test</test>
+      <test>
+        declare namespace fs="http://www.example.com/filesystem"; 
+        for $test as processing-instruction() in (//fs:Folder)[1]//processing-instruction() return $test
+      </test>
       <result>
          <assert-serialization><![CDATA[<?filesystem compressionUtil='foozip.exe'?>]]></assert-serialization>
       </result>
@@ -1823,7 +1879,10 @@
       <created by="Mike Rorke" on="2005-09-13"/>
       <environment ref="fsx_NS"/>
       <dependency type="spec" value="XQ10+"/>
-      <test>declare namespace fs="http://www.example.com/filesystem"; for $test as processing-instruction("unknown") in (//fs:Folder)[1]//processing-instruction() return $test</test>
+      <test>
+        declare namespace fs="http://www.example.com/filesystem"; 
+        for $test as processing-instruction("unknown") in (//fs:Folder)[1]//processing-instruction() return $test
+      </test>
       <result>
          <error code="XPTY0004"/>
       </result>
@@ -1834,7 +1893,10 @@
       <created by="Mike Rorke" on="2005-09-13"/>
       <environment ref="fsx_NS"/>
       <dependency type="spec" value="XQ10+"/>
-      <test>declare namespace fs="http://www.example.com/filesystem"; for $test as item() in (//fs:Folder)[1]/fs:File/fs:FileName return $test</test>
+      <test>
+        declare namespace fs="http://www.example.com/filesystem"; 
+        for $test as item() in (//fs:Folder)[1]/fs:File/fs:FileName return $test
+      </test>
       <result>
          <assert-serialization><![CDATA[<fs:FileName xmlns:fs="http://www.example.com/filesystem">File00000000000</fs:FileName><fs:FileName xmlns:fs="http://www.example.com/filesystem">File00000000001</fs:FileName><fs:FileName xmlns:fs="http://www.example.com/filesystem">File00000000002</fs:FileName>]]></assert-serialization>
       </result>
@@ -1845,7 +1907,10 @@
       <created by="Mike Rorke" on="2005-09-13"/>
       <environment ref="fsx_NS"/>
       <dependency type="spec" value="XQ10+"/>
-      <test>declare namespace fs="http://www.example.com/filesystem"; for $test as node() in data( (//fs:Folder)[1]/fs:File/fs:FileName ) return $test</test>
+      <test>
+        declare namespace fs="http://www.example.com/filesystem"; 
+        for $test as node() in data( (//fs:Folder)[1]/fs:File/fs:FileName ) return $test
+      </test>
       <result>
          <error code="XPTY0004"/>
       </result>
@@ -1856,7 +1921,10 @@
       <created by="Mike Rorke" on="2005-09-13"/>
       <environment ref="fsx_NS"/>
       <dependency type="spec" value="XQ10+"/>
-      <test>declare namespace fs="http://www.example.com/filesystem"; for $test as text() in (//fs:Folder)[1]/fs:File/fs:FileName return $test</test>
+      <test>
+        declare namespace fs="http://www.example.com/filesystem"; 
+        for $test as text() in (//fs:Folder)[1]/fs:File/fs:FileName return $test
+      </test>
       <result>
          <error code="XPTY0004"/>
       </result>
@@ -1867,7 +1935,10 @@
       <created by="Mike Rorke" on="2005-09-13"/>
       <environment ref="fsx_NS"/>
       <dependency type="spec" value="XQ10+"/>
-      <test>declare namespace fs="http://www.example.com/filesystem"; for $test as text() in data( (//fs:Folder)[1]/fs:File/fs:FileName ) return $test</test>
+      <test>
+        declare namespace fs="http://www.example.com/filesystem"; 
+        for $test as text() in data( (//fs:Folder)[1]/fs:File/fs:FileName ) return $test
+      </test>
       <result>
          <error code="XPTY0004"/>
       </result>
@@ -1878,7 +1949,10 @@
       <created by="Mike Rorke" on="2005-09-13"/>
       <environment ref="fsx_NS"/>
       <dependency type="spec" value="XQ10+"/>
-      <test>declare namespace fs="http://www.example.com/filesystem"; for $test as comment() in (//fs:Folder)[1]/fs:File/fs:FileName return $test</test>
+      <test>
+        declare namespace fs="http://www.example.com/filesystem"; 
+        for $test as comment() in (//fs:Folder)[1]/fs:File/fs:FileName return $test
+      </test>
       <result>
          <error code="XPTY0004"/>
       </result>
@@ -1889,7 +1963,10 @@
       <created by="Mike Rorke" on="2005-09-13"/>
       <environment ref="fsx_NS"/>
       <dependency type="spec" value="XQ10+"/>
-      <test>declare namespace fs="http://www.example.com/filesystem"; for $test as comment() in data( (//fs:Folder)[1]/fs:File/fs:FileName ) return $test</test>
+      <test>
+        declare namespace fs="http://www.example.com/filesystem"; 
+        for $test as comment() in data( (//fs:Folder)[1]/fs:File/fs:FileName ) return $test
+      </test>
       <result>
          <error code="XPTY0004"/>
       </result>
@@ -1900,7 +1977,10 @@
       <created by="Mike Rorke" on="2005-09-13"/>
       <environment ref="fsx_NS"/>
       <dependency type="spec" value="XQ10+"/>
-      <test>declare namespace fs="http://www.example.com/filesystem"; for $test as processing-instruction() in (//fs:Folder)[1]/fs:File/fs:FileName return $test</test>
+      <test>
+        declare namespace fs="http://www.example.com/filesystem"; 
+        for $test as processing-instruction() in (//fs:Folder)[1]/fs:File/fs:FileName return $test
+      </test>
       <result>
          <error code="XPTY0004"/>
       </result>
@@ -1911,7 +1991,10 @@
       <created by="Mike Rorke" on="2005-09-13"/>
       <environment ref="fsx_NS"/>
       <dependency type="spec" value="XQ10+"/>
-      <test>declare namespace fs="http://www.example.com/filesystem"; for $test as processing-instruction() in data( (//fs:Folder)[1]/fs:File/fs:FileName ) return $test</test>
+      <test>
+        declare namespace fs="http://www.example.com/filesystem"; 
+        for $test as processing-instruction() in data( (//fs:Folder)[1]/fs:File/fs:FileName ) return $test
+      </test>
       <result>
          <error code="XPTY0004"/>
       </result>
@@ -1922,7 +2005,10 @@
       <created by="Mike Rorke" on="2005-09-13"/>
       <environment ref="fsx_NS"/>
       <dependency type="spec" value="XQ10+"/>
-      <test>declare namespace fs="http://www.example.com/filesystem"; for $test as processing-instruction("foo") in (//fs:Folder)[1]/fs:File/fs:FileName return $test</test>
+      <test>
+        declare namespace fs="http://www.example.com/filesystem"; 
+        for $test as processing-instruction("foo") in (//fs:Folder)[1]/fs:File/fs:FileName return $test
+      </test>
       <result>
          <error code="XPTY0004"/>
       </result>
@@ -1933,7 +2019,10 @@
       <created by="Mike Rorke" on="2005-09-13"/>
       <environment ref="fsx_NS"/>
       <dependency type="spec" value="XQ10+"/>
-      <test>declare namespace fs="http://www.example.com/filesystem"; for $test as processing-instruction("foo") in data( (//fs:Folder)[1]/fs:File/fs:FileName ) return $test</test>
+      <test>
+        declare namespace fs="http://www.example.com/filesystem"; 
+        for $test as processing-instruction("foo") in data( (//fs:Folder)[1]/fs:File/fs:FileName ) return $test
+      </test>
       <result>
          <error code="XPTY0004"/>
       </result>
@@ -1944,7 +2033,10 @@
       <created by="Mike Rorke" on="2005-09-13"/>
       <environment ref="fsx_NS"/>
       <dependency type="spec" value="XQ10+"/>
-      <test>declare namespace fs="http://www.example.com/filesystem"; for $test as document-node() in (//fs:Folder)[1]/fs:File/fs:FileName return $test</test>
+      <test>
+        declare namespace fs="http://www.example.com/filesystem"; 
+        for $test as document-node() in (//fs:Folder)[1]/fs:File/fs:FileName return $test
+      </test>
       <result>
          <error code="XPTY0004"/>
       </result>
@@ -1955,7 +2047,10 @@
       <created by="Mike Rorke" on="2005-09-13"/>
       <environment ref="fsx_NS"/>
       <dependency type="spec" value="XQ10+"/>
-      <test>declare namespace fs="http://www.example.com/filesystem"; for $test as document-node() in data( (//fs:Folder)[1]/fs:File/fs:FileName ) return $test</test>
+      <test>
+        declare namespace fs="http://www.example.com/filesystem"; 
+        for $test as document-node() in data( (//fs:Folder)[1]/fs:File/fs:FileName ) return $test
+      </test>
       <result>
          <error code="XPTY0004"/>
       </result>
