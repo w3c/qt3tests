@@ -24,15 +24,6 @@
       </source>
    </environment>
    
-   <environment name="fotscopy">
-      <namespace prefix="fots" uri="http://www.w3.org/2010/09/qt-fots-catalog"/>
-      <function name="fots:copy"/>
-      <source role="." file="../docs/auction.xml">
-         <description>Data for various NIST tests (abbreviated, unabbreviated syntax)</description>
-         <created by="Carmelo Montanez" on="2005-11-27"/>
-      </source>
-   </environment>
-
    <test-case name="fn-id-1">
       <description>Evaluation of fn:id with incorrect arity.</description>
       <created by="Carmelo Montanez" on="2005-11-27"/>
@@ -64,8 +55,14 @@
    <test-case name="fn-id-4">
       <description>Evaluation of fn:id with node not being from document where root is the document element.</description>
       <created by="Carmelo Montanez" on="2005-11-27"/>
-      <environment ref="fotscopy"/>
-      <test>let $var := fots:copy(/*) return fn:id("argument1", $var)</test>
+      <modified by="Michael Kay" on="2011-08-10" change="remove dependency on special fots:copy() function"/>
+      <environment ref="auction"/>
+      <module uri="http://www.w3.org/QT3/copy" file="id/copy.xq"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        import module namespace copy="http://www.w3.org/QT3/copy";
+        let $var := copy:copy(/*) return fn:id("argument1", $var)
+      </test>
       <result>
          <error code="FODC0001"/>
       </result>
@@ -291,8 +288,14 @@
    <test-case name="K2-SeqIDFunc-4">
       <description>Use an invalid target node.</description>
       <created by="Frans Englich" on="2007-11-26"/>
-      <environment ref="fotscopy"/>
-      <test>id("id", fots:copy((//comment())[1]))</test>
+      <modified by="Michael Kay" on="2011-08-10" change="remove dependency on special fots:copy() function"/>
+      <environment ref="auction"/>
+      <module uri="http://www.w3.org/QT3/copy" file="id/copy.xq"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        import module namespace copy="http://www.w3.org/QT3/copy";
+        id("id", copy:copy((//comment())[1]))
+      </test>
       <result>
          <error code="FODC0001"/>
       </result>
@@ -301,8 +304,14 @@
    <test-case name="K2-SeqIDFunc-5">
       <description>Use an invalid target node.</description>
       <created by="Frans Englich" on="2007-11-26"/>
-      <environment ref="fotscopy"/>
-      <test>id("id", fots:copy((//processing-instruction())[1]))</test>
+      <modified by="Michael Kay" on="2011-08-10" change="remove dependency on special fots:copy() function"/>
+      <environment ref="auction"/>
+      <module uri="http://www.w3.org/QT3/copy" file="id/copy.xq"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        import module namespace copy="http://www.w3.org/QT3/copy";
+        id("id", copy:copy((//processing-instruction())[1]))
+      </test>
       <result>
          <error code="FODC0001"/>
       </result>
@@ -311,8 +320,14 @@
    <test-case name="K2-SeqIDFunc-6">
       <description>Use an invalid target node</description>
       <created by="Frans Englich" on="2007-11-26"/>
-      <environment ref="fotscopy"/>
-      <test>id("id", fots:copy(/*))</test>
+      <modified by="Michael Kay" on="2011-08-10" change="remove dependency on special fots:copy() function"/>
+      <environment ref="auction"/>
+      <module uri="http://www.w3.org/QT3/copy" file="id/copy.xq"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        import module namespace copy="http://www.w3.org/QT3/copy";
+        id("id", copy:copy(/*))
+      </test>
       <result>
          <error code="FODC0001"/>
       </result>
@@ -321,8 +336,14 @@
    <test-case name="K2-SeqIDFunc-7">
       <description>Use an invalid target node</description>
       <created by="Frans Englich" on="2007-11-26"/>
-      <environment ref="fotscopy"/>
-      <test>id("id", (fots:copy(/*)//*:NegativeComments)[last()])</test>
+      <modified by="Michael Kay" on="2011-08-10" change="remove dependency on special fots:copy() function"/>
+      <environment ref="auction"/>
+      <module uri="http://www.w3.org/QT3/copy" file="id/copy.xq"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        import module namespace copy="http://www.w3.org/QT3/copy";
+        id("id", (copy:copy(/*)//*:NegativeComments)[last()])
+      </test>
       <result>
          <error code="FODC0001"/>
       </result>
@@ -331,8 +352,14 @@
    <test-case name="K2-SeqIDFunc-8">
       <description>Use an invalid target node.</description>
       <created by="Frans Englich" on="2007-11-26"/>
-      <environment ref="fotscopy"/>
-      <test>let $i := fots:copy(/*)//*:NegativeComments return id("foo", $i)</test>
+      <modified by="Michael Kay" on="2011-08-10" change="remove dependency on special fots:copy() function"/>
+      <environment ref="auction"/>
+      <module uri="http://www.w3.org/QT3/copy" file="id/copy.xq"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        import module namespace copy="http://www.w3.org/QT3/copy";
+        let $i := copy:copy(/*)//*:NegativeComments return id("foo", $i)
+      </test>
       <result>
          <error code="FODC0001"/>
       </result>

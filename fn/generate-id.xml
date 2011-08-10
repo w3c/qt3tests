@@ -4,16 +4,6 @@
      Tests for the generate-id() function transferred from the XSLT 2.0 specification to XPath/XQuery 3.0
    </description>
    <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/" idref="func-generate-id"/>
-   <environment name="fotscopy">
-      <namespace prefix="fots" uri="http://www.w3.org/2010/09/qt-fots-catalog"/>
-      <function name="fots:copy"/>
-      <!-- this is a function that the test driver must supply; it copies a supplied node to return a new (parentless) deep copy
-           of the node -->
-      <source role="." file="../docs/works-mod.xml">
-         <description>Data for various NIST tests (abbreviated, unabbreviated syntax)</description>
-         <created by="Carmelo Montanez" on="2005-03-04"/>
-      </source>
-   </environment>
    <environment name="collection">
       <collection uri="">
          <source role="." file="../docs/works-mod.xml">
@@ -164,11 +154,15 @@
    </test-case>
    <test-case name="generate-id-014">
       <description>generate-id() applied to a parentless element node</description>
-      <!-- No way of creating a parentless element node in pure XPath, so we invoke a function fots:copy
-           to create one -->
       <created by="Michael Kay" on="2010-12-20"/>
-      <environment ref="fotscopy"/>
-      <test>generate-id(fots:copy(/*))</test>
+      <modified by="Michael Kay" on="2011-08-10" change="remove dependency on special fots:copy() function"/>
+      <environment ref="works-mod"/>
+      <module uri="http://www.w3.org/QT3/copy" file="id/copy.xq"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        import module namespace copy="http://www.w3.org/QT3/copy";
+        generate-id(copy:copy(/*))
+      </test>
       <result>
          <assert>matches($result, '^[A-Za-z][A-Za-z0-9]*$')</assert>
       </result>
@@ -176,8 +170,14 @@
    <test-case name="generate-id-015">
       <description>generate-id() applied to a parentless attribute node</description>
       <created by="Michael Kay" on="2010-12-20"/>
-      <environment ref="fotscopy"/>
-      <test>generate-id(fots:copy((//@*)[1]))</test>
+      <modified by="Michael Kay" on="2011-08-10" change="remove dependency on special fots:copy() function"/>
+      <environment ref="works-mod"/>
+      <module uri="http://www.w3.org/QT3/copy" file="id/copy.xq"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        import module namespace copy="http://www.w3.org/QT3/copy";
+        generate-id(copy:copy((//@*)[1]))
+      </test>
       <result>
          <assert>matches($result, '^[A-Za-z][A-Za-z0-9]*$')</assert>
       </result>
@@ -185,8 +185,14 @@
    <test-case name="generate-id-016">
       <description>generate-id() changes when a node is copied</description>
       <created by="Michael Kay" on="2010-12-20"/>
-      <environment ref="fotscopy"/>
-      <test>generate-id(fots:copy(/*)) eq generate-id(/*)</test>
+      <modified by="Michael Kay" on="2011-08-10" change="remove dependency on special fots:copy() function"/>
+      <environment ref="works-mod"/>
+      <module uri="http://www.w3.org/QT3/copy" file="id/copy.xq"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        import module namespace copy="http://www.w3.org/QT3/copy";
+        generate-id(copy:copy(/*)) eq generate-id(/*)
+      </test>
       <result>
          <assert-false/>
       </result>
@@ -194,8 +200,14 @@
    <test-case name="generate-id-017">
       <description>generate-id() applied to a parentless attribute node</description>
       <created by="Michael Kay" on="2010-12-20"/>
-      <environment ref="fotscopy"/>
-      <test>let $att := (//@*)[1] return generate-id(fots:copy($att)) eq generate-id($att)</test>
+      <modified by="Michael Kay" on="2011-08-10" change="remove dependency on special fots:copy() function"/>
+      <environment ref="works-mod"/>
+      <module uri="http://www.w3.org/QT3/copy" file="id/copy.xq"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        import module namespace copy="http://www.w3.org/QT3/copy";
+        let $att := (//@*)[1] return generate-id(copy:copy($att)) eq generate-id($att)
+      </test>
       <result>
          <assert-false/>
       </result>

@@ -3,22 +3,14 @@
    <description>Tests for the idref() function</description>
    <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/"
          idref="func-idref"/>
+   
    <environment name="id-idref-dtd">
       <source role="." file="id/iddtd.xml">
          <description>A DTD validated xml file, that contains data for the ID/IDREF function tests.</description>
          <created by="Carmelo Montanez" on="2000-01-01"/>
       </source>
    </environment>
-   <environment name="fotscopy">
-      <namespace prefix="fots" uri="http://www.w3.org/2010/09/qt-fots-catalog"/>
-      <function name="fots:copy"/>
-      <!-- this is a function that the test driver must supply; it copies a supplied node to return a new (parentless) deep copy
-         of the node -->
-      <source role="." file="../docs/works-mod.xml">
-         <description>Data for various NIST tests (abbreviated, unabbreviated syntax)</description>
-         <created by="Carmelo Montanez" on="2005-03-04"/>
-      </source>
-   </environment>
+   
    <environment name="functx_book">
       <source role="." file="../app/FunctxFn/functx_book.xml" >
          <description/>
@@ -57,8 +49,14 @@
    <test-case name="fn-idref-4">
       <description> Evaluation of fn:idref with node not being from document where root is the document element. </description>
       <created by="Carmelo Montanez" on="2005-11-28"/>
-      <environment ref="fotscopy"/>
-      <test>let $var := fots:copy(/*) return fn:idref("argument1", $var)</test>
+      <modified by="Michael Kay" on="2011-08-10" change="remove dependency on special fots:copy() function"/>
+      <environment ref="works-mod"/>
+      <module uri="http://www.w3.org/QT3/copy" file="id/copy.xq"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        import module namespace copy="http://www.w3.org/QT3/copy";
+        let $var := copy:copy(/*) return fn:idref("argument1", $var)
+      </test>
       <result>
          <error code="FODC0001"/>
       </result>
@@ -99,7 +97,7 @@
       <created by="Carmelo Montanez" on="2006-06-23"/>
       <environment ref="id-idref-dtd"/>
       <dependency type="spec" value="XQ10+"/>
-      <test><![CDATA[[<results>{fn:idref(("id1", "id2"), /IDS[1])}</results>]]></test>
+      <test><![CDATA[<results>{fn:idref(("id1", "id2"), /IDS[1])}</results>]]></test>
       <result>
          <error code="XQDY0025"/>
       </result>
@@ -261,6 +259,7 @@
       <description> Evaluation of fn:idref, where an IDREFS node contains multiple IDREFs. For errata FO.E29. </description>
       <created by="Bogdan Butnaru" on="2009-11-18"/>
       <environment ref="functx_book"/>
+      <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[<results>{fn:idref("language", /)}</results>]]></test>
       <result>
          <assert-serialization><![CDATA[<results refs='context language'/>]]></assert-serialization>
