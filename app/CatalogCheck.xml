@@ -10,7 +10,7 @@
         <description>Catalog for the FOTS test suite</description>
         <created by="Michael Kay" on="2011-07-10"/>
      </source>
-     <schema uri="" file="../catalog-schema.xsd">
+     <schema uri="http://www.w3.org/2010/09/qt-fots-catalog" file="../catalog-schema.xsd">
         <description>Schema for the catalog of the FOTS test suite</description>
         <created by="Michael Kay" on="2011-07-10"/>
      </schema>
@@ -23,7 +23,7 @@
       <environment ref="catalog"/>
       <dependency type="spec" value="XP30+ XQ10+"/>
       <test>
-        let $testsets := //fots:test-set/@href/doc(resolve-uri(., base-uri(..))),
+        let $testsets := //fots:test-set/@file/doc(resolve-uri(., base-uri(..))),
             $tests := $testsets//fots-test-case,
             $environments := (//fots:environment | $testsets//fots:environment)[@name],
             $refs := $testsets//fots:environment[@ref]
@@ -41,7 +41,7 @@
       <dependency type="spec" value="XQ10+"/>
       <dependency type="feature" value="schemaValidation"/>
       <test>
-        let $testsets := //fots:test-set/@href/validate{doc(resolve-uri(., base-uri(..)))}
+        let $testsets := //fots:test-set/@file/validate{doc(resolve-uri(., base-uri(..)))}
         for $test in $testsets//fots:test-case[not(fots:result/fots:error)][
                 contains(test, "declare variable") or
                 contains(test, "declare function") or
@@ -62,11 +62,28 @@
       <environment ref="catalog"/>
       <dependency type="spec" value="XQ10+"/>
       <test>
-        let $testsets := //fots:test-set/@href/doc(resolve-uri(., base-uri(..)))
+        let $testsets := //fots:test-set/@file/doc(resolve-uri(., base-uri(..)))
         for $test in $testsets//fots:test-case[contains(test, "import schema")]
         where empty($test/(fots:dependency | ../fots:dependency)[@type='feature' and @value="schemaImport"]) 
         return $test
       </test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+   
+   <test-case name="Catalog004">
+      <description> test that all schemas named in catalog files have the correct target namespace </description>
+      <created by="Michael Kay" on="2011-07-10"/>
+      <environment ref="catalog"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        let $testsets := //fots:test-set/@file/doc(resolve-uri(., base-uri(..)))
+        for $schema in (.|$testsets)//fots:environment/fots:schema
+        let $targetNamespace := doc(resolve-uri($schema/@file, base-uri($schema)))/*/@targetNamespace
+        where not($schema/@uri eq $targetNamespace or (empty($targetNamespace) and string(@uri)=''))
+        return ($schema, <file>{base-uri($schema)}</file>)
+      ]]></test>
       <result>
          <assert-empty/>
       </result>
