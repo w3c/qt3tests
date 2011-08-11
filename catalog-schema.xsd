@@ -201,11 +201,22 @@
         <xs:annotation>
             <xs:documentation>
                 <h3>decimal-format (as an element name)</h3>
-                <p>The decimal-format element allows a decimal format to be defined as part of the 
-                    static context for evaluating an XPath expression that calls the format-number() function.
-                    Although this isn't needed for XQuery (decimal formats can be defined in the query prolog)
-                    it is needed for XPath testing.</p>
-                <p>The content of the element mirrors the <code>xsl:decimal-format</code> declaration in XSLT.</p>
+                <p>The <code>decimal-format</code> element allows a decimal format to be defined as part of the 
+                    static context for evaluating an XPath expression that calls the format-number() function.</p>
+                    
+                <p>When the <code>decimal-format</code> element is used in an environment, the test expression
+                will always be a simple XPath expression. If the test is to be run using an XQuery processor, 
+                the decimal format can be added to the static context either by using the processor's API, or
+                by constructing a query prolog containing a <code>declare decimal format</code> declaration and
+                prepending this to the test expression.</p>
+                
+                <p>The mechanism is used for testing the format-number() function. As such, the decimal format
+                    being defined should always be valid. Tests for invalid decimal formats should be written
+                    as XQuery tests with an explicit query prolog (or the equivalent in XSLT).</p>
+                    
+                <p>Test Catalog006 ensures that the decimal-format element is only used in tests that are
+                    pure XPath expressions.</p>
+ 
             </xs:documentation>
         </xs:annotation>
         <xs:complexType>
