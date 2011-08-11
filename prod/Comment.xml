@@ -173,20 +173,17 @@ if (:test (: yada (: neato :) :) :) (/fs:MyComputer)
       <description> Comments inside a conditional expression comment this is the then case this is the else case </description>
       <created by="Mike Rorke" on="2003-02-10"/>
       <environment ref="fsx_NS"/>
-      <dependency type="spec" value="XQ10+"/>
-      <test><![CDATA[(: Name: XQueryComment010 :)
+      <test><![CDATA[
+(: Name: XQueryComment010 :)
 (: Description: Comments inside a conditional expression :)
-
-
-
 if (: comment :) 
   ( //fs:Folder[1]/fs:FolderName/text() = "Folder00000000000" ) 
-then (: this is the then case :) ( <true/> )
-else (: this is the else case :) ( <false/> )
+then (: this is the then case :) ( true() )
+else (: this is the else case :) ( false() )
 
 ]]></test>
       <result>
-         <assert-serialization><![CDATA[<true/>]]></assert-serialization>
+         <assert-true/>
       </result>
    </test-case>
 

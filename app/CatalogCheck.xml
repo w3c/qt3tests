@@ -14,15 +14,15 @@
         <description>Schema for the catalog of the FOTS test suite</description>
         <created by="Michael Kay" on="2011-07-10"/>
      </schema>
-     <namespace prefix="fots" uri="http://www.w3.org/2010/09/qt-fots-catalog"/>
    </environment>
         
    <test-case name="Catalog001">
       <description> test that all named environments are present </description>
       <created by="Michael Kay" on="2011-07-10"/>
       <environment ref="catalog"/>
-      <dependency type="spec" value="XP30+ XQ10+"/>
+      <dependency type="spec" value="XQ10+"/>
       <test>
+        declare namespace fots = "http://www.w3.org/2010/09/qt-fots-catalog";
         let $testsets := //fots:test-set/@file/doc(resolve-uri(., base-uri(..))),
             $tests := $testsets//fots-test-case,
             $environments := (//fots:environment | $testsets//fots:environment)[@name],
@@ -41,6 +41,7 @@
       <dependency type="spec" value="XQ10+"/>
       <dependency type="feature" value="schemaValidation"/>
       <test>
+        declare namespace fots = "http://www.w3.org/2010/09/qt-fots-catalog";
         let $testsets := //fots:test-set/@file/validate{doc(resolve-uri(., base-uri(..)))}
         for $test in $testsets//fots:test-case[not(fots:result/fots:error)][
                 contains(test, "declare variable") or
@@ -62,6 +63,7 @@
       <environment ref="catalog"/>
       <dependency type="spec" value="XQ10+"/>
       <test>
+        declare namespace fots = "http://www.w3.org/2010/09/qt-fots-catalog";
         let $testsets := //fots:test-set/@file/doc(resolve-uri(., base-uri(..)))
         for $test in $testsets//fots:test-case[contains(test, "import schema")]
         where empty($test/(fots:dependency | ../fots:dependency)[@type='feature' and @value="schemaImport"]) 
@@ -78,6 +80,7 @@
       <environment ref="catalog"/>
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[
+        declare namespace fots = "http://www.w3.org/2010/09/qt-fots-catalog";
         let $testsets := //fots:test-set/@file/doc(resolve-uri(., base-uri(..)))
         for $schema in (.|$testsets)//fots:environment/fots:schema
         let $targetNamespace := doc(resolve-uri($schema/@file, base-uri($schema)))/*/@targetNamespace
@@ -88,4 +91,32 @@
          <assert-empty/>
       </result>
    </test-case>
+   
+   <test-case name="Catalog005">
+      <description> Check that all tests using an environment with a namespace declaration are XPath tests </description>
+      <created by="Michael Kay" on="2011-08-11"/>
+      <environment ref="catalog"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        declare namespace fots = "http://www.w3.org/2010/09/qt-fots-catalog";
+        (: ask whether a test is XQuery-only :)
+        declare function local:needs-xq($t as element(fots:test-case)) as xs:boolean {
+            let $spec := $t/fots:dependency[@type='spec'][1]
+            return exists($spec) and contains($spec/@value, 'XQ') and not(contains($spec/@value, 'XP'))
+        };
+        let $testsets := //fots:test-set/@file/doc(resolve-uri(., base-uri(..)))
+        let $nsenvs :=
+            for $t in ($testsets|.)
+            for $e in $t//fots:environment
+            where exists($e/fots:namespace) 
+            return $e/@name/string()
+        let $xq-testcases := $testsets//fots:test-case [local:needs-xq(.)]
+        for $tc in $xq-testcases [fots:environment/@ref = $nsenvs]
+        return $tc/@name/string()
+      ]]></test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+   
 </test-set>

@@ -312,10 +312,26 @@
                 <div>
                     <h3>namespace (as an element name)</h3>
                     <p>
-                        denotes an element within an environment which indicates that the query is to be run
-                        with namespace binding the prefix to the uri. A zero-length prefix denotes the default
-                        namespace for elements and types.
-                    </p>
+                        When this element is present in an environment, queries using this environment must
+                        have a namespace binding in the static context that binds the specified prefix to the
+                        specified namespace URI.</p>
+                        
+                    <p> A zero-length prefix denotes the default
+                        namespace for elements and types.</p>
+                        
+                    <p>
+                        All tests using an environment that contains a <code>namespace</code> element will
+                        be simple XPath expressions, so that the test can be run either under XPath or XQuery.
+                        If the test is run using an XPath processor, the namespace must be declared externally
+                        using the processor's API. If it is run using an XQuery processor, the namespace can
+                        either be declared externally using the processor's API, or a "declare namespace"
+                        declaration can be added to the query prolog. Because the test is guaranteed to be a
+                        simple XPath expression, adding the namespace declaration at the start is straightforward. </p>
+                        
+                    <p> Test Catalog005 checks that no test that requires XQuery uses an environment that contains
+                        a namespace element. </p>
+                        
+                    
                 </div> 
             </xs:documentation>
         </xs:annotation>
