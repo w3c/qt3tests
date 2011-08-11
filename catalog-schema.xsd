@@ -8,7 +8,7 @@
     
     <xs:annotation>
         <xs:documentation>
-            <div>
+            
                 <h1>QT3 Test Suite Schema</h1>
                 <p>
                     This schema documentation describes the elements and attributes
@@ -33,7 +33,7 @@
                     <code>catalog</code> element, and test-set files, which are rooted at a <code>test-set</code>
                     element. The catalog file contains a sequence of <code>test-set</code> elements which are
                     references to the test-set files.</p>
-            </div> 
+             
             
         </xs:documentation>
     </xs:annotation>
@@ -42,10 +42,10 @@
         <xs:annotation>
             <xs:documentation>
                 <div>
-                    <h3>catalog (as an element name)</h3>
+                    <h3>catalog</h3>
                     <p>
-                        denotes the root element of the catalog document. 
-                        The catalog lists all test-set that are to be run and
+                        Denotes the root element of the catalog document. 
+                        The catalog lists all test-sets that are to be run and
                         also contains an environment of assorted schemas and source documents.
                     </p>
                 </div> 
@@ -89,15 +89,24 @@
         <xs:annotation>
             <xs:documentation>
                 <div>
-                    <h3>environment (as an element name)</h3>
+                    <h3>environment</h3>
                     <p>
-                        denotes an element which defines an assorted list of schemas and sources documents available to test cases.
-                        These documents  can be made globally available across all test-set, 
+                        Denotes an element which defines an assorted list of schemas and sources documents available to test cases.</p>
+                        
+                    <p> In addition the environment may set further information about the static context for running the test.</p>
+                    
+                    <p>    
+                        An environment can be made globally available across all test-sets, 
                         or within a particular test-set or within a test-case.
-                        Locally defined environments are considered to have precedence over 
+                        Locally-defined environments are considered to have precedence over 
                         environments defined at some ancestor node, therefore conflicts are avoided.
                         
                     </p>
+                    <p>
+                        An environment that is shared between test cases always has a name (given by its <code>name</code> attribute).
+                        An environment element within a test case may either be a reference to a shared environment (identified
+                        by its <code>ref</code> attribute) or a locally-defined environment (with no <code>name</code> or <code>ref</code>
+                        attributes.</p>
                 </div> 
             </xs:documentation>
         </xs:annotation>
@@ -117,7 +126,6 @@
                     </xs:choice>
                     <xs:attributeGroup ref="nameAttr" />
                     <xs:attributeGroup ref="refAttr" />
-                    <!--<xs:attributeGroup ref="lastModAttr"/>-->
                 </xs:extension>
             </xs:complexContent>
         </xs:complexType>
@@ -127,8 +135,8 @@
         <xs:annotation>
             <xs:documentation>
                 <div>
-                    <h3>static-base-uri (as an element name)</h3>
-                    <p>An element used to supply the static base URI for a query. The uri attribute
+                    <h3>static-base-uri</h3>
+                    <p>An element used to supply the static base URI for a query. The <code>uri</code> attribute
                       should be an absolute URI.</p>
                     <p>In the absence of this element, or of a base URI declaration in the query prolog,
                        the static base URI of a query is the file containing the text of the query.</p>
@@ -144,8 +152,8 @@
         <xs:annotation>
             <xs:documentation>
                 <div>
-                    <h3>collation (as an element name)</h3>
-                    <p>denotes an element which details a collation URI used in the query.</p>
+                    <h3>collation</h3>
+                    <p>An element which defines a collation URI used in the query.</p>
                         
                     <p>The <code>uri</code>
                         attribute is the collation URI as it actually appears in the XPath expression. There is
@@ -200,7 +208,8 @@
     <xs:element name="decimal-format">
         <xs:annotation>
             <xs:documentation>
-                <h3>decimal-format (as an element name)</h3>
+               <div> 
+                <h3>decimal-format</h3>
                 <p>The <code>decimal-format</code> element allows a decimal format to be defined as part of the 
                     static context for evaluating an XPath expression that calls the format-number() function.</p>
                     
@@ -216,7 +225,7 @@
                     
                 <p>Test Catalog006 ensures that the decimal-format element is only used in tests that are
                     pure XPath expressions.</p>
- 
+              </div>
             </xs:documentation>
         </xs:annotation>
         <xs:complexType>
@@ -250,7 +259,7 @@
         <xs:annotation>
             <xs:documentation>
                 <div>
-                    <h3>param (as an element name)</h3>
+                    <h3>param</h3>
                     <p>
                         An element within an environment that declares a variable that can be referenced
                         within test expressions that use this environment.
@@ -278,7 +287,7 @@
         <xs:annotation>
             <xs:documentation>
                 <div>
-                    <h3>collection (as an element name)</h3>
+                    <h3>collection</h3>
                     <p>
                         Represents a collection accessible to the collection() function.
                     </p>
@@ -303,9 +312,9 @@
         <xs:annotation>
             <xs:documentation>
                 <div>
-                    <h3>function-library (as an element name)</h3>
+                    <h3>function-library</h3>
                     <p>
-                        denotes an element which provides access to a function library defined for xslt and xquery.
+                        An element which provides access to a function library defined for xslt and xquery.
                     </p>
                 </div> 
             </xs:documentation>
@@ -321,7 +330,7 @@
         <xs:annotation>
             <xs:documentation>
                 <div>
-                    <h3>namespace (as an element name)</h3>
+                    <h3>namespace</h3>
                     <p>
                         When this element is present in an environment, queries using this environment must
                         have a namespace binding in the static context that binds the specified prefix to the
@@ -356,10 +365,10 @@
     <xs:annotation>
         <xs:documentation>
             <div>
-                <h3>schema (as an element name)</h3>
+                <h3>schema</h3>
                 <p>
-                    denotes an element which provides access to a schema to be used to validate a source document. 
-                    The scope of the &lt;schema&gt; element is the parent of the &lt;environment&gt; element in which it appears.
+                    An element which provides information about a schema to be used to validate a source document. 
+                    The scope of the &lt;schema&gt; element is the parent &lt;environment&gt; element in which it appears.
                 </p>
             </div> 
         </xs:documentation>
@@ -374,9 +383,9 @@
         <xs:annotation>
             <xs:documentation>
                 <div>
-                    <h3>complexType for a schema element</h3>
+                    <h3>schemaType</h3>
                     <p>
-                        denotes a complexType for a schema element, which inherits the attribute @id.
+                        The type definition for the <code>schema</code> element
                     </p>
                 </div> 
             </xs:documentation>
@@ -401,11 +410,19 @@
         <xs:annotation>
             <xs:documentation>
                 <div>
-                    <h3>source (as an element name)</h3>
+                    <h3>source</h3>
                     <p>
-                        denotes an element which provides a source xml file as an URI as an attribute value. 
-                        The source doucment contains values for data types. The scope of the &lt;source&gt; element is 
-                        the parent of the &lt;environment&gt; element in which it appears. A validated source 
+                        An element which provides information about a source xml file used as input to test cases.</p>
+                        
+                        
+                    <p> The <code>role</code> and <code>uri</code> attributes indicate how the source document is made
+                    avaiable to queries (as the context item, as the value of an external variable, or as a URI that can be
+                    supplied to the doc() function.)</p>
+                    
+                    <p> The <code>file</code> attribute gives the relative location of the file containing the XML source.</p>
+                    
+                    <p> The scope of the &lt;source&gt; element is 
+                        the parent &lt;environment&gt; element in which it appears. A validated source 
                         document references the schema, which maps to the @id of the Schema element. 
                     </p>
                 </div> 
@@ -420,9 +437,9 @@
         <xs:annotation>
             <xs:documentation>
                 <div>
-                    <h3>complexType for a source element</h3>
+                    <h3>sourceType</h3>
                     <p>
-                        defines the type of the source element, which includes the baseType attribute @id.
+                        defines the type of the <code>source</code> element.
                     </p>
                 </div> 
             </xs:documentation>
@@ -436,25 +453,7 @@
                     <xs:element ref="modified" minOccurs="0" maxOccurs="unbounded"/>
                 </xs:sequence>
                 </xs:sequence>
-                <xs:attribute name="role">
-                    <xs:annotation>
-                        <xs:documentation>
-                            <p>Describes how the source document is made available to the query.</p>
-                            <p>The value "." indicates that the source document will be the context
-                            item for the query.</p>
-                            <p>A value in the form <code>$varname</code> indicates that the source document will
-                            be made available as the value of the external variable <code>$varname</code>. This variable
-                            will <i>not</i> be declared in the query (this is to allow the mechanism
-                            to be used in XPath). The query will always be such that it is possible to
-                            add <code>declare variable</code> declarations at the start before compiling the query.</p>
-                            <p>If the source document is to be made available to the query using the
-                            doc() function, the "source" element should have a "uri" attribute, and
-                            the "role" attribute should be absent.</p>
-                            <p>The "role" attribute should be omitted if the source is part of a collection
-                            definition.</p>
-                        </xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
+                <xs:attributeGroup ref="roleAttr"/>
                 <xs:attributeGroup ref="fileAttr" />
                 <xs:attributeGroup ref="uriAttr" />
                 <xs:attributeGroup ref="validationAttr" />
@@ -468,7 +467,7 @@
         <xs:annotation>
             <xs:documentation>
                 <div>
-                    <h3>description (as an element name)</h3>
+                    <h3>description</h3>
                     <p>
                         An element which provides descriptive information about the
                         resource described by its parent element.
@@ -493,7 +492,7 @@
         <xs:annotation>
             <xs:documentation>
                 <div>
-                    <h3>test-set (as an element name)</h3>
+                    <h3>test-set</h3>
                     <p>
                         denotes an element which provides a sequence of test-case entries for a particular function. 
                         Within this element we provide data needed to run the test for that function.
@@ -519,7 +518,7 @@
         <xs:annotation>
             <xs:documentation>
                 <div>
-                    <h3>dependency (as an element name)</h3>
+                    <h3>dependency</h3>
                     <p>Indicates a dependency which must be satisfied in order for a test to be run.</p>
                     
                     <p>A dependency may be associated with an individual test case or with
@@ -564,7 +563,7 @@
         <xs:annotation>
             <xs:documentation>
                 <div>
-                    <h3>test-case (as an element name)</h3>
+                    <h3>test-case</h3>
                     <p>
                         denotes an element that contains a test that must be run in a named environment, 
                         also contains the expected result and description of the test, including author 
@@ -592,7 +591,7 @@
         <xs:annotation>
             <xs:documentation>
                 <div>
-                    <h3>test (as an element name)</h3>
+                    <h3>test</h3>
                     <p>
                         The content of the element is an XPath or XQuery expression to be evaluated.                     
                     </p>
@@ -618,7 +617,7 @@
         <xs:annotation>
             <xs:documentation>
                 <div>
-                    <h3>created (as an element name)</h3>
+                    <h3>created</h3>
                     <p>
                         Provides details of the author and creation date of a test case, source document, schema, etc. 
                     </p>
@@ -635,7 +634,7 @@
         <xs:annotation>
             <xs:documentation>
                 <div>
-                    <h3>modified (as an element name)</h3>
+                    <h3>modified</h3>
                     <p>
                         Provides a record of changes made to a test case or other resource over time. 
                     </p>
@@ -653,7 +652,7 @@
         <xs:annotation>
             <xs:documentation>
                 <div>
-                    <h3>module (as an element name)</h3>
+                    <h3>module</h3>
                     <p>
                         Defines an XQuery library module imported by a test case. The module element gives the module
                         URI and the location of the module. The query will contain an "import module" declaration
@@ -673,7 +672,7 @@
         <xs:annotation>
             <xs:documentation>
                 <div>
-                    <h3>result (as an element name)</h3>
+                    <h3>result</h3>
                     <p>
                         denotes an element which provides an &lt;assert&gt; or &gt;error&lt; element pertaining the expected result. 
                         Alternatively assertions can appears as a list within &lt;any-of&gt; or &lt;all-of&gt; element. 
@@ -713,7 +712,7 @@
         <xs:annotation>
             <xs:documentation>
                 <div>
-                    <h3>any-of (as an element name)</h3>
+                    <h3>any-of</h3>
                     <p>
                         denotes an element which provides a list of assertions. 
                         One or more of the assertions needs to prove true for the test to pass, 
@@ -728,7 +727,7 @@
         <xs:annotation>
             <xs:documentation>
                 <div>
-                    <h3>all-of (as an element name)</h3>
+                    <h3>all-of</h3>
                     <p>
                         denotes an element which provides a list of assertions that must be all satisfied, 
                         if any of the assertions proves to be false then the test fails.      
@@ -742,9 +741,9 @@
         <xs:annotation>
             <xs:documentation>
                 <div>
-                    <h3>abstractAssertion (as an element name)</h3>
+                    <h3>abstractAssertion</h3>
                     <p>
-                        
+                        Abstract superclass for the various kinds of assertion.
                     </p>
                 </div> 
             </xs:documentation>
@@ -757,7 +756,7 @@
         <xs:annotation>
             <xs:documentation>
                 <div>
-                    <h3>assert (as an element name)</h3>
+                    <h3>assert</h3>
                     <p>
                         denotes an element that contains an XPath expression of which the result equals the expected result of the test case. 
                     </p>
@@ -775,7 +774,7 @@
         <xs:annotation>
             <xs:documentation>
                 <div>
-                    <h3>assert-eq (as an element name)</h3>
+                    <h3>assert-eq</h3>
                     <p>
                         denotes an element whose assumption when run must equal the expected test result.
                     </p>
@@ -793,7 +792,7 @@
         <xs:annotation>
             <xs:documentation>
                 <div>
-                    <h3>assert-count (as an element name)</h3>
+                    <h3>assert-count</h3>
                     <p>
                         Asserts that the result must be a sequence containing a given number of items.
                         The value of the element is an integer giving the expected length of the sequence.
@@ -812,7 +811,7 @@
         <xs:annotation>
             <xs:documentation>
                 <div>
-                    <h3>assert-deep-eq (as an element name)</h3>
+                    <h3>assert-deep-eq</h3>
                     <p>
                         Asserts that the result must be a sequence of atomic values that is deep-equal
                         to the supplied sequence under the rules of the deep-equal() function.
@@ -831,7 +830,7 @@
         <xs:annotation>
             <xs:documentation>
                 <div>
-                    <h3>assert-permutation (as an element name)</h3>
+                    <h3>assert-permutation</h3>
                     <p>
                         Asserts that the result must be a sequence of atomic values that 
                         has some permutation (reordering) that is deep-equal
@@ -853,7 +852,7 @@
         <xs:annotation>
             <xs:documentation>
                 <div>
-                    <h3>assert-serialization (as an element name)</h3>
+                    <h3>assert-serialization</h3>
                     <p>
                         Asserts the result of serializing the expression result using the default
                         serialization parameters method="xml" indent="no" omit-xml-declaration="yes".
@@ -890,7 +889,7 @@
         <xs:annotation>
             <xs:documentation>
                 <div>
-                    <h3>assert-serialization-error (as an element name)</h3>
+                    <h3>assert-serialization-error</h3>
                     <p>
                         Asserts that the query can be executed without error, but serializing the result
                         produces a serialization error. The expression result is serialized using the default
@@ -912,7 +911,7 @@
         <xs:annotation>
             <xs:documentation>
                 <div>
-                    <h3>assert-empty (as an element name)</h3>
+                    <h3>assert-empty</h3>
                     <p>
                         Asserts that the result of the test is an empty sequence.
                     </p>
@@ -925,7 +924,7 @@
         <xs:annotation>
             <xs:documentation>
                 <div>
-                    <h3>assert-type (as an element name)</h3>
+                    <h3>assert-type</h3>
                     <p>
                         Asserts that the result of the test matches the sequence type given as the value
                         of the assert-type element.
@@ -944,7 +943,7 @@
         <xs:annotation>
             <xs:documentation>
                 <div>
-                    <h3>assert-true (as an element name)</h3>
+                    <h3>assert-true</h3>
                     <p>
                         Asserts that the result of the test is the singleton boolean value true().
                         Note, the test expression must actually evaluate to true: this is not an assertion
@@ -959,7 +958,7 @@
         <xs:annotation>
             <xs:documentation>
                 <div>
-                    <h3>assert-true (as an element name)</h3>
+                    <h3>assert-true</h3>
                     <p>
                         Asserts that the result of the test is the singleton boolean value false().
                         Note, the test expression must actually evaluate to false: this is not an assertion
@@ -974,7 +973,7 @@
         <xs:annotation>
             <xs:documentation>
                 <div>
-                    <h3>assert-string-value (as an element name)</h3>
+                    <h3>assert-string-value</h3>
                     <p>
                         Asserts that the result of the test, after conversion to a string by applying the expression
                         
@@ -1004,7 +1003,7 @@
         <xs:annotation>
             <xs:documentation>
                 <div>
-                    <h3>error (as an element name)</h3>
+                    <h3>error</h3>
                     <p>
                         Asserts that the test is expected to fail with a static or dynamic error condition. 
                         The "code" attribute gives the expected error code.
@@ -1022,7 +1021,7 @@
         <xs:annotation>
             <xs:documentation>
                 <div>
-                    <h3>link (as an element name)</h3>
+                    <h3>link</h3>
                     <p>
                         denotes an element which provides reference to documentation of the function.
                     </p>
@@ -1044,8 +1043,7 @@
     </xs:element>
     
     <xs:attributeGroup name="documentAttr">
-        <xs:attribute name="document" type="xs:anyURI">
-            <xs:annotation>
+        <xs:annotation>
                 <xs:documentation>
                     <div>
                         <h3>document (as an attribute name)</h3>
@@ -1055,12 +1053,11 @@
                     </div> 
                 </xs:documentation>
             </xs:annotation>
-        </xs:attribute>
+        <xs:attribute name="document" type="xs:anyURI"/>
     </xs:attributeGroup>
     
     <xs:attributeGroup name="codeAttr">
-        <xs:attribute name="code">
-            <xs:annotation>
+        <xs:annotation>
                 <xs:documentation>
                     <div>
                         <h3>code (as an attribute name)</h3>
@@ -1073,6 +1070,7 @@
                     </div> 
                 </xs:documentation>
             </xs:annotation>
+        <xs:attribute name="code">
             <xs:simpleType>
                 <xs:union memberTypes="xs:NCName">
                     <xs:simpleType>
@@ -1091,11 +1089,10 @@
     </xs:attributeGroup>
     
     <xs:attributeGroup name="fileAttr">
-        <xs:attribute name="file" type="xs:anyURI" use="optional">
-            <xs:annotation>
+        <xs:annotation>
                 <xs:documentation>
                     <div>
-                        <h3>file (as an attribute name)</h3>
+                        <h3>file</h3>
                         <p>
                             This attribute provides a URI to be used as location of a resource within
                             the test suite (for example, a source document, a query, a module, or a schema).
@@ -1106,47 +1103,69 @@
                     </div> 
                 </xs:documentation>
             </xs:annotation>
-        </xs:attribute>
+        <xs:attribute name="file" type="xs:anyURI" use="optional"/>
     </xs:attributeGroup>
     
-    
+    <xs:attributeGroup name="roleAttr">
+                    <xs:annotation>
+                        <xs:documentation>
+                           <div>
+                            <h3>role</h3> 
+                            <p>Describes how a source document is made available to the query.</p>
+                            <p>The value "." indicates that the source document will be the context
+                            item for the query.</p>
+                            <p>A value in the form <code>$varname</code> indicates that the source document will
+                            be made available as the value of the external variable <code>$varname</code>. This variable
+                            will <i>not</i> be declared in the query (this is to allow the mechanism
+                            to be used in XPath). The query will always be such that it is possible to
+                            add <code>declare variable</code> declarations at the start before compiling the query.</p>
+                            <p>If the source document is to be made available to the query using the
+                            doc() function, the "source" element should have a "uri" attribute, and
+                            the "role" attribute should be absent.</p>
+                            <p>The "role" attribute should be omitted if the source is part of a collection
+                            definition.</p>
+                           </div>
+                        </xs:documentation>
+                    </xs:annotation>
+        <xs:attribute name="role" type="xs:string" use="optional"/>
+    </xs:attributeGroup>
     
     <xs:attributeGroup name="nameAttr">
-        <xs:attribute name="name" type="xs:string">
-            <xs:annotation>
+        <xs:annotation>
                 <xs:documentation>
                     <div>
-                        <h3>name (as an attribute name)</h3>
+                        <h3>name</h3>
                         <p>
                             denotes an attribute which provides a string value
                         </p>
                     </div> 
                 </xs:documentation>
             </xs:annotation>
-        </xs:attribute>
-    </xs:attributeGroup>
+        <xs:attribute name="name" type="xs:string"/>
+      </xs:attributeGroup>
     
     <xs:attributeGroup name="creatorAttr">
-        <xs:attribute name="creator" type="xs:string">
-            <xs:annotation>
+        <xs:annotation>
                 <xs:documentation>
                     <div>
-                        <h3>creator (as an attribute name)</h3>
+                        <h3>creator</h3>
                         <p>
-                            denotes an attribute which provides an string value to be used to name the creator of a test-case.
+                            An attribute used to name the creator of a test-case.
                         </p>
+                        <p>Use of this attribute does not constitute a claim to intellectual property rights.</p>
+                        <p>The recommended form is as a personal name (first name, last name). An institutional name
+                            may be used if policy requires it.</p>
                     </div> 
                 </xs:documentation>
             </xs:annotation>
-        </xs:attribute>
+        <xs:attribute name="creator" type="xs:string"/>
     </xs:attributeGroup>
     
     <xs:attributeGroup name="refAttr">
-        <xs:attribute name="ref" type="xs:string">
-            <xs:annotation>
+        <xs:annotation>
                 <xs:documentation>
                     <div>
-                        <h3>ref (as an attribute name)</h3>
+                        <h3>ref</h3>
                         <p>
                             denotes an attribute which contains a reference to an object defined
                             elsewhere in the test catalog, for example a reference to a named
@@ -1157,17 +1176,15 @@
                     </div> 
                 </xs:documentation>
             </xs:annotation>
-            
-        </xs:attribute>
-    </xs:attributeGroup>
+        <xs:attribute name="ref" type="xs:string"/>
+     </xs:attributeGroup>
     
    
     <xs:attributeGroup name="validationAttr">
-        <xs:attribute name="validation" type="validationEnumType" use="optional">
-            <xs:annotation>
+        <xs:annotation>
                 <xs:documentation>
                     <div>
-                        <h3>validation (as an attribute name)</h3>
+                        <h3>validation</h3>
                         <p>
                             indicates for a source document within an environment whether the source document is to be validated against
                             the schema defined for that environment, and if so whether validation is to be strict or lax.
@@ -1175,26 +1192,31 @@
                     </div> 
                 </xs:documentation>
             </xs:annotation>
-        </xs:attribute>
+        <xs:attribute name="validation" type="validationEnumType" use="optional"/>
     </xs:attributeGroup>
     
 
     
     
     <xs:attributeGroup name="typeAttr">
-        <xs:attribute name="type" type="dependencyEnumType">
-            <xs:annotation>
+        <xs:annotation>
                 <xs:documentation>
                     <div>
-                        <h3>type (as an attribute name)</h3>
+                        <h3>type</h3>
                         <p>
-                            denotes an attribute which provides a value over a enumeration type, to be used in the scope of the dependency element. 
-                            It's value is inherited.
+                            The <code>type</code> attribute of a <code>dependency</code> element indicates what type of dependency
+                            it is: the set of possible values is enumerated.
                         </p>
+                        <p>
+                            The most common <code>type</code> is <code>spec</code>, which indicates a dependency on specific versions of
+                            XPath or XQuery. In this case the corresponding <code>value</code> attribute is a space-separated list
+                            whose tokens are, for example, "XQ10" indicating XQuery 1.0, "XQ10+" indicating XQuery 1.0 or later, 
+                            "XQ30+" indication XQuery 3.0 or later, or "XP20+" indicating XPath 2.0 or later. The tokens in the list
+                            are alternatives; the test may be run if any of the dependencies is satisfied.</p>
                     </div> 
                 </xs:documentation>
             </xs:annotation>
-        </xs:attribute>
+        <xs:attribute name="type" type="dependencyEnumType"/>
     </xs:attributeGroup>
     
     <xs:simpleType name="dependencyEnumType">
@@ -1224,23 +1246,22 @@
     
     
     <xs:attributeGroup name="valueAttr">
-        <xs:attribute name="value" type="xs:string">
-            <xs:annotation>
+        <xs:annotation>
                 <xs:documentation>
                     <div>
-                        <h3>value (as an attribute name)</h3>
+                        <h3>value</h3>
                         <p>
-                            denotes an attribute which provides a string value to be used to indicate the dependency.
+                            As an attribute of the <code>dependency</code> element,
+                            provides a string value to be used to indicate the dependency.
                         </p>
                     </div> 
                 </xs:documentation>
             </xs:annotation>
-        </xs:attribute>
+        <xs:attribute name="value" type="xs:string"/>
     </xs:attributeGroup>
     
     <xs:attributeGroup name="uriAttr">
-        <xs:attribute name="uri" type="xs:anyURI">
-            <xs:annotation>
+        <xs:annotation>
                 <xs:documentation>
                     <div>
                         <h3>uri (as an attribute name)</h3>
@@ -1258,12 +1279,11 @@
                     </div> 
                 </xs:documentation>
             </xs:annotation>
-        </xs:attribute>
+        <xs:attribute name="uri" type="xs:anyURI"/>
     </xs:attributeGroup>
     
     <xs:attributeGroup name="byAttr">
-        <xs:attribute name="by" type="xs:string">
-            <xs:annotation>
+        <xs:annotation>
                 <xs:documentation>
                     <div>
                         <h3>by (as an attribute name)</h3>
@@ -1275,13 +1295,11 @@
                     
                 </xs:documentation>
             </xs:annotation>
-            
-        </xs:attribute>
+        <xs:attribute name="by" type="xs:string"/>
     </xs:attributeGroup>
     
     <xs:attributeGroup name="onAttr">
-        <xs:attribute name="on" type="xs:date">
-            <xs:annotation>
+        <xs:annotation>
                 <xs:documentation>
                     <div>
                         <h3>on (as an attribute name)</h3>
@@ -1293,13 +1311,11 @@
                     
                 </xs:documentation>
             </xs:annotation>
-            
-        </xs:attribute>
+        <xs:attribute name="on" type="xs:date"/>
     </xs:attributeGroup>
     
     <xs:attributeGroup name="changeAttr">
-        <xs:attribute name="change" type="xs:string">
-            <xs:annotation>
+        <xs:annotation>
                 <xs:documentation>
                     <div>
                         <h3>change (as an attribute name)</h3>
@@ -1311,7 +1327,6 @@
                     
                 </xs:documentation>
             </xs:annotation>
-            
-        </xs:attribute>
+        <xs:attribute name="change" type="xs:string"/>
     </xs:attributeGroup>
 </xs:schema>

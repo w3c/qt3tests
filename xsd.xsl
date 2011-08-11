@@ -1,4 +1,4 @@
-<!DOCTYPE xsl:stylesheet PUBLIC "http://www.w3.org/1999/XSL/Transform" "../../People/cmsmcq/lib/xslt10.dtd" [ 
+<!DOCTYPE xsl:stylesheet [ 
 
 <!ATTLIST xsl:stylesheet 
           xmlns:xsl CDATA "http://www.w3.org/1999/XSL/Transform" 
@@ -47,7 +47,7 @@
 
  <xsl:output method="html" indent="yes"/>
 
- <xsl:param name="line-wrap-length" select="60"/>
+ <xsl:param name="line-wrap-length" select="90"/>
  <xsl:param name="ind-depth" select="6"/>
  <xsl:param name="additional-indent" select="substring(   '                                                                                ',   1,$ind-depth)"/>
 
@@ -134,7 +134,10 @@
 	<xsl:element name="hr"/>
 	<xsl:element name="ul">
 	 <xsl:attribute name="class">bodytext</xsl:attribute>
-	 <xsl:apply-templates mode="toc" select="./xsd:schema/*"/>
+	 <xsl:apply-templates mode="toc" select="./xsd:schema/*">
+	    <xsl:sort select="name()"/>
+	    <xsl:sort select="@name"/>
+	 </xsl:apply-templates>
 	</xsl:element>
 	<xsl:element name="hr"/>
        </xsl:element>
@@ -184,7 +187,9 @@
  </xsl:template>
 
  <xsl:template match="xsd:documentation">
-  <xsl:choose>
+    <xsl:copy-of select="*"/>
+ </xsl:template>
+ <!-- <xsl:choose>
    <xsl:when test=".//xhtml:* or .//div or .//p or .//li">
     <xsl:copy-of select="*"/>
    </xsl:when>
@@ -198,7 +203,7 @@
     </xsl:call-template>
    </xsl:otherwise>
   </xsl:choose>
- </xsl:template>
+ </xsl:template>-->
 
  <xsl:template name="break-pcdata">
   <xsl:param name="s"/>
@@ -424,6 +429,9 @@
     <xsl:call-template name="makelink-maybe"/>
    </xsl:when>
    <xsl:when test="parent::xsd:attribute     and namespace-uri() = ''     and local-name() = 'type'     ">
+    <xsl:call-template name="makelink-maybe"/>
+   </xsl:when>
+   <xsl:when test="parent::xsd:attributeGroup     and namespace-uri() = ''     and local-name() = 'ref'     ">
     <xsl:call-template name="makelink-maybe"/>
    </xsl:when>
    <xsl:when test="parent::xsd:element     and namespace-uri() = ''     and local-name() = 'substitutionGroup'     ">
@@ -702,7 +710,7 @@
       <xsl:when test="parent::xsd:group        and count(/xsd:schema/xsd:group[@name = $lname]) = 1">
        <xsl:value-of select="concat('grp_',$lname)"/>
       </xsl:when>
-      <xsl:when test="parent::xsd:attributeGroup        and count(/xsd:schema/xsd:atributeGroup[@name = $lname]) = 1">
+      <xsl:when test="parent::xsd:attributeGroup        and count(/xsd:schema/xsd:attributeGroup[@name = $lname]) = 1">
        <xsl:value-of select="concat('attgrp_',$lname)"/>
       </xsl:when>
       <!--* static links to built-ins could be handled here *-->
@@ -720,6 +728,8 @@
     </xsl:otherwise>
    </xsl:choose>
   </xsl:variable>
+  
+
 
   <xsl:choose>
    <xsl:when test="($linktarget='no-ns-support')">
