@@ -17,9 +17,22 @@
       <created by="Frans Englich" on="2008-05-16"/>
       <test><![CDATA[declare namespace functx = "http://www.example.com/";
             declare namespace new = "http://new";
-            (:~ : Adds attributes to XML elements : : @author Priscilla Walmsley, Datypic : @version 1.0 : @see http://www.xqueryfunctions.com/xq/functx_add-attributes.html : @param $elements the element(s) to which you wish to add the attribute : @param $attrNames the name(s) of the attribute(s) to add : @param $attrValues the value(s) of the attribute(s) to add :)
-            declare function functx:add-attributes ( $elements as element()* , $attrNames as xs:QName* , $attrValues as xs:anyAtomicType* ) as element()? { for $element in $elements return element { node-name($element)} { for $attrName at $seq in $attrNames return if ($element/@*[node-name(.) = $attrName]) then () else attribute {$attrName} {$attrValues[$seq]}, $element/@*, $element/node() } } ;
-            let $in-xml := <in-xml> <a>x</a> <b att1="x">x</b> </in-xml> return (functx:add-attributes( $in-xml/a, xs:QName('att1'), 1))]]></test>
+            (:~ 
+               : Adds attributes to XML elements : 
+               : @author Priscilla Walmsley, Datypic 
+               : @version 1.0 
+               : @see http://www.xqueryfunctions.com/xq/functx_add-attributes.html 
+               : @param $elements the element(s) to which you wish to add the attribute 
+               : @param $attrNames the name(s) of the attribute(s) to add 
+               : @param $attrValues the value(s) of the attribute(s) to add :)
+            declare function functx:add-attributes ( $elements as element()* , $attrNames as xs:QName* , $attrValues as xs:anyAtomicType* ) as element()? { 
+               for $element in $elements return element { node-name($element)} { 
+                  for $attrName at $seq in $attrNames return                     
+                    if ($element/@*[node-name(.) = $attrName]) then () else attribute {$attrName} {$attrValues[$seq]}, $element/@*, $element/node() } 
+            } ;
+            let $in-xml := <in-xml> <a>x</a> <b att1="x">x</b> </in-xml> 
+            return (functx:add-attributes( $in-xml/a, xs:QName('att1'), 1))
+      ]]></test>
       <result>
          <assert-serialization><![CDATA[<a att1="1">x</a>]]></assert-serialization>
       </result>
@@ -30,9 +43,22 @@
       <created by="Frans Englich" on="2008-05-16"/>
       <test><![CDATA[declare namespace functx = "http://www.example.com/";
          declare namespace new = "http://new";
-                    (:~ : Adds attributes to XML elements : : @author Priscilla Walmsley, Datypic : @version 1.0 : @see http://www.xqueryfunctions.com/xq/functx_add-attributes.html : @param $elements the element(s) to which you wish to add the attribute : @param $attrNames the name(s) of the attribute(s) to add : @param $attrValues the value(s) of the attribute(s) to add :)
-         declare function functx:add-attributes ( $elements as element()* , $attrNames as xs:QName* , $attrValues as xs:anyAtomicType* ) as element()? { for $element in $elements return element { node-name($element)} { for $attrName at $seq in $attrNames return if ($element/@*[node-name(.) = $attrName]) then () else attribute {$attrName} {$attrValues[$seq]}, $element/@*, $element/node() } } ;
-                    let $in-xml := <in-xml> <a>x</a> <b att1="x">x</b> </in-xml> return (functx:add-attributes( $in-xml/a, (xs:QName('att1'),xs:QName('att2')), (1,2)))]]></test>
+         (:~ 
+            : Adds attributes to XML elements : 
+            : @author Priscilla Walmsley, Datypic 
+            : @version 1.0 : @see http://www.xqueryfunctions.com/xq/functx_add-attributes.html 
+            : @param $elements the element(s) to which you wish to add the attribute 
+            : @param $attrNames the name(s) of the attribute(s) to add 
+            : @param $attrValues the value(s) of the attribute(s) to add :)
+         declare function functx:add-attributes ( $elements as element()* , $attrNames as xs:QName* , $attrValues as xs:anyAtomicType* ) as element()? { 
+            for $element in $elements 
+            return element { node-name($element)} { 
+               for $attrName at $seq in $attrNames 
+               return if ($element/@*[node-name(.) = $attrName]) then () else attribute {$attrName} {$attrValues[$seq]}, $element/@*, $element/node() } 
+         } ;
+         let $in-xml := <in-xml> <a>x</a> <b att1="x">x</b> </in-xml> 
+         return (functx:add-attributes( $in-xml/a, (xs:QName('att1'),xs:QName('att2')), (1,2)))
+      ]]></test>
       <result>
          <assert-serialization><![CDATA[<a att1="1" att2="2">x</a>]]></assert-serialization>
       </result>
@@ -43,9 +69,22 @@
       <created by="Frans Englich" on="2008-05-16"/>
       <test><![CDATA[declare namespace functx = "http://www.example.com/";
          declare namespace new = "http://new";
-                    (:~ : Adds attributes to XML elements : : @author Priscilla Walmsley, Datypic : @version 1.0 : @see http://www.xqueryfunctions.com/xq/functx_add-attributes.html : @param $elements the element(s) to which you wish to add the attribute : @param $attrNames the name(s) of the attribute(s) to add : @param $attrValues the value(s) of the attribute(s) to add :)
-         declare function functx:add-attributes ( $elements as element()* , $attrNames as xs:QName* , $attrValues as xs:anyAtomicType* ) as element()? { for $element in $elements return element { node-name($element)} { for $attrName at $seq in $attrNames return if ($element/@*[node-name(.) = $attrName]) then () else attribute {$attrName} {$attrValues[$seq]}, $element/@*, $element/node() } } ;
-                    let $in-xml := <in-xml> <a>x</a> <b att1="x">x</b> </in-xml> return (functx:add-attributes( $in-xml/b, (xs:QName('att1'),xs:QName('att2')), (1,2)))]]></test>
+         (:~ 
+            : Adds attributes to XML elements : 
+            : @author Priscilla Walmsley, Datypic 
+            : @version 1.0 : @see http://www.xqueryfunctions.com/xq/functx_add-attributes.html 
+            : @param $elements the element(s) to which you wish to add the attribute 
+            : @param $attrNames the name(s) of the attribute(s) to add 
+            : @param $attrValues the value(s) of the attribute(s) to add :)
+         declare function functx:add-attributes ( $elements as element()* , $attrNames as xs:QName* , $attrValues as xs:anyAtomicType* ) as element()? { 
+            for $element in $elements 
+            return element { node-name($element)} { 
+               for $attrName at $seq in $attrNames 
+               return if ($element/@*[node-name(.) = $attrName]) then () else attribute {$attrName} {$attrValues[$seq]}, $element/@*, $element/node() } 
+         } ;
+         let $in-xml := <in-xml> <a>x</a> <b att1="x">x</b> </in-xml> 
+         return (functx:add-attributes( $in-xml/b, (xs:QName('att1'),xs:QName('att2')), (1,2)))
+      ]]></test>
       <result>
          <assert-serialization><![CDATA[<b att2="2" att1="x">x</b>]]></assert-serialization>
       </result>
@@ -57,8 +96,14 @@
       <test><![CDATA[declare namespace functx = "http://www.example.com/";
          declare namespace new = "http://new";
                     (:~ : Adds attributes to XML elements : : @author Priscilla Walmsley, Datypic : @version 1.0 : @see http://www.xqueryfunctions.com/xq/functx_add-attributes.html : @param $elements the element(s) to which you wish to add the attribute : @param $attrNames the name(s) of the attribute(s) to add : @param $attrValues the value(s) of the attribute(s) to add :)
-         declare function functx:add-attributes ( $elements as element()* , $attrNames as xs:QName* , $attrValues as xs:anyAtomicType* ) as element()? { for $element in $elements return element { node-name($element)} { for $attrName at $seq in $attrNames return if ($element/@*[node-name(.) = $attrName]) then () else attribute {$attrName} {$attrValues[$seq]}, $element/@*, $element/node() } } ;
-                    let $in-xml := <in-xml> <a>x</a> <b att1="x">x</b> </in-xml> return (functx:add-attributes( $in-xml/a, xs:QName('new:att1'), 1))]]></test>
+         declare function functx:add-attributes ( $elements as element()* , $attrNames as xs:QName* , $attrValues as xs:anyAtomicType* ) as element()? { 
+            for $element in $elements return element { node-name($element)} { 
+               for $attrName at $seq in $attrNames 
+               return if ($element/@*[node-name(.) = $attrName]) then () else attribute {$attrName} {$attrValues[$seq]}, $element/@*, $element/node() } 
+         } ;
+         let $in-xml := <in-xml> <a>x</a> <b att1="x">x</b> </in-xml> 
+         return (functx:add-attributes( $in-xml/a, xs:QName('new:att1'), 1))
+      ]]></test>
       <result>
          <assert-serialization><![CDATA[<a xmlns:new="http://new" new:att1="1">x</a>]]></assert-serialization>
       </result>
@@ -70,8 +115,15 @@
       <test><![CDATA[declare namespace functx = "http://www.example.com/";
          declare namespace new = "http://new";
                     (:~ : Adds attributes to XML elements : : @author Priscilla Walmsley, Datypic : @version 1.0 : @see http://www.xqueryfunctions.com/xq/functx_add-attributes.html : @param $elements the element(s) to which you wish to add the attribute : @param $attrNames the name(s) of the attribute(s) to add : @param $attrValues the value(s) of the attribute(s) to add :)
-         declare function functx:add-attributes ( $elements as element()* , $attrNames as xs:QName* , $attrValues as xs:anyAtomicType* ) as element()? { for $element in $elements return element { node-name($element)} { for $attrName at $seq in $attrNames return if ($element/@*[node-name(.) = $attrName]) then () else attribute {$attrName} {$attrValues[$seq]}, $element/@*, $element/node() } } ;
-                    let $in-xml := <in-xml> <a>x</a> <b att1="x">x</b> </in-xml> return (functx:add-attributes( $in-xml/a, QName('http://new','new:att1'), 1))]]></test>
+         declare function functx:add-attributes ( $elements as element()* , $attrNames as xs:QName* , $attrValues as xs:anyAtomicType* ) as element()? { 
+            for $element in $elements 
+            return element { node-name($element)} { 
+               for $attrName at $seq in $attrNames 
+               return if ($element/@*[node-name(.) = $attrName]) then () else attribute {$attrName} {$attrValues[$seq]}, $element/@*, $element/node() } 
+            } ;
+         let $in-xml := <in-xml> <a>x</a> <b att1="x">x</b> </in-xml> 
+         return (functx:add-attributes( $in-xml/a, QName('http://new','new:att1'), 1))
+      ]]></test>
       <result>
          <assert-serialization><![CDATA[<a xmlns:new="http://new" new:att1="1">x</a>]]></assert-serialization>
       </result>
@@ -80,11 +132,29 @@
    <test-case name="functx-functx-add-attributes-all">
       <description>~ : Adds attributes to XML elements : : @author Priscilla Walmsley, Datypic : @version 1.0 : @see http://www.xqueryfunctions.com/xq/functx_add-attributes.html : @param $elements the element(s) to which you wish to add the attribute : @param $attrNames the name(s) of the attribute(s) to add : @param $attrValues the value(s) of the attribute(s) to add </description>
       <created by="Frans Englich" on="2008-05-16"/>
-      <test><![CDATA[declare namespace functx = "http://www.example.com/";
+      <test><![CDATA[
+         declare namespace functx = "http://www.example.com/";
          declare namespace new = "http://new";
-                    (:~ : Adds attributes to XML elements : : @author Priscilla Walmsley, Datypic : @version 1.0 : @see http://www.xqueryfunctions.com/xq/functx_add-attributes.html : @param $elements the element(s) to which you wish to add the attribute : @param $attrNames the name(s) of the attribute(s) to add : @param $attrValues the value(s) of the attribute(s) to add :)
-         declare function functx:add-attributes ( $elements as element()* , $attrNames as xs:QName* , $attrValues as xs:anyAtomicType* ) as element()? { for $element in $elements return element { node-name($element)} { for $attrName at $seq in $attrNames return if ($element/@*[node-name(.) = $attrName]) then () else attribute {$attrName} {$attrValues[$seq]}, $element/@*, $element/node() } } ;
-                    let $in-xml := <in-xml> <a>x</a> <b att1="x">x</b> </in-xml> return (functx:add-attributes( $in-xml/a, xs:QName('att1'), 1), functx:add-attributes( $in-xml/a, (xs:QName('att1'),xs:QName('att2')), (1,2)), functx:add-attributes( $in-xml/b, (xs:QName('att1'),xs:QName('att2')), (1,2)), functx:add-attributes( $in-xml/a, xs:QName('new:att1'), 1), functx:add-attributes( $in-xml/a, QName('http://new','new:att1'), 1))]]></test>
+         (:~ 
+            : Adds attributes to XML elements : 
+            : @author Priscilla Walmsley, Datypic 
+            : @version 1.0 : @see http://www.xqueryfunctions.com/xq/functx_add-attributes.html 
+            : @param $elements the element(s) to which you wish to add the attribute 
+            : @param $attrNames the name(s) of the attribute(s) to add 
+            : @param $attrValues the value(s) of the attribute(s) to add :)
+         declare function functx:add-attributes ( $elements as element()* , $attrNames as xs:QName* , $attrValues as xs:anyAtomicType* ) as element()? { 
+            for $element in $elements 
+            return element { node-name($element)} { 
+               for $attrName at $seq in $attrNames 
+               return if ($element/@*[node-name(.) = $attrName]) then () else attribute {$attrName} {$attrValues[$seq]}, $element/@*, $element/node() } 
+         } ;
+         let $in-xml := <in-xml> <a>x</a> <b att1="x">x</b> </in-xml> 
+         return (functx:add-attributes( $in-xml/a, xs:QName('att1'), 1), 
+                  functx:add-attributes( $in-xml/a, (xs:QName('att1'),xs:QName('att2')), (1,2)), 
+                  functx:add-attributes( $in-xml/b, (xs:QName('att1'),xs:QName('att2')), (1,2)), 
+                  functx:add-attributes( $in-xml/a, xs:QName('new:att1'), 1), 
+                  functx:add-attributes( $in-xml/a, QName('http://new','new:att1'), 1))
+      ]]></test>
       <result>
          <assert-serialization><![CDATA[<a att1="1">x</a><a att1="1" att2="2">x</a><b att2="2" att1="x">x</b><a xmlns:new="http://new" new:att1="1">x</a><a xmlns:new="http://new" new:att1="1">x</a>]]></assert-serialization>
       </result>
