@@ -941,6 +941,7 @@
    <test-case name="qischema072-01">
       <description>validation should fail, element is abstract </description>
       <created by="Michael Kay" on="2006-12-22"/>
+      <modified by="Michael Kay" on="2011-08-30" change="put validate expression in parens"/>
       <environment>
         <schema uri="http://schema.highwire.org/Publishing/Resource/qischema072" file="SchemaImport/qischema072.xsd"/>
       </environment>  
@@ -988,6 +989,7 @@
    <test-case name="qischema072-03">
       <description>validation should fail, element has fixed value </description>
       <created by="Michael Kay" on="2006-12-22"/>
+      <modified by="Michael Kay" on="2011-08-30" change="put validate expression in parens"/>
       <environment>
         <schema uri="http://schema.highwire.org/Publishing/Resource/qischema072" file="SchemaImport/qischema072.xsd"/>
       </environment>
@@ -1028,6 +1030,7 @@
    <test-case name="qischema072-05">
       <description>validation should fail, non-unique value </description>
       <created by="Michael Kay" on="2006-12-22"/>
+      <modified by="Michael Kay" on="2011-08-30" change="put validate expression in parens"/>
       <environment>
         <schema uri="http://schema.highwire.org/Publishing/Resource/qischema072" file="SchemaImport/qischema072.xsd"/>
       </environment>
@@ -1271,7 +1274,14 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[
         import schema default element namespace "http://www.w3.org/XQueryTest/abf"; 
-        validate strict { <abf> <a/> { if (doc("stdxmlfile.xml")/*) then <b/> else <f/> } <b/> { for $i in 1 to 3 return <g/> } </abf> }
+        validate strict { 
+          <abf> 
+            <a/> 
+            { if (doc("stdxmlfile.xml")/*) then <b/> else <f/> } 
+            <b/> 
+            { for $i in 1 to 3 return <g/> } 
+          </abf> 
+        }
       ]]></test>
       <result>
          <error code="XQDY0027"/>
@@ -1285,7 +1295,14 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[
         import schema default element namespace "http://www.w3.org/XQueryTest/abf"; 
-        validate strict { <abf> <a/> { if (doc("stdxmlfile.xml")/*) then <b/> else <f/> } <b/> { for $i in 1 to 3 return <g/> } </abf> }
+        validate strict { 
+          <abf> 
+            <a/> 
+            { if (doc("stdxmlfile.xml")/*) then <b/> else <f/> } 
+            <b/> 
+            { for $i in 1 to 3 return <g/> } 
+          </abf> 
+        }
       ]]></test>
       <result>
          <error code="XQDY0027"/>
