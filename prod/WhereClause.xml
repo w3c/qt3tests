@@ -268,6 +268,166 @@
         <assert-empty/>
       </result>
    </test-case>
+   
+   <test-case name="WhereExpr022">
+      <description> Composite where clause depending on multiple variables </description>
+      <created by="Michael Kay" on="2011-09-01"/>
+      <environment ref="fsx"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+         for $file in //File 
+         let $namelen := string-length($file/FileName)
+         where ($namelen = 15 and $file//Allow/user = 'system\Hyungjeong') 
+         return $file/FileName
+      </test>
+      <result>
+         <assert-string-value>File00000000000</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="WhereExpr023">
+      <description> Where clause appearing after a count clause </description>
+      <created by="Michael Kay" on="2011-09-01"/>
+      <environment ref="fsx"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>
+         for $file in //File
+         count $c
+         where ($file//Allow/user = 'system\Aladin') 
+         return $c
+      </test>
+      <result>
+         <assert-string-value>2</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="WhereExpr024">
+      <description> Multiple where clauses in suboptimal order </description>
+      <created by="Michael Kay" on="2011-09-01"/>
+      <environment ref="fsx"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>
+         for $file in //File 
+         let $prefix := substring($file/FileName, 1, 4)
+         where ($prefix = 'File')
+         where ($file//Allow/user = 'system\Hyungjeong')
+         return $file/FileName
+      </test>
+      <result>
+         <assert-string-value>File00000000000</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="WhereExpr025">
+      <description> Where clause with no dependencies on FLWOR variables </description>
+      <created by="Michael Kay" on="2011-09-01"/>
+      <environment ref="fsx"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>
+         for $file in //File 
+         where current-date() gt xs:date('1900-01-01')
+         let $prefix := substring($file/FileName, 1, 4)
+         where ($prefix = 'File')
+         where ($file//Allow/user = 'system\Hyungjeong')
+         return $file/FileName
+      </test>
+      <result>
+         <assert-string-value>File00000000000</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="WhereExpr026">
+      <description> Where clause that depends on position() </description>
+      <created by="Michael Kay" on="2011-09-01"/>
+      <environment ref="fsx"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>
+         let $doc := (/)
+         return (11 to 15)!
+            (for $file in $doc//File
+            count $c
+            where $c = position()
+            return $file/FileName)
+      </test>
+      <result>
+         <assert-string-value>File00000000000 File00000000001 File00000000002 File00000000003 File00000000004</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="WhereExpr027">
+      <description> Where clause that depends on last() </description>
+      <created by="Michael Kay" on="2011-09-01"/>
+      <environment ref="fsx"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>
+         let $doc := (/)
+         return (11 to 15)!
+            (for $file at $c in $doc//File
+            where $c = last()
+            return string($file/FileName))
+      </test>
+      <result>
+         <assert-string-value>File00000000004 File00000000004 File00000000004 File00000000004 File00000000004</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="WhereExpr028">
+      <description> Where clause with let (and no for) </description>
+      <created by="Michael Kay" on="2011-09-01"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+         let $x := 1 to 10
+         where $x = 1
+         return $x
+      </test>
+      <result>
+         <assert-string-value>1 2 3 4 5 6 7 8 9 10</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="WhereExpr029">
+      <description> Where clause with let (and no for) </description>
+      <created by="Michael Kay" on="2011-09-01"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+         let $x := 1 to 10
+         where count($x) = 1
+         return $x
+      </test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+   
+   <test-case name="WhereExpr030">
+      <description> Where clause with "outer for" </description>
+      <created by="Michael Kay" on="2011-09-01"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>
+         declare variable $n external := 10;
+         for $x allowing empty in 1 to $n
+         where $x lt 5
+         return $x
+      </test>
+      <result>
+         <assert-string-value>1 2 3 4</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="WhereExpr031">
+      <description> Where clause with "outer for" </description>
+      <created by="Michael Kay" on="2011-09-01"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>
+         declare variable $n external := 0;
+         for $x allowing empty in 1 to $n
+         where not($x = 5)
+         return concat("[", $x, "]")
+      </test>
+      <result>
+         <assert-string-value>[]</assert-string-value>
+      </result>
+   </test-case>
 
    <test-case name="whereClause-1">
       <description> use of where clause involving an "or" expression. Use fn:true() </description>
