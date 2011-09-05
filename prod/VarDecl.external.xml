@@ -577,12 +577,22 @@
    <test-case name="K2-ExternalVariablesWithout-18">
       <description> XQuery 1.0 doesn't allow externals to have a default value. </description>
       <created by="Frans Englich" on="2008-11-13"/>
+      <modified by="Michael Dyck" on="2011-09-05" change="Split off the XQuery 3.0 expectation (to K2-ExternalVariablesWithout-18b)"/>
+      <dependency type="spec" value="XQ10"/>
       <test>declare variable $var external := 1; 1</test>
       <result>
-         <any-of>
-            <assert-eq>1</assert-eq>
-            <error code="XPST0003"/>
-         </any-of>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-ExternalVariablesWithout-18b">
+      <description> XQuery 3.0 does allow externals to have a default value. </description>
+      <created by="Frans Englich" on="2008-11-13"/>
+      <modified by="Michael Dyck" on="2011-09-05" change="Split off the XQuery 3.0 expectation (from K2-ExternalVariablesWithout-18)"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>declare variable $var external := 1; 1</test>
+      <result>
+         <assert-eq>1</assert-eq>
       </result>
    </test-case>
 
