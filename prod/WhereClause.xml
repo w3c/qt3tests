@@ -428,6 +428,35 @@
          <assert-string-value>[]</assert-string-value>
       </result>
    </test-case>
+   
+   <test-case name="WhereExpr032">
+      <description> Where clause with "outer for". A trap for systems that rewrite where clauses as predicates. </description>
+      <created by="Michael Kay" on="2011-09-01"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>
+         for $x allowing empty in 1 to 5
+         where $x lt 0
+         return empty($x)
+      </test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+   
+   <test-case name="WhereExpr033">
+      <description> Integer-valued where clause. A trap for systems that rewrite where clauses as predicates. </description>
+      <created by="Michael Kay" on="2011-09-01"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>
+         declare variable $n external := 0;
+         for $x in -2 to +2
+         where ($n - $x)
+         return $x
+      </test>
+      <result>
+         <assert-string-value>-2 -1 1 2</assert-string-value>
+      </result>
+   </test-case>
 
    <test-case name="whereClause-1">
       <description> use of where clause involving an "or" expression. Use fn:true() </description>
