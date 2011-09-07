@@ -1,5 +1,5 @@
 <?xml version="1.1" encoding="us-ascii"?>
-<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="app-Catalog">
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="app-CatalogCheck">
    <description>Tests for the Catalog</description>
    <link type="spec" document="http://www.w3.org/TR/xquery-30/"
          idref="doc-xquery30-Catalog"/>
@@ -162,6 +162,27 @@
         group by $testname
         where count($xq-testcase) gt 1
         return $testname
+      ]]></test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+
+     <test-case name="Catalog008">
+      <description> Check that all test names are unique </description>
+      <created by="Michael Kay" on="2011-08-23"/>
+      <environment ref="catalog"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        xquery version "3.0";
+        declare namespace fots = "http://www.w3.org/2010/09/qt-fots-catalog";
+
+        for $xq-testcase in //fots:test-set
+        let $testname := $xq-testcase/@name
+        let $testfile := $xq-testcase/@file/doc(resolve-uri(., base-uri(..)))
+        let $file-testname := $testfile/fots:test-set/@name
+        where $testname != $file-testname
+        return <out catalog-name="{string($testname)}" test-name="{string($file-testname)}"/>
       ]]></test>
       <result>
          <assert-empty/>
