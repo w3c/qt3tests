@@ -113,9 +113,13 @@
    <test-case name="K2-Serialization-11">
       <description> Ensure a new-line character is properly escaped. </description>
       <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="O'Neil Delpratt" on="2011-09-08" change="Corrected expected result"/>
+      <dependency type="spec" value="XQ10+"/>
       <test><![CDATA["a&#xD;aa&#xD;&#xA;a&#xD;&#xA;"]]></test>
       <result>
-         <assert-string-value>a&amp;#xD;aa&amp;#xD;&amp;#xA;a&amp;#xD;&amp;#xA;</assert-string-value>
+         <assert-serialization><![CDATA[a&#xD;aa&#xD;
+a&#xD;
+]]></assert-serialization>
       </result>
    </test-case>
 

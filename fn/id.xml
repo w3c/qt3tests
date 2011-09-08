@@ -44,9 +44,10 @@
    <test-case name="fn-id-2">
       <description>Evaluation of fn:id with context item not a node.</description>
       <created by="Carmelo Montanez" on="2005-11-27"/>
+      <modified by="O'Neil Delpratt" on="2011-09-08" change="error code" />
       <test>(1 to 5)[fn:id("argument1")]</test>
       <result>
-         <error code="XPDY0002"/>
+            <error code="XPTY0004"/>
       </result>
    </test-case>
 
@@ -248,9 +249,10 @@
    <test-case name="fn-id-22">
       <description>Evaluation of fn:id with context item not a node and second argument set to ".".</description>
       <created by="Carmelo Montanez" on="2006-02-08"/>
+      <modified by="O'Neil Delpratt" on="2011-09-08" change="error code" />
       <test>(1 to 5)[ fn:id("argument1",.)]</test>
       <result>
-         <error code="XPDY0002"/>
+         <error code="XPTY0004"/>
       </result>
    </test-case>
 
@@ -360,13 +362,9 @@
       <description>Use an invalid target node.</description>
       <created by="Frans Englich" on="2007-11-26"/>
       <modified by="Michael Kay" on="2011-08-10" change="remove dependency on special fots:copy() function"/>
-      <environment ref="auction-xq"/>
-      <module uri="http://www.w3.org/QT3/copy" file="id/copy.xq"/>
+      <modified by="O'Neil Delpratt" on="2011-09-08" change="reverted back to the original test-case in XQTS"/>
       <dependency type="spec" value="XQ10+"/>
-      <test>
-        import module namespace copy="http://www.w3.org/QT3/copy";
-        let $i := copy:copy(/*)//*:NegativeComments return id("foo", $i)
-      </test>
+      <test><![CDATA[let $i := <e><e/><e/><e/><e/><e/><e/><e/><b xml:id="foo"/><e/></e>return id("foo", $i)]]></test>
       <result>
          <error code="FODC0001"/>
       </result>

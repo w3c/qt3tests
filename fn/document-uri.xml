@@ -133,10 +133,9 @@
    <test-case name="fn-document-uri-12">
       <description> Evaluation of fn:document-uri with argument set to document node from xml file. </description>
       <created by="Carmelo Montanez" on="2005-11-28"/>
-      <environment>
-         <param name="input-context1" as="xs:string" select="'../docs/works-mod.xml'"/>
-      </environment>
-      <test>fn:contains(fn:document-uri(fn:doc($input-context1)),$input-context1) or (fn:document-uri(fn:doc($input-context1)) = "")</test>
+      <modified by="O'Neil Delpratt" on="2011-09-08" change="environment ref uri for source file"/>
+      <environment ref="works-mod-uri"/>
+      <test>fn:contains(fn:document-uri(fn:doc($uri)),$uri) or (fn:document-uri(fn:doc($uri)) = "")</test>
       <result>
          <any-of>
             <assert-true/>
@@ -207,10 +206,9 @@
    <test-case name="fn-document-uri-18">
       <description> Evaluation of fn:document-uri used as argument to an fn:concat function. </description>
       <created by="Carmelo Montanez" on="2005-11-28"/>
-      <environment>
-         <param name="input-context1" as="xs:string" select="'../docs/works-mod.xml'"/>
-      </environment>
-      <test>fn:concat(fn:string(fn:contains(fn:document-uri(fn:doc($input-context1)),$input-context1))," A String")</test>
+      <modified by="O'Neil Delpratt" on="2011-09-08" change="environment ref uri for source file"/>
+      <environment ref="works-mod-uri"/>
+      <test>fn:concat(fn:string(fn:contains(fn:document-uri(fn:doc($uri)),$uri))," A String")</test>
       <result>
          <any-of>
             <assert-string-value>true A String</assert-string-value>
@@ -222,10 +220,9 @@
    <test-case name="fn-document-uri-19">
       <description>Evaluation of fn:document-uri used as argument to an fn:string-join function.</description>
       <created by="Carmelo Montanez" on="2005-11-28"/>
-      <environment>
-         <param name="input-context1" as="xs:string" select="'../docs/works-mod.xml'"/>
-      </environment>
-      <test>fn:string-join((fn:string(fn:contains(fn:document-uri(fn:doc($input-context1)),$input-context1))," A String"),"")</test>
+      <modified by="O'Neil Delpratt" on="2011-09-08" change="environment ref uri for source file"/>
+      <environment ref="works-mod-uri"/>
+      <test>fn:string-join((fn:string(fn:contains(fn:document-uri(fn:doc($uri)),$uri))," A String"),"")</test>
       <result>
          <any-of>
             <assert-string-value>true A String</assert-string-value>

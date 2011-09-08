@@ -48,9 +48,9 @@
             let $c := $input-context2//company[name = $company]
             return $c//partner
         };
-        
+
         let $foobar_partners := local:partners("Foobar Corporation")
-        
+
         for $item in $input-context1//news_item
         where
           some $t in $item//title satisfies
@@ -60,12 +60,12 @@
           or (some $par in $item//par satisfies
            (contains(string($par), "Foobar Corporation")
              and (some $partner in $foobar_partners satisfies
-                contains(string($par), $partner/text())))) 
+                contains(string($par), $partner/text()))))
         return
             <news_item>
                 { $item/title }
                 { $item/date }
-            </news_item> 
+            </news_item>
       ]]></test>
       <result>
          <assert-serialization file="UseCaseSTRING/string-queries-results-q2.out"/>

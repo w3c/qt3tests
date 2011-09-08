@@ -11,11 +11,15 @@
             <created by="Michael Kay" on="2006-11-14"/>
         </schema>
    </environment> 
-   <environment name="abf" >
+   <environment name="abf-emptydoc" >
         <schema uri="http://www.w3.org/XQueryTest/abf" file="SchemaImport/abf.xsd">
             <description>A schema defining a complex type abf.</description>
             <created by="Michael Kay" on="2006-11-14"/>
         </schema>
+       <source role="." file="../docs/emptydoc.xml">
+         <description>Data for the the XML Query use cases</description>
+         <created by="XQuery WG" on="2005-02-11"/>
+      </source>
    </environment>   
    <environment name="mini-fpml" >
         <schema uri="http://www.fpml.org/2005/FpML-4-2" file="SchemaImport/mini-fpml.xsd">
@@ -40,7 +44,14 @@
             <description>Defines some QName types.</description>
             <created by="Michael Kay" on="2006-11-14"/>
         </schema>
-   </environment>      
+   </environment>
+
+    <environment name="emptydoc">
+      <source role="$emptydoc1" file="../docs/emptydoc.xml">
+         <description>Data for the the XML Query use cases</description>
+         <created by="XQuery WG" on="2005-02-11"/>
+      </source>
+    </environment>
    
    <dependency type="spec" value="XQ10+"/>
    <dependency type="feature" value="schemaImport"/>   
@@ -666,7 +677,7 @@
         return validate { element {"res:resource"} { $e/@*, attribute{"frg:fragility"}{3}, $e/* } }
       </test>
       <result>
-         <assert-serialization><![CDATA[<res:resource xmlns:res="http://schema.highwire.org/Publishing/Resource"
+         <assert-serialization ignore-prefixes="true"><![CDATA[<res:resource xmlns:res="http://schema.highwire.org/Publishing/Resource"
               xmlns:frg="http://schema.highwire.org/Publishing/Fragment"
               type="frg:figure"
               frg:fragility="3"/>]]></assert-serialization>
@@ -693,7 +704,7 @@
         return validate { element {"res:resource"} { $e/@*, attribute{"frg:fragility"}{3}, local:f(), $e/* } }
       ]]></test>
       <result>
-         <assert-serialization><![CDATA[<res:resource xmlns:res="http://schema.highwire.org/Publishing/Resource"
+         <assert-serialization ignore-prefixes="true"><![CDATA[<res:resource xmlns:res="http://schema.highwire.org/Publishing/Resource"
               xmlns:frg="http://schema.highwire.org/Publishing/Fragment"
               xmlns:frg_1="http://schema.highwire.org/Publishing/Different"
               type="frg:figure"
@@ -1270,14 +1281,15 @@
    <test-case name="qischema90081-err">
       <description/>
       <created by="Michael Kay" on="2006-11-14"/>
-      <environment ref="abf"/>
+      <modified by="O'Neil Delpratt" on="2011-09-07" change="add environment referencing xml doc"/>
+      <environment ref="abf-emptydoc"/>
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[
-        import schema default element namespace "http://www.w3.org/XQueryTest/abf"; 
+        import schema default element namespace "http://www.w3.org/XQueryTest/abf";
         validate strict { 
           <abf> 
             <a/> 
-            { if (doc("stdxmlfile.xml")/*) then <b/> else <f/> } 
+            { if (./*) then <b/> else <f/> }
             <b/> 
             { for $i in 1 to 3 return <g/> } 
           </abf> 
@@ -1291,14 +1303,15 @@
    <test-case name="qischema90082-err">
       <description/>
       <created by="Michael Kay" on="2006-11-14"/>
-      <environment ref="abf"/>
+      <modified by="O'Neil Delpratt" on="2011-09-07" change="add environment referencing xml doc"/>
+      <environment ref="abf-emptydoc"/>
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[
-        import schema default element namespace "http://www.w3.org/XQueryTest/abf"; 
+        import schema default element namespace "http://www.w3.org/XQueryTest/abf";
         validate strict { 
           <abf> 
             <a/> 
-            { if (doc("stdxmlfile.xml")/*) then <b/> else <f/> } 
+            { if (./*) then <b/> else <f/> }
             <b/> 
             { for $i in 1 to 3 return <g/> } 
           </abf> 
