@@ -10,7 +10,7 @@
    <test-case name="try-001">
       <description/>
       <created by="Michael Kay" on="2008-11-25"/>
-      <dependency type="spec" value="XQ10+"/>
+      <modified by="O'Neil Delpratt" on="2011-10-12" change="Removed local dependency. See bug# 14438"/>
       <test><![CDATA[try { doc('rubbish.xml') } catch * {"ok"}]]></test>
       <result>
          <assert-string-value>ok</assert-string-value>
@@ -30,7 +30,7 @@
    <test-case name="try-003">
       <description/>
       <created by="Michael Kay" on="2008-11-25"/>
-      <dependency type="spec" value="XQ10+"/>
+      <modified by="O'Neil Delpratt" on="2011-10-12" change="Removed local dependency. See bug# 14438"/>
       <test><![CDATA[try { doc('rubbish.xml') } catch *:FODC0001 | *:FODC0002 | *:FODC0005 {"ok"}]]></test>
       <result>
          <assert-string-value>ok</assert-string-value>
@@ -40,7 +40,7 @@
    <test-case name="try-004">
       <description/>
       <created by="Michael Kay" on="2008-11-25"/>
-      <dependency type="spec" value="XQ10+"/>
+      <modified by="O'Neil Delpratt" on="2011-10-12" change="Removed local dependency. See bug# 14438"/>
       <test><![CDATA[
         try { doc('rubbish.xml') } 
         catch err:FODC0001 {<caught-error code="FODC0001"/>} 
@@ -56,7 +56,7 @@
    <test-case name="try-005">
       <description>test try/catch as an ExprSingle </description>
       <created by="Michael Kay" on="2008-11-25"/>
-      <dependency type="spec" value="XQ10+"/>
+      <modified by="O'Neil Delpratt" on="2011-10-12" change="Removed local dependency. See bug# 14438"/>
       <test><![CDATA[<out>{ try { doc('rubbish.xml') } catch * {<caught-error/>}, try { doc('rubbish.xml') } catch * {<caught-another/>} }</out>]]></test>
       <result>
          <assert-serialization><![CDATA[<out><caught-error/><caught-another/></out>]]></assert-serialization>
@@ -66,7 +66,6 @@
    <test-case name="try-006">
       <description>try/catch doesn't catch error evaluating global variable </description>
       <created by="Michael Kay" on="2008-11-25"/>
-      <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[
         declare variable $doc := doc('rubbish.xml'); 
         try { $doc } catch * {<caught-error/>}
@@ -79,7 +78,7 @@
    <test-case name="try-007">
       <description>doesn't catch error evaluating local variable </description>
       <created by="Michael Kay" on="2008-11-25"/>
-      <dependency type="spec" value="XQ10+"/>
+      <modified by="O'Neil Delpratt" on="2011-10-12" change="Removed local dependency. See bug# 14438"/>
       <test><![CDATA[
         let $doc := doc('rubbish.xml') 
         return try { $doc } catch * {<caught-error/>}]]></test>
@@ -91,7 +90,7 @@
    <test-case name="try-008">
       <description>does catch error evaluating function call </description>
       <created by="Michael Kay" on="2008-11-25"/>
-      <dependency type="spec" value="XQ10+"/>
+      <modified by="O'Neil Delpratt" on="2011-10-12" change="Removed local dependency. See bug# 14438"/>
       <test><![CDATA[
         declare function local:f() { doc('rubbish.xml') }; 
         try { local:f() } catch * {"ok"}
@@ -104,7 +103,7 @@
    <test-case name="try-009">
       <description>does catch error evaluating function call </description>
       <created by="Michael Kay" on="2008-11-25"/>
-      <dependency type="spec" value="XQ10+"/>
+      <modified by="O'Neil Delpratt" on="2011-10-12" change="Removed local dependency. See bug# 14438"/>
       <test><![CDATA[
         declare function local:f($d as xs:integer) { 10 div $d }; 
         try { local:f(0) } catch err:FOAR0001 {"ok"}
