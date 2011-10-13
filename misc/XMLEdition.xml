@@ -9,14 +9,11 @@
    <test-case name="XML10-3ed-Mixed-content">
       <description>CDATA sections, comments and PIs may occur in ANY content. in XML 1.0 3th edition and older </description>
       <created by="Tim Kraska" on="2010-01-20"/>
+      <modified by="O'Neil Delpratt" on="2011-10-13" change="Remove newlines in expected result"/>
       <dependency type="spec" value="XQ10+"/>
       <test>&lt;foo&gt; a &lt;![CDATA[cdata section]]&gt; in mixed content. a &lt;!-- comment --&gt; in mixed content. a &lt;?processing instruction?&gt; in mixed content. &lt;/foo&gt;</test>
       <result>
-         <assert-serialization><![CDATA[<foo>
-a cdata section in mixed content.
-a <!-- comment --> in mixed content.
-a <?processing instruction?> in mixed content.
-</foo>]]></assert-serialization>
+         <assert-serialization><![CDATA[<foo> a cdata section in mixed content. a <!-- comment --> in mixed content. a <?processing instruction?> in mixed content. </foo>]]></assert-serialization>
       </result>
    </test-case>
 
