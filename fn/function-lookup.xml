@@ -1,136 +1,57 @@
 <?xml version="1.0" encoding="us-ascii"?>
 <test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="fn-fold-left">
-   <description>Tests for the fn:fold-left() higher-order function introduced in XPath 3.0</description>
+   <description>Tests for the fn:function-lookup() function introduced in XPath 3.0</description>
    <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/"
-         idref="func-fold-left"/>
+         idref="func-function-lookup"/>
    <dependency type="spec" value="XP30+ XQ30+"/>
-   <test-case name="fold-left-001">
-      <description>Higher Order Functions fold-left function  </description>
-      <created by="Michael Kay" on="2010-02-10"/>
-
+   <test-case name="function-lookup-001">
+      <description>Applied to a built-in function</description>
+      <created by="Michael Kay" on="2011-10-27"/>
       <environment ref="empty"/>
-      <test>fold-left(function($a, $b) { $a + $b }, 0, 1 to 5)</test>
+      <test>function-lookup(QName("http://www.w3.org/2005/xpath-functions", "abs"), 1)(-3)</test>
       <result>
-         <assert-eq>15</assert-eq>
+         <assert-eq>3</assert-eq>
       </result>
    </test-case>
-
-   <test-case name="fold-left-002">
-      <description>Higher Order Functions fold-left function  </description>
-      <created by="Michael Kay" on="2010-02-10"/>
-
+   <test-case name="function-lookup-002">
+      <description>Applied to a built-in function with variable arity</description>
+      <created by="Michael Kay" on="2011-10-27"/>
       <environment ref="empty"/>
-      <test>fold-left(function($a, $b) { $a * $b }, 1, (2,3,5,7))</test>
+      <test>function-lookup(QName("http://www.w3.org/2005/xpath-functions", "concat"), 3)("a", "b", "c")</test>
       <result>
-         <assert-eq>210</assert-eq>
+         <assert-string-value>abc</assert-string-value>
       </result>
    </test-case>
-
-   <test-case name="fold-left-003">
-      <description>Higher Order Functions fold-left function  </description>
-      <created by="Michael Kay" on="2010-02-10"/>
-
+   <test-case name="function-lookup-003">
+      <description>Applied to a built-in function with zero arity</description>
+      <created by="Michael Kay" on="2011-10-27"/>
       <environment ref="empty"/>
-      <test>fold-left(function($a, $b) { $a or $b }, false(), (true(), false(), false()))</test>
+      <test>function-lookup(QName("http://www.w3.org/2005/xpath-functions/math", "pi"), 0)() idiv 1</test>
       <result>
-         <assert-true/>
+         <assert-eq>3</assert-eq>
       </result>
    </test-case>
-
-   <test-case name="fold-left-004">
-      <description>Higher Order Functions fold-left function  </description>
-      <created by="Michael Kay" on="2010-02-10"/>
-
+   <test-case name="function-lookup-004">
+      <description>Applied to a constructor function</description>
+      <created by="Michael Kay" on="2011-10-27"/>
       <environment ref="empty"/>
-      <test>fold-left(function($a, $b) { $a and $b }, false(), (true(), false(), false()))</test>
+      <test>function-lookup(QName("http://www.w3.org/2001/XMLSchema", "time"), 1)("12:30:00Z")</test>
       <result>
-         <assert-false/>
+         <assert-eq>xs:time("12:30:00Z")</assert-eq>
       </result>
    </test-case>
-
-   <test-case name="fold-left-005">
-      <description>Higher Order Functions fold-left function  </description>
-      <created by="Michael Kay" on="2010-02-10"/>
-
-      <environment ref="empty"/>
-      <test>fold-left(function($a, $b) {($b, $a)}, (), 1 to 5)</test>
-      <result>
-         <assert-deep-eq>5, 4, 3, 2, 1</assert-deep-eq>
-      </result>
-   </test-case>
-
-   <test-case name="fold-left-006">
-      <description>Higher Order Functions fold-left function  </description>
-      <created by="Michael Kay" on="2010-02-10"/>
-
-      <environment ref="empty"/>
-      <test>fold-left(fn:concat(?, ".", ?), "", 1 to 5)</test>
-      <result>
-         <assert-eq>'.1.2.3.4.5'</assert-eq>
-      </result>
-   </test-case>
-
-   <test-case name="fold-left-007">
-      <description>Higher Order Functions fold-left function  </description>
-      <created by="Michael Kay" on="2010-02-10"/>
-
-      <environment ref="empty"/>
-      <test>fold-left(fn:concat("$f(", ?, ", ", ?, ")"), "$zero", 1 to 5)</test>
-      <result>
-         <assert-string-value>$f($f($f($f($f($zero, 1), 2), 3), 4), 5)</assert-string-value>
-      </result>
-   </test-case>
-
-   <test-case name="fold-left-008">
-      <description> get the employees who worked the maximum number of hours </description>
-      <created by="Michael Kay" on="2010-02-10"/>
-
-      <environment ref="works-mod"/>
-      <test>
-            let $hours := function ($emp as element(employee)) as xs:integer { sum($emp/hours/xs:integer(.)) },
-                $highest := function ($f as function(item()) as xs:anyAtomicType, $seq as item()*)  {           
-                    fold-left(
-                       function($highestSoFar as item()*, $this as item()*) as item()* {
-                          if (empty($highestSoFar))
-                          then $this
-                          else let $thisValue := $f($this),
-                                   $highestValue := $f($highestSoFar[1])
-                               return if ($thisValue gt $highestValue)
-                                      then $this
-                                      else if ($thisValue eq $highestValue)
-                                           then ($highestSoFar, $this)
-                                           else $highestSoFar
-                       }, (), $seq)
-            }
-            
-            return $highest($hours, /works/employee) 
-        </test>
-      <result>
-        <all-of>
-            <assert-count>1</assert-count>
-            <assert-type>element(employee)</assert-type>
-            <assert>$result/@name = "John Doe 2"</assert>
-        </all-of>
-       </result>
-   </test-case>
-
-   <test-case name="fold-left-009">
-      <description>fold-left-009 author Michael Kay, Saxonica implement eg:distinct-nodes-stable() </description>
-      <created by="Michael Kay" on="2010-02-10"/>
+   <test-case name="function-lookup-005">
+      <description>Applied to a user-defined function</description>
+      <created by="Michael Kay" on="2011-10-27"/>
       <dependency type="spec" value="XQ30+"/>
+      <environment ref="empty"/>
       <test><![CDATA[
-            declare function local:distinct-nodes-stable($seq as node()*) { 
-                fold-left( function($foundSoFar as node()*, $this as node()) as node()* { 
-                if ($foundSoFar intersect $this) 
-                then $foundSoFar 
-                else ($foundSoFar, $this) }, (), $seq) 
-            }; 
-            let $nodes := (<a/>, <b/>, <c/>, <d/>, <e/>, <f/>) 
-            let $perm := ($nodes[1], $nodes[2], $nodes[4], $nodes[1], $nodes[2], $nodes[3], $nodes[2], $nodes[1]) 
-            return local:distinct-nodes-stable($perm)/local-name()
+        xquery version "3.0";
+      	declare function local:square($i as xs:integer) as xs:integer { $i*$i };
+        function-lookup(QName("http://www.w3.org/2005/xquery-local-functions", "square"), 1)(13)
       ]]></test>
       <result>
-         <assert-string-value>a b d c</assert-string-value>
+         <assert-eq>169</assert-eq>
       </result>
    </test-case>
 </test-set>

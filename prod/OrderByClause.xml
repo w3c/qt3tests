@@ -922,6 +922,25 @@
          </any-of>
       </result>
    </test-case>
+   
+   <test-case name="orderBy64">
+      <description>Variant of orderBy62 putting the where clause after the order by clause. Permitted in 3.0</description>
+      <created by="Michael Kay" on="2011-09-19"/>
+      <environment ref="orderdata"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        declare default element namespace "http://www.w3.org/XQueryTestOrderBy"; 
+        <results>{ 
+            for $x in /DataValues/NegativeNumbers/orderData/xs:decimal(.)  
+            order by $x ascending collation "http://www.w3.org/2005/xpath-functions/collation/codepoint" 
+            where $x > -1000
+            return $x }
+        </results>
+      ]]></test>
+      <result>
+         <assert-serialization><![CDATA[<results xmlns="http://www.w3.org/XQueryTestOrderBy">-100 -10 -1 0</results>]]></assert-serialization>
+      </result>
+   </test-case>
 
    <test-case name="orderbylocal-1">
       <description> Evaluation of "order by" clause with the "order by" clause of a FLWR expression set to "$x ", where $x is a set of Strings and the ordering mode set to ascending Uses a locally defined sequence. </description>
