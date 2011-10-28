@@ -54,4 +54,89 @@
          <assert-eq>169</assert-eq>
       </result>
    </test-case>
+   <test-case name="function-lookup-006">
+      <description>Applied to a private user-defined function in the same module</description>
+      <created by="Michael Kay" on="2011-10-27"/>
+      <dependency type="spec" value="XQ30+"/>
+      <environment ref="empty"/>
+      <test><![CDATA[
+        xquery version "3.0";
+      	declare %private function local:square($i as xs:integer) as xs:integer { $i*$i };
+        function-lookup(QName("http://www.w3.org/2005/xquery-local-functions", "square"), 1)(13)
+      ]]></test>
+      <result>
+         <assert-eq>169</assert-eq>
+      </result>
+   </test-case>
+   <test-case name="function-lookup-007">
+      <description>Applied to a non-existent function</description>
+      <created by="Michael Kay" on="2011-10-27"/>
+      <environment ref="empty"/>
+      <test><![CDATA[
+        function-lookup(QName("http://www.w3.org/2005/xquery-local-functions", "cube"), 1)
+      ]]></test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+   <test-case name="function-lookup-008">
+      <description>Applied to a non-existent function (no namespace URI)</description>
+      <created by="Michael Kay" on="2011-10-27"/>
+      <environment ref="empty"/>
+      <test><![CDATA[
+        function-lookup(QName("", "round"), 2)
+      ]]></test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+   <test-case name="function-lookup-009">
+      <description>Get the name and arity of the result</description>
+      <created by="Michael Kay" on="2011-10-27"/>
+      <environment ref="empty"/>
+      <test><![CDATA[
+        function-lookup(QName("http://www.w3.org/2005/xpath-functions", "round"), 2) ! 
+                   (function-name(.) ! (namespace-uri-from-QName(.), local-name-from-QName(.)), function-arity(.))
+      ]]></test>
+      <result>
+         <assert-string-value>http://www.w3.org/2005/xpath-functions round 2</assert-string-value>
+      </result>
+   </test-case>
+   <test-case name="function-lookup-010">
+      <description>Call the function with the wrong number of arguments</description>
+      <created by="Michael Kay" on="2011-10-27"/>
+      <dependency type="spec" value="XQ30+"/>
+      <environment ref="empty"/>
+      <test><![CDATA[
+        xquery version "3.0";
+      	declare %private function local:square($i as xs:integer) as xs:integer { $i*$i };
+        function-lookup(QName("http://www.w3.org/2005/xquery-local-functions", "square"), 1)(13, 12)
+      ]]></test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   <test-case name="function-lookup-011">
+      <description>Call the function with the wrong type of argument</description>
+      <created by="Michael Kay" on="2011-10-27"/>
+      <dependency type="spec" value="XQ30+"/>
+      <environment ref="empty"/>
+      <test><![CDATA[
+        xquery version "3.0";
+      	declare %private function local:square($i as xs:integer) as xs:integer { $i*$i };
+        function-lookup(QName("http://www.w3.org/2005/xquery-local-functions", "square"), 1)("banana")
+      ]]></test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   <test-case name="function-lookup-012">
+      <description>Curry the resulting function</description>
+      <created by="Michael Kay" on="2011-10-27"/>
+      <environment ref="empty"/>
+      <test>function-lookup(QName("http://www.w3.org/2005/xpath-functions", "round"), 2)(?, 3)(1.2345678)</test>
+      <result>
+         <assert-string-value>1.235</assert-string-value>
+      </result>
+   </test-case>
 </test-set>
