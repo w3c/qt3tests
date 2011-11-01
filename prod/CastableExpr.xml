@@ -5,6 +5,15 @@
          idref="doc-xquery30-CastableExpr"/>
    <link type="spec" document="FuncOps" section-number="17.1.2"
          idref="casting-to-string"/>
+
+   <dependency type="feature" value="schemaImport"/>
+
+   <environment name="union-List-defined-Types" >
+     <schema uri="http://www.w3.org/XQueryTest/unionListDefined" file="SchemaImport/unionListDefined.xsd">
+       <description>A Schema of union and list defined types</description>
+       <created by="O'Neil Delpratt" on="2011-10-27"/>
+     </schema>
+   </environment>
          
    <environment name="acme_corp">
       <source role="." file="../op/union/acme_corp.xml">
@@ -6315,5 +6324,31 @@
             <assert-true/>
          </any-of>
       </result>
+   </test-case>
+
+   <test-case name="Castable-UnionType-1">
+       <description>Test the union type that should return an xs:integer value</description>
+       <created by="O'Neil Delpratt" on="2011-10-27"/>
+       <dependency type="spec" value="XQ30+"/>
+       <environment ref="union-List-defined-Types"/>
+       <test><![CDATA[
+       xquery version "3.0";
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+      "123" castable as s:myUnionType1]]>
+       </test>
+       <result><assert-true /></result>
+   </test-case>
+
+   <test-case name="Castable-ListType-2">
+       <description>Cast the expression to the defined list type. The test should fail as the base type for the list is decimal</description>
+       <created by="O'Neil Delpratt" on="2011-10-27"/>
+       <dependency type="spec" value="XQ30+"/>
+       <environment ref="union-List-defined-Types"/>
+       <test><![CDATA[
+       xquery version "3.0";
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+        "1.1 2.1 3.1" castable as s:intListType1]]>
+       </test>
+       <result><assert-false /></result>
    </test-case>
 </test-set>

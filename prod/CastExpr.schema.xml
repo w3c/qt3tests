@@ -14,7 +14,14 @@
          <description>A schema user defined types and constructor tests</description>
          <created by="Anonymous" on="2006-04-03"/>
       </schema>   
-   </environment>     
+   </environment>
+
+   <environment name="union-List-defined-Types" >
+     <schema uri="http://www.w3.org/XQueryTest/unionListDefined" file="SchemaImport/unionListDefined.xsd">
+       <description>A Schema of union and list defined types</description>
+       <created by="O'Neil Delpratt" on="2011-10-27"/>
+     </schema>
+   </environment>
 
    <test-case name="qname-cast-1">
       <description> Evaluates casting an xs:QName type to another xs:QName type. </description>
@@ -642,4 +649,189 @@
             <assert-eq>32</assert-eq>
       </result>
    </test-case>
+
+       <test-case name="CastAs-UnionType-1">
+       <description>Test the union type that should return an xs:integer value</description>
+       <created by="O'Neil Delpratt" on="2011-10-27"/>
+       <dependency type="spec" value="XQ30+"/>
+       <environment ref="union-List-defined-Types"/>
+       <test><![CDATA[
+       xquery version "3.0";
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+      123 cast as s:myUnionType1]]>
+       </test>
+       <result><assert-string-value>123</assert-string-value></result>
+   </test-case>
+
+    <test-case name="CastAs-UnionType-2">
+       <description>Test the union type that should return an xs:integer value</description>
+       <created by="O'Neil Delpratt" on="2011-10-27"/>
+       <dependency type="spec" value="XQ30+"/>
+       <environment ref="union-List-defined-Types"/>
+       <test><![CDATA[
+       xquery version "3.0";
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+      "123" cast as s:myUnionType1]]>
+       </test>
+       <result>
+           <all-of>
+           <assert-string-value>123</assert-string-value>
+               <assert-type>xs:integer</assert-type>
+       </all-of>
+       </result>
+   </test-case>
+
+    <test-case name="CastAs-UnionType-3">
+       <description>Test the decimal value cast to the union type. Should return the xs:integer value</description>
+       <created by="O'Neil Delpratt" on="2011-10-27"/>
+       <dependency type="spec" value="XQ30+"/>
+       <environment ref="union-List-defined-Types"/>
+       <test><![CDATA[
+       xquery version "3.0";
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+      123.12 cast as s:myUnionType1]]>
+       </test>
+       <result> <all-of>
+           <assert-string-value>123</assert-string-value>
+               <assert-type>xs:integer</assert-type>
+       </all-of></result>
+   </test-case>
+
+    <test-case name="CastAs-UnionType-4">
+       <description>Test the string of decimal value cast to union type. Should fail
+       on the grounds that the string value is not i nthe lexical space of the union type</description>
+       <created by="O'Neil Delpratt" on="2011-10-27"/>
+       <dependency type="spec" value="XQ30+"/>
+       <environment ref="union-List-defined-Types"/>
+       <test><![CDATA[
+       xquery version "3.0";
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+      "123.12" cast as s:myUnionType1]]>
+       </test>
+       <result><error code="FORG0001"/></result>
+   </test-case>
+
+   <test-case name="CastAs-UnionType-5">
+       <description>Test the string of decimal value cast to union type. Should fail
+       on the grounds that the string value is not i nthe lexical space of the union type</description>
+       <created by="O'Neil Delpratt" on="2011-10-27"/>
+       <dependency type="spec" value="XQ30+"/>
+       <environment ref="union-List-defined-Types"/>
+       <test><![CDATA[
+       xquery version "3.0";
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+      "IB123456789" cast as s:myUnionType2]]>
+       </test>
+      <result> <all-of>
+           <assert-string-value>IB123456789</assert-string-value>
+               <assert-type>xs:string</assert-type>
+       </all-of></result>
+   </test-case>
+
+    <test-case name="CastAs-UnionType-5a">
+       <description>Test the string of decimal value cast to union type. Should fail
+       on the grounds that the string value is not i nthe lexical space of the union type</description>
+       <created by="O'Neil Delpratt" on="2011-10-27"/>
+       <dependency type="spec" value="XQ30+"/>
+       <environment ref="union-List-defined-Types"/>
+       <test><![CDATA[
+       xquery version "3.0";
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+      "AD123456789" cast as s:myUnionType2]]>
+       </test>
+      <result><error code="FORG0001"/></result>
+   </test-case>
+
+
+
+   <test-case name="CastAs-ListType-1">
+       <description>Test the decimal value cast to the union type. Should return the xs:integer value</description>
+       <created by="O'Neil Delpratt" on="2011-10-27"/>
+       <dependency type="spec" value="XQ30+"/>
+       <environment ref="union-List-defined-Types"/>
+       <test><![CDATA[
+       xquery version "3.0";
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+        s:decimalListType1("2 2.3")]]>
+       </test>
+       <result> <all-of>
+           <assert-string-value>2 2.3</assert-string-value>
+       </all-of></result>
+   </test-case>
+
+   <test-case name="CastAs-ListType-2">
+       <description>Test the decimal value cast to the union type. Should return the xs:integer value</description>
+       <created by="O'Neil Delpratt" on="2011-10-27"/>
+       <dependency type="spec" value="XQ30+"/>
+       <environment ref="union-List-defined-Types"/>
+       <test><![CDATA[
+       xquery version "3.0";
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+        s:myRestrictedList1("123 987 567 456")]]>
+       </test>
+       <result> <all-of>
+           <assert-string-value>123 987 567 456</assert-string-value>
+       </all-of></result>
+   </test-case>
+
+
+   <test-case name="CastAs-ListType-3">
+       <description>Test the decimal value cast to the union type. Should return the xs:integer value</description>
+       <created by="O'Neil Delpratt" on="2011-10-27"/>
+       <dependency type="spec" value="XQ30+"/>
+       <environment ref="union-List-defined-Types"/>
+       <test><![CDATA[
+       xquery version "3.0";
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+        s:myRestrictedList1("123 987 567 456")]]>
+       </test>
+       <result> <all-of>
+           <assert-string-value>123 987 567 456</assert-string-value>
+       </all-of></result>
+   </test-case>
+
+
+   <test-case name="CastAs-ListType-4">
+       <description>Cast the expression to the defined list type.</description>
+       <created by="O'Neil Delpratt" on="2011-10-27"/>
+       <dependency type="spec" value="XQ30+"/>
+       <environment ref="union-List-defined-Types"/>
+       <test><![CDATA[
+       xquery version "3.0";
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+        "text1 text2 text3" cast as s:strListType1]]>
+       </test>
+       <result> <all-of>
+           <assert-string-value>text1 text2 text3</assert-string-value>
+       </all-of></result>
+   </test-case>
+
+   <test-case name="CastAs-ListType-5">
+       <description>Cast the expression to the defined list type. The test should fail as the base type for the list is decimal</description>
+       <created by="O'Neil Delpratt" on="2011-10-27"/>
+       <dependency type="spec" value="XQ30+"/>
+       <environment ref="union-List-defined-Types"/>
+       <test><![CDATA[
+       xquery version "3.0";
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+        "1.1 2.1 text3" cast as s:decimalListType1]]>
+       </test>
+       <result><error code="FORG0001"/></result>
+   </test-case>
+
+   <test-case name="CastAs-ListType-6">
+       <description>Cast the expression to the defined list type. The test should fail as the base type for the list is decimal</description>
+       <created by="O'Neil Delpratt" on="2011-10-27"/>
+       <dependency type="spec" value="XQ30+"/>
+       <environment ref="union-List-defined-Types"/>
+       <test><![CDATA[
+       xquery version "3.0";
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+        "1.1 2.1 3.1" cast as s:intListType1]]>
+       </test>
+       <result><error code="FORG0001"/></result>
+   </test-case>
+
+
+
 </test-set>
