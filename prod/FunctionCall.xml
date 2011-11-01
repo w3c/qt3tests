@@ -424,6 +424,221 @@
       </result>
    </test-case>
    
+   <test-case name="FunctionCall-032">
+      <description>Test that the argument type cannot be a union type having a list type in its membership.</description>
+      <created by="Michael Kay" on="2011-10-31"/>
+      <environment ref="ListUnionTypes"/>
+      <dependency type="spec" value="XQ30+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>
+        declare namespace lu = 'http://www.w3.org/XQueryTest/ListUnionTypes' ;
+        import schema "http://www.w3.org/XQueryTest/ListUnionTypes";
+      	function($in as lu:unionOfListType) as xs:boolean {$in instance of xs:integer}(23)</test>
+      <result>
+        <error code="XPST0051"/>
+      </result>
+   </test-case>
+   
+   <test-case name="FunctionCall-033">
+      <description>Test that the argument type cannot be a union type derived by restriction from another union type.</description>
+      <created by="Michael Kay" on="2011-10-31"/>
+      <environment ref="ListUnionTypes"/>
+      <dependency type="spec" value="XQ30+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>
+        declare namespace lu = 'http://www.w3.org/XQueryTest/ListUnionTypes' ;
+        import schema "http://www.w3.org/XQueryTest/ListUnionTypes";
+      	function($in as lu:restrictedUnionType) as xs:boolean {$in instance of xs:integer}(23)</test>
+      <result>
+        <error code="XPST0051"/>
+      </result>
+   </test-case>
+   
+   <test-case name="FunctionCall-034">
+      <description>Test that the argument type cannot be a list type.</description>
+      <created by="Michael Kay" on="2011-10-31"/>
+      <environment ref="ListUnionTypes"/>
+      <dependency type="spec" value="XQ30+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>
+        declare namespace lu = 'http://www.w3.org/XQueryTest/ListUnionTypes' ;
+        import schema "http://www.w3.org/XQueryTest/ListUnionTypes";
+      	function($in as lu:listType) as xs:boolean {$in instance of xs:integer}(23)</test>
+      <result>
+        <error code="XPST0051"/>
+      </result>
+   </test-case>
+   
+   <test-case name="FunctionCall-035">
+      <description>Test that the result type can be a union type and that the return value can be a member of the union.</description>
+      <created by="Michael Kay" on="2011-10-31"/>
+      <environment ref="ListUnionTypes"/>
+      <dependency type="spec" value="XQ30+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>
+        declare namespace lu = 'http://www.w3.org/XQueryTest/ListUnionTypes' ;
+        import schema "http://www.w3.org/XQueryTest/ListUnionTypes";
+      	function($in as xs:integer) as lu:unionOfUnionType {$in + 23}(9)</test>
+      <result>
+        <all-of>
+          <assert-type>xs:integer</assert-type>
+          <assert-string-value>32</assert-string-value>
+        </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="FunctionCall-036">
+      <description>Test that the result type can be a union type and that the return value can be a member of the union.</description>
+      <created by="Michael Kay" on="2011-10-31"/>
+      <environment ref="ListUnionTypes"/>
+      <dependency type="spec" value="XQ30+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>
+        declare namespace lu = 'http://www.w3.org/XQueryTest/ListUnionTypes' ;
+        import schema "http://www.w3.org/XQueryTest/ListUnionTypes";
+      	declare function local:daysAhead($in as xs:integer) as lu:unionOfUnionType {current-date() + (xs:dayTimeDuration('P1D')*$in)};
+      	local:daysAhead(9)
+      </test>
+      <result>
+        <assert-type>xs:date</assert-type>
+      </result>
+   </test-case>
+   
+   <test-case name="FunctionCall-037">
+      <description>Test that the result type can be a union type and that the return value can be cast to the union type.</description>
+      <created by="Michael Kay" on="2011-10-31"/>
+      <environment ref="ListUnionTypes"/>
+      <dependency type="spec" value="XQ30+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>
+        declare namespace lu = 'http://www.w3.org/XQueryTest/ListUnionTypes' ;
+        import schema "http://www.w3.org/XQueryTest/ListUnionTypes";
+      	declare function local:makeDate($in as xs:string) as lu:unionOfUnionType {
+      	  if ($in castable as xs:date)
+      	  then xs:untypedAtomic($in)
+      	  else current-date()
+      	};
+      	local:makeDate('2012-12-12')
+      </test>
+      <result>
+        <assert-type>xs:date</assert-type>
+      </result>
+   </test-case>
+   
+   <test-case name="FunctionCall-038">
+      <description>Test that the result type can be a union type and that the return value can be cast to the union type.</description>
+      <created by="Michael Kay" on="2011-10-31"/>
+      <environment ref="ListUnionTypes"/>
+      <dependency type="spec" value="XQ30+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>
+        declare namespace lu = 'http://www.w3.org/XQueryTest/ListUnionTypes' ;
+        import schema "http://www.w3.org/XQueryTest/ListUnionTypes";
+      	declare function local:makeDate($in as xs:string, $year as xs:integer) as lu:unionOfUnionType {
+      	  let $date := $year || '-' || $in
+      	  return if ($date castable as xs:date)
+      	         then xs:untypedAtomic($date)
+      	         else current-date()
+      	};
+      	let $make2012date := local:makeDate(?, 2012)
+      	return $make2012date('12-12')
+      </test>
+      <result>
+        <all-of>
+          <assert-type>xs:date</assert-type>
+          <assert-string-value>2012-12-12</assert-string-value>
+        </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="FunctionCall-039">
+      <description>Test that the result type cannot be a union type derived by restriction from another union.</description>
+      <created by="Michael Kay" on="2011-10-31"/>
+      <environment ref="ListUnionTypes"/>
+      <dependency type="spec" value="XQ30+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>
+        declare namespace lu = 'http://www.w3.org/XQueryTest/ListUnionTypes' ;
+        import schema "http://www.w3.org/XQueryTest/ListUnionTypes";
+      	function() as lu:restrictedUnionType {23}()</test>
+      <result>
+        <error code="XPST0051"/>
+      </result>
+   </test-case>
+   
+   <test-case name="FunctionCall-040">
+      <description>Test that the result type can be a namespace-sensitive union type.</description>
+      <created by="Michael Kay" on="2011-10-31"/>
+      <environment ref="ListUnionTypes"/>
+      <dependency type="spec" value="XQ30+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test><![CDATA[
+        declare namespace lu = 'http://www.w3.org/XQueryTest/ListUnionTypes' ;
+        import schema "http://www.w3.org/XQueryTest/ListUnionTypes";
+      	let $f := function() as lu:namespaceSensitiveUnionType {node-name(<a/>)}
+      	return local-name-from-QName($f())
+      ]]></test>
+      <result>
+        <assert-string-value>a</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="FunctionCall-041">
+      <description>Test that if the result type is a namespace-sensitive union type, casting from untypedAtomic is not allowed.</description>
+      <created by="Michael Kay" on="2011-10-31"/>
+      <environment ref="ListUnionTypes"/>
+      <dependency type="spec" value="XQ30+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>
+        declare namespace lu = 'http://www.w3.org/XQueryTest/ListUnionTypes' ;
+        import schema "http://www.w3.org/XQueryTest/ListUnionTypes";
+      	let $f := function() as lu:namespaceSensitiveUnionType {xs:untypedAtomic('xsi:type')}
+      	return local-name-from-QName($f())</test>
+      <result>
+        <error code="XPTY0117"/>
+      </result>
+   </test-case>
+   
+   <test-case name="FunctionCall-042">
+      <description>Test that Union(A, B) is substitutable for A as a function argument type</description>
+      <created by="Michael Kay" on="2011-10-31"/>
+      <environment ref="ListUnionTypes"/>
+      <dependency type="spec" value="XQ30+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>
+        declare namespace lu = 'http://www.w3.org/XQueryTest/ListUnionTypes' ;
+        import schema "http://www.w3.org/XQueryTest/ListUnionTypes";
+        declare function local:hof($f as function(xs:integer) as xs:integer) as xs:integer {$f(3) + 1};
+      	let $f := function($a as lu:unionType) as xs:integer {$a + 2}
+      	return local:hof($f)</test>
+      <result>
+        <all-of>
+          <assert-type>xs:integer</assert-type>
+          <assert-eq>6</assert-eq>
+        </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="FunctionCall-043">
+      <description>Test that Union(Union(A, B), c) is substitutable for Union(A, B) as a function argument type</description>
+      <created by="Michael Kay" on="2011-10-31"/>
+      <environment ref="ListUnionTypes"/>
+      <dependency type="spec" value="XQ30+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>
+        declare namespace lu = 'http://www.w3.org/XQueryTest/ListUnionTypes' ;
+        import schema "http://www.w3.org/XQueryTest/ListUnionTypes";
+        declare function local:hof($f as function(lu:unionType) as xs:integer) as xs:integer {$f(3) + 1};
+      	let $f := function($a as lu:unionOfUnionType) as xs:integer {$a + 2}
+      	return local:hof($f)</test>
+      <result>
+        <all-of>
+          <assert-type>xs:integer</assert-type>
+          <assert-eq>6</assert-eq>
+        </all-of>
+      </result>
+   </test-case>
+   
    <test-case name="K-FunctionCallExpr-1">
       <description> A test whose essence is: `func-does-not-exist(1, 2, 3)`. </description>
       <created by="Frans Englich" on="2007-11-26"/>
