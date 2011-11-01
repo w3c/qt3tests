@@ -4,7 +4,426 @@
     Contains tests verifying the function calling mechanism; not a particular function implementation.</description>
    <link type="spec" document="http://www.w3.org/TR/xquery-30/"
          idref="doc-xquery30-FunctionCall"/>
+         
+   <environment name="ListUnionTypes">
+      <schema uri="http://www.w3.org/XQueryTest/ListUnionTypes" file="ValidateExpr/listunion.xsd">
+         <description>A schema defining a list of unions.</description>
+         <created by="Anonymous" on="2006-06-07"/>
+      </schema>
+   </environment>      
+         
+   <test-case name="FunctionCall-001">
+      <description>Test that arguments are atomized - built in function</description>
+      <created by="Michael Kay" on="2011-10-31"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[concat(<a>X</a>, <a>Y</a>)]]></test>
+      <result>
+        <assert-string-value>XY</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="FunctionCall-002">
+      <description>Test that arguments are atomized - constructor function</description>
+      <created by="Michael Kay" on="2011-10-31"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[xs:boolean(<a>0</a>)]]></test>
+      <result>
+        <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="FunctionCall-003">
+      <description>Test that arguments are atomized - constructor function</description>
+      <created by="Michael Kay" on="2011-10-31"/>
+      <dependency type="spec" value="XQ30+"/>
+      <dependency type="feature" value="schemaValidation"/>
+      <test><![CDATA[xs:integer(validate type xs:decimal {<a>93.7</a>})]]></test>
+      <result>
+        <all-of>
+          <assert-type>xs:integer</assert-type>
+          <assert-eq>93</assert-eq>
+        </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="FunctionCall-004">
+      <description>Test that arguments are atomized - user-defined function</description>
+      <created by="Michael Kay" on="2011-10-31"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+         declare function local:f($in as xs:boolean) as xs:boolean { $in };
+         local:f(<a>0</a>)]]></test>
+      <result>
+        <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="FunctionCall-005">
+      <description>Test that arguments are atomized - user-defined function</description>
+      <created by="Michael Kay" on="2011-10-31"/>
+      <dependency type="spec" value="XQ30+"/>
+      <dependency type="feature" value="schemaValidation"/>
+      <test><![CDATA[
+         declare function local:f($in as xs:anyAtomicType) as xs:boolean { $in instance of xs:decimal };
+         local:f(validate type xs:integer {<a>12</a>})]]></test>
+      <result>
+        <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="FunctionCall-006">
+      <description>Test that arguments are atomized - anonymous inline function</description>
+      <created by="Michael Kay" on="2011-10-31"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         let $f := function ($in as xs:boolean) as xs:boolean { $in }
+         return $f(<a>0</a>)
+      ]]></test>
+      <result>
+        <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="FunctionCall-007">
+      <description>Test that arguments are atomized - dynamic call to a user-defined function</description>
+      <created by="Michael Kay" on="2011-10-31"/>
+      <dependency type="spec" value="XQ30+"/>
+      <dependency type="feature" value="schemaValidation"/>
+      <test><![CDATA[
+         declare function local:f($in as xs:anyAtomicType) as xs:boolean { $in instance of xs:decimal };
+         let $f := function-lookup(xs:QName('local:f'), 1)
+         return $f(validate type xs:integer {<a>12</a>})]]></test>
+      <result>
+        <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="FunctionCall-008">
+      <description>Test that arguments are atomized - dynamic call to a constructor function</description>
+      <created by="Michael Kay" on="2011-10-31"/>
+      <dependency type="spec" value="XQ30+"/>
+      <dependency type="feature" value="schemaValidation"/>
+      <test><![CDATA[
+        let $f := xs:integer#1
+        return $f(validate type xs:decimal {<a>93.7</a>})
+      ]]></test>
+      <result>
+        <all-of>
+          <assert-type>xs:integer</assert-type>
+          <assert-eq>93</assert-eq>
+        </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="FunctionCall-009">
+      <description>Test that a sequence of untypedAtomic values is cast to the target type: user-defined function.
+         Also tests XPath 3.0 inline functions, casting to list, and bang operator.</description>
+      <created by="Michael Kay" on="2011-10-31"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        declare function local:f($in as xs:decimal*) as xs:decimal {sum($in, 0.0)};
+        local:f(xs:NMTOKENS('1 1.2 1.3 1.4')!xs:untypedAtomic(.))
+      ]]></test>
+      <result>
+        <all-of>
+          <assert-type>xs:decimal</assert-type>
+          <assert-eq>4.9</assert-eq>
+        </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="FunctionCall-010">
+      <description>Test that a sequence of untypedAtomic values is cast to the target type: inline function.
+         Also tests XPath 3.0 inline functions, casting to list, and bang operator.</description>
+      <created by="Michael Kay" on="2011-10-31"/>
+      <dependency type="spec" value="XP30+"/>
+      <test>function($in as xs:decimal*) as xs:decimal {sum($in, 0.0)}(xs:NMTOKENS('1 1.2 1.3 1.4')!xs:untypedAtomic(.))</test>
+      <result>
+        <all-of>
+          <assert-type>xs:decimal</assert-type>
+          <assert-eq>4.9</assert-eq>
+        </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="FunctionCall-011">
+      <description>Test that a sequence of untypedAtomic values is cast to the target type: built-in function.
+         Also tests casting to list, and bang operator.</description>
+      <created by="Michael Kay" on="2011-10-31"/>
+      <dependency type="spec" value="XP30+"/>
+      <test>codepoints-to-string(xs:NMTOKENS('48 49 50 51')!xs:untypedAtomic(.))</test>
+      <result>
+        <all-of>
+          <assert-type>xs:string</assert-type>
+          <assert-string-value>0123</assert-string-value>
+        </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="FunctionCall-012">
+      <description>Test that a sequence of NON-untypedAtomic values is NOT cast to the target type: built-in function.
+         Also tests casting to list.</description>
+      <created by="Michael Kay" on="2011-10-31"/>
+      <dependency type="spec" value="XP30+"/>
+      <test>codepoints-to-string(xs:NMTOKENS('30 31 32 33'))</test>
+      <result>
+        <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+   <test-case name="FunctionCall-013">
+      <description>Test that the untypedAtomic result of a user-defined function is cast to the declared type.</description>
+      <created by="Michael Kay" on="2011-10-31"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        declare function local:f($a as xs:integer, $b as xs:integer) as xs:integer {
+          data(<a>{$a}{$b}</a>)
+        };
+        local:f(12, 34)
+      ]]></test>
+      <result>
+        <all-of>
+          <assert-type>xs:integer</assert-type>
+          <assert-eq>1234</assert-eq>
+        </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="FunctionCall-014">
+      <description>Test that the untypedAtomic result of an inline function is cast to the declared type.</description>
+      <created by="Michael Kay" on="2011-10-31"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        let $f := function($a as xs:integer, $b as xs:integer) as xs:integer {
+          data(<a>{$a}{$b}</a>)
+        }
+        return $f(12, 34)
+      ]]></test>
+      <result>
+        <all-of>
+          <assert-type>xs:integer</assert-type>
+          <assert-eq>1234</assert-eq>
+        </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="FunctionCall-015">
+      <description>Test that arguments are atomized - but not the argument of casting to QName</description>
+      <created by="Michael Kay" on="2011-10-31"/>
+      <dependency type="spec" value="XQ30+"/>
+      <dependency type="feature" value="schemaValidation"/>
+      <test><![CDATA[
+         declare function local:f($in as xs:integer) as xs:integer { $in + 1 };
+         let $f := function-lookup(xs:QName(<f>local:f</f>), 1)
+         return $f(12)]]></test>
+      <result>
+        <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+   <test-case name="FunctionCall-016">
+      <description>Test that untyped arguments are converted - but not when the expected type is QName</description>
+      <created by="Michael Kay" on="2011-10-31"/>
+      <dependency type="spec" value="XQ30+"/>
+      <dependency type="feature" value="schemaValidation"/>
+      <test><![CDATA[
+         declare function local:f($in as xs:QName) as xs:integer { string-length(local-name-from-QName($in)) };
+         let $e := <a xsi:type='my:integer' xmlns:my='http://my.example.com/'>123</a>
+         return local:f($e/@xsi:type)]]></test>
+      <result>
+        <error code="XPTY0117"/>
+      </result>
+   </test-case>
+   
+   <test-case name="FunctionCall-017">
+      <description>Test that untyped arguments are converted - but not when the expected type is QName</description>
+      <created by="Michael Kay" on="2011-10-31"/>
+      <dependency type="spec" value="XQ30+"/>
+      <dependency type="feature" value="schemaValidation"/>
+      <test><![CDATA[
+         let $f := function ($in as xs:QName) as xs:integer { string-length(local-name-from-QName($in)) }
+         let $e := <a xsi:type='my:integer' xmlns:my='http://my.example.com/'>123</a>
+         return $f($e/@xsi:type)
+      ]]></test>
+      <result>
+        <error code="XPTY0117"/>
+      </result>
+   </test-case>
+   
+   <test-case name="FunctionCall-018">
+      <description>Test that untyped arguments are converted - but not when the expected type is QName</description>
+      <created by="Michael Kay" on="2011-10-31"/>
+      <dependency type="spec" value="XQ30+"/>
+      <dependency type="feature" value="schemaValidation"/>
+      <test><![CDATA[
+         let $e := <a xsi:type='my:integer' xmlns:my='http://my.example.com/'>123</a>
+         return local-name-from-QName($e/@xsi:type)]]></test>
+      <result>
+        <error code="XPTY0117"/>
+      </result>
+   </test-case>
+   
+   <test-case name="FunctionCall-019">
+      <description>Test that untyped results are converted - but not when the expected type is QName</description>
+      <created by="Michael Kay" on="2011-10-31"/>
+      <dependency type="spec" value="XQ30+"/>
+      <dependency type="feature" value="schemaValidation"/>
+      <test><![CDATA[
+         declare function local:q ($prefix as xs:string, $local as xs:string) as xs:QName {
+            <a>{$prefix}:{$local}</a>
+         };
+         local:q('fn', 'abs')
+      ]]></test>
+      <result>
+        <error code="XPTY0117"/>
+      </result>
+   </test-case>
+   
+   <test-case name="FunctionCall-020">
+      <description>Test that untyped results are converted - but not when the expected type is QName</description>
+      <created by="Michael Kay" on="2011-10-31"/>
+      <dependency type="spec" value="XQ30+"/>
+      <dependency type="feature" value="schemaValidation"/>
+      <test><![CDATA[
+         let $q := function ($prefix as xs:string, $local as xs:string) as xs:QName {
+            <a>{$prefix}:{$local}</a>
+         }
+         return $q('fn', 'abs')
+      ]]></test>
+      <result>
+        <error code="XPTY0117"/>
+      </result>
+   </test-case>
+   
+   <test-case name="FunctionCall-021">
+      <description>Test that untyped results are converted - but not when the expected type is QName</description>
+      <created by="Michael Kay" on="2011-10-31"/>
+      <dependency type="spec" value="XQ30+"/>
+      <dependency type="feature" value="schemaValidation"/>
+      <test><![CDATA[
+         declare function local:q ($prefix as xs:string, $local as xs:string) as xs:QName {
+            <a>{$prefix}:{$local}</a>
+         };
+         let $curried := local:q('fn', ?)
+         return $curried('abs')
+      ]]></test>
+      <result>
+        <error code="XPTY0117"/>
+      </result>
+   </test-case>
+   
 
+   
+   <test-case name="FunctionCall-023">
+      <description>Test that a sequence of arguments is atomized</description>
+      <created by="Michael Kay" on="2011-10-31"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[string-join((<a>X</a>, <a>Y</a>, <a>Z</a>), '')]]></test>
+      <result>
+        <assert-string-value>XYZ</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="FunctionCall-025">
+      <description>Test that a sequence of numeric values undergoes numeric promotion to the target type.
+         Also tests XPath 3.0 inline functions.</description>
+      <created by="Michael Kay" on="2011-10-31"/>
+      <dependency type="spec" value="XP30+"/>
+      <test>function($in as xs:double*) as xs:double {sum($in, 0.0e0)}((1, xs:float(0.25), xs:decimal(0.5)))</test>
+      <result>
+        <all-of>
+          <assert-type>xs:double</assert-type>
+          <assert-eq>1.75</assert-eq>
+        </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="FunctionCall-026">
+      <description>Test that a sequence of anyURI values undergoes numeric promotion to the target type.
+         Also tests XPath 3.0 inline functions.</description>
+      <created by="Michael Kay" on="2011-10-31"/>
+      <dependency type="spec" value="XP30+"/>
+      <test>function($in as xs:string*) as xs:string {string-join($in, ';')}((xs:anyURI('http://one.com/'), xs:anyURI('http://two.com/')))</test>
+      <result>
+        <all-of>
+          <assert-type>xs:string</assert-type>
+          <assert-string-value>http://one.com/;http://two.com/</assert-string-value>
+        </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="FunctionCall-027">
+      <description>Test that an untypedAtomic value is NOT cast to the target type where the target type is a list type.
+         This is an error because although casting to a list type is allowed, a list type cannot be used in a function signature.</description>
+      <created by="Michael Kay" on="2011-10-31"/>
+      <dependency type="spec" value="XP30+"/>
+      <test>function($in as xs:NMTOKENS) as item()* {$in}(xs:untypedAtomic('abc def'))</test>
+      <result>
+        <error code="XPST0051"/>
+      </result>
+   </test-case>
+   
+   <test-case name="FunctionCall-028">
+      <description>Test that the target type can be a union type.</description>
+      <created by="Michael Kay" on="2011-10-31"/>
+      <environment ref="ListUnionTypes"/>
+      <dependency type="spec" value="XQ30+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>
+        declare namespace lu = 'http://www.w3.org/XQueryTest/ListUnionTypes' ;
+        import schema "http://www.w3.org/XQueryTest/ListUnionTypes";
+      	function($in as lu:unionType) as xs:boolean {$in instance of xs:integer}(23)</test>
+      <result>
+        <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="FunctionCall-029">
+      <description>Test that the target type can be a union type.</description>
+      <created by="Michael Kay" on="2011-10-31"/>
+      <environment ref="ListUnionTypes"/>
+      <dependency type="spec" value="XQ30+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>
+        declare namespace lu = 'http://www.w3.org/XQueryTest/ListUnionTypes' ;
+        import schema "http://www.w3.org/XQueryTest/ListUnionTypes";
+      	function($in as lu:unionType) as xs:boolean {$in instance of xs:integer}(xs:float(12))</test>
+      <result>
+        <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="FunctionCall-030">
+      <description>Test that numeric promotion does not occur when the target type is a union type.</description>
+      <created by="Michael Kay" on="2011-10-31"/>
+      <environment ref="ListUnionTypes"/>
+      <dependency type="spec" value="XQ30+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>
+        declare namespace lu = 'http://www.w3.org/XQueryTest/ListUnionTypes' ;
+        import schema "http://www.w3.org/XQueryTest/ListUnionTypes";
+      	function($in as lu:unionType) as xs:boolean {$in instance of xs:integer}(12.3)</test>
+      <result>
+        <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+   <test-case name="FunctionCall-031">
+      <description>Test that casting of untypedAtomic does occur when the target type is a union type.</description>
+      <created by="Michael Kay" on="2011-10-31"/>
+      <environment ref="ListUnionTypes"/>
+      <dependency type="spec" value="XQ30+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>
+        declare namespace lu = 'http://www.w3.org/XQueryTest/ListUnionTypes' ;
+        import schema "http://www.w3.org/XQueryTest/ListUnionTypes";
+      	function($in as lu:unionType) as xs:boolean {$in instance of xs:integer}(xs:untypedAtomic('123'))</test>
+      <result>
+        <assert-true/>
+      </result>
+   </test-case>
+   
    <test-case name="K-FunctionCallExpr-1">
       <description> A test whose essence is: `func-does-not-exist(1, 2, 3)`. </description>
       <created by="Frans Englich" on="2007-11-26"/>
@@ -35,6 +454,7 @@
    <test-case name="K-FunctionCallExpr-4">
       <description> A test whose essence is: `local:func-does-not-exist(1, 2, 3)`. </description>
       <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
       <test>local:func-does-not-exist(1, 2, 3)</test>
       <result>
          <error code="XPST0017"/>
@@ -257,13 +677,20 @@
    <test-case name="K-FunctionCallExpr-25">
       <description> No function by name fn:generate-id() exists(although one does in XSLT). </description>
       <created by="Frans Englich" on="2007-11-26"/>
-      <dependency type="spec" value="XQ10+"/>
+      <dependency type="spec" value="XQ10"/>
       <test><![CDATA[generate-id(<a/>) castable as xs:NCName]]></test>
       <result>
-         <any-of>
-            <assert-true/>
-            <error code="XPST0017"/>
-         </any-of>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+   
+   <test-case name="K-FunctionCallExpr-25a">
+      <description> Function by name fn:generate-id() does exist in XQuery 3.0. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[generate-id(<a/>) castable as xs:NCName]]></test>
+      <result>
+         <assert-true/>
       </result>
    </test-case>
 
