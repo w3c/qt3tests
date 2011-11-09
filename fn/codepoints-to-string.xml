@@ -7,7 +7,6 @@
    <test-case name="fn-codepoints-to-string1args-1">
       <description>Test codepoints-to-string with variety of characters </description>
       <created by="Joanne Tong" on="2005-09-23"/>
-      <environment ref="empty"/>
       <test>codepoints-to-string((98,223,1682,12365,63744))</test>
       <result>
          <assert-string-value>b&#223;&#1682;&#12365;&#63744;</assert-string-value>
@@ -17,7 +16,6 @@
    <test-case name="fn-codepoints-to-string1args-2">
       <description>Test codepoints-to-string with an empty sequence argument </description>
       <created by="Joanne Tong" on="2005-09-23"/>
-      <environment ref="empty"/>
       <test>codepoints-to-string(())</test>
       <result>
          <assert-string-value/>
@@ -27,7 +25,6 @@
    <test-case name="fn-codepoints-to-string1args-3">
       <description>Test invalid type in argument for codepoints-to-string </description>
       <created by="Joanne Tong" on="2005-09-23"/>
-      <environment ref="empty"/>
       <test>codepoints-to-string('hello')</test>
       <result>
          <error code="XPTY0004"/>
@@ -37,7 +34,6 @@
    <test-case name="fn-codepoints-to-string1args-4">
       <description>Test incorrect arity for codepoints-to-string </description>
       <created by="Joanne Tong" on="2005-09-23"/>
-      <environment ref="empty"/>
       <test>codepoints-to-string((),())</test>
       <result>
          <error code="XPST0017"/>
@@ -47,7 +43,6 @@
    <test-case name="fn-codepoints-to-string-1">
       <description> Invalid XML character codepoint as part of "code-points-to-string" function. </description>
       <created by="Carmelo Montanez" on="2005-10-04"/>
-      <environment ref="empty"/>
       <test>fn:codepoints-to-string(0)</test>
       <result>
          <error code="FOCH0001"/>
@@ -57,7 +52,6 @@
    <test-case name="fn-codepoints-to-string-2">
       <description> Invalid XML character codepoint as part of "code-points-to-string" function. </description>
       <created by="Carmelo Montanez" on="2005-10-24"/>
-      <environment ref="empty"/>
       <test>fn:codepoints-to-string(10000000)</test>
       <result>
          <error code="FOCH0001"/>
@@ -67,7 +61,6 @@
    <test-case name="fn-codepoints-to-string-3">
       <description> Evaluation of an "fn:codepoints-to-string" with argument set to codepoint 49 (single character ('1')). </description>
       <created by="Carmelo Montanez" on="2005-11-23"/>
-      <environment ref="empty"/>
       <test>fn:codepoints-to-string(49)</test>
       <result>
          <assert-string-value>1</assert-string-value>
@@ -77,7 +70,6 @@
    <test-case name="fn-codepoints-to-string-4">
       <description> Evaluation of an "fn-codepoints-to-string" with argument set to codepoint 97 (a single character 'a'). </description>
       <created by="Carmelo Montanez" on="2005-11-23"/>
-      <environment ref="empty"/>
       <test>fn:codepoints-to-string(97)</test>
       <result>
          <assert-string-value>a</assert-string-value>
@@ -87,7 +79,6 @@
    <test-case name="fn-codepoints-to-string-5">
       <description> Evaluation of an "fn:codepoints-to-string" with argument set to codepoints 49, 97 (combination of number/character '1a'). </description>
       <created by="Carmelo Montanez" on="2005-11-23"/>
-      <environment ref="empty"/>
       <test>fn:codepoints-to-string((49,97))</test>
       <result>
          <assert-string-value>1a</assert-string-value>
@@ -97,7 +88,6 @@
    <test-case name="fn-codepoints-to-string-6">
       <description> Evaluation of an "fn:codepoints-to-string" with argument set to the codepoints 35, 42, 94 36 (characters "#*^$"). </description>
       <created by="Carmelo Montanez" on="2005-11-23"/>
-      <environment ref="empty"/>
       <test>fn:codepoints-to-string((35, 42, 94, 36))</test>
       <result>
          <assert-string-value>#*^$</assert-string-value>
@@ -108,7 +98,6 @@
       <description> Evaluation of an "fn:codepoints-to-string" with argument set to codepoints 
         99 111 100 101 112 111 105 110 116 115 45 116 111 45 115 116 114 105 110 103 (string "codepoints-to-string"). </description>
       <created by="Carmelo Montanez" on="2005-11-23"/>
-      <environment ref="empty"/>
       <test>fn:codepoints-to-string((99,111,100,101,112,111,105,110,116,115,45,116,111,45,115,116,114,105,110,103))</test>
       <result>
          <assert-string-value>codepoints-to-string</assert-string-value>
@@ -119,7 +108,6 @@
       <description> Evaluation of an "fn:codepoints-to-string" used as argument to "xs:string()" function and uses 
         codepoints 65, 32, 83 116, 114, 105, 110, 103 ("A String") . </description>
       <created by="Carmelo Montanez" on="2005-11-23"/>
-      <environment ref="empty"/>
       <test>xs:string(fn:codepoints-to-string((65,32,83,116,114,105,110,103)))</test>
       <result>
          <assert-string-value>A String</assert-string-value>
@@ -130,7 +118,6 @@
       <description> Evaluation of an "fn:codepoints-to-string" used as argument to the "fn:upper-case" function and use 
         codepoints 65,32,83,84,82,73,78,71 (string "A STRING"). </description>
       <created by="Carmelo Montanez" on="2005-11-23"/>
-      <environment ref="empty"/>
       <test>fn:upper-case(fn:codepoints-to-string((65,32,83,84,82,73,78,71)))</test>
       <result>
          <assert-string-value>A STRING</assert-string-value>
@@ -141,7 +128,6 @@
       <description> Evaluation of an "fn:codepoints-to-string" used as argument to the "fn:lower-case" function and use 
         codepoints 97,32,115,116,114,105,110,103 (String "a string"). </description>
       <created by="Carmelo Montanez" on="2005-11-23"/>
-      <environment ref="empty"/>
       <test>fn:lower-case(fn:codepoints-to-string((97,32,115,116,114,105,110,103)))</test>
       <result>
          <assert-string-value>a string</assert-string-value>
@@ -151,7 +137,6 @@
    <test-case name="fn-codepoints-to-string-11">
       <description> Evaluation of an "fn:codepoints-to-string" that uses xs:integer as argument and codepoints 97. </description>
       <created by="Carmelo Montanez" on="2005-11-23"/>
-      <environment ref="empty"/>
       <test>fn:codepoints-to-string(xs:integer(97))</test>
       <result>
          <assert-string-value>a</assert-string-value>
@@ -161,7 +146,6 @@
    <test-case name="fn-codepoints-to-string-12">
       <description> Evaluation of an "fn:codepoints-to-string" that uses fn:avg/xs:integer function and codepoints 65,32,83,116,114,105,110,103. </description>
       <created by="Carmelo Montanez" on="2005-11-23"/>
-      <environment ref="empty"/>
       <test>fn:codepoints-to-string(xs:integer(fn:avg((65,32,83,116,114,105,110,103))))</test>
       <result>
          <assert-string-value>[</assert-string-value>
@@ -171,7 +155,6 @@
    <test-case name="fn-codepoints-to-string-13">
       <description> Evaluation of an "fn:codepoints-to-string" that is used as argument to fn:concat function. </description>
       <created by="Carmelo Montanez" on="2005-11-23"/>
-      <environment ref="empty"/>
       <test>fn:concat(fn:codepoints-to-string((49,97)),"1a")</test>
       <result>
          <assert-string-value>1a1a</assert-string-value>
@@ -181,7 +164,6 @@
    <test-case name="fn-codepoints-to-string-14">
       <description> Evaluation of an "fn:codepoints-to-string" that is used as argument to fn:string-to-codepoints function. </description>
       <created by="Carmelo Montanez" on="2005-11-23"/>
-      <environment ref="empty"/>
       <test>fn:string-to-codepoints(fn:codepoints-to-string((49,97)))</test>
       <result>
          <assert-deep-eq>49, 97</assert-deep-eq>
@@ -191,7 +173,6 @@
    <test-case name="fn-codepoints-to-string-15">
       <description> Evaluation of an "fn:codepoints-to-string" that is used as argument to fn:string-length function. </description>
       <created by="Carmelo Montanez" on="2005-11-23"/>
-      <environment ref="empty"/>
       <test>fn:string-length(fn:codepoints-to-string((49,97)))</test>
       <result>
          <assert-eq>2</assert-eq>
@@ -201,7 +182,6 @@
    <test-case name="fn-codepoints-to-string-16">
       <description> Evaluation of an "fn:codepoints-to-string" that is used as argument to fn:string-join function. </description>
       <created by="Carmelo Montanez" on="2005-11-25"/>
-      <environment ref="empty"/>
       <test>fn:string-join((fn:codepoints-to-string((49,97)),'ab'),'')</test>
       <result>
          <assert-string-value>1aab</assert-string-value>
@@ -211,7 +191,6 @@
    <test-case name="K-CodepointToStringFunc-1">
       <description> A test whose essence is: `codepoints-to-string()`. </description>
       <created by="Frans Englich" on="2007-11-26"/>
-      <environment ref="empty"/>
       <test>codepoints-to-string()</test>
       <result>
          <error code="XPST0017"/>
@@ -221,7 +200,6 @@
    <test-case name="K-CodepointToStringFunc-2">
       <description> A test whose essence is: `codepoints-to-string((84, 104), "INVALID")`. </description>
       <created by="Frans Englich" on="2007-11-26"/>
-      <environment ref="empty"/>
       <test>codepoints-to-string((84, 104), "INVALID")</test>
       <result>
          <error code="XPST0017"/>
@@ -231,7 +209,6 @@
    <test-case name="K-CodepointToStringFunc-3">
       <description> A test whose essence is: `codepoints-to-string(()) eq ""`. </description>
       <created by="Frans Englich" on="2007-11-26"/>
-      <environment ref="empty"/>
       <test>codepoints-to-string(()) eq ""</test>
       <result>
          <assert-true/>
@@ -241,7 +218,6 @@
    <test-case name="K-CodepointToStringFunc-4">
       <description> A test whose essence is: `codepoints-to-string((87, 36, 56, 87, 102, 96)) eq "W$8Wf`"`. </description>
       <created by="Frans Englich" on="2007-11-26"/>
-      <environment ref="empty"/>
       <test>codepoints-to-string((87, 36, 56, 87, 102, 96)) eq "W$8Wf`"</test>
       <result>
          <assert-true/>
@@ -251,7 +227,6 @@
    <test-case name="K-CodepointToStringFunc-5">
       <description> A test whose essence is: `codepoints-to-string(57343)`. </description>
       <created by="Frans Englich" on="2007-11-26"/>
-      <environment ref="empty"/>
       <test>codepoints-to-string(57343)</test>
       <result>
          <error code="FOCH0001"/>
@@ -261,7 +236,6 @@
    <test-case name="K-CodepointToStringFunc-6">
       <description> A test whose essence is: `codepoints-to-string(-500)`. </description>
       <created by="Frans Englich" on="2007-11-26"/>
-      <environment ref="empty"/>
       <test>codepoints-to-string(-500)</test>
       <result>
          <error code="FOCH0001"/>
@@ -271,7 +245,6 @@
    <test-case name="K-CodepointToStringFunc-7">
       <description> A test whose essence is: `codepoints-to-string(0)`. </description>
       <created by="Frans Englich" on="2007-11-26"/>
-      <environment ref="empty"/>
       <test>codepoints-to-string(0)</test>
       <result>
          <error code="FOCH0001"/>
@@ -281,7 +254,6 @@
    <test-case name="K-CodepointToStringFunc-8">
       <description> Codepoint 8 is invalid in XML 1.0 but valid in XML 1.1. </description>
       <created by="Frans Englich" on="2007-11-26"/>
-      <environment ref="empty"/>
       <test>codepoints-to-string(8)</test>
       <result>
          <any-of>
@@ -294,7 +266,6 @@
    <test-case name="K-CodepointToStringFunc-9">
       <description> A test whose essence is: `codepoints-to-string(9) eq "&amp;#x9;"`. </description>
       <created by="Frans Englich" on="2007-11-26"/>
-      <environment ref="empty"/>
       <test>codepoints-to-string(9) eq "	"</test>
       <result>
          <assert-true/>
@@ -304,7 +275,6 @@
    <test-case name="K-CodepointToStringFunc-10">
       <description> A test whose essence is: `codepoints-to-string(10) eq "&amp;#xA;"`. </description>
       <created by="Frans Englich" on="2007-11-26"/>
-      <environment ref="empty"/>
       <test>codepoints-to-string(10) eq "
 "</test>
       <result>
@@ -315,7 +285,6 @@
    <test-case name="K-CodepointToStringFunc-11">
       <description> Codepoint 11 is invalid in XML 1.0 but valid in XML 1.1. </description>
       <created by="Frans Englich" on="2007-11-26"/>
-      <environment ref="empty"/>
       <dependency type="xml-version" value="1.0"/>
       <test>codepoints-to-string(11)</test>
       <result>
@@ -326,7 +295,6 @@
    <test-case name="K-CodepointToStringFunc-11b">
       <description> Codepoint 11 is invalid in XML 1.0 but valid in XML 1.1. </description>
       <created by="Frans Englich" on="2007-11-26"/>
-      <environment ref="empty"/>
       <dependency type="xml-version" value="1.1"/>
       <test>string-to-codepoints(codepoints-to-string(11))</test>
       <result>
@@ -337,7 +305,6 @@
    <test-case name="K-CodepointToStringFunc-12">
       <description> Codepoint 12 is invalid in XML 1.0 but valid in XML 1.1. </description>
       <created by="Frans Englich" on="2007-11-26"/>
-      <environment ref="empty"/>
       <dependency type="xml-version" value="1.0"/>
       <test>codepoints-to-string(12)</test>
       <result>
@@ -348,7 +315,6 @@
    <test-case name="K-CodepointToStringFunc-12b">
       <description> Codepoint 12 is invalid in XML 1.0 but valid in XML 1.1. </description>
       <created by="Frans Englich" on="2007-11-26"/>
-      <environment ref="empty"/>
       <dependency type="xml-version" value="1.1"/>
       <test>string-to-codepoints(codepoints-to-string(12))</test>
       <result>
@@ -359,8 +325,9 @@
    <test-case name="K-CodepointToStringFunc-13">
       <description> A test whose essence is: `codepoints-to-string(13) eq "&amp;#xd;"`. </description>
       <created by="Frans Englich" on="2007-11-26"/>
-       <modified by="O'Neil Delpratt" on="2011-09-06" change="wrapped test in a CDATA Section to prevent changing query by XML CRLF handling" />
-      <environment ref="empty"/>
+      <modified by="O'Neil Delpratt" on="2011-09-06" change="wrapped test in a CDATA Section to prevent changing query by XML CRLF handling" />
+      <modified by="Michael Kay" on="2011-11-09" change="Add dependency on XQuery because of use of XML character reference" />      
+      <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[codepoints-to-string(13) eq "&#xD;"]]></test>
       <result>
          <assert-true/>
@@ -370,7 +337,6 @@
    <test-case name="K-CodepointToStringFunc-14">
       <description> Codepoint 14 is invalid in XML 1.0 but valid in XML 1.1. </description>
       <created by="Frans Englich" on="2007-11-26"/>
-      <environment ref="empty"/>
       <test>string-to-codepoints(codepoints-to-string(14))</test>
       <result>
          <any-of>
@@ -383,7 +349,6 @@
    <test-case name="K-CodepointToStringFunc-15">
       <description> Codepoint 31 is invalid in XML 1.0 but valid in XML 1.1. </description>
       <created by="Frans Englich" on="2007-11-26"/>
-      <environment ref="empty"/>
       <test>string-to-codepoints(codepoints-to-string(31))</test>
       <result>
          <any-of>
@@ -396,7 +361,6 @@
    <test-case name="K-CodepointToStringFunc-16">
       <description> A test whose essence is: `codepoints-to-string(32) eq "&amp;#x20;"`. </description>
       <created by="Frans Englich" on="2007-11-26"/>
-      <environment ref="empty"/>
       <test>codepoints-to-string(32) eq " "</test>
       <result>
          <assert-true/>
@@ -406,7 +370,6 @@
    <test-case name="K-CodepointToStringFunc-17">
       <description> A test whose essence is: `codepoints-to-string(27637) eq "&amp;#x6bf5;"`. </description>
       <created by="Frans Englich" on="2007-11-26"/>
-      <environment ref="empty"/>
       <test>codepoints-to-string(27637) eq "&#27637;"</test>
       <result>
          <assert-true/>
@@ -416,7 +379,6 @@
    <test-case name="K-CodepointToStringFunc-18">
       <description> A test whose essence is: `codepoints-to-string(55295) eq "&amp;#xD7FF;"`. </description>
       <created by="Frans Englich" on="2007-11-26"/>
-      <environment ref="empty"/>
       <test>codepoints-to-string(55295) eq "&#55295;"</test>
       <result>
          <assert-true/>
@@ -426,7 +388,6 @@
    <test-case name="K-CodepointToStringFunc-19">
       <description> A test whose essence is: `codepoints-to-string(55296)`. </description>
       <created by="Frans Englich" on="2007-11-26"/>
-      <environment ref="empty"/>
       <test>codepoints-to-string(55296)</test>
       <result>
          <error code="FOCH0001"/>
@@ -436,7 +397,6 @@
    <test-case name="K-CodepointToStringFunc-20">
       <description> A test whose essence is: `codepoints-to-string(57343)`. </description>
       <created by="Frans Englich" on="2007-11-26"/>
-      <environment ref="empty"/>
       <test>codepoints-to-string(57343)</test>
       <result>
          <error code="FOCH0001"/>
@@ -446,7 +406,6 @@
    <test-case name="K-CodepointToStringFunc-21">
       <description> A test whose essence is: `codepoints-to-string(57344) eq "&amp;#xE000;"`. </description>
       <created by="Frans Englich" on="2007-11-26"/>
-      <environment ref="empty"/>
       <test>codepoints-to-string(57344) eq "&#57344;"</test>
       <result>
          <assert-true/>
@@ -456,7 +415,6 @@
    <test-case name="K-CodepointToStringFunc-22">
       <description> A test whose essence is: `codepoints-to-string(61438) eq "&amp;#xEFFE;"`. </description>
       <created by="Frans Englich" on="2007-11-26"/>
-      <environment ref="empty"/>
       <test>codepoints-to-string(61438) eq "&#61438;"</test>
       <result>
          <assert-true/>
@@ -466,7 +424,6 @@
    <test-case name="K-CodepointToStringFunc-23">
       <description> A test whose essence is: `codepoints-to-string(65533) eq "&amp;#xFFFD;"`. </description>
       <created by="Frans Englich" on="2007-11-26"/>
-      <environment ref="empty"/>
       <test>codepoints-to-string(65533) eq "&#65533;"</test>
       <result>
          <assert-true/>
@@ -476,7 +433,6 @@
    <test-case name="K-CodepointToStringFunc-24">
       <description> A test whose essence is: `codepoints-to-string(65534)`. </description>
       <created by="Frans Englich" on="2007-11-26"/>
-      <environment ref="empty"/>
       <test>codepoints-to-string(65534)</test>
       <result>
          <error code="FOCH0001"/>
@@ -486,7 +442,6 @@
    <test-case name="K-CodepointToStringFunc-25">
       <description> A test whose essence is: `codepoints-to-string(65535)`. </description>
       <created by="Frans Englich" on="2007-11-26"/>
-      <environment ref="empty"/>
       <test>codepoints-to-string(65535)</test>
       <result>
          <error code="FOCH0001"/>
@@ -496,7 +451,6 @@
    <test-case name="K-CodepointToStringFunc-26">
       <description> A test whose essence is: `codepoints-to-string(65536) eq "&amp;#x10000;"`. </description>
       <created by="Frans Englich" on="2007-11-26"/>
-      <environment ref="empty"/>
       <test>codepoints-to-string(65536) eq "&#65536;"</test>
       <result>
          <assert-true/>
@@ -506,7 +460,6 @@
    <test-case name="K-CodepointToStringFunc-27">
       <description> A test whose essence is: `codepoints-to-string(589823) eq "&amp;#x8FFFF;"`. </description>
       <created by="Frans Englich" on="2007-11-26"/>
-      <environment ref="empty"/>
       <test>codepoints-to-string(589823) eq "&#589823;"</test>
       <result>
          <assert-true/>
@@ -516,7 +469,6 @@
    <test-case name="K-CodepointToStringFunc-28">
       <description> A test whose essence is: `codepoints-to-string(1114111) eq "&amp;#x10FFFF;"`. </description>
       <created by="Frans Englich" on="2007-11-26"/>
-      <environment ref="empty"/>
       <test>codepoints-to-string(1114111) eq "&#1114111;"</test>
       <result>
          <assert-true/>
@@ -526,7 +478,6 @@
    <test-case name="K-CodepointToStringFunc-29">
       <description> A test whose essence is: `codepoints-to-string(1114112)`. </description>
       <created by="Frans Englich" on="2007-11-26"/>
-      <environment ref="empty"/>
       <test>codepoints-to-string(1114112)</test>
       <result>
          <error code="FOCH0001"/>
