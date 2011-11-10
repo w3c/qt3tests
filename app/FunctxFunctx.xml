@@ -4290,36 +4290,66 @@
    </test-case>
 
    <test-case name="functx-functx-leaf-elements-1">
-      <description>~ : All XML elements that don't have any child elements : : @author Priscilla Walmsley, Datypic : @version 1.0 : @see http://www.xqueryfunctions.com/xq/functx_leaf-elements.html : @param $root the root </description>
+      <description>
+      	All XML elements that don't have any child elements
+      	@author Priscilla Walmsley, Datypic
+      	@version 1.0
+      	@see http://www.xqueryfunctions.com/xq/functx_leaf-elements.html
+      	@param $root the root 
+      </description>
       <created by="Frans Englich" on="2008-05-16"/>
-      <test><![CDATA[declare namespace functx = "http://www.example.com/";
-                    (:~ : All XML elements that don't have any child elements : : @author Priscilla Walmsley, Datypic : @version 1.0 : @see http://www.xqueryfunctions.com/xq/functx_leaf-elements.html : @param $root the root :)
-         declare function functx:leaf-elements ( $root as node()? ) as element()* { $root/descendant-or-self::*[not(*)] } ;
-                    let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return (functx:leaf-elements($in-xml))]]></test>
+      <test><![CDATA[
+      	declare namespace functx = "http://www.example.com/";
+      	declare function functx:leaf-elements ( $root as node()? ) as element()* { $root/descendant-or-self::*[not(*)] } ;
+        let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> 
+                                 <author> <fName>John</fName> <lName>Doe</lName> </author> 
+                       </authors> 
+        return (functx:leaf-elements($in-xml))
+      ]]></test>
       <result>
          <assert-serialization><![CDATA[<fName>Kate</fName><lName>Jones</lName><fName>John</fName><lName>Doe</lName>]]></assert-serialization>
       </result>
    </test-case>
 
    <test-case name="functx-functx-leaf-elements-2">
-      <description>~ : All XML elements that don't have any child elements : : @author Priscilla Walmsley, Datypic : @version 1.0 : @see http://www.xqueryfunctions.com/xq/functx_leaf-elements.html : @param $root the root </description>
+      <description>
+      	All XML elements that don't have any child elements
+      	@author Priscilla Walmsley, Datypic
+      	@version 1.0
+      	@see http://www.xqueryfunctions.com/xq/functx_leaf-elements.html
+      	@param $root the root 
+      </description>
       <created by="Frans Englich" on="2008-05-16"/>
-      <test><![CDATA[declare namespace functx = "http://www.example.com/";
-                    (:~ : All XML elements that don't have any child elements : : @author Priscilla Walmsley, Datypic : @version 1.0 : @see http://www.xqueryfunctions.com/xq/functx_leaf-elements.html : @param $root the root :)
-         declare function functx:leaf-elements ( $root as node()? ) as element()* { $root/descendant-or-self::*[not(*)] } ;
-                    let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return (functx:leaf-elements($in-xml/author[1]))]]></test>
+      <test><![CDATA[
+      	declare namespace functx = "http://www.example.com/";
+        declare function functx:leaf-elements ( $root as node()? ) as element()* { $root/descendant-or-self::*[not(*)] } ;
+        let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> 
+                                 <author> <fName>John</fName> <lName>Doe</lName> </author> 
+                       </authors> 
+        return (functx:leaf-elements($in-xml/author[1]))
+      ]]></test>
       <result>
          <assert-serialization><![CDATA[<fName>Kate</fName><lName>Jones</lName>]]></assert-serialization>
       </result>
    </test-case>
 
    <test-case name="functx-functx-leaf-elements-all">
-      <description>~ : All XML elements that don't have any child elements : : @author Priscilla Walmsley, Datypic : @version 1.0 : @see http://www.xqueryfunctions.com/xq/functx_leaf-elements.html : @param $root the root </description>
+      <description>
+      	All XML elements that don't have any child elements
+      	@author Priscilla Walmsley, Datypic
+      	@version 1.0
+      	@see http://www.xqueryfunctions.com/xq/functx_leaf-elements.html
+      	@param $root the root 
+      </description>
       <created by="Frans Englich" on="2008-05-16"/>
-      <test><![CDATA[declare namespace functx = "http://www.example.com/";
-                    (:~ : All XML elements that don't have any child elements : : @author Priscilla Walmsley, Datypic : @version 1.0 : @see http://www.xqueryfunctions.com/xq/functx_leaf-elements.html : @param $root the root :)
-         declare function functx:leaf-elements ( $root as node()? ) as element()* { $root/descendant-or-self::*[not(*)] } ;
-                    let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return (functx:leaf-elements($in-xml), functx:leaf-elements($in-xml/author[1]))]]></test>
+      <test><![CDATA[
+      	declare namespace functx = "http://www.example.com/";
+        declare function functx:leaf-elements ( $root as node()? ) as element()* { $root/descendant-or-self::*[not(*)] } ;
+        let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> 
+                                 <author> <fName>John</fName> <lName>Doe</lName> </author> 
+                       </authors> 
+        return (functx:leaf-elements($in-xml), functx:leaf-elements($in-xml/author[1]))
+      ]]></test>
       <result>
          <assert-serialization><![CDATA[<fName>Kate</fName><lName>Jones</lName><fName>John</fName><lName>Doe</lName><fName>Kate</fName><lName>Jones</lName>]]></assert-serialization>
       </result>
