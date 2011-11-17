@@ -1,21 +1,23 @@
 package com.saxonica.testdriver;
 
+import com.saxonica.expr.JavaExtensionFunctionCall;
 import net.sf.saxon.Configuration;
 import net.sf.saxon.Version;
 import net.sf.saxon.event.Builder;
-import net.sf.saxon.expr.XPathContext;
-import net.sf.saxon.expr.XPathContextMajor;
+import net.sf.saxon.expr.*;
+import net.sf.saxon.expr.parser.CodeInjector;
 import net.sf.saxon.expr.sort.AtomicSortComparer;
 import net.sf.saxon.expr.sort.CodepointCollator;
 import net.sf.saxon.expr.sort.GenericAtomicComparer;
 import net.sf.saxon.expr.sort.SimpleCollation;
 import net.sf.saxon.lib.*;
-import net.sf.saxon.om.Name11Checker;
-import net.sf.saxon.om.NodeInfo;
-import net.sf.saxon.om.SequenceIterator;
-import net.sf.saxon.om.StructuredQName;
+import net.sf.saxon.om.*;
+import net.sf.saxon.option.jdom.JDOMObjectModel;
+import net.sf.saxon.option.jdom2.JDOM2ObjectModel;
+import net.sf.saxon.s9api.Axis;
 import net.sf.saxon.s9api.*;
 import net.sf.saxon.s9api.Serializer.Property;
+import net.sf.saxon.trace.ExpressionPresenter;
 import net.sf.saxon.trans.DecimalFormatManager;
 import net.sf.saxon.trans.DecimalSymbols;
 import net.sf.saxon.trans.NoDynamicContextException;
@@ -28,7 +30,7 @@ import net.sf.saxon.tree.util.Orphan;
 import net.sf.saxon.type.Type;
 import net.sf.saxon.value.*;
 import net.sf.saxon.value.SequenceType;
-import net.sf.saxon.value.StringValue;
+import net.sf.saxon.value.StringValue;import org.jetbrains.annotations.Nullable;
 
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
@@ -57,16 +59,23 @@ public class FOTestSuiteDriver {
     private Map<String, Environment> localEnvironments = new HashMap<String, Environment>();
     private Pattern testPattern = null;
     private String testFuncSet = null;
+    private String resultsDir = null;
     private boolean debug = false;
     XMLStreamWriter results;
     private int successes = 0;
     private int failures = 0;
     private int wrongErrorResults = 0;
+    private boolean unfolded = false;
+    private int generateByteCode = 0;
+    private boolean preferQuery = false;
+    private TreeModel treeModel =  TreeModel.TINY_TREE;
+    private HashMap<String, XdmNode> exceptionsMap = new HashMap<String, XdmNode>();
 
 
     public static void main(String[] args) throws Exception {
         if (args.length == 0 || args[0].equals("-?")) {
-            System.err.println("FOTestSuiteDriver catalog [-s:testSetName] [-t:testNamePattern]");
+            System.err.println("java com.saxonica.testdriver.FOTestSuiteDriver catalog [-o:resultsdir] [-s:testSetName]" +
+                    " [-t:testNamePattern] [-unfolded] [-bytecode:on|off|debug] [-xquery] [-tree]");
         }
 
         System.err.println("Testing Saxon " + Version.getProductVersion());
@@ -88,6 +97,7 @@ public class FOTestSuiteDriver {
         public boolean xml11 = false;
         public boolean usable = true;
         public FastStringBuffer paramDeclarations = new FastStringBuffer(256);
+        public FastStringBuffer paramDecimalDeclarations = new FastStringBuffer(256);
     }
 
     /**
@@ -96,6 +106,7 @@ public class FOTestSuiteDriver {
 
     private class Outcome {
         private XdmValue value;
+        private Set<String> errorsReported;
         private SaxonApiException exception;
 
         public Outcome(XdmValue value) {
@@ -116,6 +127,14 @@ public class FOTestSuiteDriver {
 
         public XdmValue getResult() {
             return value;
+        }
+
+        public void setErrorsReported(Set<String> errors) {
+            errorsReported = errors;
+        }
+
+        public boolean hasReportedError(String errorCode) {
+            return errorsReported != null && errorsReported.contains(errorCode);
         }
 
         public String toString() {
@@ -141,8 +160,9 @@ public class FOTestSuiteDriver {
         }
     }
 
-    private void go(String[] args) throws SaxonApiException {
+    private void go(String[] args) throws SaxonApiException, Exception {
         String catalog = args[0];
+        HashSet exceptions = new HashSet();
 
         for (int i = 1; i < args.length; i++) {
             if (args[i].startsWith("-t:")) {
@@ -151,10 +171,44 @@ public class FOTestSuiteDriver {
             if (args[i].startsWith("-s:")) {
                 testFuncSet = args[i].substring(3);
             }
+            if (args[i].startsWith("-o")) {
+                resultsDir = args[i].substring(3);
+            }
             if (args[i].startsWith("-debug")) {
                 debug = true;
             }
+            if (args[i].equals("-unfolded")) {
+                unfolded = true;
+            }
+            if (args[i].startsWith("-bytecode")) {
+                if (args[i].substring(10).equals("on")) {
+                    generateByteCode = 1;
+                } else if (args[i].substring(10).equals("debug")) {
+                    generateByteCode = 2;
+                } else {
+                    generateByteCode = 0;
+                }
+            }
+            if (args[i].startsWith("-xquery")) {
+                preferQuery = true;
+            }
+            if (args[i].startsWith("-tree")) {
+                if (args[i].substring(6).equals("jdom") || args[i].substring(6).equals("JDOM")) {
+                    treeModel = new JDOMObjectModel();
+                } else if (args[i].substring(6).equals("jdom2") || args[i].substring(6).equals("JDOM2")) {
+                    treeModel = new JDOM2ObjectModel();
+                } else if (args[i].substring(6).equals("tinytree") || args[i].substring(6).equals("TINYTREE")) {
+                    treeModel = TreeModel.TINY_TREE;
+                }else {
+                    throw new Exception("The TreeModel specified does not exist");
+                }
+            }
         }
+        if (resultsDir == null) {
+            System.err.println("No results directory specified (use -o:dirname)");
+            System.exit(2);
+        }
+        //activate(driverProc);
         driverSerializer.setOutputStream(System.err);
         driverSerializer.setOutputProperty(Property.OMIT_XML_DECLARATION, "yes");
         processCatalog(new File(catalog));
@@ -162,7 +216,9 @@ public class FOTestSuiteDriver {
     }
 
     private void processCatalog(File catalogFile) throws SaxonApiException {
+
         DocumentBuilder catbuilder = driverProc.newDocumentBuilder();
+        catbuilder.setTreeModel(treeModel);
         XdmNode catalog = catbuilder.build(catalogFile);
         XPathCompiler xpc = driverProc.newXPathCompiler();
         xpc.setLanguageVersion("3.0");
@@ -177,6 +233,39 @@ public class FOTestSuiteDriver {
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+        }
+
+        /**
+         * Look for an exceptions.xml document with the general format:
+         *
+         * <exceptions xmlns="...test catalog namespace...">
+         *   <exception test-set ="testset1" test-case="testcase" run="yes/no/not-unfolded"
+         *       bug="bug-reference" reason="">
+         *     <results>
+         *         ... alternative expected results ...
+         *     </results>
+         *     <optimization>
+         *         ... assertions about the "explain" tree
+         *     </optimization>
+         *   </exception>
+         * </exceptions>
+         *
+         */
+        XdmNode exceptionsDoc = null;
+        DocumentBuilder exceptBuilder = driverProc.newDocumentBuilder();
+        QName testCase = new QName("", "test-case");
+        try {
+            exceptionsDoc = exceptBuilder.build(new File(resultsDir + "/exceptions.xml"));
+            XdmSequenceIterator iter = exceptionsDoc.axisIterator(Axis.DESCENDANT, new QName(RNS, "exception"));
+            while (iter.hasNext()) {
+                XdmNode entry = (XdmNode)iter.next();
+                String test = entry.getAttributeValue(testCase);
+                if (test != null) {
+                    exceptionsMap.put(test, entry);
+                }
+            }
+        } catch (SaxonApiException e) {
+            System.err.println("*** Failed to process exceptions file: " + e.getMessage());
         }
 
         if (testFuncSet != null) {
@@ -199,8 +288,11 @@ public class FOTestSuiteDriver {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+
     }
 
+    //Method: processTestSet
     private void processTestSet(DocumentBuilder catbuilder, XPathCompiler xpc, XdmNode funcSetNode) throws SaxonApiException {
         String testName;
         try {
@@ -211,10 +303,11 @@ public class FOTestSuiteDriver {
         File testSetFile = new File(funcSetNode.getAttributeValue(new QName("file")));
         XdmNode testSetDocNode = catbuilder.build(testSetFile);
         localEnvironments.clear();
-        localEnvironments.put("default", createLocalEnvironment(testSetDocNode.getBaseURI()));
+        Environment defaultEnvironment = createLocalEnvironment(testSetDocNode.getBaseURI());
+        localEnvironments.put("default", defaultEnvironment);
         boolean run = true;
         for (XdmItem dependency : xpc.evaluate("/test-set/dependency", testSetDocNode)) {
-            if (!dependencyIsSatisfied((XdmNode) dependency, null)) {
+            if (!dependencyIsSatisfied((XdmNode) dependency, defaultEnvironment)) {
                 run = false;
             }
         }
@@ -227,6 +320,7 @@ public class FOTestSuiteDriver {
                 if (testPattern != null && !testPattern.matcher(testName).matches()) {
                     continue;
                 }
+
                 runTestCase((XdmNode) testCase, xpc);
             }
         }
@@ -241,14 +335,27 @@ public class FOTestSuiteDriver {
      */
 
     private Environment createLocalEnvironment(URI baseURI) {
-        Environment environment = new Environment();
+        final Environment environment = new Environment();
         environment.processor = new Processor(true);
-        // TODO: switch bytecode compilation on!
-        environment.processor.setConfigurationProperty(FeatureKeys.GENERATE_BYTE_CODE, "false");
+        //activate(environment.processor);
+        if (generateByteCode == 1) {
+            environment.processor.setConfigurationProperty(FeatureKeys.GENERATE_BYTE_CODE, "true");
+            environment.processor.setConfigurationProperty(FeatureKeys.DEBUG_BYTE_CODE, "false");
+        } else if (generateByteCode == 2) {
+            environment.processor.setConfigurationProperty(FeatureKeys.GENERATE_BYTE_CODE, "true");
+            environment.processor.setConfigurationProperty(FeatureKeys.DEBUG_BYTE_CODE, "true");
+        } else {
+            environment.processor.setConfigurationProperty(FeatureKeys.GENERATE_BYTE_CODE, "false");
+            environment.processor.setConfigurationProperty(FeatureKeys.DEBUG_BYTE_CODE, "false");
+        }
         environment.xpathCompiler = environment.processor.newXPathCompiler();
         environment.xpathCompiler.setBaseURI(baseURI);
         environment.xqueryCompiler = environment.processor.newXQueryCompiler();
         environment.xqueryCompiler.setBaseURI(baseURI);
+        if (unfolded) {
+            environment.xqueryCompiler.getUnderlyingStaticContext().setCodeInjector(new LazyLiteralInjector());
+        }
+        environment.processor.getUnderlyingConfiguration().setDefaultCollection(null);
         return environment;
     }
 
@@ -266,12 +373,24 @@ public class FOTestSuiteDriver {
         Environment environment = new Environment();
         String name = ((XdmNode) env).getAttributeValue(new QName("name"));
         environment.processor = new Processor(true);
-        // TODO: switch bytecode compilation on!
-        environment.processor.setConfigurationProperty(FeatureKeys.GENERATE_BYTE_CODE, "false");
+        //activate(environment.processor);
+        if (generateByteCode == 1) {
+            environment.processor.setConfigurationProperty(FeatureKeys.GENERATE_BYTE_CODE, "true");
+            environment.processor.setConfigurationProperty(FeatureKeys.DEBUG_BYTE_CODE, "false");
+        } else if (generateByteCode == 2) {
+            environment.processor.setConfigurationProperty(FeatureKeys.GENERATE_BYTE_CODE, "true");
+            environment.processor.setConfigurationProperty(FeatureKeys.DEBUG_BYTE_CODE, "true");
+        } else {
+            environment.processor.setConfigurationProperty(FeatureKeys.GENERATE_BYTE_CODE, "false");
+            environment.processor.setConfigurationProperty(FeatureKeys.DEBUG_BYTE_CODE, "false");
+        }
         environment.xpathCompiler = environment.processor.newXPathCompiler();
         environment.xpathCompiler.setBaseURI(((XdmNode) env).getBaseURI());
         environment.xqueryCompiler = environment.processor.newXQueryCompiler();
         environment.xqueryCompiler.setBaseURI(((XdmNode) env).getBaseURI());
+        if (unfolded) {
+            environment.xqueryCompiler.getUnderlyingStaticContext().setCodeInjector(new LazyLiteralInjector());
+        }
         DocumentBuilder builder = environment.processor.newDocumentBuilder();
         environment.sourceDocs = new HashMap<String, XdmNode>();
         if (environments != null && name != null) {
@@ -339,6 +458,8 @@ public class FOTestSuiteDriver {
                 SchemaValidator validator = manager.newSchemaValidator();
                 validator.setLax(validation.equals("lax"));
                 builder.setSchemaValidator(validator);
+                environment.xpathCompiler.setSchemaAware(true);
+                environment.xqueryCompiler.setSchemaAware(true);
             }
             try {
                 XdmNode doc = builder.build(file);
@@ -410,16 +531,6 @@ public class FOTestSuiteDriver {
             );
         }
 
-        // register any required extension functions
-        for (XdmItem source : xpc.evaluate("function", env)) {
-            String fname = ((XdmNode) source).getAttributeValue(new QName("name"));
-            if (fname.equals("fots:copy")) {
-                environment.processor.registerExtensionFunction(new FotsCopyFunction());
-            } else {
-                System.err.println("**** Unknown function in environment");
-            }
-        }
-
         // register any required decimal formats
         for (XdmItem decimalFormat : xpc.evaluate("decimal-format", env)) {
             DecimalFormatManager dfm = environment.xpathCompiler.getUnderlyingStaticContext().getDecimalFormatManager();
@@ -439,11 +550,15 @@ public class FOTestSuiteDriver {
                         formatQName = new StructuredQName("", "", "error-name");
                     }
                 }
+                environment.paramDecimalDeclarations.append("declare decimal-format " + formatName + " ");
+            } else {
+                environment.paramDecimalDeclarations.append("declare default decimal-format ");
             }
             for (XdmItem decimalFormatAtt : xpc.evaluate("@* except @name", formatElement)) {
                 XdmNode formatAttribute = (XdmNode) decimalFormatAtt;
                 String property = formatAttribute.getNodeName().getLocalName();
                 String value = formatAttribute.getStringValue();
+                environment.paramDecimalDeclarations.append(property + "=\"" + value + "\" ");
                 if (property.equals("decimal-separator")) {
                     symbols.decimalSeparator = toChar(value);
                 } else if (property.equals("grouping-separator")) {
@@ -468,6 +583,7 @@ public class FOTestSuiteDriver {
                     System.err.println("**** Unknown decimal format attribute " + property);
                 }
             }
+            environment.paramDecimalDeclarations.append(";");
             try {
                 symbols.checkDistinctRoles();
             } catch (XPathException err) {
@@ -489,7 +605,7 @@ public class FOTestSuiteDriver {
         for (XdmItem param : xpc.evaluate("param", env)) {
             String varName = ((XdmNode) param).getAttributeValue(new QName("name"));
             XdmValue value;
-            String source =  ((XdmNode) param).getAttributeValue(new QName("source"));
+            String source = ((XdmNode) param).getAttributeValue(new QName("source"));
             if (source != null) {
                 XdmNode sourceDoc = environment.sourceDocs.get(source);
                 if (sourceDoc == null) {
@@ -508,7 +624,7 @@ public class FOTestSuiteDriver {
             } else {
                 environment.paramDeclarations.append("declare variable $" + varName + " external; ");
             }
-         }
+        }
 
         return environment;
     }
@@ -542,19 +658,25 @@ public class FOTestSuiteDriver {
         String type = dependency.getAttributeValue(new QName("type"));
         String value = dependency.getAttributeValue(new QName("value"));
         boolean inverse = "false".equals(dependency.getAttributeValue(new QName("satisfied")));
-        if ("xpath-1.0-compatibility".equals(type)) {
-            if ("true".equals(value)) {
+        if ("xml-version".equals(type)) {
+            if ("1.1".equals(value) && !inverse) {
                 if (env != null) {
-                    env.xpathCompiler.setBackwardsCompatible(true);
+                    env.processor.setXmlVersion("1.1");
                 } else {
                     return false;
                 }
             }
             return true;
-        } else if ("xml-version".equals(type)) {
-            if ("1.1".equals(value) && !inverse) {
+        } else if ("xsd-version".equals(type)) {
+            if ("1.1".equals(value)) {
                 if (env != null) {
-                    env.processor.setXmlVersion("1.1");
+                    env.processor.setConfigurationProperty(FeatureKeys.XSD_VERSION, (inverse ? "1.0" : "1.1"));
+                } else {
+                    return false;
+                }
+            } else if ("1.0".equals(value)) {
+                if (env != null) {
+                    env.processor.setConfigurationProperty(FeatureKeys.XSD_VERSION, (inverse ? "1.1" : "1.0"));
                 } else {
                     return false;
                 }
@@ -576,9 +698,9 @@ public class FOTestSuiteDriver {
         } else if ("directory-as-collection-uri".equals(type)) {
             return ("true".equals(value) != inverse);
         } else if ("language".equals(type)) {
-            return (("en".equals(value) || "de".equals(value) || "fr".equals(value))  != inverse);
+            return (("en".equals(value) || "de".equals(value) || "fr".equals(value)) != inverse);
         } else if ("calendar".equals(type)) {
-            return (("AD".equals(value) || "ISO".equals(value))  != inverse);
+            return (("AD".equals(value) || "ISO".equals(value)) != inverse);
         } else if ("format-integer-sequence".equals(type)) {
             return !inverse;
         } else if ("feature".equals(type)) {
@@ -591,6 +713,15 @@ public class FOTestSuiteDriver {
                     env.xqueryCompiler.setSchemaAware(true);
                 }
                 return true;
+            } else if ("xpath-1.0-compatibility".equals(value)) {
+                if (env != null) {
+                    env.xpathCompiler.setBackwardsCompatible(!inverse);
+                    return true;
+                } else {
+                    return false;
+                }
+            } else if ("schema-location-hint".equals(value)) {
+                return !inverse;
             } else {
                 System.err.println("**** feature = " + value + "  ????");
                 return false;
@@ -612,6 +743,24 @@ public class FOTestSuiteDriver {
     private void runTestCase(XdmNode testCase, XPathCompiler xpc) throws SaxonApiException {
         String testCaseName = testCase.getAttributeValue(new QName("name"));
         System.err.println("Test case " + testCaseName);
+
+        XdmNode exceptionElement = exceptionsMap.get(testCaseName);
+        XdmNode alternativeResult = null;
+        XdmNode optimization = null;
+        if (exceptionElement != null) {
+            String runAtt = exceptionElement.getAttributeValue(new QName("run"));
+            if ("no".equals(runAtt)) {
+                writeTestcaseElement(testCaseName, "notRun", "see exceptions file");
+                return;
+            }
+            if (unfolded && "not-unfolded".equals(runAtt)) {
+                writeTestcaseElement(testCaseName, "notRun", "see exceptions file");
+                return;
+            }
+
+            alternativeResult = (XdmNode)xpc.evaluateSingle("result", exceptionElement);
+            optimization = (XdmNode)xpc.evaluateSingle("optimization", exceptionElement);
+        }
 
         XdmNode environmentNode = (XdmNode) xpc.evaluateSingle("environment", testCase);
         Environment env;
@@ -638,8 +787,16 @@ public class FOTestSuiteDriver {
         env.processor.setXmlVersion("1.0");
 
         boolean run = true;
-        String hostLang = "XP";
-        String langVersion = "2.0";
+        boolean xpDependency = false;
+        String hostLang;
+        String langVersion;
+        if (preferQuery) {
+            hostLang = "XQ";
+            langVersion = "1.0";
+        } else {
+            hostLang = "XP";
+            langVersion = "2.0";
+        }
         for (XdmItem dependency : xpc.evaluate("/*/dependency, ./dependency", testCase)) {
             String type = ((XdmNode) dependency).getAttributeValue(new QName("type"));
             if (type == null) {
@@ -650,19 +807,42 @@ public class FOTestSuiteDriver {
                 throw new IllegalStateException("dependency/@value is missing");
             }
             if (type.equals("spec")) {
-                if (value.contains("XP")) {
+                if (value.contains("XP") && !value.contains("XQ")) {
                     hostLang = "XP";
                     langVersion = (value.equals("XP20") ? "2.0" : "3.0");
+                    xpDependency = true;
+                } else if (value.contains("XP") && value.contains("XQ") && preferQuery) {
+                    hostLang = "XQ";
+                    langVersion = (value.contains("XQ10+") || value.contains("XQ30") ? "3.0" : "1.0");
+                } else if(value.contains("XT")){
+                   hostLang = "XT";
+                   langVersion =  (value.contains("XT30+") || value.contains("XT30") ? "3.0" : "1.0");
                 } else {
                     hostLang = "XQ";
                     langVersion = (value.contains("XQ10+") || value.contains("XQ30") ? "3.0" : "1.0");
                 }
+            }
+            if (type.equals("feature") && value.equals("xpath-1.0-compatibility")) {
+                hostLang = "XP";
+                langVersion = "3.0";
+                xpDependency = true;
+            }
+            if (type.equals("feature") && value.equals("namespace-axis")) {
+                hostLang = "XP";
+                langVersion = "3.0";
+                xpDependency = true;
             }
 
             if (!dependencyIsSatisfied((XdmNode) dependency, env)) {
                 System.err.println("*** Dependency not satisfied: " + ((XdmNode) dependency).getAttributeValue(new QName("type")));
                 writeTestcaseElement(testCaseName, "notRun", "Dependency not satisfied");
                 run = false;
+            }
+        }
+        if ((unfolded && !xpDependency) || optimization != null) {
+            hostLang = "XQ";
+            if (langVersion.equals("2.0")) {
+                langVersion = "1.0";
             }
         }
         if (run) {
@@ -707,13 +887,24 @@ public class FOTestSuiteDriver {
                     testXqc.declareNamespace("xs", NamespaceConstant.SCHEMA);
                     testXqc.declareNamespace("math", NamespaceConstant.MATH);
                     testXqc.declareNamespace("map", NamespaceConstant.MAP_FUNCTIONS);
+                    ErrorCollector errorCollector = new ErrorCollector();
+                    testXqc.setErrorListener(errorCollector);
+                    String decVars = env.paramDecimalDeclarations.toString();
+                    if (!decVars.isEmpty()) {
+                        int x = (exp.indexOf("(:%DECL%:)"));
+                        if (x < 0) {
+                            exp = decVars + exp;
+                        } else {
+                            exp = exp.substring(0, x) + decVars + exp.substring(x + 13);
+                        }
+                    }
                     String vars = env.paramDeclarations.toString();
                     if (!vars.isEmpty()) {
                         int x = (exp.indexOf("(:%VARDECL%:)"));
                         if (x < 0) {
                             exp = vars + exp;
                         } else {
-                            exp = exp.substring(0, x) + vars + exp.substring(x+13);
+                            exp = exp.substring(0, x) + vars + exp.substring(x + 13);
                         }
                     }
                     ModuleResolver mr = new ModuleResolver(xpc);
@@ -721,7 +912,27 @@ public class FOTestSuiteDriver {
                     testXqc.setModuleURIResolver(mr);
 
                     try {
-                        XQueryEvaluator selector = testXqc.compile(exp).load();
+                        XQueryExecutable q = testXqc.compile(exp);
+                        if (optimization != null) {
+                            XdmDestination expDest = new XdmDestination();
+                            Configuration config = driverProc.getUnderlyingConfiguration();
+                            ExpressionPresenter presenter = new ExpressionPresenter(config, expDest.getReceiver(config));
+                            q.getUnderlyingCompiledQuery().explain(presenter);
+                            presenter.close();
+                            XdmNode explanation = expDest.getXdmNode();
+                            XdmItem optResult = xpc.evaluateSingle(optimization.getAttributeValue(new QName("assert")), explanation);
+                            if (((XdmAtomicValue)optResult).getBooleanValue()) {
+                                System.err.println("Optimization result OK");
+                            } else {
+                                System.err.println("Failed optimization test");
+                                driverProc.writeXdmValue(explanation, new Serializer(System.err));
+                                writeTestcaseElement(testCaseName, "fail", "Failed optimization assertions");
+                                failures++;
+                                return;
+                            }
+
+                        }
+                        XQueryEvaluator selector = q.load();
                         for (QName varName : env.params.keySet()) {
                             selector.setExternalVariable(varName, env.params.get(varName));
                         }
@@ -732,12 +943,19 @@ public class FOTestSuiteDriver {
                         XdmValue result = selector.evaluate();
                         outcome = new Outcome(result);
                     } catch (SaxonApiException err) {
+                        System.err.println("TestSet" + testFuncSet);
                         System.err.println(err.getMessage());
                         outcome = new Outcome(err);
+                        outcome.setErrorsReported(errorCollector.getErrorCodes());
                     }
                 }
             }
-            XdmNode assertion = (XdmNode) xpc.evaluateSingle("result/*[1]", testCase);
+            XdmNode assertion;
+            if (alternativeResult != null) {
+                assertion = (XdmNode)xpc.evaluateSingle("*[1]", alternativeResult);
+            } else {
+                assertion = (XdmNode) xpc.evaluateSingle("result/*[1]", testCase);
+            }
             if (assertion == null) {
                 System.err.println("*** No assertions found for test case " + testCaseName);
                 writeTestcaseElement(testCaseName, "fail", "No assertions in test case");
@@ -809,16 +1027,21 @@ public class FOTestSuiteDriver {
 
     private boolean testAssertion(XdmNode assertion, Outcome outcome, XPathCompiler assertXpc, XPathCompiler catalogXpc, boolean debug)
             throws SaxonApiException {
-        String tag = assertion.getNodeName().getLocalName();
-        boolean result = testAssertion2(assertion, outcome, assertXpc, catalogXpc, debug);
-        if (debug && !("all-of".equals(tag)) && !("any-of".equals(tag))) {
-            System.err.println("Assertion " + tag + " (" + assertion.getStringValue() + ") " + (result ? " succeeded" : " failed"));
-            if (tag.equals("error")) {
-                System.err.println("Expected exception " + assertion.getAttributeValue(new QName("code")) +
-                        ", got " + (outcome.isException() ? outcome.getException().getErrorCode() : "success"));
+        try {
+            String tag = assertion.getNodeName().getLocalName();
+            boolean result = testAssertion2(assertion, outcome, assertXpc, catalogXpc, debug);
+            if (debug && !("all-of".equals(tag)) && !("any-of".equals(tag))) {
+                System.err.println("Assertion " + tag + " (" + assertion.getStringValue() + ") " + (result ? " succeeded" : " failed"));
+                if (tag.equals("error")) {
+                    System.err.println("Expected exception " + assertion.getAttributeValue(new QName("code")) +
+                            ", got " + (outcome.isException() ? outcome.getException().getErrorCode() : "success"));
+                }
             }
+            return result;
+        } catch (SaxonApiException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            return false;
         }
-        return result;
     }
 
     private boolean testAssertion2(XdmNode assertion, Outcome outcome, XPathCompiler assertXpc, XPathCompiler catalogXpc, boolean debug) throws SaxonApiException {
@@ -888,7 +1111,7 @@ public class FOTestSuiteDriver {
                 String normalizeAtt = assertion.getAttributeValue(new QName("normalize-space"));
                 boolean normalize = normalizeAtt != null && ("true".equals(normalizeAtt.trim()) || "1".equals(normalizeAtt.trim()));
                 String ignoreAtt = assertion.getAttributeValue(new QName("ignore-prefixes"));
-                boolean ignorePrefixes =  ignoreAtt != null && ("true".equals(ignoreAtt.trim()) || "1".equals(ignoreAtt.trim()));
+                boolean ignorePrefixes = ignoreAtt != null && ("true".equals(ignoreAtt.trim()) || "1".equals(ignoreAtt.trim()));
 
                 String comparand = catalogXpc.evaluate("if (@file) then unparsed-text(resolve-uri(@file, base-uri(.))) else string(.)", assertion).toString();
                 if (normalize) {
@@ -920,12 +1143,12 @@ public class FOTestSuiteDriver {
                 try {
                     SequenceIterator iter0;
                     XdmValue v = outcome.getResult();
-                    if (v.size() == 1 && v.itemAt(0) instanceof XdmNode && ((XdmNode)v.itemAt(0)).getNodeKind() == XdmNodeKind.DOCUMENT) {
-                        iter0 = ((XdmNode)v.itemAt(0)).getUnderlyingNode().iterateAxis(net.sf.saxon.om.Axis.CHILD);
+                    if (v.size() == 1 && v.itemAt(0) instanceof XdmNode && ((XdmNode) v.itemAt(0)).getNodeKind() == XdmNodeKind.DOCUMENT) {
+                        iter0 = ((XdmNode) v.itemAt(0)).getUnderlyingNode().iterateAxis(net.sf.saxon.om.Axis.CHILD);
                     } else {
                         iter0 = Value.asIterator(outcome.getResult().getUnderlyingValue());
                     }
-                    SequenceIterator iter1 = ((NodeInfo)expected.axisIterator(Axis.CHILD).next()
+                    SequenceIterator iter1 = ((NodeInfo) expected.axisIterator(Axis.CHILD).next()
                             .getUnderlyingValue()).iterateAxis(net.sf.saxon.om.Axis.CHILD);
                     return net.sf.saxon.functions.DeepEqual.deepEquals(
                             iter0, iter1,
@@ -987,7 +1210,7 @@ public class FOTestSuiteDriver {
                 String resultString;
                 String assertionString = assertion.getStringValue();
                 if (resultValue instanceof XdmItem) {
-                    resultString = ((XdmItem)resultValue).getStringValue();
+                    resultString = ((XdmItem) resultValue).getStringValue();
                 } else {
                     boolean first = true;
                     FastStringBuffer fsb = new FastStringBuffer(256);
@@ -1059,8 +1282,9 @@ public class FOTestSuiteDriver {
             //noinspection ThrowableResultOfMethodCallIgnored
             return outcome.isException() &&
                     (expectedError.equals("*") ||
-                        (outcome.getException().getErrorCode() != null &&
-                         outcome.getException().getErrorCode().getLocalName().equals(expectedError)));
+                            (outcome.getException().getErrorCode() != null &&
+                                    outcome.getException().getErrorCode().getLocalName().equals(expectedError)) ||
+                            (outcome.hasReportedError(expectedError)));
         } else if (tag.equals("all-of")) {
             for (XdmItem child : catalogXpc.evaluate("*", assertion)) {
                 if (!testAssertion((XdmNode) child, outcome, assertXpc, catalogXpc, debug)) {
@@ -1081,7 +1305,7 @@ public class FOTestSuiteDriver {
 
 
     private void writeResultFilePreamble(Processor processor, XdmNode catalog, String date) throws IOException, SaxonApiException, XMLStreamException {
-        Writer resultWriter = new BufferedWriter(new FileWriter(new File(/*testSuiteDir + */"results/saxon/results"
+        Writer resultWriter = new BufferedWriter(new FileWriter(new File(resultsDir + "/results"
                 + Version.getProductVersion() + ".xml")));
         Serializer serializer = processor.newSerializer(resultWriter);
         serializer.setOutputProperty(Serializer.Property.METHOD, "xml");
@@ -1186,7 +1410,7 @@ public class FOTestSuiteDriver {
                             case Type.NAMESPACE:
                                 Orphan orphan = new Orphan(context.getConfiguration());
                                 orphan.setNodeKind((short) node.getNodeKind());
-                                orphan.setNameCode(node.getNameCode());
+                                orphan.setNodeName(new NameOfNode(node));
                                 orphan.setStringValue(node.getStringValue());
                                 return SingleNodeIterator.makeIterator(orphan);
                             default:
@@ -1213,31 +1437,111 @@ public class FOTestSuiteDriver {
 
         public StreamSource[] resolve(String moduleURI, String baseURI, String[] locations) throws XPathException {
             try {
-                XdmValue file = catXPC.evaluate("./module[@uri='" + moduleURI + "']/@file/string()", testCase);
-                if (file.size() == 0) {
+                XdmValue files = catXPC.evaluate("./module[@uri='" + moduleURI + "']/@file/string()", testCase);
+                if (files.size() == 0) {
                     throw new XPathException("Failed to find module entry for " + moduleURI);
                 }
-                URI uri = testCase.getBaseURI().resolve(file.toString());
-                StreamSource ss = getQuerySource(uri);
-                return new StreamSource[]{ss};
+                StreamSource[] ss = new StreamSource[files.size()];
+                for (int i = 0; i<files.size(); i++) {
+                    URI uri = testCase.getBaseURI().resolve(files.itemAt(i).toString());
+                    ss[i] = getQuerySource(uri);
+                }
+                return ss;
             } catch (SaxonApiException e) {
                 throw new XPathException(e);
             }
         }
     }
 
-    public class TestURIResolver implements URIResolver {
+    public static class TestURIResolver implements URIResolver {
         Environment env;
+
         public TestURIResolver(Environment env) {
             this.env = env;
         }
-        public Source resolve(String href, String base) throws TransformerException {
+
+        @Nullable public Source resolve(String href, String base) throws TransformerException {
             XdmNode node = env.sourceDocs.get(href);
             if (node == null) {
                 return null;
             } else {
                 return node.asSource();
             }
+        }
+    }
+
+    private static class LazyLiteralInjector implements CodeInjector {
+        public Expression inject(Expression exp, StaticContext env, int construct, StructuredQName qName) {
+            if (exp instanceof Literal) {
+                StructuredQName name = new StructuredQName("saxon", NamespaceConstant.SAXON, "lazy-literal");
+                JavaExtensionFunctionCall wrapper = new JavaExtensionFunctionCall();
+                try {
+                    wrapper.init(name, FOTestSuiteDriver.class,
+                            FOTestSuiteDriver.class.getMethod("lazyLiteral", ValueRepresentation.class),
+                            env.getConfiguration());
+                    wrapper.setArguments(new Expression[]{exp});
+                } catch (NoSuchMethodException e) {
+                    throw new IllegalStateException(e);
+                }
+                return wrapper;
+            } else {
+                return exp;
+            }
+        }
+    }
+
+    /**
+     * Static method called as an external function call to evaluate a literal when running in "unfolded" mode.
+     * The function simply returns the value of its argument - but the optimizer doesn't know that, so it
+     * can't pre-evaluate the call at compile time.
+     *
+     * @param value the value to be returned
+     * @return the supplied value, unchanged
+     */
+
+    public static ValueRepresentation lazyLiteral(ValueRepresentation value) {
+        return value;
+    }
+
+    private static class ErrorCollector extends StandardErrorListener {
+
+        private Set<String> errorCodes = new HashSet<String>();
+
+        @Override
+        public void error(TransformerException exception) throws TransformerException {
+            addErrorCode(exception);
+            super.error(exception);
+        }
+
+        @Override
+        public void fatalError(TransformerException exception) throws TransformerException {
+            addErrorCode(exception);
+            super.fatalError(exception);
+        }
+
+        /**
+         * Make a clean copy of this ErrorListener. This is necessary because the
+         * standard error listener is stateful (it remembers how many errors there have been)
+         *
+         * @param hostLanguage the host language (not used by this implementation)
+         * @return a copy of this error listener
+         */
+        @Override
+        public StandardErrorListener makeAnother(int hostLanguage) {
+            return this;
+        }
+
+        private void addErrorCode(TransformerException exception) {
+            if (exception instanceof XPathException) {
+                String errorCode = ((XPathException)exception).getErrorCodeLocalPart();
+                if (errorCode != null) {
+                    errorCodes.add(errorCode);
+                }
+            }
+        }
+
+        public Set<String> getErrorCodes() {
+            return errorCodes;
         }
     }
 
@@ -1265,6 +1569,5 @@ public class FOTestSuiteDriver {
 //
 // Contributor(s): none.
 //
-
 
 
