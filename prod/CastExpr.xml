@@ -10376,9 +10376,22 @@
    <test-case name="K-SeqExprCast-422">
       <description> Casting from xs:untypedAtomic to xs:QName isn't allowed.</description>
       <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="Michael Kay" on="2011-11-17" change="different error code for XP30/XQ30 (bug 14856)"/>
+      <dependency type="spec" value="XQ10 XP20"/>
       <test>xs:untypedAtomic("an arbitrary string(untypedAtomic source)") cast as xs:QName</test>
       <result>
          <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+   <test-case name="K-SeqExprCast-422a">
+      <description> Casting from xs:untypedAtomic to xs:QName isn't allowed.</description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="Michael Kay" on="2011-11-17" change="different error code for XP30/XQ30 (bug 14856)"/>
+      <dependency type="spec" value="XQ30+ XP30+"/>
+      <test>xs:untypedAtomic("an arbitrary string(untypedAtomic source)") cast as xs:QName</test>
+      <result>
+         <error code="FORG0001"/>
       </result>
    </test-case>
 
