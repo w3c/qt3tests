@@ -7,22 +7,25 @@
    <test-case name="analyzeString-001">
       <description> analyze-string with empty string</description>
       <created by="Michael Kay" on="2009-10-18"/>
+      <modified by="Michael Kay" on="2011-11-17" change="fix bug 14822"/>
       <test>analyze-string("", "abc")</test>
       <result>
-            <assert-serialization><![CDATA[<fn:analyze-string-result xmlns:fn="http://www.w3.org/2005/xpath-functions"/>]]></assert-serialization>
+            <assert-serialization ignore-prefixes="true"><![CDATA[<fn:analyze-string-result xmlns:fn="http://www.w3.org/2005/xpath-functions"/>]]></assert-serialization>
       </result>
    </test-case>
    <test-case name="analyzeString-002">
       <description> analyze-string with empty sequence </description>
       <created by="Michael Kay" on="2009-10-18"/>
+      <modified by="Michael Kay" on="2011-11-17" change="fix bug 14822"/>
       <test>analyze-string((), "abc")</test>
       <result>
-         <assert-serialization><![CDATA[<fn:analyze-string-result xmlns:fn="http://www.w3.org/2005/xpath-functions"/>]]></assert-serialization>
+         <assert-serialization ignore-prefixes="true"><![CDATA[<fn:analyze-string-result xmlns:fn="http://www.w3.org/2005/xpath-functions"/>]]></assert-serialization>
       </result>
    </test-case>
    <test-case name="analyzeString-002a">
       <description> analyze-string with empty sequence </description>
       <created by="Michael Kay" on="2009-10-18"/>
+      <modified by="Michael Kay" on="2011-11-17" change="fix bug 14822"/>
       <test>count(analyze-string((), "abc"))</test>
       <result>
          <assert-eq>1</assert-eq>
@@ -31,88 +34,99 @@
    <test-case name="analyzeString-003">
       <description> analyze-string with a mix of matching and non-matching strings</description>
       <created by="Michael Kay" on="2009-10-18"/>
+      <modified by="Michael Kay" on="2011-11-17" change="fix bug 14822"/>
       <test>analyze-string("banana", "a")</test>
       <result>
-         <assert-serialization><![CDATA[<fn:analyze-string-result xmlns:fn="http://www.w3.org/2005/xpath-functions"><fn:non-match>b</fn:non-match><fn:match>a</fn:match><fn:non-match>n</fn:non-match><fn:match>a</fn:match><fn:non-match>n</fn:non-match><fn:match>a</fn:match></fn:analyze-string-result>]]></assert-serialization>
+         <assert-serialization ignore-prefixes="true"><![CDATA[<fn:analyze-string-result xmlns:fn="http://www.w3.org/2005/xpath-functions"><fn:non-match>b</fn:non-match><fn:match>a</fn:match><fn:non-match>n</fn:non-match><fn:match>a</fn:match><fn:non-match>n</fn:non-match><fn:match>a</fn:match></fn:analyze-string-result>]]></assert-serialization>
       </result>
    </test-case>
    <test-case name="analyzeString-004">
       <description> analyze-string with a single non-matching string</description>
       <created by="Michael Kay" on="2009-10-18"/>
+      <modified by="Michael Kay" on="2011-11-17" change="fix bug 14822"/>
       <test>analyze-string("banana", "custard")</test>
       <result>
-         <assert-serialization><![CDATA[<fn:analyze-string-result xmlns:fn="http://www.w3.org/2005/xpath-functions"><fn:non-match>banana</fn:non-match></fn:analyze-string-result>]]></assert-serialization>
+         <assert-serialization ignore-prefixes="true"><![CDATA[<fn:analyze-string-result xmlns:fn="http://www.w3.org/2005/xpath-functions"><fn:non-match>banana</fn:non-match></fn:analyze-string-result>]]></assert-serialization>
       </result>
    </test-case>
    <test-case name="analyzeString-005">
       <description> analyze-string with a single matching string</description>
       <created by="Michael Kay" on="2009-10-18"/>
+      <modified by="Michael Kay" on="2011-11-17" change="fix bug 14822"/>
       <test>analyze-string("banana", ".+")</test>
       <result>
-         <assert-serialization><![CDATA[<fn:analyze-string-result xmlns:fn="http://www.w3.org/2005/xpath-functions"><fn:match>banana</fn:match></fn:analyze-string-result>]]></assert-serialization>
+         <assert-serialization ignore-prefixes="true"><![CDATA[<fn:analyze-string-result xmlns:fn="http://www.w3.org/2005/xpath-functions"><fn:match>banana</fn:match></fn:analyze-string-result>]]></assert-serialization>
       </result>
    </test-case>
    <test-case name="analyzeString-006">
       <description> analyze-string with a adjacent matching strings</description>
       <created by="Michael Kay" on="2009-10-18"/>
+      <modified by="Michael Kay" on="2011-11-17" change="fix bug 14822"/>
       <test>analyze-string("banana", "an")</test>
       <result>
          <any-of>
-            <assert-serialization><![CDATA[<fn:analyze-string-result xmlns:fn="http://www.w3.org/2005/xpath-functions"><fn:non-match>b</fn:non-match><fn:match>an</fn:match><fn:match>an</fn:match><fn:non-match>a</fn:non-match></fn:analyze-string-result>]]></assert-serialization>
+            <assert-serialization ignore-prefixes="true"><![CDATA[<fn:analyze-string-result xmlns:fn="http://www.w3.org/2005/xpath-functions"><fn:non-match>b</fn:non-match><fn:match>an</fn:match><fn:match>an</fn:match><fn:non-match>a</fn:non-match></fn:analyze-string-result>]]></assert-serialization>
             </any-of>
       </result>
    </test-case>
    <test-case name="analyzeString-007">
       <description> analyze-string with a single captured group</description>
       <created by="Michael Kay" on="2009-10-18"/>
+      <modified by="Michael Kay" on="2011-11-17" change="fix bug 14822"/>
       <test>analyze-string("banana", "a(n)")</test>
       <result>
-         <assert-serialization><![CDATA[<fn:analyze-string-result xmlns:fn="http://www.w3.org/2005/xpath-functions"><fn:non-match>b</fn:non-match><fn:match>a<fn:group nr="1">n</fn:group></fn:match><fn:match>a<fn:group nr="1">n</fn:group></fn:match><fn:non-match>a</fn:non-match></fn:analyze-string-result>]]></assert-serialization>
+         <assert-serialization ignore-prefixes="true"><![CDATA[<fn:analyze-string-result xmlns:fn="http://www.w3.org/2005/xpath-functions"><fn:non-match>b</fn:non-match><fn:match>a<fn:group nr="1">n</fn:group></fn:match><fn:match>a<fn:group nr="1">n</fn:group></fn:match><fn:non-match>a</fn:non-match></fn:analyze-string-result>]]></assert-serialization>
       </result>
    </test-case>
    <test-case name="analyzeString-008">
       <description> analyze-string with nested captured groups</description>
       <created by="Michael Kay" on="2009-10-18"/>
+      <modified by="Michael Kay" on="2011-11-17" change="fix bug 14822"/>
       <test>analyze-string("banana", "(a(n?))")</test>
       <result>
-         <assert-serialization><![CDATA[<fn:analyze-string-result xmlns:fn="http://www.w3.org/2005/xpath-functions"><fn:non-match>b</fn:non-match><fn:match><fn:group nr="1">a<fn:group nr="2">n</fn:group></fn:group></fn:match><fn:match><fn:group nr="1">a<fn:group nr="2">n</fn:group></fn:group></fn:match><fn:match><fn:group nr="1">a<fn:group nr="2"/></fn:group></fn:match></fn:analyze-string-result>]]></assert-serialization>
+         <assert-serialization ignore-prefixes="true"><![CDATA[<fn:analyze-string-result xmlns:fn="http://www.w3.org/2005/xpath-functions"><fn:non-match>b</fn:non-match><fn:match><fn:group nr="1">a<fn:group nr="2">n</fn:group></fn:group></fn:match><fn:match><fn:group nr="1">a<fn:group nr="2">n</fn:group></fn:group></fn:match><fn:match><fn:group nr="1">a<fn:group nr="2"/></fn:group></fn:match></fn:analyze-string-result>]]></assert-serialization>
       </result>
    </test-case>
    <test-case name="analyzeString-009">
       <description> analyze-string, groups in alternatives </description>
       <created by="Michael Kay" on="2009-10-18"/>
+      <modified by="Michael Kay" on="2011-11-17" change="fix bug 14822"/>
       <test>analyze-string("how now brown cow", "(how)|(now)|(brown)|(cow)")</test>
       <result>
-         <assert-serialization><![CDATA[<fn:analyze-string-result xmlns:fn="http://www.w3.org/2005/xpath-functions"><fn:match><fn:group nr="1">how</fn:group></fn:match><fn:non-match> </fn:non-match><fn:match><fn:group nr="2">now</fn:group></fn:match><fn:non-match> </fn:non-match><fn:match><fn:group nr="3">brown</fn:group></fn:match><fn:non-match> </fn:non-match><fn:match><fn:group nr="4">cow</fn:group></fn:match></fn:analyze-string-result>]]></assert-serialization>
+         <assert-serialization ignore-prefixes="true"><![CDATA[<fn:analyze-string-result xmlns:fn="http://www.w3.org/2005/xpath-functions"><fn:match><fn:group nr="1">how</fn:group></fn:match><fn:non-match> </fn:non-match><fn:match><fn:group nr="2">now</fn:group></fn:match><fn:non-match> </fn:non-match><fn:match><fn:group nr="3">brown</fn:group></fn:match><fn:non-match> </fn:non-match><fn:match><fn:group nr="4">cow</fn:group></fn:match></fn:analyze-string-result>]]></assert-serialization>
       </result>
    </test-case>
    <test-case name="analyzeString-010">
       <description> analyze-string, with i flag </description>
       <created by="Michael Kay" on="2009-10-18"/>
+      <modified by="Michael Kay" on="2011-11-17" change="fix bug 14822"/>
       <test>analyze-string("how now brown cow", "(HOW)|(NOW)|(BROWN)|(COW)", "i")</test>
       <result>
-         <assert-serialization><![CDATA[<fn:analyze-string-result xmlns:fn="http://www.w3.org/2005/xpath-functions"><fn:match><fn:group nr="1">how</fn:group></fn:match><fn:non-match> </fn:non-match><fn:match><fn:group nr="2">now</fn:group></fn:match><fn:non-match> </fn:non-match><fn:match><fn:group nr="3">brown</fn:group></fn:match><fn:non-match> </fn:non-match><fn:match><fn:group nr="4">cow</fn:group></fn:match></fn:analyze-string-result>]]></assert-serialization>
+         <assert-serialization ignore-prefixes="true"><![CDATA[<fn:analyze-string-result xmlns:fn="http://www.w3.org/2005/xpath-functions"><fn:match><fn:group nr="1">how</fn:group></fn:match><fn:non-match> </fn:non-match><fn:match><fn:group nr="2">now</fn:group></fn:match><fn:non-match> </fn:non-match><fn:match><fn:group nr="3">brown</fn:group></fn:match><fn:non-match> </fn:non-match><fn:match><fn:group nr="4">cow</fn:group></fn:match></fn:analyze-string-result>]]></assert-serialization>
       </result>
    </test-case>
    <test-case name="analyzeString-011">
       <description> analyze-string, with i and x flag </description>
       <created by="Michael Kay" on="2009-10-18"/>
+      <modified by="Michael Kay" on="2011-11-17" change="fix bug 14822"/>
       <test>analyze-string("how now brown cow", " (HOW) | (NOW) &#xa;| (BROWN) | (COW) ", "ix")</test>
       <result>
-         <assert-serialization><![CDATA[<fn:analyze-string-result xmlns:fn="http://www.w3.org/2005/xpath-functions"><fn:match><fn:group nr="1">how</fn:group></fn:match><fn:non-match> </fn:non-match><fn:match><fn:group nr="2">now</fn:group></fn:match><fn:non-match> </fn:non-match><fn:match><fn:group nr="3">brown</fn:group></fn:match><fn:non-match> </fn:non-match><fn:match><fn:group nr="4">cow</fn:group></fn:match></fn:analyze-string-result>]]></assert-serialization>
+         <assert-serialization ignore-prefixes="true"><![CDATA[<fn:analyze-string-result xmlns:fn="http://www.w3.org/2005/xpath-functions"><fn:match><fn:group nr="1">how</fn:group></fn:match><fn:non-match> </fn:non-match><fn:match><fn:group nr="2">now</fn:group></fn:match><fn:non-match> </fn:non-match><fn:match><fn:group nr="3">brown</fn:group></fn:match><fn:non-match> </fn:non-match><fn:match><fn:group nr="4">cow</fn:group></fn:match></fn:analyze-string-result>]]></assert-serialization>
       </result>
    </test-case>
    <test-case name="analyzeString-012">
       <description> analyze-string, with flags set to empty string</description>
       <created by="Michael Kay" on="2009-10-18"/>
+      <modified by="Michael Kay" on="2011-11-17" change="fix bug 14822"/>
       <test>analyze-string("how now brown cow", "(.*?ow\s+)+", "")</test>
       <result>
-         <assert-serialization><![CDATA[<fn:analyze-string-result xmlns:fn="http://www.w3.org/2005/xpath-functions"><fn:match>how <fn:group nr="1">now </fn:group></fn:match><fn:non-match>brown cow</fn:non-match></fn:analyze-string-result>]]></assert-serialization>
+         <assert-serialization ignore-prefixes="true"><![CDATA[<fn:analyze-string-result xmlns:fn="http://www.w3.org/2005/xpath-functions"><fn:match>how <fn:group nr="1">now </fn:group></fn:match><fn:non-match>brown cow</fn:non-match></fn:analyze-string-result>]]></assert-serialization>
       </result>
    </test-case>
    <test-case name="analyzeString-013">
       <description> analyze-string, with "s" flag</description>
       <created by="Michael Kay" on="2009-10-18"/>
+      <modified by="Michael Kay" on="2011-11-17" change="fix bug 14822"/>
       <test>let $in := 
 "Mary had a little lamb,
 it's fleece was black as soot,
@@ -120,7 +134,7 @@ and everywhere that Mary went,
 it put its sooty foot."
             return analyze-string($in, "Mary.*foot", "s")</test>
       <result>
-            <assert-serialization><![CDATA[<fn:analyze-string-result xmlns:fn="http://www.w3.org/2005/xpath-functions"><fn:match>Mary had a little lamb,
+            <assert-serialization ignore-prefixes="true"><![CDATA[<fn:analyze-string-result xmlns:fn="http://www.w3.org/2005/xpath-functions"><fn:match>Mary had a little lamb,
 it's fleece was black as soot,
 and everywhere that Mary went,
 it put its sooty foot</fn:match><fn:non-match>.</fn:non-match></fn:analyze-string-result>]]></assert-serialization>
@@ -129,6 +143,7 @@ it put its sooty foot</fn:match><fn:non-match>.</fn:non-match></fn:analyze-strin
    <test-case name="analyzeString-014">
       <description> analyze-string, multiple lines without "s" flag </description>
       <created by="Michael Kay" on="2009-10-18"/>
+      <modified by="Michael Kay" on="2011-11-17" change="fix bug 14822"/>
       <test>let $in := 
 "Mary had a little lamb,
 it's fleece was black as soot,
@@ -137,7 +152,7 @@ it put its sooty foot."
             return analyze-string($in, ".+", "")</test>
       <result>
          <any-of>
-            <assert-serialization><![CDATA[<fn:analyze-string-result xmlns:fn="http://www.w3.org/2005/xpath-functions"><fn:match>Mary had a little lamb,</fn:match><fn:non-match>
+            <assert-serialization ignore-prefixes="true"><![CDATA[<fn:analyze-string-result xmlns:fn="http://www.w3.org/2005/xpath-functions"><fn:match>Mary had a little lamb,</fn:match><fn:non-match>
 </fn:non-match><fn:match>it's fleece was black as soot,</fn:match><fn:non-match>
 </fn:non-match><fn:match>and everywhere that Mary went,</fn:match><fn:non-match>
 </fn:non-match><fn:match>it put its sooty foot.</fn:match></fn:analyze-string-result>]]></assert-serialization>
@@ -147,6 +162,7 @@ it put its sooty foot."
    <test-case name="analyzeString-015">
       <description> analyze-string, multiple lines with "m" flag </description>
       <created by="Michael Kay" on="2009-10-18"/>
+      <modified by="Michael Kay" on="2011-11-17" change="fix bug 14822"/>
       <test>let $in := 
 "Mary had a little lamb,
 it's fleece was black as soot,
@@ -155,7 +171,7 @@ it put its sooty foot."
             return analyze-string($in, "^.+$", "m")</test>
       <result>
          <any-of>
-            <assert-serialization><![CDATA[<fn:analyze-string-result xmlns:fn="http://www.w3.org/2005/xpath-functions"><fn:match>Mary had a little lamb,</fn:match><fn:non-match>
+            <assert-serialization ignore-prefixes="true"><![CDATA[<fn:analyze-string-result xmlns:fn="http://www.w3.org/2005/xpath-functions"><fn:match>Mary had a little lamb,</fn:match><fn:non-match>
 </fn:non-match><fn:match>it's fleece was black as soot,</fn:match><fn:non-match>
 </fn:non-match><fn:match>and everywhere that Mary went,</fn:match><fn:non-match>
 </fn:non-match><fn:match>it put its sooty foot.</fn:match></fn:analyze-string-result>]]></assert-serialization>
@@ -167,6 +183,7 @@ it put its sooty foot."
  analyze-string, multiple lines with "m" flag 
 </description>
       <created by="Michael Kay" on="2009-10-18"/>
+      <modified by="Michael Kay" on="2011-11-17" change="fix bug 14822"/>
       <test>let $in := 
 "Mary had a little lamb,
 it's fleece was black as soot,
@@ -175,7 +192,7 @@ it put its sooty foot."
             return analyze-string($in, "^.+$", "")</test>
       <result>
          <any-of>
-            <assert-serialization><![CDATA[<fn:analyze-string-result xmlns:fn="http://www.w3.org/2005/xpath-functions"><fn:non-match>Mary had a little lamb,
+            <assert-serialization ignore-prefixes="true"><![CDATA[<fn:analyze-string-result xmlns:fn="http://www.w3.org/2005/xpath-functions"><fn:non-match>Mary had a little lamb,
 it's fleece was black as soot,
 and everywhere that Mary went,
 it put its sooty foot.</fn:non-match></fn:analyze-string-result>]]></assert-serialization>
@@ -185,38 +202,42 @@ it put its sooty foot.</fn:non-match></fn:analyze-string-result>]]></assert-seri
    <test-case name="analyzeString-017">
       <description> subtle distinction in the positioning of an empty captured group </description>
       <created by="Michael Kay" on="2009-10-18"/>
+      <modified by="Michael Kay" on="2011-11-17" change="fix bug 14822"/>
       <test>analyze-string("banana", "(b)(x?)")</test>
       <result>
-         <assert-serialization><![CDATA[<fn:analyze-string-result xmlns:fn="http://www.w3.org/2005/xpath-functions"><fn:match><fn:group nr="1">b</fn:group><fn:group nr="2"/></fn:match><fn:non-match>anana</fn:non-match></fn:analyze-string-result>]]></assert-serialization>
+         <assert-serialization ignore-prefixes="true"><![CDATA[<fn:analyze-string-result xmlns:fn="http://www.w3.org/2005/xpath-functions"><fn:match><fn:group nr="1">b</fn:group><fn:group nr="2"/></fn:match><fn:non-match>anana</fn:non-match></fn:analyze-string-result>]]></assert-serialization>
       </result>
    </test-case>
    <test-case name="analyzeString-017a">
       <description> subtle distinction in the positioning of an empty captured group</description>
-      <created by="Michael Kay" on="2009-10-18"/>
+      <created by="Michael Kay" on="2009-10-18"/><modified by="Michael Kay" on="2011-11-17" change="fix bug 14822"/>
       <test>analyze-string("banana", "(b(x?))")</test>
       <result>
-         <assert-serialization><![CDATA[<fn:analyze-string-result xmlns:fn="http://www.w3.org/2005/xpath-functions"><fn:match><fn:group nr="1">b<fn:group nr="2"/></fn:group></fn:match><fn:non-match>anana</fn:non-match></fn:analyze-string-result>]]></assert-serialization>
+         <assert-serialization ignore-prefixes="true"><![CDATA[<fn:analyze-string-result xmlns:fn="http://www.w3.org/2005/xpath-functions"><fn:match><fn:group nr="1">b<fn:group nr="2"/></fn:group></fn:match><fn:non-match>anana</fn:non-match></fn:analyze-string-result>]]></assert-serialization>
       </result>
    </test-case>
    <test-case name="analyzeString-018">
       <description> non-capturing group indicated by "(?:...)" </description>
       <created by="Michael Kay" on="2009-10-18"/>
+      <modified by="Michael Kay" on="2011-11-17" change="fix bug 14822"/>
       <test>analyze-string("banana", "(?:b(an)*a)")</test>
       <result>
-        <assert-serialization><![CDATA[<fn:analyze-string-result xmlns:fn="http://www.w3.org/2005/xpath-functions"><fn:match>ban<fn:group nr="1">an</fn:group>a</fn:match></fn:analyze-string-result>]]></assert-serialization>
+        <assert-serialization ignore-prefixes="true"><![CDATA[<fn:analyze-string-result xmlns:fn="http://www.w3.org/2005/xpath-functions"><fn:match>ban<fn:group nr="1">an</fn:group>a</fn:match></fn:analyze-string-result>]]></assert-serialization>
       </result>
    </test-case>
    <test-case name="analyzeString-019">
       <description> "q" flag suppresses grouping</description>
       <created by="Michael Kay" on="2009-10-18"/>
+      <modified by="Michael Kay" on="2011-11-17" change="fix bug 14822"/>
       <test>analyze-string("((banana))", "(banana)", "q")</test>
       <result>
-         <assert-serialization><![CDATA[<fn:analyze-string-result xmlns:fn="http://www.w3.org/2005/xpath-functions"><fn:non-match>(</fn:non-match><fn:match>(banana)</fn:match><fn:non-match>)</fn:non-match></fn:analyze-string-result>]]></assert-serialization>
+         <assert-serialization ignore-prefixes="true"><![CDATA[<fn:analyze-string-result xmlns:fn="http://www.w3.org/2005/xpath-functions"><fn:non-match>(</fn:non-match><fn:match>(banana)</fn:match><fn:non-match>)</fn:non-match></fn:analyze-string-result>]]></assert-serialization>
       </result>
    </test-case>
    <test-case name="analyzeString-020">
       <description> test typing of result of analyze-string: with no import-schema </description>
       <created by="Michael Kay" on="2009-10-18"/>
+      <modified by="Michael Kay" on="2011-11-17" change="fix bug 14822"/>
       <dependency type="feature" value="schemaValidation"/>
       <test>
         let $result := analyze-string("banana", "(b)(anana)") 
@@ -229,6 +250,7 @@ it put its sooty foot.</fn:non-match></fn:analyze-string-result>]]></assert-seri
    <test-case name="analyzeString-021">
       <description> test typing of result of analyze-string: with no import-schema </description>
       <created by="Michael Kay" on="2009-10-18"/>
+      <modified by="Michael Kay" on="2011-11-17" change="fix bug 14822"/>
       <dependency type="feature" value="schemaValidation"/>
       <test>let $result := analyze-string("banana", "(b)(anana)") return $result instance of element(*, xs:untyped)</test>
       <result>
@@ -238,6 +260,7 @@ it put its sooty foot.</fn:non-match></fn:analyze-string-result>]]></assert-seri
    <test-case name="analyzeString-022">
       <description> test string value of result of analyze-string </description>
       <created by="Michael Kay" on="2009-10-18"/>
+      <modified by="Michael Kay" on="2011-11-17" change="fix bug 14822"/>
       <test>let $result := analyze-string("banana", "(b)(anana)") return string($result)</test>
       <result>
             <assert-string-value>banana</assert-string-value>
@@ -245,7 +268,7 @@ it put its sooty foot.</fn:non-match></fn:analyze-string-result>]]></assert-seri
    </test-case>
    <test-case name="analyzeString-023">
       <description> test string value of result of analyze-string </description>
-      <created by="Michael Kay" on="2009-10-18"/>
+      <created by="Michael Kay" on="2009-10-18"/><modified by="Michael Kay" on="2011-11-17" change="fix bug 14822"/>
       <test>let $result := analyze-string("banana", "(b)(anana)") return string($result/fn:match[1])</test>
       <result>
          <assert-string-value>banana</assert-string-value>
@@ -254,6 +277,7 @@ it put its sooty foot.</fn:non-match></fn:analyze-string-result>]]></assert-seri
    <test-case name="analyzeString-024">
       <description> test typed value of result of analyze-string: referencing a name defined in the schema </description>
       <created by="Michael Kay" on="2009-10-18"/>
+      <modified by="Michael Kay" on="2011-11-17" change="fix bug 14822"/>
       <dependency type="spec" value="XQ30+"/>
       <dependency type="feature" value="schemaValidation"/>
       <dependency type="feature" value="schemaImport"/>
@@ -268,6 +292,7 @@ it put its sooty foot.</fn:non-match></fn:analyze-string-result>]]></assert-seri
    <test-case name="analyzeString-901">
       <description> analyze-string, error, bad regex pattern</description>
       <created by="Michael Kay" on="2009-10-18"/>
+      <modified by="Michael Kay" on="2011-11-17" change="fix bug 14822"/>
       <test>analyze-string("", ")-(")</test>
       <result>
             <error code="FORX0002"/>
@@ -276,6 +301,7 @@ it put its sooty foot.</fn:non-match></fn:analyze-string-result>]]></assert-seri
    <test-case name="analyzeString-902">
       <description> analyze-string, error, bad flags </description>
       <created by="Michael Kay" on="2009-10-18"/>
+      <modified by="Michael Kay" on="2011-11-17" change="fix bug 14822"/>
       <test>analyze-string("abc", "abc", "w")</test>
       <result>
             <error code="FORX0001"/>
@@ -284,6 +310,7 @@ it put its sooty foot.</fn:non-match></fn:analyze-string-result>]]></assert-seri
    <test-case name="analyzeString-903">
       <description> analyze-string, error, pattern matches a zero-length string </description>
       <created by="Michael Kay" on="2009-10-18"/>
+      <modified by="Michael Kay" on="2011-11-17" change="fix bug 14822"/>
       <test>analyze-string("abc", "a|b|c?")</test>
       <result>
             <error code="FORX0003"/>
