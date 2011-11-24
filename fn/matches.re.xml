@@ -1041,17 +1041,18 @@ c,a	r', ',') satisfies not(matches($s, '^(?:\c[^\s]\c)$')))</test>
       <created by="Michael Kay" on="2011-07-04"/>
       <modified by="Michael Kay" on="2011-08-10" change="clarify use of whitespace chars"/>
       <modified by="O'Neil Delpratt" on="2011-10-05" change="changed dependency to XP30+ only. See bug #14398"/>
+      <modified by="Michael Kay" on="2011-11-24" change="allow possibility of line-ending normalization in XPath. See bug #14917.
+      The effect of this bug/feature is that the only way of getting a x0D into an XPath string literal is using codepoints-to-string()"/>
       <dependency type="spec" value="XP30+"/>
       <test>
-        matches('&#xD;&#xD;a&#xD;&#xD;b&#xD;&#xD;',         '^\r\ra\r\rb\r\r$'),
-        matches('&#xD;&#xD;a&#xD;&#xD;b&#xD;&#xD;',         '^\r\ra\r\rb\r\r$'),
-        matches('&#xD;&#xD;a&#xD;&#xD;b&#xD;',              '^(?:\r\ra\r\rb\r\r)$'),
-        matches('&#xD;a&#xD;&#xD;b&#xD;&#xD;',              '^(?:\r\ra\r\rb\r\r)$'),
-        matches('&#xD;&#xD;a&#xD;&#xD;&#xD;&#xD;',          '^(?:\r\ra\r\rb\r\r)$'),
-        matches('&#xD;&#xD;a&#xD;&#xA;&#xD;b&#xD;&#xD;',    '^(?:\r\ra\r\rb\r\r)$')
+        let $d := codepoints-to-string(13) return (
+        matches($d||$d||'a'||$d||$d||'b'||$d||$d,          '^\r\ra\r\rb\r\r$'),
+        matches($d||$d||'a'||$d||$d||'b'||$d||$d,          '^\r+a\r+b\r+$'),
+        matches($d||$d||'b'||$d||$d||'a'||$d||$d,          '^\r\ra\r\rb\r\r$'),
+        matches($d||$d||'a'||$d||$d||'b'||$d||'&#xa;',     '^\r\ra\r\rb\r\r$'))
       </test>
       <result>
-         <assert-deep-eq>true(), true(), false(), false(), false(), false()</assert-deep-eq>
+         <assert-deep-eq>true(), true(), false(), false()</assert-deep-eq>
       </result>
    </test-case>
     <test-case name="re00127a">
@@ -1082,9 +1083,13 @@ c,a	r', ',') satisfies not(matches($s, '^(?:\c[^\s]\c)$')))</test>
       <description>Test regex syntax</description>
       <created by="Michael Kay" on="2011-07-04"/>
       <modified by="Michael Kay" on="2011-10-05" change="simplify test for failure diagnostics"/>
-       <modified by="O'Neil Delpratt" on="2011-10-05" change="changed dependency to XP30+ only. Related to bug #14398"/>
-       <dependency type="spec" value="XP30+"/>
-      <test>matches('a&#xD;&#xA;b', '^(?:a\r\nb)$'), matches('ab', '^(?:a\r\nb)$')</test>
+      <modified by="O'Neil Delpratt" on="2011-10-05" change="changed dependency to XP30+ only. Related to bug #14398"/>
+      <modified by="Michael Kay" on="2011-11-24" change="allow possibility of line-ending normalization in XPath. See bug #14917.
+      The effect of this bug/feature is that the only way of getting a x0D into an XPath string literal is using codepoints-to-string()"/>      
+      <dependency type="spec" value="XP30+"/>
+      <test>
+        let $d := codepoints-to-string(13) return (
+        matches('a'||$d||'&#xA;b', '^(?:a\r\nb)$'), matches('ab', '^(?:a\r\nb)$'))</test>
       <result>
          <assert-deep-eq>true(), false()</assert-deep-eq>
       </result>
@@ -1104,9 +1109,13 @@ c,a	r', ',') satisfies not(matches($s, '^(?:\c[^\s]\c)$')))</test>
       <description>Test regex syntax</description>
       <created by="Michael Kay" on="2011-07-04"/>
       <modified by="O'Neil Delpratt" on="2011-10-05" change="Incorrect pattern in first matches function. Changed dependency to XP30+ only. Related to bug #14398"/>
-       <dependency type="spec" value="XP30+"/>
-      <test>(every $s in tokenize('&#xA;&#xD;a&#xA;&#xD;b', ',') satisfies (matches($s, '^(?:\n\ra\n\rb)$'))) and
-         (every $s in tokenize('', ',') satisfies not(matches($s, '^(?:\n\ra\n\rb)$')))</test>
+      <modified by="Michael Kay" on="2011-11-24" change="allow possibility of line-ending normalization in XPath. See bug #14917.
+      The effect of this bug/feature is that the only way of getting a x0D into an XPath string literal is using codepoints-to-string()"/>      
+      <dependency type="spec" value="XP30+"/>
+      <test>
+        let $d := codepoints-to-string(13) return (
+         (every $s in tokenize('&#xA;'||$d||'a&#xA;&#xD;b', ',') satisfies (matches($s, '^(?:\n\ra\n\rb)$'))) and
+         (every $s in tokenize('', ',') satisfies not(matches($s, '^(?:\n\ra\n\rb)$'))))</test>
       <result>
          <assert-true/>
       </result>
