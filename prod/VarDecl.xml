@@ -583,6 +583,20 @@
          <assert-serialization><![CDATA[<?PI1 Processing Instruction 1?><?PI2 Processing Instruction 2?>]]></assert-serialization>
       </result>
    </test-case>
+   
+   <test-case name="VarDecl063">
+      <description>Purpose - forwards references to global variables allowed in XQuery 3.0 </description>
+      <created by="Michael Kay" on="2011-12-04"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>
+        declare variable $x := $y + 3;
+        declare variable $y := 17;
+        $x + 5;
+      </test>  
+      <result>
+         <assert-eq>25</assert-eq>
+      </result>
+   </test-case>
 
    <test-case name="vardeclerr">
       <description> Test circularity on variable/function declaration . </description>
