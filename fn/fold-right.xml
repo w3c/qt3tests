@@ -94,5 +94,169 @@
                 <assert-string-value>$f(1, $f(2, $f(3, $f(4, $f(5, $zero)))))</assert-string-value>
         </result>
     </test-case>
-    
+    <test-case name="fold-right-008">
+        <description>
+            Higher Order Functions 
+            fold-right function 
+        </description>
+        <created by="William Candillon" on="2011-11-27"/>
+        <environment ref="empty"/>
+        <test>fold-right(function($a, $b, $c){ $a + $b + $c }, 0, 1 to 5)</test>
+        <result>
+            <error code="XPTY0004"/>
+        </result>
+    </test-case>
+    <test-case name="fold-right-009">
+        <description>
+            Higher Order Functions 
+            fold-right function 
+        </description>
+        <created by="William Candillon" on="2011-11-27"/>
+        <environment ref="empty"/>
+        <test>fold-right(function($a, $b){ $a + $b }, "", 1 to 5)</test>
+        <result>
+            <error code="XPTY0004"/>
+        </result>
+    </test-case>
+    <test-case name="fold-right-010">
+        <description>
+            Higher Order Functions 
+            fold-right function 
+        </description>
+        <created by="William Candillon" on="2011-11-27"/>
+        <environment ref="empty"/>
+        <test>fold-right(function($a as xs:string, $b){ $a + $b }, 0, 1 to 5)</test>
+        <result>
+            <error code="XPTY0004"/>
+        </result>
+    </test-case>
+    <test-case name="fold-right-011">
+        <description>
+            Higher Order Functions 
+            fold-right function 
+        </description>
+        <created by="William Candillon" on="2011-11-27"/>
+        <environment ref="empty"/>
+        <test>fold-right(function($a, $b as xs:string){ $a + $b }, 0, 1 to 5)</test>
+        <result>
+            <error code="XPTY0004"/>
+        </result>
+    </test-case>
+    <test-case name="fold-right-012">
+        <description>
+            Higher Order Functions 
+            fold-right function 
+        </description>
+        <created by="William Candillon" on="2011-11-27"/>
+        <environment ref="empty"/>
+        <test>fold-right(function($a, $b) as xs:string { $a + $b }, 0, 1 to 5)</test>
+        <result>
+            <error code="XPTY0004"/>
+        </result>
+    </test-case>
+    <test-case name="fold-right-013">
+        <description>
+            Higher Order Functions 
+            fold-right function 
+            Count the number of items in a sequence
+        </description>
+        <created by="William Candillon" on="2011-11-27"/>
+        <environment ref="empty"/>
+        <test>fold-right(function($a, $b){ $b + 1 }, 0, 1 to 1000000)</test>
+        <result>
+            <assert-string-value>1000000</assert-string-value>
+        </result>
+    </test-case>
+    <test-case name="fold-right-014">
+        <description>
+            Higher Order Functions 
+            fold-right function 
+            Reverse the sequence order
+        </description>
+        <created by="William Candillon" on="2011-11-27"/>
+        <environment ref="empty"/>
+        <test>fold-right(function($a , $b){ ($b, $a) }, (), (1 to 5))</test>
+        <result>
+            <assert-deep-eq>5, 4, 3, 2, 1</assert-deep-eq>
+        </result>
+    </test-case>
+    <test-case name="fold-right-015">
+        <description>
+            Higher Order Functions 
+            fold-right function 
+            Remove duplicate values in a sequence
+        </description>
+        <created by="William Candillon" on="2011-11-27"/>
+        <environment ref="empty"/>
+        <test>fold-right(function($a, $b){ if(exists($b[. eq $a])) then $b else ($a, $b) }, (), (1, 2, 2, 3, 3, 3, 4, 5, 5))</test>
+        <result>
+            <assert-deep-eq>1, 2, 3, 4, 5</assert-deep-eq>
+        </result>
+    </test-case>
+    <test-case name="fold-right-016">
+        <description>
+            Higher Order Functions 
+            fold-right function 
+            Double each value in a sequence
+        </description>
+        <created by="William Candillon" on="2011-11-27"/>
+        <environment ref="empty"/>
+        <test>fold-right(function($a, $b){ ($a, $a, $b) }, (), (1 to 5))</test>
+        <result>
+            <assert-deep-eq>1, 1, 2, 2, 3, 3, 4, 4, 5, 5</assert-deep-eq>
+        </result>
+    </test-case>
+    <test-case name="fold-right-017">
+        <description>
+            Higher Order Functions 
+            fold-right function 
+            Show fold-right structural transformation
+        </description>
+        <created by="William Candillon" on="2011-11-27"/>
+        <environment ref="empty"/>
+        <test>fold-right(concat("(", ?, "+", ?, ")"), 0, (1 to 13))</test>
+        <result>
+            <assert-string-value>(1+(2+(3+(4+(5+(6+(7+(8+(9+(10+(11+(12+(13+0)))))))))))))</assert-string-value>
+        </result>
+    </test-case>
+    <test-case name="fold-right-018">
+        <description>
+            Higher Order Functions 
+            fold-right function 
+            Returns the accumulated length of all strings
+        </description>
+        <created by="William Candillon" on="2011-11-27"/>
+        <environment ref="empty"/>
+        <test>fold-right(function($a, $b){ string-length($a) + $b }, 0, ("Hello", "World"))</test>
+        <result>
+            <assert-string-value>10</assert-string-value>
+        </result>
+    </test-case>
+    <test-case name="fold-right-019">
+        <description>
+            Higher Order Functions 
+            fold-right function 
+            Max() function
+        </description>
+        <created by="William Candillon" on="2011-11-27"/>
+        <environment ref="empty"/>
+        <test>fold-right(function($a, $b){ if(empty($b)) then $a else if($a lt $b) then $b else $a }, (), 1 to 10)</test>
+        <result>
+            <assert-string-value>10</assert-string-value>
+        </result>
+    </test-case>
+    <test-case name="fold-right-020">
+        <description>
+            Higher Order Functions 
+            fold-right function 
+            Min() function
+        </description>
+        <created by="William Candillon" on="2011-11-27"/>
+        <environment ref="empty"/>
+        <test>fold-right(function($a, $b){ if(empty($b)) then $a else if($a gt $b) then $b else $a }, (), 1 to 10)</test>
+        <result>
+            <assert-string-value>1</assert-string-value>
+        </result>
+    </test-case>
+    	
 </test-set>

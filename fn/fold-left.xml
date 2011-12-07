@@ -133,4 +133,157 @@
          <assert-string-value>a b d c</assert-string-value>
       </result>
    </test-case>
+    
+    <test-case name="fold-left-010">
+        <description>Higher Order Functions fold-left function</description>
+        <created by="William Candillon" on="2011-27-11"/>
+        <environment ref="empty"/>
+        <test>fold-left(function($a, $b, $c){ $a + $b + $c }, 1, 1 to 5)</test>
+        <result>
+            <error code="XPTY0004"/>
+        </result>
+    </test-case>
+    
+    <test-case name="fold-left-011">
+        <description>Higher Order Functions fold-left function</description>
+        <created by="William Candillon" on="2011-27-11"/>
+        <environment ref="empty"/>
+        <test>fold-left(function($a, $b) as element(foo) { $a + $b }, 1, 1 to 5)</test>
+        <result>
+            <error code="XPTY0004"/>
+        </result>
+    </test-case>
+    
+    
+    <test-case name="fold-left-012">
+        <description>Higher Order Functions fold-left function</description>
+        <created by="William Candillon" on="2011-27-11"/>
+        <environment ref="empty"/>
+        <test>fold-left(function($a, $b) { $a + $b }, "", 1 to 5)</test>
+        <result>
+            <error code="XPTY0004"/>
+        </result>
+    </test-case>
+    
+    <test-case name="fold-left-013">
+        <description>Higher Order Functions fold-left function</description>
+        <created by="William Candillon" on="2011-27-11"/>
+        <environment ref="empty"/>
+        <test>fold-left(function($a, $b as element(foo)) { $a + $b }, 1, 1 to 5)</test>
+        <result>
+            <error code="XPTY0004"/>
+        </result>
+    </test-case>
+    
+    <test-case name="fold-left-014">
+        <description>Higher Order Functions fold-left function</description>
+        <created by="William Candillon" on="2011-27-11"/>
+        <environment ref="empty"/>
+        <test>fold-left(function($a as element(bar), $b) { $a + $b }, 1, 1 to 5)</test>
+        <result>
+            <error code="XPTY0004"/>
+        </result>
+    </test-case>
+    
+    <test-case name="fold-left-015">
+        <description>Higher Order Functions fold-left function</description>
+        <created by="William Candillon" on="2011-27-11"/>
+        <environment ref="empty"/>
+        <test>fold-left(function($a, $b){ ($a, $b) }, 1, 1 to 2)</test>
+        <result>
+            <assert-deep-eq>1, 1, 2</assert-deep-eq>
+        </result>
+    </test-case>
+    
+    <test-case name="fold-left-016">
+        <description>Higher Order Functions fold-left function. Dynamic node selection.</description>
+        <created by="William Candillon" on="2011-27-11"/>
+        <environment ref="empty"/>
+        <test><![CDATA[
+let $html := <html>
+  <body>
+	<div id="main">
+	  <p class="para">Hello World!</p>	
+	</div>
+	<p class="para">Goodbye!</p>	
+  </body>
+</html>
+let $css-selectors := <selectors>
+  <id>main</id>
+  <class>para</class>
+</selectors>/*
+let $interpreter  := function($ctx, $selector){
+  typeswitch($selector)
+    case $a as element(id) return $ctx//*[@id = $a/text()]
+    case $a as element(class) return $ctx//*[@class = $a/text()]
+  default return ()
+}
+let $result := fold-left($interpreter, $html, $css-selectors)
+return
+  $result/text()
+	 ]]></test>
+        <result>
+            <assert-string-value>Hello World!</assert-string-value>
+        </result>
+    </test-case>
+    
+    <test-case name="fold-left-017">
+        <description>Higher Order Functions fold-left function. Display fold-left structural transformation.</description>
+        <created by="William Candillon" on="2011-27-11"/>
+        <environment ref="empty"/>
+        <test>fold-left(concat("(", ?, "+", ?, ")"), 0, 1 to 13)</test>
+        <result>
+            <assert-string-value>(((((((((((((0+1)+2)+3)+4)+5)+6)+7)+8)+9)+10)+11)+12)+13)</assert-string-value>
+        </result>
+    </test-case>
+    
+    <test-case name="fold-left-018">
+        <description>Higher Order Functions fold-left function. Count the number of words in a setence.</description>
+        <created by="William Candillon" on="2011-27-11"/>
+        <environment ref="empty"/>
+        <test><![CDATA[
+let $text := "Peter Piper picked a peck of pickled peppers A peck of pickled peppers Peter Piper picked"
+let $tokens := tokenize($text, '\s')
+let $counter := function($result, $word){
+  let $word-count := $result[@value = $word]
+  return
+    if(empty($word-count)) then
+      ($result, <word value="{$word}" count="1" />)
+    else
+    (
+      $result except $word-count,
+      <word value="{$word-count/@value}" count="{number($word-count/@count) + 1}" />
+    )
+}
+let $words := fold-left($counter, (), $tokens)
+return (
+  number($words[@value="Peter"]/@count),
+  number($words[@value="Piper"]/@count),
+  number($words[@value="pickled"]/@count)
+)
+]]></test>
+        <result>
+            <assert-deep-eq>2, 2, 2</assert-deep-eq>
+        </result>
+    </test-case>
+    	
+    <test-case name="fold-left-019">
+        <description>Higher Order Functions fold-left function. Returns the average of the sequence values.</description>
+        <created by="William Candillon" on="2011-27-11"/>
+        <environment ref="empty"/>
+        <test>fold-left(function($a, $b){ if(empty($a)) then $b else ($a + $b) div 2 }, (), (13, 14, 9, 6))</test>
+        <result>
+            <assert-string-value>8.625</assert-string-value>
+        </result>
+    </test-case>
+    	
+    <test-case name="fold-left-020">
+        <description>Higher Order Functions fold-left function. Count the number of items in a sequence.</description>
+        <created by="William Candillon" on="2011-27-11"/>
+        <environment ref="empty"/>
+        <test>fold-left(function($a, $b){ $a + 1}, 0, 1 to 1000000)</test>
+        <result>
+            <assert-string-value>1000000</assert-string-value>
+        </result>
+      </test-case>
 </test-set>
