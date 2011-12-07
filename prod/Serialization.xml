@@ -1,0 +1,545 @@
+<?xml version="1.0" encoding="UTF-8"?><test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="prod-Serialization">
+   <description>Tests for the Serialization production</description>
+   <link type="spec" document="http://www.w3.org/TR/xquery-30/" idref="doc-xquery30-Serialization"/>
+   <link type="spec" document="XQuery" section-number="2.2.4" idref="id-serialization"/>
+   
+   <dependency type="spec" value="XQ30+"/>
+   
+   <environment name="user-defined-types">
+      <schema uri="http://www.w3.org/XQueryTest/userDefinedTypes" file="../docs/userdefined.xsd">
+         <description>A schema user defined types and constructor tests</description>
+         <created by="Anonymous" on="2006-04-03"/>
+      </schema>   
+   </environment>
+     
+   <environment name="serialization2">
+      <source role="." file="Serialization/serialization1.xml">
+         <description>.</description>
+         <created by="Dennis Knochenwefel" on="2011-12-05"/>
+      </source>
+   </environment>
+
+   <test-case name="Serialization-001">
+      <description> Test default values for serialization parameters </description>
+      <created by="Dennis Knochenwefel" on="2011-12-05"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+         declare option output:cdata-section-elements "";
+         declare option output:doctype-public "none";
+         declare option output:doctype-system "none";
+         declare option output:indent "no";
+         declare option output:method "xml";
+         declare option output:suppress-indentation "";
+         declare option output:undeclare-prefixes "no";
+         declare option output:use-character-maps "";
+         <result>ok</result>
+        ]]></test>
+      <result>
+         <assert-serialization>&lt;result&gt;ok&lt;/result&gt;</assert-serialization>
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-002">
+      <description> Indentation may add whitespace characters </description>
+      <created by="Dennis Knochenwefel" on="2011-12-05"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+         declare option output:indent "yes";
+         <result>ok</result>
+        ]]></test>
+      <result>
+         <assert-serialization>&lt;result&gt;ok&lt;/result&gt;</assert-serialization>
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-003">
+      <description> it is a static error [err:XQST0108] if an output declaration appears in a library module </description>
+      <created by="Dennis Knochenwefel" on="2011-12-05"/>
+      <module uri="http://www.w3.org/TestModules/test" file="Serialization/serialization1-lib.xq"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         import module namespace test="http://www.w3.org/TestModules/test";
+         <result>{test:ok()}</result>
+      ]]></test>
+      <result>
+         <error code="err:XQST0108" />
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-004">
+      <description> It is a static error [err:XQST0110] if the same serialization parameter is declared more than once. </description>
+      <created by="Dennis Knochenwefel" on="2011-12-05"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+         declare option output:indent "yes";
+         declare option output:indent "yes";
+         <result>ok</result>
+      ]]></test>
+      <result>
+         <error code="err:XQST0110" />
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-005">
+      <description> It is a static error [err:XQST0109] if the local name of an output declaration in the http://www.w3.org/2010/xslt-xquery-serialization namespace is not one of the serialization parameter names </description>
+      <created by="Dennis Knochenwefel" on="2011-12-05"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+         declare option output:doesnotexist "yes";
+         <result>ok</result>
+      ]]></test>
+      <result>
+         <error code="err:XQST0109" />
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-006">
+      <description> If a processor is performing serialization, it is a static error [err:XQST0119] if the implementation is not able to process the value of the output:parameter-document declaration to produce an XDM instance.  </description>
+      <created by="Dennis Knochenwefel" on="2011-12-05"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+         declare option output:parameter-document "Serialization/serialization-parameters.xml";
+         <result>ok</result>
+      ]]></test>
+      <result>
+        <any-of>
+           <assert-serialization>&lt;result&gt;ok&lt;/result&gt;</assert-serialization>     
+ 
+           <!-- processor not able to process output:parameter-document option -->
+           <error code="err:XQST0119" />
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-007">
+      <description> It's ok to override serialization parameters from the parameter-document doc </description>
+      <created by="Dennis Knochenwefel" on="2011-12-05"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+         declare option output:parameter-document "Serialization/serialization-parameters.xml";
+         declare option output:indent "yes";
+         <result>ok</result>
+      ]]></test>
+      <result>
+         <assert-serialization>&lt;result&gt;ok&lt;/result&gt;</assert-serialization>     
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-008">
+      <description> 
+         It is a serialization error [err:SEPM0016] if a parameter value is invalid for the given parameter. 
+         Wrong serialization parameter value for byte-order-mark.
+      </description>
+      <created by="Dennis Knochenwefel" on="2011-12-05"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+         declare option output:byte-order-mark "INVALID_VALUE";
+         <result>ok</result>
+      ]]></test>
+      <result>
+        <any-of>
+           <!-- the processor may use these parameters to control the way in which the serialization takes place.
+                It is the responsibility of the host language to specify how invalid values should be handled at the level of that language. -->
+           <assert-serialization>&lt;result&gt;ok&lt;/result&gt;</assert-serialization>     
+
+           <!-- It is a serialization error [err:SEPM0016] if a parameter value is invalid for the given parameter. -->
+           <assert-serialization-error code="err:SEPM0016" />
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-009">
+      <description> 
+         It is a serialization error [err:SEPM0016] if a parameter value is invalid for the given parameter. 
+         Wrong serialization parameter value for doctype-public.
+      </description>
+      <created by="Dennis Knochenwefel" on="2011-12-05"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+         declare option output:doctype-public "&#xc381;";
+         <result>ok</result>
+      ]]></test>
+      <result>
+        <any-of>
+           <!-- the processor may use these parameters to control the way in which the serialization takes place.
+                It is the responsibility of the host language to specify how invalid values should be handled at the level of that language. -->
+           <assert-serialization>&lt;result&gt;ok&lt;/result&gt;</assert-serialization>     
+
+           <!-- It is a serialization error [err:SEPM0016] if a parameter value is invalid for the given parameter. -->
+           <assert-serialization-error code="err:SEPM0016" />
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-010">
+      <description> 
+         It is a serialization error [err:SEPM0016] if a parameter value is invalid for the given parameter. 
+         Wrong serialization parameter value for cdata-section-elements.
+      </description>
+      <created by="Dennis Knochenwefel" on="2011-12-05"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+         declare option output:cdata-section-elements "::INVALID_VALUE";
+         <result>ok</result>
+      ]]></test>
+      <result>
+        <any-of>
+           <!-- the processor may use these parameters to control the way in which the serialization takes place.
+                It is the responsibility of the host language to specify how invalid values should be handled at the level of that language. -->
+           <assert-serialization>&lt;result&gt;ok&lt;/result&gt;</assert-serialization>     
+
+           <!-- It is a serialization error [err:SEPM0016] if a parameter value is invalid for the given parameter. -->
+           <assert-serialization-error code="err:SEPM0016" />
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-011">
+      <description> 
+         It is a serialization error [err:SEPM0016] if a parameter value is invalid for the given parameter. 
+         Wrong serialization parameter value for doctype-system.
+      </description>
+      <created by="Dennis Knochenwefel" on="2011-12-05"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+         declare option output:doctype-system "mustnotincludebothanapostrophe&#x27;andquotationmark&#x22;";
+         <result>ok</result>
+      ]]></test>
+      <result>
+        <any-of>
+           <!-- the processor may use these parameters to control the way in which the serialization takes place.
+                It is the responsibility of the host language to specify how invalid values should be handled at the level of that language. -->
+           <assert-serialization>&lt;result&gt;ok&lt;/result&gt;</assert-serialization>     
+
+           <!-- It is a serialization error [err:SEPM0016] if a parameter value is invalid for the given parameter. -->
+           <assert-serialization-error code="err:SEPM0016" />
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-012">
+      <description> 
+         It is a serialization error [err:SEPM0016] if a parameter value is invalid for the given parameter. 
+         Wrong serialization parameter value for encoding.
+      </description>
+      <created by="Dennis Knochenwefel" on="2011-12-05"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+         declare option output:encoding "onlyasciiallowedlessthan&#x7f;";
+         <result>ok</result>
+      ]]></test>
+      <result>
+        <any-of>
+           <!-- the processor may use these parameters to control the way in which the serialization takes place.
+                It is the responsibility of the host language to specify how invalid values should be handled at the level of that language. -->
+           <assert-serialization>&lt;result&gt;ok&lt;/result&gt;</assert-serialization>     
+
+           <!-- It is a serialization error [err:SEPM0016] if a parameter value is invalid for the given parameter. -->
+           <assert-serialization-error code="err:SEPM0016" />
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-013">
+      <description> 
+         It is a serialization error [err:SEPM0016] if a parameter value is invalid for the given parameter. 
+         Wrong serialization parameter value for escape-uri-attributes.
+      </description>
+      <created by="Dennis Knochenwefel" on="2011-12-05"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+         declare option output:escape-uri-attributes "INVALID_VALUE";
+         <result>ok</result>
+      ]]></test>
+      <result>
+        <any-of>
+           <!-- the processor may use these parameters to control the way in which the serialization takes place.
+                It is the responsibility of the host language to specify how invalid values should be handled at the level of that language. -->
+           <assert-serialization>&lt;result&gt;ok&lt;/result&gt;</assert-serialization>     
+
+           <!-- It is a serialization error [err:SEPM0016] if a parameter value is invalid for the given parameter. -->
+           <assert-serialization-error code="err:SEPM0016" />
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-014">
+      <description> 
+         It is a serialization error [err:SEPM0016] if a parameter value is invalid for the given parameter. 
+         Wrong serialization parameter value for include-content-type.
+      </description>
+      <created by="Dennis Knochenwefel" on="2011-12-05"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+         declare option output:include-content-type "INVALID_VALUE";
+         <result>ok</result>
+      ]]></test>
+      <result>
+        <any-of>
+           <!-- the processor may use these parameters to control the way in which the serialization takes place.
+                It is the responsibility of the host language to specify how invalid values should be handled at the level of that language. -->
+           <assert-serialization>&lt;result&gt;ok&lt;/result&gt;</assert-serialization>     
+
+           <!-- It is a serialization error [err:SEPM0016] if a parameter value is invalid for the given parameter. -->
+           <assert-serialization-error code="err:SEPM0016" />
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-015">
+      <description> 
+         It is a serialization error [err:SEPM0016] if a parameter value is invalid for the given parameter. 
+         Wrong serialization parameter value for indent.
+      </description>
+      <created by="Dennis Knochenwefel" on="2011-12-05"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+         declare option output:indent "INVALID_VALUE";
+         <result>ok</result>
+      ]]></test>
+      <result>
+        <any-of>
+           <!-- the processor may use these parameters to control the way in which the serialization takes place.
+                It is the responsibility of the host language to specify how invalid values should be handled at the level of that language. -->
+           <assert-serialization>&lt;result&gt;ok&lt;/result&gt;</assert-serialization>     
+
+           <!-- It is a serialization error [err:SEPM0016] if a parameter value is invalid for the given parameter. -->
+           <assert-serialization-error code="err:SEPM0016" />
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-016">
+      <description> 
+         It is a serialization error [err:SEPM0016] if a parameter value is invalid for the given parameter. 
+         Wrong serialization parameter value for media-type.
+      </description>
+      <created by="Dennis Knochenwefel" on="2011-12-05"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+         (: the charset parameter of the media type MUST NOT be specified explicitly in the value of the media-type parameter. :)
+         declare option output:media-type "text/html; charset=ISO-8859-4";
+         <result>ok</result>
+      ]]></test>
+      <result>
+        <any-of>
+           <!-- the processor may use these parameters to control the way in which the serialization takes place.
+                It is the responsibility of the host language to specify how invalid values should be handled at the level of that language. -->
+           <assert-serialization>&lt;result&gt;ok&lt;/result&gt;</assert-serialization>     
+
+           <!-- It is a serialization error [err:SEPM0016] if a parameter value is invalid for the given parameter. -->
+           <assert-serialization-error code="err:SEPM0016" />
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-017">
+      <description> 
+         It is a serialization error [err:SEPM0016] if a parameter value is invalid for the given parameter. 
+         Wrong serialization parameter value for method.
+      </description>
+      <created by="Dennis Knochenwefel" on="2011-12-05"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+         (: An expanded QName with a null namespace URI, and the local part of the name equal to one of xml, xhtml, html or text, or having a non-null namespace URI :)
+         declare option output:method "INVALID_VALUE";
+         <result>ok</result>
+      ]]></test>
+      <result>
+        <any-of>
+           <!-- the processor may use these parameters to control the way in which the serialization takes place.
+                It is the responsibility of the host language to specify how invalid values should be handled at the level of that language. -->
+           <assert-serialization>&lt;result&gt;ok&lt;/result&gt;</assert-serialization>     
+
+           <!-- It is a serialization error [err:SEPM0016] if a parameter value is invalid for the given parameter. -->
+           <assert-serialization-error code="err:SEPM0016" />
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-018">
+      <description> 
+         It is a serialization error [err:SEPM0016] if a parameter value is invalid for the given parameter. 
+         Wrong serialization parameter value for normalization-form.
+      </description>
+      <created by="Dennis Knochenwefel" on="2011-12-05"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+         declare option output:normalization-form "INVALID_VALUE";
+         <result>ok</result>
+      ]]></test>
+      <result>
+        <any-of>
+           <!-- the processor may use these parameters to control the way in which the serialization takes place.
+                It is the responsibility of the host language to specify how invalid values should be handled at the level of that language. -->
+           <assert-serialization>&lt;result&gt;ok&lt;/result&gt;</assert-serialization>     
+
+           <!-- It is a serialization error [err:SEPM0016] if a parameter value is invalid for the given parameter. -->
+           <assert-serialization-error code="err:SEPM0016" />
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-019">
+      <description> 
+         It is a serialization error [err:SEPM0016] if a parameter value is invalid for the given parameter. 
+         Wrong serialization parameter value for omit-xml-declaration.
+      </description>
+      <created by="Dennis Knochenwefel" on="2011-12-05"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+         declare option output:omit-xml-declaration "INVALID_VALUE";
+         <result>ok</result>
+      ]]></test>
+      <result>
+        <any-of>
+           <!-- the processor may use these parameters to control the way in which the serialization takes place.
+                It is the responsibility of the host language to specify how invalid values should be handled at the level of that language. -->
+           <assert-serialization>&lt;result&gt;ok&lt;/result&gt;</assert-serialization>     
+
+           <!-- It is a serialization error [err:SEPM0016] if a parameter value is invalid for the given parameter. -->
+           <assert-serialization-error code="err:SEPM0016" />
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-020">
+      <description> 
+         It is a serialization error [err:SEPM0016] if a parameter value is invalid for the given parameter. 
+         Wrong serialization parameter value for standalone.
+      </description>
+      <created by="Dennis Knochenwefel" on="2011-12-05"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+         declare option output:standalone "INVALID_VALUE";
+         <result>ok</result>
+      ]]></test>
+      <result>
+        <any-of>
+           <!-- the processor may use these parameters to control the way in which the serialization takes place.
+                It is the responsibility of the host language to specify how invalid values should be handled at the level of that language. -->
+           <assert-serialization>&lt;result&gt;ok&lt;/result&gt;</assert-serialization>     
+
+           <!-- It is a serialization error [err:SEPM0016] if a parameter value is invalid for the given parameter. -->
+           <assert-serialization-error code="err:SEPM0016" />
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-021">
+      <description> 
+         It is a serialization error [err:SEPM0016] if a parameter value is invalid for the given parameter. 
+         Wrong serialization parameter value for suppress-indentation.
+      </description>
+      <created by="Dennis Knochenwefel" on="2011-12-05"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+         declare option output:suppress-indentation "::INVALID_VALUE";
+         <result>ok</result>
+      ]]></test>
+      <result>
+        <any-of>
+           <!-- the processor may use these parameters to control the way in which the serialization takes place.
+                It is the responsibility of the host language to specify how invalid values should be handled at the level of that language. -->
+           <assert-serialization>&lt;result&gt;ok&lt;/result&gt;</assert-serialization>     
+
+           <!-- It is a serialization error [err:SEPM0016] if a parameter value is invalid for the given parameter. -->
+           <assert-serialization-error code="err:SEPM0016" />
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-022">
+      <description> 
+         It is a serialization error [err:SEPM0016] if a parameter value is invalid for the given parameter. 
+         Wrong serialization parameter value for undeclare-prefixes.
+      </description>
+      <created by="Dennis Knochenwefel" on="2011-12-05"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+         declare option output:undeclare-prefixes "INVALID_VALUE";
+         <result>ok</result>
+      ]]></test>
+      <result>
+        <any-of>
+           <!-- the processor may use these parameters to control the way in which the serialization takes place.
+                It is the responsibility of the host language to specify how invalid values should be handled at the level of that language. -->
+           <assert-serialization>&lt;result&gt;ok&lt;/result&gt;</assert-serialization>     
+
+           <!-- It is a serialization error [err:SEPM0016] if a parameter value is invalid for the given parameter. -->
+           <assert-serialization-error code="err:SEPM0016" />
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-023">
+      <description> 
+         It is a serialization error [err:SEPM0016] if a parameter value is invalid for the given parameter. 
+         Wrong serialization parameter value for use-character-maps.
+      </description>
+      <created by="Dennis Knochenwefel" on="2011-12-05"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+         declare option output:use-character-maps "INVALID_VALUE";
+         <result>ok</result>
+      ]]></test>
+      <result>
+        <any-of>
+           <!-- the processor may use these parameters to control the way in which the serialization takes place.
+                It is the responsibility of the host language to specify how invalid values should be handled at the level of that language. -->
+           <assert-serialization>&lt;result&gt;ok&lt;/result&gt;</assert-serialization>     
+
+           <!-- It is a serialization error [err:SEPM0016] if a parameter value is invalid for the given parameter. -->
+           <assert-serialization-error code="err:SEPM0016" />
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-024">
+      <description> 
+         It is a serialization error [err:SEPM0016] if a parameter value is invalid for the given parameter. 
+         Wrong serialization parameter value for version.
+      </description>
+      <created by="Dennis Knochenwefel" on="2011-12-05"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+         (: A string of Unicode characters :)
+         declare option output:version "";
+         <result>ok</result>
+      ]]></test>
+      <result>
+        <any-of>
+           <!-- the processor may use these parameters to control the way in which the serialization takes place.
+                It is the responsibility of the host language to specify how invalid values should be handled at the level of that language. -->
+           <assert-serialization>&lt;result&gt;ok&lt;/result&gt;</assert-serialization>     
+
+           <!-- It is a serialization error [err:SEPM0016] if a parameter value is invalid for the given parameter. -->
+           <assert-serialization-error code="err:SEPM0016" />
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-025">
+      <description> 
+         It is an error to use the HTML output method if characters which are permitted in XML but not in HTML appear in the instance of the data model.   
+      </description>
+      <created by="Dennis Knochenwefel" on="2011-12-05"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+         declare option output:method "html";
+         (: control characters not allowed in html :)
+         <result>ok&#x7f;</result>
+      ]]></test>
+      <result>
+        <any-of>
+           <!-- the processor may use these parameters to control the way in which the serialization takes place.
+                It is the responsibility of the host language to specify how invalid values should be handled at the level of that language. -->
+           <assert-serialization>&lt;result&gt;ok&#x7f;&lt;/result&gt;</assert-serialization>     
+
+           <!-- It is a serialization error [err:SEPM0014] if a html doc contains control characters. -->
+           <assert-serialization-error code="err:SEPM0014" />
+         </any-of>
+      </result>
+   </test-case>
+
+</test-set>
