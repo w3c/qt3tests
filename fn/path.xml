@@ -172,13 +172,14 @@
    <test-case name="path013">
       <description>path() applied to an unnamed namespace node</description>
       <created by="Michael Kay" on="2011-06-08"/>
+      <created by="Michael Kay" on="2011-12-06" change="see bug 14892"/>
       <environment ref="pathdata"/>
       <dependency type="spec" value="XP30+"/>
       <dependency type="feature" value="namespace-axis"/>
       <test>fn:path((//namespace::*[name()=''])[1])</test>
       <result>
          <all-of>
-            <assert-string-value>/"http://www.w3.org/2010/09/qt-fots-catalog":test-set[1]/namespace::*[local-name()=""]</assert-string-value>
+            <assert-string-value>/"http://www.w3.org/2010/09/qt-fots-catalog":test-set[1]/namespace::*["http://www.w3.org/2005/xpath-functions":local-name()=""]</assert-string-value>
             <assert-type>xs:string</assert-type>
          </all-of>
       </result>
