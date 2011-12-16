@@ -32,25 +32,86 @@ href="http://www.w3.org/XML/Query/">XML Query</a></p>
 
 <h1>Overview</h1>
 
-<p class="style1">NOTE: This document is a temporary placeholder for a future document that describes the test suite that will be used to test XQuery 3.*, XPath 3.*, and XSLT 3.* in more detail, more accurately, and more currently.</p>
 <p>The XQuery/XPath/XSLT 3.* Test Suite (QT3TS) provides a set of metrics for determining
-  whether the <a href="http://www.w3.org/TR/xquery-30/">W3C XML Query Language, version 3.0</a>, <a href="http://www.w3.org/TR/xpath-30/">W3C XML Path Language, version 3.*</a>, and <a href="http://www.w3.org/TR/xslt-30/">W3C XML Stylesheet 
-  Language, version 3.*</a> can be implemented interoperably as published. QT3TS will help implementers
+  whether the <a href="http://www.w3.org/TR/xquery-30/">W3C XML Query Language, version 3.0</a>, 
+  <a href="http://www.w3.org/TR/xpath-30/">W3C XML Path Language, version 3.*</a>, 
+  and <a href="http://www.w3.org/TR/xslt-30/">W3C XSL Transformation Language, 
+  version 3.*</a> can be implemented interoperably as published.</p>
+  
+  <p>QT3TS will help implementers
   identify possible problems both with the Specifications and with their
   implementations of those Specifications. The test suite is occasionally updated to reflect the current work
   of the <a href="http://www.w3.org/XML/Query">W3C XML Query Working Group</a>
   and the <a href="http://www.w3.org/Style/XSL/">W3C XSLT Working Group</a>; all
   releases of the QT3TS will be available from this page.</p>
-<p>XQuery 3.0 is a superset of XPath 3.0, with the exception of the namespace
+
+<p>XQuery 3.0 is (for most purposes) a superset of XPath 3.0, with the exception of the namespace
 axis. As such, this test suite tests all of XPath 3.0. These XPath
 3.0 test cases are identified in the test suite catalog.</p>
 
-<p>QT3TS 3.0.1 contains over 22,000 test cases. It contains a catalog that
+<p>Very many of the tests are converted automatically from tests in the older XQuery Test Suite.
+There are several changes in approach:</p>
+
+<ol>
+<li>in most cases the test query is now inline within the catalog,
+making it much easier to find all the tests for a given area and to add new tests</li>
+<li>the mechanisms for testing results are more flexible: instead of being confined to
+comparing serialized output of a query, it is now possible to make an arbitrary number
+of assertions about the result. This gives much greater flexibility in handling queries
+where aspects of the result are implementation defined (for example, the order of items
+in the result)</li>
+<li>the dependencies each the test are more clearly defined in the metadata. Each test refers 
+to a named environment which in turn defines resources such as source documents and schemas
+used by the test: this allows resources used by multiple tests to be shared, without making
+all resources global. In addition, each test states its assumptions about the specification
+language and features that it depends on: for example a test might be labelled as XP20+ to indicate
+that it requires XPath 2.0 or later, or as XQ10 to indicate that it is only expected to be
+run with XQuery 1.0 and not with any later version. Test drivers can either use this information
+to configure an XPath/XQuery processor that meets the expectations, or they can use it to decide
+which tests it is approprriate to run. When reported test results are tabulated, they
+will be tabulated separately for each optional feature, so a processor that implements only
+XQuery 3.0 and not XQuery 1.0 will not be listed in the tabulation for XQuery 1.0.</li>
+</ol>
+
+<p>Currently the test suite is work in progress. There are no versioned releases, instead
+the tests are continuously updated in the CVS repository. This will change as the specifications
+themselves stabilize, at which point snapshots of this test suite will be frozen and given
+version numbers.</p>
+
+<p>At the time of writing, QT3TS contains over 22,000 test cases. It contains a catalog that
 contains general information on the test suite as well as test descriptions for
-each of the test cases included in this release. Test queries and expected
-results are contained in &quot;test set&quot; files. All interpretations of these
+each of the test cases included in this release. Test queries and assertions about the expected
+results are contained in the catalog, or in some cases in files referenced from the catalog. All interpretations of these
 Recommendations are subject to confirmation by the XML Query Working Group and
 the XSLT Working Group.</p>
+
+<p>The tests are organised into a number of groups, each with its own naming conventions.</p>
+
+<ul>
+<li>fn: tests of functions in Functions and Operators, one per function, named according to the function</li>
+<li>op: tests of operators in Functions and Operators, one per operator, named according to the operator</li>
+<li>math: tests of the functions in the math namespace<li>
+<li>map: tests of the facilities in the XSL WG maps proposal (which is not currently part of XPath or XQuery)</li>
+<li>prod: tests of XPath and XQuery language features, named after a production in the XPath/XQuery grammar that
+is most relevant to the test in question (for example CastExpr or CompAttrConstructor)</li>
+<li>xs: tests of specific data types</li>
+<li>misc: tests for capabilities that are orthogonal to specific language features, for example error handling,
+support for different XML editions, or support for non-BMP unicode characters.</li>
+<li>app: tests of XPath/XQuery "applications", that is, queries designed to accomplish some applicatation-oriented
+goal, rather than merely to test individual language constructs. These include tests harvested from the
+published use cases, from the XMark benchmark suite, and from Priscilla Walmsley's functx library,
+and also a number of tests whose main purpose is to validate the integrity of the test catalog itself.</li>
+</ul>
+
+<p>There is a master catalog, <code>catalog.xml</code>, that contains references to subsidiary
+catalogs, one per test area, organized in directories as above. There are some additional directories:</p>
+
+<ul>
+<li>docs: contains source documents and schemas used globally throughout the test suite</li>
+<li>tools: contains a miscellany of tools used for preparing or analyzing tests</li>
+<li>drivers: contains a selection of contributed test drivers that may be used as a starting point
+for writing new test drivers</li>
+
 
 <p>Implementors are encouraged 1) to write a harness for this test suite and to
 test their implementations and 2) to report their results to the XML Query
@@ -64,7 +125,13 @@ in particular you are invited to follow the appropriate link given below.</p>
 
 <h1>Status</h1>
 
-<p>The XQuery/XPath/XSLT 3.0 Test Suite has not yet been fully developed. It will incorporate all relevant tests from the <a href="http://dev.w3.org/cvsweb/2006/xquery-test-suite/">XML Query 1.0 test suite</a>, as well as many new tests designed to test new features of XQuery 3.0, XPath 3.0, and XSLT 3.0. </p>
+<p>The XQuery/XPath/XSLT 3.0 Test Suite has not yet been fully developed. 
+It already incorporates all tests (or functional replacements) from the 
+<a href="http://dev.w3.org/cvsweb/2006/xquery-test-suite/">XML Query 1.0 test suite</a>, 
+as well as many new tests designed to test new features of XQuery 3.0, XPath 3.0, and XSLT 3.0. 
+To enable tracking of test history, including controversies that may have arisen in the past
+about the correctness of test results, all test names of XQuery 1.0 tests have been
+retained unchanged.</p>
 
 <h1>Releases</h1>
 
@@ -87,8 +154,36 @@ in particular you are invited to follow the appropriate link given below.</p>
 
 <p>Our source files are available at <a
 href="http://dev.w3.org/cvsweb/2011/QT3-test-suite/">http://dev.w3.org/cvsweb/2011/QT3-test-suite/</a>.
-This page provides direct access to the files and it contains instructions on
-how to use CVS to access these files.</p>
+This page provides the ability to view individual files.</p>
+
+<p>To work on the test suite you will need to get access to the W3C member-only CVS repository. Information
+on how to do this is <a href="http://wiki.csswg.org/spec/cvs#w3c-member-only-cvs-repository">here</a>.
+Briefly the steps are:</p>
+
+<ol>
+<li>Get a W3C username (ask your staff contact)</li>
+<li>Create a private/public key pair and lodge the public half with W3C</li>
+<li>Install a CVS client and configure it to be aware of your private/public key</li>
+<li>Checkout the repository at :ssh:user@cvs.w3.org:/w3ccvs (where 'user' is your username), 
+module/directory QT3-test-suite. Note that many CVS clients invite you to ask the server for
+a list of available modules, but the W3C server does not respond to this request: you need to
+know the name of the module you are looking for.</li>
+</ol>
+
+<p>At the current stage of development, the process for submitting and correcting tests is
+lightweight. New tests can be submitted by anyone who has CVS access, without formality.
+If you modify existing tests, you are expected to use your discretion. For something that
+is clearly an 'editorial' error, for example a correction to the description of what a test
+does, feel free to fix it silently. If you are fixing something more substantive, for example
+changing the test to conform to a recent decision of the working group, add metadata to
+record your change (an element of the form <code>&lt;modified by="my name" on="2011-12-25" change="what I did"/&gt;</code>).
+If you think the test is wrong but if there is any possibility that others might disagree with
+you, then raise a bug report against the test before changing it. If you are convinced that the
+test is wrong and you are convinced no-one will disagree, then raise a bug report, and close it immediately
+to record the fact that you have fixed the bug. The bug report should include the test name for ease
+of searching.</p>
+
+<p>This process will become more formal as the tests and the spec approach completion.</p>
 
 <h2>Documentation</h2>
 
@@ -269,7 +364,7 @@ XML Query Working Group by:</p>
 <hr />
 <address>
   <a href="http://www.w3.org/Help/Webmaster">Webmaster</a> · Last modified:
-  $Date: 2011/08/11 14:04:17 $ by $Author: mkay $ 
+  $Date: 2011/12/16 14:31:51 $ by $Author: mkay $ 
 </address>
 
 <p><a rel="Copyright"
