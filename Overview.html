@@ -156,38 +156,76 @@ retained unchanged.</p>
 href="http://dev.w3.org/cvsweb/2011/QT3-test-suite/">http://dev.w3.org/cvsweb/2011/QT3-test-suite/</a>.
 This page provides the ability to view individual files.</p>
 
-<p>To work on the test suite you will need to get access to the W3C member-only CVS repository. Information
-on how to do this is <a href="http://wiki.csswg.org/spec/cvs#w3c-member-only-cvs-repository">here</a>.
+<p>If you want to get the latest version of the test suite, but don't intend to make any contributions,
+you can use anonymous CVS to check the whole suite out into your local filestore. Use the
+CVS repository name <code>:pserver:anonymous@dev.w3.org:/sources/public</code>, password <code>anonymous</code>,
+and the module name <code>2011/QT3-test-suite</code>.
+
+<p>To work on the test suite you will need to get read-write access to the W3C CVS repository. Official
+information on how to do this is at <a href="https://www.w3.org/Project/CVSdoc/">https://www.w3.org/Project/CVSdoc/</a>;
+unofficial information from people who have been through the experience and emerged from it triumphant is 
+<a href="http://wiki.csswg.org/spec/cvs">here</a> (Tantek Çelik) and 
+<a href="https://lists.w3.org/Archives/Member/w3c-xml-query-wg/2006Sep/0032.html">here</a> (Andrew Eisenberg).
 Briefly the steps are:</p>
 
 <ol>
 <li>Get a W3C username (ask your staff contact)</li>
-<li>Create a private/public key pair and lodge the public half with W3C</li>
+<li>Create a private/public key pair and lodge the public half with W3C; wait until you get confirmation
+that it has been installed.</li>
 <li>Install a CVS client and configure it to be aware of your private/public key</li>
-<li>Checkout the repository at :ssh:user@cvs.w3.org:/w3ccvs (where 'user' is your username), 
-module/directory QT3-test-suite. Note that many CVS clients invite you to ask the server for
+<li>Checkout the repository at <code>:ext:user@dev.w3.org:/sources/public</code> (where 'user' is your username), 
+module (or directory) <code>2011/QT3-test-suite</code>. Note that many CVS clients invite you to ask the server for
 a list of available modules, but the W3C server does not respond to this request: you need to
 know the name of the module you are looking for.</li>
 </ol>
 
-<p>At the current stage of development, the process for submitting and correcting tests is
+<p>Two graphical CVS clients I (Michael Kay) have found useful are: for Windows, <b>TortoiseCVS</b>, and for Mac, <b>SmartCVS</b>.
+Use the command line if you're feeling macho; use Emacs if you are one of the faithful. Other tools that you have on your desktop
+may also have a CVS client built in, though the number is declining as CVS is now considered obsolescent.</p>
+
+<p>Other guides you may find useful are Andrew Eisenberg's at <a href="https://lists.w3.org/Archives/Member/w3c-xml-query-wg/2006Sep/0032.html">https://lists.w3.org/Archives/Member/w3c-xml-query-wg/2006Sep/0032.html</a>
+
+<p>If you are new to CVS, here are some explanations of key terms:</p>
+
+<ul>
+<li>checkout: checking out a repository is something you only do once, when you first access that repository on a new client machine.
+It makes a copy of the repository in your local filestore. It doesn't give you any kind of lock.</li>
+<li>update: refresh your local filestore copy of the data with updated information from the server</li>
+<li>commit: send your changes back to the server</li>
+<li>add: mark a local file or directory for inclusion in the repository next time you commit (an operation that is very easy to forget)</li>
+<li>conflict: two people have been working on the same file, and the system can't work out how to merge the changes. If you get a conflict
+on commit, try an update, and the system will give you a chance to merge the changes. Better, avoid conflicts
+by updating and committing frequently, and by talking to your colleagues about what you are doing.</li>
+</ul>
+
+<h2>Development Process</h2>
+
+
+<p>At the current stage of development, the change control process for tests is
 lightweight. New tests can be submitted by anyone who has CVS access, without formality.
 If you modify existing tests, you are expected to use your discretion. For something that
-is clearly an 'editorial' error, for example a correction to the description of what a test
-does, feel free to fix it silently. If you are fixing something more substantive, for example
-changing the test to conform to a recent decision of the working group, add metadata to
-record your change (an element of the form <code>&lt;modified by="my name" on="2011-12-25" change="what I did"/&gt;</code>).
-If you think the test is wrong but if there is any possibility that others might disagree with
+is clearly 'editorial', for example expanding the description of what a test
+does or formatting the query to make it more readable, feel free to fix it silently. 
+If you are fixing something more substantive, for example
+changing the test to conform to a recent decision of the working group, or fine-tuning the test assertions, then add metadata to
+record your change (with an element of the form <code>&lt;modified by="my name" on="2011-12-25" change="what I did"/&gt;</code>).
+If you think the test is substantively wrong but if there is any possibility that others might disagree with
 you, then raise a bug report against the test before changing it. If you are convinced that the
-test is wrong and you are convinced no-one will disagree, then raise a bug report, and close it immediately
-to record the fact that you have fixed the bug. The bug report should include the test name for ease
+test is substantively wrong and you are convinced no-one will disagree (for example, because you are the world's expert
+on this area of the spec, or because it is your test), then raise a bug report, and close it immediately
+to record the fact that you have fixed it. The bug report should include the test name for ease
 of searching.</p>
+
+<p>If at all possible, test your tests against at least one implementation before committing them. 
+Experience shows that untested tests have a 50% chance of being wrong.</p>
+
+<p>Where possible, make your CVS commits fine-grained, and mention bug numbers and/or test names in the commit message.</p>
 
 <p>This process will become more formal as the tests and the spec approach completion.</p>
 
 <h2>Documentation</h2>
 
-<p>The primary documentation of the test suite is the schema for the catalog and test-set files,
+<p>The primary documentation of the test suite (alongside this document) is the schema for the catalog and test-set files,
     which is found at <a href="catalog-schema.xsd">catalog-schema.xsd</a>. If viewed directly in an XSLT-capable browser,
     the schema is rendered automatically into HTML. In case this mechanism does not work, a pre-rendered version of the HTML
 is at <a href="catalog-schema.html">catalog-schema.html</a>. (In many browsers the pre-rendered form is more readable).</p>
@@ -364,7 +402,7 @@ XML Query Working Group by:</p>
 <hr />
 <address>
   <a href="http://www.w3.org/Help/Webmaster">Webmaster</a> · Last modified:
-  $Date: 2011/12/16 14:31:51 $ by $Author: mkay $ 
+  $Date: 2011/12/16 14:38:15 $ by $Author: mkay $ 
 </address>
 
 <p><a rel="Copyright"
