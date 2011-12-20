@@ -42,8 +42,8 @@
    </environment>
 
    <environment name="WindowingUseCases06">
-      <source role="." file="WindowClause/named_rss.xml">
-         <description> named_rss.xml from the XQuery 3.0 Use Cases </description>
+      <source role="." file="WindowClause/rss.xml">
+         <description> rss.xml from the XQuery 3.0 Use Cases </description>
          <created by="Matthias Brantner" on="2011-07-28"/>
       </source>    
    </environment>
@@ -402,7 +402,7 @@ return
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
 <result>{
-  for tumbling window $w in $rssfeed/rss/channel/item 
+  for tumbling window $w in ./rss/channel/item 
     start  $first when fn:true()
     end next $lookAhead when $first/author ne $lookAhead/author
   where count($w) ge 3
@@ -423,7 +423,7 @@ return
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
 <result>{
-  for tumbling window $w in $rssfeed/rss/channel/item 
+  for tumbling window $w in ./rss/channel/item 
     start  $s_curr when true()
     end next $e_next when 
       fn:day-from-dateTime(xs:dateTime($e_next/pubDate)) ne 
@@ -449,7 +449,7 @@ return
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
 <result>{
-  for tumbling window $w in $rssfeed/rss/channel/item 
+  for tumbling window $w in ./rss/channel/item 
     start  $s_curr when true()
     end next $e_next when 
       fn:day-from-dateTime(xs:dateTime($e_next/pubDate)) ne 
