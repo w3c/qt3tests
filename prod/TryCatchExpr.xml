@@ -112,4 +112,16 @@
          <assert-string-value>ok</assert-string-value>
       </result>
    </test-case>
+   
+   <test-case name="try-010">
+      <description>Use err:code local variable, implicitly declared</description>
+      <created by="Michael Kay" on="2011-12-23"/>
+      <test><![CDATA[
+        declare function local:f($d as xs:integer) { 10 div $d }; 
+        try { local:f(0) } catch * {local-name-from-QName($err:code)}
+      ]]></test>
+      <result>
+         <assert-string-value>FOAR0001</assert-string-value>
+      </result>
+   </test-case>
 </test-set>
