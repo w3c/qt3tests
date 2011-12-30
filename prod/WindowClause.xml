@@ -18,7 +18,7 @@
          <description> head_para.xml from the XQuery 3.0 Use Cases </description>
          <created by="Matthias Brantner" on="2011-07-28"/>
       </source>    
-   </environment>
+   </environment>m
 
    <environment name="WindowingUseCases03">
       <source role="." file="WindowClause/term_def_list.xml">
@@ -967,6 +967,29 @@ return
               for $w:w in ($w:w, $w:s, $w:x, $w:sp, $w:sn, $w:e, $w:y, $w:ep, $w:en)
               return string($w:w), " "
             )}</window>
+        ]]></test>
+        <result>
+          <assert-serialization><![CDATA[<window>1 2 3 4 5 6 7 8 9 10 1 1 2 10 10 9</window>]]></assert-serialization>
+        </result>
+    </test-case>
+    
+    <test-case name="TumblingWindowExpr518a">
+        <description>Variant of TumblingWindow518 to run inside an element constructor.
+        Tumbling Window Clause, all window variables names are given as EQNames but refered to using QNames</description>
+        <created by="Michael Kay" on="2011-12-30"/>
+        <dependency type="spec" value="XQ30+"/>
+        <test><![CDATA[
+          declare namespace w = "foo:bar";
+          <window>{
+          	for tumbling window $"foo:bar":w in (1 to 10)
+          	start $"foo:bar":s at $"foo:bar":x previous $"foo:bar":sp next $"foo:bar":sn when true()
+          	end $"foo:bar":e at $"foo:bar":y previous $"foo:bar":ep next $"foo:bar":en when false() 
+          	return 
+            	string-join (
+              		for $w:w in ($w:w, $w:s, $w:x, $w:sp, $w:sn, $w:e, $w:y, $w:ep, $w:en)
+              		return string($w:w), " "
+            )
+          }</window>
         ]]></test>
         <result>
           <assert-serialization><![CDATA[<window>1 2 3 4 5 6 7 8 9 10 1 1 2 10 10 9</window>]]></assert-serialization>
