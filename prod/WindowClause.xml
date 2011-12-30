@@ -1615,6 +1615,7 @@ return
     <test-case name="TumblingWindowExpr545">
         <description>Tumbling Window Clause, window clause after group by (query contained in the spec)</description>
         <created by="Matthias Brantner" on="2011-12-02"/>
+        <modified by="Michael Kay" on="2011-12-30" change="Added alternative result, since order of groups is implementation-dependent"/>
         <dependency type="spec" value="XQ30+"/>
         <test><![CDATA[
           let $s := <stocks>
@@ -1646,7 +1647,10 @@ return
              </run-up>
         ]]></test>
         <result>
-          <assert-serialization><![CDATA[<run-up symbol="ABC"><start-date>2008-01-02</start-date><start-price>101</start-price><end-date>2008-01-04</end-date><end-price>103</end-price></run-up><run-up symbol="ABC"><start-date>2008-01-05</start-date><start-price>101</start-price><end-date>2008-01-06</end-date><end-price>104</end-price></run-up><run-up symbol="DEF"><start-date>2008-01-02</start-date><start-price>054</start-price><end-date>2008-01-03</end-date><end-price>056</end-price></run-up><run-up symbol="DEF"><start-date>2008-01-04</start-date><start-price>052</start-price><end-date>2008-01-06</end-date><end-price>059</end-price></run-up>]]></assert-serialization>
+          <any-of>
+            <assert-serialization><![CDATA[<run-up symbol="ABC"><start-date>2008-01-02</start-date><start-price>101</start-price><end-date>2008-01-04</end-date><end-price>103</end-price></run-up><run-up symbol="ABC"><start-date>2008-01-05</start-date><start-price>101</start-price><end-date>2008-01-06</end-date><end-price>104</end-price></run-up><run-up symbol="DEF"><start-date>2008-01-02</start-date><start-price>054</start-price><end-date>2008-01-03</end-date><end-price>056</end-price></run-up><run-up symbol="DEF"><start-date>2008-01-04</start-date><start-price>052</start-price><end-date>2008-01-06</end-date><end-price>059</end-price></run-up>]]></assert-serialization>
+            <assert-serialization><![CDATA[<run-up symbol="DEF"><start-date>2008-01-02</start-date><start-price>054</start-price><end-date>2008-01-03</end-date><end-price>056</end-price></run-up><run-up symbol="DEF"><start-date>2008-01-04</start-date><start-price>052</start-price><end-date>2008-01-06</end-date><end-price>059</end-price></run-up><run-up symbol="ABC"><start-date>2008-01-02</start-date><start-price>101</start-price><end-date>2008-01-04</end-date><end-price>103</end-price></run-up><run-up symbol="ABC"><start-date>2008-01-05</start-date><start-price>101</start-price><end-date>2008-01-06</end-date><end-price>104</end-price></run-up>]]></assert-serialization>          
+          </any-of>
         </result>
     </test-case>
 
