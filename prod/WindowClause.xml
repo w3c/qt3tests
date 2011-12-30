@@ -1251,6 +1251,24 @@ return
           <assert-serialization><![CDATA[<window>6 8 10</window><window>12 14</window>]]></assert-serialization>
         </result>
     </test-case>
+    
+    <test-case name="TumblingWindowExpr531a">
+        <description>Variant of TumblingWindowExpr531 in an element constructor.
+        Tumbling Window Clause, start variable in scope in the start when clause</description>
+        <created by="Michael Kay" on="2011-12-30"/>
+        <dependency type="spec" value="XQ30+"/>
+        <test><![CDATA[
+        <o>{
+          for tumbling window $w in (2, 4, 6, 8, 10, 12, 14)
+          start $first when $first mod 3 = 0
+          return <window>{ $w }</window>
+        }</o>  
+        ]]></test>
+        <result>
+          <assert-serialization><![CDATA[<o><window>6 8 10</window><window>12 14</window></o>]]></assert-serialization>
+        </result>
+    </test-case>
+
 
     <test-case name="TumblingWindowExpr532">
         <description>Tumbling Window Clause, overwriting the window variable</description>
