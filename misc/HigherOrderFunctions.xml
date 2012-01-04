@@ -588,11 +588,12 @@
    <test-case name="hof-044">
       <description> numeric promotion works for various kinds of functions  </description>
       <created by="Michael Kay" on="2009-03-01"/>
+      <modified by="Michael Kay" on="2011-01-03" change="see bug #15402"/>
       <dependency type="spec" value="XQ30+"/>
       <test>
       declare function local:round($x as xs:double) as xs:double { fn:floor($x) }; 
       declare function local:ops() as (function(xs:double) as xs:double)* 
-      	{ (abs#1, local:round#1, function($x as xs:float){$x+1}, round-half-to-even(?, 2)) }; 
+      	{ (abs#1, local:round#1, function($x as xs:double){$x+1}, round-half-to-even(?, 2)) }; 
       string-join(for $f in local:ops() return string(round-half-to-even($f(xs:decimal('123.456')), 4)), '~')
       </test>
       <result>
@@ -898,6 +899,24 @@
       <created by="Michael Kay" on="2009-03-01"/>
       <dependency type="spec" value="XQ30+"/>
       <test>declare function local:round($x as xs:double, $algorithm as (function(xs:double) as xs:double)) as xs:double { $algorithm($x) }; declare variable $roundToCeiling := local:round(?, upper-case#1); $roundToCeiling(12.4)</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+   <test-case name="hof-919">
+      <description> Was hof-044: test that numeric promotion works for various kinds of functions. But there's
+      an error - the function item function($x as xs:float){$x+1} doesn't satisfy the required type
+      (function(xs:double) as xs:double) because it doesn't accept a double as an argument.
+      </description>
+      <created by="Michael Kay" on="2012-01-03"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>
+      declare function local:round($x as xs:double) as xs:double { fn:floor($x) }; 
+      declare function local:ops() as (function(xs:double) as xs:double)* 
+      	{ (abs#1, local:round#1, function($x as xs:float){$x+1}, round-half-to-even(?, 2)) }; 
+      string-join(for $f in local:ops() return string(round-half-to-even($f(xs:decimal('123.456')), 4)), '~')
+      </test>
       <result>
          <error code="XPTY0004"/>
       </result>
