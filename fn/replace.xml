@@ -391,6 +391,91 @@ abracadabra", "\n","with")</test>
          <assert-string-value>abracadabra</assert-string-value>
       </result>
    </test-case>
+   
+   <test-case name="fn-replace-34">
+      <description>Evaluation of replace function with q flag.</description>
+      <created by="Michael Kay" on="2012-01-08"/>
+      <dependency type="spec" value="XP30+"/>
+      <test>fn:replace("abracadabra", "a", "$1", "q")</test>
+      <result>
+         <assert-string-value>$1br$1c$1d$1br$1</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-replace-35">
+      <description>Evaluation of replace function with q flag.</description>
+      <created by="Michael Kay" on="2012-01-08"/>
+      <dependency type="spec" value="XP30+"/>
+      <test>fn:replace("a?bracadabra?", "a?", "\$1", "q")</test>
+      <result>
+         <assert-string-value>\$1bracadabr\$1</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-replace-36">
+      <description>Evaluation of replace function with non-capturing groups.</description>
+      <created by="Michael Kay" on="2012-01-08"/>
+      <dependency type="spec" value="XP30+"/>
+      <test>fn:replace("abracadabra", "([aA])(?:br)([aA])", "$1**$2")</test>
+      <result>
+         <assert-string-value>a**acada**a</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-replace-37">
+      <description>Evaluation of replace function with escaped $ sign in replacement string.</description>
+      <created by="Michael Kay" on="2012-01-08"/>
+      <test>fn:replace("abracadabra", "a", "\$")</test>
+      <result>
+         <assert-string-value>$br$c$d$br$</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-replace-38">
+      <description>Evaluation of replace function with escaped $ sign in replacement string.</description>
+      <created by="Michael Kay" on="2012-01-08"/>
+      <test>fn:replace("abracadabra", "(a)", "\$$1")</test>
+      <result>
+         <assert-string-value>$abr$ac$ad$abr$a</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-replace-39">
+      <description>Evaluation of replace function with escaped \ sign in replacement string.</description>
+      <created by="Michael Kay" on="2012-01-08"/>
+      <test>fn:replace("abracadabra", "a", "\\")</test>
+      <result>
+         <assert-string-value>\br\c\d\br\</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-replace-40">
+      <description>Evaluation of replace with double-digit capture</description>
+      <created by="Michael Kay" on="2012-01-08"/>
+      <test>fn:replace("abracadabra", "((((( ((((( (((((a))))) ))))) )))))", "|$1$15|", "x")</test>
+      <result>
+         <assert-string-value>|aa|br|aa|c|aa|d|aa|br|aa|</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-replace-41">
+      <description>Evaluation of replace with double-digit capture</description>
+      <created by="Michael Kay" on="2012-01-08"/>
+      <test>fn:replace("abracadabra", "((((( ((((( (((((a))))) ))))) )))))", "$1520", "x")</test>
+      <result>
+         <assert-string-value>a20bra20ca20da20bra20</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-replace-42">
+      <description>Evaluation of replace with double-digit capture beyond max capture value</description>
+      <created by="Michael Kay" on="2012-01-08"/>
+      <test>fn:replace("abracadabra", "((((( ((((( (((((a)(b))))) ))))) )))))", "$18", "x")</test>
+      <result>
+         <assert-string-value>ab8racadab8ra</assert-string-value>
+      </result>
+   </test-case>
+
 
    <test-case name="K-ReplaceFunc-1">
       <description> The flags argument cannot contain whitespace. </description>
