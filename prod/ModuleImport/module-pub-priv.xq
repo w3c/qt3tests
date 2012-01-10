@@ -18,3 +18,9 @@ declare %private function mod:f() { 23 };
 declare %public function mod:g($a as xs:integer) {
    mod:f() + $a + $mod:two - 2*$mod:one
 };
+
+declare function mod:h($a as xs:integer) {
+   mod:g($a)
+};
+
+declare variable $mod:ninety := mod:g(42) + mod:f() + $mod:two div $mod:one;

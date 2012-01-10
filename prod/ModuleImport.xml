@@ -1232,4 +1232,531 @@
             <error code="XPST0008"/>
       </result>
     </test-case>
+
+   <test-case name="modules-pub-priv-5">
+      <description> public functions in main module are visible. </description>
+      <created by="Josh Spiegel, Oracle" on="2012-01-04"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        declare %public function local:inc($i as xs:integer) {
+            $i + 1
+        };
+        <a>{local:inc(1)}</a>
+      ]]></test>
+      <result>
+            <assert-serialization><![CDATA[<a>2</a>]]></assert-serialization>
+      </result>
+   </test-case>
+
+   <test-case name="modules-pub-priv-6">
+      <description> private functions in main module are visible. </description>
+      <created by="Josh Spiegel, Oracle" on="2012-01-04"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        declare %private function local:inc($i as xs:integer) {
+            $i + 1
+        };
+        <a>{local:inc(1)}</a>
+      ]]></test>
+      <result>
+            <assert-serialization><![CDATA[<a>2</a>]]></assert-serialization>
+      </result>
+   </test-case>
+
+   <test-case name="modules-pub-priv-7">
+      <description> public variable in main module is visible. </description>
+      <created by="Josh Spiegel, Oracle" on="2012-01-04"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        declare %public variable $i := 1;
+        <a>{$i+1}</a>
+      ]]></test>
+      <result>
+            <assert-serialization><![CDATA[<a>2</a>]]></assert-serialization>
+      </result>
+   </test-case>
+
+   <test-case name="modules-pub-priv-8">
+      <description> private variable in main module is visible. </description>
+      <created by="Josh Spiegel, Oracle" on="2012-01-04"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        declare %private variable $i := 1;
+        <a>{$i+1}</a>
+      ]]></test>
+      <result>
+            <assert-serialization><![CDATA[<a>2</a>]]></assert-serialization>
+      </result>
+   </test-case>
+
+   <test-case name="modules-pub-priv-9">
+      <description> main module public function is visible from main module function. </description>
+      <created by="Josh Spiegel, Oracle" on="2012-01-04"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        declare %public function local:inc($i as xs:integer) {
+            $i + 1
+        };
+        
+        declare function local:test() {
+            local:inc(1)
+        };
+        <a>{local:test()}</a>
+      ]]></test>
+      <result>
+            <assert-serialization><![CDATA[<a>2</a>]]></assert-serialization>
+      </result>
+   </test-case>
+
+   <test-case name="modules-pub-priv-10">
+      <description> main module private function is visible from main module function. </description>
+      <created by="Josh Spiegel, Oracle" on="2012-01-04"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        declare %private function local:inc($i as xs:integer) {
+            $i + 1
+        };
+        
+        declare function local:test() {
+            local:inc(1)
+        };
+        <a>{local:test()}</a>
+      ]]></test>
+      <result>
+            <assert-serialization><![CDATA[<a>2</a>]]></assert-serialization>
+      </result>
+   </test-case>
+
+   <test-case name="modules-pub-priv-11">
+      <description> main module public variable is visible from main module function. </description>
+      <created by="Josh Spiegel, Oracle" on="2012-01-04"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        declare %public variable $i := 1;
+        
+        declare function local:test() {
+            $i + 1
+        };
+        <a>{local:test()}</a>
+      ]]></test>
+      <result>
+            <assert-serialization><![CDATA[<a>2</a>]]></assert-serialization>
+      </result>
+   </test-case>
+
+   <test-case name="modules-pub-priv-12">
+      <description> main module private variable is visible from main module function. </description>
+      <created by="Josh Spiegel, Oracle" on="2012-01-04"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        declare %private variable $i := 1;
+        
+        declare function local:test() {
+           $i + 1
+        };
+        <a>{local:test()}</a>
+      ]]></test>
+      <result>
+            <assert-serialization><![CDATA[<a>2</a>]]></assert-serialization>
+      </result>
+   </test-case>
+
+   <test-case name="modules-pub-priv-13">
+      <description> library module public function is visible from main module function. </description>
+      <created by="Josh Spiegel, Oracle" on="2012-01-04"/>
+      <module uri="http://www.w3.org/TestModules/module-pub-priv" file="ModuleImport/module-pub-priv.xq"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        import module namespace defs="http://www.w3.org/TestModules/module-pub-priv"; 
+        declare function local:test() {
+            defs:g(42)
+        };
+        <a>{local:test()}</a>
+      ]]></test>
+      <result>
+            <assert-serialization><![CDATA[<a>65</a>]]></assert-serialization>
+      </result>
+   </test-case>
+
+   <test-case name="modules-pub-priv-14">
+      <description> library module private function is not visible from main module function. </description>
+      <created by="Josh Spiegel, Oracle" on="2012-01-04"/>
+      <module uri="http://www.w3.org/TestModules/module-pub-priv" file="ModuleImport/module-pub-priv.xq"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        import module namespace defs="http://www.w3.org/TestModules/module-pub-priv"; 
+        declare function local:test() {
+            defs:f()
+        };
+        <a>{local:test()}</a>
+      ]]></test>
+      <result>
+            <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="modules-pub-priv-15">
+      <description> library module public variable is visible from main module function. </description>
+      <created by="Josh Spiegel, Oracle" on="2012-01-04"/>
+      <module uri="http://www.w3.org/TestModules/module-pub-priv" file="ModuleImport/module-pub-priv.xq"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        import module namespace defs="http://www.w3.org/TestModules/module-pub-priv"; 
+        declare function local:test() {
+            $defs:one
+        };
+        <a>{local:test()}</a>
+      ]]></test>
+      <result>
+            <assert-serialization><![CDATA[<a>1</a>]]></assert-serialization>
+      </result>
+   </test-case>
+
+   <test-case name="modules-pub-priv-16">
+      <description> library module private variable is not visible from main module function. </description>
+      <created by="Josh Spiegel, Oracle" on="2012-01-04"/>
+      <module uri="http://www.w3.org/TestModules/module-pub-priv" file="ModuleImport/module-pub-priv.xq"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        import module namespace defs="http://www.w3.org/TestModules/module-pub-priv"; 
+        declare function local:test() {
+            $defs:two
+        };
+        <a>{local:test()}</a>
+      ]]></test>
+      <result>
+            <error code="XPST0008"/>
+      </result>
+   </test-case>
+
+
+   <test-case name="modules-pub-priv-17">
+      <description> main module public function is visible from main module variable. </description>
+      <created by="Josh Spiegel, Oracle" on="2012-01-04"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        declare %public function local:inc($i as xs:integer) {
+            $i + 1
+        };
+        
+        declare variable $test := local:inc(1);
+
+        <a>{$test}</a>
+      ]]></test>
+      <result>
+            <assert-serialization><![CDATA[<a>2</a>]]></assert-serialization>
+      </result>
+   </test-case>
+
+   <test-case name="modules-pub-priv-18">
+      <description> main module private function is visible from main module variable. </description>
+      <created by="Josh Spiegel, Oracle" on="2012-01-04"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        declare %private function local:inc($i as xs:integer) {
+            $i + 1
+        };
+        
+        declare variable $test := local:inc(1);
+
+        <a>{$test}</a>
+      ]]></test>
+      <result>
+            <assert-serialization><![CDATA[<a>2</a>]]></assert-serialization>
+      </result>
+   </test-case>
+
+   <test-case name="modules-pub-priv-19">
+      <description> main module public variable is visible from main module variable. </description>
+      <created by="Josh Spiegel, Oracle" on="2012-01-04"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        declare %public variable $i := 1;
+        
+	declare variable $test := $i + 1;
+
+        <a>{$test}</a>
+      ]]></test>
+      <result>
+            <assert-serialization><![CDATA[<a>2</a>]]></assert-serialization>
+      </result>
+   </test-case>
+
+   <test-case name="modules-pub-priv-20">
+      <description> main module private variable is visible from main module variable. </description>
+      <created by="Josh Spiegel, Oracle" on="2012-01-04"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        declare %private variable $i := 1;
+        
+        declare variable $test := $i + 1;
+
+        <a>{$test}</a>
+      ]]></test>
+      <result>
+            <assert-serialization><![CDATA[<a>2</a>]]></assert-serialization>
+      </result>
+   </test-case>
+
+   <test-case name="modules-pub-priv-21">
+      <description> library module public function is visible from main module variable. </description>
+      <created by="Josh Spiegel, Oracle" on="2012-01-04"/>
+      <module uri="http://www.w3.org/TestModules/module-pub-priv" file="ModuleImport/module-pub-priv.xq"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        import module namespace defs="http://www.w3.org/TestModules/module-pub-priv"; 
+
+        declare variable $test := defs:g(42);
+
+        <a>{$test}</a>
+      ]]></test>
+      <result>
+            <assert-serialization><![CDATA[<a>65</a>]]></assert-serialization>
+      </result>
+   </test-case>
+
+   <test-case name="modules-pub-priv-22">
+      <description> library module private function is not visible from main module variable. </description>
+      <created by="Josh Spiegel, Oracle" on="2012-01-04"/>
+      <module uri="http://www.w3.org/TestModules/module-pub-priv" file="ModuleImport/module-pub-priv.xq"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        import module namespace defs="http://www.w3.org/TestModules/module-pub-priv"; 
+
+        declare variable $test := defs:f();
+
+        <a>{$test}</a>
+      ]]></test>
+      <result>
+            <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="modules-pub-priv-23">
+      <description> library module public variable is visible from main module variable. </description>
+      <created by="Josh Spiegel, Oracle" on="2012-01-04"/>
+      <module uri="http://www.w3.org/TestModules/module-pub-priv" file="ModuleImport/module-pub-priv.xq"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        import module namespace defs="http://www.w3.org/TestModules/module-pub-priv"; 
+
+        declare variable $test := $defs:one;
+
+        <a>{$test}</a>
+      ]]></test>
+      <result>
+            <assert-serialization><![CDATA[<a>1</a>]]></assert-serialization>
+      </result>
+   </test-case>
+
+   <test-case name="modules-pub-priv-24">
+      <description> library module private variable is not visible from main module variable. </description>
+      <created by="Josh Spiegel, Oracle" on="2012-01-04"/>
+      <module uri="http://www.w3.org/TestModules/module-pub-priv" file="ModuleImport/module-pub-priv.xq"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        import module namespace defs="http://www.w3.org/TestModules/module-pub-priv"; 
+
+        declare variable $test := $defs:two;
+
+        <a>{local:test()}</a>
+      ]]></test>
+      <result>
+            <error code="XPST0008"/>
+      </result>
+   </test-case>
+
+   <test-case name="modules-pub-priv-25">
+      <description> library module public function is visible from library module function. </description>
+      <created by="Josh Spiegel, Oracle" on="2012-01-04"/>
+      <module uri="http://www.w3.org/TestModules/module-pub-priv" file="ModuleImport/module-pub-priv.xq"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        import module namespace defs="http://www.w3.org/TestModules/module-pub-priv"; 
+
+        <a>{defs:h(42)}</a>
+      ]]></test>
+      <result>
+            <assert-serialization><![CDATA[<a>65</a>]]></assert-serialization>
+      </result>
+   </test-case>
+
+  <test-case name="modules-pub-priv-26">
+      <description> library module public/private functions/variables are visible from library module variable. </description>
+      <created by="Josh Spiegel, Oracle" on="2012-01-04"/>
+      <module uri="http://www.w3.org/TestModules/module-pub-priv" file="ModuleImport/module-pub-priv.xq"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        import module namespace defs="http://www.w3.org/TestModules/module-pub-priv"; 
+
+        <a>{$defs:ninety}</a>
+      ]]></test>
+      <result>
+            <assert-serialization><![CDATA[<a>90</a>]]></assert-serialization>
+      </result>
+   </test-case>
+
+
+  <test-case name="modules-pub-priv-27">
+      <description> library module public function is visible from function in different library module. </description>
+      <created by="Josh Spiegel, Oracle" on="2012-01-04"/>
+      <module uri="http://www.w3.org/TestModules/module-pub-priv" file="ModuleImport/module-pub-priv.xq"/>
+      <module uri="http://www.w3.org/TestModules/module-pub-priv3" file="ModuleImport/module-pub-priv3.xq"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        import module namespace defs="http://www.w3.org/TestModules/module-pub-priv3"; 
+        <a>{defs:f(42)}</a>
+      ]]></test>
+      <result>
+            <assert-serialization><![CDATA[<a>65</a>]]></assert-serialization>
+      </result>
+   </test-case>
+
+  <test-case name="modules-pub-priv-28">
+      <description> library module private function is visible from function in different library module. </description>
+      <created by="Josh Spiegel, Oracle" on="2012-01-04"/>
+      <module uri="http://www.w3.org/TestModules/module-pub-priv" file="ModuleImport/module-pub-priv.xq"/>
+      <module uri="http://www.w3.org/TestModules/module-pub-priv2" file="ModuleImport/module-pub-priv2.xq"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        import module namespace defs="http://www.w3.org/TestModules/module-pub-priv2"; 
+        <a>{defs:fails()}</a>
+      ]]></test>
+      <result>
+            <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+  <test-case name="modules-pub-priv-29">
+      <description> It is an error if a function's annotations contain contain a public and private annotation. </description>
+      <created by="Josh Spiegel, Oracle" on="2012-01-04"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        declare %private %public function local:foo() { () };
+        local:foo()
+      ]]></test>
+      <result>
+            <error code="XPST0106"/>
+      </result>
+   </test-case>
+
+  <test-case name="modules-pub-priv-30">
+      <description> It is an error if a function's annotations contain contain a public and private annotation. </description>
+      <created by="Josh Spiegel, Oracle" on="2012-01-04"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        declare %private %fn:public function local:foo() { () };
+        local:foo()
+      ]]></test>
+      <result>
+            <error code="XPST0106"/>
+      </result>
+   </test-case>
+
+  <test-case name="modules-pub-priv-31">
+      <description> It is an error if a function's annotations contain contain two public annotations. </description>
+      <created by="Josh Spiegel, Oracle" on="2012-01-04"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        declare %public %public function local:foo() { () };
+        local:foo()
+      ]]></test>
+      <result>
+            <error code="XPST0106"/>
+      </result>
+   </test-case>
+
+  <test-case name="modules-pub-priv-32">
+      <description> It is an error if a function's annotations contain contain two private annotations. </description>
+      <created by="Josh Spiegel, Oracle" on="2012-01-04"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        declare %private %private function local:foo() { () };
+        local:foo()
+      ]]></test>
+      <result>
+            <error code="XPST0106"/>
+      </result>
+  </test-case>
+
+  <test-case name="modules-pub-priv-33">
+      <description> It is an error if a variable's annotations contain contain a public and private annotation. </description>
+      <created by="Josh Spiegel, Oracle" on="2012-01-04"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        declare %private %public variable $foo := ();
+        $foo
+      ]]></test>
+      <result>
+            <error code="XPST0116"/>
+      </result>
+   </test-case>
+
+  <test-case name="modules-pub-priv-34">
+      <description> It is an error if a variable's annotations contain contain a public and private annotation. </description>
+      <created by="Josh Spiegel, Oracle" on="2012-01-04"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        declare %private %fn:public variable $foo := ();
+        $foo
+      ]]></test>
+      <result>
+            <error code="XPST0116"/>
+      </result>
+   </test-case>
+
+  <test-case name="modules-pub-priv-35">
+      <description> It is an error if a variable's annotations contain two private annotations. </description>
+      <created by="Josh Spiegel, Oracle" on="2012-01-04"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        declare %private %private variable $foo := ();
+        $foo
+      ]]></test>
+      <result>
+            <error code="XPST0116"/>
+      </result>
+   </test-case>
+
+  <test-case name="modules-pub-priv-36">
+      <description> It is an error if a variable's annotations contain two public annotations. </description>
+      <created by="Josh Spiegel, Oracle" on="2012-01-04"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        declare %public %public variable $foo := ();
+        $foo
+      ]]></test>
+      <result>
+            <error code="XPST0116"/>
+      </result>
+   </test-case>
+
+   <test-case name="modules-pub-priv-37">
+      <description>Invokes a private function item</description>
+      <created by="Josh Spiegel, Oracle" on="2012-01-04"/>
+      <module uri="http://www.w3.org/TestModules/module-pub-priv" file="ModuleImport/module-pub-priv.xq"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        import module namespace defs="http://www.w3.org/TestModules/module-pub-priv"; 
+        defs:f#0()
+      ]]></test>
+      <result>
+            <error code="XPST0017"/>
+      </result>
+   </test-case>
+
+   <test-case name="modules-pub-priv-38">
+      <description>Invokes a public function item </description>
+      <created by="Josh Spiegel, Oracle" on="2012-01-04"/>
+      <module uri="http://www.w3.org/TestModules/module-pub-priv" file="ModuleImport/module-pub-priv.xq"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        import module namespace defs="http://www.w3.org/TestModules/module-pub-priv"; 
+        <a>{defs:g#1(42)}</a>
+      ]]></test>
+      <result>
+          <assert-serialization><![CDATA[<a>65</a>]]></assert-serialization>
+      </result>
+    </test-case>
+
 </test-set>
