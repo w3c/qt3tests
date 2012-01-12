@@ -252,12 +252,14 @@
             for $x in //employee 
             let $key := if ($x/@gender='male') then number('NaN') else 42 
             group by $key 
-            order by $key 
             return <group key="{$key}" count="{count($x)}"/> 
         }</out>
       ]]></test>
       <result>
-         <assert-serialization><![CDATA[<out><group key="NaN" count="6"/><group key="42" count="7"/></out>]]></assert-serialization>
+         <any-of>
+            <assert-serialization><![CDATA[<out><group key="NaN" count="6"/><group key="42" count="7"/></out>]]></assert-serialization>
+            <assert-serialization><![CDATA[<out><group key="42" count="7"/><group key="NaN" count="6"/></out>]]></assert-serialization>
+         </any-of>
       </result>
    </test-case>
    
