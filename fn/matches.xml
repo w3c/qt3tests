@@ -469,6 +469,60 @@ defg
       </result>
    </test-case>
 
+   <test-case name="fn-matches-41">
+      <description> Handling of final newline with non-multiline mode </description>
+      <created by="Michael Kay" on="2012-01-13"/>
+      <test>fn:matches(concat('Mary', codepoints-to-string(10)), 'Mary$')</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-matches-42">
+      <description> Handling of final newline with $ in dot-all mode </description>
+      <created by="Michael Kay" on="2012-01-13"/>
+      <test>fn:matches(concat('Mary', codepoints-to-string(10)), 'Mary$', 's')</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-matches-43">
+      <description> "." doesn't normally match newline </description>
+      <created by="Michael Kay" on="2012-01-13"/>
+      <test>fn:matches(concat('Mary', codepoints-to-string(10), 'Jones'), 'Mary.Jones')</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-matches-44">
+      <description> "." does match newline in dot-all mode</description>
+      <created by="Michael Kay" on="2012-01-13"/>
+      <test>fn:matches(concat('Mary', codepoints-to-string(10), 'Jones'), 'Mary.Jones', 's')</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-matches-45">
+      <description> "." does match CR in default mode</description>
+      <created by="Michael Kay" on="2012-01-13"/>
+      <test>fn:matches(concat('Mary', codepoints-to-string(13), 'Jones'), 'Mary.Jones')</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-matches-46">
+      <description> "." does match CR in dot-all mode</description>
+      <created by="Michael Kay" on="2012-01-13"/>
+      <test>fn:matches(concat('Mary', codepoints-to-string(13), 'Jones'), 'Mary.Jones', 's')</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
    <test-case name="caselessmatch01">
       <description> Simple call of matches() with "i" flag </description>
       <created by="Michael Kay, Saxonica" on="2006-02-01"/>
