@@ -155,6 +155,16 @@
          <assert-string-value>abc###def</assert-string-value>
       </result>
    </test-case>
+
+   <test-case name="surrogates16">
+      <description>Leading surrogate = edge value of 56319. Test case from Gunther Rademacher</description>
+      <created by="Michael Kay, Saxonica" on="12-01-14"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[string-to-codepoints(substring("&#x10FC00;A", 2, 1))]]></test>
+      <result>
+         <assert-eq>65</assert-eq>
+      </result>
+   </test-case>
    
    
    <test-case name="surrogates01a">
@@ -303,6 +313,16 @@
       <test>replace("abc&#x1D157;def", "[^a-f]", "###")</test>
       <result>
          <assert-string-value>abc###def</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="surrogates16a">
+      <description>Leading surrogate = edge value of 56319. Test case from Gunther Rademacher</description>
+      <created by="Michael Kay, Saxonica" on="12-01-14"/>
+      <dependency type="spec" value="XP20+"/>
+      <test>string-to-codepoints(substring("&#x10FC00;A", 2, 1))</test>
+      <result>
+         <assert-eq>65</assert-eq>
       </result>
    </test-case>
 </test-set>
