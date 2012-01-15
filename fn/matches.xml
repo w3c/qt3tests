@@ -323,7 +323,8 @@ abracadabra", "\n")</test>
    <test-case name="fn-matches-26">
       <description> Check for the correct behavior of ^ and $ in multi-line mode This test case was motivated by the resolution of Bug Report 4543 </description>
       <created by="Andrew Eisenberg" on="2006-09-25"/>
-      <test><![CDATA[fn:matches("abcd&#x0a;defg&#x0a;", "^$", "m")]]></test>
+      <modified by="Michael Kay" on="2012-01-15" change="avoid character entities, so it works in both XPath and XQuery"/>
+      <test>fn:matches("concat('abcd', codepoints-to-string(10), 'defg', codepoints-to-string(10))", "^$", "m")</test>
       <result>
          <assert-false/>
       </result>
@@ -416,7 +417,7 @@ defg
    </test-case>
 
    <test-case name="fn-matches-35">
-      <description> Test for bug fix of 5348 in Errata for F&amp;O. Expect FORX0002 err because \99 is an invalide reference as 99th subexpression does not exist </description>
+      <description> Test for bug fix of 5348 in Errata for F+O. Expect FORX0002 err because \99 is an invalid reference as 99th subexpression does not exist </description>
       <created by="Zhen Hua  Liu" on="2009-11-15"/>
       <test>fn:matches('aA', '(a)\99')</test>
       <result>
@@ -425,7 +426,7 @@ defg
    </test-case>
 
    <test-case name="fn-matches-36">
-      <description> Test for bug fix of 5348 in Errata for F&amp;O. ok match here </description>
+      <description> Test for bug fix of 5348 in Errata for F+O. ok match here </description>
       <created by="Zhen Hua  Liu" on="2009-11-15"/>
       <test>fn:matches('abcdefghijj', '(a)(b)(c)(d)(e)(f)(g)(h)(i)(j)\10')</test>
       <result>
@@ -434,7 +435,7 @@ defg
    </test-case>
 
    <test-case name="fn-matches-37">
-      <description> Test for bug fix of 5348 in Errata for F&amp;O. Expect FORX0002 err because \11 reference is made before the closing right parenthesis of 11th reference </description>
+      <description> Test for bug fix of 5348 in Errata for F+O. Expect FORX0002 err because \11 reference is made before the closing right parenthesis of 11th reference </description>
       <created by="Zhen Hua  Liu" on="2009-11-15"/>
       <test>fn:matches('abcdefghijk', '(a)(b)(c)(d)(e)(f)(g)(h)(i)(j)(k\11)')</test>
       <result>
@@ -443,7 +444,7 @@ defg
    </test-case>
 
    <test-case name="fn-matches-38">
-      <description> Test for bug fix of 5348 in Errata for F&amp;O. Expect FORX0002 err because \10 reference is made before the closing right parenthesis of 10th reference </description>
+      <description> Test for bug fix of 5348 in Errata for F+O. Expect FORX0002 err because \10 reference is made before the closing right parenthesis of 10th reference </description>
       <created by="Andrew Eisenberg" on="2009-12-23"/>
       <test>fn:matches('abcdefghijj', '(a)(b)(c)(d)(e)(f)(g)(h)(i)(j\10)')</test>
       <result>
@@ -452,7 +453,7 @@ defg
    </test-case>
 
    <test-case name="fn-matches-39">
-      <description> Test for bug fix of 5348 in Errata for F&amp;O. Expect FORX0002 err because \9 reference is made before the closing right parenthesis of 9th reference </description>
+      <description> Test for bug fix of 5348 in Errata for F+O. Expect FORX0002 err because \9 reference is made before the closing right parenthesis of 9th reference </description>
       <created by="Andrew Eisenberg" on="2009-12-23"/>
       <test>fn:matches('abcdefghii', '(a)(b)(c)(d)(e)(f)(g)(h)(i\9)')</test>
       <result>
@@ -461,7 +462,7 @@ defg
    </test-case>
 
    <test-case name="fn-matches-40">
-      <description> Test for bug fix of 5348 in Errata for F&amp;O. Expect FORX0002 err because \1 reference is made before the closing right parenthesis of 1st reference </description>
+      <description> Test for bug fix of 5348 in Errata for F+O. Expect FORX0002 err because \1 reference is made before the closing right parenthesis of 1st reference </description>
       <created by="Andrew Eisenberg" on="2009-12-23"/>
       <test>fn:matches('aa', '(a\1)')</test>
       <result>
@@ -553,7 +554,8 @@ defg
    <test-case name="caselessmatch04">
       <description> Call of matches() with "i" flag and Kelvin sign Kelvin sign </description>
       <created by="Michael Kay, Saxonica" on="2006-02-01"/>
-      <test><![CDATA[matches('&#x212A;', '[A-Z]', 'i')]]></test>
+      <modified by="Michael Kay" on="2012-01-15" change="Changed to work under both XPath and XQuery"/>
+      <test>matches(codepoints-to-string(8490), '[A-Z]', 'i')]]></test>
       <result>
          <assert-true/>
       </result>
@@ -562,7 +564,8 @@ defg
    <test-case name="caselessmatch05">
       <description> Call of matches() with "i" flag and Kelvin sign Kelvin sign </description>
       <created by="Michael Kay, Saxonica" on="2006-02-01"/>
-      <test><![CDATA[matches('&#x212A;', '[a-z]', 'i')]]></test>
+      <modified by="Michael Kay" on="2012-01-15" change="Changed to work under both XPath and XQuery"/>
+      <test>matches(codepoints-to-string(8490), '[a-z]', 'i')</test>
       <result>
          <assert-true/>
       </result>
@@ -571,7 +574,8 @@ defg
    <test-case name="caselessmatch06">
       <description> Call of matches() with "i" flag and Kelvin sign Kelvin sign </description>
       <created by="Michael Kay, Saxonica" on="2006-02-01"/>
-      <test>matches('&#8490;', 'K', 'i')</test>
+      <modified by="Michael Kay" on="2012-01-15" change="Changed to work under both XPath and XQuery"/>
+      <test>matches(codepoints-to-string(8490), 'K', 'i')</test>
       <result>
          <assert-true/>
       </result>
@@ -580,7 +584,8 @@ defg
    <test-case name="caselessmatch07">
       <description> Call of matches() with "i" flag and Kelvin sign Kelvin sign </description>
       <created by="Michael Kay, Saxonica" on="2006-02-01"/>
-      <test>matches('&#8490;', 'k', 'i')</test>
+      <modified by="Michael Kay" on="2012-01-15" change="Changed to work under both XPath and XQuery"/>
+      <test>matches(codepoints-to-string(8490), 'k', 'i')</test>
       <result>
          <assert-true/>
       </result>
