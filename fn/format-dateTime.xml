@@ -1017,4 +1017,43 @@
          <assert-string-value>[Calendar: AD]03</assert-string-value>
       </result>
    </test-case>
+
+
+  <test-case name="format-dateTime-inpt-er1">
+      <description>wrong arg input to format-date()</description>
+      <created by="Zhen Hua Liu" on="2012-01-18"/>
+      <test>format-dateTime('abc', '[bla]', 'en', (), ())</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="format-dateTime-inpt-er2">
+      <description>wrong number of args to format-date()</description>
+      <created by="Zhen Hua Liu" on="2012-01-18"/>
+      <test>format-dateTime(current-time(), '[bla]', 'en', (), (), 6)</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="format-dateTime-inpt-er3">
+      <description>wrong number of args to format-date()</description>
+      <created by="Zhen Hua Liu" on="2012-01-18"/>
+      <test>format-dateTime(current-time(), '[bla]', 'en', (), 5)</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+
+   <test-case name="format-dateTime-1340err">
+      <description>Error FOFD1340 syntax of picture is incorrect</description>
+      <created by="Zhen Hua Liu" on="2012-01-18"/>
+      <test>format-dateTime(current-time(), '[yY]', 'en', (), ())</test>
+      <result>
+         <error code="FOFD1340"/>
+      </result>
+   </test-case>
+
 </test-set>
