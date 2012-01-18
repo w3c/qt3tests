@@ -759,4 +759,53 @@
          <error code="XTDE1310"/>
       </result>
    </test-case>
+
+   <test-case name="numberformatInputErr">
+      <description>
+        Creator: Zhen Hua Liu
+        Purpose: Test wrong arg datatype inputs for format-number. </description>
+      <created by="Zhen Hua Liu" on="2012-01-18"/>
+      <environment/>
+      <test>format-number('abc','000.##0')</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="numberformatInputErr">
+      <description>
+        Creator: Zhen Hua Liu
+        Purpose: Test wrong arg datatype inputs for format-number. </description>
+      <created by="Zhen Hua Liu" on="2012-01-18"/>
+      <environment/>
+      <test>format-number(931.45, 931.45)</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+  <test-case name="numberformatFODF1280">
+      <description>
+        Creator: Zhen Hua Liu
+        Purpose: Test raising error FODF1280. </description>
+      <created by="Zhen Hua Liu" on="2012-01-18"/>
+      <environment/>
+      <test>format-number(931.45, '000.##0', 'foo:bar')</test>
+      <result>
+         <error code="FODF1280"/>
+      </result>
+   </test-case>
+
+  <test-case name="numberformatNaN">
+      <description>
+        Creator: Zhen Hua Liu
+        Purpose: NaN input from 1.0 div 0.0. </description>
+      <created by="Zhen Hua Liu" on="2012-01-18"/>
+      <environment/>
+      <test>format-number(1.0 div 0.0,'#############')</test>
+      <result>
+         <assert-string-value>NaN</assert-string-value>
+      </result>
+   </test-case>
+
 </test-set>
