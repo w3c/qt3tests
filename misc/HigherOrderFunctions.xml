@@ -395,7 +395,7 @@
       <created by="Michael Kay" on="2009-03-01"/>
       <dependency type="spec" value="XQ30+"/>
       <test>
-      declare variable $sep as xs:string external := "\s"; 
+      declare variable $sep as xs:string := "\s"; 
       declare function local:splitter() as (function(xs:string) as xs:string*)? 
       	{ function($x as xs:string) { for $i in tokenize($x, $sep) return upper-case($i)} }; 
       string-join(local:splitter()("A nice cup of tea"), '|')
@@ -870,7 +870,7 @@
       <dependency type="spec" value="XQ30+"/>
       <test>let $ops := substring-before('abc', ' ', (), ?) return $ops('Michael Kay')</test>
       <result>
-         <error code="FOFU0001"/>
+         <error code="XPST0017"/>
       </result>
    </test-case>
 
@@ -880,7 +880,7 @@
       <dependency type="spec" value="XP30+ XQ30+"/>
       <test>let $ops := substring-before(?, ?) return $ops('Michael Kay')</test>
       <result>
-         <error code="FOFU0001"/>
+         <error code="XPTY0004"/>
       </result>
    </test-case>
 
@@ -960,7 +960,7 @@
       <dependency type="spec" value="XP30+ XQ30+"/>
       <test>string-join#1 eq string-join#1</test>
       <result>
-         <error code="XPTY0004"/>
+         <error code="FOTY0013"/>
       </result>
    </test-case>
 
@@ -970,7 +970,7 @@
       <dependency type="spec" value="XQ30+"/>
       <test>element a { avg#1 }</test>
       <result>
-         <error code="XPTY0004"/>
+         <error code="XQTY0105"/>
       </result>
    </test-case>
 
