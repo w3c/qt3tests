@@ -244,7 +244,7 @@
       <dependency type="spec" value="XP30+ XQ10+"/>
       <test>let $ordDoc := (/) return (avg($ordDoc//item/@quantity))</test>
       <result>
-         <assert-string-value>1.1666666666666667</assert-string-value>
+         <assert-eq>1.1666666666666667</assert-eq>
       </result>
    </test-case>
 
@@ -266,7 +266,7 @@
       <dependency type="spec" value="XP30+ XQ10+"/>
       <test>let $ordDoc := (/) return (avg( (1, 2, 3, 4, 5) ), avg( (1, 2, 3, (), 4, 5) ), avg( (xs:yearMonthDuration('P4M'), xs:yearMonthDuration('P6M') ) ), avg($ordDoc//item/@quantity), avg( () ))</test>
       <result>
-         <assert-string-value>3 3 P5M 1.1666666666666667</assert-string-value>
+         <assert-deep-eq>3, 3, xs:yearMonthDuration('P5M'), 1.1666666666666667</assert-deep-eq>
       </result>
    </test-case>
 
@@ -3509,7 +3509,10 @@
       <created by="Frans Englich" on="2008-05-16"/>
       <test>(resolve-uri( 'http://datypic.com', '../base'))</test>
       <result>
+        <any-of>
          <assert-string-value>http://datypic.com</assert-string-value>
+         <error code="FORG0002"/>
+        </any-of>
       </result>
    </test-case>
 
