@@ -7,6 +7,10 @@
    
    <dependency type="spec" value="XQ30+"/>
 
+   <environment name="err">
+     <namespace prefix="err" uri="http://www.w3.org/2005/xqt-errors"/> 
+   </environment>
+
    <test-case name="try-001">
       <description/>
       <created by="Michael Kay" on="2008-11-25"/>
@@ -20,7 +24,8 @@
    <test-case name="try-002">
       <description/>
       <created by="Michael Kay" on="2008-11-25"/>
-      <dependency type="spec" value="XQ10+"/>
+      <dependency type="spec" value="XQ30+"/>
+      <environment ref="err"/>
       <test><![CDATA[try { doc('rubbish.xml') } catch err:FODC0001 | err:FODC0002 | err:FODC0005 {"ok"}]]></test>
       <result>
          <assert-string-value>ok</assert-string-value>
@@ -41,6 +46,7 @@
       <description/>
       <created by="Michael Kay" on="2008-11-25"/>
       <modified by="O'Neil Delpratt" on="2011-10-12" change="Removed local dependency. See bug# 14438"/>
+      <environment ref="err"/>
       <test><![CDATA[
         try { doc('rubbish.xml') } 
         catch err:FODC0001 {<caught-error code="FODC0001"/>} 
@@ -104,6 +110,7 @@
       <description>does catch error evaluating function call </description>
       <created by="Michael Kay" on="2008-11-25"/>
       <modified by="O'Neil Delpratt" on="2011-10-12" change="Removed local dependency. See bug# 14438"/>
+      <environment ref="err"/>
       <test><![CDATA[
         declare function local:f($d as xs:integer) { 10 div $d }; 
         try { local:f(0) } catch err:FOAR0001 {"ok"}
@@ -116,6 +123,7 @@
    <test-case name="try-010">
       <description>Use err:code local variable, implicitly declared</description>
       <created by="Michael Kay" on="2011-12-23"/>
+      <environment ref="err"/>
       <test><![CDATA[
         declare function local:f($d as xs:integer) { 10 div $d }; 
         try { local:f(0) } catch * {local-name-from-QName($err:code)}
