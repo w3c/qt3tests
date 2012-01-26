@@ -11,7 +11,7 @@
       <description> basic switch example </description>
       <created by="Michael Kay" on="2010-03-16"/>
       <test><![CDATA[xquery version "3.0"; 
-        declare variable $animal as xs:string external := "Cat"; 
+        declare variable $animal as xs:string := "Cat"; 
         <out>{ switch ($animal) 
             case "Cow" return "Moo" 
             case "Cat" return "Meow" 
@@ -26,7 +26,7 @@
       <description> basic switch example, matches default clause </description>
       <created by="Michael Kay" on="2010-03-16"/>
       <test><![CDATA[xquery version "3.0"; 
-        declare variable $animal as xs:string external := "Dog"; 
+        declare variable $animal as xs:string := "Dog"; 
         <out>{ switch ($animal) 
             case "Cow" return "Moo"
             case "Cat" return "Meow" 
@@ -41,7 +41,7 @@
       <description> switch test, non-constant case clause </description>
       <created by="Michael Kay" on="2010-03-16"/>
       <test><![CDATA[xquery version "3.0"; 
-        declare variable $animal as xs:string external := "!?!?"; 
+        declare variable $animal as xs:string := "!?!?"; 
         <out>{ switch (upper-case($animal)) 
             case "COW" return "Moo"
             case "CAT" return "Meow" 
@@ -57,7 +57,7 @@
       <description> switch test, multiple case clauses </description>
       <created by="Michael Kay" on="2010-03-16"/>
       <test><![CDATA[xquery version "3.0"; 
-        declare variable $animal as xs:string external := "goose"; 
+        declare variable $animal as xs:string := "goose"; 
         <out>{ switch (upper-case($animal)) 
             case "COW" return "Moo" 
             case "CAT" return "Meow" 
@@ -73,7 +73,7 @@
       <description> switch test, multiple case clauses </description>
       <created by="Michael Kay" on="2010-03-16"/>
       <test><![CDATA[xquery version "3.0"; 
-        declare variable $animal as xs:string external := "duck"; 
+        declare variable $animal as xs:string := "duck"; 
         <out>{ switch (upper-case($animal)) 
             case "COW" return "Moo" 
             case "CAT" return "Meow" 
@@ -89,7 +89,7 @@
       <description> switch test, numeric case clauses, no type error </description>
       <created by="Michael Kay" on="2010-03-16"/>
       <test><![CDATA[xquery version "3.0"; 
-        declare variable $number as xs:decimal external := 42; 
+        declare variable $number as xs:decimal := 42; 
         <out>{ switch ($number) case 21 return "Moo" 
             case current-time() return "Meow" 
             case 42 return "Quack" 
@@ -103,7 +103,7 @@
       <description> switch test, untypedAtomic is converted to string </description>
       <created by="Michael Kay" on="2010-03-16"/>
       <test><![CDATA[xquery version "3.0"; 
-        declare variable $in external := <a>42</a>; 
+        declare variable $in := <a>42</a>; 
         <out>{ switch ($in) 
             case 42 return "Moo" 
             case "42" return "Meow" 
@@ -119,7 +119,7 @@
       <description> switch test, untypedAtomic is converted to string </description>
       <created by="Michael Kay" on="2010-03-16"/>
       <test><![CDATA[xquery version "3.0"; 
-        declare variable $in external := "42"; 
+        declare variable $in := "42"; 
         <out>{ switch ($in) 
             case 42 return "Moo" 
             case <a>42</a> return "Meow" 
@@ -135,7 +135,7 @@
       <description> switch test, empty matches empty </description>
       <created by="Michael Kay" on="2010-03-16"/>
       <test><![CDATA[xquery version "3.0"; 
-        declare variable $in external := (); 
+        declare variable $in := (); 
         <out>{ switch ($in) 
             case 42 return "Moo" 
             case <a>42</a> return "Meow" 
@@ -152,7 +152,7 @@
       <description> switch test, non-matching empty </description>
       <created by="Michael Kay" on="2010-03-16"/>
       <test><![CDATA[xquery version "3.0"; 
-        declare variable $in external := 21; 
+        declare variable $in := 21; 
         <out>{ switch ($in) 
             case 42 return "Moo" 
             case <a>42</a> return "Meow" 
@@ -169,7 +169,7 @@
       <description> switch test, NaN matches NaN </description>
       <created by="Michael Kay" on="2010-03-16"/>
       <test><![CDATA[xquery version "3.0"; 
-        declare variable $in external := xs:double('NaN'); 
+        declare variable $in := xs:double('NaN'); 
         <out>{ switch ($in) 
             case 42 return "Moo" 
             case <a>42</a> return "Meow" 
@@ -186,8 +186,8 @@
       <description> switch test, no dynamic errors </description>
       <created by="Michael Kay" on="2010-03-16"/>
       <test><![CDATA[xquery version "3.0"; 
-        declare variable $in external := 25; 
-        declare variable $zero external := 0; 
+        declare variable $in := 25; 
+        declare variable $zero := 0; 
         <out>{ switch ($in) 
             case 42 return $in div $zero 
             case 25 return "Baa" 
@@ -202,8 +202,8 @@
       <description> switch test, no dynamic errors </description>
       <created by="Michael Kay" on="2010-03-16"/>
       <test><![CDATA[xquery version "3.0"; 
-        declare variable $in external := 25; 
-        declare variable $zero external := 0; 
+        declare variable $in := 25; 
+        declare variable $zero := 0; 
         <out>{ switch ($in) 
             case 42 return "Quack" 
             case 25 return "Baa" 
@@ -218,7 +218,7 @@
       <description> switch, type error, switch operand &gt;1 item </description>
       <created by="Michael Kay" on="2010-03-16"/>
       <test><![CDATA[xquery version "3.0"; 
-        declare variable $in external := 2; 
+        declare variable $in := 2; 
         <out>{ switch (1 to $in) 
             case 1 return "Moo" 
             case 2 return "Meow" 
@@ -234,7 +234,7 @@
       <description> switch, type error, case operand &gt;1 item </description>
       <created by="Michael Kay" on="2010-03-16"/>
       <test><![CDATA[xquery version "3.0"; 
-        declare variable $in external := 2; 
+        declare variable $in := 2; 
         <out>{ switch ($in) 
             case 1 return "Moo" 
             case 5 return "Meow" 
@@ -250,7 +250,7 @@
       <description> switch, static error, no cases </description>
       <created by="Michael Kay" on="2010-03-16"/>
       <test><![CDATA[xquery version "3.0"; 
-        declare variable $in external := 2; 
+        declare variable $in := 2; 
         <out>{ switch ($in) default return "Baa" }</out>]]></test>
       <result>
          <error code="XPST0003"/>
@@ -261,7 +261,7 @@
       <description> switch, static error, no default </description>
       <created by="Michael Kay" on="2010-03-16"/>
       <test><![CDATA[xquery version "3.0"; 
-        declare variable $in external := 2; 
+        declare variable $in := 2; 
         <out>{ switch ($in) 
             case 1 return "Moo" 
             case 5 return "Meow" 
@@ -276,7 +276,7 @@
       <description> switch, static error, empty case list </description>
       <created by="Michael Kay" on="2010-03-16"/>
       <test><![CDATA[xquery version "3.0"; 
-        declare variable $in external := 2; 
+        declare variable $in := 2; 
         <out>{ switch ($in) 
             case 1 return "Moo" 
             case 5 return "Meow" return "Quack" 
@@ -291,7 +291,7 @@
       <description> switch, static error, not an ExprSingle </description>
       <created by="Michael Kay" on="2010-03-16"/>
       <test><![CDATA[xquery version "3.0"; 
-        declare variable $in external := 2; 
+        declare variable $in := 2; 
         <out>{ switch ($in) 
             case 1 return "Moo", "Boo" 
             case 5 return "Meow" 
@@ -307,7 +307,7 @@
       <description> switch, static error, params required </description>
       <created by="Michael Kay" on="2010-03-16"/>
       <test><![CDATA[xquery version "3.0"; 
-        declare variable $in external := 2; 
+        declare variable $in := 2; 
         <out>{ switch $in 
             case 1 return "Moo", "Boo" 
             case 5 return "Meow" 
@@ -325,7 +325,7 @@
       <description> switch, static error, curlies not allowed </description>
       <created by="Michael Kay" on="2010-03-16"/>
       <test><![CDATA[xquery version "3.0"; 
-        declare variable $in external := 2; 
+        declare variable $in := 2; 
         <out>{ switch ($in) { 
             case 1 return "Moo", "Boo" 
             case 5 return "Meow" 
@@ -341,7 +341,7 @@
       <description> switch, static error, colons not allowed </description>
       <created by="Michael Kay" on="2010-03-16"/>
       <test><![CDATA[xquery version "3.0"; 
-        declare variable $in external := 2; 
+        declare variable $in := 2; 
         <out>{ switch ($in) 
             case 1: return "Moo", "Boo" 
             case 5: return "Meow" 
