@@ -515,8 +515,8 @@ return
   for sliding window $w in ./sequence/* 
     start  $s when $s[self::OrderRequest]
     end  $e when $e/@orderID eq  $s/@orderID and
-      $e[self::ConfirmationRequest] and $e/@status eq "reject" 
-      or $e[self::ShipNotice]
+      ($e[self::ConfirmationRequest] and $e/@status eq "reject" 
+      or $e[self::ShipNotice])
   where $e[self::ShipNotice]
   return 
     <timeToShip orderID="{ $s/@orderID}">{xs:dateTime($e/@date) - xs:dateTime($s/@date) }</timeToShip> 
@@ -537,8 +537,8 @@ return
   for sliding window $w in ./sequence/* 
     start previous $wSPrev when $wSPrev[self::OrderRequest]
     end next $wENext when $wENext/@orderID eq  $wSPrev/@orderID and
-          ( $wENext[self::ConfirmationRequest] and $wENext/@status eq "reject") 
-            or $wENext[self::ShipNotice]
+          ( ( $wENext[self::ConfirmationRequest] and $wENext/@status eq "reject") 
+            or $wENext[self::ShipNotice] )
   where $wENext[self::ShipNotice]
   return 
     <bundleWith orderId="{$wSPrev/@orderID}">{
@@ -547,15 +547,15 @@ return
             when $bSCur[self::OrderRequest] and $bSCur/@shipTo eq $wSPrev/@shipTo
           end  $bECur next $bENext 
             when $bECur/@orderID eq  $bSCur/@orderID 
-             and ($bECur[self::ConfirmationRequest] and $bECur/@status eq "reject") 
-              or $bECur[self::ShipNotice]
+             and ( ($bECur[self::ConfirmationRequest] and $bECur/@status eq "reject") 
+              or $bECur[self::ShipNotice] )
           where empty($bENext)
           return $bSCur
     }</bundleWith>
 }</result>
       ]]></test>
       <result>
-        <assert-serialization><![CDATA[<result><bundleWith orderId="OID01"><OrderRequest xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" billTo="ACME1" date="2006-01-02T14:00:00-00:00" orderID="OID03" shipTo="ACME1" total="10000" type="new"><Item partID="ID3" quantity="100" unitPrice="100"/></OrderRequest></bundleWith><bundleWith orderId="OID02"/><bundleWith orderId="OID03"/></result>]]></assert-serialization>
+        <assert-serialization><![CDATA[<result><bundleWith orderId="OID01"><OrderRequest xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" billTo="ACME1" date="2006-01-02T14:00:00-00:00" orderID="OID03" shipTo="ACME1" total="10000" type="new"><Item partID="ID3" quantity="100" unitPrice="100"></Item></OrderRequest></bundleWith></result>]]></assert-serialization>
       </result>
    </test-case>
 	
