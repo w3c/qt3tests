@@ -301,6 +301,7 @@ for sliding window $w in ./stream/event
 let $person := $s/person
 let $workingTime := xs:dateTime($e/@time) - xs:dateTime($s/@time)
 group by $person
+order by $person
 return
   <working-time>
     {$person}
@@ -309,7 +310,7 @@ return
 }</result>
       ]]></test>
       <result>
-        <assert-serialization><![CDATA[<result><working-time><person xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Barbara</person><time>PT3H</time></working-time><working-time><person xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Clara</person><time>PT3H45M</time></working-time><working-time><person xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">Anton</person><time>PT9H30M</time></working-time></result>]]></assert-serialization>
+        <assert-serialization><![CDATA[<result><working-time>Anton<time>PT9H30M</time></working-time><working-time>Barbara<time>PT3H</time></working-time><working-time>Clara<time>PT3H45M</time></working-time></result>]]></assert-serialization>
       </result>
    </test-case>
 
