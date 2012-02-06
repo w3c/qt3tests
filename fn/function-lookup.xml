@@ -127,4 +127,18 @@
          <assert-string-value>1.235</assert-string-value>
       </result>
    </test-case>
+   <test-case name="function-lookup-013">
+      <description>Function lookup creating a circular dependency (see bug 15791 - provisional outcome)</description>
+      <created by="Tim Mills" on="2012-01-30"/>
+      <test><![CDATA[
+        declare variable $n external := xs:QName('local:return-v');
+        declare variable $v := function-lookup($n, 0)();
+        declare function local:return-v() {$v + 1};
+        $v
+      ]]></test>
+      <result>
+         <error code="XQST0054"/>
+      </result>
+   </test-case>
+
 </test-set>
