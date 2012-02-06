@@ -6524,12 +6524,26 @@
         Fails in 1.0 because only a string literal can be cast to xs:QName
         Fails in 3.0 because atomization of the argument is not allowed - see bug 11964</description>
       <created by="Michael Kay" on="2011-02-16"/>
-      <dependency type="spec" value="XQ10+"/>
+      <dependency type="spec" value="XQ10"/>
       <test><![CDATA[let $var := <e>xml:space</e> return $var cast as xs:QName]]></test>
       <result>
          <error code="XPTY0004"/>
       </result>
    </test-case>
+   
+   <test-case name="CastAs674a">
+      <description> Try to cast an element to xs:QName.
+        Fails in 1.0 because only a string literal can be cast to xs:QName
+        Fails in 3.0 because atomization of the argument is not allowed - see bug 11964</description>
+      <created by="Michael Kay" on="2011-02-16"/>
+      <modified by="Michael Kay" on="2011-02-06" change="bug 15814 - wrong error code for XQ30"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[let $var := <e>xml:space</e> return $var cast as xs:QName]]></test>
+      <result>
+         <error code="XPTY0117"/>
+      </result>
+   </test-case>
+
 
    <test-case name="CastAs675">
       <description> Try to do an implicit cast from untypedAtomic to xs:QName as part of a function call
