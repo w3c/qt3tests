@@ -141,5 +141,67 @@
          <error code="XQST0054"/>
       </result>
    </test-case>
+   <test-case name="function-lookup-014">
+       <description>Function lookup accessing an EXSLT extension function, with two possible results</description>
+      <created by="Michael Kay" on="2012-02-28"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        let $f := function-lookup(QName("http://exslt.org/dates-and-times", "month-abbreviation"), 1)
+        return if (exists($f)) then $f("2012-02-28") else "not-available"
+      ]]></test>
+      <result>
+         <any-of>
+           <assert-string-value>not-available</assert-string-value>
+           <assert-string-value>Feb</assert-string-value>
+         </any-of>  
+      </result>
+   </test-case>
+   <test-case name="function-lookup-015">
+       <description>Function lookup accessing an eXist extension function, with two possible results</description>
+      <created by="Michael Kay" on="2012-02-28"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        let $f := function-lookup(QName("http://exist-db.org/xquery/datetime", "days-in-month"), 1)
+        return if (exists($f)) then $f(xs:date("2012-02-28")) else "not-available"
+      ]]></test>
+      <result>
+         <any-of>
+           <assert-string-value>not-available</assert-string-value>
+           <assert-string-value>29</assert-string-value>
+         </any-of>  
+      </result>
+   </test-case>
+   <test-case name="function-lookup-016">
+      <description>Attempt to access the position() function, which fails because it is context sensitive</description>
+      <created by="Michael Kay" on="2011-10-27"/>
+      <test>function-lookup(QName("http://www.w3.org/2005/xpath-functions", "position"), 0)</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+   <test-case name="function-lookup-017">
+      <description>Attempt to access the last() function, which fails because it is context sensitive</description>
+      <created by="Michael Kay" on="2011-10-27"/>
+      <test>function-lookup(QName("http://www.w3.org/2005/xpath-functions", "position"), 0)</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+   <test-case name="function-lookup-018">
+      <description>Attempt to access the xs:QName() constructor function, which fails because it is context sensitive</description>
+      <created by="Michael Kay" on="2011-10-27"/>
+      <test>function-lookup(QName("http://www.w3.org/2001/XMLSchema", "QName"), 1)</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+   <test-case name="function-lookup-019">
+      <description>Attempt to access the current-date() function, which fails because it is context sensitive</description>
+      <created by="Michael Kay" on="2011-10-27"/>
+      <test>function-lookup(QName("http://www.w3.org/2005/xpath-functions", "current-date"), 0)</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
 
 </test-set>
