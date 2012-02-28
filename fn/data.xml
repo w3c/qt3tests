@@ -369,6 +369,8 @@
    <test-case name="K-DataFunc-1">
       <description> A test whose essence is: `data()`. </description>
       <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="Michael Kay" on="2012-02-28" change="see bug 16150"/>
+      <dependency type="spec" value="XP20 XQ10"/>
       <test>data()</test>
       <result>
          <error code="XPST0017"/>
@@ -403,11 +405,13 @@
    </test-case>
 
    <test-case name="K2-DataFunc-1">
-      <description> fn:data() must be passed at least one argument. </description>
+      <description> fn:data() allows zero arguments in XP30/XQ30. </description>
       <created by="Frans Englich" on="2007-11-26"/>
-      <test>data()</test>
+      <modified by="Michael Kay" on="2012-02-28" change="see bug 16150"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>1!data()</test>
       <result>
-         <error code="XPST0017"/>
+         <assert-eq>1</assert-eq>
       </result>
    </test-case>
 
