@@ -284,30 +284,33 @@
      <test-case name="format-integer-031">
         <description>format-integer - Ordinal number output request</description>
         <created by="O'Neil Delpratt, Saxonica" on="2010-09-28"/>
+        <modified by="Michael Kay, Saxonica" on="2012-02-28" change="semicolon separator, see bug 14858"/>
         <environment ref="empty"/>
             <dependency type="default-language" value="en"/>
-        <test>format-integer(2, 'Wo')</test>
+        <test>format-integer(2, 'W;o')</test>
         <result>
             <assert-eq>'SECOND'</assert-eq>
         </result>    
     </test-case>
      <test-case name="format-integer-032">
         <description>format-integer - Ordinal number output request</description>
+        <modified by="Michael Kay, Saxonica" on="2012-02-28" change="semicolon separator, see bug 14858"/>
         <created by="O'Neil Delpratt, Saxonica" on="2010-09-28"/>
         <environment ref="empty"/>
             <dependency type="language" value="de"/>
-        <test>format-integer(1, 'Wwo(-er)', 'de' cast as xs:language)</test>
+        <test>format-integer(1, 'Ww;o(-er)', 'de' cast as xs:language)</test>
         <result>
             <assert-eq>'Erster'</assert-eq>
         </result>    
     </test-case>
        <test-case name="format-integer-033">
         <description>format-integer - Ordinal number output request</description>
+        <modified by="Michael Kay, Saxonica" on="2012-02-28" change="semicolon separator, see bug 14858"/>
         <created by="O'Neil Delpratt, Saxonica" on="2010-09-28"/>
         <environment ref="empty"/>
             <dependency type="default-language" value="en"/>
         
-        <test>format-integer(1, '1o(-en)')</test>
+        <test>format-integer(1, '1;o(-en)')</test>
         <result>
             <assert-eq>'1st'</assert-eq>
         </result>    
@@ -315,8 +318,9 @@
        <test-case name="format-integer-034">
         <description>format-integer - ordinal number request format modifier, with invalid picture</description>
         <created by="O'Neil Delpratt, Saxonica" on="2010-09-28"/>
+        <modified by="Michael Kay, Saxonica" on="2012-02-28" change="semicolon separator, see bug 14858"/>
         <environment ref="empty"/>
-        <test>format-integer(1, '1o(-er)a')</test>
+        <test>format-integer(1, '1;o(-er)a')</test>
         <result>
             <error code="XTDE0030"/>
         </result>    
@@ -324,10 +328,11 @@
      <test-case name="format-integer-035">
         <description>format-integer - format modifier t</description>
         <created by="O'Neil Delpratt, Saxonica" on="2010-09-28"/>
+        <modified by="Michael Kay, Saxonica" on="2012-02-28" change="semicolon separator, see bug 14858"/>
         <environment ref="empty"/>
             <dependency type="default-language" value="en"/>
         
-        <test>format-integer(1, 'Wwt')</test>
+        <test>format-integer(1, 'Ww;t')</test>
         <result>
             <assert-eq>'One'</assert-eq>
         </result>    
@@ -348,8 +353,9 @@
     <test-case name="format-integer-037">
         <description>format-integer - mismatched parens in picture</description>
         <created by="Michael Kay, Saxonica" on="2010-09-28"/>
+        <modified by="Michael Kay, Saxonica" on="2012-02-28" change="semicolon separator, see bug 14858"/>
         <environment ref="empty"/>
-        <test>format-integer(1234, 'Wwo())')</test>
+        <test>format-integer(1234, 'Ww;o())')</test>
         <result>
             <error code="XTDE0030"/>
         </result>    
@@ -357,8 +363,9 @@
     <test-case name="format-integer-038">
         <description>format-integer - misplaced parens in picture</description>
         <created by="Michael Kay, Saxonica" on="2010-09-28"/>
+        <modified by="Michael Kay, Saxonica" on="2012-02-28" change="semicolon separator, see bug 14858"/>
         <environment ref="empty"/>
-        <test>format-integer(1234, '()Wwo')</test>
+        <test>format-integer(1234, '()Ww;o')</test>
         <result>
             <error code="XTDE0030"/>
         </result>    
@@ -403,10 +410,11 @@
     <test-case name="format-integer-043">
         <description>format-integer - negative ordinal</description>
         <created by="Michael Kay, Saxonica" on="2010-09-28"/>
+        <modified by="Michael Kay, Saxonica" on="2012-02-28" change="semicolon separator, see bug 14858"/>
         <environment ref="empty"/>
             <dependency type="default-language" value="en"/>
         
-        <test>format-integer(-85, '1o')</test>
+        <test>format-integer(-85, '1;o')</test>
         <result>
             <assert-eq>'-85th'</assert-eq>
         </result>    
@@ -414,10 +422,10 @@
     <test-case name="format-integer-044">
         <description>format-integer - negative ordinal in words</description>
         <created by="Michael Kay, Saxonica" on="2010-09-28"/>
+        <modified by="Michael Kay, Saxonica" on="2012-02-28" change="semicolon separator, see bug 14858"/>
         <environment ref="empty"/>
-            <dependency type="default-language" value="en"/>
-        
-        <test>format-integer(-5, 'Wwo')</test>
+        <dependency type="default-language" value="en"/>
+        <test>format-integer(-5, 'Ww;o')</test>
         <result>
             <assert-eq>'-Fifth'</assert-eq>
         </result>    
@@ -426,9 +434,7 @@
         <description>format-integer - zero in words</description>
         <created by="Michael Kay, Saxonica" on="2010-09-28"/>
         <environment ref="empty"/>
-        
-            <dependency type="default-language" value="en"/>
-        
+        <dependency type="default-language" value="en"/> 
         <test>format-integer(0, 'Ww')</test>
         <result>
             <assert-eq>'Zero'</assert-eq>
@@ -438,9 +444,7 @@
         <description>format-integer with circled digits</description>
         <created by="Michael Kay, Saxonica" on="2010-09-27"/>
         <environment ref="empty"/>
-        
-            <dependency type="format-integer-sequence" value="&#x2460;" satisfied="true"/>
-        
+        <dependency type="format-integer-sequence" value="&#x2460;" satisfied="true"/>
         <test>string-join(for $i in 1 to 5 return format-integer($i, '&#x2460;'), '|')</test>
         <result>
             <assert-eq>'&#x2460;|&#x2461;|&#x2462;|&#x2463;|&#x2464;'</assert-eq>
@@ -450,9 +454,7 @@
         <description>format-integer with parenthesized digits</description>
         <created by="Michael Kay, Saxonica" on="2010-09-27"/>
         <environment ref="empty"/>
-        
-            <dependency type="format-integer-sequence" value="&#x2474;" satisfied="true"/>
-        
+        <dependency type="format-integer-sequence" value="&#x2474;" satisfied="true"/>
         <test>string-join(for $i in 1 to 5 return format-integer($i, '&#x2474;'), '|')</test>
         <result>
             <assert-eq>'&#x2474;|&#x2475;|&#x2476;|&#x2477;|&#x2478;'</assert-eq>
@@ -462,9 +464,7 @@
         <description>format-integer with full-stopped digits</description>
         <created by="Michael Kay, Saxonica" on="2010-09-27"/>
         <environment ref="empty"/>
-        
-            <dependency type="format-integer-sequence" value="&#x2488;" satisfied="true"/>
-        
+        <dependency type="format-integer-sequence" value="&#x2488;" satisfied="true"/>
         <test>string-join(for $i in 1 to 5 return format-integer($i, '&#x2488;'), '|')</test>
         <result>
             <assert-eq>'&#x2488;|&#x2489;|&#x248a;|&#x248b;|&#x248c;'</assert-eq>
@@ -474,9 +474,7 @@
         <description>format-integer with greek uppercase</description>
         <created by="Michael Kay, Saxonica" on="2010-09-27"/>
         <environment ref="empty"/>
-        
-            <dependency type="format-integer-sequence" value="&#x0391;" satisfied="true"/>
-        
+        <dependency type="format-integer-sequence" value="&#x0391;" satisfied="true"/>
         <test>string-join(for $i in 1 to 5 return format-integer($i, '&#x0391;'), '|')</test>
         <result>
             <assert-eq>'&#x0391;|&#x0392;|&#x0393;|&#x0394;|&#x0395;'</assert-eq>
@@ -486,9 +484,7 @@
         <description>format-integer with greek lowercase</description>
         <created by="Michael Kay, Saxonica" on="2010-09-27"/>
         <environment ref="empty"/>
-        
-            <dependency type="format-integer-sequence" value="&#x03b1;" satisfied="true"/>
-        
+        <dependency type="format-integer-sequence" value="&#x03b1;" satisfied="true"/>
         <test>string-join(for $i in 1 to 5 return format-integer($i,'&#x03b1;'), '|')</test>
         <result>
             <assert-eq>'&#x03b1;|&#x03b2;|&#x03b3;|&#x03b4;|&#x03b5;'</assert-eq>
@@ -507,9 +503,7 @@
         <description>format-integer using Kanji sequence (see http://en.wikipedia.org/wiki/Japanese_numerals)</description>
         <created by="Michael Kay, Saxonica" on="2010-10-12"/>
         <environment ref="empty"/>
-        
-            <dependency type="format-integer-sequence" value="&#x4e00;" satisfied="true"/>
-        
+        <dependency type="format-integer-sequence" value="&#x4e00;" satisfied="true"/>
         <test>string-join(
                 for $i in (1 to 23, 151, 302, 469, 2025) 
                 return concat($i, '=',  format-integer($i, '&#x4e00;')), '|')</test>
@@ -539,7 +533,7 @@
         <description>format-integer - test case relates to Bug #12280 in bugzilla</description>
         <created by="O'Neil Delpratt, Saxonica" on="2011-03-16"/>
         <environment ref="empty"/>
-        <test>format-integer(1,'bo')</test>
+        <test>format-integer(1,'b;o')</test>
         <result>
             <assert-eq>'b'</assert-eq>
         </result>    
@@ -548,7 +542,7 @@
         <description>format-integer - test case relates to Bug #12280 in bugzilla</description>
         <created by="O'Neil Delpratt, Saxonica" on="2011-03-16"/>
         <environment ref="empty"/>
-        <test>format-integer(1,'oo')</test>
+        <test>format-integer(1,'o;o')</test>
         <result>
             <error code="XTDE0030"/>
         </result>    
@@ -557,7 +551,7 @@
         <description>format-integer - test case relates to Bug #12280 in bugzilla</description>
         <created by="O'Neil Delpratt, Saxonica" on="2011-03-16"/>
         <environment ref="empty"/>
-        <test>format-integer(1,'boo')</test>
+        <test>format-integer(1,'bo;o')</test>
         <result>
             <error code="XTDE0030"/>
         </result>    
@@ -569,6 +563,33 @@
         <test>format-integer(1,'bb')</test>
         <result>
             <assert-eq>'b'</assert-eq>
+        </result>    
+    </test-case>
+    <test-case name="format-integer-059">
+        <description>format-integer - semicolon at end is ignored</description>
+        <created by="Michael Kay, Saxonica" on="2012-02-28"/>
+        <environment ref="empty"/>
+        <test>format-integer(1,'001;')</test>
+        <result>
+            <assert-eq>'001'</assert-eq>
+        </result>    
+    </test-case>
+    <test-case name="format-integer-060">
+        <description>format-integer - semicolon as grouping separator</description>
+        <created by="Michael Kay, Saxonica" on="2012-02-28"/>
+        <environment ref="empty"/>
+        <test>format-integer(1234,'#;##1;')</test>
+        <result>
+            <assert-eq>'1;234'</assert-eq>
+        </result>    
+    </test-case>
+    <test-case name="format-integer-061">
+        <description>format-integer - Error case with lone semicolon</description>
+        <created by="Michael Kay, Saxonica" on="2012-02-28">
+        <environment ref="empty"/>
+        <test>format-integer(1, ';')</test>
+        <result>
+            <error code="XTDE0030"/>
         </result>    
     </test-case>
 </test-set>
