@@ -838,7 +838,12 @@
       <description> Pass a sequence of functions that cannot be coerced to the required type  </description>
       <created by="Michael Kay" on="2009-03-01"/>
       <dependency type="spec" value="XQ30+"/>
-      <test>declare function local:apply($fns as (function(xs:string) as xs:string)*, $s as xs:string) as xs:string* { for $f in $fns return $f($s) }; let $ops := (upper-case#1, lower-case#1, function($x){translate($x, 'e', 'i')}, substring-before(?, ' ', ?)) return string-join(local:apply($ops, 'Michael Kay'), '~')</test>
+      <test>
+        declare function local:apply($fns as (function(xs:string) as xs:string)*, $s as xs:string) as xs:string* 
+        { for $f in $fns return $f($s) };
+        let $ops := (upper-case#1, lower-case#1, function($x){translate($x, 'e', 'i')}, 
+            substring-before(?, ' ', ?)) 
+        return string-join(local:apply($ops, 'Michael Kay'), '~')</test>
       <result>
          <error code="XPTY0004"/>
       </result>
@@ -848,7 +853,12 @@
       <description> Pass a sequence of functions that cannot be coerced to the required type  </description>
       <created by="Michael Kay" on="2009-03-01"/>
       <dependency type="spec" value="XQ30+"/>
-      <test>declare function local:apply($fns as (function(xs:string) as xs:string)*, $s as xs:string) as xs:string* { for $f in $fns return $f($s) }; let $ops := (upper-case#1, lower-case#1, function($x){translate($x, 'e', 'i')}, string-length#1) return string-join(local:apply($ops, 'Michael Kay'), '~')</test>
+      <test>
+        declare function local:apply($fns as (function(xs:string) as xs:string)*, $s as xs:string) as xs:string* 
+        { for $f in $fns return $f($s) }; 
+        let $ops := (upper-case#1, lower-case#1, function($x){translate($x, 'e', 'i')}, 
+            string-length#1) 
+        return string-join(local:apply($ops, 'Michael Kay'), '~')</test>
       <result>
          <error code="XPTY0004"/>
       </result>
@@ -858,7 +868,11 @@
       <description> Pass a sequence of functions that cannot be coerced to the required type  </description>
       <created by="Michael Kay" on="2009-03-01"/>
       <dependency type="spec" value="XQ30+"/>
-      <test>declare function local:apply($fns as (function(xs:string) as xs:string)*, $s as xs:string) as xs:string* { for $f in $fns return $f($s) }; let $ops := (upper-case#1, lower-case#1, function($x as xs:double){string($x)}) return string-join(local:apply($ops, 'Michael Kay'), '~')</test>
+      <test>
+        declare function local:apply($fns as (function(xs:string) as xs:string)*, $s as xs:string) as xs:string* 
+        { for $f in $fns return $f($s) }; 
+        let $ops := (upper-case#1, lower-case#1, function($x as xs:double){string($x)}) 
+        return string-join(local:apply($ops, 'Michael Kay'), '~')</test>
       <result>
          <error code="XPTY0004"/>
       </result>
@@ -898,7 +912,12 @@
       <description> partial-apply supplying an incorrect function parameter  </description>
       <created by="Michael Kay" on="2009-03-01"/>
       <dependency type="spec" value="XQ30+"/>
-      <test>declare function local:round($x as xs:double, $algorithm as (function(xs:double) as xs:double)) as xs:double { $algorithm($x) }; declare variable $roundToCeiling := local:round(?, upper-case#1); $roundToCeiling(12.4)</test>
+      <test>
+        declare function local:round($x as xs:double, $algorithm as (function(xs:double) as xs:double)) as xs:double 
+        { $algorithm($x) }; 
+        declare variable $roundToCeiling := local:round(?, upper-case#1); 
+        $roundToCeiling(12.4)
+      </test>
       <result>
          <error code="XPTY0004"/>
       </result>
