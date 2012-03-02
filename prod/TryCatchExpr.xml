@@ -125,11 +125,54 @@
       <created by="Michael Kay" on="2011-12-23"/>
       <environment ref="err"/>
       <test><![CDATA[
-        declare function local:f($d as xs:integer) { 10 div $d }; 
+        declare function local:f($d as xs:integer) { 10 div $d };
         try { local:f(0) } catch * {local-name-from-QName($err:code)}
       ]]></test>
       <result>
          <assert-string-value>FOAR0001</assert-string-value>
+      </result>
+   </test-case>
+
+    <test-case name="try-011">
+      <description>Use err:code local variable in a nested tryCatch. The cast as expr should throw a dynamic error</description>
+      <created by="O'Neil Delpratt" on="2012-03-02"/>
+      <environment ref="err"/>
+      <test><![CDATA[
+        declare function local:f($d as xs:integer) { 10 div $d };
+        declare variable $t as xs:string := "text";
+        try { local:f(0) } catch * { try { local:f($t cast as xs:integer) } catch * {local-name-from-QName($err:code)} }
+      ]]></test>
+      <result>
+         <assert-string-value>FORG0001</assert-string-value>
+      </result>
+   </test-case>
+
+    <test-case name="try-012">
+      <description>Use err:description local variable, implicitly declared</description>
+      <created by="O'Neil Delpratt" on="2012-03-02"/>
+      <environment ref="err"/>
+      <test><![CDATA[
+        declare function local:f($d as xs:integer) { 10 div $d };
+        try { local:f(0) } catch * {$err:description}
+      ]]></test>
+      <result>
+         <any-of>
+            <assert-string-value>Integer division by zero</assert-string-value>
+            <assert-type>xs:string</assert-type>
+         </any-of>
+      </result>
+   </test-case>
+
+    <test-case name="try-013">
+      <description>Use err:value, err:line-number and err:column-number local variable, implicitly declared</description>
+      <created by="O'Neil Delpratt" on="2012-03-02"/>
+      <environment ref="err"/>
+      <test><![CDATA[
+        declare function local:f($d as xs:integer) { 10 div $d };
+        try { local:f(0) } catch * {$err:column-number, $err:line-number, $err:line-number}
+      ]]></test>
+      <result>
+            <assert-type>xs:integer*</assert-type>
       </result>
    </test-case>
 </test-set>
