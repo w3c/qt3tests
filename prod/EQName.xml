@@ -23,7 +23,7 @@
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
             declare variable $Q{http://www.example.com/ns/my}var := 12; 
-            <out>{$"http://www.example.com/ns/my":var}</out>]]></test>
+            <out>{$Q{http://www.example.com/ns/my}var}</out>]]></test>
       <result>
          <assert-serialization><![CDATA[<out>12</out>]]></assert-serialization>
       </result>
@@ -36,7 +36,7 @@
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
         declare function Q{http://www.example.com/ns/my}fn ($a as xs:integer) as xs:integer { $a + 2 }; 
-        <out>{"http://www.example.com/ns/my":fn(12)}</out>]]></test>
+        <out>{Q{http://www.example.com/ns/my}fn(12)}</out>]]></test>
       <result>
          <assert-serialization><![CDATA[<out>14</out>]]></assert-serialization>
       </result>
@@ -47,7 +47,7 @@
       <created by="Michael Kay" on="2010-03-16"/>
       <modified by="Michael Kay" on="2012-03-02" change="Revised syntax as per bug 15399"/>
       <dependency type="spec" value="XQ30+"/>
-      <test><![CDATA[declare function local:fn ($a as Q{http://www.w3.org/2001/XMLSchema}integer) as element("http://www.example.com/ns/my":e) { <e xmlns="http://www.example.com/ns/my">{$a}</e> }; <out>{local:fn(12)}</out>]]></test>
+      <test><![CDATA[declare function local:fn ($a as Q{http://www.w3.org/2001/XMLSchema}integer) as element(Q{http://www.example.com/ns/my}e) { <e xmlns="http://www.example.com/ns/my">{$a}</e> }; <out>{local:fn(12)}</out>]]></test>
       <result>
          <assert-serialization><![CDATA[<out><e xmlns="http://www.example.com/ns/my">12</e></out>]]></assert-serialization>
       </result>
@@ -173,7 +173,7 @@
       <modified by="Michael Kay" on="2012-03-02" change="Revised syntax as per bug 15399"/>
       <environment ref="auction"/>
       <dependency type="spec" value="XP30+ XQ30+"/>
-      <test>for $Q{http://example.com/ns}:x in 1 to 10 return $Q{http://example.com/ns}x + 1</test>
+      <test>for $Q{http://example.com/ns}x in 1 to 10 return $Q{http://example.com/ns}x + 1</test>
       <result>
          <assert-string-value>2 3 4 5 6 7 8 9 10 11</assert-string-value>
       </result>
