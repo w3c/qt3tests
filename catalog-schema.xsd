@@ -116,6 +116,7 @@
                     <xs:choice minOccurs="0" maxOccurs="unbounded">
                         <xs:element ref="schema" />
                         <xs:element ref="source" />
+                        <xs:element ref="resource" />
                         <xs:element ref="param" />
                         <xs:element ref="decimal-format" />
                         <xs:element ref="namespace" />
@@ -433,8 +434,6 @@
         
     </xs:element>
     
-    
-    
     <xs:complexType name="sourceType">
         <xs:annotation>
             <xs:documentation>
@@ -464,6 +463,64 @@
         </xs:complexContent>
         
     </xs:complexType>
+    
+    <xs:element name="resource" type="resourceType" >
+        <xs:annotation>
+            <xs:documentation>
+                <div>
+                    <h3>resource</h3>
+                    <p>
+                        An element which provides information about a file that can be read as text, used as input to test cases.</p>
+                        
+                        
+                    <p> The <code>uri</code> attributes indicate how the resource is made avaiable to queries (as a URI that can be supplied to the unparsed-text(), unparsed-text-lines() and unparsed-text-available() functions.)</p>
+                    
+                    <p> The <code>file</code> attribute gives the relative location of the file containing the resource.</p>
+
+                    <p> The optional <code>media-type</code> attribute gives the media type of the resource.</p>
+
+                    <p> The optional <code>encoding</code> attribute gives the name of the encoding of the resource.</p>
+                    
+                    <p> The scope of the &lt;resource&gt; element is 
+                        the parent &lt;environment&gt; element in which it appears. A validated source 
+                        document references the schema, which maps to the @id of the Schema element. 
+                    </p>
+                </div> 
+            </xs:documentation>
+        </xs:annotation>
+        
+    </xs:element>
+    
+    <xs:complexType name="resourceType">
+        <xs:annotation>
+            <xs:documentation>
+                <div>
+                    <h3>resourceType</h3>
+                    <p>
+                        defines the type of the <code>resource</code> element.
+                    </p>
+                </div> 
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="baseType">
+                <xs:sequence>
+                    <xs:sequence >
+                    <xs:element ref="description" minOccurs="0" maxOccurs="1"/>
+                    <xs:element ref="created" minOccurs="0" maxOccurs="1"/>
+                    <xs:element ref="modified" minOccurs="0" maxOccurs="unbounded"/>
+                </xs:sequence>
+                </xs:sequence>
+                <xs:attributeGroup ref="fileAttr" />
+                <xs:attributeGroup ref="uriAttr" />
+                <xs:attributeGroup ref="media-typeAttr"/>
+                <xs:attributeGroup ref="encodingAttr"/>
+           
+            </xs:extension>
+        </xs:complexContent>
+        
+    </xs:complexType>
+    
     
     <xs:element name="description">
         <xs:annotation>
@@ -1197,9 +1254,38 @@
         <xs:attribute name="validation" type="validationEnumType" use="optional"/>
     </xs:attributeGroup>
     
+    <xs:attributeGroup name="media-typeAttr">
+                    <xs:annotation>
+                        <xs:documentation>
+                           <div>
+                            <h3>media-type</h3> 
+                            <p>Describes the media type of a resource.</p>
+                            <p>The value should conform to RFC 2046.</p>
+                           </div>
+                        </xs:documentation>
+                    </xs:annotation>
+        <xs:attribute name="media-type" type="xs:string" use="optional"/>
+    </xs:attributeGroup>
+    
+    <xs:attributeGroup name="encodingAttr">
+                    <xs:annotation>
+                        <xs:documentation>
+                           <div>
+                            <h3>encoding</h3> 
+                            <p>Describes the encoding of a resource.</p>
+                            <p>The value should be that of a character set registered with the Internet Assigned Numbers Authority.</p>
+                           </div>
+                        </xs:documentation>
+                    </xs:annotation>
+        <xs:attribute name="encoding" type="encodingType" use="optional"/>
+    </xs:attributeGroup>
+    
+    <xs:simpleType name="encodingType">
+      <xs:restriction base="xs:string">
+	<xs:pattern value="[A-Za-z]([A-Za-z0-9._-])*"/>
+      </xs:restriction>
+    </xs:simpleType>
 
-    
-    
     <xs:attributeGroup name="typeAttr">
         <xs:annotation>
                 <xs:documentation>
