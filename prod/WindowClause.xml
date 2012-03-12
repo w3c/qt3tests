@@ -922,11 +922,12 @@ return
     <test-case name="TumblingWindowExpr517">
         <description>Tumbling Window Clause, EQNamed window variable</description>
         <created by="Matthias Brantner" on="2011-12-02"/>
+	<modified by="Michael Dyck" on="2012-03-11" change="Revised URIQualifiedName syntax as per bug 15399"/>
         <dependency type="spec" value="XQ30+"/>
         <test><![CDATA[
           declare namespace window = "foo:bar";
           
-          for tumbling window $"foo:bar":w in (1 to 10)
+          for tumbling window $Q{foo:bar}w in (1 to 10)
           start $s when true()
           end $e when false() 
           return <window>{$window:w}</window>
@@ -939,11 +940,12 @@ return
     <test-case name="SlidingWindowExpr517">
         <description>Sliding Window Clause, EQNamed window variable</description>
         <created by="Matthias Brantner" on="2011-12-02"/>
+	<modified by="Michael Dyck" on="2012-03-11" change="Revised URIQualifiedName syntax as per bug 15399"/>
         <dependency type="spec" value="XQ30+"/>
         <test><![CDATA[
           declare namespace window = "foo:bar";
           
-          for sliding window $"foo:bar":w in (1 to 10)
+          for sliding window $Q{foo:bar}w in (1 to 10)
           start $s when true()
           end $e when false() 
           return <window>{$window:w}</window>
@@ -956,13 +958,14 @@ return
     <test-case name="TumblingWindowExpr518">
         <description>Tumbling Window Clause, all window variables names are given as EQNames but refered to using QNames</description>
         <created by="Matthias Brantner" on="2011-12-02"/>
+	<modified by="Michael Dyck" on="2012-03-11" change="Revised URIQualifiedName syntax as per bug 15399"/>
         <dependency type="spec" value="XQ30+"/>
         <test><![CDATA[
           declare namespace w = "foo:bar";
           
-          for tumbling window $"foo:bar":w in (1 to 10)
-          start $"foo:bar":s at $"foo:bar":x previous $"foo:bar":sp next $"foo:bar":sn when true()
-          end $"foo:bar":e at $"foo:bar":y previous $"foo:bar":ep next $"foo:bar":en when false() 
+          for tumbling window $Q{foo:bar}w in (1 to 10)
+          start $Q{foo:bar}s at $Q{foo:bar}x previous $Q{foo:bar}sp next $Q{foo:bar}sn when true()
+          end $Q{foo:bar}e at $Q{foo:bar}y previous $Q{foo:bar}ep next $Q{foo:bar}en when false() 
           return <window>{
             string-join (
               for $w:w in ($w:w, $w:s, $w:x, $w:sp, $w:sn, $w:e, $w:y, $w:ep, $w:en)
@@ -978,13 +981,14 @@ return
         <description>Variant of TumblingWindow518 to run inside an element constructor.
         Tumbling Window Clause, all window variables names are given as EQNames but refered to using QNames</description>
         <created by="Michael Kay" on="2011-12-30"/>
+	<modified by="Michael Dyck" on="2012-03-11" change="Revised URIQualifiedName syntax as per bug 15399"/>
         <dependency type="spec" value="XQ30+"/>
         <test><![CDATA[
           declare namespace w = "foo:bar";
           <window>{
-          	for tumbling window $"foo:bar":w in (1 to 10)
-          	start $"foo:bar":s at $"foo:bar":x previous $"foo:bar":sp next $"foo:bar":sn when true()
-          	end $"foo:bar":e at $"foo:bar":y previous $"foo:bar":ep next $"foo:bar":en when false() 
+          	for tumbling window $Q{foo:bar}w in (1 to 10)
+          	start $Q{foo:bar}s at $Q{foo:bar}x previous $Q{foo:bar}sp next $Q{foo:bar}sn when true()
+          	end $Q{foo:bar}e at $Q{foo:bar}y previous $Q{foo:bar}ep next $Q{foo:bar}en when false() 
           	return 
             	string-join (
               		for $w:w in ($w:w, $w:s, $w:x, $w:sp, $w:sn, $w:e, $w:y, $w:ep, $w:en)
@@ -1000,13 +1004,14 @@ return
     <test-case name="SlidingWindowExpr518">
         <description>Sliding Window Clause, all window variables names are given as EQNames but refered to using QNames</description>
         <created by="Matthias Brantner" on="2011-12-02"/>
+	<modified by="Michael Dyck" on="2012-03-11" change="Revised URIQualifiedName syntax as per bug 15399"/>
         <dependency type="spec" value="XQ30+"/>
         <test><![CDATA[
           declare namespace w = "foo:bar";
           
-          for sliding window $"foo:bar":w in (1 to 10)
-          start $"foo:bar":s at $"foo:bar":x previous $"foo:bar":sp next $"foo:bar":sn when true()
-          end $"foo:bar":e at $"foo:bar":y previous $"foo:bar":ep next $"foo:bar":en when false() 
+          for sliding window $Q{foo:bar}w in (1 to 10)
+          start $Q{foo:bar}s at $Q{foo:bar}x previous $Q{foo:bar}sp next $Q{foo:bar}sn when true()
+          end $Q{foo:bar}e at $Q{foo:bar}y previous $Q{foo:bar}ep next $Q{foo:bar}en when false() 
           return <window>{
             string-join (
               for $w:w in ($w:w, $w:s, $w:x, $w:sp, $w:sn, $w:e, $w:y, $w:ep, $w:en)

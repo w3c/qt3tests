@@ -159,11 +159,12 @@
    <test-case name="annotation-10">
       <description>Annotations with expanded QNames</description>
       <created by="Josh Spiegel" on="2012-01-08"/>
+      <modified by="Michael Dyck" on="2012-03-11" change="Revised URIQualifiedName syntax as per bug 15399"/>
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
-         declare %"http://example.com":bar variable $foo := 0;
+         declare %Q{http://example.com}bar variable $foo := 0;
 
-         declare %"http://example.com":bar function local:foo($arg) { $arg }; 
+         declare %Q{http://example.com}bar function local:foo($arg) { $arg }; 
 
          local:foo($foo)
       ]]></test>
@@ -211,6 +212,7 @@
    <test-case name="annotation-13">
       <description>Multiple annotations with extra whitespace </description>
       <created by="Josh Spiegel" on="2012-01-08"/>
+      <modified by="Michael Dyck" on="2012-03-11" change="Revised URIQualifiedName syntax as per bug 15399"/>
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
          declare namespace eg = "http://example.com";
@@ -220,7 +222,7 @@
             %eg:two
             (: Lorem ipsum dolor sit amet. :)
             %eg:three(1)
-            %"http://example.com":four
+            %Q{http://example.com}four
             variable $foo := 0;
 
          declare 
@@ -228,7 +230,7 @@
             %eg:two
             (: Lorem ipsum dolor sit amet. :)
             %eg:three(1)
-            %"http://example.com":four
+            %Q{http://example.com}four
             function local:foo($arg) { $arg }; 
 
          local:foo($foo)
@@ -275,9 +277,10 @@
    <test-case name="annotation-16">
       <description>Annotation in a reserved namespace</description>
       <created by="Josh Spiegel" on="2012-01-08"/>
+      <modified by="Michael Dyck" on="2012-03-11" change="Revised URIQualifiedName syntax as per bug 15399"/>
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
-         declare %"http://www.w3.org/XML/1998/namespace":x variable $foo := "bar";
+         declare %Q{http://www.w3.org/XML/1998/namespace}x variable $foo := "bar";
          $foo
       ]]></test>
       <result>
@@ -303,9 +306,10 @@
    <test-case name="annotation-18">
       <description>Annotation in a reserved namespace</description>
       <created by="Josh Spiegel" on="2012-01-08"/>
+      <modified by="Michael Dyck" on="2012-03-11" change="Revised URIQualifiedName syntax as per bug 15399"/>
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
-         declare %"http://www.w3.org/2001/XMLSchema":x variable $foo := "bar";
+         declare %Q{http://www.w3.org/2001/XMLSchema}x variable $foo := "bar";
          $foo
       ]]></test>
       <result>
@@ -331,9 +335,10 @@
    <test-case name="annotation-20">
       <description>Annotation in a reserved namespace</description>
       <created by="Josh Spiegel" on="2012-01-08"/>
+      <modified by="Michael Dyck" on="2012-03-11" change="Revised URIQualifiedName syntax as per bug 15399"/>
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
-         declare %"http://www.w3.org/2001/XMLSchema-instance":x variable $foo := "bar";
+         declare %Q{http://www.w3.org/2001/XMLSchema-instance}x variable $foo := "bar";
          $foo
       ]]></test>
       <result>
@@ -359,9 +364,10 @@
    <test-case name="annotation-22">
       <description>Annotation in a reserved namespace</description>
       <created by="Josh Spiegel" on="2012-01-08"/>
+      <modified by="Michael Dyck" on="2012-03-11" change="Revised URIQualifiedName syntax as per bug 15399"/>
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
-         declare %"http://www.w3.org/2005/xpath-functions":x variable $foo := "bar";
+         declare %Q{http://www.w3.org/2005/xpath-functions}x variable $foo := "bar";
          $foo
       ]]></test>
       <result>
@@ -401,9 +407,10 @@
    <test-case name="annotation-25">
       <description>Annotation in a reserved namespace</description>
       <created by="Josh Spiegel" on="2012-01-08"/>
+      <modified by="Michael Dyck" on="2012-03-11" change="Revised URIQualifiedName syntax as per bug 15399"/>
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
-         declare %"http://www.w3.org/2005/xpath-functions/math":x variable $foo := "bar";
+         declare %Q{http://www.w3.org/2005/xpath-functions/math}x variable $foo := "bar";
          $foo
       ]]></test>
       <result>
@@ -430,9 +437,10 @@
    <test-case name="annotation-27">
       <description>Annotation in a reserved namespace</description>
       <created by="Josh Spiegel" on="2012-01-08"/>
+      <modified by="Michael Dyck" on="2012-03-11" change="Revised URIQualifiedName syntax as per bug 15399"/>
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
-         declare %"http://www.w3.org/2011/xquery-options":x variable $foo := "bar";
+         declare %Q{http://www.w3.org/2011/xquery-options}x variable $foo := "bar";
          $foo
       ]]></test>
       <result>
@@ -547,9 +555,10 @@
           Tests the parsing of annotation assertions. 
       </description>
       <created by="Josh Spiegel" on="2012-01-09"/>
+      <modified by="Michael Dyck" on="2012-03-11" change="Revised URIQualifiedName syntax as per bug 15399"/>
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
-         () instance of %"http://example.com":x function(*)
+         () instance of %Q{http://example.com}x function(*)
       ]]></test>
       <result><assert-false/></result>
    </test-case>
@@ -560,9 +569,10 @@
           Tests the parsing of annotation assertions. 
       </description>
       <created by="Josh Spiegel" on="2012-01-09"/>
+      <modified by="Michael Dyck" on="2012-03-11" change="Revised URIQualifiedName syntax as per bug 15399"/>
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
-         () instance of %"http://example.com":x function(*)
+         () instance of %Q{http://example.com}x function(*)
       ]]></test>
       <result><assert-false/></result>
    </test-case>
@@ -608,9 +618,10 @@
    <test-case name="annotation-assertion-12">
       <description>An annotation assertion in a reserved namespace.</description>
       <created by="Josh Spiegel" on="2012-01-09"/>
+      <modified by="Michael Dyck" on="2012-03-11" change="Revised URIQualifiedName syntax as per bug 15399"/>
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
-         () instance of %"http://www.w3.org/XML/1998/namespace":x function(*) 
+         () instance of %Q{http://www.w3.org/XML/1998/namespace}x function(*) 
       ]]></test>
       <result><error code="XQST0045"/></result>
    </test-case>
@@ -628,9 +639,10 @@
    <test-case name="annotation-assertion-14">
       <description>An annotation assertion in a reserved namespace.</description>
       <created by="Josh Spiegel" on="2012-01-09"/>
+      <modified by="Michael Dyck" on="2012-03-11" change="Revised URIQualifiedName syntax as per bug 15399"/>
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
-         () instance of %"http://www.w3.org/2001/XMLSchema":x function(*) 
+         () instance of %Q{http://www.w3.org/2001/XMLSchema}x function(*) 
       ]]></test>
       <result><error code="XQST0045"/></result>
    </test-case>
