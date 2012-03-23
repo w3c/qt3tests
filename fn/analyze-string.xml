@@ -4,6 +4,14 @@
    <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/"
          idref="func-analyze-string"/>
    <dependency type="spec" value="XP30+ XQ30+"/>      
+
+   <environment name="analyze-string-schema">
+      <schema uri="http://www.w3.org/2005/xpath-functions" 
+              file="analyze-string/analyze-string.xsd">
+	<description>The schema for analyze-string-result elements defined in Functions and Operators 3.0.</description>
+      </schema>
+   </environment>      
+
    <test-case name="analyzeString-001">
       <description> analyze-string with empty string</description>
       <created by="Michael Kay" on="2009-10-18"/>
@@ -285,6 +293,19 @@ it put its sooty foot.</fn:non-match></fn:analyze-string-result>]]></assert-seri
         import schema "http://www.w3.org/2005/xpath-functions"; 
         let $result := analyze-string("banana", "(b)(anana)") 
         return $result/fn:match[1] instance of schema-element(fn:match)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   <test-case name="analyzeString-025">
+      <description> test typing of result of analyze-string: with import-schema </description>
+      <created by="Tim Mills" on="2012-03-22"/>
+      <environment ref="analyze-string-schema" />
+      <dependency type="feature" value="schemaImport"/>
+      <dependency type="feature" value="schemaValidation"/>
+      <test>
+        analyze-string("banana", "(b)(anana)") instance of schema-element(fn:analyze-string-result)
+      </test>
       <result>
          <assert-true/>
       </result>
