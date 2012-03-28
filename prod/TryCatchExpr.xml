@@ -1001,7 +1001,7 @@
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
     
-    <test>try { fn:error() } catch * { $err:module ! true() }</test>
+    <test>try { fn:error() } catch * { let $n := $err:module return true() }</test>
     <result>
       <assert-true/>
     </result>
@@ -1037,7 +1037,7 @@
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
     
-    <test>try { fn:error() } catch * { $err:line-number ! true() }</test>
+    <test>try { fn:error() } catch * { let $n := $err:line-number return true() }</test>
     <result>
       <assert-true/>
     </result>
@@ -1073,7 +1073,7 @@
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
     
-    <test>try { fn:error() } catch * { $err:column-number ! true() }</test>
+    <test>try { fn:error() } catch * { let $n := $err:column-number return true() }</test>
     <result>
       <assert-true/>
     </result>
@@ -1242,7 +1242,10 @@
     
     <test>try { let $x as xs:integer := "" return $x } catch err:XPTY0004 { 0 }</test>
     <result>
-      <assert-eq>0</assert-eq>
+      <any-of>
+        <assert-eq>0</assert-eq>
+        <error code="XPTY0004"/>
+      </any-of>
     </result>
   </test-case>
   
@@ -1253,7 +1256,10 @@
     
     <test>for $x as xs:integer in (0, 1, "") return try { $x } catch err:XPTY0004 { 0 }</test>
     <result>
-      <error code="XPTY0004"/>
+      <any-of>
+        <assert-eq>0</assert-eq>
+        <error code="XPTY0004"/>
+      </any-of>
     </result>
   </test-case>
   
@@ -1290,7 +1296,12 @@
       start $s at $spos previous $sprev next $snext when true() end $e at
       $epos previous $eprev next $enext when true() return $x } catch err:XPTY0004 { 0 }</test>
     <result>
-      <assert-eq>0</assert-eq>
+      <result>
+        <any-of>
+          <assert-eq>0</assert-eq>
+          <error code="XPTY0004"/>
+        </any-of>
+      </result>
     </result>
   </test-case>
 
@@ -1301,7 +1312,7 @@
     
     <test>try { 1 div 0 } catch * { 0 }, try { 1 div 0 } catch err:FOAR0001 { 1}</test>
     <result>
-      <assert-serialization>0 1</assert-serialization>
+      <assert-eq>(0, 1)</assert-eq>
     </result>
   </test-case>
   
@@ -1378,15 +1389,18 @@
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
     
-    <test>(try {
-      fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:FOER0000'))
-      }
-      catch * {
-      $err:code, $err:value, " module: ",
-      $err:module, "(", $err:line-number, ",", $err:column-number, ")"
-      }) ! 0</test>
+    <test>
+      let $output := (try {
+          fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:FOER0000'))
+        }
+        catch * {
+          $err:code, $err:value, " module: ",
+          $err:module, "(", $err:line-number, ",", $err:column-number, ")"
+        })
+      return true()
+    </test>
     <result>
-      <assert-eq>0</assert-eq>
+      <assert-true/>
     </result>
   </test-case>
   
@@ -1539,7 +1553,10 @@
     
     <test>try { let $x := (1,2)[position() &lt; 3] group by $x return $x } catch err:XPTY0004 { "More than a grouping item." }</test>
     <result>
-      <assert-string-value>More than a grouping item.</assert-string-value>
+      <any-of>
+        <assert-string-value>More than a grouping item.</assert-string-value>
+        <error code="XPTY0004"/>
+      </any-of>
     </result>
   </test-case>
   
