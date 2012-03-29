@@ -24,8 +24,8 @@
    <test-case name="try-002">
       <description/>
       <created by="Michael Kay" on="2008-11-25"/>
-      <dependency type="spec" value="XQ30+"/>
       <environment ref="err"/>
+      <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[try { doc('rubbish.xml') } catch err:FODC0001 | err:FODC0002 | err:FODC0005 {"ok"}]]></test>
       <result>
          <assert-string-value>ok</assert-string-value>
@@ -483,7 +483,6 @@
     <description>A dynamic error outside a try catch expression is not caught.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>(try { "" } catch err:* { "Invalid argument" }) + 1</test>
     <result>
       <error code="XPTY0004"/>
@@ -1296,12 +1295,10 @@
       start $s at $spos previous $sprev next $snext when true() end $e at
       $epos previous $eprev next $enext when true() return $x } catch err:XPTY0004 { 0 }</test>
     <result>
-      <result>
-        <any-of>
-          <assert-eq>0</assert-eq>
-          <error code="XPTY0004"/>
-        </any-of>
-      </result>
+      <any-of>
+	<assert-eq>0</assert-eq>
+	<error code="XPTY0004"/>
+      </any-of>
     </result>
   </test-case>
 
