@@ -324,7 +324,8 @@ abracadabra", "\n")</test>
       <description> Check for the correct behavior of ^ and $ in multi-line mode This test case was motivated by the resolution of Bug Report 4543 </description>
       <created by="Andrew Eisenberg" on="2006-09-25"/>
       <modified by="Michael Kay" on="2012-01-15" change="avoid character entities, so it works in both XPath and XQuery"/>
-      <test>fn:matches("concat('abcd', codepoints-to-string(10), 'defg', codepoints-to-string(10))", "^$", "m")</test>
+      <modified by="Michael Kay" on="2012-04-19" change="remove quotes around first argument so the test does what was intended"/>      
+      <test>fn:matches(concat('abcd', codepoints-to-string(10), 'defg', codepoints-to-string(10)), "^$", "m")</test>
       <result>
          <assert-false/>
       </result>
@@ -507,11 +508,13 @@ defg
    </test-case>
    
    <test-case name="fn-matches-45">
-      <description> "." does match CR in default mode</description>
+      <description> "." does NOT match CR in default mode</description>
       <created by="Michael Kay" on="2012-01-13"/>
+      <modified by="Michael Kay" on="2012-03-28" 
+                change="See bug 15594. WG agreed that '.' should match everything except CR and NL"/>
       <test>fn:matches(concat('Mary', codepoints-to-string(13), 'Jones'), 'Mary.Jones')</test>
       <result>
-         <assert-true/>
+         <assert-false/>
       </result>
    </test-case>
    
@@ -521,6 +524,17 @@ defg
       <test>fn:matches(concat('Mary', codepoints-to-string(13), 'Jones'), 'Mary.Jones', 's')</test>
       <result>
          <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-matches-47">
+      <description> Check for the correct behavior of $ when not in multi-line mode.
+         The correct answer according to the spec is false; though some regex engines
+         are known to report true.</description>
+      <created by="Michael Kay" on="2012-04-19"/>
+      <test>fn:matches(concat('abcd', codepoints-to-string(10), 'defg', codepoints-to-string(10)), "g$")</test>
+      <result>
+         <assert-false/>
       </result>
    </test-case>
 
