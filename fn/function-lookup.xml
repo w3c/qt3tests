@@ -39,348 +39,9 @@
       </collection>
    </environment>
 
-   <test-case name="function-lookup-001">
-      <description>Applied to a built-in function</description>
-      <created by="Michael Kay" on="2011-10-27"/>
-      <test>function-lookup(QName("http://www.w3.org/2005/xpath-functions", "abs"), 1)(-3)</test>
-      <result>
-         <assert-eq>3</assert-eq>
-      </result>
-   </test-case>
-   <test-case name="function-lookup-002">
-      <description>Applied to a built-in function with variable arity</description>
-      <created by="Michael Kay" on="2011-10-27"/>
-      <test>function-lookup(QName("http://www.w3.org/2005/xpath-functions", "concat"), 3)("a", "b", "c")</test>
-      <result>
-         <assert-string-value>abc</assert-string-value>
-      </result>
-   </test-case>
-   <test-case name="function-lookup-003">
-      <description>Applied to a built-in function with zero arity</description>
-      <created by="Michael Kay" on="2011-10-27"/>
-      <test>function-lookup(QName("http://www.w3.org/2005/xpath-functions/math", "pi"), 0)() idiv 1</test>
-      <result>
-         <assert-eq>3</assert-eq>
-      </result>
-   </test-case>
-   <test-case name="function-lookup-004">
-      <description>Applied to a constructor function</description>
-      <created by="Michael Kay" on="2011-10-27"/>
-      <test>function-lookup(QName("http://www.w3.org/2001/XMLSchema", "time"), 1)("12:30:00Z")</test>
-      <result>
-         <assert-eq>xs:time("12:30:00Z")</assert-eq>
-      </result>
-   </test-case>
-   <test-case name="function-lookup-005">
-      <description>Applied to a user-defined function</description>
-      <created by="Michael Kay" on="2011-10-27"/>
-      <dependency type="spec" value="XQ30+"/>
-      <test><![CDATA[
-        xquery version "3.0";
-      	declare function local:square($i as xs:integer) as xs:integer { $i*$i };
-        function-lookup(QName("http://www.w3.org/2005/xquery-local-functions", "square"), 1)(13)
-      ]]></test>
-      <result>
-         <assert-eq>169</assert-eq>
-      </result>
-   </test-case>
-   <test-case name="function-lookup-006">
-      <description>Applied to a private user-defined function in the same module</description>
-      <created by="Michael Kay" on="2011-10-27"/>
-      <dependency type="spec" value="XQ30+"/>
-      <test><![CDATA[
-        xquery version "3.0";
-      	declare %private function local:square($i as xs:integer) as xs:integer { $i*$i };
-        function-lookup(QName("http://www.w3.org/2005/xquery-local-functions", "square"), 1)(13)
-      ]]></test>
-      <result>
-         <assert-eq>169</assert-eq>
-      </result>
-   </test-case>
-   <test-case name="function-lookup-007">
-      <description>Applied to a non-existent function</description>
-      <created by="Michael Kay" on="2011-10-27"/>
-      <test><![CDATA[
-        function-lookup(QName("http://www.w3.org/2005/xquery-local-functions", "cube"), 1)
-      ]]></test>
-      <result>
-         <assert-empty/>
-      </result>
-   </test-case>
-   <test-case name="function-lookup-008">
-      <description>Applied to a non-existent function (no namespace URI)</description>
-      <created by="Michael Kay" on="2011-10-27"/>
-      <test><![CDATA[
-        function-lookup(QName("", "round"), 2)
-      ]]></test>
-      <result>
-         <assert-empty/>
-      </result>
-   </test-case>
-   <test-case name="function-lookup-009">
-      <description>Get the name and arity of the result</description>
-      <created by="Michael Kay" on="2011-10-27"/>
-      <test><![CDATA[
-        function-lookup(QName("http://www.w3.org/2005/xpath-functions", "round"), 2) ! 
-                   (function-name(.) ! (namespace-uri-from-QName(.), local-name-from-QName(.)), function-arity(.))
-      ]]></test>
-      <result>
-         <assert-string-value>http://www.w3.org/2005/xpath-functions round 2</assert-string-value>
-      </result>
-   </test-case>
-   <test-case name="function-lookup-010">
-      <description>Call the function with the wrong number of arguments</description>
-      <created by="Michael Kay" on="2011-10-27"/>
-      <dependency type="spec" value="XQ30+"/>
-      <test><![CDATA[
-        xquery version "3.0";
-      	declare %private function local:square($i as xs:integer) as xs:integer { $i*$i };
-        function-lookup(QName("http://www.w3.org/2005/xquery-local-functions", "square"), 1)(13, 12)
-      ]]></test>
-      <result>
-         <error code="XPTY0004"/>
-      </result>
-   </test-case>
-   <test-case name="function-lookup-011">
-      <description>Call the function with the wrong type of argument</description>
-      <created by="Michael Kay" on="2011-10-27"/>
-      <dependency type="spec" value="XQ30+"/>
-      <test><![CDATA[
-        xquery version "3.0";
-      	declare %private function local:square($i as xs:integer) as xs:integer { $i*$i };
-        function-lookup(QName("http://www.w3.org/2005/xquery-local-functions", "square"), 1)("banana")
-      ]]></test>
-      <result>
-         <error code="XPTY0004"/>
-      </result>
-   </test-case>
-   <test-case name="function-lookup-012">
-      <description>Curry the resulting function</description>
-      <created by="Michael Kay" on="2011-10-27"/>
-      <test>function-lookup(QName("http://www.w3.org/2005/xpath-functions", "round"), 2)(?, 3)(1.2345678)</test>
-      <result>
-         <assert-string-value>1.235</assert-string-value>
-      </result>
-   </test-case>
-   <test-case name="function-lookup-013">
-      <description>Function lookup creating a circular dependency (see bug 15791 - provisional outcome)</description>
-      <created by="Tim Mills" on="2012-01-30"/>
-      <dependency type="spec" value="XQ30+"/>
-      <test><![CDATA[
-        declare variable $n external := xs:QName('local:return-v');
-        declare variable $v := function-lookup($n, 0)();
-        declare function local:return-v() {$v + 1};
-        $v
-      ]]></test>
-      <result>
-         <error code="XQST0054"/>
-      </result>
-   </test-case>
-   <test-case name="function-lookup-014">
-       <description>Function lookup accessing an EXSLT extension function, with two possible results</description>
-      <created by="Michael Kay" on="2012-02-28"/>
-      <dependency type="spec" value="XQ30+"/>
-      <test><![CDATA[
-        let $f := function-lookup(QName("http://exslt.org/dates-and-times", "month-abbreviation"), 1)
-        return if (exists($f)) then $f("2012-02-28") else "not-available"
-      ]]></test>
-      <result>
-         <any-of>
-           <assert-string-value>not-available</assert-string-value>
-           <assert-string-value>Feb</assert-string-value>
-         </any-of>  
-      </result>
-   </test-case>
-   <test-case name="function-lookup-015">
-       <description>Function lookup accessing an eXist extension function, with two possible results</description>
-      <created by="Michael Kay" on="2012-02-28"/>
-      <dependency type="spec" value="XQ30+"/>
-      <test><![CDATA[
-        let $f := function-lookup(QName("http://exist-db.org/xquery/datetime", "days-in-month"), 1)
-        return if (exists($f)) then $f(xs:date("2012-02-28")) else "not-available"
-      ]]></test>
-      <result>
-         <any-of>
-           <assert-string-value>not-available</assert-string-value>
-           <assert-string-value>29</assert-string-value>
-         </any-of>  
-      </result>
-   </test-case>
+   
 
-   <test-case name="fn-function-lookup-01">
-      <description>Attempts to evaluate the "function-lookup" function with no arguments.</description>
-      <created by="Tim Mills" on="2011-11-28"/>
-      <dependency type="spec" value="XP30+ XQ30+"/>
-      <test>fn:function-lookup()</test>
-      <result>
-         <error code="XPST0017" />
-      </result>
-   </test-case>
-
-   <test-case name="fn-function-lookup-02">
-      <description>Attempts to reference the "function-lookup" function with arity zero.</description>
-      <created by="Tim Mills" on="2011-11-28"/>
-      <dependency type="spec" value="XP30+ XQ30+"/>
-      <test>fn:function-lookup#0</test>
-      <result>
-         <error code="XPST0017" />
-      </result>
-   </test-case>
-
-   <test-case name="fn-function-lookup-03">
-      <description>Attempts to evaluate the "function-lookup" function with one argument.</description>
-      <created by="Tim Mills" on="2011-11-28"/>
-      <dependency type="spec" value="XP30+ XQ30+"/>
-      <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'node-name'))</test>
-      <result>
-         <error code="XPST0017" />
-      </result>
-   </test-case>
-
-   <test-case name="fn-function-lookup-04">
-      <description>Attempts to reference the "function-lookup" function with arity one.</description>
-      <created by="Tim Mills" on="2011-11-28"/>
-      <dependency type="spec" value="XP30+ XQ30+"/>
-      <test>fn:function-lookup#1</test>
-      <result>
-         <error code="XPST0017" />
-      </result>
-   </test-case>
-
-   <test-case name="fn-function-lookup-05">
-      <description>Attempts to evaluate the "function-lookup" function with three argument.</description>
-      <created by="Tim Mills" on="2011-11-28"/>
-      <dependency type="spec" value="XP30+ XQ30+"/>
-      <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'node-name'), 1, ())</test>
-      <result>
-         <error code="XPST0017" />
-      </result>
-   </test-case>
-
-   <test-case name="fn-function-lookup-06">
-      <description>Attempts to reference the "function-lookup" function with arity three.</description>
-      <created by="Tim Mills" on="2011-11-28"/>
-      <dependency type="spec" value="XP30+ XQ30+"/>
-      <test>fn:function-lookup#3</test>
-      <result>
-         <error code="XPST0017" />
-      </result>
-   </test-case>
-
-   <test-case name="fn-function-lookup-07">
-      <description>Evaluates the "function-lookup" function with the argument set as follows: $name = () </description>
-      <created by="Tim Mills" on="2011-11-28"/>
-      <dependency type="spec" value="XP30+ XQ30+"/>
-      <test>fn:function-lookup( (), 1 )</test>
-      <result>
-         <error code="XPTY0004" />
-      </result>
-   </test-case>
-
-   <test-case name="fn-function-lookup-08">
-      <description>Evaluates the "function-lookup" function with the argument set as follows: $arity = () </description>
-      <created by="Tim Mills" on="2011-11-28"/>
-      <dependency type="spec" value="XP30+ XQ30+"/>
-      <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'node-name'), ())</test>
-      <result>
-         <error code="XPTY0004" />
-      </result>
-   </test-case>
-
-   <test-case name="fn-function-lookup-09">
-      <description>Attempts to evaluate the "function-lookup" function with invalid arguments.</description>
-      <created by="Tim Mills" on="2011-11-28"/>
-      <dependency type="spec" value="XP30+ XQ30+"/>
-      <test>function-lookup((fn:QName('http://www.w3.org/2005/xpath-functions', 'node-name'), fn:QName('http://www.w3.org/2005/xpath-functions', 'node-name')), 1)</test>
-      <result>
-         <error code="XPTY0004" />
-      </result>
-   </test-case>
-
-   <test-case name="fn-function-lookup-10">
-      <description>Attempts to evaluate the "function-lookup" function with invalid arguments.</description>
-      <created by="Tim Mills" on="2011-11-28"/>
-      <dependency type="spec" value="XP30+ XQ30+"/>
-      <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'node-name'), (1, 2))</test>
-      <result>
-         <error code="XPTY0004" />
-      </result>
-   </test-case>
-
-   <test-case name="fn-function-lookup-11">
-      <description>Tests the type checking of the argument.</description>
-      <created by="Tim Mills" on="2011-11-28"/>
-      <dependency type="spec" value="XP30+ XQ30+"/>
-      <dependency type="feature" value="staticTyping"/>
-      <test>fn:function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'node-name'),
-                               if ( fn:current-dateTime() eq
-                                    fn:dateTime( fn:current-date(),
-                                                 fn:current-time() ))
-                               then ()
-                               else 1 )</test>
-      <result>
-         <error code="XPTY0004" />
-      </result>
-   </test-case>
-
-   <test-case name="fn-function-lookup-12">
-      <description>Tests the type checking of the argument.</description>
-      <created by="Tim Mills" on="2011-11-28"/>
-      <dependency type="spec" value="XP30+ XQ30+"/>
-      <test>( fn:function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'node-name'),
-                                 if (current-date() eq xs:date('1900-01-01'))
-                                 then ()
-                                 else 1 ),
-              fn:function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'node-name'),
-                                 if (current-date() eq xs:date('1900-01-01'))
-                                 then 1
-                                 else () ) )</test>
-      <result>
-	  <error code="XPTY0004" />
-      </result>
-   </test-case>
-
-   <test-case name="fn-function-lookup-13">
-      <description>Tests the type checking of the argument.</description>
-      <created by="Tim Mills" on="2011-11-28"/>
-      <dependency type="feature" value="staticTyping"/>
-      <dependency type="spec" value="XP30+ XQ30+"/>
-      <test>fn:function-lookup((if ( fn:current-dateTime() eq
-                                    fn:dateTime( fn:current-date(),
-                                                 fn:current-time() ))
-                                then fn:QName('http://www.w3.org/2005/xpath-functions', 'node-name')
-                                else ()),
-                               1)</test>
-      <result>
-         <error code="XPTY0004" />
-      </result>
-   </test-case>
-
-   <test-case name="fn-function-lookup-14">
-      <description>Tests the type checking of the argument.</description>
-      <created by="Tim Mills" on="2011-11-28"/>
-      <dependency type="spec" value="XP30+ XQ30+"/>
-      <test>( fn:function-lookup((if (current-date() eq xs:date('1900-01-01'))
-                                  then fn:QName('http://www.w3.org/2005/xpath-functions', 'node-name')
-                                  else ()), 1),
-              fn:function-lookup((if (current-date() eq xs:date('1900-01-01'))
-                                  then ()
-                                  else fn:QName('http://www.w3.org/2005/xpath-functions', 'node-name')), 1))</test>
-      <result>
-	  <error code="XPTY0004" />
-      </result>
-   </test-case>
-
-   <test-case name="fn-function-lookup-15">
-      <description>Tests the return type of the "function-lookup" function.</description>
-      <created by="Tim Mills" on="2011-11-28"/>
-      <dependency type="spec" value="XP30+ XQ30+"/>
-      <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'node-name'), 1)</test>
-      <result>
-         <assert-type>function(*)</assert-type>
-      </result>
-   </test-case>
-
+   
   <test-case name="fn-function-lookup-001">
     <description>Attempts to look up function fn:node-name.</description>
     <created by="Tim Mills" on="2011-11-28"/>
@@ -4742,4 +4403,347 @@
       <error code="XPTY0004" />
     </result>
   </test-case>
+  
+  <test-case name="fn-function-lookup-601">
+      <description>Applied to a built-in function</description>
+      <created by="Michael Kay" on="2011-10-27"/>
+      <test>function-lookup(QName("http://www.w3.org/2005/xpath-functions", "abs"), 1)(-3)</test>
+      <result>
+         <assert-eq>3</assert-eq>
+      </result>
+   </test-case>
+   <test-case name="fn-function-lookup-602">
+      <description>Applied to a built-in function with variable arity</description>
+      <created by="Michael Kay" on="2011-10-27"/>
+      <test>function-lookup(QName("http://www.w3.org/2005/xpath-functions", "concat"), 3)("a", "b", "c")</test>
+      <result>
+         <assert-string-value>abc</assert-string-value>
+      </result>
+   </test-case>
+   <test-case name="fn-function-lookup-603">
+      <description>Applied to a built-in function with zero arity</description>
+      <created by="Michael Kay" on="2011-10-27"/>
+      <test>function-lookup(QName("http://www.w3.org/2005/xpath-functions/math", "pi"), 0)() idiv 1</test>
+      <result>
+         <assert-eq>3</assert-eq>
+      </result>
+   </test-case>
+   <test-case name="fn-function-lookup-004">
+      <description>Applied to a constructor function</description>
+      <created by="Michael Kay" on="2011-10-27"/>
+      <test>function-lookup(QName("http://www.w3.org/2001/XMLSchema", "time"), 1)("12:30:00Z")</test>
+      <result>
+         <assert-eq>xs:time("12:30:00Z")</assert-eq>
+      </result>
+   </test-case>
+   <test-case name="fn-function-lookup-605">
+      <description>Applied to a user-defined function</description>
+      <created by="Michael Kay" on="2011-10-27"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        xquery version "3.0";
+      	declare function local:square($i as xs:integer) as xs:integer { $i*$i };
+        function-lookup(QName("http://www.w3.org/2005/xquery-local-functions", "square"), 1)(13)
+      ]]></test>
+      <result>
+         <assert-eq>169</assert-eq>
+      </result>
+   </test-case>
+   <test-case name="fn-function-lookup-606">
+      <description>Applied to a private user-defined function in the same module</description>
+      <created by="Michael Kay" on="2011-10-27"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        xquery version "3.0";
+      	declare %private function local:square($i as xs:integer) as xs:integer { $i*$i };
+        function-lookup(QName("http://www.w3.org/2005/xquery-local-functions", "square"), 1)(13)
+      ]]></test>
+      <result>
+         <assert-eq>169</assert-eq>
+      </result>
+   </test-case>
+   <test-case name="fn-function-lookup-607">
+      <description>Applied to a non-existent function</description>
+      <created by="Michael Kay" on="2011-10-27"/>
+      <test><![CDATA[
+        function-lookup(QName("http://www.w3.org/2005/xquery-local-functions", "cube"), 1)
+      ]]></test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+   <test-case name="fn-function-lookup-608">
+      <description>Applied to a non-existent function (no namespace URI)</description>
+      <created by="Michael Kay" on="2011-10-27"/>
+      <test><![CDATA[
+        function-lookup(QName("", "round"), 2)
+      ]]></test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+   <test-case name="fn-function-lookup-609">
+      <description>Get the name and arity of the result</description>
+      <created by="Michael Kay" on="2011-10-27"/>
+      <test><![CDATA[
+        function-lookup(QName("http://www.w3.org/2005/xpath-functions", "round"), 2) ! 
+                   (function-name(.) ! (namespace-uri-from-QName(.), local-name-from-QName(.)), function-arity(.))
+      ]]></test>
+      <result>
+         <assert-string-value>http://www.w3.org/2005/xpath-functions round 2</assert-string-value>
+      </result>
+   </test-case>
+   <test-case name="fn-function-lookup-610">
+      <description>Call the function with the wrong number of arguments</description>
+      <created by="Michael Kay" on="2011-10-27"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        xquery version "3.0";
+      	declare %private function local:square($i as xs:integer) as xs:integer { $i*$i };
+        function-lookup(QName("http://www.w3.org/2005/xquery-local-functions", "square"), 1)(13, 12)
+      ]]></test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   <test-case name="fn-function-lookup-611">
+      <description>Call the function with the wrong type of argument</description>
+      <created by="Michael Kay" on="2011-10-27"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        xquery version "3.0";
+      	declare %private function local:square($i as xs:integer) as xs:integer { $i*$i };
+        function-lookup(QName("http://www.w3.org/2005/xquery-local-functions", "square"), 1)("banana")
+      ]]></test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   <test-case name="fn-function-lookup-612">
+      <description>Curry the resulting function</description>
+      <created by="Michael Kay" on="2011-10-27"/>
+      <test>function-lookup(QName("http://www.w3.org/2005/xpath-functions", "round"), 2)(?, 3)(1.2345678)</test>
+      <result>
+         <assert-string-value>1.235</assert-string-value>
+      </result>
+   </test-case>
+   <test-case name="fn-function-lookup-613">
+      <description>Function lookup creating a circular dependency (see bug 15791 - provisional outcome)</description>
+      <created by="Tim Mills" on="2012-01-30"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        declare variable $n external := xs:QName('local:return-v');
+        declare variable $v := function-lookup($n, 0)();
+        declare function local:return-v() {$v + 1};
+        $v
+      ]]></test>
+      <result>
+         <error code="XQST0054"/>
+      </result>
+   </test-case>
+   <test-case name="fn-function-lookup-614">
+       <description>Function lookup accessing an EXSLT extension function, with two possible results</description>
+      <created by="Michael Kay" on="2012-02-28"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        let $f := function-lookup(QName("http://exslt.org/dates-and-times", "month-abbreviation"), 1)
+        return if (exists($f)) then $f("2012-02-28") else "not-available"
+      ]]></test>
+      <result>
+         <any-of>
+           <assert-string-value>not-available</assert-string-value>
+           <assert-string-value>Feb</assert-string-value>
+         </any-of>  
+      </result>
+   </test-case>
+   <test-case name="fn-function-lookup-615">
+       <description>Function lookup accessing an eXist extension function, with two possible results</description>
+      <created by="Michael Kay" on="2012-02-28"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        let $f := function-lookup(QName("http://exist-db.org/xquery/datetime", "days-in-month"), 1)
+        return if (exists($f)) then $f(xs:date("2012-02-28")) else "not-available"
+      ]]></test>
+      <result>
+         <any-of>
+           <assert-string-value>not-available</assert-string-value>
+           <assert-string-value>29</assert-string-value>
+         </any-of>  
+      </result>
+   </test-case>
+   
+   <test-case name="fn-function-lookup-701">
+      <description>Attempts to evaluate the "function-lookup" function with no arguments.</description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:function-lookup()</test>
+      <result>
+         <error code="XPST0017" />
+      </result>
+   </test-case>
+
+   <test-case name="fn-function-lookup-702">
+      <description>Attempts to reference the "function-lookup" function with arity zero.</description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:function-lookup#0</test>
+      <result>
+         <error code="XPST0017" />
+      </result>
+   </test-case>
+
+   <test-case name="fn-function-lookup-703">
+      <description>Attempts to evaluate the "function-lookup" function with one argument.</description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'node-name'))</test>
+      <result>
+         <error code="XPST0017" />
+      </result>
+   </test-case>
+
+   <test-case name="fn-function-lookup-704">
+      <description>Attempts to reference the "function-lookup" function with arity one.</description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:function-lookup#1</test>
+      <result>
+         <error code="XPST0017" />
+      </result>
+   </test-case>
+
+   <test-case name="fn-function-lookup-705">
+      <description>Attempts to evaluate the "function-lookup" function with three argument.</description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'node-name'), 1, ())</test>
+      <result>
+         <error code="XPST0017" />
+      </result>
+   </test-case>
+
+   <test-case name="fn-function-lookup-706">
+      <description>Attempts to reference the "function-lookup" function with arity three.</description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:function-lookup#3</test>
+      <result>
+         <error code="XPST0017" />
+      </result>
+   </test-case>
+
+   <test-case name="fn-function-lookup-707">
+      <description>Evaluates the "function-lookup" function with the argument set as follows: $name = () </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:function-lookup( (), 1 )</test>
+      <result>
+         <error code="XPTY0004" />
+      </result>
+   </test-case>
+
+   <test-case name="fn-function-lookup-708">
+      <description>Evaluates the "function-lookup" function with the argument set as follows: $arity = () </description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'node-name'), ())</test>
+      <result>
+         <error code="XPTY0004" />
+      </result>
+   </test-case>
+
+   <test-case name="fn-function-lookup-709">
+      <description>Attempts to evaluate the "function-lookup" function with invalid arguments.</description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>function-lookup((fn:QName('http://www.w3.org/2005/xpath-functions', 'node-name'), fn:QName('http://www.w3.org/2005/xpath-functions', 'node-name')), 1)</test>
+      <result>
+         <error code="XPTY0004" />
+      </result>
+   </test-case>
+
+   <test-case name="fn-function-lookup-710">
+      <description>Attempts to evaluate the "function-lookup" function with invalid arguments.</description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'node-name'), (1, 2))</test>
+      <result>
+         <error code="XPTY0004" />
+      </result>
+   </test-case>
+
+   <test-case name="fn-function-lookup-711">
+      <description>Tests the type checking of the argument.</description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <dependency type="feature" value="staticTyping"/>
+      <test>fn:function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'node-name'),
+                               if ( fn:current-dateTime() eq
+                                    fn:dateTime( fn:current-date(),
+                                                 fn:current-time() ))
+                               then ()
+                               else 1 )</test>
+      <result>
+         <error code="XPTY0004" />
+      </result>
+   </test-case>
+
+   <test-case name="fn-function-lookup-712">
+      <description>Tests the type checking of the argument.</description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>( fn:function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'node-name'),
+                                 if (current-date() eq xs:date('1900-01-01'))
+                                 then ()
+                                 else 1 ),
+              fn:function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'node-name'),
+                                 if (current-date() eq xs:date('1900-01-01'))
+                                 then 1
+                                 else () ) )</test>
+      <result>
+	  <error code="XPTY0004" />
+      </result>
+   </test-case>
+
+   <test-case name="fn-function-lookup-713">
+      <description>Tests the type checking of the argument.</description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <dependency type="feature" value="staticTyping"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:function-lookup((if ( fn:current-dateTime() eq
+                                    fn:dateTime( fn:current-date(),
+                                                 fn:current-time() ))
+                                then fn:QName('http://www.w3.org/2005/xpath-functions', 'node-name')
+                                else ()),
+                               1)</test>
+      <result>
+         <error code="XPTY0004" />
+      </result>
+   </test-case>
+
+   <test-case name="fn-function-lookup-714">
+      <description>Tests the type checking of the argument.</description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>( fn:function-lookup((if (current-date() eq xs:date('1900-01-01'))
+                                  then fn:QName('http://www.w3.org/2005/xpath-functions', 'node-name')
+                                  else ()), 1),
+              fn:function-lookup((if (current-date() eq xs:date('1900-01-01'))
+                                  then ()
+                                  else fn:QName('http://www.w3.org/2005/xpath-functions', 'node-name')), 1))</test>
+      <result>
+	  <error code="XPTY0004" />
+      </result>
+   </test-case>
+
+   <test-case name="fn-function-lookup-715">
+      <description>Tests the return type of the "function-lookup" function.</description>
+      <created by="Tim Mills" on="2011-11-28"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'node-name'), 1)</test>
+      <result>
+         <assert-type>function(*)</assert-type>
+      </result>
+   </test-case>
+
 </test-set>
