@@ -5,13 +5,7 @@
          idref="func-function-lookup"/>
    <dependency type="spec" value="XP30+ XQ30+"/>
 
-  <!-- NOTE: This is a work in progresss.
-             These tests were written before the decision permit creation
-             and/or invocation of function items for context senstive functions
-             was reconsidered.
-       NOTE: An error code has yet to be defined for dynamic invocation of
-             an context sensitive function.  XPST0112 has been used in the
-             meantime.
+  <!-- 
        TODO: function-lookup of constructors from schema imports.
        TODO: function-lookup of user defined functions.
        TODO: function-lookup across module boundaries.
@@ -31,7 +25,19 @@
          <description>UTF-8 encoded plain text.</description>
          <created by="Tim Mills" on="2012-01-05"/>
       </resource>
-  </environment>
+      <collection uri="">
+	<source file="function-lookup/collection-1.xml" 
+                uri="http://www.w3.org/fots/fn/function-lookup/collection-1.xml">
+	  <description>Data for function-lookup tests</description>
+         <created by="Tim Mills" on="2012-04-16"/>
+	</source>
+	<source file="function-lookup/collection-2.xml" 
+                uri="http://www.w3.org/fots/fn/function-lookup/collection-2.xml">
+	  <description>Data for function-lookup tests</description>
+	  <created by="Tim Mills" on="2012-04-16"/>
+	</source>     
+      </collection>
+   </environment>
 
    <test-case name="function-lookup-001">
       <description>Applied to a built-in function</description>
@@ -386,9 +392,11 @@
   <test-case name="fn-function-lookup-002">
     <description>Attempts to invoke function fn:node-name.</description>
     <created by="Tim Mills" on="2011-11-28"/>
-    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'node-name'), 0)()</test>
+    <modified by="Tim Mills" on="2012-05-01" change="Context-dependent function invocation now permitted" />
+    <environment ref="function-lookup" />
+    <test>/root/function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'node-name'), 0)()</test>
     <result>
-      <error code="XPST0112" />
+      <assert-string-value>root</assert-string-value>
     </result>
   </test-case>
   <test-case name="fn-function-lookup-003">
@@ -419,9 +427,11 @@
   <test-case name="fn-function-lookup-006">
     <description>Attempts to invoke function fn:nilled.</description>
     <created by="Tim Mills" on="2011-11-28"/>
-    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'nilled'), 0)()</test>
+    <modified by="Tim Mills" on="2012-05-01" change="Context-dependent function invocation now permitted" />
+    <environment ref="function-lookup" />
+    <test>/root/function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'nilled'), 0)()</test>
     <result>
-      <error code="XPST0112" />
+      <assert-string-value>false</assert-string-value>
     </result>
   </test-case>
   <test-case name="fn-function-lookup-007">
@@ -452,9 +462,11 @@
   <test-case name="fn-function-lookup-010">
     <description>Attempts to invoke function fn:string.</description>
     <created by="Tim Mills" on="2011-11-28"/>
-    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'string'), 0)()</test>
+    <modified by="Tim Mills" on="2012-05-01" change="Context-dependent function invocation now permitted" />
+    <environment ref="function-lookup" />
+    <test>/root/child/function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'string'), 0)()</test>
     <result>
-      <error code="XPST0112" />
+      <assert-string-value>1</assert-string-value>
     </result>
   </test-case>
   <test-case name="fn-function-lookup-011">
@@ -484,9 +496,11 @@
   <test-case name="fn-function-lookup-014">
     <description>Attempts to invoke function fn:data.</description>
     <created by="Tim Mills" on="2011-11-28"/>
-    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'data'), 0)()</test>
+    <modified by="Tim Mills" on="2012-05-01" change="Context-dependent function invocation now permitted" />
+    <environment ref="function-lookup" />
+    <test>/root/child/function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'data'), 0)()</test>
     <result>
-      <error code="XPST0112" />
+      <assert-string-value>1</assert-string-value>
     </result>
   </test-case>
   <test-case name="fn-function-lookup-015">
@@ -517,9 +531,11 @@
   <test-case name="fn-function-lookup-018">
     <description>Attempts to invoke function fn:base-uri.</description>
     <created by="Tim Mills" on="2011-11-28"/>
-    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'base-uri'), 0)()</test>
+    <modified by="Tim Mills" on="2012-05-01" change="Context-dependent function invocation now permitted" />
+    <environment ref="function-lookup" />
+    <test>/root/function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'base-uri'), 0)()</test>
     <result>
-      <error code="XPST0112" />
+      <assert-string-value>http://www.w3.org/fots/fn/function-lookup/function-lookup.xml</assert-string-value>
     </result>
   </test-case>
   <test-case name="fn-function-lookup-019">
@@ -550,9 +566,11 @@
   <test-case name="fn-function-lookup-022">
     <description>Attempts to invoke function fn:document-uri.</description>
     <created by="Tim Mills" on="2011-11-28"/>
-    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'document-uri'), 0)()</test>
+    <modified by="Tim Mills" on="2012-05-01" change="Context-dependent function invocation now permitted" />
+    <environment ref="function-lookup" />
+    <test>/function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'document-uri'), 0)()</test>
     <result>
-      <error code="XPST0112" />
+      <assert-string-value>http://www.w3.org/fots/fn/function-lookup/function-lookup.xml</assert-string-value>
     </result>
   </test-case>
   <test-case name="fn-function-lookup-023">
@@ -775,9 +793,11 @@
   <test-case name="fn-function-lookup-050">
     <description>Attempts to invoke function fn:number.</description>
     <created by="Tim Mills" on="2011-11-28"/>
-    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'number'), 0)()</test>
+    <modified by="Tim Mills" on="2012-05-01" change="Context-dependent function invocation now permitted" />
+    <environment ref="function-lookup" />
+    <test>/root/child/function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'number'), 0)()</test>
     <result>
-      <error code="XPST0112" />
+      <assert-string-value>1</assert-string-value>
     </result>
   </test-case>
   <test-case name="fn-function-lookup-051">
@@ -1255,9 +1275,11 @@
   <test-case name="fn-function-lookup-110">
     <description>Attempts to invoke function fn:string-length.</description>
     <created by="Tim Mills" on="2011-11-28"/>
-    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'string-length'), 0)()</test>
+    <modified by="Tim Mills" on="2012-05-01" change="Context-dependent function invocation now permitted" />
+    <environment ref="function-lookup" />
+    <test>/root/child/function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'string-length'), 0)()</test>
     <result>
-      <error code="XPST0112" />
+      <assert-string-value>1</assert-string-value>
     </result>
   </test-case>
   <test-case name="fn-function-lookup-111">
@@ -1287,9 +1309,11 @@
   <test-case name="fn-function-lookup-114">
     <description>Attempts to invoke function fn:normalize-space.</description>
     <created by="Tim Mills" on="2011-11-28"/>
-    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'normalize-space'), 0)()</test>
+    <modified by="Tim Mills" on="2012-05-01" change="Context-dependent function invocation now permitted" />
+    <environment ref="function-lookup" />
+    <test>/root/child/function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'normalize-space'), 0)()</test>
     <result>
-      <error code="XPST0112" />
+      <assert-string-value>1</assert-string-value>
     </result>
   </test-case>
   <test-case name="fn-function-lookup-115">
@@ -1687,9 +1711,10 @@
   <test-case name="fn-function-lookup-164">
     <description>Attempts to invoke function fn:resolve-uri.</description>
     <created by="Tim Mills" on="2011-11-28"/>
+    <modified by="Tim Mills" on="2012-05-01" change="Context-dependent function invocation now permitted" />
     <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'resolve-uri'), 1)('http://www.w3.org/2005/xpath-functions')</test>
     <result>
-      <error code="XPST0112" />
+      <assert-type>xs:anyURI</assert-type>
     </result>
   </test-case>
   <test-case name="fn-function-lookup-165">
@@ -2183,9 +2208,10 @@
   <test-case name="fn-function-lookup-226">
     <description>Attempts to invoke function fn:adjust-dateTime-to-timezone.</description>
     <created by="Tim Mills" on="2011-11-28"/>
+    <modified by="Tim Mills" on="2012-05-01" change="Context-dependent function invocation now permitted" />
     <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'adjust-dateTime-to-timezone'), 1)(xs:dateTime('2012-01-01T00:00:00Z'))</test>
     <result>
-      <error code="XPST0112" />
+      <assert-type>xs:dateTime</assert-type>
     </result>
   </test-case>
   <test-case name="fn-function-lookup-227">
@@ -2215,9 +2241,10 @@
   <test-case name="fn-function-lookup-230">
     <description>Attempts to invoke function fn:adjust-date-to-timezone.</description>
     <created by="Tim Mills" on="2011-11-28"/>
+    <modified by="Tim Mills" on="2012-05-01" change="Context-dependent function invocation now permitted" />
     <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'adjust-date-to-timezone'), 1)(xs:date('2012-01-01Z'))</test>
     <result>
-      <error code="XPST0112" />
+      <assert-type>xs:date</assert-type>
     </result>
   </test-case>
   <test-case name="fn-function-lookup-231">
@@ -2248,9 +2275,10 @@
   <test-case name="fn-function-lookup-234">
     <description>Attempts to invoke function fn:adjust-time-to-timezone.</description>
     <created by="Tim Mills" on="2011-11-28"/>
+    <modified by="Tim Mills" on="2012-05-01" change="Context-dependent function invocation now permitted" />
     <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'adjust-time-to-timezone'), 1)(xs:time('00:00:00Z'))</test>
     <result>
-      <error code="XPST0112" />
+      <assert-type>xs:time</assert-type>
     </result>
   </test-case>
   <test-case name="fn-function-lookup-235">
@@ -2280,9 +2308,10 @@
   <test-case name="fn-function-lookup-238">
     <description>Attempts to invoke function fn:format-dateTime.</description>
     <created by="Tim Mills" on="2011-11-28"/>
+    <modified by="Tim Mills" on="2012-05-01" change="Context-dependent function invocation now permitted" />
     <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'format-dateTime'), 2)(xs:dateTime('2012-01-01T00:00:00Z'), '[Y]')</test>
     <result>
-      <error code="XPST0112" />
+      <assert-type>xs:string</assert-type>
     </result>
   </test-case>
   <test-case name="fn-function-lookup-239">
@@ -2312,9 +2341,10 @@
   <test-case name="fn-function-lookup-242">
     <description>Attempts to invoke function fn:format-date.</description>
     <created by="Tim Mills" on="2011-11-28"/>
+    <modified by="Tim Mills" on="2012-05-01" change="Context-dependent function invocation now permitted" />
     <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'format-date'), 2)(xs:date('2012-01-01Z'), '[Y]')</test>
     <result>
-      <error code="XPST0112" />
+      <assert-type>xs:string</assert-type>
     </result>
   </test-case>
   <test-case name="fn-function-lookup-243">
@@ -2344,9 +2374,10 @@
   <test-case name="fn-function-lookup-246">
     <description>Attempts to invoke function fn:format-time.</description>
     <created by="Tim Mills" on="2011-11-28"/>
+    <modified by="Tim Mills" on="2012-05-01" change="Context-dependent function invocation now permitted" />
     <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'format-time'), 2)(xs:time('00:00:00Z'), '[H01]')</test>
     <result>
-      <error code="XPST0112" />
+      <assert-type>xs:string</assert-type>
     </result>
   </test-case>
   <test-case name="fn-function-lookup-247">
@@ -2491,9 +2522,11 @@
   <test-case name="fn-function-lookup-264">
     <description>Attempts to invoke function fn:name.</description>
     <created by="Tim Mills" on="2011-11-28"/>
-    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'name'), 0)()</test>
+    <modified by="Tim Mills" on="2012-05-01" change="Context-dependent function invocation now permitted" />
+    <environment ref="function-lookup" />
+    <test>/root/function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'name'), 0)()</test>
     <result>
-      <error code="XPST0112" />
+      <assert-string-value>root</assert-string-value>
     </result>
   </test-case>
   <test-case name="fn-function-lookup-265">
@@ -2524,9 +2557,11 @@
   <test-case name="fn-function-lookup-268">
     <description>Attempts to invoke function fn:local-name.</description>
     <created by="Tim Mills" on="2011-11-28"/>
-    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'local-name'), 0)()</test>
+    <modified by="Tim Mills" on="2012-05-01" change="Context-dependent function invocation now permitted" />
+    <environment ref="function-lookup" />
+    <test>/root/function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'local-name'), 0)()</test>
     <result>
-      <error code="XPST0112" />
+      <assert-string-value>root</assert-string-value>
     </result>
   </test-case>
   <test-case name="fn-function-lookup-269">
@@ -2557,9 +2592,11 @@
   <test-case name="fn-function-lookup-272">
     <description>Attempts to invoke function fn:namespace-uri.</description>
     <created by="Tim Mills" on="2011-11-28"/>
-    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'namespace-uri'), 0)()</test>
+    <modified by="Tim Mills" on="2012-05-01" change="Context-dependent function invocation now permitted" />
+    <environment ref="function-lookup" />
+    <test>/root/*[2]/function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'namespace-uri'), 0)()</test>
     <result>
-      <error code="XPST0112" />
+      <assert-string-value>http://www.example.org/</assert-string-value>
     </result>
   </test-case>
   <test-case name="fn-function-lookup-273">
@@ -2590,9 +2627,11 @@
   <test-case name="fn-function-lookup-276">
     <description>Attempts to invoke function fn:lang.</description>
     <created by="Tim Mills" on="2011-11-28"/>
-    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'lang'), 1)('en')</test>
+    <modified by="Tim Mills" on="2012-05-01" change="Context-dependent function invocation now permitted" />
+    <environment ref="function-lookup" />
+    <test>/root/function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'lang'), 1)('en')</test>
     <result>
-      <error code="XPST0112" />
+      <assert-false />
     </result>
   </test-case>
   <test-case name="fn-function-lookup-277">
@@ -2623,9 +2662,11 @@
   <test-case name="fn-function-lookup-280">
     <description>Attempts to invoke function fn:root.</description>
     <created by="Tim Mills" on="2011-11-28"/>
-    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'root'), 0)()</test>
+    <modified by="Tim Mills" on="2012-05-01" change="Context-dependent function invocation now permitted" />
+    <environment ref="function-lookup" />
+    <test>/root/function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'root'), 0)()</test>
     <result>
-      <error code="XPST0112" />
+      <assert-type>document-node()</assert-type>
     </result>
   </test-case>
   <test-case name="fn-function-lookup-281">
@@ -2655,9 +2696,11 @@
   <test-case name="fn-function-lookup-284">
     <description>Attempts to invoke function fn:path.</description>
     <created by="Tim Mills" on="2011-11-28"/>
-    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'path'), 0)()</test>
+    <modified by="Tim Mills" on="2012-05-01" change="Context-dependent function invocation now permitted" />
+    <environment ref="function-lookup" />
+    <test>/function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'path'), 0)()</test>
     <result>
-      <error code="XPST0112" />
+      <assert-string-value>/</assert-string-value>
     </result>
   </test-case>
   <test-case name="fn-function-lookup-285">
@@ -2688,9 +2731,11 @@
   <test-case name="fn-function-lookup-288">
     <description>Attempts to invoke function fn:has-children.</description>
     <created by="Tim Mills" on="2011-11-28"/>
-    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'has-children'), 0)()</test>
+    <modified by="Tim Mills" on="2012-05-01" change="Context-dependent function invocation now permitted" />
+    <environment ref="function-lookup" />
+    <test>/function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'has-children'), 0)()</test>
     <result>
-      <error code="XPST0112" />
+      <assert-true/>
     </result>
   </test-case>
   <test-case name="fn-function-lookup-289">
@@ -2913,9 +2958,10 @@
   <test-case name="fn-function-lookup-316">
     <description>Attempts to invoke function fn:distinct-values.</description>
     <created by="Tim Mills" on="2011-11-28"/>
-    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'distinct-values'), 1)((1, 'string'))</test>
+    <modified by="Tim Mills" on="2012-05-01" change="Context-dependent function invocation now permitted" />
+    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'distinct-values'), 1)((1, 1, 1))</test>
     <result>
-      <error code="XPST0112" />
+      <assert-string-value>1</assert-string-value>
     </result>
   </test-case>
   <test-case name="fn-function-lookup-317">
@@ -2929,9 +2975,10 @@
   <test-case name="fn-function-lookup-318">
     <description>Attempts to invoke function fn:distinct-values.</description>
     <created by="Tim Mills" on="2011-11-28"/>
-    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'distinct-values'), 2)((1, 'string'), 'http://www.w3.org/2005/xpath-functions/collation/codepoint')</test>
+    <modified by="Tim Mills" on="2012-05-01" change="Context-dependent function invocation now permitted" />
+    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'distinct-values'), 2)((1, 1, 1), 'http://www.w3.org/2005/xpath-functions/collation/codepoint')</test>
     <result>
-      <error code="XPST0112" />
+      <assert-string-value>1</assert-string-value>
     </result>
   </test-case>
   <test-case name="fn-function-lookup-319">
@@ -2945,9 +2992,10 @@
   <test-case name="fn-function-lookup-320">
     <description>Attempts to invoke function fn:index-of.</description>
     <created by="Tim Mills" on="2011-11-28"/>
+    <modified by="Tim Mills" on="2012-05-01" change="Context-dependent function invocation now permitted" />
     <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'index-of'), 2)((1, 'string'), 'string')</test>
     <result>
-      <error code="XPST0112" />
+      <assert-string-value>2</assert-string-value>
     </result>
   </test-case>
   <test-case name="fn-function-lookup-321">
@@ -2961,9 +3009,10 @@
   <test-case name="fn-function-lookup-322">
     <description>Attempts to invoke function fn:index-of.</description>
     <created by="Tim Mills" on="2011-11-28"/>
+    <modified by="Tim Mills" on="2012-05-01" change="Context-dependent function invocation now permitted" />
     <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'index-of'), 3)((1, 'string'), 'string', 'http://www.w3.org/2005/xpath-functions/collation/codepoint')</test>
     <result>
-      <error code="XPST0112" />
+      <assert-string-value>2</assert-string-value>
     </result>
   </test-case>
   <test-case name="fn-function-lookup-323">
@@ -2977,9 +3026,10 @@
   <test-case name="fn-function-lookup-324">
     <description>Attempts to invoke function fn:deep-equal.</description>
     <created by="Tim Mills" on="2011-11-28"/>
+    <modified by="Tim Mills" on="2012-05-01" change="Context-dependent function invocation now permitted" />
     <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'deep-equal'), 2)((1, true()), (1, true()))</test>
     <result>
-      <error code="XPST0112" />
+      <assert-true />
     </result>
   </test-case>
   <test-case name="fn-function-lookup-325">
@@ -2993,9 +3043,10 @@
   <test-case name="fn-function-lookup-326">
     <description>Attempts to invoke function fn:deep-equal.</description>
     <created by="Tim Mills" on="2011-11-28"/>
+    <modified by="Tim Mills" on="2012-05-01" change="Context-dependent function invocation now permitted" />
     <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'deep-equal'), 3)((1, true()), (1, true()), 'http://www.w3.org/2005/xpath-functions/collation/codepoint')</test>
     <result>
-      <error code="XPST0112" />
+      <assert-true />
     </result>
   </test-case>
   <test-case name="fn-function-lookup-327">
@@ -3089,9 +3140,10 @@
   <test-case name="fn-function-lookup-338">
     <description>Attempts to invoke function fn:max.</description>
     <created by="Tim Mills" on="2011-11-28"/>
+    <modified by="Tim Mills" on="2012-05-01" change="Context-dependent function invocation now permitted" />
     <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'max'), 1)((1, 3))</test>
     <result>
-      <error code="XPST0112" />
+      <assert-string-value>3</assert-string-value>
     </result>
   </test-case>
   <test-case name="fn-function-lookup-339">
@@ -3105,9 +3157,10 @@
   <test-case name="fn-function-lookup-340">
     <description>Attempts to invoke function fn:max.</description>
     <created by="Tim Mills" on="2011-11-28"/>
+    <modified by="Tim Mills" on="2012-05-01" change="Context-dependent function invocation now permitted" />
     <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'max'), 2)((1, 3), 'http://www.w3.org/2005/xpath-functions/collation/codepoint')</test>
     <result>
-      <error code="XPST0112" />
+      <assert-string-value>3</assert-string-value>
     </result>
   </test-case>
   <test-case name="fn-function-lookup-341">
@@ -3121,9 +3174,10 @@
   <test-case name="fn-function-lookup-342">
     <description>Attempts to invoke function fn:min.</description>
     <created by="Tim Mills" on="2011-11-28"/>
+    <modified by="Tim Mills" on="2012-05-01" change="Context-dependent function invocation now permitted" />
     <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'min'), 1)((1, 3))</test>
     <result>
-      <error code="XPST0112" />
+      <assert-string-value>1</assert-string-value>
     </result>
   </test-case>
   <test-case name="fn-function-lookup-343">
@@ -3137,9 +3191,10 @@
   <test-case name="fn-function-lookup-344">
     <description>Attempts to invoke function fn:min.</description>
     <created by="Tim Mills" on="2011-11-28"/>
+    <modified by="Tim Mills" on="2012-05-01" change="Context-dependent function invocation now permitted" />
     <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'min'), 2)((1, 3), 'http://www.w3.org/2005/xpath-functions/collation/codepoint')</test>
     <result>
-      <error code="XPST0112" />
+      <assert-string-value>1</assert-string-value>
     </result>
   </test-case>
   <test-case name="fn-function-lookup-345">
@@ -3185,10 +3240,11 @@
   <test-case name="fn-function-lookup-350">
     <description>Attempts to invoke function fn:id.</description>
     <created by="Tim Mills" on="2011-11-28"/>
+    <modified by="Tim Mills" on="2012-05-01" change="Context-dependent function invocation now permitted" />
     <environment ref="function-lookup" />
-    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'id'), 1)(('id1', 'id2'))</test>
+    <test>/function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'id'), 1)(('id1', 'id2'))</test>
     <result>
-      <error code="XPST0112" />
+      <assert-empty />
     </result>
   </test-case>
   <test-case name="fn-function-lookup-351">
@@ -3219,9 +3275,11 @@
   <test-case name="fn-function-lookup-354">
     <description>Attempts to invoke function fn:element-with-id.</description>
     <created by="Tim Mills" on="2011-11-28"/>
-    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'element-with-id'), 1)(('id1', 'id2'))</test>
+    <modified by="Tim Mills" on="2012-05-01" change="Context-dependent function invocation now permitted" />
+    <environment ref="function-lookup" />
+    <test>/function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'element-with-id'), 1)(('id1', 'id2'))</test>
     <result>
-      <error code="XPST0112" />
+      <assert-empty />
     </result>
   </test-case>
   <test-case name="fn-function-lookup-355">
@@ -3252,9 +3310,11 @@
   <test-case name="fn-function-lookup-358">
     <description>Attempts to invoke function fn:idref.</description>
     <created by="Tim Mills" on="2011-11-28"/>
-    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'idref'), 1)(('id1', 'id2'))</test>
+    <modified by="Tim Mills" on="2012-05-01" change="Context-dependent function invocation now permitted" />
+    <environment ref="function-lookup" />
+    <test>/function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'idref'), 1)(('id1', 'id2'))</test>
     <result>
-      <error code="XPST0112" />
+      <assert-empty />
     </result>
   </test-case>
   <test-case name="fn-function-lookup-359">
@@ -3285,9 +3345,11 @@
   <test-case name="fn-function-lookup-362">
     <description>Attempts to invoke function fn:generate-id.</description>
     <created by="Tim Mills" on="2011-11-28"/>
-    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'generate-id'), 0)()</test>
+    <modified by="Tim Mills" on="2012-05-01" change="Context-dependent function invocation now permitted" />
+    <environment ref="function-lookup" />
+    <test>/function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'generate-id'), 0)()</test>
     <result>
-      <error code="XPST0112" />
+      <assert-type>xs:string</assert-type>
     </result>
   </test-case>
   <test-case name="fn-function-lookup-363">
@@ -3321,9 +3383,11 @@
   <test-case name="fn-function-lookup-366">
     <description>Attempts to invoke function fn:doc.</description>
     <created by="Tim Mills" on="2011-11-28"/>
-    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'doc'), 1)('string')</test>
+    <modified by="Tim Mills" on="2012-05-01" change="Context-dependent function invocation now permitted" />
+    <environment ref="function-lookup" />
+    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'doc'), 1)('http://www.w3.org/fots/fn/function-lookup/function-lookup.xml')</test>
     <result>
-      <error code="XPST0112" />
+      <assert-type>document-node()</assert-type>
     </result>
   </test-case>
   <test-case name="fn-function-lookup-367">
@@ -3337,9 +3401,11 @@
   <test-case name="fn-function-lookup-368">
     <description>Attempts to invoke function fn:doc-available.</description>
     <created by="Tim Mills" on="2011-11-28"/>
-    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'doc-available'), 1)('string')</test>
+    <modified by="Tim Mills" on="2012-05-01" change="Context-dependent function invocation now permitted" />
+    <environment ref="function-lookup" />
+    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'doc-available'), 1)('http://www.example.org/unknown-document')</test>
     <result>
-      <error code="XPST0112" />
+      <assert-false />
     </result>
   </test-case>
   <test-case name="fn-function-lookup-369">
@@ -3353,9 +3419,11 @@
   <test-case name="fn-function-lookup-370">
     <description>Attempts to invoke function fn:collection.</description>
     <created by="Tim Mills" on="2011-11-28"/>
+    <modified by="Tim Mills" on="2012-05-01" change="Context-dependent function invocation now permitted" />
+    <environment ref="function-lookup" />
     <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'collection'), 0)()</test>
     <result>
-      <error code="XPST0112" />
+      <assert-type>node()+</assert-type>
     </result>
   </test-case>
   <test-case name="fn-function-lookup-371">
@@ -3369,9 +3437,11 @@
   <test-case name="fn-function-lookup-372">
     <description>Attempts to invoke function fn:collection.</description>
     <created by="Tim Mills" on="2011-11-28"/>
-    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'collection'), 1)('string')</test>
+    <modified by="Tim Mills" on="2012-05-01" change="Context-dependent function invocation now permitted" />
+    <environment ref="function-lookup" />
+    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'collection'), 1)(())</test>
     <result>
-      <error code="XPST0112" />
+      <assert-type>node()+</assert-type>
     </result>
   </test-case>
   <test-case name="fn-function-lookup-373">
@@ -3385,9 +3455,11 @@
   <test-case name="fn-function-lookup-374">
     <description>Attempts to invoke function fn:uri-collection.</description>
     <created by="Tim Mills" on="2011-11-28"/>
+    <modified by="Tim Mills" on="2012-05-01" change="Context-dependent function invocation now permitted" />
+    <environment ref="function-lookup" />
     <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'uri-collection'), 0)()</test>
     <result>
-      <error code="XPST0112" />
+      <assert-type>xs:anyURI+</assert-type>
     </result>
   </test-case>
   <test-case name="fn-function-lookup-375">
@@ -3401,9 +3473,11 @@
   <test-case name="fn-function-lookup-376">
     <description>Attempts to invoke function fn:uri-collection.</description>
     <created by="Tim Mills" on="2011-11-28"/>
-    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'uri-collection'), 1)('string')</test>
+    <modified by="Tim Mills" on="2012-05-01" change="Context-dependent function invocation now permitted" />
+    <environment ref="function-lookup" />
+    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'uri-collection'), 1)(())</test>
     <result>
-      <error code="XPST0112" />
+      <assert-type>xs:anyURI+</assert-type>
     </result>
   </test-case>
   <test-case name="fn-function-lookup-377">
@@ -3417,9 +3491,11 @@
   <test-case name="fn-function-lookup-378">
     <description>Attempts to invoke function fn:unparsed-text.</description>
     <created by="Tim Mills" on="2011-11-28"/>
+    <modified by="Tim Mills" on="2012-05-01" change="Context-dependent function invocation now permitted" />
+    <environment ref="function-lookup" />
     <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'unparsed-text'), 1)('http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt')</test>
     <result>
-      <error code="XPST0112" />
+      <assert-type>xs:string</assert-type>
     </result>
   </test-case>
   <test-case name="fn-function-lookup-379">
@@ -3433,9 +3509,11 @@
   <test-case name="fn-function-lookup-380">
     <description>Attempts to invoke function fn:unparsed-text.</description>
     <created by="Tim Mills" on="2011-11-28"/>
+    <modified by="Tim Mills" on="2012-05-01" change="Context-dependent function invocation now permitted" />
+    <environment ref="function-lookup" />
     <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'unparsed-text'), 2)('http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt', 'utf-8')</test>
     <result>
-      <error code="XPST0112" />
+      <assert-type>xs:string</assert-type>
     </result>
   </test-case>
   <test-case name="fn-function-lookup-381">
@@ -3449,9 +3527,11 @@
   <test-case name="fn-function-lookup-382">
     <description>Attempts to invoke function fn:unparsed-text-lines.</description>
     <created by="Tim Mills" on="2011-11-28"/>
+    <modified by="Tim Mills" on="2012-05-01" change="Context-dependent function invocation now permitted" />
+    <environment ref="function-lookup" />
     <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'unparsed-text-lines'), 1)('http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt')</test>
     <result>
-      <error code="XPST0112" />
+      <assert-type>xs:string+</assert-type>
     </result>
   </test-case>
   <test-case name="fn-function-lookup-383">
@@ -3465,9 +3545,11 @@
   <test-case name="fn-function-lookup-384">
     <description>Attempts to invoke function fn:unparsed-text-lines.</description>
     <created by="Tim Mills" on="2011-11-28"/>
+    <modified by="Tim Mills" on="2012-05-01" change="Context-dependent function invocation now permitted" />
+    <environment ref="function-lookup" />
     <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'unparsed-text-lines'), 2)('http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt', 'utf-8')</test>
     <result>
-      <error code="XPST0112" />
+      <assert-type>xs:string+</assert-type>
     </result>
   </test-case>
   <test-case name="fn-function-lookup-385">
@@ -3481,9 +3563,11 @@
   <test-case name="fn-function-lookup-386">
     <description>Attempts to invoke function fn:unparsed-text-available.</description>
     <created by="Tim Mills" on="2011-11-28"/>
+    <modified by="Tim Mills" on="2012-05-01" change="Context-dependent function invocation now permitted" />
+    <environment ref="function-lookup" />
     <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'unparsed-text-available'), 1)('http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt')</test>
     <result>
-      <error code="XPST0112" />
+      <assert-true />
     </result>
   </test-case>
   <test-case name="fn-function-lookup-387">
@@ -3497,9 +3581,11 @@
   <test-case name="fn-function-lookup-388">
     <description>Attempts to invoke function fn:unparsed-text-available.</description>
     <created by="Tim Mills" on="2011-11-28"/>
+    <modified by="Tim Mills" on="2012-05-01" change="Context-dependent function invocation now permitted" />
+    <environment ref="function-lookup" />
     <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'unparsed-text-available'), 2)('http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt', 'utf-8')</test>
     <result>
-      <error code="XPST0112" />
+      <assert-true />
     </result>
   </test-case>
   <test-case name="fn-function-lookup-389">
@@ -3513,9 +3599,10 @@
   <test-case name="fn-function-lookup-390">
     <description>Attempts to invoke function fn:environment-variable.</description>
     <created by="Tim Mills" on="2011-11-28"/>
-    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'environment-variable'), 1)('string')</test>
+    <modified by="Tim Mills" on="2012-05-01" change="Context-dependent function invocation now permitted" />
+    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'environment-variable'), 1)('should-not-exist')</test>
     <result>
-      <error code="XPST0112" />
+      <assert-empty />
     </result>
   </test-case>
   <test-case name="fn-function-lookup-391">
@@ -3529,9 +3616,10 @@
   <test-case name="fn-function-lookup-392">
     <description>Attempts to invoke function fn:available-environment-variables.</description>
     <created by="Tim Mills" on="2011-11-28"/>
+    <modified by="Tim Mills" on="2012-05-01" change="Context-dependent function invocation now permitted" />
     <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'available-environment-variables'), 0)()</test>
     <result>
-      <error code="XPST0112" />
+      <assert-type>xs:string*</assert-type>
     </result>
   </test-case>
   <test-case name="fn-function-lookup-393">
@@ -3545,9 +3633,10 @@
   <test-case name="fn-function-lookup-394">
     <description>Attempts to invoke function fn:parse-xml.</description>
     <created by="Tim Mills" on="2011-11-28"/>
+    <modified by="Tim Mills" on="2012-05-01" change="Context-dependent function invocation now permitted" />
     <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'parse-xml'), 1)('&lt;doc /&gt;')</test>
     <result>
-      <error code="XPST0112" />
+      <assert-type>node()</assert-type>
     </result>
   </test-case>
   <test-case name="fn-function-lookup-395">
@@ -3561,9 +3650,10 @@
   <test-case name="fn-function-lookup-396">
     <description>Attempts to invoke function fn:parse-xml-fragment.</description>
     <created by="Tim Mills" on="2011-11-28"/>
+    <modified by="Tim Mills" on="2012-05-01" change="Context-dependent function invocation now permitted" />
     <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'parse-xml-fragment'), 1)('&lt;doc /&gt;')</test>
     <result>
-      <error code="XPST0112" />
+      <assert-type>node()</assert-type>
     </result>
   </test-case>
   <test-case name="fn-function-lookup-397">
@@ -3609,9 +3699,10 @@
   <test-case name="fn-function-lookup-402">
     <description>Attempts to invoke function fn:position.</description>
     <created by="Tim Mills" on="2011-11-28"/>
-    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'position'), 0)()</test>
+    <modified by="Tim Mills" on="2012-05-01" change="Context-dependent function invocation now permitted" />
+    <test>(2, 4, 6)!function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'position'), 0)()</test>
     <result>
-      <error code="XPST0112" />
+      <assert-string-value>1 2 3</assert-string-value>
     </result>
   </test-case>
   <test-case name="fn-function-lookup-403">
@@ -3625,9 +3716,10 @@
   <test-case name="fn-function-lookup-404">
     <description>Attempts to invoke function fn:last.</description>
     <created by="Tim Mills" on="2011-11-28"/>
-    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'last'), 0)()</test>
+    <modified by="Tim Mills" on="2012-05-01" change="Context-dependent function invocation now permitted" />
+    <test>(2, 4, 6)!function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'last'), 0)()</test>
     <result>
-      <error code="XPST0112" />
+      <assert-string-value>3 3 3</assert-string-value>
     </result>
   </test-case>
   <test-case name="fn-function-lookup-405">
@@ -3641,9 +3733,10 @@
   <test-case name="fn-function-lookup-406">
     <description>Attempts to invoke function fn:current-dateTime.</description>
     <created by="Tim Mills" on="2011-11-28"/>
+    <modified by="Tim Mills" on="2012-05-01" change="Context-dependent function invocation now permitted" />
     <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'current-dateTime'), 0)()</test>
     <result>
-      <error code="XPST0112" />
+      <assert-type>xs:dateTime</assert-type>
     </result>
   </test-case>
   <test-case name="fn-function-lookup-407">
@@ -3657,9 +3750,10 @@
   <test-case name="fn-function-lookup-408">
     <description>Attempts to invoke function fn:current-date.</description>
     <created by="Tim Mills" on="2011-11-28"/>
+    <modified by="Tim Mills" on="2012-05-01" change="Context-dependent function invocation now permitted" />
     <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'current-date'), 0)()</test>
     <result>
-      <error code="XPST0112" />
+      <assert-type>xs:date</assert-type>
     </result>
   </test-case>
   <test-case name="fn-function-lookup-409">
@@ -3673,9 +3767,10 @@
   <test-case name="fn-function-lookup-410">
     <description>Attempts to invoke function fn:current-time.</description>
     <created by="Tim Mills" on="2011-11-28"/>
+    <modified by="Tim Mills" on="2012-05-01" change="Context-dependent function invocation now permitted" />
     <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'current-time'), 0)()</test>
     <result>
-      <error code="XPST0112" />
+      <assert-type>xs:time</assert-type>
     </result>
   </test-case>
   <test-case name="fn-function-lookup-411">
@@ -3689,9 +3784,10 @@
   <test-case name="fn-function-lookup-412">
     <description>Attempts to invoke function fn:implicit-timezone.</description>
     <created by="Tim Mills" on="2011-11-28"/>
+    <modified by="Tim Mills" on="2012-05-01" change="Context-dependent function invocation now permitted" />
     <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'implicit-timezone'), 0)()</test>
     <result>
-      <error code="XPST0112" />
+      <assert-type>xs:dayTimeDuration</assert-type>
     </result>
   </test-case>
   <test-case name="fn-function-lookup-413">
@@ -3721,12 +3817,13 @@
   <test-case name="fn-function-lookup-416">
     <description>Attempts to invoke function fn:static-base-uri.  Note that this actually returns a property of the dynamic context!</description>
     <created by="Tim Mills" on="2011-11-28"/>
+    <modified by="Tim Mills" on="2012-05-01" change="Context-dependent function invocation now permitted" />
     <environment>
       <static-base-uri uri="http://www.example.com"/>
     </environment>
     <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'static-base-uri'), 0)()</test>
     <result>
-      <error code="XPST0112" />
+      <assert-type>xs:anyURI?</assert-type>
     </result>
   </test-case>
   <test-case name="fn-function-lookup-417">
@@ -3740,9 +3837,11 @@
   <test-case name="fn-function-lookup-418">
     <description>Attempts to invoke function fn:function-lookup.</description>
     <created by="Tim Mills" on="2011-11-28"/>
+    <modified by="Tim Mills" on="2012-05-01" change="Context-dependent function invocation now permitted" />
+    <modified by="Tim Mills" on="2012-05-01" change="Context-dependent function invocation now permitted" />
     <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'function-lookup'), 2)(fn:QName('http://www.example.org', 'foo:bar'), 1)</test>
     <result>
-      <error code="XPST0112" />
+      <assert-empty />
     </result>
   </test-case>
   <test-case name="fn-function-lookup-419">
