@@ -556,7 +556,7 @@
     <description>URI literals are supported in name tests.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     
-    <test>try { 1 div 0 } catch "http://www.w3.org/2005/xqt-errors":FOAR0001 { "Division by zero" }</test>
+    <test>try { 1 div 0 } catch Q{http://www.w3.org/2005/xqt-errors}FOAR0001 { "Division by zero" }</test>
     <result>
       <assert-string-value>Division by zero</assert-string-value>
     </result>
@@ -566,7 +566,7 @@
     <description>URI literals are supported in name tests.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     
-    <test>try { 1 div 0 } catch "http://www.w3.org/2005/xqt-errors":* { "Division by zero" }</test>
+    <test>try { 1 div 0 } catch Q{http://www.w3.org/2005/xqt-errors}* { "Division by zero" }</test>
     <result>
       <assert-string-value>Division by zero</assert-string-value>
     </result>
@@ -607,7 +607,7 @@
     <description>If there is no matching catch clause, the error is forwarded.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     
-    <test>try { 1 div 0 } catch "http://www.w3.org/2005/xqt-error":* { "Division by zero" }</test>
+    <test>try { 1 div 0 } catch Q{http://www.w3.org/2005/xqt-errors}* { "Division by zero" }</test>
     <result>
       <error code="FOAR0001"/>
     </result>
@@ -617,7 +617,7 @@
     <description>If there is no matching catch clause, the error is forwarded.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     
-    <test>try { 1 div 0 } catch "http://www.w3.org/2005/xqt-errors":XPST0008 { "Division by zero" }</test>
+    <test>try { 1 div 0 } catch Q{http://www.w3.org/2005/xqt-errors}XPST0008 { "Division by zero" }</test>
     <result>
       <error code="FOAR0001"/>
     </result>
@@ -628,7 +628,7 @@
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
     
-    <test>try { 1 div 0 } catch err:XPST0008 { "Division by zero" } catch xs:* { "Division by zero" } catch *:XPST0008 { "Division by zero" } catch "http://www.w3.org/2005/xqt-error":* { "Division by zero" } catch "http://www.w3.org/2005/xqt-errors":XPST0008 { "Division by zero" }</test>
+    <test>try { 1 div 0 } catch err:XPST0008 { "Division by zero" } catch xs:* { "Division by zero" } catch *:XPST0008 { "Division by zero" } catch Q{http://www.w3.org/2005/xqt-errors}* { "Division by zero" } catch Q{http://www.w3.org/2005/xqt-errors}XPST0008 { "Division by zero" }</test>
     <result>
       <error code="FOAR0001"/>
     </result>
@@ -770,7 +770,7 @@
     <description>The first matching catch clause is used.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     
-    <test>try { 1 div 0 } catch "http://www.w3.org/2005/xqt-errors":* { "Clause 1" } catch "http://www.w3.org/2001/XMLSchema":* { "Clause 2" }</test>
+    <test>try { 1 div 0 } catch Q{http://www.w3.org/2005/xqt-errors}* { "Clause 1" } catch Q{http://www.w3.org/2001/XMLSchema}* { "Clause 2" }</test>
     <result>
       <assert-string-value>Clause 1</assert-string-value>
     </result>
@@ -780,7 +780,7 @@
     <description>The first matching catch clause is used.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     
-    <test>try { 1 div 0 } catch "http://www.w3.org/2001/XMLSchema":* { "Clause 1" } catch "http://www.w3.org/2005/xqt-errors":* { "Clause 2" }</test>
+    <test>try { 1 div 0 } catch Q{http://www.w3.org/2001/XMLSchema}* { "Clause 1" } catch Q{http://www.w3.org/2005/xqt-errors}* { "Clause 2" }</test>
     <result>
       <assert-string-value>Clause 2</assert-string-value>
     </result>
@@ -879,7 +879,7 @@
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
     
-    <test>try { fn:error(fn:QName('http://www.w3.org/2005/xqt-error', 'err:FOER0001')) } catch * { fn:namespace-uri-from-QName($err:code) }</test>
+    <test>try { fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:FOER0001')) } catch * { fn:namespace-uri-from-QName($err:code) }</test>
     <result>
       <assert-string-value>http://www.w3.org/2005/xqt-error</assert-string-value>
     </result>
@@ -956,7 +956,7 @@
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
     
-    <test>try { fn:error(fn:QName('http://www.w3.org/2005/xqt-error', 'err:FOER0000'), "Description") } catch * { $err:description }</test>
+    <test>try { fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:FOER0000'), "Description") } catch * { $err:description }</test>
     <result>
       <assert-string-value>Description</assert-string-value>
     </result>
@@ -967,7 +967,7 @@
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
     
-    <test>try { fn:error(fn:QName('http://www.w3.org/2005/xqt-error', 'err:FOER0000'), "Description", "Value") } catch * { $err:value }</test>
+    <test>try { fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:FOER0000'), "Description", "Value") } catch * { $err:value }</test>
     <result>
       <assert-string-value>Value</assert-string-value>
     </result>
@@ -978,7 +978,7 @@
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
     
-    <test>try { fn:error(fn:QName('http://www.w3.org/2005/xqt-error', 'err:FOER0000'), "Description", ("Value", 3, &lt;a/>, true())) } catch * { count($err:value) }</test>
+    <test>try { fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:FOER0000'), "Description", ("Value", 3, &lt;a/>, true())) } catch * { count($err:value) }</test>
     <result>
       <assert-eq>4</assert-eq>
     </result>
@@ -989,7 +989,7 @@
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
     
-    <test>try { fn:error(fn:QName('http://www.w3.org/2005/xqt-error', 'err:FOER0000'), "Description", ("Value", 3)) } catch * { $err:value[2] }</test>
+    <test>try { fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:FOER0000'), "Description", ("Value", 3)) } catch * { $err:value[2] }</test>
     <result>
       <assert-eq>3</assert-eq>
     </result>
@@ -1118,7 +1118,7 @@
     <description>A dynamic error raised by the chosen catch clause must be thrown.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     
-    <test>try { fn:error() } catch * { fn:error(fn:QName('http://www.w3.org/2005/xqt-error', 'err:FOER0001')) }</test>
+    <test>try { fn:error() } catch * { fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:FOER0001')) }</test>
     <result>
       <error code="FOER0001"/>
     </result>
