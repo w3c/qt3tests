@@ -404,4 +404,19 @@
          <error code="XPDY0002"/>
       </result>
    </test-case>
+
+   <test-case name="base-URI-modules-001">
+    <description>Test the base uri declaration in an imported module.</description>
+    <created by="Tim Mills" on="2012-05-08"/>
+    <module uri="http://www.w3.org/TestModules/module-001"
+            file="BaseURIDecl/module-001.xq"/>
+    <test>declare base-uri "http://www.example.org/base1";
+          import module namespace m ="http://www.w3.org/TestModules/module-001";
+          static-base-uri() eq m:static-base-uri()
+    </test>
+    <result>
+      <assert-false />
+    </result>
+  </test-case>
+
 </test-set>
