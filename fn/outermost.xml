@@ -684,13 +684,35 @@
    
    <test-case name="fn-outermost-056">
       <description>Evaluates the "outermost" function with the input sequence containing duplicates </description>
-      <created by="Tim Mills" on="2012-05-10"/>
+      <created by="Michael Kay" on="2012-05-10"/>
       <environment ref="outermost" />
       <dependency type="spec" value="XQ30+"/>
       <test>let $in := for $x in //* order by local-name($x) return $x
             return deep-equal(fn:outermost(($in, $in))/local-name(), fn:outermost(//*)/local-name())</test>
       <result>
 	    <assert-true />
+      </result>
+   </test-case>
+   
+   <test-case name="fn-outermost-057">
+      <description>Evaluates the "outermost" function with the input sequence empty </description>
+      <created by="Michael Kay" on="2012-05-10"/>
+      <environment ref="outermost" />
+      <dependency type="spec" value="XQ30+"/>
+      <test>outermost(//rubbish)</test>
+      <result>
+	    <assert-empty />
+      </result>
+   </test-case>
+   
+   <test-case name="fn-outermost-058">
+      <description>Check that "outermost" doesn't change node identity </description>
+      <created by="Michael Kay" on="2012-05-10"/>
+      <environment ref="outermost" />
+      <dependency type="spec" value="XQ30+"/>
+      <test>outermost(//*) except //*</test>
+      <result>
+	    <assert-empty />
       </result>
    </test-case>
 
