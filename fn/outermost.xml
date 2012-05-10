@@ -666,7 +666,31 @@
                            let $nodes := ($doc1//node(), $doc2//node())
                            return $nodes except $nodes/descendant::node() )</test>
       <result>
-	<assert-true />
+	    <assert-true />
+      </result>
+   </test-case>
+   
+   <test-case name="fn-outermost-055">
+      <description>Evaluates the "outermost" function with the input sequence not in document order </description>
+      <created by="Michael Kay" on="2012-05-10"/>
+      <environment ref="outermost" />
+      <dependency type="spec" value="XQ30+"/>
+      <test>let $in := for $x in //* order by local-name($x) return $x
+            return deep-equal(fn:outermost($in)/local-name(), fn:outermost(//*)/local-name())</test>
+      <result>
+	    <assert-true />
+      </result>
+   </test-case>
+   
+   <test-case name="fn-outermost-056">
+      <description>Evaluates the "outermost" function with the input sequence containing duplicates </description>
+      <created by="Tim Mills" on="2012-05-10"/>
+      <environment ref="outermost" />
+      <dependency type="spec" value="XQ30+"/>
+      <test>let $in := for $x in //* order by local-name($x) return $x
+            return deep-equal(fn:outermost(($in, $in))/local-name(), fn:outermost(//*)/local-name())</test>
+      <result>
+	    <assert-true />
       </result>
    </test-case>
 
