@@ -2,13 +2,14 @@
 <test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="fn-serialize">
     <description>Tests for the fn:serialize() function introduced in XPath 3.0</description>
     <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/" idref="func-serialize-xml"/>
-    <dependency type="spec" value="XP30+ XQ30+"/>
 
     <test-case name="serialize-xml-001">
         <description>serialize test</description>
         <created by="ONeil Delpratt, Saxonica" on="2010-10-05"/>
-        <environment name="empty"/>
-        <test>serialize(doc('../docs/atomic.xml'))</test>
+        <modified by="Michael Kay, Saxonica" on="2012-05-16" change="See bug 14279"/>
+        <environment ref="atomic"/>
+        <dependency type="spec" value="XP30+ XQ30+"/>
+        <test>serialize(.)</test>
         <result>
             <assert>contains($result,'atomic')</assert>
         </result>
@@ -16,8 +17,10 @@
     <test-case name="serialize-xml-002">
         <description>serialize test - with invalid attribute node</description>
         <created by="ONeil Delpratt, Saxonica" on="2010-10-05"/>
-        <environment name="empty"/>
-        <test>serialize((doc('../docs/atomic.xml')//@*)[1])</test>
+        <modified by="Michael Kay, Saxonica" on="2012-05-16" change="See bug 14279"/>
+        <environment ref="atomic"/>
+        <dependency type="spec" value="XP30+ XQ30+"/>
+        <test>serialize((.//@*)[1])</test>
         <result>
             <error code="SENR0001"/>
         </result>
@@ -25,9 +28,18 @@
     <test-case name="serialize-xml-003">
         <description>serialize test - with list of params as nodes</description>
         <created by="ONeil Delpratt, Saxonica" on="2010-10-05"/>
-        <environment name="empty"/>
-        <test>serialize(doc('../docs/atomic.xml'),
-            doc('serialize/serialize-003.xml')/params/*)</test>
+        <modified by="Michael Kay, Saxonica" on="2012-05-16" change="See bug 14279"/>
+        <environment ref="atomic"/>
+        <dependency type="spec" value="XQ30+"/>
+        <test><![CDATA[
+          let $params := 
+              <output:serialization-parameters
+                   xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization">
+                <output:method value="xml"/>
+                <output:indent value="yes"/>
+              </output:serialization-parameters>
+          return serialize(., $params)
+        ]]></test>
         <result>
             <assert>contains($result,'atomic')</assert>
         </result>
@@ -35,9 +47,17 @@
     <test-case name="serialize-xml-004">
         <description>serialize test - with list of properties, but no Method set</description>
         <created by="ONeil Delpratt, Saxonica" on="2010-10-05"/>
-        <environment name="empty"/>
-        <test>serialize(doc('../docs/atomic.xml'),
-            doc('serialize/serialize-004.xml')/params/*)</test>
+        <modified by="Michael Kay, Saxonica" on="2012-05-16" change="See bug 14279"/>
+        <environment ref="atomic"/>
+        <dependency type="spec" value="XQ30+"/>
+        <test><![CDATA[
+          let $params := 
+              <output:serialization-parameters
+                   xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization">
+                <output:indent value="yes"/>
+              </output:serialization-parameters>
+          return serialize(., $params)
+        ]]></test>
         <result>
             <assert>contains($result,'atomic')</assert>
         </result>
@@ -45,9 +65,18 @@
     <test-case name="serialize-xml-005">
         <description>serialize test: Error - specified the use-character-map property</description>
         <created by="ONeil Delpratt, Saxonica" on="2010-10-05"/>
-        <environment name="empty"/>
-        <test>serialize(doc('../docs/atomic.xml'),
-            doc('serialize/serialize-005.xml')/params/*)</test>
+        <modified by="Michael Kay, Saxonica" on="2012-05-16" change="See bug 14279"/>
+        <environment ref="atomic"/>
+        <dependency type="spec" value="XQ30+"/>
+        <test><![CDATA[
+          let $params := 
+              <output:serialization-parameters
+                   xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization">
+                <output:use-character-maps value="yes"/>   
+                <output:indent value="yes"/>
+              </output:serialization-parameters>
+          return serialize(., $params)
+        ]]></test>
         <result>
             <error code="SEPM0016"/>
         </result>
@@ -56,9 +85,20 @@
         <description>serialize test: specified the cdata-section-element property, space separated
             QNames</description>
         <created by="ONeil Delpratt, Saxonica" on="2010-10-06"/>
-        <environment name="empty"/>
-        <test>serialize(doc('../docs/atomic.xml'),
-            doc('serialize/serialize-006.xml')/params/*)</test>
+        <modified by="Michael Kay, Saxonica" on="2012-05-16" change="See bug 14279"/>
+        <environment ref="atomic"/>
+        <dependency type="spec" value="XQ30+"/>
+        <test><![CDATA[
+          let $params := 
+              <output:serialization-parameters
+                   xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization"
+                   xmlns:p="http://www.saxonica.com">
+                <output:method value="xml"/>   
+                <output:indent value="yes"/>
+                <output:cdata-section-elements value="p:a p:b c"/>
+              </output:serialization-parameters>
+          return serialize(., $params)
+        ]]></test>
         <result>
             <assert>contains($result,'atomic')</assert>
         </result>
@@ -67,9 +107,19 @@
         <description>serialize test: list of properties, but one is an unrecognized name (no error,
             it is ignored)</description>
         <created by="ONeil Delpratt, Saxonica" on="2010-10-06"/>
-        <environment name="empty"/>
-        <test>serialize(doc('../docs/atomic.xml'),
-            doc('serialize/serialize-007.xml')/params/*)</test>
+        <modified by="Michael Kay, Saxonica" on="2012-05-16" change="See bug 14279"/>
+        <environment ref="atomic"/>
+        <dependency type="spec" value="XQ30+"/>
+        <test><![CDATA[
+          let $params := 
+              <output:serialization-parameters
+                   xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization">
+                <output:method value="xml"/>   
+                <output:indent value="yes"/>
+                <output:xindent value="yes"/>
+              </output:serialization-parameters>
+          return serialize(., $params)
+        ]]></test>
         <result>
             <assert>contains($result,'atomic')</assert>
         </result>
@@ -77,9 +127,24 @@
     <test-case name="serialize-xml-008">
         <description>serialize test: New suppress-indentation parameter</description>
         <created by="Michael Kay, Saxonica" on="2010-10-07"/>
-        <environment name="empty"/>
-        <test>serialize(doc('serialize/serialize-008-src.xml'),
-            doc('serialize/serialize-008-params.xml')/params/*)</test>
+        <modified by="Michael Kay, Saxonica" on="2012-05-16" change="See bug 14279"/>
+        <environment name="ser008">
+          <source role="." file="serialize/serialize-008-src.xml">
+            <description>File to be serialized</description>
+            <created by="Michael Kay" on="2010-10-07"/>
+          </source>
+        </environment>
+        <dependency type="spec" value="XQ30+"/>
+        <test><![CDATA[
+          let $params := 
+              <output:serialization-parameters
+                   xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization">
+                <output:method value="xml"/>   
+                <output:indent value="yes"/>
+                <output:suppress-indentation value="p"/>
+              </output:serialization-parameters>
+          return serialize(., $params)
+        ]]></test>
         <result>
             <all-of>
                 <assert>matches($result,'\n\s+&lt;title>')</assert>
@@ -91,9 +156,19 @@
     <test-case name="serialize-xml-009">
         <description>serialize test: Error - bad value for indent parameter</description>
         <created by="Michael Kay, Saxonica" on="2010-10-05"/>
-        <environment name="empty"/>
-        <test>serialize(doc('../docs/atomic.xml'),
-            doc('serialize/serialize-009.xml')/params/*)</test>
+        <modified by="Michael Kay, Saxonica" on="2012-05-16" change="See bug 14279"/>
+        <environment ref="atomic"/>
+        <dependency type="spec" value="XQ30+"/>
+        <test><![CDATA[
+          let $params := 
+              <output:serialization-parameters
+                   xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization">
+                <output:method value="xml"/>   
+                <output:indent value="maybe"/>
+                <output:suppress-indentation value="p"/>
+              </output:serialization-parameters>
+          return serialize(., $params)
+        ]]></test>
         <result>
             <error code="SEPM0016"/>
         </result>
