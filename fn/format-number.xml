@@ -566,30 +566,32 @@
       <description>
         Purpose: Test formatting of a high-precision decimal value. </description>
       <created by="Michael Kay, Saxonica" on="2010-12-13"/>
+      <modified by="Michael Kay" on="2012-05-17" change="see bug 14933"/>
       <!--SOURCE: numberformat/stdxmlfile.xml-->
       <environment/>
-      
-         
-      
       <test>format-number(000123456789012345678901234567890.123456789012345678900000,     '##0.0####################################################')</test>
       <result>
-         <assert-string-value>123456789012345678901234567890.1234567890123456789</assert-string-value>
+        <any-of>
+          <assert-string-value>123456789012345678901234567890.1234567890123456789</assert-string-value>
+          <error code="FOAR0002"/>
+        </any-of>  
       </result>
    </test-case>
    <test-case name="numberformat64">
       <description>
         Purpose: Test formatting of a high-precision integer value. </description>
       <created by="Michael Kay, Saxonica" on="2010-12-13"/>
+      <modified by="Michael Kay" on="2012-05-17" change="see bug 14933"/>
       <!--SOURCE: numberformat/stdxmlfile.xml-->
       <environment>
          <decimal-format grouping-separator=" "/>
-      </environment>
-      
-         
-      
+      </environment>   
       <test>format-number(000123456789012345678901234567890123456789012345678900000,     '# #0.0####################################################')</test>
       <result>
-         <assert-string-value>12 34 56 78 90 12 34 56 78 90 12 34 56 78 90 12 34 56 78 90 12 34 56 78 90 00 00.0</assert-string-value>
+         <any-of>
+           <assert-string-value>12 34 56 78 90 12 34 56 78 90 12 34 56 78 90 12 34 56 78 90 12 34 56 78 90 00 00.0</assert-string-value>
+           <error code="FOAR0002"/>
+         </any-of>  
       </result>
    </test-case>
    <test-case name="numberformat65">
