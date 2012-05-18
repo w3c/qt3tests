@@ -487,15 +487,31 @@
       </result>
    </test-case>
 
-   <test-case name="K-FunctionProlog-12">
-      <description> Variables appearing after a function declaration is not in scope inside the function. </description>
+   <test-case name="K-FunctionProlog-12a">
+      <description> XQuery 1.0: Variable appearing after a function declaration is not in scope inside the function. </description>
       <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="Michael Kay" on="2012-05-18" change="see bug 15790"/>
+      <dependency type="spec" value="XQ10"/>
       <test>
         declare function local:computeSum() { $myVariable };
         declare variable $myVariable := 1;
         1</test>
       <result>
          <error code="XPST0008"/>
+      </result>
+   </test-case>
+   
+   <test-case name="K-FunctionProlog-12b">
+      <description> XQuery 3.0: Variable appearing after a function declaration is in scope inside the function. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="Michael Kay" on="2012-05-18" change="see bug 15790"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>
+        declare function local:computeSum() { $myVariable };
+        declare variable $myVariable := 1;
+        1</test>
+      <result>
+         <assert-eq>1</assert-eq>
       </result>
    </test-case>
 
