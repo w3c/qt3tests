@@ -549,6 +549,116 @@
          <assert-string-value>+13:00</assert-string-value>
       </result>
    </test-case>
+   
+   <test-case name="format-date-021">
+      <description>test format-date(): timezones with an alternate separator</description>
+      <created by="Michael Kay, Saxonica" on="2012-05-18"/>
+      <environment>
+         <param name="t" as="xs:date" select="xs:date('1985-03-01Z')"/>
+      </environment>
+      <test>string-join( for $z in -28 to +28 return format-date(adjust-date-to-timezone($t,
+         $z*xs:dayTimeDuration('PT30M')), '[z00~00]'), '; ')</test>
+      <result>
+         <assert-string-value normalize-space="true">
+         	GMT-14~00; GMT-13~30; GMT-13~00; GMT-12~30; GMT-12~00; GMT-11~30; GMT-11~00; GMT-10~30; 
+         	GMT-10~00; GMT-09~30; GMT-09~00; GMT-08~30; GMT-08~00; GMT-07~30; GMT-07~00; GMT-06~30; 
+         	GMT-06~00; GMT-05~30; GMT-05~00; GMT-04~30; GMT-04~00; GMT-03~30; GMT-03~00; GMT-02~30; 
+         	GMT-02~00; GMT-01~30; GMT-01~00; GMT-00~30; GMT+00~00; GMT+00~30; GMT+01~00; GMT+01~30; 
+         	GMT+02~00; GMT+02~30; GMT+03~00; GMT+03~30; GMT+04~00; GMT+04~30; GMT+05~00; GMT+05~30; 
+         	GMT+06~00; GMT+06~30; GMT+07~00; GMT+07~30; GMT+08~00; GMT+08~30; GMT+09~00; GMT+09~30; 
+         	GMT+10~00; GMT+10~30; GMT+11~00; GMT+11~30; GMT+12~00; GMT+12~30; GMT+13~00; GMT+13~30; 
+         	GMT+14~00
+		 </assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="format-date-022">
+      <description>test format-date(): timezones with non-ASCII digits</description>
+      <created by="Michael Kay, Saxonica" on="2012-05-18"/>
+      <environment>
+         <param name="t" as="xs:date" select="xs:date('1985-03-01Z')"/>
+      </environment>
+      <test>format-date(xs:date('2012-05-18+05:30'), '[Z&#x660;&#x660;:&#x660;&#x660;]')</test>
+      <result>
+         <assert-string-value>+&#x660;&#x665;:&#x663;&#x660;</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="format-date-023">
+      <description>test format-date(): timezones with three-digit format</description>
+      <created by="Michael Kay, Saxonica" on="2012-05-18"/>
+      <environment>
+         <param name="t" as="xs:date" select="xs:date('1985-03-01Z')"/>
+      </environment>
+      <test>string-join( for $z in -28 to +28 return format-date(adjust-date-to-timezone($t,
+         $z*xs:dayTimeDuration('PT30M')), '[Z0:01]'), '; ')</test>
+      <result>
+         <assert-string-value normalize-space="true">
+         	-14:00; -13:30; -13:00; -12:30; -12:00; -11:30; -11:00; -10:30; -10:00; -9:30; -9:00;
+         	-8:30; -8:00; -7:30; -7:00; -6:30; -6:00; -5:30; -5:00; -4:30; -4:00; -3:30; -3:00;
+         	-2:30; -2:00; -1:30; -1:00; -0:30; +0:00; +0:30; +1:00; +1:30; +2:00; +2:30; +3:00;
+         	+3:30; +4:00; +4:30; +5:00; +5:30; +6:00; +6:30; +7:00; +7:30; +8:00; +8:30; +9:00;
+         	+9:30; +10:00; +10:30; +11:00; +11:30; +12:00; +12:30; +13:00; +13:30; +14:00
+		 </assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="format-date-024">
+      <description>test format-date(): timezones with three-digit format, no separator</description>
+      <created by="Michael Kay, Saxonica" on="2012-05-18"/>
+      <environment>
+         <param name="t" as="xs:date" select="xs:date('1985-03-01Z')"/>
+      </environment>
+      <test>string-join( for $z in -28 to +28 return format-date(adjust-date-to-timezone($t,
+         $z*xs:dayTimeDuration('PT30M')), '[Z999]'), '; ')</test>
+      <result>
+         <assert-string-value normalize-space="true">
+         	-1400; -1330; -1300; -1230; -1200; -1130; -1100; -1030; -1000; -930; -900; -830; 
+         	-800; -730; -700; -630; -600; -530; -500; -430; -400; -330; -300; -230; -200; 
+         	-130; -100; -030; +000; +030; +100; +130; +200; +230; +300; +330; +400; +430; 
+         	+500; +530; +600; +630; +700; +730; +800; +830; +900; +930; +1000; +1030; +1100; 
+         	+1130; +1200; +1230; +1300; +1330; +1400
+		 </assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="format-date-025">
+      <description>test format-date(): timezones with two-digit format, no separator</description>
+      <created by="Michael Kay, Saxonica" on="2012-05-18"/>
+      <environment>
+         <param name="t" as="xs:date" select="xs:date('1985-03-01Z')"/>
+      </environment>
+      <test>string-join( for $z in -28 to +28 return format-date(adjust-date-to-timezone($t,
+         $z*xs:dayTimeDuration('PT30M')), '[Z99]'), '; ')</test>
+      <result>
+         <assert-string-value normalize-space="true">
+         	-14; -1330; -13; -1230; -12; -1130; -11; -1030; -10; -0930; -09; -0830; -08; 
+         	-0730; -07; -0630; -06; -0530; -05; -0430; -04; -0330; -03; -0230; -02; -0130; 
+         	-01; -0030; +00; +0030; +01; +0130; +02; +0230; +03; +0330; +04; +0430; +05; 
+         	+0530; +06; +0630; +07; +0730; +08; +0830; +09; +0930; +10; +1030; +11; +1130; 
+         	+12; +1230; +13; +1330; +14
+		 </assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="format-date-026">
+      <description>test format-date(): timezones with one-digit format, no separator, t modifier</description>
+      <created by="Michael Kay, Saxonica" on="2012-05-18"/>
+      <environment>
+         <param name="t" as="xs:date" select="xs:date('1985-03-01Z')"/>
+      </environment>
+      <test>string-join( for $z in -28 to +28 return format-date(adjust-date-to-timezone($t,
+         $z*xs:dayTimeDuration('PT30M')), '[Z0t]'), '; ')</test>
+      <result>
+         <assert-string-value normalize-space="true">
+         	-14; -1330; -13; -1230; -12; -1130; -11; -1030; -10; -930; -9; -830; -8; 
+         	-730; -7; -630; -6; -530; -5; -430; -4; -330; -3; -230; -2; -130; -1; -030; 
+         	Z; +030; +1; +130; +2; +230; +3; +330; +4; +430; +5; +530; +6; +630; +7; 
+         	+730; +8; +830; +9; +930; +10; +1030; +11; +1130; +12; +1230; +13; 
+         	+1330; +14
+		 </assert-string-value>
+      </result>
+   </test-case>
 
    <test-case name="format-date-801err">
       <description>Error XTDE1340 incorrect picture string</description>
