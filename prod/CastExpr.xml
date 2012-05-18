@@ -6554,7 +6554,8 @@
         Fails in 1.0 because only a string literal can be cast to xs:QName
         Fails in 3.0 because implicit cast to xs:QName during a function call is not allowed - see bug 11964</description>
       <created by="Michael Kay" on="2011-02-16"/>
-      <dependency type="spec" value="XQ10+"/>
+      <modified by="Michael Kay" on="2012-05-18" change="split into XQ10 and XQ30 tests as per bug 16090"/>
+      <dependency type="spec" value="XQ10"/>
       <test><![CDATA[
         declare function local:clarkname($q as xs:QName) as xs:string { 
           concat('{', namespace-uri-from-QName($q), '}', local-name-from-QName($q)) 
@@ -6564,6 +6565,25 @@
       </test>
       <result>
          <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+   <test-case name="CastAs675a">
+      <description> Try to do an implicit cast from untypedAtomic to xs:QName as part of a function call
+        Fails in 1.0 because only a string literal can be cast to xs:QName
+        Fails in 3.0 because implicit cast to xs:QName during a function call is not allowed - see bug 11964</description>
+      <created by="Michael Kay" on="2011-02-16"/>
+      <modified by="Michael Kay" on="2012-05-18" change="split into XQ10 and XQ30 tests as per bug 16090"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        declare function local:clarkname($q as xs:QName) as xs:string { 
+          concat('{', namespace-uri-from-QName($q), '}', local-name-from-QName($q)) 
+        }; 
+        let $var := <e>xml:space</e> 
+        return (local:clarkname(node-name($var)), local:clarkname(xs:untypedAtomic($var)))]]>
+      </test>
+      <result>
+         <error code="XPTY0117"/>
       </result>
    </test-case>
 
