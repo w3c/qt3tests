@@ -512,7 +512,7 @@
          <param name="t" as="xs:date" select="xs:date('1985-03-01Z')"/>
       </environment>
       <test>string-join( for $z in -12 to +12 return format-date(adjust-date-to-timezone($t,
-         $z*xs:dayTimeDuration('PT30M')), '[ZZ]'), '; ')</test>
+         $z*xs:dayTimeDuration('PT1H')), '[ZZ]'), ' ')</test>
       <result>
          <assert-string-value normalize-space="true">
          	Y X W V U T S R Q P O N Z A B C D E F G H I K L M
@@ -526,25 +526,25 @@
       <environment>
          <param name="t" as="xs:date" select="xs:date('1985-03-01Z')"/>
       </environment>
-      <test>format-date(xs:date('1987-12-13'), [ZZ]')</test>
+      <test>format-date(xs:date('1987-12-13'), '[ZZ]')</test>
       <result>
          <assert-string-value>J</assert-string-value>
       </result>
    </test-case>
    
-   <test-case name="format-date-018">
+   <test-case name="format-date-019">
       <description>test format-date(): non-integral timezone in military notation</description>
       <created by="Michael Kay, Saxonica" on="2012-05-18"/>
-      <test>format-date(xs:date('1987-12-13+05:30'), [ZZ]')</test>
+      <test>format-date(xs:date('1987-12-13+05:30'), '[ZZ]')</test>
       <result>
          <assert-string-value>+05:30</assert-string-value>
       </result>
    </test-case>
    
-   <test-case name="format-date-019">
+   <test-case name="format-date-020">
       <description>test format-date(): extreme timezone in military notation</description>
       <created by="Michael Kay, Saxonica" on="2012-05-18"/>
-      <test>format-date(xs:date('1987-12-13+13:00'), [ZZ]')</test>
+      <test>format-date(xs:date('1987-12-13+13:00'), '[ZZ]')</test>
       <result>
          <assert-string-value>+13:00</assert-string-value>
       </result>
