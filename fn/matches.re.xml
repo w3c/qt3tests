@@ -1111,11 +1111,12 @@ c,a	r', ',') satisfies not(matches($s, '^(?:\c[^\s]\c)$')))</test>
       <created by="Michael Kay" on="2011-07-04"/>
       <modified by="O'Neil Delpratt" on="2011-10-05" change="Incorrect pattern in first matches function. Changed dependency to XP30+ only. Related to bug #14398"/>
       <modified by="Michael Kay" on="2011-11-24" change="allow possibility of line-ending normalization in XPath. See bug #14917.
-      The effect of this bug/feature is that the only way of getting a x0D into an XPath string literal is using codepoints-to-string()"/>      
+      The effect of this bug/feature is that the only way of getting a x0D into an XPath string literal is using codepoints-to-string()"/>
+       <modified by="O'Neil Delpratt" on="2012-05-22" change="Bug fix related to bug #14398"/>
       <dependency type="spec" value="XP30+"/>
       <test>
         let $d := codepoints-to-string(13) return (
-         (every $s in tokenize('&#xA;'||$d||'a&#xA;&#xD;b', ',') satisfies (matches($s, '^(?:\n\ra\n\rb)$'))) and
+         (every $s in tokenize('&#xA;'||$d||'a&#xA;'||$d||'b', ',') satisfies (matches($s, '^(?:\n\ra\n\rb)$'))) and
          (every $s in tokenize('', ',') satisfies not(matches($s, '^(?:\n\ra\n\rb)$'))))</test>
       <result>
          <assert-true/>
