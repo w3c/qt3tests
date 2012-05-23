@@ -19,12 +19,10 @@
       <description> Demonstrates version declaration,the version declaration occurs at the beginning of the module 
         and identifies the applicable XQuery syntax and semantics for the module </description>
       <created by="Pulkita Tyagi" on="2005-10-05"/>
-      <test>xquery version "1.0"; 1,2</test>
+      <modified by="O'Neil Delpratt" on="2012-05-23" change="Bug fix related to bug #14955"/>
+      <test>xquery version "1.0" (:encoding "utf-8xx":); 1,2</test>
       <result>
-         <any-of>
-            <assert-string-value>1 2</assert-string-value>
-            <error code="*"/>
-         </any-of>
+         <error code="*"/>
       </result>
    </test-case>
 
@@ -33,12 +31,10 @@
         and identifies the applicable XQuery syntax and semantics for the module </description>
       <created by="Pulkita Tyagi" on="2005-10-05"/>
       <dependency type="spec" value="XQ10+"/>
-      <test><![CDATA[xquery version "1.0"; <bib/>]]></test>
+      <modified by="O'Neil Delpratt" on="2012-05-23" change="Bug fix related to bug #14955"/>
+      <test><![CDATA[(:encoding "utf-8xx":)xquery version "1.0"; <bib/>]]></test>
       <result>
-         <any-of>
-            <assert-serialization><![CDATA[<bib/>]]></assert-serialization>
-            <error code="*"/>
-         </any-of>
+        <error code="*"/>
       </result>
    </test-case>
 
@@ -46,13 +42,11 @@
       <description> Demonstrates version declaration,the version declaration occurs at the beginning of the module 
         and identifies the applicable XQuery syntax and semantics for the module </description>
       <created by="Pulkita Tyagi" on="2005-10-05"/>
+      <modified by="O'Neil Delpratt" on="2012-05-23" change="Bug fix related to bug #14955"/>
       <environment ref="bib2"/>
-      <test>xquery version '1.0'; declare boundary-space preserve; declare default order empty greatest; declare namespace ns = "http://www.example.org/"; declare variable $input-context external; for $b in $input-context//book stable order by xs:decimal($b/price) empty greatest return $b/title</test>
+      <test>(:encoding "abc":)xquery version '1.0'; declare boundary-space preserve; declare default order empty greatest; declare namespace ns = "http://www.example.org/"; declare variable $input-context external; for $b in $input-context//book stable order by xs:decimal($b/price) empty greatest return $b/title</test>
       <result>
-         <any-of>
-            <assert-serialization><![CDATA[<title>Data on the Web</title><title>TCP/IP Illustrated</title><title>Advanced Programming in the Unix environment</title><title>The Economics of Technology and Content for Digital TV</title>]]></assert-serialization>
-            <error code="*"/>
-         </any-of>
+          <error code="*"/>
       </result>
    </test-case>
 
@@ -60,13 +54,11 @@
       <description> Demonstrates version declaration,the version declaration occurs at the beginning of the module 
         and identifies the applicable XQuery syntax and semantics for the module </description>
       <created by="Pulkita Tyagi" on="2005-10-05"/>
+      <modified by="O'Neil Delpratt" on="2012-05-23" change="Bug fix related to bug #14955"/>
       <environment ref="bib2"/>
-      <test>xquery version "1.0"; declare boundary-space preserve; declare default order empty greatest; declare namespace ns = "http://www.example.org/"; declare variable $input-context external; for $b in $input-context//book stable order by xs:decimal($b/price) empty greatest return $b/title</test>
+      <test>(:encoding "abc":)xquery version "1.0"; declare boundary-space preserve; declare default order empty greatest; declare namespace ns = "http://www.example.org/"; declare variable $input-context external; for $b in $input-context//book stable order by xs:decimal($b/price) empty greatest return $b/title</test>
       <result>
-         <any-of>
-            <assert-serialization><![CDATA[<title>Data on the Web</title><title>TCP/IP Illustrated</title><title>Advanced Programming in the Unix environment</title><title>The Economics of Technology and Content for Digital TV</title>]]></assert-serialization>
-            <error code="*"/>
-         </any-of>
+          <error code="*"/>
       </result>
    </test-case>
 
@@ -74,13 +66,22 @@
       <description> Demonstrates version declaration,the version declaration occurs at the beginning of the module 
         and identifies the applicable XQuery syntax and semantics for the module </description>
       <created by="Pulkita Tyagi" on="2005-10-05"/>
-      <dependency type="spec" value="XQ10+"/>
+      <modified by="O'Neil Delpratt" on="2012-05-23" change="Bug fix related to bug #14955"/>
+      <dependency type="spec" value="XQ10"/>
       <test><![CDATA[xquery version "3.0"; <bib/>]]></test>
       <result>
-         <any-of>
-            <assert-serialization><![CDATA[<bib/>]]></assert-serialization>
             <error code="XQST0031"/>
-         </any-of>
+      </result>
+   </test-case>
+
+       <test-case name="version_declaration-006a">
+      <description> Demonstrates version declaration,the version declaration occurs at the beginning of the module
+        and identifies the applicable XQuery syntax and semantics for the module </description>
+      <created by="O'Neil Delpratt" on="2012-05-23" change="Bug fix related to bug #14955: Added dependenct XQ30+"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[xquery version "3.0"; <bib/>]]></test>
+      <result>
+          <assert-serialization><![CDATA[<bib/>]]></assert-serialization>
       </result>
    </test-case>
 
@@ -245,12 +246,9 @@
       <description> A simple version declaration including encoding. Since it's implementation defined how comments 
         before the version declaration is handled, any error is allowed. </description>
       <created by="Frans Englich" on="2007-11-26"/>
-      <test>xquery version "1.0" encoding "UTF-8"; 1 eq 1</test>
+      <test>(:encoding "UTF-8XX":)xquery version "1.0" encoding "UTF-8"; 1 eq 1</test>
       <result>
-         <any-of>
-            <assert-true/>
-            <error code="*"/>
-         </any-of>
+          <error code="*"/>
       </result>
    </test-case>
 
