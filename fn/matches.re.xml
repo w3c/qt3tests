@@ -7908,7 +7908,10 @@ b', ',') satisfies not(matches($s, '^(?:a\sb)$')))</test>
    <test-case name="re00974">
       <description>Test regex syntax</description>
       <created by="Michael Kay" on="2011-07-04"/>
-      <test>(every $s in tokenize('', ',') satisfies matches($s, '^(?:(\d*){0,2}?a\1)$')) and (every $s in tokenize('22a3', ',') satisfies not(matches($s, '^(?:(\d*){0,2}?a\1)$')))</test>
+      <test>
+         (every $s in tokenize('', ',') satisfies matches($s, '^(?:(\d*){0,2}?a\1)$')) and
+         (every $s in tokenize('22a3', ',') satisfies not(matches($s, '^(?:(\d*){0,2}?a\1)$')))
+      </test>
       <result>
          <assert-true/>
       </result>
@@ -7916,7 +7919,10 @@ b', ',') satisfies not(matches($s, '^(?:a\sb)$')))</test>
    <test-case name="re00975">
       <description>Test regex syntax</description>
       <created by="Michael Kay" on="2011-07-04"/>
-      <test>(every $s in tokenize('', ',') satisfies matches($s, '^(?:(\d*){2,}?a\1)$')) and (every $s in tokenize('22a3', ',') satisfies not(matches($s, '^(?:(\d*){2,}?a\1)$')))</test>
+      <test>
+        (every $s in tokenize('', ',') satisfies matches($s, '^(?:(\d*){2,}?a\1)$')) and 
+        (every $s in tokenize('22a3', ',') satisfies not(matches($s, '^(?:(\d*){2,}?a\1)$')))
+      </test>
       <result>
          <assert-true/>
       </result>
@@ -7924,9 +7930,14 @@ b', ',') satisfies not(matches($s, '^(?:a\sb)$')))</test>
    <test-case name="re00976">
       <description>Test regex syntax</description>
       <created by="Michael Kay" on="2011-07-04"/>
-      <test>(every $s in tokenize('22a22z', ',') satisfies matches($s, '^(?:(\d*){2,}?a\1z)$')) and (every $s in tokenize('22a22', ',') satisfies not(matches($s, '^(?:(\d*){2,}?a\1z)$')))</test>
+      <modified by="Michael Kay" on="2012-05-23" change="simplify the test to its essentials,
+         and allow different results. See bug 15545 and bug 17160"/>
+      <test>
+        matches('22a22z', '^(\d*){2,}?a\1z$') and 
+        not(matches('22a22', '^(\d*){2,}?a\1z$'))
+      </test>
       <result>
-         <assert-true/>
+         <assert-type>xs:boolean</assert-type>
       </result>
    </test-case>
    <test-case name="re00977">
