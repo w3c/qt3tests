@@ -956,6 +956,47 @@
         </xs:complexType>
     </xs:element>
     
+    <xs:element name="serialization-matches"  substitutionGroup="abstractAssertion">
+        <xs:annotation>
+            <xs:documentation>
+                <div>
+                    <h3>serialization-matches</h3>
+                    <p>
+                        Asserts the result of serializing the query matches a given regular
+                        expression.</p>
+                        
+                    <p> The result of the query must be serialized using the serialization
+                        options specified within the query (if any).<p>
+                        
+                    <p> The assertion is true if the output of the serializer (as a string)
+                        matches the regular expression, when compared using the matches() function
+                        with the specified flags. Note this is not an anchored match, unless
+                        anchors are included within the regular expression itself.</p>    
+                        
+                     <p>Note that the serializer output is treated as a string; we have no way
+                        of testing the encoding of serialized output when treated as an octet stream.
+                    </p>
+                </div> 
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:string">
+                    <xs:attributeGroup ref="fileAttr"/>
+                    <xs:attribute name="flags" type="xs:string">
+                        <xs:annotation>
+                            <xs:documentation>
+                                <p>If this attribute is present it indicates that the regular expression
+                                matching is to be performed with this value as the "flags" argument to
+                                the fn:matches() function.</p>
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+    
     <xs:element name="assert-serialization-error"  substitutionGroup="abstractAssertion">
         <xs:annotation>
             <xs:documentation>
