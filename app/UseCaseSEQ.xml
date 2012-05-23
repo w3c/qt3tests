@@ -19,7 +19,7 @@
       <environment ref="report1"/>
       <test>for $s in //section[section.title = "Procedure"] return ($s//incision)[2]/instrument</test>
       <result>
-         <assert-serialization><![CDATA[<instrument>electrocautery</instrument>]]></assert-serialization>
+         <assert-xml><![CDATA[<instrument>electrocautery</instrument>]]></assert-xml>
       </result>
    </test-case>
 
@@ -30,7 +30,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[for $s in //section[section.title = "Procedure"] return ($s//instrument)[position()<=2]]]></test>
       <result>
-         <assert-serialization><![CDATA[<instrument>using electrocautery.</instrument><instrument>electrocautery</instrument>]]></assert-serialization>
+         <assert-xml><![CDATA[<instrument>using electrocautery.</instrument><instrument>electrocautery</instrument>]]></assert-xml>
       </result>
    </test-case>
 
@@ -41,7 +41,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[let $i2 := (//incision)[2] for $a in (//action)[. >> $i2][position()<=2] return $a//instrument]]></test>
       <result>
-         <assert-serialization><![CDATA[<instrument>Hasson trocar</instrument><instrument>trocar</instrument>]]></assert-serialization>
+         <assert-xml><![CDATA[<instrument>Hasson trocar</instrument><instrument>trocar</instrument>]]></assert-xml>
       </result>
    </test-case>
 
@@ -63,12 +63,12 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[<critical_sequence> { let $proc := //section[section.title="Procedure"][1], $i1 := ($proc//incision)[1], $i2 := ($proc//incision)[2] for $n in $proc//node() except $i1//node() where $n >> $i1 and $n << $i2 return $n } </critical_sequence>]]></test>
       <result>
-         <assert-serialization><![CDATA[<critical_sequence>
+         <assert-xml><![CDATA[<critical_sequence>
       The fascia was identified and
       <action>#2 0 Maxon stay sutures were placed on each side of the midline.
       </action>#2 0 Maxon stay sutures were placed on each side of the midline.
       
-      </critical_sequence>]]></assert-serialization>
+      </critical_sequence>]]></assert-xml>
       </result>
    </test-case>
 </test-set>

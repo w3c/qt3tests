@@ -35,7 +35,7 @@
       <environment ref="bib2"/>
       <test>/bib/book/title except /bib/book[1]/title</test>
       <result>
-         <assert-serialization><![CDATA[<title>Advanced Programming in the Unix environment</title><title>Data on the Web</title><title>The Economics of Technology and Content for Digital TV</title>]]></assert-serialization>
+         <assert-xml><![CDATA[<title>Advanced Programming in the Unix environment</title><title>Data on the Web</title><title>The Economics of Technology and Content for Digital TV</title>]]></assert-xml>
       </result>
    </test-case>
 
@@ -138,7 +138,7 @@
       <environment ref="bib2"/>
       <test>//author except //nonexisting</test>
       <result>
-         <assert-serialization><![CDATA[<author><last>Stevens</last><first>W.</first></author><author><last>Stevens</last><first>W.</first></author><author><last>Abiteboul</last><first>Serge</first></author><author><last>Buneman</last><first>Peter</first></author><author><last>Suciu</last><first>Dan</first></author>]]></assert-serialization>
+         <assert-xml><![CDATA[<author><last>Stevens</last><first>W.</first></author><author><last>Stevens</last><first>W.</first></author><author><last>Abiteboul</last><first>Serge</first></author><author><last>Buneman</last><first>Peter</first></author><author><last>Suciu</last><first>Dan</first></author>]]></assert-xml>
       </result>
    </test-case>
 
@@ -148,7 +148,7 @@
       <environment ref="bib2"/>
       <test>//author except ()</test>
       <result>
-         <assert-serialization><![CDATA[<author><last>Stevens</last><first>W.</first></author><author><last>Stevens</last><first>W.</first></author><author><last>Abiteboul</last><first>Serge</first></author><author><last>Buneman</last><first>Peter</first></author><author><last>Suciu</last><first>Dan</first></author>]]></assert-serialization>
+         <assert-xml><![CDATA[<author><last>Stevens</last><first>W.</first></author><author><last>Stevens</last><first>W.</first></author><author><last>Abiteboul</last><first>Serge</first></author><author><last>Buneman</last><first>Peter</first></author><author><last>Suciu</last><first>Dan</first></author>]]></assert-xml>
       </result>
    </test-case>
 
@@ -663,7 +663,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[<r> { //(employee[location = "Denver"] except //employee[last()])/./location } </r>]]></test>
       <result>
-         <assert-serialization><![CDATA[<r><location>Denver</location><location>Denver</location><location>Denver</location></r>]]></assert-serialization>
+         <assert-xml><![CDATA[<r><location>Denver</location><location>Denver</location><location>Denver</location></r>]]></assert-xml>
       </result>
    </test-case>
 
@@ -673,7 +673,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[<a/> except <b/>]]></test>
       <result>
-         <assert-serialization><![CDATA[<a/>]]></assert-serialization>
+         <assert-xml><![CDATA[<a/>]]></assert-xml>
       </result>
    </test-case>
 
@@ -683,7 +683,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[<r> { let $i := <e> <a/> <b/> <c/> </e>/a , $t := $i/following-sibling::b return (($i except ($i, $i)), (($t, $t) except $t)) } </r>]]></test>
       <result>
-         <assert-serialization><![CDATA[<r/>]]></assert-serialization>
+         <assert-xml><![CDATA[<r/>]]></assert-xml>
       </result>
    </test-case>
    
@@ -694,8 +694,8 @@
       <test><![CDATA[(<a>0</a>,<a>1</a>) except (<a>3</a>,<a>4</a>)]]></test>
       <result>
          <any-of>
-            <assert-serialization><![CDATA[<a>0</a><a>1</a>]]></assert-serialization>
-            <assert-serialization><![CDATA[<a>1</a><a>0</a>]]></assert-serialization>
+            <assert-xml><![CDATA[<a>0</a><a>1</a>]]></assert-xml>
+            <assert-xml><![CDATA[<a>1</a><a>0</a>]]></assert-xml>
          </any-of>
       </result>
    </test-case>
@@ -707,8 +707,8 @@
       <test><![CDATA[(<a>0</a>,<a>1</a>) except (<a>3</a>,<a>4</a>,<a>0</a>)]]></test>
       <result>
          <any-of>
-            <assert-serialization><![CDATA[<a>0</a><a>1</a>]]></assert-serialization>
-            <assert-serialization><![CDATA[<a>1</a><a>0</a>]]></assert-serialization>
+            <assert-xml><![CDATA[<a>0</a><a>1</a>]]></assert-xml>
+            <assert-xml><![CDATA[<a>1</a><a>0</a>]]></assert-xml>
          </any-of>
       </result>
    </test-case>
@@ -755,7 +755,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test>for $h in ( ($works//hours) except ($staff//grade)) order by number($h) return $h</test>
       <result>
-         <assert-serialization><![CDATA[<hours>12</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>40</hours><hours>40</hours><hours>40</hours><hours>80</hours><hours>80</hours><hours>80</hours>]]></assert-serialization>
+         <assert-xml><![CDATA[<hours>12</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>40</hours><hours>40</hours><hours>40</hours><hours>80</hours><hours>80</hours><hours>80</hours>]]></assert-xml>
       </result>
    </test-case>
 

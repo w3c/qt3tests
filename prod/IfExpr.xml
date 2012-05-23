@@ -40,7 +40,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[if (fn:true()) then <elem1/> else <elem2/>]]></test>
       <result>
-         <assert-serialization><![CDATA[<elem1/>]]></assert-serialization>
+         <assert-xml><![CDATA[<elem1/>]]></assert-xml>
       </result>
    </test-case>
 
@@ -50,7 +50,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[if (fn:false()) then <elem1/> else <elem2/>]]></test>
       <result>
-         <assert-serialization><![CDATA[<elem2/>]]></assert-serialization>
+         <assert-xml><![CDATA[<elem2/>]]></assert-xml>
       </result>
    </test-case>
 
@@ -61,7 +61,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[if (//CompanyName) then <elem1/> else <elem2/>]]></test>
       <result>
-         <assert-serialization><![CDATA[<elem1/>]]></assert-serialization>
+         <assert-xml><![CDATA[<elem1/>]]></assert-xml>
       </result>
    </test-case>
 
@@ -72,7 +72,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[if (//NodeDoesNotExist) then <elem1/> else <elem2/>]]></test>
       <result>
-         <assert-serialization><![CDATA[<elem2/>]]></assert-serialization>
+         <assert-xml><![CDATA[<elem2/>]]></assert-xml>
       </result>
    </test-case>
 
@@ -82,7 +82,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[<out>{ if (1 != 0) then if (4 != 5) then 1 else 2 else 3 }</out>]]></test>
       <result>
-         <assert-serialization><![CDATA[<out>1</out>]]></assert-serialization>
+         <assert-xml><![CDATA[<out>1</out>]]></assert-xml>
       </result>
    </test-case>
 
@@ -93,7 +93,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[if (//MissingNode) then <elem3/> else if (/Root/Customers[@CustomerID='ALFKI']//Country = "Germany") then <elem1/> else <elem2/>]]></test>
       <result>
-         <assert-serialization><![CDATA[<elem1/>]]></assert-serialization>
+         <assert-xml><![CDATA[<elem1/>]]></assert-xml>
       </result>
    </test-case>
 
@@ -183,7 +183,7 @@
       <environment ref="fsx"/>
       <test>(//Folder)[1]/File[ if ( ./@name='File00000000000' ) then 2 else true() ]/FileName</test>
       <result>
-         <assert-serialization><![CDATA[<FileName>File00000000001</FileName><FileName>File00000000002</FileName><FileName>File00000000003</FileName><FileName>File00000000004</FileName><FileName>File00000000005</FileName><FileName>File00000000006</FileName><FileName>File00000000007</FileName><FileName>File00000000008</FileName><FileName>File00000000009</FileName><FileName>File00000000010</FileName><FileName>File00000000011</FileName><FileName>File00000000012</FileName><FileName>File00000000013</FileName><FileName>File00000000014</FileName><FileName>File00000000015</FileName><FileName>File00000000016</FileName><FileName>File00000000017</FileName><FileName>File00000000018</FileName><FileName>File00000000019</FileName><FileName>File00000000020</FileName><FileName>File00000000021</FileName><FileName>File00000000022</FileName><FileName>File00000000023</FileName><FileName>File00000000024</FileName><FileName>File00000000025</FileName><FileName>File00000000026</FileName><FileName>File00000000027</FileName><FileName>File00000000028</FileName><FileName>File00000000029</FileName><FileName>File00000000030</FileName>]]></assert-serialization>
+         <assert-xml><![CDATA[<FileName>File00000000001</FileName><FileName>File00000000002</FileName><FileName>File00000000003</FileName><FileName>File00000000004</FileName><FileName>File00000000005</FileName><FileName>File00000000006</FileName><FileName>File00000000007</FileName><FileName>File00000000008</FileName><FileName>File00000000009</FileName><FileName>File00000000010</FileName><FileName>File00000000011</FileName><FileName>File00000000012</FileName><FileName>File00000000013</FileName><FileName>File00000000014</FileName><FileName>File00000000015</FileName><FileName>File00000000016</FileName><FileName>File00000000017</FileName><FileName>File00000000018</FileName><FileName>File00000000019</FileName><FileName>File00000000020</FileName><FileName>File00000000021</FileName><FileName>File00000000022</FileName><FileName>File00000000023</FileName><FileName>File00000000024</FileName><FileName>File00000000025</FileName><FileName>File00000000026</FileName><FileName>File00000000027</FileName><FileName>File00000000028</FileName><FileName>File00000000029</FileName><FileName>File00000000030</FileName>]]></assert-xml>
       </result>
    </test-case>
 
@@ -193,7 +193,7 @@
       <environment ref="fsx"/>
       <test>for $file in (//Folder)[1]/File return if( $file/FileName='File00000000000' ) then $file/FileName else data( $file/FileName )</test>
       <result>
-         <assert-serialization><![CDATA[<FileName>File00000000000</FileName>File00000000001 File00000000002 File00000000003 File00000000004 File00000000005 File00000000006 File00000000007 File00000000008 File00000000009 File00000000010 File00000000011 File00000000012 File00000000013 File00000000014 File00000000015 File00000000016 File00000000017 File00000000018 File00000000019 File00000000020 File00000000021 File00000000022 File00000000023 File00000000024 File00000000025 File00000000026 File00000000027 File00000000028 File00000000029 File00000000030]]></assert-serialization>
+         <assert-xml><![CDATA[<FileName>File00000000000</FileName>File00000000001 File00000000002 File00000000003 File00000000004 File00000000005 File00000000006 File00000000007 File00000000008 File00000000009 File00000000010 File00000000011 File00000000012 File00000000013 File00000000014 File00000000015 File00000000016 File00000000017 File00000000018 File00000000019 File00000000020 File00000000021 File00000000022 File00000000023 File00000000024 File00000000025 File00000000026 File00000000027 File00000000028 File00000000029 File00000000030]]></assert-xml>
       </result>
    </test-case>
 

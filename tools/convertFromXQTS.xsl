@@ -124,9 +124,9 @@
                 <assert-false/>
             </xsl:when>
             <xsl:when test="contains($results, '&lt;')">
-                <assert-serialization>
+                <assert-xml>
                     <xsl:value-of select="$results"/>
-                </assert-serialization>
+                </assert-xml>
             </xsl:when>
             <xsl:otherwise>
                 <xsl:element name="{$assertion}" namespace="http://www.w3.org/2010/09/qt-fots-catalog">

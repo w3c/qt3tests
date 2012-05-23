@@ -34,7 +34,7 @@
             return (functx:add-attributes( $in-xml/a, xs:QName('att1'), 1))
       ]]></test>
       <result>
-         <assert-serialization><![CDATA[<a att1="1">x</a>]]></assert-serialization>
+         <assert-xml><![CDATA[<a att1="1">x</a>]]></assert-xml>
       </result>
    </test-case>
 
@@ -60,7 +60,7 @@
          return (functx:add-attributes( $in-xml/a, (xs:QName('att1'),xs:QName('att2')), (1,2)))
       ]]></test>
       <result>
-         <assert-serialization><![CDATA[<a att1="1" att2="2">x</a>]]></assert-serialization>
+         <assert-xml><![CDATA[<a att1="1" att2="2">x</a>]]></assert-xml>
       </result>
    </test-case>
 
@@ -86,7 +86,7 @@
          return (functx:add-attributes( $in-xml/b, (xs:QName('att1'),xs:QName('att2')), (1,2)))
       ]]></test>
       <result>
-         <assert-serialization><![CDATA[<b att2="2" att1="x">x</b>]]></assert-serialization>
+         <assert-xml><![CDATA[<b att2="2" att1="x">x</b>]]></assert-xml>
       </result>
    </test-case>
 
@@ -105,7 +105,7 @@
          return (functx:add-attributes( $in-xml/a, xs:QName('new:att1'), 1))
       ]]></test>
       <result>
-         <assert-serialization><![CDATA[<a xmlns:new="http://new" new:att1="1">x</a>]]></assert-serialization>
+         <assert-xml><![CDATA[<a xmlns:new="http://new" new:att1="1">x</a>]]></assert-xml>
       </result>
    </test-case>
 
@@ -125,7 +125,7 @@
          return (functx:add-attributes( $in-xml/a, QName('http://new','new:att1'), 1))
       ]]></test>
       <result>
-         <assert-serialization><![CDATA[<a xmlns:new="http://new" new:att1="1">x</a>]]></assert-serialization>
+         <assert-xml><![CDATA[<a xmlns:new="http://new" new:att1="1">x</a>]]></assert-xml>
       </result>
    </test-case>
 
@@ -156,7 +156,7 @@
                   functx:add-attributes( $in-xml/a, QName('http://new','new:att1'), 1))
       ]]></test>
       <result>
-         <assert-serialization><![CDATA[<a att1="1">x</a><a att1="1" att2="2">x</a><b att2="2" att1="x">x</b><a xmlns:new="http://new" new:att1="1">x</a><a xmlns:new="http://new" new:att1="1">x</a>]]></assert-serialization>
+         <assert-xml><![CDATA[<a att1="1">x</a><a att1="1" att2="2">x</a><b att2="2" att1="x">x</b><a xmlns:new="http://new" new:att1="1">x</a><a xmlns:new="http://new" new:att1="1">x</a>]]></assert-xml>
       </result>
    </test-case>
 
@@ -233,7 +233,7 @@
          declare function functx:add-or-update-attributes ( $elements as element()* , $attrNames as xs:QName* , $attrValues as xs:anyAtomicType* ) as element()? { for $element in $elements return element { node-name($element)} { for $attrName at $seq in $attrNames return attribute {$attrName} {$attrValues[$seq]}, $element/@*[not(node-name(.) = $attrNames)], $element/node() } } ;
                     let $in-xml := <in-xml> <a>x</a> <b att1="x">x</b> </in-xml> return (functx:add-or-update-attributes( $in-xml/a, xs:QName('att1'), 1))]]></test>
       <result>
-         <assert-serialization><![CDATA[<a att1="1">x</a>]]></assert-serialization>
+         <assert-xml><![CDATA[<a att1="1">x</a>]]></assert-xml>
       </result>
    </test-case>
 
@@ -246,7 +246,7 @@
          declare function functx:add-or-update-attributes ( $elements as element()* , $attrNames as xs:QName* , $attrValues as xs:anyAtomicType* ) as element()? { for $element in $elements return element { node-name($element)} { for $attrName at $seq in $attrNames return attribute {$attrName} {$attrValues[$seq]}, $element/@*[not(node-name(.) = $attrNames)], $element/node() } } ;
                     let $in-xml := <in-xml> <a>x</a> <b att1="x">x</b> </in-xml> return (functx:add-or-update-attributes( $in-xml/a, (xs:QName('att1'),xs:QName('att2')), (1,2)))]]></test>
       <result>
-         <assert-serialization><![CDATA[<a att1="1" att2="2">x</a>]]></assert-serialization>
+         <assert-xml><![CDATA[<a att1="1" att2="2">x</a>]]></assert-xml>
       </result>
    </test-case>
 
@@ -259,7 +259,7 @@
          declare function functx:add-or-update-attributes ( $elements as element()* , $attrNames as xs:QName* , $attrValues as xs:anyAtomicType* ) as element()? { for $element in $elements return element { node-name($element)} { for $attrName at $seq in $attrNames return attribute {$attrName} {$attrValues[$seq]}, $element/@*[not(node-name(.) = $attrNames)], $element/node() } } ;
                     let $in-xml := <in-xml> <a>x</a> <b att1="x">x</b> </in-xml> return (functx:add-or-update-attributes( $in-xml/b, (xs:QName('att1'),xs:QName('att2')), (1,2)))]]></test>
       <result>
-         <assert-serialization><![CDATA[<b att1="1" att2="2">x</b>]]></assert-serialization>
+         <assert-xml><![CDATA[<b att1="1" att2="2">x</b>]]></assert-xml>
       </result>
    </test-case>
 
@@ -272,7 +272,7 @@
          declare function functx:add-or-update-attributes ( $elements as element()* , $attrNames as xs:QName* , $attrValues as xs:anyAtomicType* ) as element()? { for $element in $elements return element { node-name($element)} { for $attrName at $seq in $attrNames return attribute {$attrName} {$attrValues[$seq]}, $element/@*[not(node-name(.) = $attrNames)], $element/node() } } ;
                     let $in-xml := <in-xml> <a>x</a> <b att1="x">x</b> </in-xml> return (functx:add-or-update-attributes( $in-xml/a, xs:QName('new:att1'), 1))]]></test>
       <result>
-         <assert-serialization><![CDATA[<a xmlns:new="http://new" new:att1="1">x</a>]]></assert-serialization>
+         <assert-xml><![CDATA[<a xmlns:new="http://new" new:att1="1">x</a>]]></assert-xml>
       </result>
    </test-case>
 
@@ -285,7 +285,7 @@
          declare function functx:add-or-update-attributes ( $elements as element()* , $attrNames as xs:QName* , $attrValues as xs:anyAtomicType* ) as element()? { for $element in $elements return element { node-name($element)} { for $attrName at $seq in $attrNames return attribute {$attrName} {$attrValues[$seq]}, $element/@*[not(node-name(.) = $attrNames)], $element/node() } } ;
                     let $in-xml := <in-xml> <a>x</a> <b att1="x">x</b> </in-xml> return (functx:add-or-update-attributes( $in-xml/a, QName('http://new','new:att1'), 1))]]></test>
       <result>
-         <assert-serialization><![CDATA[<a xmlns:new="http://new" new:att1="1">x</a>]]></assert-serialization>
+         <assert-xml><![CDATA[<a xmlns:new="http://new" new:att1="1">x</a>]]></assert-xml>
       </result>
    </test-case>
 
@@ -298,7 +298,7 @@
          declare function functx:add-or-update-attributes ( $elements as element()* , $attrNames as xs:QName* , $attrValues as xs:anyAtomicType* ) as element()? { for $element in $elements return element { node-name($element)} { for $attrName at $seq in $attrNames return attribute {$attrName} {$attrValues[$seq]}, $element/@*[not(node-name(.) = $attrNames)], $element/node() } } ;
                     let $in-xml := <in-xml> <a>x</a> <b att1="x">x</b> </in-xml> return (functx:add-or-update-attributes( $in-xml/a, xs:QName('att1'), 1), functx:add-or-update-attributes( $in-xml/a, (xs:QName('att1'),xs:QName('att2')), (1,2)), functx:add-or-update-attributes( $in-xml/b, (xs:QName('att1'),xs:QName('att2')), (1,2)), functx:add-or-update-attributes( $in-xml/a, xs:QName('new:att1'), 1), functx:add-or-update-attributes( $in-xml/a, QName('http://new','new:att1'), 1))]]></test>
       <result>
-         <assert-serialization><![CDATA[<a att1="1">x</a><a att1="1" att2="2">x</a><b att1="1" att2="2">x</b><a xmlns:new="http://new" new:att1="1">x</a><a xmlns:new="http://new" new:att1="1">x</a>]]></assert-serialization>
+         <assert-xml><![CDATA[<a att1="1">x</a><a att1="1" att2="2">x</a><b att1="1" att2="2">x</b><a xmlns:new="http://new" new:att1="1">x</a><a xmlns:new="http://new" new:att1="1">x</a>]]></assert-xml>
       </result>
    </test-case>
 
@@ -745,7 +745,7 @@
          declare function functx:if-empty ( $arg as item()? , $value as item()* ) as item()* { if (string($arg) != '') then data($arg) else $value } ;
                     let $in-xml-1 := <in-xml> <a> <b>b</b> <c>c</c> </a> </in-xml> return let $in-xml-2 := <in-xml xmlns:dty="http://datypic.com"> <a> <dty:b>b</dty:b> <c>c</c> </a> </in-xml> return (functx:change-element-names-deep( $in-xml-1, xs:QName('b'), xs:QName('y')))]]></test>
       <result>
-         <assert-serialization><![CDATA[<in-xml><a><y>b</y><c>c</c></a></in-xml>]]></assert-serialization>
+         <assert-xml><![CDATA[<in-xml><a><y>b</y><c>c</c></a></in-xml>]]></assert-xml>
       </result>
    </test-case>
 
@@ -760,7 +760,7 @@
          declare function functx:if-empty ( $arg as item()? , $value as item()* ) as item()* { if (string($arg) != '') then data($arg) else $value } ;
                     let $in-xml-1 := <in-xml> <a> <b>b</b> <c>c</c> </a> </in-xml> return let $in-xml-2 := <in-xml xmlns:dty="http://datypic.com"> <a> <dty:b>b</dty:b> <c>c</c> </a> </in-xml> return (functx:change-element-names-deep( $in-xml-1, (xs:QName('a'), xs:QName('b'),xs:QName('c')), (xs:QName('x'), xs:QName('y'),xs:QName('z'))))]]></test>
       <result>
-         <assert-serialization><![CDATA[<in-xml><x><y>b</y><z>c</z></x></in-xml>]]></assert-serialization>
+         <assert-xml><![CDATA[<in-xml><x><y>b</y><z>c</z></x></in-xml>]]></assert-xml>
       </result>
    </test-case>
 
@@ -775,7 +775,7 @@
          declare function functx:if-empty ( $arg as item()? , $value as item()* ) as item()* { if (string($arg) != '') then data($arg) else $value } ;
                     let $in-xml-1 := <in-xml> <a> <b>b</b> <c>c</c> </a> </in-xml> return let $in-xml-2 := <in-xml xmlns:dty="http://datypic.com"> <a> <dty:b>b</dty:b> <c>c</c> </a> </in-xml> return (functx:change-element-names-deep( $in-xml-2, (xs:QName('dty:b'),xs:QName('c')), (xs:QName('q'), QName('http://new','new:c'))))]]></test>
       <result>
-         <assert-serialization><![CDATA[<in-xml><a><q>b</q><new:c xmlns:new="http://new">c</new:c></a></in-xml>]]></assert-serialization>
+         <assert-xml><![CDATA[<in-xml><a><q>b</q><new:c xmlns:new="http://new">c</new:c></a></in-xml>]]></assert-xml>
       </result>
    </test-case>
 
@@ -790,7 +790,7 @@
          declare function functx:if-empty ( $arg as item()? , $value as item()* ) as item()* { if (string($arg) != '') then data($arg) else $value } ;
                     let $in-xml-1 := <in-xml> <a> <b>b</b> <c>c</c> </a> </in-xml> return let $in-xml-2 := <in-xml xmlns:dty="http://datypic.com"> <a> <dty:b>b</dty:b> <c>c</c> </a> </in-xml> return (functx:change-element-names-deep( $in-xml-1, xs:QName('b'), xs:QName('y')), functx:change-element-names-deep( $in-xml-1, (xs:QName('a'), xs:QName('b'),xs:QName('c')), (xs:QName('x'), xs:QName('y'),xs:QName('z'))), functx:change-element-names-deep( $in-xml-2, (xs:QName('dty:b'),xs:QName('c')), (xs:QName('q'), QName('http://new','new:c'))))]]></test>
       <result>
-         <assert-serialization><![CDATA[<in-xml><a><y>b</y><c>c</c></a></in-xml><in-xml><x><y>b</y><z>c</z></x></in-xml><in-xml><a><q>b</q><new:c xmlns:new="http://new">c</new:c></a></in-xml>]]></assert-serialization>
+         <assert-xml><![CDATA[<in-xml><a><y>b</y><c>c</c></a></in-xml><in-xml><x><y>b</y><z>c</z></x></in-xml><in-xml><a><q>b</q><new:c xmlns:new="http://new">c</new:c></a></in-xml>]]></assert-xml>
       </result>
    </test-case>
 
@@ -802,7 +802,7 @@
          declare function functx:change-element-ns-deep ( $nodes as node()* , $newns as xs:string , $prefix as xs:string ) as node()* { for $node in $nodes return if ($node instance of element()) then (element {QName ($newns, concat($prefix, if ($prefix = '') then '' else ':', local-name($node)))} {$node/@*, functx:change-element-ns-deep($node/node(), $newns, $prefix)}) else if ($node instance of document-node()) then functx:change-element-ns-deep($node/node(), $newns, $prefix) else $node } ;
                     let $in-xml := <bar:a xmlns:bar="http://bar"> <bar:b>557</bar:b> <bar:c>xyz</bar:c> </bar:a> return (functx:change-element-ns-deep( $in-xml, 'http://foo',''))]]></test>
       <result>
-         <assert-serialization><![CDATA[<a xmlns="http://foo"><b>557</b><c>xyz</c></a>]]></assert-serialization>
+         <assert-xml><![CDATA[<a xmlns="http://foo"><b>557</b><c>xyz</c></a>]]></assert-xml>
       </result>
    </test-case>
 
@@ -814,7 +814,7 @@
          declare function functx:change-element-ns-deep ( $nodes as node()* , $newns as xs:string , $prefix as xs:string ) as node()* { for $node in $nodes return if ($node instance of element()) then (element {QName ($newns, concat($prefix, if ($prefix = '') then '' else ':', local-name($node)))} {$node/@*, functx:change-element-ns-deep($node/node(), $newns, $prefix)}) else if ($node instance of document-node()) then functx:change-element-ns-deep($node/node(), $newns, $prefix) else $node } ;
                     let $in-xml := <bar:a xmlns:bar="http://bar"> <bar:b>557</bar:b> <bar:c>xyz</bar:c> </bar:a> return (functx:change-element-ns-deep( $in-xml, 'http://foo','foo'))]]></test>
       <result>
-         <assert-serialization><![CDATA[<foo:a xmlns:foo="http://foo"><foo:b>557</foo:b><foo:c>xyz</foo:c></foo:a>]]></assert-serialization>
+         <assert-xml><![CDATA[<foo:a xmlns:foo="http://foo"><foo:b>557</foo:b><foo:c>xyz</foo:c></foo:a>]]></assert-xml>
       </result>
    </test-case>
 
@@ -826,7 +826,7 @@
          declare function functx:change-element-ns-deep ( $nodes as node()* , $newns as xs:string , $prefix as xs:string ) as node()* { for $node in $nodes return if ($node instance of element()) then (element {QName ($newns, concat($prefix, if ($prefix = '') then '' else ':', local-name($node)))} {$node/@*, functx:change-element-ns-deep($node/node(), $newns, $prefix)}) else if ($node instance of document-node()) then functx:change-element-ns-deep($node/node(), $newns, $prefix) else $node } ;
                     let $in-xml := <bar:a xmlns:bar="http://bar"> <bar:b>557</bar:b> <bar:c>xyz</bar:c> </bar:a> return (functx:change-element-ns-deep( $in-xml, 'http://foo',''), functx:change-element-ns-deep( $in-xml, 'http://foo','foo'))]]></test>
       <result>
-         <assert-serialization><![CDATA[<a xmlns="http://foo"><b>557</b><c>xyz</c></a><foo:a xmlns:foo="http://foo"><foo:b>557</foo:b><foo:c>xyz</foo:c></foo:a>]]></assert-serialization>
+         <assert-xml><![CDATA[<a xmlns="http://foo"><b>557</b><c>xyz</c></a><foo:a xmlns:foo="http://foo"><foo:b>557</foo:b><foo:c>xyz</foo:c></foo:a>]]></assert-xml>
       </result>
    </test-case>
 
@@ -838,7 +838,7 @@
          declare function functx:change-element-ns ( $elements as element()* , $newns as xs:string , $prefix as xs:string ) as element()? { for $element in $elements return element {QName ($newns, concat($prefix, if ($prefix = '') then '' else ':', local-name($element)))} {$element/@*, $element/node()} } ;
                     let $in-xml := <bar:a xmlns:bar="http://bar"> <bar:b>557</bar:b> <bar:c>xyz</bar:c> </bar:a> return (functx:change-element-ns( $in-xml, 'http://foo',''))]]></test>
       <result>
-         <assert-serialization><![CDATA[<a xmlns="http://foo"><bar:b xmlns:bar="http://bar">557</bar:b><bar:c xmlns:bar="http://bar">xyz</bar:c></a>]]></assert-serialization>
+         <assert-xml><![CDATA[<a xmlns="http://foo"><bar:b xmlns:bar="http://bar">557</bar:b><bar:c xmlns:bar="http://bar">xyz</bar:c></a>]]></assert-xml>
       </result>
    </test-case>
 
@@ -850,7 +850,7 @@
          declare function functx:change-element-ns ( $elements as element()* , $newns as xs:string , $prefix as xs:string ) as element()? { for $element in $elements return element {QName ($newns, concat($prefix, if ($prefix = '') then '' else ':', local-name($element)))} {$element/@*, $element/node()} } ;
                     let $in-xml := <bar:a xmlns:bar="http://bar"> <bar:b>557</bar:b> <bar:c>xyz</bar:c> </bar:a> return (functx:change-element-ns( $in-xml, 'http://foo','foo'))]]></test>
       <result>
-         <assert-serialization><![CDATA[<foo:a xmlns:foo="http://foo"><bar:b xmlns:bar="http://bar">557</bar:b><bar:c xmlns:bar="http://bar">xyz</bar:c></foo:a>]]></assert-serialization>
+         <assert-xml><![CDATA[<foo:a xmlns:foo="http://foo"><bar:b xmlns:bar="http://bar">557</bar:b><bar:c xmlns:bar="http://bar">xyz</bar:c></foo:a>]]></assert-xml>
       </result>
    </test-case>
 
@@ -862,7 +862,7 @@
          declare function functx:change-element-ns ( $elements as element()* , $newns as xs:string , $prefix as xs:string ) as element()? { for $element in $elements return element {QName ($newns, concat($prefix, if ($prefix = '') then '' else ':', local-name($element)))} {$element/@*, $element/node()} } ;
                     let $in-xml := <bar:a xmlns:bar="http://bar"> <bar:b>557</bar:b> <bar:c>xyz</bar:c> </bar:a> return (functx:change-element-ns( $in-xml, 'http://foo',''), functx:change-element-ns( $in-xml, 'http://foo','foo'))]]></test>
       <result>
-         <assert-serialization><![CDATA[<a xmlns="http://foo"><bar:b xmlns:bar="http://bar">557</bar:b><bar:c xmlns:bar="http://bar">xyz</bar:c></a><foo:a xmlns:foo="http://foo"><bar:b xmlns:bar="http://bar">557</bar:b><bar:c xmlns:bar="http://bar">xyz</bar:c></foo:a>]]></assert-serialization>
+         <assert-xml><![CDATA[<a xmlns="http://foo"><bar:b xmlns:bar="http://bar">557</bar:b><bar:c xmlns:bar="http://bar">xyz</bar:c></a><foo:a xmlns:foo="http://foo"><bar:b xmlns:bar="http://bar">557</bar:b><bar:c xmlns:bar="http://bar">xyz</bar:c></foo:a>]]></assert-xml>
       </result>
    </test-case>
 
@@ -1066,7 +1066,7 @@
          declare function functx:copy-attributes ( $copyTo as element() , $copyFrom as element() ) as element() { element { node-name($copyTo)} { $copyTo/@*[not(node-name(.) = $copyFrom/@*/node-name(.))], $copyFrom/@*, $copyTo/node() } } ;
                     let $in-xml := <in-xml> <a>123</a>> <b x="1" y="2">456</b> <c x="9">123</c> <d z="5">123</d> </in-xml> return (functx:copy-attributes( $in-xml/a, $in-xml/b))]]></test>
       <result>
-         <assert-serialization><![CDATA[<a y="2" x="1">123</a>]]></assert-serialization>
+         <assert-xml><![CDATA[<a y="2" x="1">123</a>]]></assert-xml>
       </result>
    </test-case>
 
@@ -1078,7 +1078,7 @@
          declare function functx:copy-attributes ( $copyTo as element() , $copyFrom as element() ) as element() { element { node-name($copyTo)} { $copyTo/@*[not(node-name(.) = $copyFrom/@*/node-name(.))], $copyFrom/@*, $copyTo/node() } } ;
                     let $in-xml := <in-xml> <a>123</a>> <b x="1" y="2">456</b> <c x="9">123</c> <d z="5">123</d> </in-xml> return (functx:copy-attributes( $in-xml/b, $in-xml/c))]]></test>
       <result>
-         <assert-serialization><![CDATA[<b y="2" x="9">456</b>]]></assert-serialization>
+         <assert-xml><![CDATA[<b y="2" x="9">456</b>]]></assert-xml>
       </result>
    </test-case>
 
@@ -1090,7 +1090,7 @@
          declare function functx:copy-attributes ( $copyTo as element() , $copyFrom as element() ) as element() { element { node-name($copyTo)} { $copyTo/@*[not(node-name(.) = $copyFrom/@*/node-name(.))], $copyFrom/@*, $copyTo/node() } } ;
                     let $in-xml := <in-xml> <a>123</a>> <b x="1" y="2">456</b> <c x="9">123</c> <d z="5">123</d> </in-xml> return (functx:copy-attributes( $in-xml/d, $in-xml/c))]]></test>
       <result>
-         <assert-serialization><![CDATA[<d z="5" x="9">123</d>]]></assert-serialization>
+         <assert-xml><![CDATA[<d z="5" x="9">123</d>]]></assert-xml>
       </result>
    </test-case>
 
@@ -1102,7 +1102,7 @@
          declare function functx:copy-attributes ( $copyTo as element() , $copyFrom as element() ) as element() { element { node-name($copyTo)} { $copyTo/@*[not(node-name(.) = $copyFrom/@*/node-name(.))], $copyFrom/@*, $copyTo/node() } } ;
                     let $in-xml := <in-xml> <a>123</a>> <b x="1" y="2">456</b> <c x="9">123</c> <d z="5">123</d> </in-xml> return (functx:copy-attributes( $in-xml/a, $in-xml/b), functx:copy-attributes( $in-xml/b, $in-xml/c), functx:copy-attributes( $in-xml/d, $in-xml/c))]]></test>
       <result>
-         <assert-serialization><![CDATA[<a y="2" x="1">123</a><b y="2" x="9">456</b><d z="5" x="9">123</d>]]></assert-serialization>
+         <assert-xml><![CDATA[<a y="2" x="1">123</a><b y="2" x="9">456</b><d z="5" x="9">123</d>]]></assert-xml>
       </result>
    </test-case>
 
@@ -1684,7 +1684,7 @@
          declare function functx:is-node-in-sequence-deep-equal ( $node as node()? , $seq as node()* ) as xs:boolean { some $nodeInSeq in $seq satisfies deep-equal($nodeInSeq,$node) } ;
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>Kate</fName> <lName>Doe</lName> </author> </authors> return (functx:distinct-deep($in-xml//author))]]></test>
       <result>
-         <assert-serialization><![CDATA[<author><fName>Kate</fName><lName>Jones</lName></author><author><fName>Kate</fName><lName>Doe</lName></author>]]></assert-serialization>
+         <assert-xml><![CDATA[<author><fName>Kate</fName><lName>Jones</lName></author><author><fName>Kate</fName><lName>Doe</lName></author>]]></assert-xml>
       </result>
    </test-case>
 
@@ -1698,7 +1698,7 @@
          declare function functx:is-node-in-sequence-deep-equal ( $node as node()? , $seq as node()* ) as xs:boolean { some $nodeInSeq in $seq satisfies deep-equal($nodeInSeq,$node) } ;
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>Kate</fName> <lName>Doe</lName> </author> </authors> return (functx:distinct-deep($in-xml//lName))]]></test>
       <result>
-         <assert-serialization><![CDATA[<lName>Jones</lName><lName>Doe</lName>]]></assert-serialization>
+         <assert-xml><![CDATA[<lName>Jones</lName><lName>Doe</lName>]]></assert-xml>
       </result>
    </test-case>
 
@@ -1712,7 +1712,7 @@
          declare function functx:is-node-in-sequence-deep-equal ( $node as node()? , $seq as node()* ) as xs:boolean { some $nodeInSeq in $seq satisfies deep-equal($nodeInSeq,$node) } ;
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>Kate</fName> <lName>Doe</lName> </author> </authors> return (functx:distinct-deep($in-xml//fName))]]></test>
       <result>
-         <assert-serialization><![CDATA[<fName>Kate</fName>]]></assert-serialization>
+         <assert-xml><![CDATA[<fName>Kate</fName>]]></assert-xml>
       </result>
    </test-case>
 
@@ -1726,7 +1726,7 @@
          declare function functx:is-node-in-sequence-deep-equal ( $node as node()? , $seq as node()* ) as xs:boolean { some $nodeInSeq in $seq satisfies deep-equal($nodeInSeq,$node) } ;
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>Kate</fName> <lName>Doe</lName> </author> </authors> return (functx:distinct-deep($in-xml//author), functx:distinct-deep($in-xml//lName), functx:distinct-deep($in-xml//fName))]]></test>
       <result>
-         <assert-serialization><![CDATA[<author><fName>Kate</fName><lName>Jones</lName></author><author><fName>Kate</fName><lName>Doe</lName></author><lName>Jones</lName><lName>Doe</lName><fName>Kate</fName>]]></assert-serialization>
+         <assert-xml><![CDATA[<author><fName>Kate</fName><lName>Jones</lName></author><author><fName>Kate</fName><lName>Doe</lName></author><lName>Jones</lName><lName>Doe</lName><fName>Kate</fName>]]></assert-xml>
       </result>
    </test-case>
 
@@ -1824,7 +1824,7 @@
          declare function functx:is-node-in-sequence ( $node as node()? , $seq as node()* ) as xs:boolean { some $nodeInSeq in $seq satisfies $nodeInSeq is $node } ;
                     let $in-xml :=  <test> <child>1</child> <child>2</child> <child>3</child> <child>3</child> </test> return (functx:distinct-nodes( ($in-xml/child, $in-xml/*) ))]]></test>
       <result>
-         <assert-serialization><![CDATA[<child>1</child><child>2</child><child>3</child><child>3</child>]]></assert-serialization>
+         <assert-xml><![CDATA[<child>1</child><child>2</child><child>3</child><child>3</child>]]></assert-xml>
       </result>
    </test-case>
 
@@ -1838,7 +1838,7 @@
          declare function functx:is-node-in-sequence ( $node as node()? , $seq as node()* ) as xs:boolean { some $nodeInSeq in $seq satisfies $nodeInSeq is $node } ;
                     let $in-xml :=  <test> <child>1</child> <child>2</child> <child>3</child> <child>3</child> </test> return (functx:distinct-nodes( ($in-xml/child[3], $in-xml/*) ))]]></test>
       <result>
-         <assert-serialization><![CDATA[<child>3</child><child>1</child><child>2</child><child>3</child>]]></assert-serialization>
+         <assert-xml><![CDATA[<child>3</child><child>1</child><child>2</child><child>3</child>]]></assert-xml>
       </result>
    </test-case>
 
@@ -1852,7 +1852,7 @@
          declare function functx:is-node-in-sequence ( $node as node()? , $seq as node()* ) as xs:boolean { some $nodeInSeq in $seq satisfies $nodeInSeq is $node } ;
                     let $in-xml :=  <test> <child>1</child> <child>2</child> <child>3</child> <child>3</child> </test> return (functx:distinct-nodes( ($in-xml/child, $in-xml/*) ), functx:distinct-nodes( ($in-xml/child[3], $in-xml/*) ))]]></test>
       <result>
-         <assert-serialization><![CDATA[<child>1</child><child>2</child><child>3</child><child>3</child><child>3</child><child>1</child><child>2</child><child>3</child>]]></assert-serialization>
+         <assert-xml><![CDATA[<child>1</child><child>2</child><child>3</child><child>3</child><child>3</child><child>1</child><child>2</child><child>3</child>]]></assert-xml>
       </result>
    </test-case>
 
@@ -1918,7 +1918,7 @@
          declare function functx:substring-before-if-contains ( $arg as xs:string? , $delim as xs:string ) as xs:string? { if (contains($arg,$delim)) then substring-before($arg,$delim) else $arg } ;
                     let $in-xml := <authors> <author test="abc"> <first>Kate</first> <last>Jones</last> </author> <author> <first>John</first> <a:last xmlns:a="http://a">Doe</a:last> </author> </authors> return (functx:dynamic-path( $in-xml,'author/first'))]]></test>
       <result>
-         <assert-serialization><![CDATA[<first>Kate</first><first>John</first>]]></assert-serialization>
+         <assert-xml><![CDATA[<first>Kate</first><first>John</first>]]></assert-xml>
       </result>
    </test-case>
 
@@ -1954,7 +1954,7 @@
          declare function functx:substring-before-if-contains ( $arg as xs:string? , $delim as xs:string ) as xs:string? { if (contains($arg,$delim)) then substring-before($arg,$delim) else $arg } ;
                     let $in-xml := <authors> <author test="abc"> <first>Kate</first> <last>Jones</last> </author> <author> <first>John</first> <a:last xmlns:a="http://a">Doe</a:last> </author> </authors> return (functx:dynamic-path( $in-xml,'author'))]]></test>
       <result>
-         <assert-serialization><![CDATA[<author test="abc"><first>Kate</first><last>Jones</last></author><author><first>John</first><a:last xmlns:a="http://a">Doe</a:last></author>]]></assert-serialization>
+         <assert-xml><![CDATA[<author test="abc"><first>Kate</first><last>Jones</last></author><author><first>John</first><a:last xmlns:a="http://a">Doe</a:last></author>]]></assert-xml>
       </result>
    </test-case>
 
@@ -1972,7 +1972,7 @@
          declare function functx:substring-before-if-contains ( $arg as xs:string? , $delim as xs:string ) as xs:string? { if (contains($arg,$delim)) then substring-before($arg,$delim) else $arg } ;
                     let $in-xml := <authors> <author test="abc"> <first>Kate</first> <last>Jones</last> </author> <author> <first>John</first> <a:last xmlns:a="http://a">Doe</a:last> </author> </authors> return (functx:dynamic-path( $in-xml,'author/a:last'))]]></test>
       <result>
-         <assert-serialization><![CDATA[<a:last xmlns:a="http://a">Doe</a:last>]]></assert-serialization>
+         <assert-xml><![CDATA[<a:last xmlns:a="http://a">Doe</a:last>]]></assert-xml>
       </result>
    </test-case>
 
@@ -1990,7 +1990,7 @@
          declare function functx:substring-before-if-contains ( $arg as xs:string? , $delim as xs:string ) as xs:string? { if (contains($arg,$delim)) then substring-before($arg,$delim) else $arg } ;
                     let $in-xml := <authors> <author test="abc"> <first>Kate</first> <last>Jones</last> </author> <author> <first>John</first> <a:last xmlns:a="http://a">Doe</a:last> </author> </authors> return (functx:dynamic-path( $in-xml,'author/first'), name(functx:dynamic-path( $in-xml,'author/@test')), functx:dynamic-path( $in-xml,'author'), functx:dynamic-path( $in-xml,'author/a:last'))]]></test>
       <result>
-         <assert-serialization><![CDATA[<first>Kate</first><first>John</first>test<author test="abc"><first>Kate</first><last>Jones</last></author><author><first>John</first><a:last xmlns:a="http://a">Doe</a:last></author><a:last xmlns:a="http://a">Doe</a:last>]]></assert-serialization>
+         <assert-xml><![CDATA[<first>Kate</first><first>John</first>test<author test="abc"><first>Kate</first><last>Jones</last></author><author><first>John</first><a:last xmlns:a="http://a">Doe</a:last></author><a:last xmlns:a="http://a">Doe</a:last>]]></assert-xml>
       </result>
    </test-case>
 
@@ -2234,7 +2234,7 @@
          declare function functx:first-node ( $nodes as node()* ) as node()? { ($nodes/.)[1] } ;
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return (functx:first-node($in-xml//fName))]]></test>
       <result>
-         <assert-serialization><![CDATA[<fName>Kate</fName>]]></assert-serialization>
+         <assert-xml><![CDATA[<fName>Kate</fName>]]></assert-xml>
       </result>
    </test-case>
 
@@ -2246,7 +2246,7 @@
          declare function functx:first-node ( $nodes as node()* ) as node()? { ($nodes/.)[1] } ;
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return (functx:first-node( ($in-xml//lName, $in-xml//fName) ))]]></test>
       <result>
-         <assert-serialization><![CDATA[<fName>Kate</fName>]]></assert-serialization>
+         <assert-xml><![CDATA[<fName>Kate</fName>]]></assert-xml>
       </result>
    </test-case>
 
@@ -2258,7 +2258,7 @@
          declare function functx:first-node ( $nodes as node()* ) as node()? { ($nodes/.)[1] } ;
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return (functx:first-node($in-xml//fName), functx:first-node( ($in-xml//lName, $in-xml//fName) ))]]></test>
       <result>
-         <assert-serialization><![CDATA[<fName>Kate</fName><fName>Kate</fName>]]></assert-serialization>
+         <assert-xml><![CDATA[<fName>Kate</fName><fName>Kate</fName>]]></assert-xml>
       </result>
    </test-case>
 
@@ -2372,7 +2372,7 @@
          declare function functx:replace-first ( $arg as xs:string? , $pattern as xs:string , $replacement as xs:string ) as xs:string { replace($arg, concat('(^.*?)', $pattern), concat('$1',$replacement)) } ;
                     (functx:get-matches-and-non-matches( 'abc123def', '\d+'))]]></test>
       <result>
-         <assert-serialization><![CDATA[<non-match>abc</non-match><match>123</match><non-match>def</non-match>]]></assert-serialization>
+         <assert-xml><![CDATA[<non-match>abc</non-match><match>123</match><non-match>def</non-match>]]></assert-xml>
       </result>
    </test-case>
 
@@ -2388,7 +2388,7 @@
          declare function functx:replace-first ( $arg as xs:string? , $pattern as xs:string , $replacement as xs:string ) as xs:string { replace($arg, concat('(^.*?)', $pattern), concat('$1',$replacement)) } ;
                     (functx:get-matches-and-non-matches( 'abc123def', '\d'))]]></test>
       <result>
-         <assert-serialization><![CDATA[<non-match>abc</non-match><match>1</match><match>2</match><match>3</match><non-match>def</non-match>]]></assert-serialization>
+         <assert-xml><![CDATA[<non-match>abc</non-match><match>1</match><match>2</match><match>3</match><non-match>def</non-match>]]></assert-xml>
       </result>
    </test-case>
 
@@ -2404,7 +2404,7 @@
          declare function functx:replace-first ( $arg as xs:string? , $pattern as xs:string , $replacement as xs:string ) as xs:string { replace($arg, concat('(^.*?)', $pattern), concat('$1',$replacement)) } ;
                     (functx:get-matches-and-non-matches( 'abc123def', '[a-z]{2}'))]]></test>
       <result>
-         <assert-serialization><![CDATA[<match>ab</match><non-match>c123</non-match><match>de</match><non-match>f</non-match>]]></assert-serialization>
+         <assert-xml><![CDATA[<match>ab</match><non-match>c123</non-match><match>de</match><non-match>f</non-match>]]></assert-xml>
       </result>
    </test-case>
 
@@ -2420,7 +2420,7 @@
          declare function functx:replace-first ( $arg as xs:string? , $pattern as xs:string , $replacement as xs:string ) as xs:string { replace($arg, concat('(^.*?)', $pattern), concat('$1',$replacement)) } ;
                     (functx:get-matches-and-non-matches( 'abc123def', '\d+'), functx:get-matches-and-non-matches( 'abc123def', '\d'), functx:get-matches-and-non-matches( 'abc123def', '[a-z]{2}'))]]></test>
       <result>
-         <assert-serialization><![CDATA[<non-match>abc</non-match><match>123</match><non-match>def</non-match><non-match>abc</non-match><match>1</match><match>2</match><match>3</match><non-match>def</non-match><match>ab</match><non-match>c123</non-match><match>de</match><non-match>f</non-match>]]></assert-serialization>
+         <assert-xml><![CDATA[<non-match>abc</non-match><match>123</match><non-match>def</non-match><non-match>abc</non-match><match>1</match><match>2</match><match>3</match><non-match>def</non-match><match>ab</match><non-match>c123</non-match><match>de</match><non-match>f</non-match>]]></assert-xml>
       </result>
    </test-case>
 
@@ -2913,7 +2913,7 @@
          declare function functx:id-untyped ( $node as node()* , $id as xs:anyAtomicType ) as element()* { $node//*[@* = $id] } ;
                     let $in-xml := <in-xml> <a id="A001">abc</a> <b foo="A001">def</b> <c id="B001">ghi</c> </in-xml> return (functx:id-untyped($in-xml,'B001'))]]></test>
       <result>
-         <assert-serialization><![CDATA[<c id="B001">ghi</c>]]></assert-serialization>
+         <assert-xml><![CDATA[<c id="B001">ghi</c>]]></assert-xml>
       </result>
    </test-case>
 
@@ -2925,7 +2925,7 @@
          declare function functx:id-untyped ( $node as node()* , $id as xs:anyAtomicType ) as element()* { $node//*[@* = $id] } ;
                     let $in-xml := <in-xml> <a id="A001">abc</a> <b foo="A001">def</b> <c id="B001">ghi</c> </in-xml> return (functx:id-untyped($in-xml,'A001'))]]></test>
       <result>
-         <assert-serialization><![CDATA[<a id="A001">abc</a><b foo="A001">def</b>]]></assert-serialization>
+         <assert-xml><![CDATA[<a id="A001">abc</a><b foo="A001">def</b>]]></assert-xml>
       </result>
    </test-case>
 
@@ -2949,7 +2949,7 @@
          declare function functx:id-untyped ( $node as node()* , $id as xs:anyAtomicType ) as element()* { $node//*[@* = $id] } ;
                     let $in-xml := <in-xml> <a id="A001">abc</a> <b foo="A001">def</b> <c id="B001">ghi</c> </in-xml> return (functx:id-untyped($in-xml,'B001'), functx:id-untyped($in-xml,'A001'), functx:id-untyped($in-xml,'C001'))]]></test>
       <result>
-         <assert-serialization><![CDATA[<c id="B001">ghi</c><a id="A001">abc</a><b foo="A001">def</b>]]></assert-serialization>
+         <assert-xml><![CDATA[<c id="B001">ghi</c><a id="A001">abc</a><b foo="A001">def</b>]]></assert-xml>
       </result>
    </test-case>
 
@@ -4261,7 +4261,7 @@
          declare function functx:last-node ( $nodes as node()* ) as node()? { ($nodes/.)[last()] } ;
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return (functx:last-node($in-xml//fName))]]></test>
       <result>
-         <assert-serialization><![CDATA[<fName>John</fName>]]></assert-serialization>
+         <assert-xml><![CDATA[<fName>John</fName>]]></assert-xml>
       </result>
    </test-case>
 
@@ -4273,7 +4273,7 @@
          declare function functx:last-node ( $nodes as node()* ) as node()? { ($nodes/.)[last()] } ;
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return (functx:last-node( ($in-xml//lName, $in-xml//fName) ))]]></test>
       <result>
-         <assert-serialization><![CDATA[<lName>Doe</lName>]]></assert-serialization>
+         <assert-xml><![CDATA[<lName>Doe</lName>]]></assert-xml>
       </result>
    </test-case>
 
@@ -4285,7 +4285,7 @@
          declare function functx:last-node ( $nodes as node()* ) as node()? { ($nodes/.)[last()] } ;
                     let $in-xml := <authors> <author> <fName>Kate</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return (functx:last-node($in-xml//fName), functx:last-node( ($in-xml//lName, $in-xml//fName) ))]]></test>
       <result>
-         <assert-serialization><![CDATA[<fName>John</fName><lName>Doe</lName>]]></assert-serialization>
+         <assert-xml><![CDATA[<fName>John</fName><lName>Doe</lName>]]></assert-xml>
       </result>
    </test-case>
 
@@ -4307,7 +4307,7 @@
         return (functx:leaf-elements($in-xml))
       ]]></test>
       <result>
-         <assert-serialization><![CDATA[<fName>Kate</fName><lName>Jones</lName><fName>John</fName><lName>Doe</lName>]]></assert-serialization>
+         <assert-xml><![CDATA[<fName>Kate</fName><lName>Jones</lName><fName>John</fName><lName>Doe</lName>]]></assert-xml>
       </result>
    </test-case>
 
@@ -4329,7 +4329,7 @@
         return (functx:leaf-elements($in-xml/author[1]))
       ]]></test>
       <result>
-         <assert-serialization><![CDATA[<fName>Kate</fName><lName>Jones</lName>]]></assert-serialization>
+         <assert-xml><![CDATA[<fName>Kate</fName><lName>Jones</lName>]]></assert-xml>
       </result>
    </test-case>
 
@@ -4351,7 +4351,7 @@
         return (functx:leaf-elements($in-xml), functx:leaf-elements($in-xml/author[1]))
       ]]></test>
       <result>
-         <assert-serialization><![CDATA[<fName>Kate</fName><lName>Jones</lName><fName>John</fName><lName>Doe</lName><fName>Kate</fName><lName>Jones</lName>]]></assert-serialization>
+         <assert-xml><![CDATA[<fName>Kate</fName><lName>Jones</lName><fName>John</fName><lName>Doe</lName><fName>Kate</fName><lName>Jones</lName>]]></assert-xml>
       </result>
    </test-case>
 
@@ -4636,7 +4636,7 @@ let $lines := 'a
          declare function functx:max-node ( $nodes as node()* ) as node()* { $nodes[. = max($nodes)] } ;
                     let $in-xml := <values> <int>1</int> <int>23</int> <int>115</int> </values> return (functx:max-node($in-xml//int))]]></test>
       <result>
-         <assert-serialization><![CDATA[<int>115</int>]]></assert-serialization>
+         <assert-xml><![CDATA[<int>115</int>]]></assert-xml>
       </result>
    </test-case>
 
@@ -4732,7 +4732,7 @@ let $lines := 'a
          declare function functx:min-node ( $nodes as node()* ) as node()* { $nodes[. = min($nodes)] } ;
                     let $in-xml := <values> <int>1</int> <int>23</int> <int>115</int> </values> return (functx:min-node($in-xml//int))]]></test>
       <result>
-         <assert-serialization><![CDATA[<int>1</int>]]></assert-serialization>
+         <assert-xml><![CDATA[<int>1</int>]]></assert-xml>
       </result>
    </test-case>
 
@@ -5570,7 +5570,7 @@ let $lines := 'a
          declare function functx:substring-after-if-contains ( $arg as xs:string? , $delim as xs:string ) as xs:string? { if (contains($arg,$delim)) then substring-after($arg,$delim) else $arg } ;
                     let $in-xml-1 := <a attr1="123" attr2="456"> <b attr1="xzy">abc</b> </a> return let $in-xml-2 := <a xmlns:a="http://a" a:attr1="123" attr1="456"> <b a:attr1="ghi" attr1="xzy">abc</b> </a> return (functx:remove-attributes-deep( $in-xml-1, ('attr1','attr2')))]]></test>
       <result>
-         <assert-serialization><![CDATA[<a><b>abc</b></a>]]></assert-serialization>
+         <assert-xml><![CDATA[<a><b>abc</b></a>]]></assert-xml>
       </result>
    </test-case>
 
@@ -5586,7 +5586,7 @@ let $lines := 'a
          declare function functx:substring-after-if-contains ( $arg as xs:string? , $delim as xs:string ) as xs:string? { if (contains($arg,$delim)) then substring-after($arg,$delim) else $arg } ;
                     let $in-xml-1 := <a attr1="123" attr2="456"> <b attr1="xzy">abc</b> </a> return let $in-xml-2 := <a xmlns:a="http://a" a:attr1="123" attr1="456"> <b a:attr1="ghi" attr1="xzy">abc</b> </a> return (functx:remove-attributes-deep( $in-xml-1, ('attr1','attr3')))]]></test>
       <result>
-         <assert-serialization><![CDATA[<a attr2="456"><b>abc</b></a>]]></assert-serialization>
+         <assert-xml><![CDATA[<a attr2="456"><b>abc</b></a>]]></assert-xml>
       </result>
    </test-case>
 
@@ -5602,7 +5602,7 @@ let $lines := 'a
          declare function functx:substring-after-if-contains ( $arg as xs:string? , $delim as xs:string ) as xs:string? { if (contains($arg,$delim)) then substring-after($arg,$delim) else $arg } ;
                     let $in-xml-1 := <a attr1="123" attr2="456"> <b attr1="xzy">abc</b> </a> return let $in-xml-2 := <a xmlns:a="http://a" a:attr1="123" attr1="456"> <b a:attr1="ghi" attr1="xzy">abc</b> </a> return (functx:remove-attributes-deep( $in-xml-2, 'a:attr1'))]]></test>
       <result>
-         <assert-serialization><![CDATA[<a attr1="456"><b attr1="xzy">abc</b></a>]]></assert-serialization>
+         <assert-xml><![CDATA[<a attr1="456"><b attr1="xzy">abc</b></a>]]></assert-xml>
       </result>
    </test-case>
 
@@ -5618,7 +5618,7 @@ let $lines := 'a
          declare function functx:substring-after-if-contains ( $arg as xs:string? , $delim as xs:string ) as xs:string? { if (contains($arg,$delim)) then substring-after($arg,$delim) else $arg } ;
                     let $in-xml-1 := <a attr1="123" attr2="456"> <b attr1="xzy">abc</b> </a> return let $in-xml-2 := <a xmlns:a="http://a" a:attr1="123" attr1="456"> <b a:attr1="ghi" attr1="xzy">abc</b> </a> return (functx:remove-attributes-deep( $in-xml-1, ('attr1','attr2')), functx:remove-attributes-deep( $in-xml-1, ('attr1','attr3')), functx:remove-attributes-deep( $in-xml-2, 'a:attr1'))]]></test>
       <result>
-         <assert-serialization><![CDATA[<a><b>abc</b></a><a attr2="456"><b>abc</b></a><a attr1="456"><b attr1="xzy">abc</b></a>]]></assert-serialization>
+         <assert-xml><![CDATA[<a><b>abc</b></a><a attr2="456"><b>abc</b></a><a attr1="456"><b attr1="xzy">abc</b></a>]]></assert-xml>
       </result>
    </test-case>
 
@@ -5634,7 +5634,7 @@ let $lines := 'a
          declare function functx:substring-after-if-contains ( $arg as xs:string? , $delim as xs:string ) as xs:string? { if (contains($arg,$delim)) then substring-after($arg,$delim) else $arg } ;
                     let $in-xml-1 := <a attr1="123" attr2="456">abc</a> return let $in-xml-2 := <a xmlns:a="http://a" a:attr1="123" attr1="456">abc</a> return (functx:remove-attributes( $in-xml-1, ('attr1','attr2')))]]></test>
       <result>
-         <assert-serialization><![CDATA[<a>abc</a>]]></assert-serialization>
+         <assert-xml><![CDATA[<a>abc</a>]]></assert-xml>
       </result>
    </test-case>
 
@@ -5650,7 +5650,7 @@ let $lines := 'a
          declare function functx:substring-after-if-contains ( $arg as xs:string? , $delim as xs:string ) as xs:string? { if (contains($arg,$delim)) then substring-after($arg,$delim) else $arg } ;
                     let $in-xml-1 := <a attr1="123" attr2="456">abc</a> return let $in-xml-2 := <a xmlns:a="http://a" a:attr1="123" attr1="456">abc</a> return (functx:remove-attributes( $in-xml-1, ('attr1','attr3')))]]></test>
       <result>
-         <assert-serialization><![CDATA[<a attr2="456">abc</a>]]></assert-serialization>
+         <assert-xml><![CDATA[<a attr2="456">abc</a>]]></assert-xml>
       </result>
    </test-case>
 
@@ -5666,7 +5666,7 @@ let $lines := 'a
          declare function functx:substring-after-if-contains ( $arg as xs:string? , $delim as xs:string ) as xs:string? { if (contains($arg,$delim)) then substring-after($arg,$delim) else $arg } ;
                     let $in-xml-1 := <a attr1="123" attr2="456">abc</a> return let $in-xml-2 := <a xmlns:a="http://a" a:attr1="123" attr1="456">abc</a> return (functx:remove-attributes($in-xml-1, '*'))]]></test>
       <result>
-         <assert-serialization><![CDATA[<a>abc</a>]]></assert-serialization>
+         <assert-xml><![CDATA[<a>abc</a>]]></assert-xml>
       </result>
    </test-case>
 
@@ -5682,7 +5682,7 @@ let $lines := 'a
          declare function functx:substring-after-if-contains ( $arg as xs:string? , $delim as xs:string ) as xs:string? { if (contains($arg,$delim)) then substring-after($arg,$delim) else $arg } ;
                     let $in-xml-1 := <a attr1="123" attr2="456">abc</a> return let $in-xml-2 := <a xmlns:a="http://a" a:attr1="123" attr1="456">abc</a> return (functx:remove-attributes( $in-xml-2, ('a:attr1')))]]></test>
       <result>
-         <assert-serialization><![CDATA[<a attr1="456">abc</a>]]></assert-serialization>
+         <assert-xml><![CDATA[<a attr1="456">abc</a>]]></assert-xml>
       </result>
    </test-case>
 
@@ -5698,7 +5698,7 @@ let $lines := 'a
          declare function functx:substring-after-if-contains ( $arg as xs:string? , $delim as xs:string ) as xs:string? { if (contains($arg,$delim)) then substring-after($arg,$delim) else $arg } ;
                     let $in-xml-1 := <a attr1="123" attr2="456">abc</a> return let $in-xml-2 := <a xmlns:a="http://a" a:attr1="123" attr1="456">abc</a> return (functx:remove-attributes( $in-xml-1, ('attr1','attr2')), functx:remove-attributes( $in-xml-1, ('attr1','attr3')), functx:remove-attributes($in-xml-1, '*'), functx:remove-attributes( $in-xml-2, ('a:attr1')))]]></test>
       <result>
-         <assert-serialization><![CDATA[<a>abc</a><a attr2="456">abc</a><a>abc</a><a attr1="456">abc</a>]]></assert-serialization>
+         <assert-xml><![CDATA[<a>abc</a><a attr2="456">abc</a><a>abc</a><a attr1="456">abc</a>]]></assert-xml>
       </result>
    </test-case>
 
@@ -5714,7 +5714,7 @@ let $lines := 'a
          declare function functx:substring-after-if-contains ( $arg as xs:string? , $delim as xs:string ) as xs:string? { if (contains($arg,$delim)) then substring-after($arg,$delim) else $arg } ;
                     let $in-xml-1 := <in-xml> <a> <b>b1</b> <c>c1</c> </a> <c>Mixed <b>content</b></c> </in-xml> return let $in-xml-2 := <in-xml xmlns:x="http://x"> <a> <x:b>b1</x:b> <c>c1</c> </a> <c>Mixed <b>content</b></c> </in-xml> return (functx:remove-elements-deep( $in-xml-1, 'b'))]]></test>
       <result>
-         <assert-serialization><![CDATA[<in-xml><a><c>c1</c></a><c>Mixed </c></in-xml>]]></assert-serialization>
+         <assert-xml><![CDATA[<in-xml><a><c>c1</c></a><c>Mixed </c></in-xml>]]></assert-xml>
       </result>
    </test-case>
 
@@ -5730,7 +5730,7 @@ let $lines := 'a
          declare function functx:substring-after-if-contains ( $arg as xs:string? , $delim as xs:string ) as xs:string? { if (contains($arg,$delim)) then substring-after($arg,$delim) else $arg } ;
                     let $in-xml-1 := <in-xml> <a> <b>b1</b> <c>c1</c> </a> <c>Mixed <b>content</b></c> </in-xml> return let $in-xml-2 := <in-xml xmlns:x="http://x"> <a> <x:b>b1</x:b> <c>c1</c> </a> <c>Mixed <b>content</b></c> </in-xml> return (functx:remove-elements-deep( $in-xml-1, 'a'))]]></test>
       <result>
-         <assert-serialization><![CDATA[<in-xml><c>Mixed <b>content</b></c></in-xml>]]></assert-serialization>
+         <assert-xml><![CDATA[<in-xml><c>Mixed <b>content</b></c></in-xml>]]></assert-xml>
       </result>
    </test-case>
 
@@ -5746,7 +5746,7 @@ let $lines := 'a
          declare function functx:substring-after-if-contains ( $arg as xs:string? , $delim as xs:string ) as xs:string? { if (contains($arg,$delim)) then substring-after($arg,$delim) else $arg } ;
                     let $in-xml-1 := <in-xml> <a> <b>b1</b> <c>c1</c> </a> <c>Mixed <b>content</b></c> </in-xml> return let $in-xml-2 := <in-xml xmlns:x="http://x"> <a> <x:b>b1</x:b> <c>c1</c> </a> <c>Mixed <b>content</b></c> </in-xml> return (functx:remove-elements-deep( $in-xml-1, ('b','c')))]]></test>
       <result>
-         <assert-serialization><![CDATA[<in-xml><a/></in-xml>]]></assert-serialization>
+         <assert-xml><![CDATA[<in-xml><a/></in-xml>]]></assert-xml>
       </result>
    </test-case>
 
@@ -5762,7 +5762,7 @@ let $lines := 'a
          declare function functx:substring-after-if-contains ( $arg as xs:string? , $delim as xs:string ) as xs:string? { if (contains($arg,$delim)) then substring-after($arg,$delim) else $arg } ;
                     let $in-xml-1 := <in-xml> <a> <b>b1</b> <c>c1</c> </a> <c>Mixed <b>content</b></c> </in-xml> return let $in-xml-2 := <in-xml xmlns:x="http://x"> <a> <x:b>b1</x:b> <c>c1</c> </a> <c>Mixed <b>content</b></c> </in-xml> return (functx:remove-elements-deep( $in-xml-2, 'x:b'))]]></test>
       <result>
-         <assert-serialization><![CDATA[<in-xml><a><c>c1</c></a><c>Mixed <b>content</b></c></in-xml>]]></assert-serialization>
+         <assert-xml><![CDATA[<in-xml><a><c>c1</c></a><c>Mixed <b>content</b></c></in-xml>]]></assert-xml>
       </result>
    </test-case>
 
@@ -5778,7 +5778,7 @@ let $lines := 'a
          declare function functx:substring-after-if-contains ( $arg as xs:string? , $delim as xs:string ) as xs:string? { if (contains($arg,$delim)) then substring-after($arg,$delim) else $arg } ;
                     let $in-xml-1 := <in-xml> <a> <b>b1</b> <c>c1</c> </a> <c>Mixed <b>content</b></c> </in-xml> return let $in-xml-2 := <in-xml xmlns:x="http://x"> <a> <x:b>b1</x:b> <c>c1</c> </a> <c>Mixed <b>content</b></c> </in-xml> return (functx:remove-elements-deep( $in-xml-1, 'b'), functx:remove-elements-deep( $in-xml-1, 'a'), functx:remove-elements-deep( $in-xml-1, ('b','c')), functx:remove-elements-deep( $in-xml-2, 'x:b'))]]></test>
       <result>
-         <assert-serialization><![CDATA[<in-xml><a><c>c1</c></a><c>Mixed </c></in-xml><in-xml><c>Mixed <b>content</b></c></in-xml><in-xml><a/></in-xml><in-xml><a><c>c1</c></a><c>Mixed <b>content</b></c></in-xml>]]></assert-serialization>
+         <assert-xml><![CDATA[<in-xml><a><c>c1</c></a><c>Mixed </c></in-xml><in-xml><c>Mixed <b>content</b></c></in-xml><in-xml><a/></in-xml><in-xml><a><c>c1</c></a><c>Mixed <b>content</b></c></in-xml>]]></assert-xml>
       </result>
    </test-case>
 
@@ -5794,7 +5794,7 @@ let $lines := 'a
          declare function functx:substring-after-if-contains ( $arg as xs:string? , $delim as xs:string ) as xs:string? { if (contains($arg,$delim)) then substring-after($arg,$delim) else $arg } ;
                     let $in-xml-1 := <in-xml> <a> <b>b1</b> <c>c1</c> </a> <c>Mixed <b>content</b></c> </in-xml> return let $in-xml-2 := <in-xml xmlns:x="http://x"> <a> <b>b1</b> <c>c1</c> </a> <c>Mixed <x:b>content</x:b></c> </in-xml> return (functx:remove-elements-not-contents( $in-xml-1, 'b'))]]></test>
       <result>
-         <assert-serialization><![CDATA[<in-xml><a>b1<c>c1</c></a><c>Mixed content</c></in-xml>]]></assert-serialization>
+         <assert-xml><![CDATA[<in-xml><a>b1<c>c1</c></a><c>Mixed content</c></in-xml>]]></assert-xml>
       </result>
    </test-case>
 
@@ -5810,7 +5810,7 @@ let $lines := 'a
          declare function functx:substring-after-if-contains ( $arg as xs:string? , $delim as xs:string ) as xs:string? { if (contains($arg,$delim)) then substring-after($arg,$delim) else $arg } ;
                     let $in-xml-1 := <in-xml> <a> <b>b1</b> <c>c1</c> </a> <c>Mixed <b>content</b></c> </in-xml> return let $in-xml-2 := <in-xml xmlns:x="http://x"> <a> <b>b1</b> <c>c1</c> </a> <c>Mixed <x:b>content</x:b></c> </in-xml> return (functx:remove-elements-not-contents( $in-xml-1, ('b','c')))]]></test>
       <result>
-         <assert-serialization><![CDATA[<in-xml><a>b1c1</a>Mixed content</in-xml>]]></assert-serialization>
+         <assert-xml><![CDATA[<in-xml><a>b1c1</a>Mixed content</in-xml>]]></assert-xml>
       </result>
    </test-case>
 
@@ -5826,7 +5826,7 @@ let $lines := 'a
          declare function functx:substring-after-if-contains ( $arg as xs:string? , $delim as xs:string ) as xs:string? { if (contains($arg,$delim)) then substring-after($arg,$delim) else $arg } ;
                     let $in-xml-1 := <in-xml> <a> <b>b1</b> <c>c1</c> </a> <c>Mixed <b>content</b></c> </in-xml> return let $in-xml-2 := <in-xml xmlns:x="http://x"> <a> <b>b1</b> <c>c1</c> </a> <c>Mixed <x:b>content</x:b></c> </in-xml> return (functx:remove-elements-not-contents( $in-xml-1, 'a'))]]></test>
       <result>
-         <assert-serialization><![CDATA[<in-xml><b>b1</b><c>c1</c><c>Mixed <b>content</b></c></in-xml>]]></assert-serialization>
+         <assert-xml><![CDATA[<in-xml><b>b1</b><c>c1</c><c>Mixed <b>content</b></c></in-xml>]]></assert-xml>
       </result>
    </test-case>
 
@@ -5842,7 +5842,7 @@ let $lines := 'a
          declare function functx:substring-after-if-contains ( $arg as xs:string? , $delim as xs:string ) as xs:string? { if (contains($arg,$delim)) then substring-after($arg,$delim) else $arg } ;
                     let $in-xml-1 := <in-xml> <a> <b>b1</b> <c>c1</c> </a> <c>Mixed <b>content</b></c> </in-xml> return let $in-xml-2 := <in-xml xmlns:x="http://x"> <a> <b>b1</b> <c>c1</c> </a> <c>Mixed <x:b>content</x:b></c> </in-xml> return (functx:remove-elements-not-contents( $in-xml-2, 'x:b'))]]></test>
       <result>
-         <assert-serialization><![CDATA[<in-xml><a><b>b1</b><c>c1</c></a><c>Mixed content</c></in-xml>]]></assert-serialization>
+         <assert-xml><![CDATA[<in-xml><a><b>b1</b><c>c1</c></a><c>Mixed content</c></in-xml>]]></assert-xml>
       </result>
    </test-case>
 
@@ -5858,7 +5858,7 @@ let $lines := 'a
          declare function functx:substring-after-if-contains ( $arg as xs:string? , $delim as xs:string ) as xs:string? { if (contains($arg,$delim)) then substring-after($arg,$delim) else $arg } ;
                     let $in-xml-1 := <in-xml> <a> <b>b1</b> <c>c1</c> </a> <c>Mixed <b>content</b></c> </in-xml> return let $in-xml-2 := <in-xml xmlns:x="http://x"> <a> <b>b1</b> <c>c1</c> </a> <c>Mixed <x:b>content</x:b></c> </in-xml> return (functx:remove-elements-not-contents( $in-xml-1, 'b'), functx:remove-elements-not-contents( $in-xml-1, ('b','c')), functx:remove-elements-not-contents( $in-xml-1, 'a'), functx:remove-elements-not-contents( $in-xml-2, 'x:b'))]]></test>
       <result>
-         <assert-serialization><![CDATA[<in-xml><a>b1<c>c1</c></a><c>Mixed content</c></in-xml><in-xml><a>b1c1</a>Mixed content</in-xml><in-xml><b>b1</b><c>c1</c><c>Mixed <b>content</b></c></in-xml><in-xml><a><b>b1</b><c>c1</c></a><c>Mixed content</c></in-xml>]]></assert-serialization>
+         <assert-xml><![CDATA[<in-xml><a>b1<c>c1</c></a><c>Mixed content</c></in-xml><in-xml><a>b1c1</a>Mixed content</in-xml><in-xml><b>b1</b><c>c1</c><c>Mixed <b>content</b></c></in-xml><in-xml><a><b>b1</b><c>c1</c></a><c>Mixed content</c></in-xml>]]></assert-xml>
       </result>
    </test-case>
 
@@ -5874,7 +5874,7 @@ let $lines := 'a
          declare function functx:substring-after-if-contains ( $arg as xs:string? , $delim as xs:string ) as xs:string? { if (contains($arg,$delim)) then substring-after($arg,$delim) else $arg } ;
                     let $in-xml-1 := <in-xml> <a>123</a> <a>456</a> <c>Mixed <b>content</b></c> </in-xml> return let $in-xml-2 := <in-xml xmlns:x="http://x"> <a>123</a> <x:a>456</x:a> <c>Mixed <x:a>content</x:a></c> </in-xml> return (functx:remove-elements( $in-xml-1, 'c'))]]></test>
       <result>
-         <assert-serialization><![CDATA[<in-xml><a>123</a><a>456</a></in-xml>]]></assert-serialization>
+         <assert-xml><![CDATA[<in-xml><a>123</a><a>456</a></in-xml>]]></assert-xml>
       </result>
    </test-case>
 
@@ -5890,7 +5890,7 @@ let $lines := 'a
          declare function functx:substring-after-if-contains ( $arg as xs:string? , $delim as xs:string ) as xs:string? { if (contains($arg,$delim)) then substring-after($arg,$delim) else $arg } ;
                     let $in-xml-1 := <in-xml> <a>123</a> <a>456</a> <c>Mixed <b>content</b></c> </in-xml> return let $in-xml-2 := <in-xml xmlns:x="http://x"> <a>123</a> <x:a>456</x:a> <c>Mixed <x:a>content</x:a></c> </in-xml> return (functx:remove-elements( $in-xml-1, ('a','b')))]]></test>
       <result>
-         <assert-serialization><![CDATA[<in-xml><c>Mixed <b>content</b></c></in-xml>]]></assert-serialization>
+         <assert-xml><![CDATA[<in-xml><c>Mixed <b>content</b></c></in-xml>]]></assert-xml>
       </result>
    </test-case>
 
@@ -5906,7 +5906,7 @@ let $lines := 'a
          declare function functx:substring-after-if-contains ( $arg as xs:string? , $delim as xs:string ) as xs:string? { if (contains($arg,$delim)) then substring-after($arg,$delim) else $arg } ;
                     let $in-xml-1 := <in-xml> <a>123</a> <a>456</a> <c>Mixed <b>content</b></c> </in-xml> return let $in-xml-2 := <in-xml xmlns:x="http://x"> <a>123</a> <x:a>456</x:a> <c>Mixed <x:a>content</x:a></c> </in-xml> return (functx:remove-elements( $in-xml-2, 'x:a'))]]></test>
       <result>
-         <assert-serialization><![CDATA[<in-xml><a xmlns:x="http://x">123</a><c xmlns:x="http://x">Mixed <x:a>content</x:a></c></in-xml>]]></assert-serialization>
+         <assert-xml><![CDATA[<in-xml><a xmlns:x="http://x">123</a><c xmlns:x="http://x">Mixed <x:a>content</x:a></c></in-xml>]]></assert-xml>
       </result>
    </test-case>
 
@@ -5922,7 +5922,7 @@ let $lines := 'a
          declare function functx:substring-after-if-contains ( $arg as xs:string? , $delim as xs:string ) as xs:string? { if (contains($arg,$delim)) then substring-after($arg,$delim) else $arg } ;
                     let $in-xml-1 := <in-xml> <a>123</a> <a>456</a> <c>Mixed <b>content</b></c> </in-xml> return let $in-xml-2 := <in-xml xmlns:x="http://x"> <a>123</a> <x:a>456</x:a> <c>Mixed <x:a>content</x:a></c> </in-xml> return (functx:remove-elements( $in-xml-1, 'c'), functx:remove-elements( $in-xml-1, ('a','b')), functx:remove-elements( $in-xml-2, 'x:a'))]]></test>
       <result>
-         <assert-serialization><![CDATA[<in-xml><a>123</a><a>456</a></in-xml><in-xml><c>Mixed <b>content</b></c></in-xml><in-xml><a xmlns:x="http://x">123</a><c xmlns:x="http://x">Mixed <x:a>content</x:a></c></in-xml>]]></assert-serialization>
+         <assert-xml><![CDATA[<in-xml><a>123</a><a>456</a></in-xml><in-xml><c>Mixed <b>content</b></c></in-xml><in-xml><a xmlns:x="http://x">123</a><c xmlns:x="http://x">Mixed <x:a>content</x:a></c></in-xml>]]></assert-xml>
       </result>
    </test-case>
 
@@ -6030,7 +6030,7 @@ let $lines := 'a
          declare function functx:replace-element-values ( $elements as element()* , $values as xs:anyAtomicType* ) as element()* { for $element at $seq in $elements return element { node-name($element)} { $element/@*, $values[$seq] } } ;
                     let $in-xml := <in-xml> <price num="1">12</price> <price num="2">20</price> <price num="3">5</price> </in-xml> return (functx:replace-element-values( $in-xml/price, for $p in $in-xml/price return $p * 2))]]></test>
       <result>
-         <assert-serialization><![CDATA[<price num="1">24</price><price num="2">40</price><price num="3">10</price>]]></assert-serialization>
+         <assert-xml><![CDATA[<price num="1">24</price><price num="2">40</price><price num="3">10</price>]]></assert-xml>
       </result>
    </test-case>
 
@@ -6042,7 +6042,7 @@ let $lines := 'a
          declare function functx:replace-element-values ( $elements as element()* , $values as xs:anyAtomicType* ) as element()* { for $element at $seq in $elements return element { node-name($element)} { $element/@*, $values[$seq] } } ;
                     let $in-xml := <in-xml> <price num="1">12</price> <price num="2">20</price> <price num="3">5</price> </in-xml> return (for $p in $in-xml/price return functx:replace-element-values( $p,concat($p,'.0')))]]></test>
       <result>
-         <assert-serialization><![CDATA[<price num="1">12.0</price><price num="2">20.0</price><price num="3">5.0</price>]]></assert-serialization>
+         <assert-xml><![CDATA[<price num="1">12.0</price><price num="2">20.0</price><price num="3">5.0</price>]]></assert-xml>
       </result>
    </test-case>
 
@@ -6054,7 +6054,7 @@ let $lines := 'a
          declare function functx:replace-element-values ( $elements as element()* , $values as xs:anyAtomicType* ) as element()* { for $element at $seq in $elements return element { node-name($element)} { $element/@*, $values[$seq] } } ;
                     let $in-xml := <in-xml> <price num="1">12</price> <price num="2">20</price> <price num="3">5</price> </in-xml> return (functx:replace-element-values( $in-xml/price, for $p in $in-xml/price return $p * 2), for $p in $in-xml/price return functx:replace-element-values( $p,concat($p,'.0')))]]></test>
       <result>
-         <assert-serialization><![CDATA[<price num="1">24</price><price num="2">40</price><price num="3">10</price><price num="1">12.0</price><price num="2">20.0</price><price num="3">5.0</price>]]></assert-serialization>
+         <assert-xml><![CDATA[<price num="1">24</price><price num="2">40</price><price num="3">10</price><price num="1">12.0</price><price num="2">20.0</price><price num="3">5.0</price>]]></assert-xml>
       </result>
    </test-case>
 
@@ -6652,7 +6652,7 @@ let $lines := 'a
          declare function functx:siblings-same-name ( $element as element()? ) as element()* { $element/../*[node-name(.) = node-name($element)] except $element } ;
                     let $in-xml := <authors> <author> <fName>Kate</fName> <fName>Jane</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return (functx:siblings-same-name( $in-xml/author[1]))]]></test>
       <result>
-         <assert-serialization><![CDATA[<author><fName>John</fName><lName>Doe</lName></author>]]></assert-serialization>
+         <assert-xml><![CDATA[<author><fName>John</fName><lName>Doe</lName></author>]]></assert-xml>
       </result>
    </test-case>
 
@@ -6664,7 +6664,7 @@ let $lines := 'a
          declare function functx:siblings-same-name ( $element as element()? ) as element()* { $element/../*[node-name(.) = node-name($element)] except $element } ;
                     let $in-xml := <authors> <author> <fName>Kate</fName> <fName>Jane</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return (functx:siblings-same-name( $in-xml/author[1]/fName[2]))]]></test>
       <result>
-         <assert-serialization><![CDATA[<fName>Kate</fName>]]></assert-serialization>
+         <assert-xml><![CDATA[<fName>Kate</fName>]]></assert-xml>
       </result>
    </test-case>
 
@@ -6676,7 +6676,7 @@ let $lines := 'a
          declare function functx:siblings-same-name ( $element as element()? ) as element()* { $element/../*[node-name(.) = node-name($element)] except $element } ;
                     let $in-xml := <authors> <author> <fName>Kate</fName> <fName>Jane</fName> <lName>Jones</lName> </author> <author> <fName>John</fName> <lName>Doe</lName> </author> </authors> return (functx:siblings-same-name( $in-xml/author[1]), functx:siblings-same-name( $in-xml/author[1]/fName[2]))]]></test>
       <result>
-         <assert-serialization><![CDATA[<author><fName>John</fName><lName>Doe</lName></author><fName>Kate</fName>]]></assert-serialization>
+         <assert-xml><![CDATA[<author><fName>John</fName><lName>Doe</lName></author><fName>Kate</fName>]]></assert-xml>
       </result>
    </test-case>
 
@@ -6688,7 +6688,7 @@ let $lines := 'a
          declare function functx:siblings ( $node as node()? ) as node()* { $node/../node() except $node } ;
                     let $in-xml := <authors a1='xyz'> <author a2='abc'> <fName a3='def'>Kate</fName> <fName a3='def'>Jane</fName> <lName>Jones</lName> </author> <author> <fName a3='def'>John</fName> <lName>Doe</lName> </author> </authors> return (functx:siblings( $in-xml/author[1]))]]></test>
       <result>
-         <assert-serialization><![CDATA[<author><fName a3="def">John</fName><lName>Doe</lName></author>]]></assert-serialization>
+         <assert-xml><![CDATA[<author><fName a3="def">John</fName><lName>Doe</lName></author>]]></assert-xml>
       </result>
    </test-case>
 
@@ -6700,7 +6700,7 @@ let $lines := 'a
          declare function functx:siblings ( $node as node()? ) as node()* { $node/../node() except $node } ;
                     let $in-xml := <authors a1='xyz'> <author a2='abc'> <fName a3='def'>Kate</fName> <fName a3='def'>Jane</fName> <lName>Jones</lName> </author> <author> <fName a3='def'>John</fName> <lName>Doe</lName> </author> </authors> return (functx:siblings( $in-xml/author[1]/fName[2]))]]></test>
       <result>
-         <assert-serialization><![CDATA[<fName a3="def">Kate</fName><lName>Jones</lName>]]></assert-serialization>
+         <assert-xml><![CDATA[<fName a3="def">Kate</fName><lName>Jones</lName>]]></assert-xml>
       </result>
    </test-case>
 
@@ -6712,7 +6712,7 @@ let $lines := 'a
          declare function functx:siblings ( $node as node()? ) as node()* { $node/../node() except $node } ;
                     let $in-xml := <authors a1='xyz'> <author a2='abc'> <fName a3='def'>Kate</fName> <fName a3='def'>Jane</fName> <lName>Jones</lName> </author> <author> <fName a3='def'>John</fName> <lName>Doe</lName> </author> </authors> return (functx:siblings( $in-xml/author[1]), functx:siblings( $in-xml/author[1]/fName[2]))]]></test>
       <result>
-         <assert-serialization><![CDATA[<author><fName a3="def">John</fName><lName>Doe</lName></author><fName a3="def">Kate</fName><lName>Jones</lName>]]></assert-serialization>
+         <assert-xml><![CDATA[<author><fName a3="def">John</fName><lName>Doe</lName></author><fName a3="def">Kate</fName><lName>Jones</lName>]]></assert-xml>
       </result>
    </test-case>
 
@@ -6736,7 +6736,7 @@ let $lines := 'a
          declare function functx:sort-as-numeric ( $seq as item()* ) as item()* { for $item in $seq order by number($item) return $item } ;
                     let $in-xml := <in-xml> <f>1</f> <f>35</f> <e>4</e> </in-xml> return (functx:sort-as-numeric($in-xml/*))]]></test>
       <result>
-         <assert-serialization><![CDATA[<f>1</f><e>4</e><f>35</f>]]></assert-serialization>
+         <assert-xml><![CDATA[<f>1</f><e>4</e><f>35</f>]]></assert-xml>
       </result>
    </test-case>
 
@@ -6748,7 +6748,7 @@ let $lines := 'a
          declare function functx:sort-as-numeric ( $seq as item()* ) as item()* { for $item in $seq order by number($item) return $item } ;
                     let $in-xml := <in-xml> <f>1</f> <f>35</f> <e>4</e> </in-xml> return (functx:sort-as-numeric(('1','100','99')), functx:sort-as-numeric($in-xml/*))]]></test>
       <result>
-         <assert-serialization><![CDATA[1 99 100<f>1</f><e>4</e><f>35</f>]]></assert-serialization>
+         <assert-xml><![CDATA[1 99 100<f>1</f><e>4</e><f>35</f>]]></assert-xml>
       </result>
    </test-case>
 
@@ -6772,7 +6772,7 @@ let $lines := 'a
          declare function functx:sort-case-insensitive ( $seq as item()* ) as item()* { for $item in $seq order by upper-case(string($item)) return $item } ;
                     let $in-xml := <in-xml> <f>a</f> <f>c</f> <e>B</e> </in-xml> return (functx:sort-case-insensitive($in-xml/*))]]></test>
       <result>
-         <assert-serialization><![CDATA[<f>a</f><e>B</e><f>c</f>]]></assert-serialization>
+         <assert-xml><![CDATA[<f>a</f><e>B</e><f>c</f>]]></assert-xml>
       </result>
    </test-case>
 
@@ -6784,7 +6784,7 @@ let $lines := 'a
          declare function functx:sort-case-insensitive ( $seq as item()* ) as item()* { for $item in $seq order by upper-case(string($item)) return $item } ;
                     let $in-xml := <in-xml> <f>a</f> <f>c</f> <e>B</e> </in-xml> return (functx:sort-case-insensitive(('a','c','B')), functx:sort-case-insensitive($in-xml/*))]]></test>
       <result>
-         <assert-serialization><![CDATA[a B c<f>a</f><e>B</e><f>c</f>]]></assert-serialization>
+         <assert-xml><![CDATA[a B c<f>a</f><e>B</e><f>c</f>]]></assert-xml>
       </result>
    </test-case>
 
@@ -6796,7 +6796,7 @@ let $lines := 'a
          declare function functx:sort-document-order ( $seq as node()* ) as node()* { $seq/. } ;
                     let $in-xml := <in-xml> <a>123</a> <b>456</b> <c>789</c> </in-xml> return (functx:sort-document-order( ($in-xml/c,$in-xml/a)))]]></test>
       <result>
-         <assert-serialization><![CDATA[<a>123</a><c>789</c>]]></assert-serialization>
+         <assert-xml><![CDATA[<a>123</a><c>789</c>]]></assert-xml>
       </result>
    </test-case>
 
@@ -6820,7 +6820,7 @@ let $lines := 'a
          declare function functx:sort ( $seq as item()* ) as item()* { for $item in $seq order by $item return $item } ;
                     let $in-xml := <in-xml> <f>c</f> <f>a</f> <e>b</e> </in-xml> return (functx:sort($in-xml/*))]]></test>
       <result>
-         <assert-serialization><![CDATA[<f>a</f><e>b</e><f>c</f>]]></assert-serialization>
+         <assert-xml><![CDATA[<f>a</f><e>b</e><f>c</f>]]></assert-xml>
       </result>
    </test-case>
 
@@ -6832,7 +6832,7 @@ let $lines := 'a
          declare function functx:sort ( $seq as item()* ) as item()* { for $item in $seq order by $item return $item } ;
                     let $in-xml := <in-xml> <f>c</f> <f>a</f> <e>b</e> </in-xml> return (functx:sort(('c','a','b')), functx:sort($in-xml/*))]]></test>
       <result>
-         <assert-serialization><![CDATA[a b c<f>a</f><e>b</e><f>c</f>]]></assert-serialization>
+         <assert-xml><![CDATA[a b c<f>a</f><e>b</e><f>c</f>]]></assert-xml>
       </result>
    </test-case>
 
@@ -7712,7 +7712,7 @@ let $lines := 'a
          declare function functx:update-attributes ( $elements as element()* , $attrNames as xs:QName* , $attrValues as xs:anyAtomicType* ) as element()? { for $element in $elements return element { node-name($element)} { for $attrName at $seq in $attrNames return if ($element/@*[node-name(.) = $attrName]) then attribute {$attrName} {$attrValues[$seq]} else (), $element/@*[not(node-name(.) = $attrNames)], $element/node() } } ;
                     let $in-xml := <in-xml xmlns:new='http://new'> <a att1='def'>x</a> <b>x</b> <c new:att1='def'>x</c> </in-xml> return (functx:update-attributes( $in-xml/a, xs:QName('att1'), 123))]]></test>
       <result>
-         <assert-serialization><![CDATA[<a att1="123">x</a>]]></assert-serialization>
+         <assert-xml><![CDATA[<a att1="123">x</a>]]></assert-xml>
       </result>
    </test-case>
 
@@ -7724,7 +7724,7 @@ let $lines := 'a
          declare function functx:update-attributes ( $elements as element()* , $attrNames as xs:QName* , $attrValues as xs:anyAtomicType* ) as element()? { for $element in $elements return element { node-name($element)} { for $attrName at $seq in $attrNames return if ($element/@*[node-name(.) = $attrName]) then attribute {$attrName} {$attrValues[$seq]} else (), $element/@*[not(node-name(.) = $attrNames)], $element/node() } } ;
                     let $in-xml := <in-xml xmlns:new='http://new'> <a att1='def'>x</a> <b>x</b> <c new:att1='def'>x</c> </in-xml> return (functx:update-attributes( $in-xml/a, (xs:QName('att1'),xs:QName('att2')), (1,2)))]]></test>
       <result>
-         <assert-serialization><![CDATA[<a att1="1">x</a>]]></assert-serialization>
+         <assert-xml><![CDATA[<a att1="1">x</a>]]></assert-xml>
       </result>
    </test-case>
 
@@ -7736,7 +7736,7 @@ let $lines := 'a
          declare function functx:update-attributes ( $elements as element()* , $attrNames as xs:QName* , $attrValues as xs:anyAtomicType* ) as element()? { for $element in $elements return element { node-name($element)} { for $attrName at $seq in $attrNames return if ($element/@*[node-name(.) = $attrName]) then attribute {$attrName} {$attrValues[$seq]} else (), $element/@*[not(node-name(.) = $attrNames)], $element/node() } } ;
                     let $in-xml := <in-xml xmlns:new='http://new'> <a att1='def'>x</a> <b>x</b> <c new:att1='def'>x</c> </in-xml> return (functx:update-attributes( $in-xml/b, xs:QName('att1'), 123))]]></test>
       <result>
-         <assert-serialization><![CDATA[<b>x</b>]]></assert-serialization>
+         <assert-xml><![CDATA[<b>x</b>]]></assert-xml>
       </result>
    </test-case>
 
@@ -7748,7 +7748,7 @@ let $lines := 'a
          declare function functx:update-attributes ( $elements as element()* , $attrNames as xs:QName* , $attrValues as xs:anyAtomicType* ) as element()? { for $element in $elements return element { node-name($element)} { for $attrName at $seq in $attrNames return if ($element/@*[node-name(.) = $attrName]) then attribute {$attrName} {$attrValues[$seq]} else (), $element/@*[not(node-name(.) = $attrNames)], $element/node() } } ;
                     let $in-xml := <in-xml xmlns:new='http://new'> <a att1='def'>x</a> <b>x</b> <c new:att1='def'>x</c> </in-xml> return (functx:update-attributes( $in-xml/c, QName('http://new','prefix:att1'), 123))]]></test>
       <result>
-         <assert-serialization><![CDATA[<c xmlns:prefix="http://new" prefix:att1="123">x</c>]]></assert-serialization>
+         <assert-xml><![CDATA[<c xmlns:prefix="http://new" prefix:att1="123">x</c>]]></assert-xml>
       </result>
    </test-case>
 
@@ -7760,7 +7760,7 @@ let $lines := 'a
          declare function functx:update-attributes ( $elements as element()* , $attrNames as xs:QName* , $attrValues as xs:anyAtomicType* ) as element()? { for $element in $elements return element { node-name($element)} { for $attrName at $seq in $attrNames return if ($element/@*[node-name(.) = $attrName]) then attribute {$attrName} {$attrValues[$seq]} else (), $element/@*[not(node-name(.) = $attrNames)], $element/node() } } ;
                     let $in-xml := <in-xml xmlns:new='http://new'> <a att1='def'>x</a> <b>x</b> <c new:att1='def'>x</c> </in-xml> return (functx:update-attributes( $in-xml/a, xs:QName('att1'), 123), functx:update-attributes( $in-xml/a, (xs:QName('att1'),xs:QName('att2')), (1,2)), functx:update-attributes( $in-xml/b, xs:QName('att1'), 123), functx:update-attributes( $in-xml/c, QName('http://new','prefix:att1'), 123))]]></test>
       <result>
-         <assert-serialization><![CDATA[<a att1="123">x</a><a att1="1">x</a><b>x</b><c xmlns:prefix="http://new" prefix:att1="123">x</c>]]></assert-serialization>
+         <assert-xml><![CDATA[<a att1="123">x</a><a att1="1">x</a><b>x</b><c xmlns:prefix="http://new" prefix:att1="123">x</c>]]></assert-xml>
       </result>
    </test-case>
 
@@ -8046,7 +8046,7 @@ let $lines := 'a
          declare function functx:wrap-values-in-elements ( $values as xs:anyAtomicType* , $elementName as xs:QName ) as element()* { for $value in $values return element {$elementName} {$value} } ;
                     (functx:wrap-values-in-elements( (1,2,3), xs:QName('num')))</test>
       <result>
-         <assert-serialization><![CDATA[<num>1</num><num>2</num><num>3</num>]]></assert-serialization>
+         <assert-xml><![CDATA[<num>1</num><num>2</num><num>3</num>]]></assert-xml>
       </result>
    </test-case>
 
@@ -8059,7 +8059,7 @@ let $lines := 'a
          declare function functx:wrap-values-in-elements ( $values as xs:anyAtomicType* , $elementName as xs:QName ) as element()* { for $value in $values return element {$elementName} {$value} } ;
                     (functx:wrap-values-in-elements( (1,2,3), xs:QName('new:num')))</test>
       <result>
-         <assert-serialization><![CDATA[<new:num xmlns:new="http://newns">1</new:num><new:num xmlns:new="http://newns">2</new:num><new:num xmlns:new="http://newns">3</new:num>]]></assert-serialization>
+         <assert-xml><![CDATA[<new:num xmlns:new="http://newns">1</new:num><new:num xmlns:new="http://newns">2</new:num><new:num xmlns:new="http://newns">3</new:num>]]></assert-xml>
       </result>
    </test-case>
 
@@ -8072,7 +8072,7 @@ let $lines := 'a
          declare function functx:wrap-values-in-elements ( $values as xs:anyAtomicType* , $elementName as xs:QName ) as element()* { for $value in $values return element {$elementName} {$value} } ;
                     (functx:wrap-values-in-elements( (1,2,3), QName('http://newns','num')))</test>
       <result>
-         <assert-serialization><![CDATA[<num xmlns="http://newns">1</num><num xmlns="http://newns">2</num><num xmlns="http://newns">3</num>]]></assert-serialization>
+         <assert-xml><![CDATA[<num xmlns="http://newns">1</num><num xmlns="http://newns">2</num><num xmlns="http://newns">3</num>]]></assert-xml>
       </result>
    </test-case>
 
@@ -8085,7 +8085,7 @@ let $lines := 'a
          declare function functx:wrap-values-in-elements ( $values as xs:anyAtomicType* , $elementName as xs:QName ) as element()* { for $value in $values return element {$elementName} {$value} } ;
                     (functx:wrap-values-in-elements( (1,2,3), QName('http://newns','new:num')))</test>
       <result>
-         <assert-serialization><![CDATA[<new:num xmlns:new="http://newns">1</new:num><new:num xmlns:new="http://newns">2</new:num><new:num xmlns:new="http://newns">3</new:num>]]></assert-serialization>
+         <assert-xml><![CDATA[<new:num xmlns:new="http://newns">1</new:num><new:num xmlns:new="http://newns">2</new:num><new:num xmlns:new="http://newns">3</new:num>]]></assert-xml>
       </result>
    </test-case>
 
@@ -8098,7 +8098,7 @@ let $lines := 'a
          declare function functx:wrap-values-in-elements ( $values as xs:anyAtomicType* , $elementName as xs:QName ) as element()* { for $value in $values return element {$elementName} {$value} } ;
                     (functx:wrap-values-in-elements( (1,2,3), xs:QName('num')), functx:wrap-values-in-elements( (1,2,3), xs:QName('new:num')), functx:wrap-values-in-elements( (1,2,3), QName('http://newns','num')), functx:wrap-values-in-elements( (1,2,3), QName('http://newns','new:num')))</test>
       <result>
-         <assert-serialization><![CDATA[<num>1</num><num>2</num><num>3</num><new:num xmlns:new="http://newns">1</new:num><new:num xmlns:new="http://newns">2</new:num><new:num xmlns:new="http://newns">3</new:num><num xmlns="http://newns">1</num><num xmlns="http://newns">2</num><num xmlns="http://newns">3</num><new:num xmlns:new="http://newns">1</new:num><new:num xmlns:new="http://newns">2</new:num><new:num xmlns:new="http://newns">3</new:num>]]></assert-serialization>
+         <assert-xml><![CDATA[<num>1</num><num>2</num><num>3</num><new:num xmlns:new="http://newns">1</new:num><new:num xmlns:new="http://newns">2</new:num><new:num xmlns:new="http://newns">3</new:num><num xmlns="http://newns">1</num><num xmlns="http://newns">2</num><num xmlns="http://newns">3</num><new:num xmlns:new="http://newns">1</new:num><new:num xmlns:new="http://newns">2</new:num><new:num xmlns:new="http://newns">3</new:num>]]></assert-xml>
       </result>
    </test-case>
 

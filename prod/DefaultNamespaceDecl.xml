@@ -48,7 +48,7 @@
         declare function foo($n as xs:integer) { <tr> {$n} </tr> }; 
         foo(4)]]></test>
       <result>
-         <assert-serialization><![CDATA[<tr>4</tr>]]></assert-serialization>
+         <assert-xml><![CDATA[<tr>4</tr>]]></assert-xml>
       </result>
    </test-case>
 
@@ -62,7 +62,7 @@
         for $j in /bib/book return price($j)
       </test>
       <result>
-         <assert-serialization><![CDATA[<price>65.95</price><price>65.95</price><price>39.95</price><price>129.95</price>]]></assert-serialization>
+         <assert-xml><![CDATA[<price>65.95</price><price>65.95</price><price>39.95</price><price>129.95</price>]]></assert-xml>
       </result>
    </test-case>
 
@@ -80,7 +80,7 @@
         }; 
         summary(//employee[location = "Denver"])]]></test>
       <result>
-         <assert-serialization><![CDATA[<dept><deptno>1</deptno><headcount>2</headcount><payroll>130000</payroll></dept><dept><deptno>2</deptno><headcount>1</headcount><payroll>80000</payroll></dept>]]></assert-serialization>
+         <assert-xml><![CDATA[<dept><deptno>1</deptno><headcount>2</headcount><payroll>130000</payroll></dept><dept><deptno>2</deptno><headcount>1</headcount><payroll>80000</payroll></dept>]]></assert-xml>
       </result>
    </test-case>
 
@@ -136,7 +136,7 @@
       	<table> { for $i in 1 to 10 return <tr> <td>10!/{$i}! = {$ten div fact($i)}</td> </tr> } </table>
       ]]></test>
       <result>
-         <assert-serialization><![CDATA[<table><tr><td>10!/1! = 3628800</td></tr><tr><td>10!/2! = 1814400</td></tr><tr><td>10!/3! = 604800</td></tr><tr><td>10!/4! = 151200</td></tr><tr><td>10!/5! = 30240</td></tr><tr><td>10!/6! = 5040</td></tr><tr><td>10!/7! = 720</td></tr><tr><td>10!/8! = 90</td></tr><tr><td>10!/9! = 10</td></tr><tr><td>10!/10! = 1</td></tr></table>]]></assert-serialization>
+         <assert-xml><![CDATA[<table><tr><td>10!/1! = 3628800</td></tr><tr><td>10!/2! = 1814400</td></tr><tr><td>10!/3! = 604800</td></tr><tr><td>10!/4! = 151200</td></tr><tr><td>10!/5! = 30240</td></tr><tr><td>10!/6! = 5040</td></tr><tr><td>10!/7! = 720</td></tr><tr><td>10!/8! = 90</td></tr><tr><td>10!/9! = 10</td></tr><tr><td>10!/10! = 1</td></tr></table>]]></assert-xml>
       </result>
    </test-case>
 
@@ -150,7 +150,7 @@
       	<table> { for $i in 1 to 10 return <tr> <td>{$i}! = {fact($i)}</td> </tr> } </table>
       ]]></test>
       <result>
-         <assert-serialization><![CDATA[<table><tr><td>1! = 1</td></tr><tr><td>2! = 2</td></tr><tr><td>3! = 6</td></tr><tr><td>4! = 24</td></tr><tr><td>5! = 120</td></tr><tr><td>6! = 720</td></tr><tr><td>7! = 5040</td></tr><tr><td>8! = 40320</td></tr><tr><td>9! = 362880</td></tr><tr><td>10! = 3628800</td></tr></table>]]></assert-serialization>
+         <assert-xml><![CDATA[<table><tr><td>1! = 1</td></tr><tr><td>2! = 2</td></tr><tr><td>3! = 6</td></tr><tr><td>4! = 24</td></tr><tr><td>5! = 120</td></tr><tr><td>6! = 720</td></tr><tr><td>7! = 5040</td></tr><tr><td>8! = 40320</td></tr><tr><td>9! = 362880</td></tr><tr><td>10! = 3628800</td></tr></table>]]></assert-xml>
       </result>
    </test-case>
 
@@ -166,7 +166,7 @@
         <table> { <td>Value is = {prnt(4,xs:string("hello"),xs:date("2005-02-22"), xs:long(5),xs:string("well"),xs:decimal(1.2))}</td> } </table>
       ]]></test>
       <result>
-         <assert-serialization><![CDATA[<table><td>Value is = 4 hello 2005-02-22 5 well 1.2</td></table>]]></assert-serialization>
+         <assert-xml><![CDATA[<table><td>Value is = 4 hello 2005-02-22 5 well 1.2</td></table>]]></assert-xml>
       </result>
    </test-case>
 
@@ -244,7 +244,7 @@
         declare function title($a_book as element()) as element()* { for $i in $a_book return $i/title }; 
         /bib/book/(title(.))</test>
       <result>
-         <assert-serialization><![CDATA[<title>TCP/IP Illustrated</title><title>Advanced Programming in the Unix environment</title><title>Data on the Web</title><title>The Economics of Technology and Content for Digital TV</title>]]></assert-serialization>
+         <assert-xml><![CDATA[<title>TCP/IP Illustrated</title><title>Advanced Programming in the Unix environment</title><title>Data on the Web</title><title>The Economics of Technology and Content for Digital TV</title>]]></assert-xml>
       </result>
    </test-case>
 
@@ -260,7 +260,7 @@
         udf1(10)
       ]]></test>
       <result>
-         <assert-serialization><![CDATA[<empty xmlns="http://www.example.com/filesystem">1000</empty>]]></assert-serialization>
+         <assert-xml><![CDATA[<empty xmlns="http://www.example.com/filesystem">1000</empty>]]></assert-xml>
       </result>
    </test-case>
 
@@ -275,7 +275,7 @@
         udf1 ()
       ]]></test>
       <result>
-         <assert-serialization><![CDATA[<empty xmlns="http://www.example.com/filesystem">100</empty>]]></assert-serialization>
+         <assert-xml><![CDATA[<empty xmlns="http://www.example.com/filesystem">100</empty>]]></assert-xml>
       </result>
    </test-case>
 
@@ -293,7 +293,7 @@
         <A> {test:udf1()} {test2:udf1()} </A>
       ]]></test>
       <result>
-         <assert-serialization><![CDATA[<A xmlns="http://www.example.com/def"><empty>100</empty><empty/></A>]]></assert-serialization>
+         <assert-xml><![CDATA[<A xmlns="http://www.example.com/def"><empty>100</empty><empty/></A>]]></assert-xml>
       </result>
    </test-case>
 
@@ -334,7 +334,7 @@
         <test/>
       ]]></test>
       <result>
-         <assert-serialization><![CDATA[<test xmlns="http://www.example.com/test"/>]]></assert-serialization>
+         <assert-xml><![CDATA[<test xmlns="http://www.example.com/test"/>]]></assert-xml>
       </result>
    </test-case>
 
@@ -594,7 +594,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[declare default element namespace "http://example.com/"; namespace-uri-from-QName(xs:QName("localName")), <e xmlns=""> { " | ", namespace-uri-from-QName(xs:QName("localName")) } </e>, namespace-uri-from-QName(xs:QName("localName"))]]></test>
       <result>
-         <assert-serialization><![CDATA[http://example.com/<e> |  </e>http://example.com/]]></assert-serialization>
+         <assert-xml><![CDATA[http://example.com/<e> |  </e>http://example.com/]]></assert-xml>
       </result>
    </test-case>
 
@@ -644,7 +644,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[<a xmlns="http://www.w3.org/2001/XMLSchema"> {1 cast as byte} <b xmlns="http://www.w3.org/1999/XSL/Transform"> {count(1)} </b> {2 cast as byte} </a>]]></test>
       <result>
-         <assert-serialization><![CDATA[<a xmlns="http://www.w3.org/2001/XMLSchema">1<b xmlns="http://www.w3.org/1999/XSL/Transform">1</b>2</a>]]></assert-serialization>
+         <assert-xml><![CDATA[<a xmlns="http://www.w3.org/2001/XMLSchema">1<b xmlns="http://www.w3.org/1999/XSL/Transform">1</b>2</a>]]></assert-xml>
       </result>
    </test-case>
 

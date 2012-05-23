@@ -1913,7 +1913,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[<root> {//Customers} </root>]]></test>
       <result>
-         <assert-serialization><![CDATA[<root><Customers CustomerID="ALFKI">
+         <assert-xml><![CDATA[<root><Customers CustomerID="ALFKI">
 		<CompanyName>Alfreds Futterkiste</CompanyName>
 		<ContactName>Maria Anders</ContactName>
 		<ContactTitle>Sales Representative</ContactTitle>
@@ -3013,7 +3013,7 @@
 			<PostalCode>01-012</PostalCode>
 			<Country>Poland</Country>
 		</FullAddress>
-	</Customers></root>]]></assert-serialization>
+	</Customers></root>]]></assert-xml>
       </result>
    </test-case>
 
@@ -3024,7 +3024,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[<root> {//@*/..} </root>]]></test>
       <result>
-         <assert-serialization><![CDATA[<root><west mark="w0" /><center mark="c0">Text in center</center><east mark="e0">Text in east</east></root>]]></assert-serialization>
+         <assert-xml><![CDATA[<root><west mark="w0" /><center mark="c0">Text in center</center><east mark="e0">Text in east</east></root>]]></assert-xml>
       </result>
    </test-case>
 
@@ -3035,7 +3035,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[<root> {/doc/part/*/text()/..} </root>]]></test>
       <result>
-         <assert-serialization><![CDATA[<root><retail>62.50 USD</retail><wholesale>55.00 USD</wholesale><internal>31.25 USD</internal></root>]]></assert-serialization>
+         <assert-xml><![CDATA[<root><retail>62.50 USD</retail><wholesale>55.00 USD</wholesale><internal>31.25 USD</internal></root>]]></assert-xml>
       </result>
    </test-case>
 
@@ -3054,7 +3054,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[xquery version "1.0"; declare namespace saxon="http://example.com/VendorNamespace"; declare namespace tour="http://example.com/Knight'sTour"; (: XQuery program to perform a knight's tour of the chessboard. Author: Michael H. Kay Date: 26 June 2003 This version modified to use XQuery 1.0, with sequences and functions. This query does not use a source document. There is an optional parameter, start, which can be set to any square on the chessboard, e.g. a3 or h5. XQuery does not allow parameters to be given a default value, so the parameter is mandatory. There is a second optional parameter, end, which indicates that the processing should stop after a given number of steps. This can be used to animate the display of the tour. This works especially well when the query is compiled into a Java servlet. The output is an HTML display of the completed tour. Internally, the following data representations are used: * A square on the chessboard: represented as a number in the range 0 to 63 * A state of the chessboard: a sequence of 64 integers, each containing a move number. A square that has not been visited yet is represented by a zero. * A set of possible moves: represented as a sequence of integers, * each integer representing the number of the destination square :) declare option saxon:default "'a1'"; declare variable $start as xs:string := 'a1'; declare option saxon:default "'64'"; declare variable $end as xs:string := '64'; declare variable $endd as xs:integer := xs:integer($end); declare variable $start-column as xs:integer := xs:integer(translate(substring($start, 1, 1), 'abcdefgh', '01234567')); declare variable $start-row as xs:integer := 8 - xs:integer(substring($start, 2, 1)); declare function tour:main () as element() { if (not(string-length($start)=2) or not(translate(substring($start,1,1), 'abcdefgh', 'aaaaaaaa')='a') or not(translate(substring($start,2,1), '12345678', '11111111')='1')) then error((), "Invalid start parameter: try say 'a1' or 'g6'") else if (not($endd = 1 to 64)) then error((), "Invalid end parameter: must be in range 1 to 64") else let $empty-board as xs:integer* := for $i in (1 to 64) return 0 let $initial-board as xs:integer* := tour:place-knight(1, $empty-board, $start-row * 8 + $start-column) let $final-board as xs:integer* := tour:make-moves(2, $initial-board, $start-row * 8 + $start-column) return tour:print-board($final-board) }; declare function tour:place-knight ( $move as xs:integer, $board as xs:integer*, $square as xs:integer ) as xs:integer* { (: This function places a knight on the board at a given square. The returned value is the supplied board, modified to indicate that the knight reached a given square at a given move :) for $i in 1 to 64 return if ($i = $square + 1) then $move else $board[$i] }; declare function tour:make-moves ( $move as xs:integer, $board as xs:integer*, $square as xs:integer ) as xs:integer* { (: This function takes the board in a given state, decides on the next move to make, and then calls itself recursively to make further moves, until the knight has completed his tour of the board. It returns the board in its final state. :) let $possible-move-list as xs:integer* := tour:list-possible-moves($board, $square) return tour:try-possible-moves($move, $board, $square, $possible-move-list) }; declare function tour:try-possible-moves ( $move as xs:integer, $board as xs:integer*, $square as xs:integer, $possible-moves as xs:integer* ) as xs:integer* { (: This function tries a set of possible moves that the knight can make from a given position. It determines the best move as the one to the square with fewest exits. If this is unsuccessful then it can backtrack and try another move; however this turns out rarely to be necessary. The function makes the selected move, and then calls make-moves() to make subsequent moves, returning the final state of the board. :) if (count($possible-moves)!=0) then tour:make-best-move($move, $board, $square, one-or-more($possible-moves)) else () (: if there is no possible move, we return the special value () as the final state of the board, to indicate to the caller that we got stuck :) }; declare function tour:make-best-move ( $move as xs:integer, $board as xs:integer*, $square as xs:integer, $possible-moves as xs:integer+ ) as xs:integer* { (: this function, given the state of the board and a set of possible moves, determines which of the moves is the best one. It then makes this move, and proceeds recursively to make further moves, eventually returning the final state of the board. :) let $best-move as xs:integer := tour:find-best-move($board, $possible-moves, 9, 999) let $other-possible-moves as xs:integer* := $possible-moves[. != $best-move] let $next-board as xs:integer* := tour:place-knight($move, $board, $best-move) let $final-board as xs:integer* := if ($move < $endd) then tour:make-moves($move+1, $next-board, $best-move) else $next-board (: if the final board has the special value '()', we got stuck, and have to choose the next best of the possible moves. This is done by a recursive call. I thought that the knight never did get stuck, but it does: if the starting square is f1, the wrong choice is made at move 58, and needs to be reversed. :) return if (empty($final-board)) then tour:try-possible-moves($move, $board, $square, $other-possible-moves) else $final-board }; declare function tour:find-best-move ( $board as xs:integer*, $possible-moves as xs:integer+, $fewest-exits as xs:integer, $best-so-far as xs:integer ) as xs:integer { (: This function finds from among the possible moves, the one with fewest exits. It calls itself recursively. :) let $trial-move as xs:integer := $possible-moves[1] let $other-possible-moves as xs:integer* := $possible-moves[position() > 1] let $trial-board as xs:integer* := tour:place-knight(99, $board, $trial-move) let $trial-move-exit-list as xs:integer* := tour:list-possible-moves($trial-board, $trial-move) let $number-of-exits as xs:integer := count($trial-move-exit-list) let $minimum-exits as xs:integer := min(($number-of-exits, $fewest-exits)) let $new-best-so-far as xs:integer := if ($number-of-exits < $fewest-exits) then $trial-move else $best-so-far (: if there are other possible moves, consider them too, using a recursive call. Otherwise return the best move found. :) return if (count($other-possible-moves)!=0) then tour:find-best-move($board, one-or-more($other-possible-moves), $minimum-exits, $new-best-so-far) else $new-best-so-far }; declare function tour:list-possible-moves ( $board as xs:integer*, $square as xs:integer ) as xs:integer* { (: This function, given the knight's position on the board, returns the set of squares he can move to. The squares will be ones that have not been visited before :) let $row as xs:integer := $square idiv 8 let $column as xs:integer := $square mod 8 return (if ($row > 1 and $column > 0 and $board[($square - 17) + 1]=0) then $square - 17 else (), if ($row > 1 and $column < 7 and $board[($square - 15) + 1]=0) then $square - 15 else (), if ($row > 0 and $column > 1 and $board[($square - 10) + 1]=0) then $square - 10 else (), if ($row > 0 and $column < 6 and $board[($square - 6) + 1]=0) then $square - 6 else (), if ($row < 6 and $column > 0 and $board[($square + 15) + 1]=0) then $square + 15 else (), if ($row < 6 and $column < 7 and $board[($square + 17) + 1]=0) then $square + 17 else (), if ($row < 7 and $column > 1 and $board[($square + 6) + 1]=0) then $square + 6 else (), if ($row < 7 and $column < 6 and $board[($square + 10) + 1]=0) then $square + 10 else () ) }; declare function tour:print-board ( $board as xs:integer* ) as element() { <html> <head> <title>Knight's tour</title> </head> <body> <div align="center"> <h1>Knight's tour starting at {$start}</h1> <table border="1" cellpadding="4"> {for $row in 0 to 7 return <tr> {for $column in 0 to 7 let $color := if ((($row + $column) mod 2)=1) then 'xffff44' else 'white' return <td align="center" bgcolor="{$color}" width="22">{ let $n := $board[$row * 8 + $column + 1] return if ($endd != 64 and $n = $endd) then <b>{$n}</b> else if ($n = 0) then "&#xa0;" else $n }</td> } </tr> } </table> <p>{ if ($endd != 64) then <a href="Tour?start={$start}&amp;end={$endd+1}">Step</a> else () }</p> </div> </body> </html> }; tour:main()]]></test>
       <result>
-         <assert-serialization><![CDATA[<html><head><title>Knight's tour</title></head><body><div align="center"><h1>Knight's tour starting at a1</h1><table border="1" cellpadding="4"><tr><td width="22" align="center" bgcolor="white">36</td><td width="22" align="center" bgcolor="xffff44">19</td><td width="22" align="center" bgcolor="white">22</td><td width="22" align="center" bgcolor="xffff44">5</td><td width="22" align="center" bgcolor="white">38</td><td width="22" align="center" bgcolor="xffff44">9</td><td width="22" align="center" bgcolor="white">24</td><td width="22" align="center" bgcolor="xffff44">7</td></tr><tr><td width="22" align="center" bgcolor="xffff44">21</td><td width="22" align="center" bgcolor="white">4</td><td width="22" align="center" bgcolor="xffff44">37</td><td width="22" align="center" bgcolor="white">42</td><td width="22" align="center" bgcolor="xffff44">23</td><td width="22" align="center" bgcolor="white">6</td><td width="22" align="center" bgcolor="xffff44">39</td><td width="22" align="center" bgcolor="white">10</td></tr><tr><td width="22" align="center" bgcolor="white">18</td><td width="22" align="center" bgcolor="xffff44">35</td><td width="22" align="center" bgcolor="white">20</td><td width="22" align="center" bgcolor="xffff44">49</td><td width="22" align="center" bgcolor="white">44</td><td width="22" align="center" bgcolor="xffff44">41</td><td width="22" align="center" bgcolor="white">8</td><td width="22" align="center" bgcolor="xffff44">25</td></tr><tr><td width="22" align="center" bgcolor="xffff44">3</td><td width="22" align="center" bgcolor="white">50</td><td width="22" align="center" bgcolor="xffff44">43</td><td width="22" align="center" bgcolor="white">46</td><td width="22" align="center" bgcolor="xffff44">55</td><td width="22" align="center" bgcolor="white">62</td><td width="22" align="center" bgcolor="xffff44">11</td><td width="22" align="center" bgcolor="white">40</td></tr><tr><td width="22" align="center" bgcolor="white">34</td><td width="22" align="center" bgcolor="xffff44">17</td><td width="22" align="center" bgcolor="white">54</td><td width="22" align="center" bgcolor="xffff44">59</td><td width="22" align="center" bgcolor="white">48</td><td width="22" align="center" bgcolor="xffff44">45</td><td width="22" align="center" bgcolor="white">26</td><td width="22" align="center" bgcolor="xffff44">63</td></tr><tr><td width="22" align="center" bgcolor="xffff44">51</td><td width="22" align="center" bgcolor="white">2</td><td width="22" align="center" bgcolor="xffff44">47</td><td width="22" align="center" bgcolor="white">56</td><td width="22" align="center" bgcolor="xffff44">61</td><td width="22" align="center" bgcolor="white">58</td><td width="22" align="center" bgcolor="xffff44">29</td><td width="22" align="center" bgcolor="white">12</td></tr><tr><td width="22" align="center" bgcolor="white">16</td><td width="22" align="center" bgcolor="xffff44">33</td><td width="22" align="center" bgcolor="white">60</td><td width="22" align="center" bgcolor="xffff44">53</td><td width="22" align="center" bgcolor="white">14</td><td width="22" align="center" bgcolor="xffff44">31</td><td width="22" align="center" bgcolor="white">64</td><td width="22" align="center" bgcolor="xffff44">27</td></tr><tr><td width="22" align="center" bgcolor="xffff44">1</td><td width="22" align="center" bgcolor="white">52</td><td width="22" align="center" bgcolor="xffff44">15</td><td width="22" align="center" bgcolor="white">32</td><td width="22" align="center" bgcolor="xffff44">57</td><td width="22" align="center" bgcolor="white">28</td><td width="22" align="center" bgcolor="xffff44">13</td><td width="22" align="center" bgcolor="white">30</td></tr></table><p/></div></body></html>]]></assert-serialization>
+         <assert-xml><![CDATA[<html><head><title>Knight's tour</title></head><body><div align="center"><h1>Knight's tour starting at a1</h1><table border="1" cellpadding="4"><tr><td width="22" align="center" bgcolor="white">36</td><td width="22" align="center" bgcolor="xffff44">19</td><td width="22" align="center" bgcolor="white">22</td><td width="22" align="center" bgcolor="xffff44">5</td><td width="22" align="center" bgcolor="white">38</td><td width="22" align="center" bgcolor="xffff44">9</td><td width="22" align="center" bgcolor="white">24</td><td width="22" align="center" bgcolor="xffff44">7</td></tr><tr><td width="22" align="center" bgcolor="xffff44">21</td><td width="22" align="center" bgcolor="white">4</td><td width="22" align="center" bgcolor="xffff44">37</td><td width="22" align="center" bgcolor="white">42</td><td width="22" align="center" bgcolor="xffff44">23</td><td width="22" align="center" bgcolor="white">6</td><td width="22" align="center" bgcolor="xffff44">39</td><td width="22" align="center" bgcolor="white">10</td></tr><tr><td width="22" align="center" bgcolor="white">18</td><td width="22" align="center" bgcolor="xffff44">35</td><td width="22" align="center" bgcolor="white">20</td><td width="22" align="center" bgcolor="xffff44">49</td><td width="22" align="center" bgcolor="white">44</td><td width="22" align="center" bgcolor="xffff44">41</td><td width="22" align="center" bgcolor="white">8</td><td width="22" align="center" bgcolor="xffff44">25</td></tr><tr><td width="22" align="center" bgcolor="xffff44">3</td><td width="22" align="center" bgcolor="white">50</td><td width="22" align="center" bgcolor="xffff44">43</td><td width="22" align="center" bgcolor="white">46</td><td width="22" align="center" bgcolor="xffff44">55</td><td width="22" align="center" bgcolor="white">62</td><td width="22" align="center" bgcolor="xffff44">11</td><td width="22" align="center" bgcolor="white">40</td></tr><tr><td width="22" align="center" bgcolor="white">34</td><td width="22" align="center" bgcolor="xffff44">17</td><td width="22" align="center" bgcolor="white">54</td><td width="22" align="center" bgcolor="xffff44">59</td><td width="22" align="center" bgcolor="white">48</td><td width="22" align="center" bgcolor="xffff44">45</td><td width="22" align="center" bgcolor="white">26</td><td width="22" align="center" bgcolor="xffff44">63</td></tr><tr><td width="22" align="center" bgcolor="xffff44">51</td><td width="22" align="center" bgcolor="white">2</td><td width="22" align="center" bgcolor="xffff44">47</td><td width="22" align="center" bgcolor="white">56</td><td width="22" align="center" bgcolor="xffff44">61</td><td width="22" align="center" bgcolor="white">58</td><td width="22" align="center" bgcolor="xffff44">29</td><td width="22" align="center" bgcolor="white">12</td></tr><tr><td width="22" align="center" bgcolor="white">16</td><td width="22" align="center" bgcolor="xffff44">33</td><td width="22" align="center" bgcolor="white">60</td><td width="22" align="center" bgcolor="xffff44">53</td><td width="22" align="center" bgcolor="white">14</td><td width="22" align="center" bgcolor="xffff44">31</td><td width="22" align="center" bgcolor="white">64</td><td width="22" align="center" bgcolor="xffff44">27</td></tr><tr><td width="22" align="center" bgcolor="xffff44">1</td><td width="22" align="center" bgcolor="white">52</td><td width="22" align="center" bgcolor="xffff44">15</td><td width="22" align="center" bgcolor="white">32</td><td width="22" align="center" bgcolor="xffff44">57</td><td width="22" align="center" bgcolor="white">28</td><td width="22" align="center" bgcolor="xffff44">13</td><td width="22" align="center" bgcolor="white">30</td></tr></table><p/></div></body></html>]]></assert-xml>
       </result>
    </test-case>
 
@@ -3393,7 +3393,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[declare variable $var := document{<e><f>f's value</f></e>}; $var/(/)/(/)//f]]></test>
       <result>
-         <assert-serialization><![CDATA[<f>f's value</f>]]></assert-serialization>
+         <assert-xml><![CDATA[<f>f's value</f>]]></assert-xml>
       </result>
    </test-case>
 
@@ -3610,7 +3610,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[<e>some text</e>/text()/..]]></test>
       <result>
-         <assert-serialization><![CDATA[<e>some text</e>]]></assert-serialization>
+         <assert-xml><![CDATA[<e>some text</e>]]></assert-xml>
       </result>
    </test-case>
 
@@ -3620,7 +3620,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[<e><b/></e>/b/..]]></test>
       <result>
-         <assert-serialization><![CDATA[<e><b/></e>]]></assert-serialization>
+         <assert-xml><![CDATA[<e><b/></e>]]></assert-xml>
       </result>
    </test-case>
 
@@ -3630,7 +3630,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[<e attr="c"/>/@attr/..]]></test>
       <result>
-         <assert-serialization><![CDATA[<e attr="c"/>]]></assert-serialization>
+         <assert-xml><![CDATA[<e attr="c"/>]]></assert-xml>
       </result>
    </test-case>
 
@@ -3640,7 +3640,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[<e><?name data?></e>/processing-instruction()/..]]></test>
       <result>
-         <assert-serialization><![CDATA[<e><?name data?></e>]]></assert-serialization>
+         <assert-xml><![CDATA[<e><?name data?></e>]]></assert-xml>
       </result>
    </test-case>
 
@@ -3650,7 +3650,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[<e><!--data --></e>/comment()/..]]></test>
       <result>
-         <assert-serialization><![CDATA[<e><!--data --></e>]]></assert-serialization>
+         <assert-xml><![CDATA[<e><!--data --></e>]]></assert-xml>
       </result>
    </test-case>
 
@@ -3967,7 +3967,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[declare variable $var := <a> <b/> <c/> <d/> </a>; ($var/*, $var/*)/.]]></test>
       <result>
-         <assert-serialization><![CDATA[<b/><c/><d/>]]></assert-serialization>
+         <assert-xml><![CDATA[<b/><c/><d/>]]></assert-xml>
       </result>
    </test-case>
 
@@ -3977,7 +3977,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[declare variable $var := <a> <b/> <c/> <d/> </a>; ($var/*, $var/*)]]></test>
       <result>
-         <assert-serialization><![CDATA[<b/><c/><d/><b/><c/><d/>]]></assert-serialization>
+         <assert-xml><![CDATA[<b/><c/><d/><b/><c/><d/>]]></assert-xml>
       </result>
    </test-case>
 
@@ -4026,7 +4026,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[<e> <b attr="fo"/> <b/> </e>/descendant-or-self::node()]]></test>
       <result>
-         <assert-serialization><![CDATA[<e><b attr="fo"/><b/></e><b attr="fo"/><b/>]]></assert-serialization>
+         <assert-xml><![CDATA[<e><b attr="fo"/><b/></e><b attr="fo"/><b/>]]></assert-xml>
       </result>
    </test-case>
 
@@ -4046,7 +4046,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[<e> <b/> <b a=""/> </e>/b]]></test>
       <result>
-         <assert-serialization><![CDATA[<b/><b a=""/>]]></assert-serialization>
+         <assert-xml><![CDATA[<b/><b a=""/>]]></assert-xml>
       </result>
    </test-case>
 
@@ -4056,7 +4056,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[<e> <b a=""/> <b/> </e>/b]]></test>
       <result>
-         <assert-serialization><![CDATA[<b a=""/><b/>]]></assert-serialization>
+         <assert-xml><![CDATA[<b a=""/><b/>]]></assert-xml>
       </result>
    </test-case>
 
@@ -4066,7 +4066,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[<e> <!-- comment --> <?PA ?>text<b/> <?PB ?> <b/> <?PC ?> </e>/child::node()]]></test>
       <result>
-         <assert-serialization><![CDATA[<!-- comment --><?PA ?>text<b/><?PB ?><b/><?PC ?>]]></assert-serialization>
+         <assert-xml><![CDATA[<!-- comment --><?PA ?>text<b/><?PB ?><b/><?PC ?>]]></assert-xml>
       </result>
    </test-case>
 
@@ -4086,7 +4086,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[1, <e/>/descendant-or-self::node(), 1]]></test>
       <result>
-         <assert-serialization><![CDATA[1<e/>1]]></assert-serialization>
+         <assert-xml><![CDATA[1<e/>1]]></assert-xml>
       </result>
    </test-case>
 
@@ -4106,7 +4106,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[1, <e attr=""/>/descendant-or-self::node(), 1]]></test>
       <result>
-         <assert-serialization><![CDATA[1<e attr=""/>1]]></assert-serialization>
+         <assert-xml><![CDATA[1<e attr=""/>1]]></assert-xml>
       </result>
    </test-case>
 
@@ -4156,7 +4156,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[<a> <b c=""/> <d/> </a>/descendant-or-self::node()[last()]/ancestor::*]]></test>
       <result>
-         <assert-serialization><![CDATA[<a><b c=""/><d/></a>]]></assert-serialization>
+         <assert-xml><![CDATA[<a><b c=""/><d/></a>]]></assert-xml>
       </result>
    </test-case>
 
@@ -4166,7 +4166,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[<a> <b c=""/> <d/> </a>/descendant-or-self::node()[last()]]]></test>
       <result>
-         <assert-serialization><![CDATA[<d/>]]></assert-serialization>
+         <assert-xml><![CDATA[<d/>]]></assert-xml>
       </result>
    </test-case>
 
@@ -4215,7 +4215,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[<a> <b id="person0"> <c/> </b> </a>/*[attribute::id eq "person0"]/c]]></test>
       <result>
-         <assert-serialization><![CDATA[<c/>]]></assert-serialization>
+         <assert-xml><![CDATA[<c/>]]></assert-xml>
       </result>
    </test-case>
 
@@ -4225,7 +4225,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[<a> <b id="person0"> <c/> </b> </a>/*[@id eq "person0"]/c]]></test>
       <result>
-         <assert-serialization><![CDATA[<c/>]]></assert-serialization>
+         <assert-xml><![CDATA[<c/>]]></assert-xml>
       </result>
    </test-case>
 
@@ -4360,7 +4360,7 @@
              exists($root//*/attribute()/descendant-or-self::node())]]></test>
       <result>
          <any-of>
-            <assert-serialization><![CDATA[<empty/>true]]></assert-serialization>
+            <assert-xml><![CDATA[<empty/>true]]></assert-xml>
             <error code="XPST0005"/>
          </any-of>
       </result>
@@ -4372,7 +4372,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[<result> { <e> <a>1</a> <b>2</b> </e>/(b, a)/. } </result>]]></test>
       <result>
-         <assert-serialization><![CDATA[<result><a>1</a><b>2</b></result>]]></assert-serialization>
+         <assert-xml><![CDATA[<result><a>1</a><b>2</b></result>]]></assert-xml>
       </result>
    </test-case>
 
@@ -4382,7 +4382,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[declare variable $i := <e> <a>1</a> <b>2</b> </e>; <result> { ($i/b, $i/a)/. } </result>]]></test>
       <result>
-         <assert-serialization><![CDATA[<result><a>1</a><b>2</b></result>]]></assert-serialization>
+         <assert-xml><![CDATA[<result><a>1</a><b>2</b></result>]]></assert-xml>
       </result>
    </test-case>
 
@@ -4392,7 +4392,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[declare default element namespace "http://typedecl"; <r> { <e attr="foo"/>/@attr } </r>]]></test>
       <result>
-         <assert-serialization><![CDATA[<r xmlns="http://typedecl" attr="foo"/>]]></assert-serialization>
+         <assert-xml><![CDATA[<r xmlns="http://typedecl" attr="foo"/>]]></assert-xml>
       </result>
    </test-case>
 
@@ -4518,7 +4518,7 @@
       <test><![CDATA[<b/>[self::b][last()]]]></test>
       <result>
          <any-of>
-            <assert-serialization><![CDATA[<b/>]]></assert-serialization>
+            <assert-xml><![CDATA[<b/>]]></assert-xml>
             <error code="XPST0005"/>
          </any-of>
       </result>
@@ -4543,7 +4543,7 @@
         for $b in /site/people/person where $b/@id="person0" return $b/name, 
         /site/people/person[@id eq "person0"]/name</test>
       <result>
-         <assert-serialization><![CDATA[<name>Seongtaek Mattern</name><name>Seongtaek Mattern</name><name>Seongtaek Mattern</name>]]></assert-serialization>
+         <assert-xml><![CDATA[<name>Seongtaek Mattern</name><name>Seongtaek Mattern</name><name>Seongtaek Mattern</name>]]></assert-xml>
       </result>
    </test-case>
 
@@ -4566,7 +4566,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[<a/>/<b>{.}</b>]]></test>
       <result>
-         <assert-serialization><![CDATA[<b><a/></b>]]></assert-serialization>
+         <assert-xml><![CDATA[<b><a/></b>]]></assert-xml>
       </result>
    </test-case>
    

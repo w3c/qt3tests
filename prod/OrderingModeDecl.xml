@@ -23,7 +23,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[declare ordering ordered; let $a := <a><b>1</b><c>2</c></a> return $a/b union $a/c]]></test>
       <result>
-         <assert-serialization><![CDATA[<b>1</b><c>2</c>]]></assert-serialization>
+         <assert-xml><![CDATA[<b>1</b><c>2</c>]]></assert-xml>
       </result>
    </test-case>
 
@@ -34,8 +34,8 @@
       <test><![CDATA[declare ordering unordered; (<a>1</a>) union (<b>2</b>)]]></test>
       <result>
          <any-of>
-            <assert-serialization><![CDATA[<a>1</a><b>2</b>]]></assert-serialization>
-            <assert-serialization><![CDATA[<b>2</b><a>1</a>]]></assert-serialization>
+            <assert-xml><![CDATA[<a>1</a><b>2</b>]]></assert-xml>
+            <assert-xml><![CDATA[<b>2</b><a>1</a>]]></assert-xml>
          </any-of>
       </result>
    </test-case>
@@ -46,10 +46,10 @@
       <environment ref="works-mod"/>
       <test>declare ordering ordered; (//overtime) intersect (//overtime)</test>
       <result>
-         <assert-serialization><![CDATA[<overtime>
+         <assert-xml><![CDATA[<overtime>
      <day>Monday</day>
      <day>Tuesday</day>
-   </overtime>]]></assert-serialization>
+   </overtime>]]></assert-xml>
       </result>
    </test-case>
 
@@ -59,10 +59,10 @@
       <environment ref="works-mod"/>
       <test>declare ordering unordered; (//overtime) intersect (//overtime)</test>
       <result>
-         <assert-serialization><![CDATA[<overtime>
+         <assert-xml><![CDATA[<overtime>
      <day>Monday</day>
      <day>Tuesday</day>
-   </overtime>]]></assert-serialization>
+   </overtime>]]></assert-xml>
       </result>
    </test-case>
 
@@ -72,11 +72,11 @@
       <environment ref="works-mod"/>
       <test>declare ordering ordered; (//employee[1]) except (//employee[2])</test>
       <result>
-         <assert-serialization><![CDATA[<employee name="Jane Doe 1" gender="female">
+         <assert-xml><![CDATA[<employee name="Jane Doe 1" gender="female">
    <empnum>E1</empnum>
    <pnum>P1</pnum>
    <hours>40</hours>
-  </employee>]]></assert-serialization>
+  </employee>]]></assert-xml>
       </result>
    </test-case>
 
@@ -86,11 +86,11 @@
       <environment ref="works-mod"/>
       <test>declare ordering unordered; (//employee[1]) except (//employee[2])</test>
       <result>
-         <assert-serialization><![CDATA[<employee name="Jane Doe 1" gender="female">
+         <assert-xml><![CDATA[<employee name="Jane Doe 1" gender="female">
    <empnum>E1</empnum>
    <pnum>P1</pnum>
    <hours>40</hours>
-  </employee>]]></assert-serialization>
+  </employee>]]></assert-xml>
       </result>
    </test-case>
 
@@ -100,7 +100,7 @@
       <environment ref="works-mod"/>
       <test>declare ordering ordered; for $x in //hours return $x</test>
       <result>
-         <assert-serialization><![CDATA[<hours>40</hours><hours>70</hours><hours>20</hours><hours>80</hours><hours>20</hours><hours>40</hours><hours>20</hours><hours>30</hours><hours>12</hours><hours>40</hours><hours>80</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>40</hours><hours>80</hours>]]></assert-serialization>
+         <assert-xml><![CDATA[<hours>40</hours><hours>70</hours><hours>20</hours><hours>80</hours><hours>20</hours><hours>40</hours><hours>20</hours><hours>30</hours><hours>12</hours><hours>40</hours><hours>80</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>40</hours><hours>80</hours>]]></assert-xml>
       </result>
    </test-case>
 
@@ -110,7 +110,7 @@
       <environment ref="works-mod"/>
       <test>declare ordering ordered; for $x in //hours order by $x descending return $x</test>
       <result>
-         <assert-serialization><![CDATA[<hours>80</hours><hours>80</hours><hours>80</hours><hours>70</hours><hours>40</hours><hours>40</hours><hours>40</hours><hours>40</hours><hours>30</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>12</hours>]]></assert-serialization>
+         <assert-xml><![CDATA[<hours>80</hours><hours>80</hours><hours>80</hours><hours>70</hours><hours>40</hours><hours>40</hours><hours>40</hours><hours>40</hours><hours>30</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>12</hours>]]></assert-xml>
       </result>
    </test-case>
 
@@ -120,7 +120,7 @@
       <environment ref="works-mod"/>
       <test>declare ordering ordered; for $x in //hours order by $x ascending return $x</test>
       <result>
-         <assert-serialization><![CDATA[<hours>12</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>30</hours><hours>40</hours><hours>40</hours><hours>40</hours><hours>40</hours><hours>70</hours><hours>80</hours><hours>80</hours><hours>80</hours>]]></assert-serialization>
+         <assert-xml><![CDATA[<hours>12</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>30</hours><hours>40</hours><hours>40</hours><hours>40</hours><hours>40</hours><hours>70</hours><hours>80</hours><hours>80</hours><hours>80</hours>]]></assert-xml>
       </result>
    </test-case>
 
@@ -130,7 +130,7 @@
       <environment ref="works-mod"/>
       <test>declare ordering unordered; for $x in //hours order by $x descending return $x</test>
       <result>
-         <assert-serialization><![CDATA[<hours>80</hours><hours>80</hours><hours>80</hours><hours>70</hours><hours>40</hours><hours>40</hours><hours>40</hours><hours>40</hours><hours>30</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>12</hours>]]></assert-serialization>
+         <assert-xml><![CDATA[<hours>80</hours><hours>80</hours><hours>80</hours><hours>70</hours><hours>40</hours><hours>40</hours><hours>40</hours><hours>40</hours><hours>30</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>12</hours>]]></assert-xml>
       </result>
    </test-case>
 
@@ -140,7 +140,7 @@
       <environment ref="works-mod"/>
       <test>declare ordering unordered; for $x in //hours order by $x ascending return $x</test>
       <result>
-         <assert-serialization><![CDATA[<hours>12</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>30</hours><hours>40</hours><hours>40</hours><hours>40</hours><hours>40</hours><hours>70</hours><hours>80</hours><hours>80</hours><hours>80</hours>]]></assert-serialization>
+         <assert-xml><![CDATA[<hours>12</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>30</hours><hours>40</hours><hours>40</hours><hours>40</hours><hours>40</hours><hours>70</hours><hours>80</hours><hours>80</hours><hours>80</hours>]]></assert-xml>
       </result>
    </test-case>
 
@@ -150,7 +150,7 @@
       <environment ref="works-mod"/>
       <test>declare ordering ordered; for $x in (/works/employee/hours) return $x</test>
       <result>
-         <assert-serialization><![CDATA[<hours>40</hours><hours>70</hours><hours>20</hours><hours>80</hours><hours>20</hours><hours>40</hours><hours>20</hours><hours>30</hours><hours>12</hours><hours>40</hours><hours>80</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>40</hours><hours>80</hours>]]></assert-serialization>
+         <assert-xml><![CDATA[<hours>40</hours><hours>70</hours><hours>20</hours><hours>80</hours><hours>20</hours><hours>40</hours><hours>20</hours><hours>30</hours><hours>12</hours><hours>40</hours><hours>80</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>40</hours><hours>80</hours>]]></assert-xml>
       </result>
    </test-case>
 
@@ -161,8 +161,8 @@
       <test>declare ordering unordered; for $x in (/works/employee[4]/hours) return $x</test>
       <result>
          <any-of>
-            <assert-serialization><![CDATA[<hours>20</hours><hours>40</hours>]]></assert-serialization>
-            <assert-serialization><![CDATA[<hours>40</hours><hours>20</hours>]]></assert-serialization>
+            <assert-xml><![CDATA[<hours>20</hours><hours>40</hours>]]></assert-xml>
+            <assert-xml><![CDATA[<hours>40</hours><hours>20</hours>]]></assert-xml>
          </any-of>
       </result>
    </test-case>
@@ -173,7 +173,7 @@
       <environment ref="works-mod"/>
       <test>declare ordering ordered; for $x in (//day) return $x</test>
       <result>
-         <assert-serialization><![CDATA[<day>Monday</day><day>Tuesday</day>]]></assert-serialization>
+         <assert-xml><![CDATA[<day>Monday</day><day>Tuesday</day>]]></assert-xml>
       </result>
    </test-case>
 
@@ -184,8 +184,8 @@
       <test>declare ordering unordered; for $x in (//day) return $x</test>
       <result>
          <any-of>
-            <assert-serialization><![CDATA[<day>Monday</day><day>Tuesday</day>]]></assert-serialization>
-            <assert-serialization><![CDATA[<day>Tuesday</day><day>Monday</day>]]></assert-serialization>
+            <assert-xml><![CDATA[<day>Monday</day><day>Tuesday</day>]]></assert-xml>
+            <assert-xml><![CDATA[<day>Tuesday</day><day>Monday</day>]]></assert-xml>
          </any-of>
       </result>
    </test-case>
@@ -196,7 +196,7 @@
       <environment ref="works-mod"/>
       <test>declare ordering unordered; ordered { for $x in /works//day return $x }</test>
       <result>
-         <assert-serialization><![CDATA[<day>Monday</day><day>Tuesday</day>]]></assert-serialization>
+         <assert-xml><![CDATA[<day>Monday</day><day>Tuesday</day>]]></assert-xml>
       </result>
    </test-case>
 
@@ -207,8 +207,8 @@
       <test>declare ordering ordered; unordered { for $x in /works//day return $x }</test>
       <result>
          <any-of>
-            <assert-serialization><![CDATA[<day>Monday</day><day>Tuesday</day>]]></assert-serialization>
-            <assert-serialization><![CDATA[<day>Tuesday</day><day>Monday</day>]]></assert-serialization>
+            <assert-xml><![CDATA[<day>Monday</day><day>Tuesday</day>]]></assert-xml>
+            <assert-xml><![CDATA[<day>Tuesday</day><day>Monday</day>]]></assert-xml>
          </any-of>
       </result>
    </test-case>
@@ -219,7 +219,7 @@
       <environment ref="works-mod"/>
       <test>declare ordering ordered; for $x in /works//overtime return $x/child::day</test>
       <result>
-         <assert-serialization><![CDATA[<day>Monday</day><day>Tuesday</day>]]></assert-serialization>
+         <assert-xml><![CDATA[<day>Monday</day><day>Tuesday</day>]]></assert-xml>
       </result>
    </test-case>
 
@@ -229,10 +229,10 @@
       <environment ref="works-mod"/>
       <test>declare ordering ordered; for $x in /works//day[1] return $x/parent::node()</test>
       <result>
-         <assert-serialization><![CDATA[<overtime>
+         <assert-xml><![CDATA[<overtime>
      <day>Monday</day>
      <day>Tuesday</day>
-   </overtime>]]></assert-serialization>
+   </overtime>]]></assert-xml>
       </result>
    </test-case>
 
@@ -243,7 +243,7 @@
       <test>declare ordering ordered; for $x in /works//day[1] return $x/following::day</test>
       <result>
          <any-of>
-            <assert-serialization><![CDATA[<day>Tuesday</day>]]></assert-serialization>
+            <assert-xml><![CDATA[<day>Tuesday</day>]]></assert-xml>
             <error code="XPST0010"/>
          </any-of>
       </result>
@@ -255,7 +255,7 @@
       <environment ref="works-mod"/>
       <test>declare ordering ordered; for $x in /works//overtime return $x/descendant::day</test>
       <result>
-         <assert-serialization><![CDATA[<day>Monday</day><day>Tuesday</day>]]></assert-serialization>
+         <assert-xml><![CDATA[<day>Monday</day><day>Tuesday</day>]]></assert-xml>
       </result>
    </test-case>
 

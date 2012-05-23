@@ -21,7 +21,7 @@
             return for $b in $auction/site/people/person[@id = "person0"] 
             return $b/name/text() } </XMark-result-Q1>]]></test>
       <result>
-         <assert-serialization><![CDATA[<XMark-result-Q1>Seongtaek Mattern</XMark-result-Q1>]]></assert-serialization>
+         <assert-xml><![CDATA[<XMark-result-Q1>Seongtaek Mattern</XMark-result-Q1>]]></assert-xml>
       </result>
    </test-case>
 
@@ -36,7 +36,7 @@
             return for $b in $auction/site/open_auctions/open_auction 
             return <increase>{$b/bidder[1]/increase/text()}</increase> } </XMark-result-Q2>]]></test>
       <result>
-         <assert-serialization file="XMark/XMark-Q2.xml"/>
+         <assert-xml file="XMark/XMark-Q2.xml"/>
       </result>
    </test-case>
 
@@ -54,7 +54,7 @@
                 return <increase first="{$b/bidder[1]/increase/text()}" last="{$b/bidder[last()]/increase/text()}"/> } 
         </XMark-result-Q3>]]></test>
       <result>
-         <assert-serialization file="XMark/XMark-Q3.xml"/>
+         <assert-xml file="XMark/XMark-Q3.xml"/>
       </result>
    </test-case>
 
@@ -72,7 +72,7 @@
             return <history>{$b/reserve/text()}</history> } 
         </XMark-result-Q4>]]></test>
       <result>
-         <assert-serialization><![CDATA[<XMark-result-Q4/>]]></assert-serialization>
+         <assert-xml><![CDATA[<XMark-result-Q4/>]]></assert-xml>
       </result>
    </test-case>
 
@@ -88,7 +88,7 @@
             where $i/price/text() >= 40.0 return $i/price) } 
         </XMark-result-Q5>]]></test>
       <result>
-         <assert-serialization><![CDATA[<XMark-result-Q5>200</XMark-result-Q5>]]></assert-serialization>
+         <assert-xml><![CDATA[<XMark-result-Q5>200</XMark-result-Q5>]]></assert-xml>
       </result>
    </test-case>
 
@@ -102,7 +102,7 @@
             let $auction := (/) return for $b in $auction//site/regions return count($b//item) } 
         </XMark-result-Q6>]]></test>
       <result>
-         <assert-serialization><![CDATA[<XMark-result-Q6>647</XMark-result-Q6>]]></assert-serialization>
+         <assert-xml><![CDATA[<XMark-result-Q6>647</XMark-result-Q6>]]></assert-xml>
       </result>
    </test-case>
 
@@ -113,7 +113,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[<XMark-result-Q7> { let $auction := (/) return for $p in $auction/site return count($p//description) + count($p//annotation) + count($p//emailaddress) } </XMark-result-Q7>]]></test>
       <result>
-         <assert-serialization><![CDATA[<XMark-result-Q7>2734</XMark-result-Q7>]]></assert-serialization>
+         <assert-xml><![CDATA[<XMark-result-Q7>2734</XMark-result-Q7>]]></assert-xml>
       </result>
    </test-case>
 
@@ -130,7 +130,7 @@
          where $t/buyer/@person = $p/@id return $t 
          return <item person="{$p/name/text()}">{count($a)}</item> } </XMark-result-Q8>]]></test>
       <result>
-         <assert-serialization file="XMark/XMark-Q8.xml"/>
+         <assert-xml file="XMark/XMark-Q8.xml"/>
       </result>
    </test-case>
 
@@ -152,7 +152,7 @@
             return $t2 return <item>{$n/name/text()}</item> 
             return <person name="{$p/name/text()}">{$a}</person> } </XMark-result-Q9>]]></test>
       <result>
-         <assert-serialization file="XMark/XMark-Q9.xml"/>
+         <assert-xml file="XMark/XMark-Q9.xml"/>
       </result>
    </test-case>
 
@@ -186,7 +186,7 @@
                    </personne> 
             return <categorie>{<id>{$i}</id>, $p}</categorie> } </XMark-result-Q10>]]></test>
       <result>
-         <assert-serialization file="XMark/XMark-Q10.xml"/>
+         <assert-xml file="XMark/XMark-Q10.xml"/>
       </result>
    </test-case>
 
@@ -205,7 +205,7 @@
             where $p/profile/@income > 5000 * exactly-one($i/text()) 
             return $i return <items name="{$p/name/text()}">{count($l)}</items> } </XMark-result-Q11>]]></test>
       <result>
-         <assert-serialization file="XMark/XMark-Q11.xml"/>
+         <assert-xml file="XMark/XMark-Q11.xml"/>
       </result>
    </test-case>
 
@@ -225,7 +225,7 @@
             return $i where $p/profile/@income > 50000.0 
             return <items person="{$p/profile/@income}">{count($l)}</items> } </XMark-result-Q12>]]></test>
       <result>
-         <assert-serialization file="XMark/XMark-Q12.xml"/>
+         <assert-xml file="XMark/XMark-Q12.xml"/>
       </result>
    </test-case>
 
@@ -240,7 +240,7 @@
             for $i in $auction/site/regions/australia/item 
             return <item name="{$i/name/text()}">{$i/description}</item> } </XMark-result-Q13>]]></test>
       <result>
-         <assert-serialization file="XMark/XMark-Q13.xml"/>
+         <assert-xml file="XMark/XMark-Q13.xml"/>
       </result>
    </test-case>
 
@@ -256,7 +256,7 @@
             where contains(string(exactly-one($i/description)), "gold") 
             return $i/name/text() } </XMark-result-Q14>]]></test>
       <result>
-         <assert-serialization file="XMark/XMark-Q14.xml"/>
+         <assert-xml file="XMark/XMark-Q14.xml"/>
       </result>
    </test-case>
 
@@ -271,7 +271,7 @@
                listitem/ parlist/ listitem/ text/ emph/ keyword/ text() 
             return <text>{$a}</text> } </XMark-result-Q15>]]></test>
       <result>
-         <assert-serialization file="XMark/XMark-Q15.xml"/>
+         <assert-xml file="XMark/XMark-Q15.xml"/>
       </result>
    </test-case>
 
@@ -288,7 +288,7 @@
             where not( empty( $a/annotation/description/parlist/listitem/parlist/listitem/text/emph/ keyword/ text() ) ) 
             return <person id="{$a/seller/@person}"/> } </XMark-result-Q16>]]></test>
       <result>
-         <assert-serialization file="XMark/XMark-Q16.xml"/>
+         <assert-xml file="XMark/XMark-Q16.xml"/>
       </result>
    </test-case>
 
@@ -303,7 +303,7 @@
             where empty($p/homepage/text()) 
             return <person name="{$p/name/text()}"/> } </XMark-result-Q17>]]></test>
       <result>
-         <assert-serialization file="XMark/XMark-Q17.xml"/>
+         <assert-xml file="XMark/XMark-Q17.xml"/>
       </result>
    </test-case>
 
@@ -321,7 +321,7 @@
             for $i in $auction/site/open_auctions/open_auction 
             return local:convert(zero-or-one($i/reserve)) } </XMark-result-Q18>]]></test>
       <result>
-         <assert-serialization file="XMark/XMark-Q18.xml"/>
+         <assert-xml file="XMark/XMark-Q18.xml"/>
       </result>
    </test-case>
 
@@ -337,7 +337,7 @@
             let $k := $b/name/text() stable order by zero-or-one($b/location) ascending empty greatest 
             return <item name="{$k}">{$b/location/text()}</item> } </XMark-result-Q19>]]></test>
       <result>
-         <assert-serialization file="XMark/XMark-Q19.xml"/>
+         <assert-xml file="XMark/XMark-Q19.xml"/>
       </result>
    </test-case>
 
@@ -355,7 +355,7 @@
                   <na> { count( for $p in $auction/site/people/person where empty($p/profile/@income) return $p ) } </na>
                </result> } </XMark-result-Q20>]]></test>
       <result>
-         <assert-serialization file="XMark/XMark-Q20.xml"/>
+         <assert-xml file="XMark/XMark-Q20.xml"/>
       </result>
    </test-case>
 
@@ -366,7 +366,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test file="XMark/XMark-All.xq"/>
       <result>
-         <assert-serialization file="XMark/XMark-All.xml"/>
+         <assert-xml file="XMark/XMark-All.xml"/>
       </result>
    </test-case>
 </test-set>

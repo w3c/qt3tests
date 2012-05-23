@@ -21,7 +21,7 @@
       <environment ref="partlist"/>
       <test><![CDATA[ordered {//part[@partid < 2]}]]></test>
       <result>
-         <assert-serialization><![CDATA[<part partid="0" name="car"/><part partid="1" partof="0" name="engine"/>]]></assert-serialization>
+         <assert-xml><![CDATA[<part partid="0" name="car"/><part partid="1" partof="0" name="engine"/>]]></assert-xml>
       </result>
    </test-case>
 
@@ -32,8 +32,8 @@
       <test><![CDATA[unordered {//part[@partid < 2]}]]></test>
       <result>
          <any-of>
-            <assert-serialization><![CDATA[<part partid="0" name="car"/><part partid="1" partof="0" name="engine"/>]]></assert-serialization>
-            <assert-serialization><![CDATA[<part partid="1" partof="0" name="engine"/><part partid="0" name="car"/>]]></assert-serialization>
+            <assert-xml><![CDATA[<part partid="0" name="car"/><part partid="1" partof="0" name="engine"/>]]></assert-xml>
+            <assert-xml><![CDATA[<part partid="1" partof="0" name="engine"/><part partid="0" name="car"/>]]></assert-xml>
          </any-of>
       </result>
    </test-case>
@@ -44,7 +44,7 @@
       <environment ref="partlist"/>
       <test><![CDATA[ordered {//part[@partid < 2][2]}]]></test>
       <result>
-         <assert-serialization><![CDATA[<part partid="1" partof="0" name="engine"/>]]></assert-serialization>
+         <assert-xml><![CDATA[<part partid="1" partof="0" name="engine"/>]]></assert-xml>
       </result>
    </test-case>
 
@@ -55,8 +55,8 @@
       <test><![CDATA[unordered {//part[@partid < 2][2]}]]></test>
       <result>
          <any-of>
-            <assert-serialization><![CDATA[<part partid="1" partof="0" name="engine"/>]]></assert-serialization>
-            <assert-serialization><![CDATA[<part partid="0" name="car"/>]]></assert-serialization>
+            <assert-xml><![CDATA[<part partid="1" partof="0" name="engine"/>]]></assert-xml>
+            <assert-xml><![CDATA[<part partid="0" name="car"/>]]></assert-xml>
          </any-of>
       </result>
    </test-case>
@@ -67,7 +67,7 @@
       <environment ref="partlist"/>
       <test>ordered {//part[@partof = 1] union //part[@partid = 1] }</test>
       <result>
-         <assert-serialization><![CDATA[<part partid="1" partof="0" name="engine"/><part partid="3" partof="1" name="piston"/>]]></assert-serialization>
+         <assert-xml><![CDATA[<part partid="1" partof="0" name="engine"/><part partid="3" partof="1" name="piston"/>]]></assert-xml>
       </result>
    </test-case>
 
@@ -78,8 +78,8 @@
       <test>unordered {//part[@partof = 1] union //part[@partid = 1] }</test>
       <result>
          <any-of>
-            <assert-serialization><![CDATA[<part partid="1" partof="0" name="engine"/><part partid="3" partof="1" name="piston"/>]]></assert-serialization>
-            <assert-serialization><![CDATA[<part partid="3" partof="1" name="piston"/><part partid="1" partof="0" name="engine"/>]]></assert-serialization>
+            <assert-xml><![CDATA[<part partid="1" partof="0" name="engine"/><part partid="3" partof="1" name="piston"/>]]></assert-xml>
+            <assert-xml><![CDATA[<part partid="3" partof="1" name="piston"/><part partid="1" partof="0" name="engine"/>]]></assert-xml>
          </any-of>
       </result>
    </test-case>
@@ -90,7 +90,7 @@
       <environment ref="partlist"/>
       <test><![CDATA[ordered {//part[@partof < 2] intersect //part[@partid = 1 or @partid > 2] }]]></test>
       <result>
-         <assert-serialization><![CDATA[<part partid="1" partof="0" name="engine"/><part partid="3" partof="1" name="piston"/>]]></assert-serialization>
+         <assert-xml><![CDATA[<part partid="1" partof="0" name="engine"/><part partid="3" partof="1" name="piston"/>]]></assert-xml>
       </result>
    </test-case>
 
@@ -101,8 +101,8 @@
       <test><![CDATA[unordered {//part[@partof < 2] intersect //part[@partid = 1 or @partid > 2] }]]></test>
       <result>
          <any-of>
-            <assert-serialization><![CDATA[<part partid="1" partof="0" name="engine"/><part partid="3" partof="1" name="piston"/>]]></assert-serialization>
-            <assert-serialization><![CDATA[<part partid="3" partof="1" name="piston"/><part partid="1" partof="0" name="engine"/>]]></assert-serialization>
+            <assert-xml><![CDATA[<part partid="1" partof="0" name="engine"/><part partid="3" partof="1" name="piston"/>]]></assert-xml>
+            <assert-xml><![CDATA[<part partid="3" partof="1" name="piston"/><part partid="1" partof="0" name="engine"/>]]></assert-xml>
          </any-of>
       </result>
    </test-case>
@@ -113,7 +113,7 @@
       <environment ref="partlist"/>
       <test><![CDATA[ordered {//part[@partof < 2] except //part[@partid = 2] }]]></test>
       <result>
-         <assert-serialization><![CDATA[<part partid="1" partof="0" name="engine"/><part partid="3" partof="1" name="piston"/>]]></assert-serialization>
+         <assert-xml><![CDATA[<part partid="1" partof="0" name="engine"/><part partid="3" partof="1" name="piston"/>]]></assert-xml>
       </result>
    </test-case>
 
@@ -124,8 +124,8 @@
       <test><![CDATA[unordered {//part[@partof < 2] except //part[@partid = 2] }]]></test>
       <result>
          <any-of>
-            <assert-serialization><![CDATA[<part partid="1" partof="0" name="engine"/><part partid="3" partof="1" name="piston"/>]]></assert-serialization>
-            <assert-serialization><![CDATA[<part partid="3" partof="1" name="piston"/><part partid="1" partof="0" name="engine"/>]]></assert-serialization>
+            <assert-xml><![CDATA[<part partid="1" partof="0" name="engine"/><part partid="3" partof="1" name="piston"/>]]></assert-xml>
+            <assert-xml><![CDATA[<part partid="3" partof="1" name="piston"/><part partid="1" partof="0" name="engine"/>]]></assert-xml>
          </any-of>
       </result>
    </test-case>

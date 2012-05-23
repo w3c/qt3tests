@@ -392,7 +392,7 @@
         <result>{ctx:use-schema() instance of xs:int}</result>
       ]]></test>
       <result>
-         <assert-serialization><![CDATA[<result>true</result>]]></assert-serialization>
+         <assert-xml><![CDATA[<result>true</result>]]></assert-xml>
       </result>
    </test-case>
 
@@ -416,7 +416,7 @@
         import schema namespace hat = "http://www.w3.org/XQueryTest/hats"; 
         <a> { 8 cast as hat:hatsize }</a>]]></test>
       <result>
-         <assert-serialization><![CDATA[<a>8</a>]]></assert-serialization>
+         <assert-xml><![CDATA[<a>8</a>]]></assert-xml>
       </result>
    </test-case>
 
@@ -429,7 +429,7 @@
         import schema default element namespace "http://www.w3.org/XQueryTest/hats" at "qischema001.xsd"; 
         <hat:a xmlns:hat="http://www.example.com/shoes.uri"> { 8 cast as hatsize }</hat:a>]]></test>
       <result>
-         <assert-serialization><![CDATA[<hat:a xmlns:hat="http://www.example.com/shoes.uri">8</hat:a>]]></assert-serialization>
+         <assert-xml><![CDATA[<hat:a xmlns:hat="http://www.example.com/shoes.uri">8</hat:a>]]></assert-xml>
       </result>
    </test-case>
 
@@ -442,7 +442,7 @@
         import schema default element namespace "http://www.w3.org/XQueryTest/hats" at "qischema001.xsd"; 
         <hat:a xmlns:hat="http://www.example.com/shoes.uri"> { xs:date('2003-02-02') cast as date2003 }</hat:a>]]></test>
       <result>
-         <assert-serialization><![CDATA[<hat:a xmlns:hat="http://www.example.com/shoes.uri">2003-02-02</hat:a>]]></assert-serialization>
+         <assert-xml><![CDATA[<hat:a xmlns:hat="http://www.example.com/shoes.uri">2003-02-02</hat:a>]]></assert-xml>
       </result>
    </test-case>
 
@@ -455,7 +455,7 @@
         import schema default element namespace "http://www.w3.org/XQueryTest/hats" at "qischema001.xsd"; 
         <hat:a xmlns:hat="http://www.example.com/shoes.uri"> { 'abc123' cast as vreg }</hat:a>]]></test>
       <result>
-         <assert-serialization><![CDATA[<hat:a xmlns:hat="http://www.example.com/shoes.uri">abc123</hat:a>]]></assert-serialization>
+         <assert-xml><![CDATA[<hat:a xmlns:hat="http://www.example.com/shoes.uri">abc123</hat:a>]]></assert-xml>
       </result>
    </test-case>
 
@@ -473,9 +473,9 @@
             </abf>}
         ]]></test>
       <result>
-         <assert-serialization><![CDATA[<abf xmlns="http://www.w3.org/XQueryTest/hats"
+         <assert-xml><![CDATA[<abf xmlns="http://www.w3.org/XQueryTest/hats"
      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-     xmlns:xs="http://www.w3.org/2001/XMLSchema"><a/><b/><b/><f/><f/><f/></abf>]]></assert-serialization>
+     xmlns:xs="http://www.w3.org/2001/XMLSchema"><a/><b/><b/><f/><f/><f/></abf>]]></assert-xml>
       </result>
    </test-case>
 
@@ -490,7 +490,7 @@
         <out> { validate strict { <abf> <a/> <b/> <b/> <f/> <f/> <f/> </abf> }} </out>
       ]]></test>
       <result>
-         <assert-serialization><![CDATA[<out xmlns="http://www.w3.org/XQueryTest/hats"><abf><a/><b/><b/><f/><f/><f/></abf></out>]]></assert-serialization>
+         <assert-xml><![CDATA[<out xmlns="http://www.w3.org/XQueryTest/hats"><abf><a/><b/><b/><f/><f/><f/></abf></out>]]></assert-xml>
       </result>
    </test-case>
 
@@ -505,7 +505,7 @@
         validate { <abf> <a/> <b/> <b/> { for $i in 1 to 3 return <f/> } </abf> }
       ]]></test>
       <result>
-         <assert-serialization><![CDATA[<abf xmlns="http://www.w3.org/XQueryTest/hats"><a/><b/><b/><f/><f/><f/></abf>]]></assert-serialization>
+         <assert-xml><![CDATA[<abf xmlns="http://www.w3.org/XQueryTest/hats"><a/><b/><b/><f/><f/><f/></abf>]]></assert-xml>
       </result>
    </test-case>
 
@@ -520,7 +520,7 @@
         validate { <abf> <a/> { if (current-date() gt xs:date('1900-01-01')) then <b/> else <f/> } <b/> { for $i in 1 to 3 return <f/> } </abf> }
       ]]></test>
       <result>
-         <assert-serialization><![CDATA[<abf xmlns="http://www.w3.org/XQueryTest/abf"><a/><b/><b/><f/><f/><f/></abf>]]></assert-serialization>
+         <assert-xml><![CDATA[<abf xmlns="http://www.w3.org/XQueryTest/abf"><a/><b/><b/><f/><f/><f/></abf>]]></assert-xml>
       </result>
    </test-case>
 
@@ -536,7 +536,7 @@
             <abf> <a/> { if (current-date() gt xs:date('1900-01-01')) then <b/> else <f/> } <b/> { for $i in 1 to 3 return $f } </abf> }
       ]]></test>
       <result>
-         <assert-serialization><![CDATA[<abf xmlns="http://www.w3.org/XQueryTest/abf"><a/><b/><b/><f/><f/><f/></abf>]]></assert-serialization>
+         <assert-xml><![CDATA[<abf xmlns="http://www.w3.org/XQueryTest/abf"><a/><b/><b/><f/><f/><f/></abf>]]></assert-xml>
       </result>
    </test-case>
 
@@ -551,7 +551,7 @@
         let $c := (<a/>,<b/>,<f/>) return validate strict { <abf> {$c} </abf> }
       ]]></test>
       <result>
-         <assert-serialization><![CDATA[<abf xmlns="http://www.w3.org/XQueryTest/abf"><a/><b/><f/></abf>]]></assert-serialization>
+         <assert-xml><![CDATA[<abf xmlns="http://www.w3.org/XQueryTest/abf"><a/><b/><f/></abf>]]></assert-xml>
       </result>
    </test-case>
 
@@ -565,7 +565,7 @@
         let $a := <a> { validate strict { <abf><a/><b/><f/></abf> } } </a> return $a/*
       ]]></test>
       <result>
-         <assert-serialization><![CDATA[<abf xmlns="http://www.w3.org/XQueryTest/abf"><a/><b/><f/></abf>]]></assert-serialization>
+         <assert-xml><![CDATA[<abf xmlns="http://www.w3.org/XQueryTest/abf"><a/><b/><f/></abf>]]></assert-xml>
       </result>
    </test-case>
 
@@ -579,7 +579,7 @@
         let $a := <a> { validate strict { <abf><a/><b/><f/></abf> } } </a> return $a/*
       ]]></test>
       <result>
-         <assert-serialization><![CDATA[<abf xmlns="http://www.w3.org/XQueryTest/abf"><a/><b/><f/></abf>]]></assert-serialization>
+         <assert-xml><![CDATA[<abf xmlns="http://www.w3.org/XQueryTest/abf"><a/><b/><f/></abf>]]></assert-xml>
       </result>
    </test-case>
 
@@ -598,7 +598,7 @@
         validate strict { doc("http://www.w3.org/fots/SchemaImport/xqischema008.xml") }
       </test>
       <result>
-         <assert-serialization><![CDATA[<abf xmlns="http://www.w3.org/XQueryTest/abf"><a/><b/><f/></abf>]]></assert-serialization>
+         <assert-xml><![CDATA[<abf xmlns="http://www.w3.org/XQueryTest/abf"><a/><b/><f/></abf>]]></assert-xml>
       </result>
    </test-case>
 
@@ -613,7 +613,7 @@
         <a>{hatsize(5), bighatsize(8)}</a>
       ]]></test>
       <result>
-         <assert-serialization><![CDATA[<a xmlns="http://www.w3.org/XQueryTest/hats">5 8</a>]]></assert-serialization>
+         <assert-xml><![CDATA[<a xmlns="http://www.w3.org/XQueryTest/hats">5 8</a>]]></assert-xml>
       </result>
    </test-case>
 
@@ -628,7 +628,7 @@
         <a>{5 castable as hatsize, 8 castable as bighatsize, 3 castable as bighatsize}</a>
       ]]></test>
       <result>
-         <assert-serialization><![CDATA[<a xmlns="http://www.w3.org/XQueryTest/hats">true true false</a>]]></assert-serialization>
+         <assert-xml><![CDATA[<a xmlns="http://www.w3.org/XQueryTest/hats">true true false</a>]]></assert-xml>
       </result>
    </test-case>
 
@@ -646,7 +646,7 @@
         return validate { element {node-name($e)} { $e/@*, $e/* } }
       </test>
       <result>
-         <assert-serialization><![CDATA[<frg:fragment xmlns:frg="http://schema.highwire.org/Publishing/Fragment" type="frg:figure"/>]]></assert-serialization>
+         <assert-xml><![CDATA[<frg:fragment xmlns:frg="http://schema.highwire.org/Publishing/Fragment" type="frg:figure"/>]]></assert-xml>
       </result>
    </test-case>
 
@@ -663,7 +663,7 @@
         let $e := ./* return validate { document { element {node-name($e)} { $e/@*, $e/* } } }
       </test>
       <result>
-         <assert-serialization><![CDATA[<frg:fragment xmlns:frg="http://schema.highwire.org/Publishing/Fragment" type="frg:figure"/>]]></assert-serialization>
+         <assert-xml><![CDATA[<frg:fragment xmlns:frg="http://schema.highwire.org/Publishing/Fragment" type="frg:figure"/>]]></assert-xml>
       </result>
    </test-case>
 
@@ -683,10 +683,10 @@
         return validate { element {"res:resource"} { $e/@*, attribute{"frg:fragility"}{3}, $e/* } }
       </test>
       <result>
-         <assert-serialization ignore-prefixes="true"><![CDATA[<res:resource xmlns:res="http://schema.highwire.org/Publishing/Resource"
+         <assert-xml ignore-prefixes="true"><![CDATA[<res:resource xmlns:res="http://schema.highwire.org/Publishing/Resource"
               xmlns:frg="http://schema.highwire.org/Publishing/Fragment"
               type="frg:figure"
-              frg:fragility="3"/>]]></assert-serialization>
+              frg:fragility="3"/>]]></assert-xml>
       </result>
    </test-case>
 
@@ -710,12 +710,12 @@
         return validate { element {"res:resource"} { $e/@*, attribute{"frg:fragility"}{3}, local:f(), $e/* } }
       ]]></test>
       <result>
-         <assert-serialization ignore-prefixes="true"><![CDATA[<res:resource xmlns:res="http://schema.highwire.org/Publishing/Resource"
+         <assert-xml ignore-prefixes="true"><![CDATA[<res:resource xmlns:res="http://schema.highwire.org/Publishing/Resource"
               xmlns:frg="http://schema.highwire.org/Publishing/Fragment"
               xmlns:frg_1="http://schema.highwire.org/Publishing/Different"
               type="frg:figure"
               frg:fragility="3"
-              frg_1:fragrance="4"/>]]></assert-serialization>
+              frg_1:fragrance="4"/>]]></assert-xml>
       </result>
    </test-case>
 
@@ -731,7 +731,7 @@
         <a> { hat:purchase(5 cast as hat:hatsize) }</a>
       ]]></test>
       <result>
-         <assert-serialization><![CDATA[<a>2003-06-30</a>]]></assert-serialization>
+         <assert-xml><![CDATA[<a>2003-06-30</a>]]></assert-xml>
       </result>
    </test-case>
 
@@ -748,7 +748,7 @@
         <a> { hat:purchase(5 cast as hat:hatsize) }</a>
       ]]></test>
       <result>
-         <assert-serialization><![CDATA[<a>2003-06-30</a>]]></assert-serialization>
+         <assert-xml><![CDATA[<a>2003-06-30</a>]]></assert-xml>
       </result>
    </test-case>
 
@@ -764,7 +764,7 @@
                                              at "SchemaImport/qischema041a.xsd", "SchemaImport/qischema041.xsd"; 
         <a>{hatsize(5), bighatsize(8), tinyhatsize(4)}</a>]]></test>
       <result>
-         <assert-serialization><![CDATA[<a xmlns="http://www.w3.org/XQueryTest/Local/hats">5 8 4</a>]]></assert-serialization>
+         <assert-xml><![CDATA[<a xmlns="http://www.w3.org/XQueryTest/Local/hats">5 8 4</a>]]></assert-xml>
       </result>
    </test-case>
 
@@ -781,7 +781,7 @@
                 at "SchemaImport/qischema042.xsd", "SchemaImport/qischema042a.xsd", "SchemaImport/qischema042-non-existent.xsd"; 
         <a>{hatsize(5), bighatsize(8), tinyhatsize(4)}</a>]]></test>
       <result>
-         <assert-serialization><![CDATA[<a xmlns="qischema0042.uri">5 8 4</a>]]></assert-serialization>
+         <assert-xml><![CDATA[<a xmlns="qischema0042.uri">5 8 4</a>]]></assert-xml>
       </result>
    </test-case>
 
@@ -816,7 +816,7 @@
         <a> { hat:trick(5) }</a>
       ]]></test>
       <result>
-         <assert-serialization><![CDATA[<a>8</a>]]></assert-serialization>
+         <assert-xml><![CDATA[<a>8</a>]]></assert-xml>
       </result>
    </test-case>
 
@@ -841,7 +841,7 @@
         <out> {local:p()} </out>
       ]]></test>
       <result>
-         <assert-serialization><![CDATA[<out><z:person xmlns:z="http://www.w3.org/XQueryTest/addresses"><z:first>Michael</z:first><z:middle>H</z:middle><z:surname>Kay</z:surname></z:person></out>]]></assert-serialization>
+         <assert-xml><![CDATA[<out><z:person xmlns:z="http://www.w3.org/XQueryTest/addresses"><z:first>Michael</z:first><z:middle>H</z:middle><z:surname>Kay</z:surname></z:person></out>]]></assert-xml>
       </result>
    </test-case>
 
@@ -855,10 +855,10 @@
         validate strict { <z:s xsi:type="xs:NCName" xmlns:xs="http://www.w3.org/2001/XMLSchema">abc123</z:s> }
       ]]></test>
       <result>
-         <assert-serialization><![CDATA[<z:s xmlns:xs="http://www.w3.org/2001/XMLSchema"
+         <assert-xml><![CDATA[<z:s xmlns:xs="http://www.w3.org/2001/XMLSchema"
      xmlns:z="http://www.w3.org/XQueryTest/hats"
      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-     xsi:type="xs:NCName">abc123</z:s>]]></assert-serialization>
+     xsi:type="xs:NCName">abc123</z:s>]]></assert-xml>
       </result>
    </test-case>
 
@@ -872,9 +872,9 @@
         validate strict { <z:a xsi:type="z:positive-money-amount" xmlns:z="http://www.w3.org/XQueryTest/money">1234</z:a> }
       ]]></test>
       <result>
-         <assert-serialization><![CDATA[<z:a xmlns:z="http://www.w3.org/XQueryTest/money"
+         <assert-xml><![CDATA[<z:a xmlns:z="http://www.w3.org/XQueryTest/money"
      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-     xsi:type="z:positive-money-amount">1234</z:a>]]></assert-serialization>
+     xsi:type="z:positive-money-amount">1234</z:a>]]></assert-xml>
       </result>
    </test-case>
 
@@ -912,9 +912,9 @@
             </z:person> }
       ]]></test>
       <result>
-         <assert-serialization><![CDATA[<z:person xmlns:z="http://www.w3.org/XQueryTest/addresses"
+         <assert-xml><![CDATA[<z:person xmlns:z="http://www.w3.org/XQueryTest/addresses"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-          xsi:type="z:titled-person"><z:first>Anthony</z:first><z:middle>W</z:middle><z:last>Benn</z:last><z:title>Viscount Stansgate</z:title></z:person>]]></assert-serialization>
+          xsi:type="z:titled-person"><z:first>Anthony</z:first><z:middle>W</z:middle><z:last>Benn</z:last><z:title>Viscount Stansgate</z:title></z:person>]]></assert-xml>
       </result>
    </test-case>
 
@@ -925,9 +925,9 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[import schema namespace z = "http://www.w3.org/XQueryTest/addresses" at "qischema064.xsd"; validate strict { document { <z:person xsi:type="z:titled-person" xmlns:z="http://www.w3.org/XQueryTest/addresses"> <z:first>Anthony</z:first> <z:middle>W</z:middle> <z:last>Benn</z:last> <z:title>Viscount Stansgate</z:title> </z:person> } }]]></test>
       <result>
-         <assert-serialization><![CDATA[<z:person xmlns:z="http://www.w3.org/XQueryTest/addresses"
+         <assert-xml><![CDATA[<z:person xmlns:z="http://www.w3.org/XQueryTest/addresses"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-          xsi:type="z:titled-person"><z:first>Anthony</z:first><z:middle>W</z:middle><z:last>Benn</z:last><z:title>Viscount Stansgate</z:title></z:person>]]></assert-serialization>
+          xsi:type="z:titled-person"><z:first>Anthony</z:first><z:middle>W</z:middle><z:last>Benn</z:last><z:title>Viscount Stansgate</z:title></z:person>]]></assert-xml>
       </result>
    </test-case>
 
@@ -948,10 +948,10 @@
         local:write()
       ]]></test>
       <result>
-         <assert-serialization><![CDATA[<FpML xmlns="http://www.fpml.org/2005/FpML-4-2"
+         <assert-xml><![CDATA[<FpML xmlns="http://www.fpml.org/2005/FpML-4-2"
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       fpml-version="4.2"
-      xsi:type="ValuationDocument"><header><from>me</from><to>you</to><date>2005-10-25</date></header><market>cattle</market><value>0.02</value></FpML>]]></assert-serialization>
+      xsi:type="ValuationDocument"><header><from>me</from><to>you</to><date>2005-10-25</date></header><market>cattle</market><value>0.02</value></FpML>]]></assert-xml>
       </result>
    </test-case>
 
@@ -1109,9 +1109,9 @@
         validate strict { <qnc:x xmlns:iso2="http://www.xbrl.org/2003/iso4217">iso2:GBP</qnc:x> }
         ]]></test>
       <result>
-         <assert-serialization><![CDATA[<qnc:x xmlns:qnc="http://www.w3.org/XQueryTest/QNameComparisonTest">GBP</qnc:x><qnc:x 
+         <assert-xml><![CDATA[<qnc:x xmlns:qnc="http://www.w3.org/XQueryTest/QNameComparisonTest">GBP</qnc:x><qnc:x 
             xmlns:iso2="http://www.xbrl.org/2003/iso4217" 
-            xmlns:qnc="http://www.w3.org/XQueryTest/QNameComparisonTest">iso2:GBP</qnc:x>]]></assert-serialization>
+            xmlns:qnc="http://www.w3.org/XQueryTest/QNameComparisonTest">iso2:GBP</qnc:x>]]></assert-xml>
       </result>
    </test-case>
 
@@ -1126,9 +1126,9 @@
         validate strict { <one:one> <two:two> <two:three/> <two:three/> <two:three/> </two:two> </one:one> }
       ]]></test>
       <result>
-         <assert-serialization><![CDATA[<one:one xmlns:one="http://www.w3.org/XQueryTest/q083one"
+         <assert-xml><![CDATA[<one:one xmlns:one="http://www.w3.org/XQueryTest/q083one"
             ><two:two xmlns:two="http://www.w3.org/XQueryTest/q083two"
-            ><two:three/><two:three/><two:three/></two:two></one:one>]]></assert-serialization>
+            ><two:three/><two:three/><two:three/></two:two></one:one>]]></assert-xml>
       </result>
    </test-case>
    

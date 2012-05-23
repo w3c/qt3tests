@@ -89,7 +89,7 @@
         return validate strict {$var}
       ]]></test>
       <result>
-         <assert-serialization><![CDATA[<Strings xmlns="http://www.w3.org/XQueryTestOrderBy"><orderData>one string</orderData></Strings>]]></assert-serialization>
+         <assert-xml><![CDATA[<Strings xmlns="http://www.w3.org/XQueryTestOrderBy"><orderData>one string</orderData></Strings>]]></assert-xml>
       </result>
    </test-case>
 
@@ -104,7 +104,7 @@
         return validate lax {$var}
       ]]></test>
       <result>
-         <assert-serialization><![CDATA[<Strings xmlns="http://www.w3.org/XQueryTestOrderBy"><orderData>one string</orderData></Strings>]]></assert-serialization>
+         <assert-xml><![CDATA[<Strings xmlns="http://www.w3.org/XQueryTestOrderBy"><orderData>one string</orderData></Strings>]]></assert-xml>
       </result>
    </test-case>
 
@@ -261,7 +261,7 @@
         validate strict {if (fn:true()) then <Strings><orderData>A String</orderData></Strings> else <Failed>This test failed</Failed>}
       ]]></test>
       <result>
-         <assert-serialization><![CDATA[<Strings xmlns="http://www.w3.org/XQueryTestOrderBy"><orderData>A String</orderData></Strings>]]></assert-serialization>
+         <assert-xml><![CDATA[<Strings xmlns="http://www.w3.org/XQueryTestOrderBy"><orderData>A String</orderData></Strings>]]></assert-xml>
       </result>
    </test-case>
 
@@ -275,7 +275,7 @@
         validate lax {if (fn:true()) then <Strings><orderData>A String</orderData></Strings> else <Failed>This test failed</Failed>}
       ]]></test>
       <result>
-         <assert-serialization><![CDATA[<Strings xmlns="http://www.w3.org/XQueryTestOrderBy"><orderData>A String</orderData></Strings>]]></assert-serialization>
+         <assert-xml><![CDATA[<Strings xmlns="http://www.w3.org/XQueryTestOrderBy"><orderData>A String</orderData></Strings>]]></assert-xml>
       </result>
    </test-case>
 
@@ -289,7 +289,7 @@
         validate lax {if (fn:false()) then <Failed>This test failed</Failed> else <Strings><orderData>A String</orderData></Strings>}
       ]]></test>
       <result>
-         <assert-serialization><![CDATA[<Strings xmlns="http://www.w3.org/XQueryTestOrderBy"><orderData>A String</orderData></Strings>]]></assert-serialization>
+         <assert-xml><![CDATA[<Strings xmlns="http://www.w3.org/XQueryTestOrderBy"><orderData>A String</orderData></Strings>]]></assert-xml>
       </result>
    </test-case>
 
@@ -303,7 +303,7 @@
         validate lax {if (fn:true() or fn:true()) then <Strings><orderData>A String</orderData></Strings> else <Failed>This test failed</Failed> }
       ]]></test>
       <result>
-         <assert-serialization><![CDATA[<Strings xmlns="http://www.w3.org/XQueryTestOrderBy"><orderData>A String</orderData></Strings>]]></assert-serialization>
+         <assert-xml><![CDATA[<Strings xmlns="http://www.w3.org/XQueryTestOrderBy"><orderData>A String</orderData></Strings>]]></assert-xml>
       </result>
    </test-case>
 
@@ -317,7 +317,7 @@
         validate lax {if (every $x in (1,2,3) satisfies $x < 5) then <Strings><orderData>A String</orderData></Strings> else <Failed>This test failed</Failed> }
       ]]></test>
       <result>
-         <assert-serialization><![CDATA[<Strings xmlns="http://www.w3.org/XQueryTestOrderBy"><orderData>A String</orderData></Strings>]]></assert-serialization>
+         <assert-xml><![CDATA[<Strings xmlns="http://www.w3.org/XQueryTestOrderBy"><orderData>A String</orderData></Strings>]]></assert-xml>
       </result>
    </test-case>
 
@@ -331,7 +331,7 @@
         validate lax {if (some $x in (1,2,3) satisfies $x = 2) then <Strings><orderData>A String</orderData></Strings> else <Failed>This test failed</Failed> }
       ]]></test>
       <result>
-         <assert-serialization><![CDATA[<Strings xmlns="http://www.w3.org/XQueryTestOrderBy"><orderData>A String</orderData></Strings>]]></assert-serialization>
+         <assert-xml><![CDATA[<Strings xmlns="http://www.w3.org/XQueryTestOrderBy"><orderData>A String</orderData></Strings>]]></assert-xml>
       </result>
    </test-case>
 
@@ -348,7 +348,7 @@
                       default return <Failed>This test failed</Failed> }
       ]]></test>
       <result>
-         <assert-serialization><![CDATA[<Strings xmlns="http://www.w3.org/XQueryTestOrderBy"><orderData>A String</orderData></Strings>]]></assert-serialization>
+         <assert-xml><![CDATA[<Strings xmlns="http://www.w3.org/XQueryTestOrderBy"><orderData>A String</orderData></Strings>]]></assert-xml>
       </result>
    </test-case>
 
@@ -362,7 +362,7 @@
         validate lax {let $var := <Strings><orderData>A String</orderData></Strings> return $var }
       ]]></test>
       <result>
-         <assert-serialization><![CDATA[<Strings xmlns="http://www.w3.org/XQueryTestOrderBy"><orderData>A String</orderData></Strings>]]></assert-serialization>
+         <assert-xml><![CDATA[<Strings xmlns="http://www.w3.org/XQueryTestOrderBy"><orderData>A String</orderData></Strings>]]></assert-xml>
       </result>
    </test-case>
 
@@ -448,7 +448,7 @@
                </results>
       ]]></test>
       <result>
-         <assert-serialization><![CDATA[<results><para1 idcount="1"/><para2 idcount="1"/><para2 idcount="0"/><para3 idcount="1"/><para3 idcount="0"/></results>]]></assert-serialization>
+         <assert-xml><![CDATA[<results><para1 idcount="1"/><para2 idcount="1"/><para2 idcount="0"/><para3 idcount="1"/><para3 idcount="0"/></results>]]></assert-xml>
       </result>
    </test-case>
    
@@ -465,7 +465,7 @@
       ]]></test>
       <result>
          <any-of>
-            <assert-serialization><![CDATA[<results><case1>pass</case1><case2>pass</case2></results>]]></assert-serialization>
+            <assert-xml><![CDATA[<results><case1>pass</case1><case2>pass</case2></results>]]></assert-xml>
             <error code="XQST0012"/>
          </any-of>
       </result>
@@ -624,7 +624,7 @@
         validate { $test/*:a }
       ]]></test>
       <result>
-         <assert-serialization><![CDATA[<constraints:a xmlns:constraints="http://www.w3.org/constraints"><b id="x"/><b id="y"/></constraints:a>]]></assert-serialization>
+         <assert-xml><![CDATA[<constraints:a xmlns:constraints="http://www.w3.org/constraints"><b id="x"/><b id="y"/></constraints:a>]]></assert-xml>
       </result>
    </test-case>
 
@@ -751,7 +751,7 @@
         validate type hat:hatsize { <hut>8</hut> }
       ]]></test>
       <result>
-         <assert-serialization><![CDATA[<hut>8</hut>]]></assert-serialization>
+         <assert-xml><![CDATA[<hut>8</hut>]]></assert-xml>
       </result>
    </test-case>
 
@@ -768,7 +768,7 @@
         local:run()
       ]]></test>
       <result>
-         <assert-serialization><![CDATA[<hat:hat xmlns:hat="http://www.w3.org/XQueryTest/hats">8</hat:hat>]]></assert-serialization>
+         <assert-xml><![CDATA[<hat:hat xmlns:hat="http://www.w3.org/XQueryTest/hats">8</hat:hat>]]></assert-xml>
       </result>
    </test-case>
 
@@ -799,7 +799,7 @@
         local:run()
       ]]></test>
       <result>
-         <assert-serialization><![CDATA[<hat>8</hat>]]></assert-serialization>
+         <assert-xml><![CDATA[<hat>8</hat>]]></assert-xml>
       </result>
    </test-case>
 
@@ -818,7 +818,7 @@
         local:run()
       ]]></test>
       <result>
-         <assert-serialization><![CDATA[<hat>8</hat>]]></assert-serialization>
+         <assert-xml><![CDATA[<hat>8</hat>]]></assert-xml>
       </result>
    </test-case>
 
@@ -838,7 +838,7 @@
         local:run()
       ]]></test>
       <result>
-         <assert-serialization><![CDATA[<hat>8</hat>]]></assert-serialization>
+         <assert-xml><![CDATA[<hat>8</hat>]]></assert-xml>
       </result>
    </test-case>
 

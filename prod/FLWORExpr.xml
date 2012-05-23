@@ -96,7 +96,7 @@
       <test>import schema default element namespace "http://www.example.com/typedecl";
             for $test as element(decimal) in /root/InterleaveType/decimal return $test</test>
       <result>
-         <assert-serialization><![CDATA[<decimal xmlns="http://www.example.com/typedecl">20</decimal>]]></assert-serialization>
+         <assert-xml><![CDATA[<decimal xmlns="http://www.example.com/typedecl">20</decimal>]]></assert-xml>
       </result>
    </test-case>
 
@@ -107,7 +107,7 @@
       <test>import schema default element namespace "http://www.example.com/typedecl";
             for $test as element(InterleaveType,InterleaveType) in /root/InterleaveType return $test</test>
       <result>
-         <assert-serialization><![CDATA[<InterleaveType xmlns="http://www.example.com/typedecl"><integer>10</integer><decimal>20</decimal></InterleaveType>]]></assert-serialization>
+         <assert-xml><![CDATA[<InterleaveType xmlns="http://www.example.com/typedecl"><integer>10</integer><decimal>20</decimal></InterleaveType>]]></assert-xml>
       </result>
    </test-case>
 
@@ -118,7 +118,7 @@
       <test>import schema default element namespace "http://www.example.com/typedecl";
             for $test as element(*,InterleaveType) in /root/InterleaveType return $test</test>
       <result>
-         <assert-serialization><![CDATA[<InterleaveType xmlns="http://www.example.com/typedecl"><integer>10</integer><decimal>20</decimal></InterleaveType>]]></assert-serialization>
+         <assert-xml><![CDATA[<InterleaveType xmlns="http://www.example.com/typedecl"><integer>10</integer><decimal>20</decimal></InterleaveType>]]></assert-xml>
       </result>
    </test-case>
 
@@ -129,7 +129,7 @@
       <test>import schema default element namespace "http://www.example.com/typedecl";
             for $test as element( UserDefinedSimpleType, Enumeration ) in /root/UserDefinedSimpleType return $test</test>
       <result>
-         <assert-serialization><![CDATA[<UserDefinedSimpleType xmlns="http://www.example.com/typedecl">ok</UserDefinedSimpleType>]]></assert-serialization>
+         <assert-xml><![CDATA[<UserDefinedSimpleType xmlns="http://www.example.com/typedecl">ok</UserDefinedSimpleType>]]></assert-xml>
       </result>
    </test-case>
 
@@ -140,7 +140,7 @@
       <test>import schema default element namespace "http://www.example.com/typedecl";
             for $test as element( *, Enumeration ) in /root/UserDefinedSimpleType return $test</test>
       <result>
-         <assert-serialization><![CDATA[<UserDefinedSimpleType xmlns="http://www.example.com/typedecl">ok</UserDefinedSimpleType>]]></assert-serialization>
+         <assert-xml><![CDATA[<UserDefinedSimpleType xmlns="http://www.example.com/typedecl">ok</UserDefinedSimpleType>]]></assert-xml>
       </result>
    </test-case>
 
@@ -151,7 +151,7 @@
       <test>import schema default element namespace "http://www.example.com/typedecl";
             for $test as element(*,xs:decimal) in /root/InterleaveType/* return $test</test>
       <result>
-         <assert-serialization><![CDATA[<integer xmlns="http://www.example.com/typedecl">10</integer><decimal xmlns="http://www.example.com/typedecl">20</decimal>]]></assert-serialization>
+         <assert-xml><![CDATA[<integer xmlns="http://www.example.com/typedecl">10</integer><decimal xmlns="http://www.example.com/typedecl">20</decimal>]]></assert-xml>
       </result>
    </test-case>
 
@@ -162,7 +162,7 @@
       <test>import schema default element namespace "http://www.example.com/typedecl";
             for $test as element(*,xs:decimal) in /root/UnionType/* return $test</test>
       <result>
-         <assert-serialization><![CDATA[<decimal xmlns="http://www.example.com/typedecl">20</decimal>]]></assert-serialization>
+         <assert-xml><![CDATA[<decimal xmlns="http://www.example.com/typedecl">20</decimal>]]></assert-xml>
       </result>
    </test-case>
 
@@ -173,7 +173,7 @@
       <test>import schema default element namespace "http://www.example.com/typedecl";
             for $test as element(ListType,xs:string) in /root/ListType return $test</test>
       <result>
-         <assert-serialization><![CDATA[<ListType xmlns="http://www.example.com/typedecl">entity1 entity2 entity3</ListType>]]></assert-serialization>
+         <assert-xml><![CDATA[<ListType xmlns="http://www.example.com/typedecl">entity1 entity2 entity3</ListType>]]></assert-xml>
       </result>
    </test-case>
 
@@ -267,7 +267,7 @@
         let $baseElement as element()+ := $extended/node() 
         return $baseElement</test>
       <result>
-         <assert-serialization><![CDATA[<baseElement xmlns = "http://www.example.com/XQueryTest/extendedTypes" />]]></assert-serialization>
+         <assert-xml><![CDATA[<baseElement xmlns = "http://www.example.com/XQueryTest/extendedTypes" />]]></assert-xml>
       </result>
    </test-case>
 
@@ -281,7 +281,7 @@
         let $baseElement as element(baseElement) := $extended/baseElement 
         return $baseElement</test>
       <result>
-         <assert-serialization><![CDATA[<baseElement xmlns = "http://www.example.com/XQueryTest/extendedTypes" />]]></assert-serialization>
+         <assert-xml><![CDATA[<baseElement xmlns = "http://www.example.com/XQueryTest/extendedTypes" />]]></assert-xml>
       </result>
    </test-case>
    

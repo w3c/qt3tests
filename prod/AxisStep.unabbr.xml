@@ -11,7 +11,7 @@
       <environment ref="works-mod"/>
       <test>for $h in (/works/employee) return $h/child::empnum</test>
       <result>
-         <assert-serialization><![CDATA[<empnum>E1</empnum><empnum>E1</empnum><empnum>E1</empnum><empnum>E1</empnum><empnum>E1</empnum><empnum>E1</empnum><empnum>E2</empnum><empnum>E2</empnum><empnum>E3</empnum><empnum>E3</empnum><empnum>E4</empnum><empnum>E4</empnum><empnum>E4</empnum>]]></assert-serialization>
+         <assert-xml><![CDATA[<empnum>E1</empnum><empnum>E1</empnum><empnum>E1</empnum><empnum>E1</empnum><empnum>E1</empnum><empnum>E1</empnum><empnum>E2</empnum><empnum>E2</empnum><empnum>E3</empnum><empnum>E3</empnum><empnum>E4</empnum><empnum>E4</empnum><empnum>E4</empnum>]]></assert-xml>
       </result>
    </test-case>
 
@@ -21,7 +21,7 @@
       <environment ref="works-mod"/>
       <test>for $h in (/works/employee[1]) return $h/child::*</test>
       <result>
-         <assert-serialization><![CDATA[<empnum>E1</empnum><pnum>P1</pnum><hours>40</hours>]]></assert-serialization>
+         <assert-xml><![CDATA[<empnum>E1</empnum><pnum>P1</pnum><hours>40</hours>]]></assert-xml>
       </result>
    </test-case>
 
@@ -41,11 +41,11 @@
       <environment ref="works-mod"/>
       <test>for $h in (/works/employee[1]) return $h/child::node()</test>
       <result>
-         <assert-serialization><![CDATA[
+         <assert-xml><![CDATA[
    <empnum>E1</empnum>
    <pnum>P1</pnum>
    <hours>40</hours>
-  ]]></assert-serialization>
+  ]]></assert-xml>
       </result>
    </test-case>
 
@@ -55,12 +55,12 @@
       <environment ref="works-mod"/>
       <test>for $h in (/works/employee[2]) return $h/child::node()</test>
       <result>
-         <assert-serialization><![CDATA[
+         <assert-xml><![CDATA[
    <empnum>E1</empnum>
    <pnum>P2</pnum>
    <hours>70</hours>
    <hours>20</hours>Text data from Employee[2]
-  ]]></assert-serialization>
+  ]]></assert-xml>
       </result>
    </test-case>
 
@@ -70,11 +70,11 @@
       <environment ref="works-mod"/>
       <test>for $h in (/works/employee[1]/hours) return $h/parent::node()</test>
       <result>
-         <assert-serialization><![CDATA[<employee name="Jane Doe 1" gender="female">
+         <assert-xml><![CDATA[<employee name="Jane Doe 1" gender="female">
    <empnum>E1</empnum>
    <pnum>P1</pnum>
    <hours>40</hours>
-  </employee>]]></assert-serialization>
+  </employee>]]></assert-xml>
       </result>
    </test-case>
 
@@ -84,7 +84,7 @@
       <environment ref="works-mod"/>
       <test>for $h in (/works/employee) return $h/descendant::empnum</test>
       <result>
-         <assert-serialization><![CDATA[<empnum>E1</empnum><empnum>E1</empnum><empnum>E1</empnum><empnum>E1</empnum><empnum>E1</empnum><empnum>E1</empnum><empnum>E2</empnum><empnum>E2</empnum><empnum>E3</empnum><empnum>E3</empnum><empnum>E4</empnum><empnum>E4</empnum><empnum>E4</empnum>]]></assert-serialization>
+         <assert-xml><![CDATA[<empnum>E1</empnum><empnum>E1</empnum><empnum>E1</empnum><empnum>E1</empnum><empnum>E1</empnum><empnum>E1</empnum><empnum>E2</empnum><empnum>E2</empnum><empnum>E3</empnum><empnum>E3</empnum><empnum>E4</empnum><empnum>E4</empnum><empnum>E4</empnum>]]></assert-xml>
       </result>
    </test-case>
 
@@ -94,11 +94,11 @@
       <environment ref="works-mod"/>
       <test>for $h in (/works/employee[1]) return $h/descendant-or-self::employee</test>
       <result>
-         <assert-serialization><![CDATA[<employee name="Jane Doe 1" gender="female">
+         <assert-xml><![CDATA[<employee name="Jane Doe 1" gender="female">
    <empnum>E1</empnum>
    <pnum>P1</pnum>
    <hours>40</hours>
-  </employee>]]></assert-serialization>
+  </employee>]]></assert-xml>
       </result>
    </test-case>
 
@@ -108,11 +108,11 @@
       <environment ref="works-mod"/>
       <test>for $h in (/works/employee[1]) return $h/self::employee</test>
       <result>
-         <assert-serialization><![CDATA[<employee name="Jane Doe 1" gender="female">
+         <assert-xml><![CDATA[<employee name="Jane Doe 1" gender="female">
    <empnum>E1</empnum>
    <pnum>P1</pnum>
    <hours>40</hours>
-  </employee>]]></assert-serialization>
+  </employee>]]></assert-xml>
       </result>
    </test-case>
 
@@ -132,7 +132,7 @@
       <environment ref="works-mod"/>
       <test>for $h in (/works) return $h/child::employee/descendant::empnum</test>
       <result>
-         <assert-serialization><![CDATA[<empnum>E1</empnum><empnum>E1</empnum><empnum>E1</empnum><empnum>E1</empnum><empnum>E1</empnum><empnum>E1</empnum><empnum>E2</empnum><empnum>E2</empnum><empnum>E3</empnum><empnum>E3</empnum><empnum>E4</empnum><empnum>E4</empnum><empnum>E4</empnum>]]></assert-serialization>
+         <assert-xml><![CDATA[<empnum>E1</empnum><empnum>E1</empnum><empnum>E1</empnum><empnum>E1</empnum><empnum>E1</empnum><empnum>E1</empnum><empnum>E2</empnum><empnum>E2</empnum><empnum>E3</empnum><empnum>E3</empnum><empnum>E4</empnum><empnum>E4</empnum><empnum>E4</empnum>]]></assert-xml>
       </result>
    </test-case>
 
@@ -142,7 +142,7 @@
       <environment ref="works-mod"/>
       <test>for $h in (/works) return $h/child::*/child::pnum</test>
       <result>
-         <assert-serialization><![CDATA[<pnum>P1</pnum><pnum>P2</pnum><pnum>P3</pnum><pnum>P4</pnum><pnum>P5</pnum><pnum>P6</pnum><pnum>P1</pnum><pnum>P2</pnum><pnum>P2</pnum><pnum>P2</pnum><pnum>P2</pnum><pnum>P4</pnum><pnum>P5</pnum>]]></assert-serialization>
+         <assert-xml><![CDATA[<pnum>P1</pnum><pnum>P2</pnum><pnum>P3</pnum><pnum>P4</pnum><pnum>P5</pnum><pnum>P6</pnum><pnum>P1</pnum><pnum>P2</pnum><pnum>P2</pnum><pnum>P2</pnum><pnum>P2</pnum><pnum>P4</pnum><pnum>P5</pnum>]]></assert-xml>
       </result>
    </test-case>
 
@@ -152,7 +152,7 @@
       <environment ref="works-mod"/>
       <test>for $h in (/works) return $h/descendant::pnum</test>
       <result>
-         <assert-serialization><![CDATA[<pnum>P1</pnum><pnum>P2</pnum><pnum>P3</pnum><pnum>P4</pnum><pnum>P5</pnum><pnum>P6</pnum><pnum>P1</pnum><pnum>P2</pnum><pnum>P2</pnum><pnum>P2</pnum><pnum>P2</pnum><pnum>P4</pnum><pnum>P5</pnum>]]></assert-serialization>
+         <assert-xml><![CDATA[<pnum>P1</pnum><pnum>P2</pnum><pnum>P3</pnum><pnum>P4</pnum><pnum>P5</pnum><pnum>P6</pnum><pnum>P1</pnum><pnum>P2</pnum><pnum>P2</pnum><pnum>P2</pnum><pnum>P2</pnum><pnum>P4</pnum><pnum>P5</pnum>]]></assert-xml>
       </result>
    </test-case>
 
@@ -162,7 +162,7 @@
       <environment ref="works-mod"/>
       <test>for $h in (/works) return $h/descendant::employee/child::pnum</test>
       <result>
-         <assert-serialization><![CDATA[<pnum>P1</pnum><pnum>P2</pnum><pnum>P3</pnum><pnum>P4</pnum><pnum>P5</pnum><pnum>P6</pnum><pnum>P1</pnum><pnum>P2</pnum><pnum>P2</pnum><pnum>P2</pnum><pnum>P2</pnum><pnum>P4</pnum><pnum>P5</pnum>]]></assert-serialization>
+         <assert-xml><![CDATA[<pnum>P1</pnum><pnum>P2</pnum><pnum>P3</pnum><pnum>P4</pnum><pnum>P5</pnum><pnum>P6</pnum><pnum>P1</pnum><pnum>P2</pnum><pnum>P2</pnum><pnum>P2</pnum><pnum>P2</pnum><pnum>P4</pnum><pnum>P5</pnum>]]></assert-xml>
       </result>
    </test-case>
 
@@ -172,11 +172,11 @@
       <environment ref="works-mod"/>
       <test>for $h in (/works) return $h/child::employee[fn:position() = 1]</test>
       <result>
-         <assert-serialization><![CDATA[<employee name="Jane Doe 1" gender="female">
+         <assert-xml><![CDATA[<employee name="Jane Doe 1" gender="female">
    <empnum>E1</empnum>
    <pnum>P1</pnum>
    <hours>40</hours>
-  </employee>]]></assert-serialization>
+  </employee>]]></assert-xml>
       </result>
    </test-case>
 
@@ -186,12 +186,12 @@
       <environment ref="works-mod"/>
       <test>for $h in (/works) return $h/child::employee[fn:position() = fn:last()]</test>
       <result>
-         <assert-serialization><![CDATA[<employee name="Jane Doe 13" gender="female" type="FT">
+         <assert-xml><![CDATA[<employee name="Jane Doe 13" gender="female" type="FT">
    <empnum>E4</empnum>
    <pnum>P5</pnum>
    <hours>80</hours>
    <status>active</status>
-  </employee>]]></assert-serialization>
+  </employee>]]></assert-xml>
       </result>
    </test-case>
 
@@ -201,7 +201,7 @@
       <environment ref="works-mod"/>
       <test>for $h in (/works) return $h/child::employee[fn:position() = fn:last()-1]</test>
       <result>
-         <assert-serialization><![CDATA[<employee name="John Doe 12" gender="male">
+         <assert-xml><![CDATA[<employee name="John Doe 12" gender="male">
    <empnum>E4</empnum>
    <pnum>P4</pnum>
    <hours>40</hours>
@@ -209,7 +209,7 @@
      <day>Monday</day>
      <day>Tuesday</day>
    </overtime>
-  </employee>]]></assert-serialization>
+  </employee>]]></assert-xml>
       </result>
    </test-case>
 
@@ -219,7 +219,7 @@
       <environment ref="works-mod"/>
       <test>for $h in (/works/employee) return $h/child::hours[fn:position() &gt; 1]</test>
       <result>
-         <assert-serialization><![CDATA[<hours>20</hours><hours>40</hours><hours>30</hours>]]></assert-serialization>
+         <assert-xml><![CDATA[<hours>20</hours><hours>40</hours><hours>30</hours>]]></assert-xml>
       </result>
    </test-case>
 
@@ -229,7 +229,7 @@
       <environment ref="works-mod"/>
       <test>for $h in (/works) return $h/descendant::employee[fn:position() = 12]</test>
       <result>
-         <assert-serialization><![CDATA[<employee name="John Doe 12" gender="male">
+         <assert-xml><![CDATA[<employee name="John Doe 12" gender="male">
    <empnum>E4</empnum>
    <pnum>P4</pnum>
    <hours>40</hours>
@@ -237,7 +237,7 @@
      <day>Monday</day>
      <day>Tuesday</day>
    </overtime>
-  </employee>]]></assert-serialization>
+  </employee>]]></assert-xml>
       </result>
    </test-case>
 
@@ -247,7 +247,7 @@
       <environment ref="works-mod"/>
       <test>/child::works/child::employee[fn:position() = 5]/child::hours[fn:position() = 2]</test>
       <result>
-         <assert-serialization><![CDATA[<hours>30</hours>]]></assert-serialization>
+         <assert-xml><![CDATA[<hours>30</hours>]]></assert-xml>
       </result>
    </test-case>
 
@@ -257,11 +257,11 @@
       <environment ref="works-mod"/>
       <test>for $h in (/works) return $h/child::employee[attribute::name eq "Jane Doe 11"]</test>
       <result>
-         <assert-serialization><![CDATA[<employee name="Jane Doe 11" gender="female">
+         <assert-xml><![CDATA[<employee name="Jane Doe 11" gender="female">
    <empnum>E4</empnum>
    <pnum>P2</pnum>
    <hours>20</hours>
-  </employee>]]></assert-serialization>
+  </employee>]]></assert-xml>
       </result>
    </test-case>
 
@@ -271,11 +271,11 @@
       <environment ref="works-mod"/>
       <test>for $h in (/works) return $h/child::employee[attribute::gender eq 'female'][fn:position() = 5]</test>
       <result>
-         <assert-serialization><![CDATA[<employee name="Jane Doe 9" gender="female">
+         <assert-xml><![CDATA[<employee name="Jane Doe 9" gender="female">
    <empnum>E3</empnum>
    <pnum>P2</pnum>
    <hours>20</hours>
-  </employee>]]></assert-serialization>
+  </employee>]]></assert-xml>
       </result>
    </test-case>
 
@@ -285,7 +285,7 @@
       <environment ref="works-mod"/>
       <test>for $h in (/works) return $h/child::employee[child::empnum = 'E3']</test>
       <result>
-         <assert-serialization><![CDATA[<employee name="Jane Doe 9" gender="female">
+         <assert-xml><![CDATA[<employee name="Jane Doe 9" gender="female">
    <empnum>E3</empnum>
    <pnum>P2</pnum>
    <hours>20</hours>
@@ -293,7 +293,7 @@
    <empnum>E3</empnum>
    <pnum>P2</pnum>
    <hours>20</hours>
-  </employee>]]></assert-serialization>
+  </employee>]]></assert-xml>
       </result>
    </test-case>
 
@@ -303,12 +303,12 @@
       <environment ref="works-mod"/>
       <test>for $h in (/works) return $h/child::employee[child::status]</test>
       <result>
-         <assert-serialization><![CDATA[<employee name="Jane Doe 13" gender="female" type="FT">
+         <assert-xml><![CDATA[<employee name="Jane Doe 13" gender="female" type="FT">
    <empnum>E4</empnum>
    <pnum>P5</pnum>
    <hours>80</hours>
    <status>active</status>
-  </employee>]]></assert-serialization>
+  </employee>]]></assert-xml>
       </result>
    </test-case>
 
@@ -318,7 +318,7 @@
       <environment ref="works-mod"/>
       <test>for $h in (/works/employee[7]) return $h/child::*[self::pnum or self::empnum]</test>
       <result>
-         <assert-serialization><![CDATA[<empnum>E2</empnum><pnum>P1</pnum>]]></assert-serialization>
+         <assert-xml><![CDATA[<empnum>E2</empnum><pnum>P1</pnum>]]></assert-xml>
       </result>
    </test-case>
 
@@ -328,7 +328,7 @@
       <environment ref="works-mod"/>
       <test>for $h in (/works/employee[6]) return $h/child::*[self::empnum or self::pnum][fn:position() = fn:last()]</test>
       <result>
-         <assert-serialization><![CDATA[<pnum>P6</pnum>]]></assert-serialization>
+         <assert-xml><![CDATA[<pnum>P6</pnum>]]></assert-xml>
       </result>
    </test-case>
 </test-set>

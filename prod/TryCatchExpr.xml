@@ -55,7 +55,7 @@
         catch err:* {<caught-error code="other"/>}
       ]]></test>
       <result>
-         <assert-serialization><![CDATA[<caught-error code="FODC0002"/>]]></assert-serialization>
+         <assert-xml><![CDATA[<caught-error code="FODC0002"/>]]></assert-xml>
       </result>
    </test-case>
 
@@ -65,7 +65,7 @@
       <modified by="O'Neil Delpratt" on="2011-10-12" change="Removed local dependency. See bug# 14438"/>
       <test><![CDATA[<out>{ try { doc('rubbish.xml') } catch * {<caught-error/>}, try { doc('rubbish.xml') } catch * {<caught-another/>} }</out>]]></test>
       <result>
-         <assert-serialization><![CDATA[<out><caught-error/><caught-another/></out>]]></assert-serialization>
+         <assert-xml><![CDATA[<out><caught-error/><caught-another/></out>]]></assert-xml>
       </result>
    </test-case>
 
@@ -1320,7 +1320,7 @@
     
     <test>try { fn:error() } catch * { 0 }, try { fn:error() } catch err:FOER0000 { 1}</test>
     <result>
-      <assert-serialization>0 1</assert-serialization>
+      <assert-xml>0 1</assert-xml>
     </result>
   </test-case>
   

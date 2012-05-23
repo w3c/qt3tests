@@ -1707,7 +1707,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[let $in-xml := <desclist xml:lang="en"> <desc xml:lang="en-US"> <line>A line of text.</line> </desc> <desc xml:lang="fr"> <line>Une ligne de texte.</line> </desc> </desclist> return ($in-xml// desc[lang('en')])]]></test>
       <result>
-         <assert-serialization><![CDATA[<desc xml:lang="en-US"><line>A line of text.</line></desc>]]></assert-serialization>
+         <assert-xml><![CDATA[<desc xml:lang="en-US"><line>A line of text.</line></desc>]]></assert-xml>
       </result>
    </test-case>
 
@@ -1717,7 +1717,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[let $in-xml := <desclist xml:lang="en"> <desc xml:lang="en-US"> <line>A line of text.</line> </desc> <desc xml:lang="fr"> <line>Une ligne de texte.</line> </desc> </desclist> return ($in-xml// desc[lang('en-US')])]]></test>
       <result>
-         <assert-serialization><![CDATA[<desc xml:lang="en-US"><line>A line of text.</line></desc>]]></assert-serialization>
+         <assert-xml><![CDATA[<desc xml:lang="en-US"><line>A line of text.</line></desc>]]></assert-xml>
       </result>
    </test-case>
 
@@ -1727,7 +1727,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[let $in-xml := <desclist xml:lang="en"> <desc xml:lang="en-US"> <line>A line of text.</line> </desc> <desc xml:lang="fr"> <line>Une ligne de texte.</line> </desc> </desclist> return ($in-xml// desc[lang('fr')])]]></test>
       <result>
-         <assert-serialization><![CDATA[<desc xml:lang="fr"><line>Une ligne de texte.</line></desc>]]></assert-serialization>
+         <assert-xml><![CDATA[<desc xml:lang="fr"><line>Une ligne de texte.</line></desc>]]></assert-xml>
       </result>
    </test-case>
 
@@ -1737,7 +1737,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[let $in-xml := <desclist xml:lang="en"> <desc xml:lang="en-US"> <line>A line of text.</line> </desc> <desc xml:lang="fr"> <line>Une ligne de texte.</line> </desc> </desclist> return ($in-xml// desc/line[lang('en')])]]></test>
       <result>
-         <assert-serialization><![CDATA[<line>A line of text.</line>]]></assert-serialization>
+         <assert-xml><![CDATA[<line>A line of text.</line>]]></assert-xml>
       </result>
    </test-case>
 
@@ -1757,7 +1757,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[let $in-xml := <desclist xml:lang="en"> <desc xml:lang="en-US"> <line>A line of text.</line> </desc> <desc xml:lang="fr"> <line>Une ligne de texte.</line> </desc> </desclist> return ($in-xml// desc[lang('FR')])]]></test>
       <result>
-         <assert-serialization><![CDATA[<desc xml:lang="fr"><line>Une ligne de texte.</line></desc>]]></assert-serialization>
+         <assert-xml><![CDATA[<desc xml:lang="fr"><line>Une ligne de texte.</line></desc>]]></assert-xml>
       </result>
    </test-case>
 
@@ -1767,7 +1767,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[let $in-xml := <desclist xml:lang="en"> <desc xml:lang="en-US"> <line>A line of text.</line> </desc> <desc xml:lang="fr"> <line>Une ligne de texte.</line> </desc> </desclist> return ($in-xml// desc[lang('en')], $in-xml// desc[lang('en-US')], $in-xml// desc[lang('fr')], $in-xml// desc/line[lang('en')], $in-xml[lang('en-US')], $in-xml// desc[lang('FR')])]]></test>
       <result>
-         <assert-serialization><![CDATA[<desc xml:lang="en-US"><line>A line of text.</line></desc><desc xml:lang="en-US"><line>A line of text.</line></desc><desc xml:lang="fr"><line>Une ligne de texte.</line></desc><line>A line of text.</line><desc xml:lang="fr"><line>Une ligne de texte.</line></desc>]]></assert-serialization>
+         <assert-xml><![CDATA[<desc xml:lang="en-US"><line>A line of text.</line></desc><desc xml:lang="en-US"><line>A line of text.</line></desc><desc xml:lang="fr"><line>Une ligne de texte.</line></desc><line>A line of text.</line><desc xml:lang="fr"><line>Une ligne de texte.</line></desc>]]></assert-xml>
       </result>
    </test-case>
 
@@ -1777,12 +1777,12 @@
       <environment ref="functx_catalog"/>
       <test>(/ catalog/product[last()])</test>
       <result>
-         <assert-serialization><![CDATA[<product dept="MEN">
+         <assert-xml><![CDATA[<product dept="MEN">
   <number>784</number>
   <name language="en">Cotton Dress Shirt</name>
   <colorChoices>white gray</colorChoices>
   <desc>Our <i>favorite</i> shirt!</desc>
- </product>]]></assert-serialization>
+ </product>]]></assert-xml>
       </result>
    </test-case>
 
@@ -3006,7 +3006,7 @@
       <test>let $priceDoc := (/) return ($priceDoc// prod/price[number() &gt;
          35])</test>
       <result>
-         <assert-serialization><![CDATA[<price currency="USD">69.99</price><price currency="USD">39.99</price>]]></assert-serialization>
+         <assert-xml><![CDATA[<price currency="USD">69.99</price><price currency="USD">39.99</price>]]></assert-xml>
       </result>
    </test-case>
 
@@ -3018,7 +3018,7 @@
       <test>let $priceDoc := (/) return (number( $priceDoc//prod[1]/price), number( $priceDoc//prod[1]/@currency), number('29.99'), number('ABC'), number( () ), $priceDoc// prod/price[number() &gt;
          35])</test>
       <result>
-         <assert-serialization><![CDATA[29.99 NaN 29.99 NaN NaN<price currency="USD">69.99</price><price currency="USD">39.99</price>]]></assert-serialization>
+         <assert-xml><![CDATA[29.99 NaN 29.99 NaN NaN<price currency="USD">69.99</price><price currency="USD">39.99</price>]]></assert-xml>
       </result>
    </test-case>
 
@@ -3055,7 +3055,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[let $in-xml := <in-xml> <a>1</a> <c>2</c> <a>3</a> <a>4</a> <a>5</a> </in-xml> return ($in-xml/*[position() > 2])]]></test>
       <result>
-         <assert-serialization><![CDATA[<a>3</a><a>4</a><a>5</a>]]></assert-serialization>
+         <assert-xml><![CDATA[<a>3</a><a>4</a><a>5</a>]]></assert-xml>
       </result>
    </test-case>
 
@@ -3065,7 +3065,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[let $in-xml := <in-xml> <a>1</a> <c>2</c> <a>3</a> <a>4</a> <a>5</a> </in-xml> return ($in-xml/a[position() > 2])]]></test>
       <result>
-         <assert-serialization><![CDATA[<a>4</a><a>5</a>]]></assert-serialization>
+         <assert-xml><![CDATA[<a>4</a><a>5</a>]]></assert-xml>
       </result>
    </test-case>
 
@@ -3075,7 +3075,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[let $in-xml := <in-xml> <a>1</a> <c>2</c> <a>3</a> <a>4</a> <a>5</a> </in-xml> return ($in-xml/a[position() = 3])]]></test>
       <result>
-         <assert-serialization><![CDATA[<a>4</a>]]></assert-serialization>
+         <assert-xml><![CDATA[<a>4</a>]]></assert-xml>
       </result>
    </test-case>
 
@@ -3085,7 +3085,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[let $in-xml := <in-xml> <a>1</a> <c>2</c> <a>3</a> <a>4</a> <a>5</a> </in-xml> return ($in-xml/*[position() > 2], $in-xml/a[position() > 2], $in-xml/a[position() = 3])]]></test>
       <result>
-         <assert-serialization><![CDATA[<a>3</a><a>4</a><a>5</a><a>4</a><a>5</a><a>4</a>]]></assert-serialization>
+         <assert-xml><![CDATA[<a>3</a><a>4</a><a>5</a><a>4</a><a>5</a><a>4</a>]]></assert-xml>
       </result>
    </test-case>
 
@@ -3577,14 +3577,14 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[let $in-xml := <a><x>123</x></a> return (root( (/) //item[1]))]]></test>
       <result>
-         <assert-serialization><![CDATA[<order num="00299432" date="2006-09-15" cust="0221A">
+         <assert-xml><![CDATA[<order num="00299432" date="2006-09-15" cust="0221A">
   <item dept="WMN" num="557" quantity="1" color="beige"/>
   <item dept="ACC" num="563" quantity="1"/>
   <item dept="ACC" num="443" quantity="2"/>
   <item dept="MEN" num="784" quantity="1" color="blue/white"/>
   <item dept="MEN" num="784" quantity="1" color="blue/red"/>
   <item dept="WMN" num="557" quantity="1" color="sage"/>
-</order>]]></assert-serialization>
+</order>]]></assert-xml>
       </result>
    </test-case>
 
@@ -3594,7 +3594,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[let $in-xml := <a><x>123</x></a> return (root($in-xml/x))]]></test>
       <result>
-         <assert-serialization><![CDATA[<a><x>123</x></a>]]></assert-serialization>
+         <assert-xml><![CDATA[<a><x>123</x></a>]]></assert-xml>
       </result>
    </test-case>
 
@@ -3605,14 +3605,14 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[let $in-xml := <a><x>123</x></a> return (root( (/) //item[1]), root($in-xml/x))]]></test>
       <result>
-         <assert-serialization><![CDATA[<order num="00299432" date="2006-09-15" cust="0221A">
+         <assert-xml><![CDATA[<order num="00299432" date="2006-09-15" cust="0221A">
   <item dept="WMN" num="557" quantity="1" color="beige"/>
   <item dept="ACC" num="563" quantity="1"/>
   <item dept="ACC" num="443" quantity="2"/>
   <item dept="MEN" num="784" quantity="1" color="blue/white"/>
   <item dept="MEN" num="784" quantity="1" color="blue/red"/>
   <item dept="WMN" num="557" quantity="1" color="sage"/>
-</order><a><x>123</x></a>]]></assert-serialization>
+</order><a><x>123</x></a>]]></assert-xml>
       </result>
    </test-case>
 

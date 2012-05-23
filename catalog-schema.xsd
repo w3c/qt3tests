@@ -907,17 +907,29 @@
         </xs:complexType>
     </xs:element>
     
-    <xs:element name="assert-serialization"  substitutionGroup="abstractAssertion">
+    <xs:element name="assert-xml"  substitutionGroup="abstractAssertion">
         <xs:annotation>
             <xs:documentation>
                 <div>
-                    <h3>assert-serialization</h3>
+                    <h3>assert-xml</h3>
                     <p>
-                        Asserts the result of serializing the expression result using the default
-                        serialization parameters method="xml" indent="no" omit-xml-declaration="yes".
+                        Asserts the result of the query by providing a serialization of the expression 
+                        result using the default serialization parameters method="xml" indent="no" 
+                        omit-xml-declaration="yes".</p>
                         
-                        The result must be compared using XML canonicalization. However, it will not necessarily
-                        be a well-formed document. The comparison can be done by converting the string into a well-formed
+                    <p> Previously called assert-serialization.    
+                        Note that this assertion is not used to test serialization; it is used
+                        as a way of supplying the expected results of the query in the form of an XML
+                        document.<p>
+                        
+                    <p> The assertion is true if the result of parsing and canonicalizing the XML
+                        given in the body of the assert-xml element is the same (byte-for-byte) as
+                        the result of canonicalizing the XML result of the query. As an alternative
+                        to canonicalizing, the results may be compared using the fn:deep-equal()
+                        function.</p>    
+                        
+                     <p>The value will not necessarily be a well-formed document (it may be a fragment). 
+                        The comparison can be done by converting the string into a well-formed
                         document by adding a wrapper element.
                     </p>
                 </div> 

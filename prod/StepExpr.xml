@@ -66,7 +66,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[<a/>/.]]></test>
       <result>
-         <assert-serialization><![CDATA[<a/>]]></assert-serialization>
+         <assert-xml><![CDATA[<a/>]]></assert-xml>
       </result>
    </test-case>
 
@@ -127,7 +127,7 @@
       <test><![CDATA[declare variable $e := ()/.; declare variable $b := <b/>/.; $e, <b/>]]></test>
       <result>
          <any-of>
-            <assert-serialization><![CDATA[<b/>]]></assert-serialization>
+            <assert-xml><![CDATA[<b/>]]></assert-xml>
             <error code="XPST0005"/>
          </any-of>
       </result>
@@ -150,7 +150,7 @@
       <test><![CDATA[<r> { let $i := <e> <a/> <b/> </e> let $b := ($i/b, $i/a, $i/b, $i/a) return ()/$b } </r>]]></test>
       <result>
          <any-of>
-            <assert-serialization><![CDATA[<r/>]]></assert-serialization>
+            <assert-xml><![CDATA[<r/>]]></assert-xml>
             <error code="XPST0005"/>
          </any-of>
       </result>
@@ -162,7 +162,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[<r> { let $i := <e> <a/> <b/> </e> let $b := ($i/b, $i/a, $i/b, $i/a) return <e/>/$b } </r>]]></test>
       <result>
-         <assert-serialization><![CDATA[<r><a/><b/></r>]]></assert-serialization>
+         <assert-xml><![CDATA[<r><a/><b/></r>]]></assert-xml>
       </result>
    </test-case>
 
@@ -172,7 +172,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[<r> { let $i := <e> <a/> <b/> </e> let $b := ($i/b, $i/a, $i/b, $i/a) return <e/>/./$b } </r>]]></test>
       <result>
-         <assert-serialization><![CDATA[<r><a/><b/></r>]]></assert-serialization>
+         <assert-xml><![CDATA[<r><a/><b/></r>]]></assert-xml>
       </result>
    </test-case>
 
@@ -182,7 +182,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[<r> { let $i := <e> <a/> <b/> </e> let $b := ($i/b, $i/a, $i/b, $i/a) return $b/. } </r>]]></test>
       <result>
-         <assert-serialization><![CDATA[<r><a/><b/></r>]]></assert-serialization>
+         <assert-xml><![CDATA[<r><a/><b/></r>]]></assert-xml>
       </result>
    </test-case>
 
@@ -192,7 +192,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[<e> <a/> </e>/*/(., .)/.]]></test>
       <result>
-         <assert-serialization><![CDATA[<a/>]]></assert-serialization>
+         <assert-xml><![CDATA[<a/>]]></assert-xml>
       </result>
    </test-case>
 
@@ -202,7 +202,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[<e> <a/> </e>/(., .)/.]]></test>
       <result>
-         <assert-serialization><![CDATA[<e><a/></e>]]></assert-serialization>
+         <assert-xml><![CDATA[<e><a/></e>]]></assert-xml>
       </result>
    </test-case>
 
@@ -212,7 +212,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[<e> <a/> <b/> </e>/((b, a)/., (.), (*, *))]]></test>
       <result>
-         <assert-serialization><![CDATA[<e><a/><b/></e><a/><b/>]]></assert-serialization>
+         <assert-xml><![CDATA[<e><a/><b/></e><a/><b/>]]></assert-xml>
       </result>
    </test-case>
 
@@ -222,7 +222,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[declare variable $root := <a> <b e="B"/> <c e="B"/> </a>; declare function local:function($arg) { $root["B" eq $arg/@e] }; $root/local:function(c)]]></test>
       <result>
-         <assert-serialization><![CDATA[<a><b e="B"/><c e="B"/></a>]]></assert-serialization>
+         <assert-xml><![CDATA[<a><b e="B"/><c e="B"/></a>]]></assert-xml>
       </result>
    </test-case>
 
@@ -232,7 +232,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[declare variable $root := <a> <b e="B"/> <c e="B"/> </a>; declare function local:function($arg) { $root[exactly-one($arg/@e)] }; $root/local:function(c)]]></test>
       <result>
-         <assert-serialization><![CDATA[<a><b e="B"/><c e="B"/></a>]]></assert-serialization>
+         <assert-xml><![CDATA[<a><b e="B"/><c e="B"/></a>]]></assert-xml>
       </result>
    </test-case>
 
@@ -242,7 +242,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[declare variable $root := <a><c e=""/></a>; declare function local:function($arg) { $root[$arg/@e] }; $root/local:function(c)]]></test>
       <result>
-         <assert-serialization><![CDATA[<a><c e=""/></a>]]></assert-serialization>
+         <assert-xml><![CDATA[<a><c e=""/></a>]]></assert-xml>
       </result>
    </test-case>
 
@@ -252,7 +252,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[declare variable $root := <root> <b d=""/> <c> <c d=""/> <c/> </c> </root>; declare function local:function($object) { $root/b[@d = $object/@d] }; $root/c/c/local:function(.)]]></test>
       <result>
-         <assert-serialization><![CDATA[<b d=""/>]]></assert-serialization>
+         <assert-xml><![CDATA[<b d=""/>]]></assert-xml>
       </result>
    </test-case>
 
@@ -265,7 +265,7 @@
         declare function local:function($object) { $root/b[@d = $object/@d] }; 
         $root//local:function(c)]]></test>
       <result>
-         <assert-serialization><![CDATA[<b d=""/>]]></assert-serialization>
+         <assert-xml><![CDATA[<b d=""/>]]></assert-xml>
       </result>
    </test-case>
 
@@ -275,7 +275,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[declare variable $root := <root> <b d=""/> <c> <c d=""/> <c/> </c> </root>; declare function local:function($object) { $root/b[$object/@d] }; $root//local:function(c)]]></test>
       <result>
-         <assert-serialization><![CDATA[<b d=""/>]]></assert-serialization>
+         <assert-xml><![CDATA[<b d=""/>]]></assert-xml>
       </result>
    </test-case>
 
@@ -285,7 +285,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[declare variable $root := <root> <b d=""/> <c> <c d=""/> <c/> </c> </root>; declare function local:function($object) { $root[$object/@d] }; $root//local:function(c)]]></test>
       <result>
-         <assert-serialization><![CDATA[<root><b d=""/><c><c d=""/><c/></c></root>]]></assert-serialization>
+         <assert-xml><![CDATA[<root><b d=""/><c><c d=""/><c/></c></root>]]></assert-xml>
       </result>
    </test-case>
 
@@ -295,7 +295,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[declare variable $root := <root> <b d=""/> <c d=""/> </root>; declare function local:function($object) { $root[$object/@d] }; $root//local:function(c)]]></test>
       <result>
-         <assert-serialization><![CDATA[<root><b d=""/><c d=""/></root>]]></assert-serialization>
+         <assert-xml><![CDATA[<root><b d=""/><c d=""/></root>]]></assert-xml>
       </result>
    </test-case>
 
@@ -305,7 +305,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[declare variable $root := <root> <c d=""/> </root>; declare function local:function($object) { $root[$object/@d] }; $root//local:function(c)]]></test>
       <result>
-         <assert-serialization><![CDATA[<root><c d=""/></root>]]></assert-serialization>
+         <assert-xml><![CDATA[<root><c d=""/></root>]]></assert-xml>
       </result>
    </test-case>
 
@@ -315,7 +315,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[declare variable $root := <root> <c d=""/> </root>; declare function local:function($object) { $root[$object] }; $root//local:function(c)]]></test>
       <result>
-         <assert-serialization><![CDATA[<root><c d=""/></root>]]></assert-serialization>
+         <assert-xml><![CDATA[<root><c d=""/></root>]]></assert-xml>
       </result>
    </test-case>
 
@@ -325,7 +325,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[declare variable $root := <root><c/></root>; declare function local:function($arg) { $root[$arg] }; $root//local:function(.)]]></test>
       <result>
-         <assert-serialization><![CDATA[<root><c/></root>]]></assert-serialization>
+         <assert-xml><![CDATA[<root><c/></root>]]></assert-xml>
       </result>
    </test-case>
 
@@ -335,7 +335,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[declare variable $root := <root/>; declare function local:function($arg, $count as xs:integer) { $arg, $root, if($count eq 2) then $root else local:function($arg, $count + 1) }; $root/local:function(., 1)]]></test>
       <result>
-         <assert-serialization><![CDATA[<root/>]]></assert-serialization>
+         <assert-xml><![CDATA[<root/>]]></assert-xml>
       </result>
    </test-case>
 
@@ -345,7 +345,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[declare variable $root := ( <b d=""/>, <c> <c d=""/> </c> ); declare function local:function($object) { $root[@d eq $object/@d] }; $root/local:function(c)]]></test>
       <result>
-         <assert-serialization><![CDATA[<b d=""/>]]></assert-serialization>
+         <assert-xml><![CDATA[<b d=""/>]]></assert-xml>
       </result>
    </test-case>
 
@@ -355,7 +355,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[declare variable $root := ( <b d=""/>, <c d=""> <c d=""/> </c> ); declare function local:function($object) { $root[@d eq $object/@d] }; $root/local:function(c)]]></test>
       <result>
-         <assert-serialization><![CDATA[<b d=""/><c d=""><c d=""/></c>]]></assert-serialization>
+         <assert-xml><![CDATA[<b d=""/><c d=""><c d=""/></c>]]></assert-xml>
       </result>
    </test-case>
 
@@ -529,7 +529,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[declare variable $var := document {<a>123</a>}; $var[/*]]]></test>
       <result>
-         <assert-serialization><![CDATA[<a>123</a>]]></assert-serialization>
+         <assert-xml><![CDATA[<a>123</a>]]></assert-xml>
       </result>
    </test-case>
 
@@ -539,7 +539,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[declare variable $var := document {<a>123</a>}; $var[/<a/>]]]></test>
       <result>
-         <assert-serialization><![CDATA[<a>123</a>]]></assert-serialization>
+         <assert-xml><![CDATA[<a>123</a>]]></assert-xml>
       </result>
    </test-case>
 
@@ -549,7 +549,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[declare variable $var := document {<a>123</a>}; $var[/<a div="3"/>]]]></test>
       <result>
-         <assert-serialization><![CDATA[<a>123</a>]]></assert-serialization>
+         <assert-xml><![CDATA[<a>123</a>]]></assert-xml>
       </result>
    </test-case>
 
@@ -559,7 +559,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[declare variable $var := document {<a>123</a>}; $var[/unordered{a}]]]></test>
       <result>
-         <assert-serialization><![CDATA[<a>123</a>]]></assert-serialization>
+         <assert-xml><![CDATA[<a>123</a>]]></assert-xml>
       </result>
    </test-case>
 
@@ -589,7 +589,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[declare variable $var := document {<a>123</a>}; declare variable $a := document {<a>123</a>}; $var[/=$a]]]></test>
       <result>
-         <assert-serialization><![CDATA[<a>123</a>]]></assert-serialization>
+         <assert-xml><![CDATA[<a>123</a>]]></assert-xml>
       </result>
    </test-case>
 

@@ -166,7 +166,7 @@
       <environment ref="atomic"/>
       <test> (/atomic:root/atomic:integer) intersect (/atomic:root/atomic:integer)</test>
       <result>
-         <assert-serialization><![CDATA[<atomic:integer xmlns:foo="http://www.example.com/foo" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:atomic="http://www.w3.org/XQueryTest">12678967543233</atomic:integer>]]></assert-serialization>
+         <assert-xml><![CDATA[<atomic:integer xmlns:foo="http://www.example.com/foo" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:atomic="http://www.w3.org/XQueryTest">12678967543233</atomic:integer>]]></assert-xml>
       </result>
    </test-case>
 
@@ -176,7 +176,7 @@
       <environment ref="atomic"/>
       <test>(/atomic:root/atomic:integer) intersect (/atomic:root/atomic:integer)</test>
       <result>
-         <assert-serialization><![CDATA[<atomic:integer xmlns:foo="http://www.example.com/foo" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:atomic="http://www.w3.org/XQueryTest">12678967543233</atomic:integer>]]></assert-serialization>
+         <assert-xml><![CDATA[<atomic:integer xmlns:foo="http://www.example.com/foo" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:atomic="http://www.w3.org/XQueryTest">12678967543233</atomic:integer>]]></assert-xml>
       </result>
    </test-case>
 
@@ -247,7 +247,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[for $node in ((//price/text()) , (//price/text())) intersect ((//price/text()) , (//price/text())) return <a> {$node} </a>]]></test>
       <result>
-         <assert-serialization><![CDATA[<a> 65.95</a><a>65.95</a><a> 39.95</a><a>129.95</a>]]></assert-serialization>
+         <assert-xml><![CDATA[<a> 65.95</a><a>65.95</a><a> 39.95</a><a>129.95</a>]]></assert-xml>
       </result>
    </test-case>
 
@@ -662,7 +662,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[<r> { let $i := <e> <a/> <b/> <c/> </e>/a , $t := $i/following-sibling::b return (($i intersect ($i, $i)), (($t, $t) intersect $t)) } </r>]]></test>
       <result>
-         <assert-serialization><![CDATA[<r><a/><b/></r>]]></assert-serialization>
+         <assert-xml><![CDATA[<r><a/><b/></r>]]></assert-xml>
       </result>
    </test-case>
 
@@ -726,7 +726,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test>for $h in ( (//hours) intersect (//hours[xs:integer(.) gt 12])) order by number($h) return $h</test>
       <result>
-         <assert-serialization><![CDATA[<hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>40</hours><hours>40</hours><hours>40</hours><hours>80</hours><hours>80</hours><hours>80</hours>]]></assert-serialization>
+         <assert-xml><![CDATA[<hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>40</hours><hours>40</hours><hours>40</hours><hours>80</hours><hours>80</hours><hours>80</hours>]]></assert-xml>
       </result>
    </test-case>
 
@@ -737,7 +737,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test>for $h in ( ($works//hours) intersect ($works//hours, $staff//grade)) order by number($h) return $h</test>
       <result>
-         <assert-serialization><![CDATA[<hours>12</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>40</hours><hours>40</hours><hours>40</hours><hours>80</hours><hours>80</hours><hours>80</hours>]]></assert-serialization>
+         <assert-xml><![CDATA[<hours>12</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>40</hours><hours>40</hours><hours>40</hours><hours>80</hours><hours>80</hours><hours>80</hours>]]></assert-xml>
       </result>
    </test-case>
    

@@ -25,7 +25,7 @@
         <e>{ namespace saxon {$s}, attribute a {23}, namespace xsl {$xsl} }</e>
       ]]></test>
       <result>
-         <assert-serialization><![CDATA[<e xmlns:saxon="http://saxon.sf.net/" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" a="23"/>]]></assert-serialization>
+         <assert-xml><![CDATA[<e xmlns:saxon="http://saxon.sf.net/" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" a="23"/>]]></assert-xml>
       </result>
    </test-case>
 
@@ -40,7 +40,7 @@
              namespace {$xsl} {"http://www.w3.org/1999/XSL/Transform"} }</e>
       ]]></test>
       <result>
-         <assert-serialization><![CDATA[<e xmlns:saxon="http://saxon.sf.net/" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" a="23"/>]]></assert-serialization>
+         <assert-xml><![CDATA[<e xmlns:saxon="http://saxon.sf.net/" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" a="23"/>]]></assert-xml>
       </result>
    </test-case>
 
@@ -56,8 +56,8 @@
             namespace {$xsl} {"http://www.w3.org/1999/XSL/Transform"}, <f/> }</t:e> </out>
       ]]></test>
       <result>
-         <assert-serialization><![CDATA[<out><t:e xmlns:t="http://www.example.com/" xmlns="http://saxon.sf.net/"
-        xmlns:xsl="http://www.w3.org/1999/XSL/Transform" a="23"><f xmlns=""/></t:e></out>]]></assert-serialization>
+         <assert-xml><![CDATA[<out><t:e xmlns:t="http://www.example.com/" xmlns="http://saxon.sf.net/"
+        xmlns:xsl="http://www.w3.org/1999/XSL/Transform" a="23"><f xmlns=""/></t:e></out>]]></assert-xml>
       </result>
    </test-case>
 
@@ -72,7 +72,7 @@
             attribute a {23}, <f/> }</t:e> </out>
       ]]></test>
       <result>
-         <assert-serialization><![CDATA[<out><t:e xmlns:t="http://www.example.com/" xml:space="preserve" a="23"><f/></t:e></out>]]></assert-serialization>
+         <assert-xml><![CDATA[<out><t:e xmlns:t="http://www.example.com/" xml:space="preserve" a="23"><f/></t:e></out>]]></assert-xml>
       </result>
    </test-case>
 
@@ -85,8 +85,8 @@
         element {QName("http://saxon.sf.net/", "saxon:extension")} { namespace saxon {$s}, attribute a {23}, namespace xsl {$xsl}, element f {42} }
       </test>
       <result>
-         <assert-serialization><![CDATA[<saxon:extension xmlns:saxon="http://saxon.sf.net/" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
-            a="23"><f>42</f></saxon:extension>]]></assert-serialization>
+         <assert-xml><![CDATA[<saxon:extension xmlns:saxon="http://saxon.sf.net/" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
+            a="23"><f>42</f></saxon:extension>]]></assert-xml>
       </result>
    </test-case>
 
@@ -100,8 +100,8 @@
                 { namespace saxon {$s}, attribute a {23}, namespace xsl {$xsl}, namespace saxon {$s}, element f {42} }
       </test>
       <result>
-         <assert-serialization><![CDATA[<saxon:extension xmlns:saxon="http://saxon.sf.net/" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-                 a="23"><f>42</f></saxon:extension>]]></assert-serialization>
+         <assert-xml><![CDATA[<saxon:extension xmlns:saxon="http://saxon.sf.net/" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                 a="23"><f>42</f></saxon:extension>]]></assert-xml>
       </result>
    </test-case>
 
@@ -156,7 +156,7 @@
         <out> { exists($r/@*:att[prefix-from-QName(node-name(.))!='p']), exists(in-scope-prefixes($r)[.='p']) }</out>
       ]]></test>
       <result>
-         <assert-serialization><![CDATA[<out>true true</out>]]></assert-serialization>
+         <assert-xml><![CDATA[<out>true true</out>]]></assert-xml>
       </result>
    </test-case>
 
@@ -171,7 +171,7 @@
         <out> { exists($r[prefix-from-QName(node-name(.))!='p']), exists(in-scope-prefixes($r)[.='p']) }</out>
       ]]></test>
       <result>
-         <assert-serialization><![CDATA[<out>true true</out>]]></assert-serialization>
+         <assert-xml><![CDATA[<out>true true</out>]]></assert-xml>
       </result>
    </test-case>
 
@@ -194,7 +194,7 @@
             local:f(namespace {""} {"http://example.com/two"}) }</out>
       ]]></test>
       <result>
-         <assert-serialization><![CDATA[<out><namespace 
+         <assert-xml><![CDATA[<out><namespace 
               same-as-self="true" is-namespace="true" namespace-uri="" is-item="true"
               typed-value="http://example.com/one"
               is-untyped="false"
@@ -210,7 +210,7 @@
               local-name=""
               parent-exists="false"
               name=""
-              is-node="true"/></out>]]></assert-serialization>
+              is-node="true"/></out>]]></assert-xml>
       </result>
    </test-case>
 
@@ -224,7 +224,7 @@
           <e>{ namespace { $pre } { $uri } }</e>
       ]]></test>
       <result>
-         <assert-serialization><![CDATA[<e xmlns:z="http://www.zorba-xquery.com/"/>]]></assert-serialization>
+         <assert-xml><![CDATA[<e xmlns:z="http://www.zorba-xquery.com/"/>]]></assert-xml>
       </result>
    </test-case>
 
@@ -238,7 +238,7 @@
           <e>{ namespace { $pre } { $uri } }</e>
       ]]></test>
       <result>
-         <assert-serialization><![CDATA[<e xmlns:z="http://www.zorba-xquery.com/"/>]]></assert-serialization>
+         <assert-xml><![CDATA[<e xmlns:z="http://www.zorba-xquery.com/"/>]]></assert-xml>
       </result>
    </test-case>
 
@@ -250,7 +250,7 @@
         <z:e>{ namespace { <a/>/* } { "http://www.w3.org/" } }</z:e>
       ]]></test>
       <result>
-         <assert-serialization><![CDATA[<z:e xmlns:z="http://www.zorba-xquery.com/" xmlns="http://www.w3.org/" />]]></assert-serialization>
+         <assert-xml><![CDATA[<z:e xmlns:z="http://www.zorba-xquery.com/" xmlns="http://www.w3.org/" />]]></assert-xml>
       </result>
    </test-case>
 
@@ -342,7 +342,7 @@
           element { resolve-QName("z:f", $elem) } {}
       ]]></test>
       <result>
-        <assert-serialization><![CDATA[<z:f xmlns:z="http://www.zorba-xquery.com/" />]]></assert-serialization>
+        <assert-xml><![CDATA[<z:f xmlns:z="http://www.zorba-xquery.com/" />]]></assert-xml>
       </result>
    </test-case>
 
@@ -401,7 +401,7 @@
           element { resolve-QName("z:f", $elem) } {}
       ]]></test>
       <result>
-        <assert-serialization><![CDATA[<z:f xmlns:z="http://www.zorba-xquery.com/" />]]></assert-serialization>
+        <assert-xml><![CDATA[<z:f xmlns:z="http://www.zorba-xquery.com/" />]]></assert-xml>
       </result>
    </test-case>
 
@@ -461,7 +461,7 @@
           $elem/outer/inner
       ]]></test>
       <result>
-        <assert-serialization><![CDATA[<inner xmlns:new="http://new.zorba-xquery.com/" xmlns:out="http://out.zorba-xquery.com/" xmlns:in="http://in.zorba-xquery.com/" />]]></assert-serialization>
+        <assert-xml><![CDATA[<inner xmlns:new="http://new.zorba-xquery.com/" xmlns:out="http://out.zorba-xquery.com/" xmlns:in="http://in.zorba-xquery.com/" />]]></assert-xml>
       </result>
    </test-case>
 
@@ -480,7 +480,7 @@
           $elem/outer/inner
       ]]></test>
       <result>
-        <assert-serialization><![CDATA[<inner xmlns:in="http://in.zorba-xquery.com/" />]]></assert-serialization>
+        <assert-xml><![CDATA[<inner xmlns:in="http://in.zorba-xquery.com/" />]]></assert-xml>
       </result>
    </test-case>
 
@@ -499,7 +499,7 @@
           $elem/outer/inner
       ]]></test>
       <result>
-        <assert-serialization><![CDATA[<inner xmlns:new="http://new.zorba-xquery.com/" />]]></assert-serialization>
+        <assert-xml><![CDATA[<inner xmlns:new="http://new.zorba-xquery.com/" />]]></assert-xml>
       </result>
    </test-case>
 
@@ -518,7 +518,7 @@
           $elem/outer/inner
       ]]></test>
       <result>
-        <assert-serialization><![CDATA[<inner/>]]></assert-serialization>
+        <assert-xml><![CDATA[<inner/>]]></assert-xml>
       </result>
    </test-case>
 
@@ -535,7 +535,7 @@
           $elem/outer/inner
       ]]></test>
       <result>
-        <assert-serialization><![CDATA[<inner xmlns:new="http://new.zorba-xquery.com/" xmlns:out="http://out.zorba-xquery.com/" xmlns:in="http://in.zorba-xquery.com/" />]]></assert-serialization>
+        <assert-xml><![CDATA[<inner xmlns:new="http://new.zorba-xquery.com/" xmlns:out="http://out.zorba-xquery.com/" xmlns:in="http://in.zorba-xquery.com/" />]]></assert-xml>
       </result>
    </test-case>
 
@@ -552,7 +552,7 @@
           $elem/outer/inner
       ]]></test>
       <result>
-        <assert-serialization><![CDATA[<inner xmlns:in="http://in.zorba-xquery.com/" />]]></assert-serialization>
+        <assert-xml><![CDATA[<inner xmlns:in="http://in.zorba-xquery.com/" />]]></assert-xml>
       </result>
    </test-case>
 
@@ -569,7 +569,7 @@
           $elem/outer/inner
       ]]></test>
       <result>
-        <assert-serialization><![CDATA[<inner xmlns:new="http://new.zorba-xquery.com/" />]]></assert-serialization>
+        <assert-xml><![CDATA[<inner xmlns:new="http://new.zorba-xquery.com/" />]]></assert-xml>
       </result>
    </test-case>
 
@@ -586,7 +586,7 @@
           $elem/outer/inner
       ]]></test>
       <result>
-        <assert-serialization><![CDATA[<inner/>]]></assert-serialization>
+        <assert-xml><![CDATA[<inner/>]]></assert-xml>
       </result>
    </test-case>
 
@@ -609,7 +609,7 @@
         local:rec-add(2)/e1/e0
       ]]></test>
       <result>
-        <assert-serialization><![CDATA[<e0 xmlns:pre2="uri2" xmlns:pre1="uri1" />]]></assert-serialization>
+        <assert-xml><![CDATA[<e0 xmlns:pre2="uri2" xmlns:pre1="uri1" />]]></assert-xml>
       </result>
    </test-case>
 

@@ -54,7 +54,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[let $var := <a attr1 = "abc1"><b attr2 = "abc2">context2</b></a> return $var/child::*]]></test>
       <result>
-         <assert-serialization><![CDATA[<b attr2="abc2">context2</b>]]></assert-serialization>
+         <assert-xml><![CDATA[<b attr2="abc2">context2</b>]]></assert-xml>
       </result>
    </test-case>
 
@@ -64,7 +64,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[let $var := <a attr1 = "abc1"><b attr2 = "abc2">context2</b></a> return $var/child::b]]></test>
       <result>
-         <assert-serialization><![CDATA[<b attr2="abc2">context2</b>]]></assert-serialization>
+         <assert-xml><![CDATA[<b attr2="abc2">context2</b>]]></assert-xml>
       </result>
    </test-case>
 
@@ -94,7 +94,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[let $var := <a attr1 = "abc1"><b attr2 = "abc2">context2</b></a> return $var/child::*:b]]></test>
       <result>
-         <assert-serialization><![CDATA[<b attr2="abc2">context2</b>]]></assert-serialization>
+         <assert-xml><![CDATA[<b attr2="abc2">context2</b>]]></assert-xml>
       </result>
    </test-case>
 
@@ -104,7 +104,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[declare namespace ns1 = "http://example.org"; let $var := <a attr1 = "abc1"><ns1:b attr2 = "abc2">context2</ns1:b></a> return $var/child::ns1:b]]></test>
       <result>
-         <assert-serialization><![CDATA[<ns1:b xmlns:ns1="http://example.org" attr2="abc2">context2</ns1:b>]]></assert-serialization>
+         <assert-xml><![CDATA[<ns1:b xmlns:ns1="http://example.org" attr2="abc2">context2</ns1:b>]]></assert-xml>
       </result>
    </test-case>
 
@@ -114,7 +114,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[let $var := <a attr1 = "abc1"><b attr2 = "abc2">context2</b></a> return $var/b]]></test>
       <result>
-         <assert-serialization><![CDATA[<b attr2="abc2">context2</b>]]></assert-serialization>
+         <assert-xml><![CDATA[<b attr2="abc2">context2</b>]]></assert-xml>
       </result>
    </test-case>
 
@@ -165,7 +165,7 @@
       <dependency type="spec" value="XP30+ XQ10+"/>
       <test>let $var := /works/employee[12]/overtime return $var/child::*:day[1] | $var/child::*:day[2]</test>
       <result>
-         <assert-serialization><![CDATA[<day>Monday</day><day>Tuesday</day>]]></assert-serialization>
+         <assert-xml><![CDATA[<day>Monday</day><day>Tuesday</day>]]></assert-xml>
       </result>
    </test-case>
 
@@ -176,7 +176,7 @@
       <dependency type="spec" value="XP30+ XQ10+"/>
       <test>let $var := /works[1]/child::employee[12]/overtime return $var/child::* intersect $var/child::day</test>
       <result>
-         <assert-serialization><![CDATA[<day>Monday</day><day>Tuesday</day>]]></assert-serialization>
+         <assert-xml><![CDATA[<day>Monday</day><day>Tuesday</day>]]></assert-xml>
       </result>
    </test-case>
 
@@ -230,7 +230,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[declare namespace ns1 = "http://example.org"; let $var := <a attr1 = "abc1"><ns1:b attr2 = "abc2">context2</ns1:b></a> return $var/child::*:b]]></test>
       <result>
-         <assert-serialization><![CDATA[<ns1:b xmlns:ns1="http://example.org" attr2="abc2">context2</ns1:b>]]></assert-serialization>
+         <assert-xml><![CDATA[<ns1:b xmlns:ns1="http://example.org" attr2="abc2">context2</ns1:b>]]></assert-xml>
       </result>
    </test-case>
 
@@ -462,7 +462,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[declare variable $var := <elem>text<a/><!-- a comment --><b/><?target data?><c/>]]>&lt;![CDATA[more text]]&gt;&lt;/elem>; $var/child::*</test>
       <result>
-         <assert-serialization><![CDATA[<a/><b/><c/>]]></assert-serialization>
+         <assert-xml><![CDATA[<a/><b/><c/>]]></assert-xml>
       </result>
    </test-case>
 
@@ -472,7 +472,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[declare variable $e := <a b ="content"><?b asd?><b/><c b="content"/></a>; $e/b]]></test>
       <result>
-         <assert-serialization><![CDATA[<b/>]]></assert-serialization>
+         <assert-xml><![CDATA[<b/>]]></assert-xml>
       </result>
    </test-case>
 
@@ -482,7 +482,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[declare variable $e := <a b ="content"><?b asd?><b/></a>; $e/*]]></test>
       <result>
-         <assert-serialization><![CDATA[<b/>]]></assert-serialization>
+         <assert-xml><![CDATA[<b/>]]></assert-xml>
       </result>
    </test-case>
 
@@ -492,7 +492,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[declare variable $e := <a b ="content"><?b asd?><b/></a>; <a>{$e/@b}</a>]]></test>
       <result>
-         <assert-serialization><![CDATA[<a b="content"/>]]></assert-serialization>
+         <assert-xml><![CDATA[<a b="content"/>]]></assert-xml>
       </result>
    </test-case>
 
@@ -502,7 +502,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[declare variable $e := <a b ="content"><?b asd?><b/></a>; <a>{$e/@*}</a>]]></test>
       <result>
-         <assert-serialization><![CDATA[<a b="content"/>]]></assert-serialization>
+         <assert-xml><![CDATA[<a b="content"/>]]></assert-xml>
       </result>
    </test-case>
 
@@ -512,7 +512,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[declare variable $e := <a b ="content"><?b asd?><b/></a>; $e/processing-instruction(b)]]></test>
       <result>
-         <assert-serialization><![CDATA[<?b asd?>]]></assert-serialization>
+         <assert-xml><![CDATA[<?b asd?>]]></assert-xml>
       </result>
    </test-case>
 
@@ -522,7 +522,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[declare variable $e := <a b ="content"><?b asd?><b/></a>; <a>{$e/processing-instruction()}</a>]]></test>
       <result>
-         <assert-serialization><![CDATA[<a><?b asd?></a>]]></assert-serialization>
+         <assert-xml><![CDATA[<a><?b asd?></a>]]></assert-xml>
       </result>
    </test-case>
 
@@ -622,7 +622,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[declare namespace a = "http://example.com/1"; declare namespace b = "http://example.com/2"; let $e := <e a:n1="content" b:n1="content"> <a:n1/> <b:n1/> <?n1 ?> <n1/> </e> return $e/*:n1]]></test>
       <result>
-         <assert-serialization><![CDATA[<a:n1 xmlns:b="http://example.com/2" xmlns:a="http://example.com/1"/><b:n1 xmlns:b="http://example.com/2" xmlns:a="http://example.com/1"/><n1 xmlns:b="http://example.com/2" xmlns:a="http://example.com/1"/>]]></assert-serialization>
+         <assert-xml><![CDATA[<a:n1 xmlns:b="http://example.com/2" xmlns:a="http://example.com/1"/><b:n1 xmlns:b="http://example.com/2" xmlns:a="http://example.com/1"/><n1 xmlns:b="http://example.com/2" xmlns:a="http://example.com/1"/>]]></assert-xml>
       </result>
    </test-case>
 
@@ -632,7 +632,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[declare namespace a = "http://example.com/1"; declare namespace b = "http://example.com/2"; let $e := <e a:n1="content" b:n1="content"> <a:n1/> <b:n1/> <?n1 ?> <n1/> </e> return $e/a:*]]></test>
       <result>
-         <assert-serialization><![CDATA[<a:n1 xmlns:b="http://example.com/2" xmlns:a="http://example.com/1"/>]]></assert-serialization>
+         <assert-xml><![CDATA[<a:n1 xmlns:b="http://example.com/2" xmlns:a="http://example.com/1"/>]]></assert-xml>
       </result>
    </test-case>
 
@@ -642,7 +642,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[<a>{<e foo="content2" bar="content1"/>/attribute(foo)}</a>]]></test>
       <result>
-         <assert-serialization><![CDATA[<a foo="content2"/>]]></assert-serialization>
+         <assert-xml><![CDATA[<a foo="content2"/>]]></assert-xml>
       </result>
    </test-case>
 
@@ -780,7 +780,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[declare variable $i := <e > <xmlns/> <xmlns/> <xmlns/> <xmlns/> </e>; $i/xmlns]]></test>
       <result>
-         <assert-serialization><![CDATA[<xmlns/><xmlns/><xmlns/><xmlns/>]]></assert-serialization>
+         <assert-xml><![CDATA[<xmlns/><xmlns/><xmlns/><xmlns/>]]></assert-xml>
       </result>
    </test-case>
 
@@ -801,7 +801,7 @@
       <test><![CDATA[declare namespace p = "http://example.com/"; <a>{<e p:a="1" p:b="2" p:c="3"/>/attribute::*/p:*}</a>]]></test>
       <result>
          <any-of>
-            <assert-serialization><![CDATA[<a></a>]]></assert-serialization>
+            <assert-xml><![CDATA[<a></a>]]></assert-xml>
             <error code="XPST0005"/>
          </any-of>
       </result>
@@ -814,7 +814,7 @@
       <test><![CDATA[declare namespace p = "http://example.com/"; <a>{document {<p:e/>}/@p:*}</a>]]></test>
       <result>
          <any-of>
-            <assert-serialization><![CDATA[<a></a>]]></assert-serialization>
+            <assert-xml><![CDATA[<a></a>]]></assert-xml>
             <error code="XPST0005"/>
          </any-of>
       </result>
@@ -827,7 +827,7 @@
       <test><![CDATA[<a>{attribute name{"content"}/*}</a>]]></test>
       <result>
          <any-of>
-            <assert-serialization><![CDATA[<a></a>]]></assert-serialization>
+            <assert-xml><![CDATA[<a></a>]]></assert-xml>
             <error code="XPST0005"/>
          </any-of>
       </result>
@@ -840,7 +840,7 @@
       <test><![CDATA[<a>{comment {"content"}/*}</a>]]></test>
       <result>
          <any-of>
-            <assert-serialization><![CDATA[<a/>]]></assert-serialization>
+            <assert-xml><![CDATA[<a/>]]></assert-xml>
             <error code="XPST0005"/>
          </any-of>
       </result>
@@ -853,7 +853,7 @@
       <test><![CDATA[<a>{<!-- a comment -->/*}</a>]]></test>
       <result>
          <any-of>
-            <assert-serialization><![CDATA[<a/>]]></assert-serialization>
+            <assert-xml><![CDATA[<a/>]]></assert-xml>
             <error code="XPST0005"/>
          </any-of>
       </result>
@@ -866,7 +866,7 @@
       <test><![CDATA[<a>{processing-instruction name {"content"}/*}</a>]]></test>
       <result>
          <any-of>
-            <assert-serialization><![CDATA[<a/>]]></assert-serialization>
+            <assert-xml><![CDATA[<a/>]]></assert-xml>
             <error code="XPST0005"/>
          </any-of>
       </result>
@@ -879,7 +879,7 @@
       <test><![CDATA[<a>{<?target data?>/*}</a>]]></test>
       <result>
          <any-of>
-            <assert-serialization><![CDATA[<a/>]]></assert-serialization>
+            <assert-xml><![CDATA[<a/>]]></assert-xml>
             <error code="XPST0005"/>
          </any-of>
       </result>
@@ -892,7 +892,7 @@
       <test><![CDATA[declare variable $a := <e><a/><b/><c/></e>; <a>{$a/*:ncname eq 1}</a>]]></test>
       <result>
          <any-of>
-            <assert-serialization><![CDATA[<a/>]]></assert-serialization>
+            <assert-xml><![CDATA[<a/>]]></assert-xml>
             <error code="XPTY0004"/>
          </any-of>
       </result>
@@ -905,7 +905,7 @@
       <test><![CDATA[declare variable $a := <e><a/><b/><c/></e>; <a>{$a/*:ncname eq 1}</a>]]></test>
       <result>
          <any-of>
-            <assert-serialization><![CDATA[<a/>]]></assert-serialization>
+            <assert-xml><![CDATA[<a/>]]></assert-xml>
             <error code="XPTY0004"/>
          </any-of>
       </result>
@@ -918,7 +918,7 @@
       <test><![CDATA[declare namespace prefix = "http://example.com/"; declare variable $a := <e><a/><b/><c/></e>; <a>{$a/prefix:* eq 1}</a>]]></test>
       <result>
          <any-of>
-            <assert-serialization><![CDATA[<a/>]]></assert-serialization>
+            <assert-xml><![CDATA[<a/>]]></assert-xml>
             <error code="XPTY0004"/>
          </any-of>
       </result>
@@ -931,7 +931,7 @@
       <test><![CDATA[declare namespace prefix = "http://example.com/"; declare variable $a := <e><a/><b/><c/></e>; <a>{$a/@prefix:* eq 1}</a>]]></test>
       <result>
          <any-of>
-            <assert-serialization><![CDATA[<a/>]]></assert-serialization>
+            <assert-xml><![CDATA[<a/>]]></assert-xml>
             <error code="XPTY0004"/>
          </any-of>
       </result>
@@ -959,7 +959,7 @@
       <test><![CDATA[<e>{for $PI in ()/processing-instruction() return ()}</e>]]></test>
       <result>
          <any-of>
-            <assert-serialization><![CDATA[<e/>]]></assert-serialization>
+            <assert-xml><![CDATA[<e/>]]></assert-xml>
             <error code="XPST0005"/>
          </any-of>
       </result>
@@ -972,7 +972,7 @@
       <test><![CDATA[<e>{for $PI in <e/>/processing-instruction() return ()}</e>]]></test>
       <result>
          <any-of>
-            <assert-serialization><![CDATA[<e/>]]></assert-serialization>
+            <assert-xml><![CDATA[<e/>]]></assert-xml>
             <error code="XPST0005"/>
          </any-of>
       </result>
@@ -984,7 +984,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[<x> <x> <y id="0"/> </x> <y id="1"/> </x>/descendant-or-self::x/child::y]]></test>
       <result>
-         <assert-serialization><![CDATA[<y id="0"/><y id="1"/>]]></assert-serialization>
+         <assert-xml><![CDATA[<y id="0"/><y id="1"/>]]></assert-xml>
       </result>
    </test-case>
 
@@ -994,7 +994,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[<e>{<e foo="asd"/>/attribute(*, xs:untypedAtomic)}</e>]]></test>
       <result>
-         <assert-serialization><![CDATA[<e foo="asd"/>]]></assert-serialization>
+         <assert-xml><![CDATA[<e foo="asd"/>]]></assert-xml>
       </result>
    </test-case>
 
@@ -1004,7 +1004,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[<e>{<e foo="asd"/>/attribute(foo, xs:untypedAtomic)}</e>]]></test>
       <result>
-         <assert-serialization><![CDATA[<e foo="asd"/>]]></assert-serialization>
+         <assert-xml><![CDATA[<e foo="asd"/>]]></assert-xml>
       </result>
    </test-case>
 
@@ -1035,7 +1035,7 @@
       <test><![CDATA[<e>{<e foo="1"/>/attribute(foo, xs:integer)}</e>]]></test>
       <result>
          <any-of>
-            <assert-serialization><![CDATA[<e/>]]></assert-serialization>
+            <assert-xml><![CDATA[<e/>]]></assert-xml>
             <error code="XPST0005"/>
          </any-of>
       </result>
@@ -1067,7 +1067,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[<e>{<b foo="1"/>/attribute(foo, xs:anyType)}</e>]]></test>
       <result>
-         <assert-serialization><![CDATA[<e foo="1"/>]]></assert-serialization>
+         <assert-xml><![CDATA[<e foo="1"/>]]></assert-xml>
       </result>
    </test-case>
 
@@ -1117,7 +1117,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[<e><b/></e>/element(b, xs:anyType)]]></test>
       <result>
-         <assert-serialization><![CDATA[<b/>]]></assert-serialization>
+         <assert-xml><![CDATA[<b/>]]></assert-xml>
       </result>
    </test-case>
 
@@ -1127,7 +1127,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[<e><b/></e>/element(b, xs:anyType)]]></test>
       <result>
-         <assert-serialization><![CDATA[<b/>]]></assert-serialization>
+         <assert-xml><![CDATA[<b/>]]></assert-xml>
       </result>
    </test-case>
 

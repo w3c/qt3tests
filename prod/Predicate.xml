@@ -18,7 +18,7 @@
       <environment ref="works"/>
       <test>(/works/employee[xs:integer(hours[1]) gt 20])</test>
       <result>
-         <assert-serialization><![CDATA[<employee>
+         <assert-xml><![CDATA[<employee>
    <empnum>E1</empnum>
    <pnum>P1</pnum>
    <hours>40</hours>
@@ -42,7 +42,7 @@
    <empnum>E4</empnum>
    <pnum>P5</pnum>
    <hours>80</hours>
-  </employee>]]></assert-serialization>
+  </employee>]]></assert-xml>
       </result>
    </test-case>
 
@@ -70,7 +70,7 @@
       <environment ref="works"/>
       <test>(//empnum | (/))//employee[xs:integer(hours[1]) gt 20]</test>
       <result>
-         <assert-serialization><![CDATA[<employee>
+         <assert-xml><![CDATA[<employee>
    <empnum>E1</empnum>
    <pnum>P1</pnum>
    <hours>40</hours>
@@ -94,7 +94,7 @@
    <empnum>E4</empnum>
    <pnum>P5</pnum>
    <hours>80</hours>
-  </employee>]]></assert-serialization>
+  </employee>]]></assert-xml>
       </result>
    </test-case>
 
@@ -104,11 +104,11 @@
       <environment ref="works"/>
       <test>(//employee[fn:last()])</test>
       <result>
-         <assert-serialization><![CDATA[<employee>
+         <assert-xml><![CDATA[<employee>
    <empnum>E4</empnum>
    <pnum>P5</pnum>
    <hours>80</hours>
-  </employee>]]></assert-serialization>
+  </employee>]]></assert-xml>
       </result>
    </test-case>
 
@@ -1173,7 +1173,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[declare variable $var := (for $i in 1 to 100 return <e>{$i}</e>); $var[last()]]]></test>
       <result>
-         <assert-serialization><![CDATA[<e>100</e>]]></assert-serialization>
+         <assert-xml><![CDATA[<e>100</e>]]></assert-xml>
       </result>
    </test-case>
 
@@ -1183,7 +1183,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[declare variable $var := (for $i in 1 to 100 return <e>{$i}</e>); $var[5]]]></test>
       <result>
-         <assert-serialization><![CDATA[<e>5</e>]]></assert-serialization>
+         <assert-xml><![CDATA[<e>5</e>]]></assert-xml>
       </result>
    </test-case>
 
@@ -1216,7 +1216,7 @@
       <test><![CDATA[let $d := document {<root><child type=""/></root>} return $d//*[let $i := @type return $d//*[$i]], (1, 2, 3)[true()], (4, 5, 6)[false()]]]></test>
       <result>
          <any-of>
-            <assert-serialization><![CDATA[<child type=""/>1 2 3]]></assert-serialization>
+            <assert-xml><![CDATA[<child type=""/>1 2 3]]></assert-xml>
             <error code="XPST0005"/>
          </any-of>
       </result>
@@ -1228,7 +1228,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[let $d := document { <root><child type=""/></root> } return $d//*[let $i := @type return $d//*[$i]]]]></test>
       <result>
-         <assert-serialization><![CDATA[<child type=""/>]]></assert-serialization>
+         <assert-xml><![CDATA[<child type=""/>]]></assert-xml>
       </result>
    </test-case>
 
@@ -1238,7 +1238,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[(<x/>, <?y?>)[self::processing-instruction()]]]></test>
       <result>
-         <assert-serialization><![CDATA[<?y?>]]></assert-serialization>
+         <assert-xml><![CDATA[<?y?>]]></assert-xml>
       </result>
    </test-case>
 
@@ -1258,7 +1258,7 @@
       <environment ref="atomicns"/>
       <test>(//integer[fn:true()])</test>
       <result>
-         <assert-serialization><![CDATA[<integer>12678967543233</integer>]]></assert-serialization>
+         <assert-xml><![CDATA[<integer>12678967543233</integer>]]></assert-xml>
       </result>
    </test-case>
 
@@ -1281,7 +1281,7 @@
       <environment ref="atomicns"/>
       <test>(//integer[fn:not(fn:false())])</test>
       <result>
-         <assert-serialization><![CDATA[<integer>12678967543233</integer>]]></assert-serialization>
+         <assert-xml><![CDATA[<integer>12678967543233</integer>]]></assert-xml>
       </result>
    </test-case>
 
@@ -1291,7 +1291,7 @@
       <environment ref="atomicns"/>
       <test>(//integer[fn:true() and fn:true()])</test>
       <result>
-         <assert-serialization><![CDATA[<integer>12678967543233</integer>]]></assert-serialization>
+         <assert-xml><![CDATA[<integer>12678967543233</integer>]]></assert-xml>
       </result>
    </test-case>
 
@@ -1301,7 +1301,7 @@
       <environment ref="atomicns"/>
       <test>(//integer[fn:true() or fn:true()])</test>
       <result>
-         <assert-serialization><![CDATA[<integer>12678967543233</integer>]]></assert-serialization>
+         <assert-xml><![CDATA[<integer>12678967543233</integer>]]></assert-xml>
       </result>
    </test-case>
 
@@ -1337,7 +1337,7 @@
       <environment ref="atomicns"/>
       <test>(/root/string[xs:string(.) = "A String Function"])</test>
       <result>
-         <assert-serialization><![CDATA[<string>A String Function</string>]]></assert-serialization>
+         <assert-xml><![CDATA[<string>A String Function</string>]]></assert-xml>
       </result>
    </test-case>
 
@@ -1347,7 +1347,7 @@
       <environment ref="atomicns"/>
       <test>(/root/integer[xs:integer(.) = 12678967543233])</test>
       <result>
-         <assert-serialization><![CDATA[<integer>12678967543233</integer>]]></assert-serialization>
+         <assert-xml><![CDATA[<integer>12678967543233</integer>]]></assert-xml>
       </result>
    </test-case>
 
@@ -1357,7 +1357,7 @@
       <environment ref="atomicns"/>
       <test>(/root/decimal[xs:decimal(.) = 12678967.543233])</test>
       <result>
-         <assert-serialization><![CDATA[<decimal attr="12678967.543233">12678967.543233</decimal>]]></assert-serialization>
+         <assert-xml><![CDATA[<decimal attr="12678967.543233">12678967.543233</decimal>]]></assert-xml>
       </result>
    </test-case>
 
@@ -1367,7 +1367,7 @@
       <environment ref="atomicns"/>
       <test>(/root/float[xs:float(.) = xs:float(1267.43233E12)])</test>
       <result>
-         <assert-serialization><![CDATA[<float>1267.43233E12</float>]]></assert-serialization>
+         <assert-xml><![CDATA[<float>1267.43233E12</float>]]></assert-xml>
       </result>
    </test-case>
 
@@ -1377,7 +1377,7 @@
       <environment ref="atomicns"/>
       <test>(/root/double[xs:double(.) = 1267.43233E12])</test>
       <result>
-         <assert-serialization><![CDATA[<double>1267.43233E12</double>]]></assert-serialization>
+         <assert-xml><![CDATA[<double>1267.43233E12</double>]]></assert-xml>
       </result>
    </test-case>
 
@@ -1387,7 +1387,7 @@
       <environment ref="atomicns"/>
       <test>(/root/boolean[xs:boolean(.) = fn:true()])</test>
       <result>
-         <assert-serialization><![CDATA[<boolean>true</boolean>]]></assert-serialization>
+         <assert-xml><![CDATA[<boolean>true</boolean>]]></assert-xml>
       </result>
    </test-case>
 
@@ -1397,7 +1397,7 @@
       <environment ref="atomicns"/>
       <test>(/root/date[xs:date(.) = xs:date("2000-01-01+05:00")])</test>
       <result>
-         <assert-serialization><![CDATA[<date>2000-01-01+05:00</date>]]></assert-serialization>
+         <assert-xml><![CDATA[<date>2000-01-01+05:00</date>]]></assert-xml>
       </result>
    </test-case>
 
@@ -1407,11 +1407,11 @@
       <environment ref="works-mod"/>
       <test>(/works/employee[@name="Jane Doe 11"])</test>
       <result>
-         <assert-serialization><![CDATA[<employee name="Jane Doe 11" gender="female">
+         <assert-xml><![CDATA[<employee name="Jane Doe 11" gender="female">
    <empnum>E4</empnum>
    <pnum>P2</pnum>
    <hours>20</hours>
-  </employee>]]></assert-serialization>
+  </employee>]]></assert-xml>
       </result>
    </test-case>
 
@@ -1421,7 +1421,7 @@
       <environment ref="works-mod"/>
       <test>(/works//day[xs:string(.) ne "Monday"])</test>
       <result>
-         <assert-serialization><![CDATA[<day>Tuesday</day>]]></assert-serialization>
+         <assert-xml><![CDATA[<day>Tuesday</day>]]></assert-xml>
       </result>
    </test-case>
 
@@ -1431,7 +1431,7 @@
       <environment ref="works-mod"/>
       <test>(/works//hours[xs:integer(.) lt 13])</test>
       <result>
-         <assert-serialization><![CDATA[<hours>12</hours>]]></assert-serialization>
+         <assert-xml><![CDATA[<hours>12</hours>]]></assert-xml>
       </result>
    </test-case>
 
@@ -1441,7 +1441,7 @@
       <environment ref="works-mod"/>
       <test>(/works//hours[xs:integer(.) le 12])</test>
       <result>
-         <assert-serialization><![CDATA[<hours>12</hours>]]></assert-serialization>
+         <assert-xml><![CDATA[<hours>12</hours>]]></assert-xml>
       </result>
    </test-case>
 
@@ -1451,7 +1451,7 @@
       <environment ref="works-mod"/>
       <test>(/works//hours[xs:integer(.) gt 79])</test>
       <result>
-         <assert-serialization><![CDATA[<hours>80</hours><hours>80</hours><hours>80</hours>]]></assert-serialization>
+         <assert-xml><![CDATA[<hours>80</hours><hours>80</hours><hours>80</hours>]]></assert-xml>
       </result>
    </test-case>
 
@@ -1461,7 +1461,7 @@
       <environment ref="works-mod"/>
       <test>(/works//hours[xs:integer(.) ge 80])</test>
       <result>
-         <assert-serialization><![CDATA[<hours>80</hours><hours>80</hours><hours>80</hours>]]></assert-serialization>
+         <assert-xml><![CDATA[<hours>80</hours><hours>80</hours><hours>80</hours>]]></assert-xml>
       </result>
    </test-case>
 
@@ -1471,7 +1471,7 @@
       <environment ref="works-mod"/>
       <test>(/works//hours[xs:integer(.) = 12])</test>
       <result>
-         <assert-serialization><![CDATA[<hours>12</hours>]]></assert-serialization>
+         <assert-xml><![CDATA[<hours>12</hours>]]></assert-xml>
       </result>
    </test-case>
 
@@ -1481,7 +1481,7 @@
       <environment ref="works-mod"/>
       <test>(/works[1]//employee[empnum != "E1" and empnum != "E4"])</test>
       <result>
-         <assert-serialization><![CDATA[<employee name="Jane Doe 7" gender="female">
+         <assert-xml><![CDATA[<employee name="Jane Doe 7" gender="female">
    <empnum>E2</empnum>
    <pnum>P1</pnum>
    <hours>40</hours>
@@ -1497,7 +1497,7 @@
    <empnum>E3</empnum>
    <pnum>P2</pnum>
    <hours>20</hours>
-  </employee>]]></assert-serialization>
+  </employee>]]></assert-xml>
       </result>
    </test-case>
 
@@ -1508,7 +1508,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[(/works//hours[xs:integer(.) < 13])]]></test>
       <result>
-         <assert-serialization><![CDATA[<hours>12</hours>]]></assert-serialization>
+         <assert-xml><![CDATA[<hours>12</hours>]]></assert-xml>
       </result>
    </test-case>
 
@@ -1519,7 +1519,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[(/works//hours[xs:integer(.) <= 12])]]></test>
       <result>
-         <assert-serialization><![CDATA[<hours>12</hours>]]></assert-serialization>
+         <assert-xml><![CDATA[<hours>12</hours>]]></assert-xml>
       </result>
    </test-case>
 
@@ -1529,7 +1529,7 @@
       <environment ref="works-mod"/>
       <test>(/works//hours[xs:integer(.) &gt; 79])</test>
       <result>
-         <assert-serialization><![CDATA[<hours>80</hours><hours>80</hours><hours>80</hours>]]></assert-serialization>
+         <assert-xml><![CDATA[<hours>80</hours><hours>80</hours><hours>80</hours>]]></assert-xml>
       </result>
    </test-case>
 
@@ -1539,7 +1539,7 @@
       <environment ref="works-mod"/>
       <test>(/works//hours[xs:integer(.) &gt;= 80])</test>
       <result>
-         <assert-serialization><![CDATA[<hours>80</hours><hours>80</hours><hours>80</hours>]]></assert-serialization>
+         <assert-xml><![CDATA[<hours>80</hours><hours>80</hours><hours>80</hours>]]></assert-xml>
       </result>
    </test-case>
 
@@ -1602,7 +1602,7 @@
       <environment ref="atomicns"/>
       <test>(//integer[fn:not(fn:false())])</test>
       <result>
-         <assert-serialization><![CDATA[<integer>12678967543233</integer>]]></assert-serialization>
+         <assert-xml><![CDATA[<integer>12678967543233</integer>]]></assert-xml>
       </result>
    </test-case>
 
@@ -1612,7 +1612,7 @@
       <environment ref="atomicns"/>
       <test>(//integer[fn:true() and fn:true()])</test>
       <result>
-         <assert-serialization><![CDATA[<integer>12678967543233</integer>]]></assert-serialization>
+         <assert-xml><![CDATA[<integer>12678967543233</integer>]]></assert-xml>
       </result>
    </test-case>
 
@@ -1622,7 +1622,7 @@
       <environment ref="atomicns"/>
       <test>(//integer[fn:true() or fn:true()])</test>
       <result>
-         <assert-serialization><![CDATA[<integer>12678967543233</integer>]]></assert-serialization>
+         <assert-xml><![CDATA[<integer>12678967543233</integer>]]></assert-xml>
       </result>
    </test-case>
 
@@ -1658,7 +1658,7 @@
       <environment ref="atomicns"/>
       <test>(/root/string[xs:string(.) = "A String Function"])</test>
       <result>
-         <assert-serialization><![CDATA[<string>A String Function</string>]]></assert-serialization>
+         <assert-xml><![CDATA[<string>A String Function</string>]]></assert-xml>
       </result>
    </test-case>
 
@@ -1668,7 +1668,7 @@
       <environment ref="atomicns"/>
       <test>(/root/integer[xs:integer(.) = 12678967543233])</test>
       <result>
-         <assert-serialization><![CDATA[<integer>12678967543233</integer>]]></assert-serialization>
+         <assert-xml><![CDATA[<integer>12678967543233</integer>]]></assert-xml>
       </result>
    </test-case>
 
@@ -1678,7 +1678,7 @@
       <environment ref="atomicns"/>
       <test>(/root/decimal[(xs:decimal(.) = 12678967.543233)])</test>
       <result>
-         <assert-serialization><![CDATA[<decimal attr="12678967.543233">12678967.543233</decimal>]]></assert-serialization>
+         <assert-xml><![CDATA[<decimal attr="12678967.543233">12678967.543233</decimal>]]></assert-xml>
       </result>
    </test-case>
 
@@ -1688,7 +1688,7 @@
       <environment ref="atomicns"/>
       <test>(/root/float[xs:float(.) = xs:float(1267.43233E12)])</test>
       <result>
-         <assert-serialization><![CDATA[<float>1267.43233E12</float>]]></assert-serialization>
+         <assert-xml><![CDATA[<float>1267.43233E12</float>]]></assert-xml>
       </result>
    </test-case>
 
@@ -1698,7 +1698,7 @@
       <environment ref="atomicns"/>
       <test>(/root/double[xs:double(.) = 1267.43233E12])</test>
       <result>
-         <assert-serialization><![CDATA[<double>1267.43233E12</double>]]></assert-serialization>
+         <assert-xml><![CDATA[<double>1267.43233E12</double>]]></assert-xml>
       </result>
    </test-case>
 
@@ -1708,7 +1708,7 @@
       <environment ref="atomicns"/>
       <test>(/root/boolean[xs:boolean(.) = fn:true()])</test>
       <result>
-         <assert-serialization><![CDATA[<boolean>true</boolean>]]></assert-serialization>
+         <assert-xml><![CDATA[<boolean>true</boolean>]]></assert-xml>
       </result>
    </test-case>
 
@@ -1718,7 +1718,7 @@
       <environment ref="atomicns"/>
       <test>(/root/date[xs:date(.) = xs:date("2000-01-01+05:00")])</test>
       <result>
-         <assert-serialization><![CDATA[<date>2000-01-01+05:00</date>]]></assert-serialization>
+         <assert-xml><![CDATA[<date>2000-01-01+05:00</date>]]></assert-xml>
       </result>
    </test-case>
 
@@ -1737,7 +1737,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[declare variable $myvar := <elem> <a/> <b/> <c/></elem>; $myvar/*[last()]]]></test>
       <result>
-         <assert-serialization><![CDATA[<c/>]]></assert-serialization>
+         <assert-xml><![CDATA[<c/>]]></assert-xml>
       </result>
    </test-case>
 
@@ -1747,7 +1747,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[declare variable $myvar := <elem> <a/> <b/> <c/></elem>; $myvar/*[last() - 1]]]></test>
       <result>
-         <assert-serialization><![CDATA[<b/>]]></assert-serialization>
+         <assert-xml><![CDATA[<b/>]]></assert-xml>
       </result>
    </test-case>
 
@@ -1757,7 +1757,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[declare variable $myvar := <elem> <a/> <b/> <c/></elem>; $myvar/*[1]]]></test>
       <result>
-         <assert-serialization><![CDATA[<a/>]]></assert-serialization>
+         <assert-xml><![CDATA[<a/>]]></assert-xml>
       </result>
    </test-case>
 
@@ -1767,7 +1767,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[(<a/>, <b/>, <c/>)[1][1]]]></test>
       <result>
-         <assert-serialization><![CDATA[<a/>]]></assert-serialization>
+         <assert-xml><![CDATA[<a/>]]></assert-xml>
       </result>
    </test-case>
 
@@ -1777,7 +1777,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[<b attr="f"/>[1]]]></test>
       <result>
-         <assert-serialization><![CDATA[<b attr="f"/>]]></assert-serialization>
+         <assert-xml><![CDATA[<b attr="f"/>]]></assert-xml>
       </result>
    </test-case>
 
@@ -1787,7 +1787,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[<r>{<e xml:lang="ene"/>/(ancestor-or-self::*/@xml:lang)[last()]}</r>]]></test>
       <result>
-         <assert-serialization><![CDATA[<r xml:lang="ene"/>]]></assert-serialization>
+         <assert-xml><![CDATA[<r xml:lang="ene"/>]]></assert-xml>
       </result>
    </test-case>
 
@@ -1797,7 +1797,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[declare function local:foo($arg as item()) { $arg[@arg] }; local:foo(<e arg="">result</e>)]]></test>
       <result>
-         <assert-serialization><![CDATA[<e arg="">result</e>]]></assert-serialization>
+         <assert-xml><![CDATA[<e arg="">result</e>]]></assert-xml>
       </result>
    </test-case>
 

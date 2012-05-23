@@ -44,7 +44,7 @@
       <created by="Andreas Behm" on="2005-04-20"/>
       <test>element elem {'text'}</test>
       <result>
-         <assert-serialization><![CDATA[<elem>text</elem>]]></assert-serialization>
+         <assert-xml><![CDATA[<elem>text</elem>]]></assert-xml>
       </result>
    </test-case>
 
@@ -53,7 +53,7 @@
       <created by="Andreas Behm" on="2005-04-20"/>
       <test>declare namespace foo="http://www.example.com/foo"; element foo:elem {'text'}</test>
       <result>
-         <assert-serialization><![CDATA[<foo:elem xmlns:foo="http://www.example.com/foo">text</foo:elem>]]></assert-serialization>
+         <assert-xml><![CDATA[<foo:elem xmlns:foo="http://www.example.com/foo">text</foo:elem>]]></assert-xml>
       </result>
    </test-case>
 
@@ -136,7 +136,7 @@
       <environment ref="atomic"/>
       <test>element {//*:NCName[1]} {'text'}</test>
       <result>
-         <assert-serialization><![CDATA[<aNCname>text</aNCname>]]></assert-serialization>
+         <assert-xml><![CDATA[<aNCname>text</aNCname>]]></assert-xml>
       </result>
    </test-case>
 
@@ -145,7 +145,7 @@
       <created by="Andreas Behm" on="2005-04-20"/>
       <test>element {xs:QName('aQname')} {'text'}</test>
       <result>
-         <assert-serialization><![CDATA[<aQname>text</aQname>]]></assert-serialization>
+         <assert-xml><![CDATA[<aQname>text</aQname>]]></assert-xml>
       </result>
    </test-case>
 
@@ -154,7 +154,7 @@
       <created by="Andreas Behm" on="2005-04-20"/>
       <test>element {'elem'} {'text'}</test>
       <result>
-         <assert-serialization><![CDATA[<elem>text</elem>]]></assert-serialization>
+         <assert-xml><![CDATA[<elem>text</elem>]]></assert-xml>
       </result>
    </test-case>
 
@@ -163,7 +163,7 @@
       <created by="Andreas Behm" on="2005-04-20"/>
       <test>element {'elem', ()} {'text'}</test>
       <result>
-         <assert-serialization><![CDATA[<elem>text</elem>]]></assert-serialization>
+         <assert-xml><![CDATA[<elem>text</elem>]]></assert-xml>
       </result>
    </test-case>
 
@@ -172,7 +172,7 @@
       <created by="Andreas Behm" on="2005-04-20"/>
       <test>element {(), 'elem'} {'text'}</test>
       <result>
-         <assert-serialization><![CDATA[<elem>text</elem>]]></assert-serialization>
+         <assert-xml><![CDATA[<elem>text</elem>]]></assert-xml>
       </result>
    </test-case>
 
@@ -182,7 +182,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[<elem xmlns:foo="http://www.example.com/foo">{element {'foo:elem'} {'text'}}</elem>]]></test>
       <result>
-         <assert-serialization><![CDATA[<elem xmlns:foo="http://www.example.com/foo"><foo:elem>text</foo:elem></elem>]]></assert-serialization>
+         <assert-xml><![CDATA[<elem xmlns:foo="http://www.example.com/foo"><foo:elem>text</foo:elem></elem>]]></assert-xml>
       </result>
    </test-case>
 
@@ -200,7 +200,7 @@
       <created by="Andreas Behm" on="2005-04-20"/>
       <test>element {xs:untypedAtomic('elem')} {'text'}</test>
       <result>
-         <assert-serialization><![CDATA[<elem>text</elem>]]></assert-serialization>
+         <assert-xml><![CDATA[<elem>text</elem>]]></assert-xml>
       </result>
    </test-case>
 
@@ -210,7 +210,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[<elem xmlns:foo="http://www.example.com/foo">{element {xs:untypedAtomic('foo:elem')} {'text'}}</elem>]]></test>
       <result>
-         <assert-serialization><![CDATA[<elem xmlns:foo="http://www.example.com/foo"><foo:elem>text</foo:elem></elem>]]></assert-serialization>
+         <assert-xml><![CDATA[<elem xmlns:foo="http://www.example.com/foo"><foo:elem>text</foo:elem></elem>]]></assert-xml>
       </result>
    </test-case>
 
@@ -275,7 +275,7 @@
       <created by="Andreas Behm" on="2005-04-20"/>
       <test>element elem {1, element a {2, element b {element c {}, element d {3}}, 4}}</test>
       <result>
-         <assert-serialization><![CDATA[<elem>1<a>2<b><c/><d>3</d></b>4</a></elem>]]></assert-serialization>
+         <assert-xml><![CDATA[<elem>1<a>2<b><c/><d>3</d></b>4</a></elem>]]></assert-xml>
       </result>
    </test-case>
 
@@ -285,7 +285,7 @@
       <environment ref="DupNode"/>
       <test>element elem {}</test>
       <result>
-         <assert-serialization><![CDATA[<elem/>]]></assert-serialization>
+         <assert-xml><![CDATA[<elem/>]]></assert-xml>
       </result>
    </test-case>
 
@@ -294,7 +294,7 @@
       <created by="Andreas Behm" on="2005-04-20"/>
       <test>element elem {}</test>
       <result>
-         <assert-serialization><![CDATA[<elem/>]]></assert-serialization>
+         <assert-xml><![CDATA[<elem/>]]></assert-xml>
       </result>
    </test-case>
 
@@ -303,7 +303,7 @@
       <created by="Andreas Behm" on="2005-04-20"/>
       <test>element elem {1,'a',3.5,4e2}</test>
       <result>
-         <assert-serialization><![CDATA[<elem>1 a 3.5 400</elem>]]></assert-serialization>
+         <assert-xml><![CDATA[<elem>1 a 3.5 400</elem>]]></assert-xml>
       </result>
    </test-case>
 
@@ -313,7 +313,7 @@
       <environment ref="DupNode"/>
       <test>element elem {1,//a,2,3,//comment(),4,5,//processing-instruction(),6,7,//text(),8}</test>
       <result>
-         <assert-serialization><![CDATA[<elem>1<a>text</a><a>text</a>2 3<!--comment--><!--comment-->4 5<?pi content?><?pi content?>6 7texttext8</elem>]]></assert-serialization>
+         <assert-xml><![CDATA[<elem>1<a>text</a><a>text</a>2 3<!--comment--><!--comment-->4 5<?pi content?><?pi content?>6 7texttext8</elem>]]></assert-xml>
       </result>
    </test-case>
 
@@ -322,7 +322,7 @@
       <created by="Andreas Behm" on="2005-04-20"/>
       <test>element elem {1, '', 2}</test>
       <result>
-         <assert-serialization><![CDATA[<elem>1  2</elem>]]></assert-serialization>
+         <assert-xml><![CDATA[<elem>1  2</elem>]]></assert-xml>
       </result>
    </test-case>
 
@@ -457,7 +457,7 @@
       <environment ref="DupNode"/>
       <test>element elem {., .}</test>
       <result>
-         <assert-serialization><![CDATA[<elem><root><child1><a>text</a><!--comment--><?pi content?></child1><child2><a>text</a><!--comment--><?pi content?></child2></root><root><child1><a>text</a><!--comment--><?pi content?></child1><child2><a>text</a><!--comment--><?pi content?></child2></root></elem>]]></assert-serialization>
+         <assert-xml><![CDATA[<elem><root><child1><a>text</a><!--comment--><?pi content?></child1><child2><a>text</a><!--comment--><?pi content?></child2></root><root><child1><a>text</a><!--comment--><?pi content?></child1><child2><a>text</a><!--comment--><?pi content?></child2></root></elem>]]></assert-xml>
       </result>
    </test-case>
 
@@ -514,7 +514,7 @@
       <environment ref="TopMany"/>
       <test>element elem {//west/@mark, //west/@west-attr-1}</test>
       <result>
-         <assert-serialization><![CDATA[<elem mark="w0" west-attr-1="w1"/>]]></assert-serialization>
+         <assert-xml><![CDATA[<elem mark="w0" west-attr-1="w1"/>]]></assert-xml>
       </result>
    </test-case>
 
@@ -543,7 +543,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[<elem>{"", "", <e/>, <b></b>}</elem>]]></test>
       <result>
-         <assert-serialization><![CDATA[<elem> <e/><b/></elem>]]></assert-serialization>
+         <assert-xml><![CDATA[<elem> <e/><b/></elem>]]></assert-xml>
       </result>
    </test-case>
 
@@ -553,7 +553,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[<elem>{<e/>, <b></b>, "", ""}</elem>]]></test>
       <result>
-         <assert-serialization><![CDATA[<elem><e/><b/> </elem>]]></assert-serialization>
+         <assert-xml><![CDATA[<elem><e/><b/> </elem>]]></assert-xml>
       </result>
    </test-case>
 
@@ -648,7 +648,7 @@
       <created by="Frans Englich" on="2007-11-26"/>
       <test>element e {element b{()}}</test>
       <result>
-         <assert-serialization><![CDATA[<e><b/></e>]]></assert-serialization>
+         <assert-xml><![CDATA[<e><b/></e>]]></assert-xml>
       </result>
    </test-case>
 
@@ -663,7 +663,7 @@
         local:addNamespace(<a><b/></a>, "prefix", "http://example.com/")
       ]]></test>
       <result>
-         <assert-serialization><![CDATA[<a xmlns:prefix="http://example.com/"><b/></a>]]></assert-serialization>
+         <assert-xml><![CDATA[<a xmlns:prefix="http://example.com/"><b/></a>]]></assert-xml>
       </result>
    </test-case>
 
@@ -675,7 +675,7 @@
         declare default element namespace "http://example.com/NS"; 
         element {exactly-one((//*)[3])} {}</test>
       <result>
-         <assert-serialization><![CDATA[<Boston xmlns="http://example.com/NS"/>]]></assert-serialization>
+         <assert-xml><![CDATA[<Boston xmlns="http://example.com/NS"/>]]></assert-xml>
       </result>
    </test-case>
 

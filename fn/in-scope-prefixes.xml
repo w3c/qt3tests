@@ -458,7 +458,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[declare default element namespace "http://www.example.com/"; let $i := <e> <a xmlns=""/> <b xmlns="http://www.example.com/"/> <c xmlns="http://www.example.com/Second"/> </e> return (count(in-scope-prefixes($i)), count(in-scope-prefixes(exactly-one($i/*[namespace-uri() eq ""]))), count(in-scope-prefixes(exactly-one($i/b))), count(in-scope-prefixes(exactly-one($i/*[namespace-uri() eq "http://www.example.com/Second"]))), $i)]]></test>
       <result>
-         <assert-serialization><![CDATA[2 1 2 2<e xmlns="http://www.example.com/"><a xmlns=""/><b/><c xmlns="http://www.example.com/Second"/></e>]]></assert-serialization>
+         <assert-xml><![CDATA[2 1 2 2<e xmlns="http://www.example.com/"><a xmlns=""/><b/><c xmlns="http://www.example.com/Second"/></e>]]></assert-xml>
       </result>
    </test-case>
 
@@ -468,7 +468,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test>declare default element namespace "http://www.example.com/"; let $i := element e { element {QName("", "a")} {}, element {QName("http://www.example.com/", "b")} {}, element {QName("http://www.example.com/Second", "c")} {} } return (count(in-scope-prefixes($i)), count(in-scope-prefixes(exactly-one($i/*[namespace-uri() eq ""]))), count(in-scope-prefixes(exactly-one($i/b))), count(in-scope-prefixes(exactly-one($i/*[namespace-uri() eq "http://www.example.com/Second"]))), $i)</test>
       <result>
-         <assert-serialization><![CDATA[2 1 2 2<e xmlns="http://www.example.com/"><a xmlns=""/><b/><c xmlns="http://www.example.com/Second"/></e>]]></assert-serialization>
+         <assert-xml><![CDATA[2 1 2 2<e xmlns="http://www.example.com/"><a xmlns=""/><b/><c xmlns="http://www.example.com/Second"/></e>]]></assert-xml>
       </result>
    </test-case>
 
@@ -533,7 +533,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[declare default element namespace "http://example.com/"; <e xmlns:p="http://example.com/"> { count(in-scope-prefixes(<e/>)), count(in-scope-prefixes(element e {()})) } </e>]]></test>
       <result>
-         <assert-serialization><![CDATA[<e xmlns="http://example.com/" xmlns:p="http://example.com/">3 3</e>]]></assert-serialization>
+         <assert-xml><![CDATA[<e xmlns="http://example.com/" xmlns:p="http://example.com/">3 3</e>]]></assert-xml>
       </result>
    </test-case>
 
@@ -623,7 +623,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[let $i := <e> { attribute {QName("http://example.com/", "prefix:attributeName")} {()} } </e> return ($i, for $ps in in-scope-prefixes($i) order by $ps return $ps)]]></test>
       <result>
-         <assert-serialization><![CDATA[<e xmlns:prefix="http://example.com/" prefix:attributeName=""/>prefix xml]]></assert-serialization>
+         <assert-xml><![CDATA[<e xmlns:prefix="http://example.com/" prefix:attributeName=""/>prefix xml]]></assert-xml>
       </result>
    </test-case>
 
@@ -643,7 +643,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[declare default element namespace "http://www.example.com/"; let $i := <e> <a xmlns=""/> <b xmlns="http://www.example.com/"/> <c xmlns="http://www.example.com/Second"/> </e> return (count(in-scope-prefixes($i)), count(in-scope-prefixes(exactly-one($i/*[namespace-uri() eq ""]))), count(in-scope-prefixes(exactly-one($i/b))), count(in-scope-prefixes(exactly-one($i/*[namespace-uri() eq "http://www.example.com/Second"]))), $i)]]></test>
       <result>
-         <assert-serialization><![CDATA[2 1 2 2<e xmlns="http://www.example.com/"><a xmlns=""/><b/><c xmlns="http://www.example.com/Second"/></e>]]></assert-serialization>
+         <assert-xml><![CDATA[2 1 2 2<e xmlns="http://www.example.com/"><a xmlns=""/><b/><c xmlns="http://www.example.com/Second"/></e>]]></assert-xml>
       </result>
    </test-case>
 
@@ -653,7 +653,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[declare default element namespace "http://www.example.com/"; <a2/>/element e { element {QName("", "a")} {} }]]></test>
       <result>
-         <assert-serialization><![CDATA[<e xmlns="http://www.example.com/"><a xmlns=""/></e>]]></assert-serialization>
+         <assert-xml><![CDATA[<e xmlns="http://www.example.com/"><a xmlns=""/></e>]]></assert-xml>
       </result>
    </test-case>
 
@@ -663,7 +663,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[declare default element namespace "http://www.example.com/"; <a2 xmlns:p="http://ns.example.com/foo"/>/element e { element {QName("http://example.com/2", "p:a")} {} }]]></test>
       <result>
-         <assert-serialization><![CDATA[<e xmlns="http://www.example.com/"><p:a xmlns:p="http://example.com/2"/></e>]]></assert-serialization>
+         <assert-xml><![CDATA[<e xmlns="http://www.example.com/"><p:a xmlns:p="http://example.com/2"/></e>]]></assert-xml>
       </result>
    </test-case>
 </test-set>

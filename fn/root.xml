@@ -48,7 +48,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[let $var := <!-- A Comment Node --> return fn:root($var)]]></test>
       <result>
-         <assert-serialization><![CDATA[<!-- A Comment Node -->]]></assert-serialization>
+         <assert-xml><![CDATA[<!-- A Comment Node -->]]></assert-xml>
       </result>
    </test-case>
 
@@ -58,7 +58,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[fn:root(<!-- A Comment Node -->)]]></test>
       <result>
-         <assert-serialization><![CDATA[<!-- A Comment Node -->]]></assert-serialization>
+         <assert-xml><![CDATA[<!-- A Comment Node -->]]></assert-xml>
       </result>
    </test-case>
 
@@ -68,7 +68,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[let $var := <anElement>An Element Content</anElement> return fn:root($var)]]></test>
       <result>
-         <assert-serialization><![CDATA[<anElement>An Element Content</anElement>]]></assert-serialization>
+         <assert-xml><![CDATA[<anElement>An Element Content</anElement>]]></assert-xml>
       </result>
    </test-case>
 
@@ -78,7 +78,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[fn:root(<anElement>An Element Content</anElement>)]]></test>
       <result>
-         <assert-serialization><![CDATA[<anElement>An Element Content</anElement>]]></assert-serialization>
+         <assert-xml><![CDATA[<anElement>An Element Content</anElement>]]></assert-xml>
       </result>
    </test-case>
 
@@ -88,7 +88,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[let $var := <?format role="output" ?> return fn:root($var)]]></test>
       <result>
-         <assert-serialization><![CDATA[<?format role="output" ?>]]></assert-serialization>
+         <assert-xml><![CDATA[<?format role="output" ?>]]></assert-xml>
       </result>
    </test-case>
 
@@ -98,7 +98,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[fn:root(<?format role="output" ?>)]]></test>
       <result>
-         <assert-serialization><![CDATA[<?format role="output" ?>]]></assert-serialization>
+         <assert-xml><![CDATA[<?format role="output" ?>]]></assert-xml>
       </result>
    </test-case>
 
@@ -108,7 +108,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test>let $var := element anElement {attribute anAttribute {"Attribute Value"}} return fn:root($var)</test>
       <result>
-         <assert-serialization><![CDATA[<anElement anAttribute="Attribute Value"/>]]></assert-serialization>
+         <assert-xml><![CDATA[<anElement anAttribute="Attribute Value"/>]]></assert-xml>
       </result>
    </test-case>
 
@@ -118,7 +118,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test>fn:root(element anElement {attribute anAttribute {"Attribute Value"}})</test>
       <result>
-         <assert-serialization><![CDATA[<anElement anAttribute="Attribute Value"/>]]></assert-serialization>
+         <assert-xml><![CDATA[<anElement anAttribute="Attribute Value"/>]]></assert-xml>
       </result>
    </test-case>
 
@@ -128,7 +128,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[let $var := document {<anElement><anInternalElement>element content</anInternalElement></anElement>} return fn:root($var)]]></test>
       <result>
-         <assert-serialization><![CDATA[<anElement><anInternalElement>element content</anInternalElement></anElement>]]></assert-serialization>
+         <assert-xml><![CDATA[<anElement><anInternalElement>element content</anInternalElement></anElement>]]></assert-xml>
       </result>
    </test-case>
 
@@ -138,7 +138,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[fn:root(document {<anElement><anInternalElement>element content</anInternalElement></anElement>})]]></test>
       <result>
-         <assert-serialization><![CDATA[<anElement><anInternalElement>element content</anInternalElement></anElement>]]></assert-serialization>
+         <assert-xml><![CDATA[<anElement><anInternalElement>element content</anInternalElement></anElement>]]></assert-xml>
       </result>
    </test-case>
 
@@ -148,12 +148,12 @@
       <environment ref="lang"/>
       <test>fn:root(fn:exactly-one(/langs[1]/para[1]))</test>
       <result>
-         <assert-serialization><![CDATA[<langs>
+         <assert-xml><![CDATA[<langs>
  <para xml:lang="en"/>
  <div xml:lang="en"><para>And now, and forever!</para></div>
  <para xml:lang="EN"/>
  <para xml:lang="en-us"/>
-</langs>]]></assert-serialization>
+</langs>]]></assert-xml>
       </result>
    </test-case>
 
@@ -163,12 +163,12 @@
       <environment ref="lang"/>
       <test>fn:root(/langs[1]/para[1]/@xml:lang)</test>
       <result>
-         <assert-serialization><![CDATA[<langs>
+         <assert-xml><![CDATA[<langs>
  <para xml:lang="en"/>
  <div xml:lang="en"><para>And now, and forever!</para></div>
  <para xml:lang="EN"/>
  <para xml:lang="en-us"/>
-</langs>]]></assert-serialization>
+</langs>]]></assert-xml>
       </result>
    </test-case>
 
@@ -310,7 +310,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[fn:root(<e/>)]]></test>
       <result>
-         <assert-serialization><![CDATA[<e/>]]></assert-serialization>
+         <assert-xml><![CDATA[<e/>]]></assert-xml>
       </result>
    </test-case>
 
@@ -330,7 +330,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[fn:root(<!-- comment -->)]]></test>
       <result>
-         <assert-serialization><![CDATA[<!-- comment -->]]></assert-serialization>
+         <assert-xml><![CDATA[<!-- comment -->]]></assert-xml>
       </result>
    </test-case>
 
@@ -340,7 +340,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[<e>{fn:root(attribute name {"value"})}</e>]]></test>
       <result>
-         <assert-serialization><![CDATA[<e name="value"/>]]></assert-serialization>
+         <assert-xml><![CDATA[<e name="value"/>]]></assert-xml>
       </result>
    </test-case>
 
@@ -350,7 +350,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[fn:root(<?target data?>)]]></test>
       <result>
-         <assert-serialization><![CDATA[<?target data?>]]></assert-serialization>
+         <assert-xml><![CDATA[<?target data?>]]></assert-xml>
       </result>
    </test-case>
 

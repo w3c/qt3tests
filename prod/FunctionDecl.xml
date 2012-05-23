@@ -50,7 +50,7 @@
         local:foo(4)
       ]]></test>
       <result>
-         <assert-serialization><![CDATA[<tr>4</tr>]]></assert-serialization>
+         <assert-xml><![CDATA[<tr>4</tr>]]></assert-xml>
       </result>
    </test-case>
 
@@ -62,7 +62,7 @@
         declare function local:price ($i as element()) as element()? { $i/price };
         for $j in /bib/book return local:price($j)</test>
       <result>
-         <assert-serialization><![CDATA[<price>65.95</price><price>65.95</price><price>39.95</price><price>129.95</price>]]></assert-serialization>
+         <assert-xml><![CDATA[<price>65.95</price><price>65.95</price><price>39.95</price><price>129.95</price>]]></assert-xml>
       </result>
    </test-case>
 
@@ -84,7 +84,7 @@
         local:summary(//employee[location = "Denver"])
       ]]></test>
       <result>
-         <assert-serialization><![CDATA[<dept><deptno>1</deptno><headcount>2</headcount><payroll>130000</payroll></dept><dept><deptno>2</deptno><headcount>1</headcount><payroll>80000</payroll></dept>]]></assert-serialization>
+         <assert-xml><![CDATA[<dept><deptno>1</deptno><headcount>2</headcount><payroll>130000</payroll></dept><dept><deptno>2</deptno><headcount>1</headcount><payroll>80000</payroll></dept>]]></assert-xml>
       </result>
    </test-case>
 
@@ -135,7 +135,7 @@
         declare variable $my:ten := my:fact(10);
         <table> { for $i in 1 to 10 return <tr> <td>10!/{$i}! = {$my:ten div my:fact($i)}</td> </tr> } </table>]]></test>
       <result>
-         <assert-serialization><![CDATA[<table><tr><td>10!/1! = 3628800</td></tr><tr><td>10!/2! = 1814400</td></tr><tr><td>10!/3! = 604800</td></tr><tr><td>10!/4! = 151200</td></tr><tr><td>10!/5! = 30240</td></tr><tr><td>10!/6! = 5040</td></tr><tr><td>10!/7! = 720</td></tr><tr><td>10!/8! = 90</td></tr><tr><td>10!/9! = 10</td></tr><tr><td>10!/10! = 1</td></tr></table>]]></assert-serialization>
+         <assert-xml><![CDATA[<table><tr><td>10!/1! = 3628800</td></tr><tr><td>10!/2! = 1814400</td></tr><tr><td>10!/3! = 604800</td></tr><tr><td>10!/4! = 151200</td></tr><tr><td>10!/5! = 30240</td></tr><tr><td>10!/6! = 5040</td></tr><tr><td>10!/7! = 720</td></tr><tr><td>10!/8! = 90</td></tr><tr><td>10!/9! = 10</td></tr><tr><td>10!/10! = 1</td></tr></table>]]></assert-xml>
       </result>
    </test-case>
 
@@ -147,7 +147,7 @@
         declare function local:fact($n as xs:integer) as xs:integer { if ($n < 2) then 1 else $n * local:fact(($n)-1) };
         <table> { for $i in 1 to 10 return <tr> <td>{$i}! = {local:fact($i)}</td> </tr> } </table>]]></test>
       <result>
-         <assert-serialization><![CDATA[<table><tr><td>1! = 1</td></tr><tr><td>2! = 2</td></tr><tr><td>3! = 6</td></tr><tr><td>4! = 24</td></tr><tr><td>5! = 120</td></tr><tr><td>6! = 720</td></tr><tr><td>7! = 5040</td></tr><tr><td>8! = 40320</td></tr><tr><td>9! = 362880</td></tr><tr><td>10! = 3628800</td></tr></table>]]></assert-serialization>
+         <assert-xml><![CDATA[<table><tr><td>1! = 1</td></tr><tr><td>2! = 2</td></tr><tr><td>3! = 6</td></tr><tr><td>4! = 24</td></tr><tr><td>5! = 120</td></tr><tr><td>6! = 720</td></tr><tr><td>7! = 5040</td></tr><tr><td>8! = 40320</td></tr><tr><td>9! = 362880</td></tr><tr><td>10! = 3628800</td></tr></table>]]></assert-xml>
       </result>
    </test-case>
 
@@ -159,7 +159,7 @@
         declare function local:prnt($n as xs:integer,$n2 as xs:string, $n3 as xs:date, $n4 as xs:long, $n5 as xs:string, $n6 as xs:decimal) { if ($n < 2) then 1 else concat($n, " ",$n2," ",$n3," ",$n4," ",$n5," ",$n6) };
         <table> { <td>Value is = {local:prnt(4,xs:string("hello"),xs:date("2005-02-22"), xs:long(5),xs:string("well"),xs:decimal(1.2))}</td> } </table>]]></test>
       <result>
-         <assert-serialization><![CDATA[<table><td>Value is = 4 hello 2005-02-22 5 well 1.2</td></table>]]></assert-serialization>
+         <assert-xml><![CDATA[<table><td>Value is = 4 hello 2005-02-22 5 well 1.2</td></table>]]></assert-xml>
       </result>
    </test-case>
 
@@ -231,7 +231,7 @@
         declare function local:title($a_book as element()) { for $i in $a_book return $i/title };
         /bib/book/(local:title(.))</test>
       <result>
-         <assert-serialization><![CDATA[<title>TCP/IP Illustrated</title><title>Advanced Programming in the Unix environment</title><title>Data on the Web</title><title>The Economics of Technology and Content for Digital TV</title>]]></assert-serialization>
+         <assert-xml><![CDATA[<title>TCP/IP Illustrated</title><title>Advanced Programming in the Unix environment</title><title>Data on the Web</title><title>The Economics of Technology and Content for Digital TV</title>]]></assert-xml>
       </result>
    </test-case>
 
@@ -246,7 +246,7 @@
         local:udf1(10)
       ]]></test>
       <result>
-         <assert-serialization><![CDATA[<empty xmlns="http://www.example.com/filesystem">1000</empty>]]></assert-serialization>
+         <assert-xml><![CDATA[<empty xmlns="http://www.example.com/filesystem">1000</empty>]]></assert-xml>
       </result>
    </test-case>
 
@@ -260,7 +260,7 @@
         local:udf1 ()
       ]]></test>
       <result>
-         <assert-serialization><![CDATA[<empty xmlns="http://www.example.com/filesystem">100</empty>]]></assert-serialization>
+         <assert-xml><![CDATA[<empty xmlns="http://www.example.com/filesystem">100</empty>]]></assert-xml>
       </result>
    </test-case>
 
@@ -276,7 +276,7 @@
         declare function test2:udf1() { <empty/> };
         <A> {test:udf1()} {test2:udf1()} </A>]]></test>
       <result>
-         <assert-serialization><![CDATA[<A xmlns="http://www.example.com/def"><empty>100</empty><empty/></A>]]></assert-serialization>
+         <assert-xml><![CDATA[<A xmlns="http://www.example.com/def"><empty>100</empty><empty/></A>]]></assert-xml>
       </result>
    </test-case>
 
@@ -1458,7 +1458,7 @@
       <test><![CDATA[       declare function local:myFunc($recurse as xs:integer) { attribute {concat("name", $recurse)} {()} , if ($recurse = 0) then () else local:myFunc($recurse - 1) };
         <e> { local:myFunc((2, current-time())[1] treat as xs:integer) } </e>]]></test>
       <result>
-         <assert-serialization><![CDATA[<e name2="" name1="" name0=""/>]]></assert-serialization>
+         <assert-xml><![CDATA[<e name2="" name1="" name0=""/>]]></assert-xml>
       </result>
    </test-case>
 

@@ -23,7 +23,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[declare copy-namespaces preserve,no-inherit; declare default element namespace "http://example.org/names"; declare variable $input-context1 external; let $new := <newElement xmlns = "http://www.example.com/mynamespace">{element original {"Original Content"}}</newElement> return $new//*]]></test>
       <result>
-         <assert-serialization><![CDATA[<original xmlns="http://www.example.com/mynamespace">Original Content</original>]]></assert-serialization>
+         <assert-xml><![CDATA[<original xmlns="http://www.example.com/mynamespace">Original Content</original>]]></assert-xml>
       </result>
    </test-case>
 
@@ -284,7 +284,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[declare copy-namespaces no-preserve, inherit; <doc> <a>{<b xmlns:p="http://example.com/"/>}</a> <a><b xmlns:p="http://example.com/"/></a> </doc>]]></test>
       <result>
-         <assert-serialization><![CDATA[<doc><a><b/></a><a><b xmlns:p="http://example.com/"/></a></doc>]]></assert-serialization>
+         <assert-xml><![CDATA[<doc><a><b/></a><a><b xmlns:p="http://example.com/"/></a></doc>]]></assert-xml>
       </result>
    </test-case>
 
@@ -312,7 +312,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[declare copy-namespaces preserve, no-inherit; <e xmlns="http://example.com/"> { <b/> } </e>]]></test>
       <result>
-         <assert-serialization><![CDATA[<e xmlns="http://example.com/"><b/></e>]]></assert-serialization>
+         <assert-xml><![CDATA[<e xmlns="http://example.com/"><b/></e>]]></assert-xml>
       </result>
    </test-case>
 
@@ -322,7 +322,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[declare copy-namespaces no-preserve, no-inherit; <e xmlns:appearsUnused="http://example.com/"> { <b> <appearsUnused:c/> </b> } </e>]]></test>
       <result>
-         <assert-serialization><![CDATA[<e xmlns:appearsUnused="http://example.com/"><b><appearsUnused:c xmlns:appearsUnused="http://example.com/"/></b></e>]]></assert-serialization>
+         <assert-xml><![CDATA[<e xmlns:appearsUnused="http://example.com/"><b><appearsUnused:c xmlns:appearsUnused="http://example.com/"/></b></e>]]></assert-xml>
       </result>
    </test-case>
 
@@ -342,7 +342,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[declare copy-namespaces no-preserve, no-inherit; <e> { <b> <c xmlns:unused="http://example.com"/> </b> } </e>]]></test>
       <result>
-         <assert-serialization><![CDATA[<e><b><c/></b></e>]]></assert-serialization>
+         <assert-xml><![CDATA[<e><b><c/></b></e>]]></assert-xml>
       </result>
    </test-case>
 
@@ -352,7 +352,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[declare copy-namespaces no-preserve,inherit; <a> { <b>{()}</b> } </a>]]></test>
       <result>
-         <assert-serialization><![CDATA[<a><b/></a>]]></assert-serialization>
+         <assert-xml><![CDATA[<a><b/></a>]]></assert-xml>
       </result>
    </test-case>
 
