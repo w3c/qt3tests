@@ -22,7 +22,10 @@
       <modified by="O'Neil Delpratt" on="2012-05-23" change="Bug fix related to bug #14955"/>
       <test>xquery version "1.0" (:encoding "utf-8xx":); 1,2</test>
       <result>
-         <error code="*"/>
+          <any-of>
+            <assert-string-value>1 2</assert-string-value>
+            <error code="*"/>
+          </any-of>
       </result>
    </test-case>
 
@@ -34,7 +37,10 @@
       <modified by="O'Neil Delpratt" on="2012-05-23" change="Bug fix related to bug #14955"/>
       <test><![CDATA[(:encoding "utf-8xx":)xquery version "1.0"; <bib/>]]></test>
       <result>
-        <error code="*"/>
+          <any-of>
+             <assert-xml><![CDATA[<bib/>]]></assert-xml>
+             <error code="*"/>
+          </any-of>
       </result>
    </test-case>
 
@@ -46,7 +52,10 @@
       <environment ref="bib2"/>
       <test>(:encoding "abc":)xquery version '1.0'; declare boundary-space preserve; declare default order empty greatest; declare namespace ns = "http://www.example.org/"; declare variable $input-context external; for $b in $input-context//book stable order by xs:decimal($b/price) empty greatest return $b/title</test>
       <result>
-          <error code="*"/>
+          <any-of>
+                <assert-xml><![CDATA[<title>Data on the Web</title><title>TCP/IP Illustrated</title><title>Advanced Programming in the Unix environment</title><title>The Economics of Technology and Content for Digital TV</title>]]></assert-xml>
+                <error code="*"/>
+          </any-of>
       </result>
    </test-case>
 
@@ -58,7 +67,10 @@
       <environment ref="bib2"/>
       <test>(:encoding "abc":)xquery version "1.0"; declare boundary-space preserve; declare default order empty greatest; declare namespace ns = "http://www.example.org/"; declare variable $input-context external; for $b in $input-context//book stable order by xs:decimal($b/price) empty greatest return $b/title</test>
       <result>
-          <error code="*"/>
+          <any-of>
+            <assert-xml><![CDATA[<title>Data on the Web</title><title>TCP/IP Illustrated</title><title>Advanced Programming in the Unix environment</title><title>The Economics of Technology and Content for Digital TV</title>]]></assert-xml>
+            <error code="*"/>
+          </any-of>
       </result>
    </test-case>
 
@@ -248,7 +260,10 @@
       <created by="Frans Englich" on="2007-11-26"/>
       <test>(:encoding "UTF-8XX":)xquery version "1.0" encoding "UTF-8"; 1 eq 1</test>
       <result>
-          <error code="*"/>
+          <any-of>
+            <assert-true/>
+            <error code="*"/>
+          </any-of>
       </result>
    </test-case>
 
