@@ -23,7 +23,7 @@
       <description>Check that the function exists</description>
       <created by="Liam Quin" on="2012-02-17"/>
       <dependency type="spec" value="XP30+ XQ30+"/>
-      <test>fn:exists(fn:available-environment-variable#1)</test>
+      <test>fn:exists(environment-variable#1)</test>
       <result>
          <assert-true />
       </result>
@@ -33,7 +33,9 @@
       <description>Check that we can look the function up</description>
       <created by="Liam Quin" on="2012-02-17"/>
       <dependency type="spec" value="XP30+ XQ30+"/>
-      <test>not(fn:empty(fn:function-lookup(fn:environment-variable, 1)))</test>
+      <test>not(fn:empty(fn:function-lookup(
+	  fn:QName('http://www.w3.org/2005/xpath-functions',
+	  'environment-variable') , 1)))</test>
       <result>
          <assert-true />
       </result>
@@ -43,7 +45,7 @@
       <description>Check that it has arity 1, not 0</description>
       <created by="Liam Quin" on="2012-02-17"/>
       <dependency type="spec" value="XP30+ XQ30+"/>
-      <test>fn:available-environment-variables#0</test>
+      <test>fn:environment-variables#0</test>
       <result>
          <error code="XPST0017" />
       </result>
@@ -53,7 +55,7 @@
       <description>Check that it has arity 1, not 2</description>
       <created by="Liam Quin" on="2012-02-17"/>
       <dependency type="spec" value="XP30+ XQ30+"/>
-      <test>fn:available-environment-variables#2</test>
+      <test>fn:environment-variables#2</test>
       <result>
          <error code="XPST0017" />
       </result>
