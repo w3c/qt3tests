@@ -8,6 +8,13 @@
          
    <dependency type="spec" value="XQ30+"/>      
 
+   <environment name="hats" >
+      <schema uri="http://www.w3.org/XQueryTest/hats" file="SchemaImport/hats.xsd">
+         <description>A schema defining a motley collection of types.</description>
+         <created by="Michael Kay" on="2006-11-14"/>
+      </schema>
+   </environment>
+
    <test-case name="extvardef-001">
       <description>external variable with a default value </description>
       <created by="Michael Kay" on="2008-12-01"/>
@@ -433,7 +440,7 @@
           $x
         };
         declare variable $x external := 5;
-        $y instance of xs:decimal
+        local:foo()
       ]]></test>
       <result>
         <assert-eq>5</assert-eq>
@@ -443,10 +450,11 @@
    <test-case name="extvardef-023">
       <description>Schema validation in default external var. </description>
       <created by="David Graf" on="2011-12-05"/>
+      <environment ref="hats"/>
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
         declare construction strip; 
-        import schema default element namespace "http://www.w3.org/XQueryTest/hats" at "SchemaImport/hats.xsd"; 
+        import schema default element namespace "http://www.w3.org/XQueryTest/hats";
         declare variable $x :=
           validate strict {
             <abf> 
@@ -462,10 +470,11 @@
    <test-case name="extvardef-024">
       <description>Schema validation failure in default external var. </description>
       <created by="David Graf" on="2011-12-05"/>
+      <environment ref="hats"/>
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
         declare construction strip; 
-        import schema default element namespace "http://www.w3.org/XQueryTest/hats" at "SchemaImport/hats.xsd"; 
+        import schema default element namespace "http://www.w3.org/XQueryTest/hats"; 
         declare variable $x external :=
           validate strict {
             <abc> 
@@ -481,10 +490,11 @@
    <test-case name="extvardef-025">
       <description>Schema validation in default external var, incl variable type. Type match. </description>
       <created by="David Graf" on="2011-12-05"/>
+      <environment ref="hats"/>
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
         declare construction strip; 
-        import schema namespace hats="http://www.w3.org/XQueryTest/hats" at "SchemaImport/hats.xsd"; 
+        import schema namespace hats="http://www.w3.org/XQueryTest/hats"; 
         declare variable $x as schema-element(hats:abf) external :=
           validate strict {
             <hats:abf> 
@@ -500,10 +510,11 @@
    <test-case name="extvardef-026">
       <description>Schema validation in default external var, incl variable type. Type missmatch. </description>
       <created by="David Graf" on="2011-12-05"/>
+      <environment ref="hats"/>
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
         declare construction strip; 
-        import schema namespace hats="http://www.w3.org/XQueryTest/hats" at "SchemaImport/hats.xsd"; 
+        import schema namespace hats="http://www.w3.org/XQueryTest/hats"; 
         declare variable $x as schema-element(hats:s) external :=
           validate strict {
             <hats:abf> 
@@ -519,10 +530,11 @@
    <test-case name="extvardef-027">
       <description>Schema validation in default external var, incl variable type. Validation missing. </description>
       <created by="David Graf" on="2011-12-05"/>
+      <environment ref="hats"/>
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
         declare construction strip; 
-        import schema namespace hats="http://www.w3.org/XQueryTest/hats" at "SchemaImport/hats.xsd"; 
+        import schema namespace hats="http://www.w3.org/XQueryTest/hats"; 
         declare variable $x as schema-element(hats:s) external :=
             <hats:abf> 
               <hats:a/> <hats:b/> <hats:b/> <hats:f/> <hats:f/> <hats:f/> 
