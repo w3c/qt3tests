@@ -4321,21 +4321,24 @@
       <assert-string-value>fn:QName</assert-string-value>
     </result>
   </test-case>
-<!--
   <test-case name="fn-function-lookup-521">
     <description>Attempts to look up function xs:dateTimeStamp.</description>
     <created by="Tim Mills" on="2011-11-28"/>
+    <modified by="Michael Kay" on="2012-05-25" change="allow absence of function"/>
     <test>exists(function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'dateTimeStamp'), 1))</test>
     <result>
-      <assert-true/>
+      <assert-type>xs:boolean</assert-type>
     </result>
   </test-case>
   <test-case name="fn-function-lookup-522">
     <description>Attempts to invoke function xs:dateTimeStamp.</description>
     <created by="Tim Mills" on="2011-11-28"/>
-    <test>function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'dateTimeStamp'), 1)('1')</test>
+    <modified by="Michael Kay" on="2012-05-25" change="allow absence of function"/>
+    <test>
+      let $f := function-lookup(fn:QName('http://www.w3.org/2001/XMLSchema', 'dateTimeStamp'), 1)
+      return if (exists($f)) then year-from-dateTime($f('2012-05-25T11:42:00+01:00')) else 2012</test>
     <result>
-      <assert-string-value>1</assert-string-value>
+      <assert-eq>2012</assert-eq>
     </result>
   </test-case>
 -->
