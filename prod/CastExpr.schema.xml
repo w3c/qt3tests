@@ -653,14 +653,20 @@
        <test-case name="CastAs-UnionType-1">
        <description>Test the union type that should return an xs:integer value</description>
        <created by="O'Neil Delpratt" on="2011-10-27"/>
+       <modified by="Michael Kay" on="2012-05-27" change="add type assertion"/>
        <environment ref="union-List-defined-Types"/>
        <dependency type="spec" value="XQ30+"/>
-       <test><![CDATA[
-       xquery version "3.0";
-       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
-      123 cast as s:myUnionType1]]>
+       <test>
+         xquery version "3.0";
+         import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+         123 cast as s:myUnionType1
        </test>
-       <result><assert-string-value>123</assert-string-value></result>
+       <result>
+         <all-of>
+           <assert-string-value>123</assert-string-value>
+           <assert-type>xs:integer</assert-type>
+         </all-of>           
+       </result>
    </test-case>
 
     <test-case name="CastAs-UnionType-2">
@@ -668,16 +674,16 @@
        <created by="O'Neil Delpratt" on="2011-10-27"/>
        <environment ref="union-List-defined-Types"/>
        <dependency type="spec" value="XQ30+"/>
-       <test><![CDATA[
-       xquery version "3.0";
-       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
-      "123" cast as s:myUnionType1]]>
+       <test>
+         xquery version "3.0";
+         import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+         "123" cast as s:myUnionType1
        </test>
        <result>
-           <all-of>
+         <all-of>
            <assert-string-value>123</assert-string-value>
-               <assert-type>xs:integer</assert-type>
-       </all-of>
+           <assert-type>xs:integer</assert-type>
+         </all-of>
        </result>
    </test-case>
 
@@ -686,63 +692,397 @@
        <created by="O'Neil Delpratt" on="2011-10-27"/>
        <environment ref="union-List-defined-Types"/>
        <dependency type="spec" value="XQ30+"/>
-       <test><![CDATA[
-       xquery version "3.0";
-       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
-      123.12 cast as s:myUnionType1]]>
+       <test>
+         xquery version "3.0";
+         import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+         123.12 cast as s:myUnionType1
        </test>
-       <result> <all-of>
+       <result>
+         <all-of>
            <assert-string-value>123</assert-string-value>
-               <assert-type>xs:integer</assert-type>
-       </all-of></result>
+           <assert-type>xs:integer</assert-type>
+         </all-of>
+       </result>
    </test-case>
 
     <test-case name="CastAs-UnionType-4">
        <description>Test the string of decimal value cast to union type. Should fail
-       on the grounds that the string value is not i nthe lexical space of the union type</description>
+       on the grounds that the string value is not in the lexical space of the union type</description>
        <created by="O'Neil Delpratt" on="2011-10-27"/>
        <environment ref="union-List-defined-Types"/>
        <dependency type="spec" value="XQ30+"/>
-       <test><![CDATA[
-       xquery version "3.0";
-       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
-      "123.12" cast as s:myUnionType1]]>
+       <test>
+         xquery version "3.0";
+         import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+         "123.12" cast as s:myUnionType1
        </test>
        <result><error code="FORG0001"/></result>
    </test-case>
 
    <test-case name="CastAs-UnionType-5">
-       <description>Test the string of decimal value cast to union type. Should fail
-       on the grounds that the string value is not i nthe lexical space of the union type</description>
+       <description>Test cast to union type.</description>
        <created by="O'Neil Delpratt" on="2011-10-27"/>
        <environment ref="union-List-defined-Types"/>
        <dependency type="spec" value="XQ30+"/>
-       <test><![CDATA[
-       xquery version "3.0";
-       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
-      "IB123456789" cast as s:myUnionType2]]>
+       <test>
+         xquery version "3.0";
+         import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+        "IB123456789" cast as s:myUnionType2
        </test>
-      <result> <all-of>
+      <result> 
+        <all-of>
            <assert-string-value>IB123456789</assert-string-value>
-               <assert-type>xs:string</assert-type>
-       </all-of></result>
+           <assert-type>xs:string</assert-type>
+        </all-of>
+      </result>
    </test-case>
 
     <test-case name="CastAs-UnionType-5a">
        <description>Test the string of decimal value cast to union type. Should fail
-       on the grounds that the string value is not i nthe lexical space of the union type</description>
+       on the grounds that the string value is not in the lexical space of the union type</description>
        <created by="O'Neil Delpratt" on="2011-10-27"/>
        <environment ref="union-List-defined-Types"/>
        <dependency type="spec" value="XQ30+"/>
-       <test><![CDATA[
-       xquery version "3.0";
-       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
-      "AD123456789" cast as s:myUnionType2]]>
+       <test>
+         xquery version "3.0";
+         import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+         "AD123456789" cast as s:myUnionType2
        </test>
       <result><error code="FORG0001"/></result>
    </test-case>
 
-
+   <test-case name="CastAs-UnionType-6">
+       <description>Test decimal value cast to a union type using a constructor function. 
+          Should return an xs:integer value</description>
+       <created by="Michael Kay" on="2012-05-25"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <test>
+         xquery version "3.0";
+         import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+         s:myUnionType1(123.12) 
+       </test>
+       <result>
+         <all-of>
+           <assert-string-value>123</assert-string-value>
+           <assert-type>xs:integer</assert-type>
+         </all-of>
+       </result>
+   </test-case>
+   
+   <test-case name="CastAs-UnionType-7">
+       <description>Test decimal value cast to a union type using a constructor function
+          supplied as a NamedFunctionRef. 
+          Should return an xs:integer value</description>
+       <created by="Michael Kay" on="2012-05-25"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <test>
+         xquery version "3.0";
+         import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+         let $f := s:myUnionType1#1
+         return $f(123.12) 
+       </test>
+       <result>
+         <all-of>
+           <assert-string-value>123</assert-string-value>
+           <assert-type>xs:integer</assert-type>
+         </all-of>
+       </result>
+   </test-case>
+   
+  <test-case name="CastAs-UnionType-8">
+       <description>Test decimal value cast to a union type using a constructor function
+          found using function lookup. 
+          Should return an xs:integer value</description>
+       <created by="Michael Kay" on="2012-05-25"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <test>
+         xquery version "3.0";
+         import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+         let $f := function-lookup(QName("http://www.w3.org/XQueryTest/unionListDefined", "myUnionType1"), 1)
+         return $f(123.12) 
+       </test>
+       <result>
+         <all-of>
+           <assert-string-value>123</assert-string-value>
+           <assert-type>xs:integer</assert-type>
+         </all-of>
+       </result>
+   </test-case>
+   
+   <test-case name="CastAs-UnionType-9">
+       <description>Test decimal value cast to a union type using a constructor function
+          found using partial function application. 
+          Should return an xs:integer value</description>
+       <created by="Michael Kay" on="2012-05-25"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <test>
+         xquery version "3.0";
+         import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+         let $f := s:myUnionType1(?)
+         return $f(123.12) 
+       </test>
+       <result>
+         <all-of>
+           <assert-string-value>123</assert-string-value>
+           <assert-type>xs:integer</assert-type>
+         </all-of>
+       </result>
+   </test-case>
+   
+   <test-case name="CastAs-UnionType-10">
+       <description>Cast to a namespace-sensitive union type</description>
+       <created by="Michael Kay" on="2012-05-25"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <test>
+         xquery version "3.0";
+         import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+         namespace-uri-from-QName("xs:integer" cast as s:sensitiveUnion)
+       </test>
+       <result>
+         <all-of>
+           <assert-string-value>http://www.w3.org/2001/XMLSchema</assert-string-value>
+           <assert-type>xs:anyURI</assert-type>
+         </all-of>
+       </result>
+   </test-case>
+   
+   <test-case name="CastAs-UnionType-11">
+       <description>Constructor function for a namespace-sensitive union type</description>
+       <created by="Michael Kay" on="2012-05-25"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <test>
+         xquery version "3.0";
+         import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+         namespace-uri-from-QName(s:sensitiveUnion('xs:integer'))
+       </test>
+       <result>
+         <all-of>
+           <assert-string-value>http://www.w3.org/2001/XMLSchema</assert-string-value>
+           <assert-type>xs:anyURI</assert-type>
+         </all-of>
+       </result>
+   </test-case>
+   
+   <test-case name="CastAs-UnionType-12">
+       <description>Constructor function for a namespace-sensitive union type</description>
+       <created by="Michael Kay" on="2012-05-25"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <test>
+         xquery version "3.0";
+         import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+         s:sensitiveUnion('xs:integer') instance of s:sensitiveUnion
+       </test>
+       <result>
+         <assert-true/>
+       </result>
+   </test-case>
+   
+   <test-case name="CastAs-UnionType-13">
+       <description>Dynamic use of Constructor function for a namespace-sensitive union type;
+         different namespace contexts. Fails because it's the NS context of
+         function-lookup() that matters.</description>
+       <created by="Michael Kay" on="2012-05-25"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <test><![CDATA[
+         xquery version "3.0";
+         import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+         declare function local:f($f as function(*)) as item()* {
+           <a xmlns:pre="http://example.com/ns">{namespace-uri-from-QName($f('pre:local'))}</a>
+         };
+         local:f(function-lookup(xs:QName('s:sensitiveUnion'), 1))
+       ]]></test>
+       <result>
+         <error code="FORG0001"/>
+       </result>
+   </test-case>
+   
+   <test-case name="CastAs-UnionType-14">
+       <description>Dynamic use of Constructor function for a namespace-sensitive union type;
+         different namespace contexts. Fails because it's the NS context of
+         the NamedFunctionRef that matters.</description>
+       <created by="Michael Kay" on="2012-05-25"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <test><![CDATA[
+         xquery version "3.0";
+         import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+         declare function local:f($f as function(*)) as item()* {
+           <a xmlns:pre="http://example.com/ns">{namespace-uri-from-QName($f('pre:local'))}</a>
+         };
+         local:f(s:sensitiveUnion#1)
+       ]]></test>
+       <result>
+         <error code="FORG0001"/>
+       </result>
+   </test-case>
+   
+   <test-case name="CastAs-UnionType-15">
+       <description>Dynamic use of Constructor function for a namespace-sensitive union type;
+         different namespace contexts. Fails because it's the NS context of
+         the partial function application that matters.</description>
+       <created by="Michael Kay" on="2012-05-25"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <test><![CDATA[
+         xquery version "3.0";
+         import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+         declare function local:f($f as function(*)) as item()* {
+           <a xmlns:pre="http://example.com/ns">{namespace-uri-from-QName($f('pre:local'))}</a>
+         };
+         local:f(s:sensitiveUnion(?)))
+       ]]></test>
+       <result>
+         <error code="FORG0001"/>
+       </result>
+   </test-case>
+   
+   <test-case name="CastAs-UnionType-16">
+       <description>Constructor function for union type with facets</description>
+       <created by="Michael Kay" on="2012-05-25"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <test>
+         xquery version "3.0";
+         import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+         s:lowercaseName('xs:integer') instance of s:sensitiveUnion
+       </test>
+       <result>
+         <assert-true/>
+       </result>
+   </test-case>
+   
+   <test-case name="CastAs-UnionType-17">
+       <description>Union type with facets cannot be used in SequenceType</description>
+       <created by="Michael Kay" on="2012-05-25"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <test>
+         xquery version "3.0";
+         import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+         s:lowercaseName('xs:integer') instance of s:lowercaseName
+       </test>
+       <result>
+         <error code="XPST0051"/>
+       </result>
+   </test-case>
+   
+   <test-case name="CastAs-UnionType-18">
+       <description>Type of a constructor function for a union type</description>
+       <created by="Michael Kay" on="2012-05-25"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <test>
+         xquery version "3.0";
+         import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+         let $f as function(xs:anyAtomicType) as s:sensitiveUnion := s:sensitiveUnion#1
+         return $f('candlewick')
+       </test>
+       <result>
+         <all-of>
+           <assert-eq>'candlewick'</assert-eq>
+           <assert-type>xs:NCName</assert-type>
+         </all-of>
+       </result>
+   </test-case>
+   
+   <test-case name="CastAs-UnionType-19">
+       <description>Cast to a union type from one of its member type</description>
+       <created by="Michael Kay" on="2012-05-25"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <test><![CDATA[
+         xquery version "3.0";
+         import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+         node-name(<a/>) castable as s:sensitiveUnion
+       ]]></test>
+       <result>
+         <assert-true/>
+       </result>
+   </test-case>
+   
+   <test-case name="CastAs-UnionType-20">
+       <description>Cast to a union type from one of its member type</description>
+       <created by="Michael Kay" on="2012-05-25"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <test><![CDATA[
+         xquery version "3.0";
+         import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+         local-name-from-QName(s:sensitiveUnion(node-name(<a/>)))
+       ]]></test>
+       <result>
+         <assert-string-value>a</assert-string-value>
+       </result>
+   </test-case>
+   
+   <test-case name="CastAs-UnionType-21">
+       <description>Cast to a union type from a subtype of one of its member type</description>
+       <created by="Michael Kay" on="2012-05-25"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <test><![CDATA[
+         xquery version "3.0";
+         import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+         s:sensitiveUnion(xs:ID("zorobastic"))
+       ]]></test>
+       <result>
+         <assert-string-value>zorobastic</assert-string-value>
+       </result>
+   </test-case>
+   
+   <test-case name="CastAs-UnionType-22">
+       <description>Failing cast to a union type with facets</description>
+       <created by="Michael Kay" on="2012-05-25"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <test>
+         xquery version "3.0";
+         import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+         s:lowercaseName('xs:QName')
+       </test>
+       <result>
+         <error code="FORG0001"/>
+       </result>
+   </test-case>
+   
+   <test-case name="CastAs-UnionType-23">
+       <description>Failing cast to a union type with facets</description>
+       <created by="Michael Kay" on="2012-05-25"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <test>
+         xquery version "3.0";
+         import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+         s:lowercaseName(xs:NCName('ABC123'))
+       </test>
+       <result>
+         <error code="FORG0001"/>
+       </result>
+   </test-case>
+   
+   <test-case name="CastAs-UnionType-24">
+       <description>Failing dynamic cast to a union type with facets</description>
+       <created by="Michael Kay" on="2012-05-25"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <test>
+         xquery version "3.0";
+         import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+         let $cast := s:lowercaseName#1
+         return $cast(xs:NCName('ABC123'))
+       </test>
+       <result>
+         <error code="FORG0001"/>
+       </result>
+   </test-case>
 
    <test-case name="CastAs-ListType-1">
        <description>Test the decimal value cast to the union type. Should return the xs:integer value</description>

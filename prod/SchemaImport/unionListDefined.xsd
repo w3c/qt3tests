@@ -15,7 +15,7 @@
     </xs:union>
   </xs:simpleType>
 
-      <xs:simpleType name='myUnionType2'>
+  <xs:simpleType name='myUnionType2'>
     <xs:union>
       <xs:simpleType>
         <xs:restriction base='xs:string'>
@@ -26,6 +26,10 @@
         <xs:restriction base='xs:integer'/>
       </xs:simpleType>
     </xs:union>
+  </xs:simpleType>
+  
+  <xs:simpleType name="sensitiveUnion">
+    <xs:union memberTypes="xs:NCName xs:QName"/>
   </xs:simpleType>
 
   <xs:simpleType name='decimalListType1'>
@@ -45,6 +49,16 @@
 		<xs:pattern value='123 (\d+\s)*456'/>
 	</xs:restriction>
   </xs:simpleType>
+  
+  <xs:simpleType name="sensitiveList">
+    <xs:list itemType="s:sensitiveUnion"/>
+  </xs:simpleType>
+  
+  <xs:simpleType name="lowercaseName">
+    <xs:restriction base="s:sensitiveUnion">
+      <xs:pattern value="[a-z:]+"/>
+    </xs:restriction>
+  </xs:simpleType>  
 
 
 </xs:schema>
