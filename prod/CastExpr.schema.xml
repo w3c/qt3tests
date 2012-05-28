@@ -1214,7 +1214,7 @@
          import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
          let $fn as function(xs:string?) as xs:anyAtomicType* := 
                function-lookup(QName('http://www.w3.org/XQueryTest/unionListDefined', 'unionOfLists'), 1)
-         let $result := $fn("a b xs:integer")
+         let $result := $fn(xs:untypedAtomic("a b xs:integer"))
          return count($result) eq 3 and ($result instance of s:sensitiveUnion*)
        </test>
        <result>
@@ -1256,7 +1256,7 @@
    </test-case>
 
    <test-case name="CastAs-ListType-2">
-       <description>Test the decimal value cast to the union type. Should return the xs:integer value</description>
+       <description>Cast to list type with pattern restriction. Should return sequence of integers</description>
        <created by="O'Neil Delpratt" on="2011-10-27"/>
        <environment ref="union-List-defined-Types"/>
        <dependency type="spec" value="XQ30+"/>
@@ -1265,25 +1265,26 @@
        import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
         s:myRestrictedList1("123 987 567 456")]]>
        </test>
-       <result> <all-of>
-           <assert-string-value>123 987 567 456</assert-string-value>
-       </all-of></result>
+       <result> 
+         <all-of>
+           <assert-deep-eq>123, 987, 567, 456</assert-deep-eq>
+           <assert-type>xs:integer*</assert-type>
+         </all-of>
+       </result>
    </test-case>
 
 
    <test-case name="CastAs-ListType-3">
-       <description>Test the decimal value cast to the union type. Should return the xs:integer value</description>
+       <description>Cast to list type with pattern restriction. Doesn't satisfy the pattern</description>
        <created by="O'Neil Delpratt" on="2011-10-27"/>
        <environment ref="union-List-defined-Types"/>
        <dependency type="spec" value="XQ30+"/>
        <test><![CDATA[
        xquery version "3.0";
        import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
-        s:myRestrictedList1("123 987 567 456")]]>
+        s:myRestrictedList1("123 987 567 456 877")]]>
        </test>
-       <result> <all-of>
-           <assert-string-value>123 987 567 456</assert-string-value>
-       </all-of></result>
+       <result><error code="FORG0001"/></result>
    </test-case>
 
 
@@ -1292,14 +1293,16 @@
        <created by="O'Neil Delpratt" on="2011-10-27"/>
        <environment ref="union-List-defined-Types"/>
        <dependency type="spec" value="XQ30+"/>
-       <test><![CDATA[
-       xquery version "3.0";
-       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
-        "text1 text2 text3" cast as s:strListType1]]>
+       <test>
+         xquery version "3.0";
+         import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+          "text1 text2 text3" cast as s:strListType1
        </test>
-       <result> <all-of>
+       <result> 
+         <all-of>
            <assert-string-value>text1 text2 text3</assert-string-value>
-       </all-of></result>
+         </all-of>
+       </result>
    </test-case>
 
    <test-case name="CastAs-ListType-5">
@@ -1332,9 +1335,9 @@
        <description>Cast to a built-in list type IDREFS.</description>
        <created by="Michael Kay" on="2012-05-28"/>
        <dependency type="spec" value="XP30+"/>
-       <test><![CDATA[
+       <test>
          "a b c" cast as xs:IDREFS
-       ]]></test>
+       </test>
        <result>
          <all-of>
            <assert-deep-eq>'a', 'b', 'c'</assert-deep-eq>
@@ -1373,7 +1376,7 @@
    <test-case name="CastAs-ListType-10">
        <description>Cast to a built-in list type IDREFS: using function lookup</description>
        <created by="Michael Kay" on="2012-05-28"/>
-       <dependency type="spec" value="XP30+"/>
+       <dependency type="spec" value="XQ30+"/>
        <test>
          let $f := function-lookup(QName('http://www.w3.org/2001/XMLSchema', 'IDREFS'), 1)
          return $f("a b c")
@@ -1384,6 +1387,220 @@
            <assert-type>xs:IDREF*</assert-type>
          </all-of>
        </result>
+   </test-case>
+   
+   <test-case name="CastAs-ListType-11">
+       <description>Cast to a built-in list type IDREFS: using partial apply</description>
+       <created by="Michael Kay" on="2012-05-28"/>
+       <dependency type="spec" value="XQ30+"/>
+       <test>
+         let $f := xs:IDREFS(?)
+         return $f("a b c")
+       </test>
+       <result>
+         <all-of>
+           <assert-deep-eq>'a', 'b', 'c'</assert-deep-eq>
+           <assert-type>xs:IDREF*</assert-type>
+         </all-of>
+       </result>
+   </test-case>
+   
+   <test-case name="CastAs-ListType-12">
+       <description>Cast to a built-in list type NMTOKENS.</description>
+       <created by="Michael Kay" on="2012-05-28"/>
+       <dependency type="spec" value="XP30+"/>
+       <test>
+         "a b c" cast as xs:NMTOKENS
+       </test>
+       <result>
+         <all-of>
+           <assert-deep-eq>'a', 'b', 'c'</assert-deep-eq>
+           <assert-type>xs:NMTOKEN*</assert-type>
+         </all-of>
+       </result>
+   </test-case>
+   
+   <test-case name="CastAs-ListType-13">
+       <description>Cast to a built-in list type NMTOKENS: fails because minLength=1</description>
+       <created by="Michael Kay" on="2012-05-28"/>
+       <dependency type="spec" value="XP30+"/>
+       <test>
+         xs:NMTOKENS("")
+       </test>
+       <result>
+         <error code="FORG0001"/>
+       </result>
+   </test-case>
+   
+   <test-case name="CastAs-ListType-14">
+       <description>Cast to a built-in list type ENTITIES.</description>
+       <created by="Michael Kay" on="2012-05-28"/>
+       <dependency type="spec" value="XP30+"/>
+       <test>
+         "a b c" cast as xs:ENTITIES
+       </test>
+       <result>
+         <all-of>
+           <assert-deep-eq>'a', 'b', 'c'</assert-deep-eq>
+           <assert-type>xs:ENTITY*</assert-type>
+         </all-of>
+       </result>
+   </test-case>
+   
+   <test-case name="CastAs-ListType-15">
+       <description>Cast to a built-in list type ENTITIES: fails because minLength=1</description>
+       <created by="Michael Kay" on="2012-05-28"/>
+       <dependency type="spec" value="XP30+"/>
+       <test>
+         xs:ENTITIES("  ")
+       </test>
+       <result>
+         <error code="FORG0001"/>
+       </result>
+   </test-case>
+   
+   <test-case name="CastAs-ListType-16">
+       <description>Cast to a built-in list type ENTITIES: fails because an item is numeric</description>
+       <created by="Michael Kay" on="2012-05-28"/>
+       <dependency type="spec" value="XP30+"/>
+       <test>
+         xs:ENTITIES(" a b c 12 ")
+       </test>
+       <result>
+         <error code="FORG0001"/>
+       </result>
+   </test-case>
+   
+   <test-case name="CastAs-ListType-17">
+       <description>Cast to a built-in list type ENTITIES: fails because input is not a string</description>
+       <created by="Michael Kay" on="2012-05-28"/>
+       <dependency type="spec" value="XP30+"/>
+       <test>
+         xs:ENTITIES(xs:anyURI("abcd"))
+       </test>
+       <result>
+         <error code="XPTY0004"/>
+       </result>
+   </test-case>
+   
+   <test-case name="CastAs-ListType-18">
+       <description>Dynamic constructor to a built-in list type ENTITIES: fails because input is not a string</description>
+       <created by="Michael Kay" on="2012-05-28"/>
+       <dependency type="spec" value="XP30+"/>
+       <test>
+         let $f := xs:ENTITIES#1
+         return $f(xs:anyURI("abcd"))
+       </test>
+       <result>
+         <error code="XPTY0004"/>
+       </result>
+   </test-case>
+   
+   <test-case name="CastAs-ListType-19">
+       <description>Cannot cast a sequence of xs:ENTITY values to xs:ENTITIES</description>
+       <created by="Michael Kay" on="2012-05-28"/>
+       <dependency type="spec" value="XP30+"/>
+       <test>
+         let $f := xs:ENTITIES#1
+         return $f(($f("abcd"), $f("defg")))
+       </test>
+       <result>
+         <error code="XPTY0004"/>
+       </result>
+   </test-case>
+   
+   <test-case name="CastAs-ListType-20">
+       <description>Cannot use a list type name in a sequence type</description>
+       <created by="Michael Kay" on="2012-05-28"/>
+       <dependency type="spec" value="XQ30+"/>
+       <test>
+         let $v as xs:NMTOKENS := xs:NMTOKENS("a b c")
+         return count($v);
+       </test>
+       <result>
+         <error code="XPST0051"/>
+       </result>
+   </test-case>
+   
+   <test-case name="CastAs-ListType-21">
+       <description>Cast to a user-defined list whose member type is namespace-sensitive union.</description>
+       <created by="Michael Kay" on="2012-05-28"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <test>
+         xquery version "3.0";
+         import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+         let $result := ("a b xs:integer" cast as s:listOfUnions)
+         return count($result) eq 3 and $result[1] eq "a" and $result[1] instance of xs:NCName
+           and $result[1] instance of s:sensitiveUnion
+       </test>
+       <result>
+         <assert-true/>
+       </result>
+   </test-case>
+   
+   <test-case name="CastAs-ListType-22">
+       <description>Cast to list type with pattern restriction. Should return sequence of integers</description>
+       <created by="Michael Kay" on="2012-05-28"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <test><![CDATA[
+       xquery version "3.0";
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+        ("123 987 567 456") cast as s:myRestrictedList1
+        ]]></test>
+       <result> 
+         <all-of>
+           <assert-deep-eq>123, 987, 567, 456</assert-deep-eq>
+           <assert-type>xs:integer*</assert-type>
+         </all-of>
+       </result>
+   </test-case>
+
+
+   <test-case name="CastAs-ListType-23">
+       <description>Cast to list type with pattern restriction. Doesn't satisfy the pattern</description>
+       <created by="Michael Kay" on="2012-05-28"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <test><![CDATA[
+         xquery version "3.0";
+         import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+         ("123 987 567 456 877") cast as s:myRestrictedList1
+       ]]></test>
+       <result><error code="FORG0001"/></result>
+   </test-case>
+   
+   <test-case name="CastAs-ListType-24">
+       <description>Dynamic Cast to list type with pattern restriction. Should return sequence of integers</description>
+       <created by="Michael Kay" on="2012-05-28"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <test><![CDATA[
+       xquery version "3.0";
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+       let $f := function-lookup(QName('http://www.w3.org/XQueryTest/unionListDefined', 'myRestrictedList1'), 1)
+       return $f("123 987 567 456")]]>
+       </test>
+       <result> 
+         <all-of>
+           <assert-deep-eq>123, 987, 567, 456</assert-deep-eq>
+           <assert-type>xs:integer*</assert-type>
+         </all-of>
+       </result>
+   </test-case>
+
+   <test-case name="CastAs-ListType-25">
+       <description>Dynamic Cast to list type with pattern restriction. Doesn't satisfy the pattern</description>
+       <created by="Michael Kay" on="2012-05-28"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <test><![CDATA[
+       xquery version "3.0";
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+        s:myRestrictedList1("123 987 567 456 877")]]>
+       </test>
+       <result><error code="FORG0001"/></result>
    </test-case>
 
 
