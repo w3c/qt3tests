@@ -1678,5 +1678,89 @@ return <a/>/$f()
       </result>
    </test-case>
 
+   <test-case name="xqhof15">
+      <description>Test closure over context</description>
+      <created by="John Snelson" on="2012-05-23"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+let $f := <b/>/name#0
+return <a/>/$f()
+      ]]>
+      </test>
+      <result>
+         <assert-eq>"b"</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="xqhof16">
+      <description>Test closure over context</description>
+      <created by="John Snelson" on="2012-05-23"/>
+      <module uri="lib" file="HigherOrderFunctions/module-xqhof16.xq"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>
+declare base-uri "main";
+import module namespace lib = "lib";
+
+lib:getfun()(),
+fn:static-base-uri#0(),
+fn:static-base-uri()
+      </test>
+      <result>
+         <assert-deep-eq>"lib", "main", "main"</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="xqhof17">
+      <description>Test closure over context</description>
+      <created by="John Snelson" on="2012-05-23"/>
+      <module uri="lib" file="HigherOrderFunctions/module-xqhof16.xq"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>
+import module namespace lib = "lib";
+
+&lt;main/>/lib:getfun2()(),
+&lt;main/>/name#0(),
+&lt;main/>/name()
+      </test>
+      <result>
+         <assert-deep-eq>"lib", "main", "main"</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="xqhof18">
+      <description>Test closure over context</description>
+      <created by="John Snelson" on="2012-05-23"/>
+      <module uri="lib" file="HigherOrderFunctions/module-xqhof16.xq"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>
+declare base-uri "main";
+import module namespace lib = "lib";
+
+lib:getfun3()(xs:QName("fn:static-base-uri"),0)(),
+function-lookup#2(xs:QName("fn:static-base-uri"),0)(),
+function-lookup(xs:QName("fn:static-base-uri"),0)()
+      </test>
+      <result>
+         <assert-deep-eq>"lib", "main", "main"</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="xqhof19">
+      <description>Test closure over context</description>
+      <created by="John Snelson" on="2012-05-23"/>
+      <module uri="lib" file="HigherOrderFunctions/module-xqhof16.xq"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>
+import module namespace lib = "lib";
+
+&lt;main/>/lib:getfun3()(xs:QName("fn:name"),0)(),
+&lt;main/>/function-lookup#2(xs:QName("fn:name"),0)(),
+&lt;main/>/function-lookup(xs:QName("fn:name"),0)()
+      </test>
+      <result>
+         <assert-deep-eq>"lib", "main", "main"</assert-deep-eq>
+      </result>
+   </test-case>
+
 
 </test-set>
