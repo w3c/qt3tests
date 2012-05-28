@@ -1635,6 +1635,72 @@
          <assert-eq>3</assert-eq>
        </result>
    </test-case>
+   
+   <test-case name="CastAs-ListType-28">
+       <description>Castable to list: true</description>
+       <created by="Michael Kay" on="2012-05-28"/>
+       <dependency type="spec" value="XQ30+"/>
+       <test>
+         "a b c" castable as xs:NMTOKENS
+       </test>
+       <result>
+         <assert-true/>
+       </result>
+   </test-case>
+   
+   <test-case name="CastAs-ListType-29">
+       <description>Castable to list: false</description>
+       <created by="Michael Kay" on="2012-05-28"/>
+       <dependency type="spec" value="XQ30+"/>
+       <test>
+         "a b 12" castable as xs:IDREFS
+       </test>
+       <result>
+         <assert-false/>
+       </result>
+   </test-case>
+   
+   <test-case name="CastAs-ListType-30">
+       <description>Castable to list: false (violates minLength)</description>
+       <created by="Michael Kay" on="2012-05-28"/>
+       <dependency type="spec" value="XQ30+"/>
+       <test>
+         " " castable as xs:NMTOKENS
+       </test>
+       <result>
+         <assert-false/>
+       </result>
+   </test-case>
+   
+   <test-case name="CastAs-ListType-31">
+       <description>Castable to list: false (violates pattern)</description>
+       <created by="Michael Kay" on="2012-05-28"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <test>
+       xquery version "3.0";
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+       "123 987 567 456 229" castable as s:myRestrictedList1
+       </test>
+       <result> 
+         <assert-false/>
+       </result>
+   </test-case>
+   
+   <test-case name="CastAs-ListType-32">
+       <description>Castable to list: true (satisfies pattern after whitespace normalization)</description>
+       <created by="Michael Kay" on="2012-05-28"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <test>
+       xquery version "3.0";
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+       "  123 987 567 456  " castable as s:myRestrictedList1
+       </test>
+       <result> 
+         <assert-true/>
+       </result>
+   </test-case>
 
 
 
