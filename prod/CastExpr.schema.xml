@@ -1602,6 +1602,39 @@
        </test>
        <result><error code="FORG0001"/></result>
    </test-case>
+   
+   <test-case name="CastAs-ListType-26">
+       <description>Type of constructor function for casting to list</description>
+       <created by="Michael Kay" on="2012-05-28"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <test><![CDATA[
+       xquery version "3.0";
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+       let $f as function(xs:string) as xs:integer* := function-lookup(QName('http://www.w3.org/XQueryTest/unionListDefined', 'myRestrictedList1'), 1)
+       return $f("123 987 567 456")]]>
+       </test>
+       <result> 
+         <all-of>
+           <assert-deep-eq>123, 987, 567, 456</assert-deep-eq>
+           <assert-type>xs:integer*</assert-type>
+         </all-of>
+       </result>
+   </test-case>
+   
+   <test-case name="CastAs-ListType-27">
+       <description>Type of constructor function for casting to list</description>
+       <created by="Michael Kay" on="2012-05-28"/>
+       <dependency type="spec" value="XQ30+"/>
+       <test>
+         let $f as function(xs:anyAtomicType) as xs:NMTOKEN* := xs:NMTOKENS#1
+         let $v as xs:NMTOKEN* := $f("a b c")
+         return count($v)
+       </test>
+       <result>
+         <assert-eq>3</assert-eq>
+       </result>
+   </test-case>
 
 
 
