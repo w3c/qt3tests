@@ -24,9 +24,10 @@
    <test-case name="try-002">
       <description/>
       <created by="Michael Kay" on="2008-11-25"/>
-      <environment ref="err"/>
-      <dependency type="spec" value="XQ30+"/>
-      <test><![CDATA[try { doc('rubbish.xml') } catch err:FODC0001 | err:FODC0002 | err:FODC0005 {"ok"}]]></test>
+      <test><![CDATA[
+        declare namespace err = "http://www.w3.org/2005/xqt-errors";
+        try { doc('rubbish.xml') } catch err:FODC0001 | err:FODC0002 | err:FODC0005 {"ok"}
+      ]]></test>
       <result>
          <assert-string-value>ok</assert-string-value>
       </result>
@@ -613,7 +614,7 @@
     </result>
   </test-case>
   
-  <test-case name="try-catch-name-no-matching-catch-clause-4">
+  <test-case name="try-catch-name-no-matching-catch-clause-4a">
     <description>If there is no matching catch clause, the error is forwarded.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     

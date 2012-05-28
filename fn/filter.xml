@@ -156,9 +156,9 @@
 
    <test-case name="fn-filter-006">
       <description>Tests the type checking of the $f argument.</description>
+      <created by="Tim Mills" on="2012-05-01"/>
       <dependency type="feature" value="staticTyping"/>
       <dependency type="spec" value="XP30+ XQ30+"/>
-      <created by="Tim Mills" on="2012-05-01"/>
       <test>( fn:filter( if ( fn:current-dateTime() eq
                             fn:dateTime( fn:current-date(),
                                          fn:current-time() ))
@@ -178,9 +178,9 @@
 
    <test-case name="fn-filter-007">
       <description>Tests the type checking of the $f argument.</description>
+      <created by="Tim Mills" on="2012-05-01"/>
       <dependency type="feature" value="staticTyping"/>
       <dependency type="spec" value="XP30+ XQ30+"/>
-      <created by="Tim Mills" on="2012-05-01"/>
       <test>fn:filter( if ( fn:current-dateTime() eq
                           fn:dateTime( fn:current-date(),
                                        fn:current-time() ))
@@ -194,9 +194,9 @@
 
    <test-case name="fn-filter-008">
       <description>Tests the type checking of the $f argument.</description>
+      <created by="Tim Mills" on="2012-05-01"/>
       <dependency type="spec" value="XP30+ XQ30+"/>
       <dependency type="feature" value="staticTyping"/>
-      <created by="Tim Mills" on="2012-05-01"/>
       <test>fn:filter( fn:true(), () )</test>
       <result>
          <error code="XPTY0004" />
@@ -205,9 +205,9 @@
 
    <test-case name="fn-filter-009">
       <description>Tests the type checking of the $f argument.</description>
+      <created by="Tim Mills" on="2012-05-01"/>
       <dependency type="spec" value="XP30+ XQ30+"/>
       <dependency type="feature" value="staticTyping"/>
-      <created by="Tim Mills" on="2012-05-01"/>
       <test>fn:filter( fn:true(), () )</test>
       <result>
          <error code="XPTY0004" />
@@ -216,8 +216,8 @@
 
    <test-case name="fn-filter-010">
       <description>Tests the type checking of the $f argument.</description>
-      <dependency type="spec" value="XP30+ XQ30+"/>
       <created by="Tim Mills" on="2012-05-01"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
       <test>fn:filter( function($a as item()) as xs:boolean* { fn:boolean($a), fn:boolean($a) }, () )</test>
       <result>
          <assert-empty />
@@ -226,8 +226,8 @@
 
    <test-case name="fn-filter-011">
       <description>Tests the type checking of the $f argument.</description>
-      <dependency type="spec" value="XP30+ XQ30+"/>
       <created by="Tim Mills" on="2012-05-01"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
       <test>fn:filter( function($a as item()) as xs:boolean? { () }, () )</test>
       <result>
          <assert-empty />
@@ -236,8 +236,8 @@
 
    <test-case name="fn-filter-012">
       <description>Tests the type checking of the $f argument.</description>
-      <dependency type="spec" value="XP30+ XQ30+"/>
       <created by="Tim Mills" on="2012-05-01"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
       <test>fn:filter( fn:string#1, () )</test>
       <result>
          <assert-empty />
@@ -247,16 +247,16 @@
    <test-case name="fn-filter-013">
       <description>Evaluates the "filter" function with $seq set to a mix of item types </description>
       <created by="Tim Mills" on="2012-05-01"/>
-      <dependency type="spec" value="XP30+ XQ30+"/>
       <environment>
          <source role="." file="filter/fn-filter-012.xml">
             <description/>
             <created by="Tim Mills" on="2012-05-01"/>
          </source>
       </environment>
+      <dependency type="spec" value="XP30+ XQ30+"/>
       <test>fn:filter( function($arg) { $arg instance of function(*) }, (//node(), 1, "string", 3.14, 2.7e0, fn:exists#1) )</test>
       <result>
-	<assert-count>1</assert-count>
+	     <assert-count>1</assert-count>
       </result>
    </test-case>
 
@@ -282,8 +282,8 @@
 
    <test-case name="fn-filter-016">
       <description>Evaluates the "filter" function with $f set to a function which _could_ (but doesn't) return a non-boolean value </description>
-      <dependency type="feature" value="staticTyping"/>
       <created by="Tim Mills" on="2012-05-01"/>
+      <dependency type="feature" value="staticTyping"/>
       <dependency type="spec" value="XP30+ XQ30+"/>
       <test>fn:filter( function($arg) { if ($arg eq 100) then () else fn:true()}, 1 to 10)</test>
       <result>
@@ -313,8 +313,8 @@
 
    <test-case name="fn-filter-019">
       <description>Evaluates the "filter" function with $f set to a function which _could_ (but doesn't) return a non-boolean value </description>
-      <dependency type="feature" value="staticTyping"/>
       <created by="Tim Mills" on="2012-05-01"/>
+      <dependency type="feature" value="staticTyping"/>
       <dependency type="spec" value="XP30+ XQ30+"/>
       <test>fn:filter( function($arg) { if ($arg eq 100) then 0 else fn:true()}, 1 to 10)</test>
       <result>
@@ -344,8 +344,8 @@
 
    <test-case name="fn-filter-022">
       <description>Evaluates the "filter" function with $f set to a function which _could_ (but doesn't) return a non-boolean value </description>
-      <dependency type="feature" value="staticTyping"/>
       <created by="Tim Mills" on="2012-05-01"/>
+      <dependency type="feature" value="staticTyping"/>
       <dependency type="spec" value="XP30+ XQ30+"/>
       <test>fn:filter( function($arg) { if ($arg eq 100) then (fn:true(), fn:false()) else fn:true()}, 1 to 10)</test>
       <result>
@@ -355,8 +355,8 @@
 
    <test-case name="fn-filter-023">
       <description>Evaluates the "filter" function with $f set to a function which expects integers, but is supplied with strings.</description>
-      <dependency type="feature" value="staticTyping"/>
       <created by="Tim Mills" on="2012-05-01"/>
+      <dependency type="feature" value="staticTyping"/>
       <dependency type="spec" value="XP30+ XQ30+"/>
       <test>fn:filter( function($arg as xs:integer) as xs:boolean { $arg eq 100 }, ("1", "2", "3") )</test>
       <result>
