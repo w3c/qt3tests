@@ -937,7 +937,7 @@
          declare function local:f($f as function(*)) as item()* {
            <a xmlns:pre="http://example.com/ns">{namespace-uri-from-QName($f('pre:local'))}</a>
          };
-         local:f(s:sensitiveUnion(?)))
+         local:f(s:sensitiveUnion(?))
        ]]></test>
        <result>
          <error code="FORG0001"/>
@@ -975,14 +975,14 @@
    </test-case>
    
    <test-case name="CastAs-UnionType-18">
-       <description>Type of a constructor function for a union type</description>
+       <description>Type of a constructor function for a "plain" union type</description>
        <created by="Michael Kay" on="2012-05-25"/>
        <environment ref="union-List-defined-Types"/>
        <dependency type="spec" value="XQ30+"/>
        <test>
          xquery version "3.0";
          import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
-         let $f as function(xs:anyAtomicType) as s:sensitiveUnion := s:sensitiveUnion#1
+         let $f as function(xs:anyAtomicType?) as s:sensitiveUnion? := s:sensitiveUnion#1
          return $f('candlewick')
        </test>
        <result>
@@ -1083,20 +1083,176 @@
          <error code="FORG0001"/>
        </result>
    </test-case>
+   
+   <test-case name="CastAs-UnionType-25">
+       <description>Cast QName to a union type including QName as a member: 
+       prefix does not need to be in scope</description>
+       <created by="Michael Kay" on="2012-05-27"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <test><![CDATA[
+         xquery version "3.0";
+         import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+         let $e := <p:a xmlns:p="http://www.example.com/"/>
+         return node-name($e) castable as s:sensitiveUnion
+       ]]></test>
+       <result>
+         <assert-true/>
+       </result>
+   </test-case>
+   
+   <test-case name="CastAs-UnionType-26">
+       <description>Type of a constructor function for a "faceted" union type</description>
+       <created by="Michael Kay" on="2012-05-25"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <test>
+         xquery version "3.0";
+         import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+         let $f as function(xs:anyAtomicType?) as s:sensitiveUnion? := s:lowercaseName#1
+         return $f('candlewick')
+       </test>
+       <result>
+         <all-of>
+           <assert-eq>'candlewick'</assert-eq>
+           <assert-type>xs:NCName</assert-type>
+         </all-of>
+       </result>
+   </test-case>
+   
+   <test-case name="CastAs-UnionType-27">
+       <description>Cast to a union of list types (namespace sensitive)</description>
+       <created by="Michael Kay" on="2012-05-25"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <test>
+         xquery version "3.0";
+         import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+         "a b c" cast as s:unionOfLists
+       </test>
+       <result>
+         <all-of>
+           <assert-deep-eq>'a', 'b', 'c'</assert-deep-eq>
+           <assert-type>xs:IDREF*</assert-type>
+         </all-of>
+       </result>
+   </test-case>
+   
+   <test-case name="CastAs-UnionType-28">
+       <description>Cast to a union of list types (namespace sensitive)</description>
+       <created by="Michael Kay" on="2012-05-25"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <test>
+         xquery version "3.0";
+         import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+         let $result := ("a b xs:integer" cast as s:unionOfLists)
+         return count($result) eq 3 and ($result instance of Q{http://www.w3.org/XQueryTest/unionListDefined}sensitiveUnion*)
+       </test>
+       <result>
+         <assert-true/>
+       </result>
+   </test-case>
+   
+   <test-case name="CastAs-UnionType-29">
+       <description>Constructor function to a union of list types (namespace sensitive)</description>
+       <created by="Michael Kay" on="2012-05-25"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <test>
+         xquery version "3.0";
+         import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+         let $result := s:unionOfLists("a b xs:integer")
+         return count($result) eq 3 and ($result instance of Q{http://www.w3.org/XQueryTest/unionListDefined}sensitiveUnion*)
+       </test>
+       <result>
+         <assert-true/>
+       </result>
+   </test-case>
+   
+   <test-case name="CastAs-UnionType-30">
+       <description>Function literal for constructor to a union of list types (namespace sensitive)</description>
+       <created by="Michael Kay" on="2012-05-25"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <test>
+         xquery version "3.0";
+         import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+         let $fn := s:unionOfLists#1
+         let $result := $fn("a b xs:integer")
+         return count($result) eq 3 and ($result instance of Q{http://www.w3.org/XQueryTest/unionListDefined}sensitiveUnion*)
+       </test>
+       <result>
+         <assert-true/>
+       </result>
+   </test-case>
+   
+   <test-case name="CastAs-UnionType-31">
+       <description>Function lookup for constructor to a union of list types (namespace sensitive)</description>
+       <created by="Michael Kay" on="2012-05-25"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <test>
+         xquery version "3.0";
+         import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+         let $fn := function-lookup(QName('http://www.w3.org/XQueryTest/unionListDefined', 'unionOfLists'), 1)
+         let $result := $fn("a b xs:integer")
+         return count($result) eq 3 and ($result instance of s:sensitiveUnion*)
+       </test>
+       <result>
+         <assert-true/>
+       </result>
+   </test-case>
+   
+   <test-case name="CastAs-UnionType-32">
+       <description>Type of constructor function to a union of list types (namespace sensitive)</description>
+       <created by="Michael Kay" on="2012-05-25"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <test>
+         xquery version "3.0";
+         import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+         let $fn as function(xs:string?) as xs:anyAtomicType* := 
+               function-lookup(QName('http://www.w3.org/XQueryTest/unionListDefined', 'unionOfLists'), 1)
+         let $result := $fn("a b xs:integer")
+         return count($result) eq 3 and ($result instance of s:sensitiveUnion*)
+       </test>
+       <result>
+         <assert-true/>
+       </result>
+   </test-case>
+   
+   <test-case name="CastAs-UnionType-33">
+       <description>Cast to a union type from a node whose typed value is one of its member types</description>
+       <created by="Michael Kay" on="2012-05-25"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <test><![CDATA[
+         xquery version "3.0";
+         import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+         let $element := validate type xs:QName {<a xmlns:p="http://example.com">p:space</a>}
+         return
+           local-name-from-QName(s:sensitiveUnion($element))
+       ]]></test>
+       <result>
+         <assert-string-value>space</assert-string-value>
+       </result>
+   </test-case>
+
 
    <test-case name="CastAs-ListType-1">
-       <description>Test the decimal value cast to the union type. Should return the xs:integer value</description>
+       <description>Cast to a list type.</description>
        <created by="O'Neil Delpratt" on="2011-10-27"/>
        <environment ref="union-List-defined-Types"/>
        <dependency type="spec" value="XQ30+"/>
        <test><![CDATA[
-       xquery version "3.0";
-       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
-        s:decimalListType1("2 2.3")]]>
-       </test>
-       <result> <all-of>
-           <assert-string-value>2 2.3</assert-string-value>
-       </all-of></result>
+         xquery version "3.0";
+         import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+         s:decimalListType1("2 2.3")
+       ]]></test>
+       <result>
+           <assert-deep-eq>2, 2.3</assert-deep-eq>
+       </result>
    </test-case>
 
    <test-case name="CastAs-ListType-2">
@@ -1171,5 +1327,65 @@
        </test>
        <result><error code="FORG0001"/></result>
    </test-case>
+   
+   <test-case name="CastAs-ListType-7">
+       <description>Cast to a built-in list type IDREFS.</description>
+       <created by="Michael Kay" on="2012-05-28"/>
+       <dependency type="spec" value="XP30+"/>
+       <test><![CDATA[
+         "a b c" cast as xs:IDREFS
+       ]]></test>
+       <result>
+         <all-of>
+           <assert-deep-eq>'a', 'b', 'c'</assert-deep-eq>
+           <assert-type>xs:IDREF*</assert-type>
+         </all-of>
+       </result>
+   </test-case>
+   
+   <test-case name="CastAs-ListType-8">
+       <description>Cast to a built-in list type IDREFS: fails because minLength=1</description>
+       <created by="Michael Kay" on="2012-05-28"/>
+       <dependency type="spec" value="XP30+"/>
+       <test>
+         xs:IDREFS("")
+       </test>
+       <result>
+         <error code="FORG0001"/>
+       </result>
+   </test-case>
+   
+   <test-case name="CastAs-ListType-9">
+       <description>Cast to a built-in list type IDREFS: using function literal</description>
+       <created by="Michael Kay" on="2012-05-28"/>
+       <dependency type="spec" value="XP30+"/>
+       <test>
+         let $f := xs:IDREFS#1 return $f("a b c")
+       </test>
+       <result>
+         <all-of>
+           <assert-deep-eq>'a', 'b', 'c'</assert-deep-eq>
+           <assert-type>xs:IDREF*</assert-type>
+         </all-of>
+       </result>
+   </test-case>
+   
+   <test-case name="CastAs-ListType-10">
+       <description>Cast to a built-in list type IDREFS: using function lookup</description>
+       <created by="Michael Kay" on="2012-05-28"/>
+       <dependency type="spec" value="XP30+"/>
+       <test>
+         let $f := function-lookup(QName('http://www.w3.org/2001/XMLSchema', 'IDREFS'), 1)
+         return $f("a b c")
+       </test>
+       <result>
+         <all-of>
+           <assert-deep-eq>'a', 'b', 'c'</assert-deep-eq>
+           <assert-type>xs:IDREF*</assert-type>
+         </all-of>
+       </result>
+   </test-case>
+
+
 
 </test-set>
