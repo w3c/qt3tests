@@ -201,15 +201,16 @@
       <created by="Michael Kay" on="2011-06-08"/>
       <modified by="Michael Kay" on="2011-08-10" change="remove dependency on special fots:copy() function"/>
       <modified by="O'Neil Delpratt" on="2012-05-22" change="Bug fix related to bug #15643: Change to error code"/>
+      <modified by="Michael Kay" on="2012-05-29" change="Bug 16184: this is no longer an error"/>
       <environment ref="works-mod"/>
       <module uri="http://www.w3.org/QT3/copy" file="id/copy.xq"/>
-      <dependency type="spec" value="XQ10+"/>
+      <dependency type="spec" value="XQ30+"/>
       <test>
         import module namespace copy="http://www.w3.org/QT3/copy";
-        fn:path(copy:copy((//employee)[1]))
+        fn:path(copy:copy((//employee)[1])/pnum)
       </test>
       <result>
-         <error code="FODC0001"/>
+         <assert-string-value>Q{http://www.w3.org/2005/xpath-functions}root()/Q{}pnum[1]</assert-string-value>
       </result>
    </test-case>
    
@@ -221,6 +222,71 @@
       <result>
          <all-of>
             <assert-string-value>/</assert-string-value>
+            <assert-type>xs:string</assert-type>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="path016">
+      <description>path() applied to a parentless attribute node</description>
+      <created by="Michael Kay" on="2012-05-29"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>fn:path(attribute name {"fred"})</test>
+      <result>
+         <all-of>
+            <assert-string-value>Q{http://www.w3.org/2005/xpath-functions}root()</assert-string-value>
+            <assert-type>xs:string</assert-type>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="path017">
+      <description>path() applied to a parentless text node</description>
+      <created by="Michael Kay" on="2012-05-29"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>fn:path(text{"fred"})</test>
+      <result>
+         <all-of>
+            <assert-string-value>Q{http://www.w3.org/2005/xpath-functions}root()</assert-string-value>
+            <assert-type>xs:string</assert-type>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="path018">
+      <description>path() applied to an attribute of an element root</description>
+      <created by="Michael Kay" on="2012-05-29"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[fn:path(<a b="c"/>/@b)]]></test>
+      <result>
+         <all-of>
+            <assert-string-value>Q{http://www.w3.org/2005/xpath-functions}root()/@b</assert-string-value>
+            <assert-type>xs:string</assert-type>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="path019">
+      <description>path() applied to an element child of an element root</description>
+      <created by="Michael Kay" on="2012-05-29"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[fn:path(<a><b/><b/></a>/(b[2]))]]></test>
+      <result>
+         <all-of>
+            <assert-string-value>Q{http://www.w3.org/2005/xpath-functions}root()/Q{}b[2]</assert-string-value>
+            <assert-type>xs:string</assert-type>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="path020">
+      <description>path() with no arguments</description>
+      <created by="Michael Kay" on="2012-05-29"/>
+      <environment ref="pathdata"/>
+      <test>(//*:all-of)[1] ! fn:path()</test>
+      <result>
+         <all-of>
+            <assert-string-value>/Q{http://www.w3.org/2010/09/qt-fots-catalog}test-set[1]/Q{http://www.w3.org/2010/09/qt-fots-catalog}test-case[1]/Q{http://www.w3.org/2010/09/qt-fots-catalog}result[1]/Q{http://www.w3.org/2010/09/qt-fots-catalog}all-of[1]</assert-string-value>
             <assert-type>xs:string</assert-type>
          </all-of>
       </result>
