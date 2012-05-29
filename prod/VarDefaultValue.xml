@@ -334,6 +334,7 @@
    <test-case name="extvardef-016a">
      <description>Context position in default value for external variable. </description>
       <created by="David Graf" on="2011-12-02"/>
+      <modified by="O'Neil Delpratt" on="2012-05-29" change="fix bug 16034"/>
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
         declare variable $y := (<a>1</a>,<a>2</a>,<a>3</a>,<a>4</a>,<a>5</a>,<a>6</a>,<a>7</a>,<a>8</a>,<a>9</a>,<a>10</a>);
@@ -342,13 +343,14 @@
         $x
       ]]></test>
       <result>
-        <assert-eq>3</assert-eq>
+        <assert-eq>1</assert-eq>
       </result>
    </test-case>
 
    <test-case name="extvardef-016b">
       <description>Context last in default value for external variable. </description>
       <created by="David Graf" on="2011-12-02"/>
+      <modified by="O'Neil Delpratt" on="2012-05-29" change="fix bug 16034"/>
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
         declare variable $y := (<a>1</a>,<a>2</a>,<a>3</a>,<a>4</a>,<a>5</a>,<a>6</a>,<a>7</a>,<a>8</a>,<a>9</a>,<a>10</a>);
@@ -357,7 +359,7 @@
         $x
       ]]></test>
       <result>
-        <assert-eq>10</assert-eq>
+        <error code="XPTY0004" />
       </result>
    </test-case>
 
