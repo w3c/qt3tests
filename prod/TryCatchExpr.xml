@@ -213,7 +213,7 @@
     
     <test>try { 1 div 0 } catch * { "Division by zero" }</test>
     <result>
-      <assert-string-value>Division by zero</assert-string-value>
+      <assert-eq>"Division by zero"</assert-eq>
     </result>
   </test-case>
   
@@ -224,7 +224,7 @@
     
     <test>try { 1 div 0 } catch err:FOAR0001 { "Division by zero" }</test>
     <result>
-      <assert-string-value>Division by zero</assert-string-value>
+      <assert-eq>"Division by zero"</assert-eq>
     </result>
   </test-case>
   
@@ -235,7 +235,7 @@
     
     <test>try { 1 div 0 } catch err:* { "Division by zero" }</test>
     <result>
-      <assert-string-value>Division by zero</assert-string-value>
+      <assert-eq>"Division by zero"</assert-eq>
     </result>
   </test-case>
   
@@ -245,7 +245,7 @@
     
     <test>try { 1 div 0 } catch *:FOAR0001 { "Division by zero" }</test>
     <result>
-      <assert-string-value>Division by zero</assert-string-value>
+      <assert-eq>"Division by zero"</assert-eq>
     </result>
   </test-case>
   
@@ -295,10 +295,12 @@
   <test-case name="try-catch-type-error-1">
     <description>A static type mismatch (type error) is caught.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
-    
-    <test>try { let $i as xs:string := 1 return $i } catch * { "Undefined variable" }</test>
+    <test>try { let $i as xs:string := 1 return $i } catch * { "Type error" }</test>
     <result>
-      <error code="XPTY0004"/>
+      <any-of>
+        <error code="XPTY0004"/>
+        <assert-eq>"Type error"</assert-eq>
+      </any-of>
     </result>
   </test-case>
   
@@ -307,9 +309,12 @@
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
     
-    <test>try { let $i as xs:string := 1 return $i } catch err:XPTY0004 { "Undefined variable" }</test>
+    <test>try { let $i as xs:string := 1 return $i } catch err:XPTY0004 { "Type error" }</test>
     <result>
-      <error code="XPTY0004"/>
+      <any-of>
+        <error code="XPTY0004"/>
+        <assert-eq>"Type error"</assert-eq>
+      </any-of>
     </result>
   </test-case>
   
@@ -318,9 +323,12 @@
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
     
-    <test>try { let $i as xs:string := 1 return $i } catch err:* { "Undefined variable" }</test>
+    <test>try { let $i as xs:string := 1 return $i } catch err:* { "Type error" }</test>
     <result>
-      <error code="XPTY0004"/>
+      <any-of>
+        <error code="XPTY0004"/>
+        <assert-eq>"Type error"</assert-eq>
+      </any-of>
     </result>
   </test-case>
   
@@ -328,9 +336,12 @@
     <description>A static type mismatch (type error) is caught.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     
-    <test>try { let $i as xs:string := 1 return $i } catch *:XPTY0004 { "Undefined variable" }</test>
+    <test>try { let $i as xs:string := 1 return $i } catch *:XPTY0004 { "Type error" }</test>
     <result>
-      <error code="XPTY0004"/>
+      <any-of>
+        <error code="XPTY0004"/>
+        <assert-eq>"Type error"</assert-eq>
+      </any-of>
     </result>
   </test-case>
   
@@ -608,13 +619,13 @@
     <description>If there is no matching catch clause, the error is forwarded.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     
-    <test>try { 1 div 0 } catch Q{http://www.w3.org/2005/xqt-errors}* { "Division by zero" }</test>
+    <test>try { 1 div 0 } catch Q{http://www.w3.org/2005/not-xqt-errors}* { "Division by zero" }</test>
     <result>
       <error code="FOAR0001"/>
     </result>
   </test-case>
   
-  <test-case name="try-catch-name-no-matching-catch-clause-4a">
+  <test-case name="try-catch-name-no-matching-catch-clause-5">
     <description>If there is no matching catch clause, the error is forwarded.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     
@@ -624,12 +635,12 @@
     </result>
   </test-case>
   
-  <test-case name="try-catch-name-no-matching-catch-clause-5">
+  <test-case name="try-catch-name-no-matching-catch-clause-6">
     <description>If there is no matching catch clause, the error is forwarded.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
     
-    <test>try { 1 div 0 } catch err:XPST0008 { "Division by zero" } catch xs:* { "Division by zero" } catch *:XPST0008 { "Division by zero" } catch Q{http://www.w3.org/2005/xqt-errors}* { "Division by zero" } catch Q{http://www.w3.org/2005/xqt-errors}XPST0008 { "Division by zero" }</test>
+    <test>try { 1 div 0 } catch err:XPST0008 { "Division by zero" } catch xs:* { "Division by zero" } catch *:XPST0008 { "Division by zero" } catch Q{http://www.w3.org/2005/not-xqt-errors}* { "Division by zero" } catch Q{http://www.w3.org/2005/xqt-errors}XPST0008 { "Division by zero" }</test>
     <result>
       <error code="FOAR0001"/>
     </result>
@@ -882,7 +893,7 @@
     
     <test>try { fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:FOER0001')) } catch * { fn:namespace-uri-from-QName($err:code) }</test>
     <result>
-      <assert-string-value>http://www.w3.org/2005/xqt-error</assert-string-value>
+      <assert-string-value>http://www.w3.org/2005/xqt-errors</assert-string-value>
     </result>
   </test-case>
   
