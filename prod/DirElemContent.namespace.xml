@@ -1383,6 +1383,31 @@
          <assert-xml><![CDATA[<new xmlns="http://www.example.com/parent4"><child4/></new>]]></assert-xml>
       </result>
    </test-case>
+   
+   <test-case name="Constr-inscope-21">
+      <description> namespace not declared: see bug 17040 (cezar.andrei@gmail.com)</description>
+      <created by="Michael Kay" on="2012-05-29"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        declare namespace cat ='mycat'; 
+        <a t='cat:miau'>42</a>
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<a t='cat:miau'>42</a>]]></assert-xml>
+      </result>
+   </test-case>
+   
+   <test-case name="Constr-inscope-22">
+      <description> namespace not declared: see bug 17040 (cezar.andrei@gmail.com)</description>
+      <created by="Michael Kay" on="2012-05-29"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        <a xsi:type='xs:integer'>42</a>
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<a  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type='xs:integer'>42</a>]]></assert-xml>
+      </result>
+   </test-case>
 
    <test-case name="K2-ConInScopeNamespace-1">
       <description> Ensure the in-scope prefixes are correct for all top-level elements. </description>

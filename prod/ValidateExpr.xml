@@ -561,6 +561,32 @@
       <result>
          <assert-eq>0</assert-eq>
       </result>
+   </test-case>
+   
+   <test-case name="validateexpr-34">
+      <description> namespace not declared: see bug 17040 (cezar.andrei@gmail.com). Also tests lax validation using xsi:type </description>
+      <created by="Michael Kay" on="2012-05-29"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        validate lax { <a xsi:type='xs:integer'>42</a> }
+      ]]></test>
+      <result>
+         <error code="XQDY0027"/>
+      </result>
+   </test-case>
+   
+   <test-case name="validateexpr-35">
+      <description> Lax validation using xsi:type </description>
+      <created by="Michael Kay" on="2012-05-29"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        validate lax { <a xsi:type='xs:integer' xmlns:xs="http://www.w3.org/2001/XMLSchema">42</a> }
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<a xsi:type='xs:integer' 
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">42</a>]]></assert-xml>
+      </result>
    </test-case>   
 
    <test-case name="K2-ValidateExpression-1">
@@ -721,7 +747,8 @@
       <environment ref="complexSimple"/>
       <test><![CDATA[
         import schema namespace ss="http://www.w3.org/query-test/complexSimple";
-        let $v := validate { <ss:listBase>1</ss:listBase> } let $dv := fn:data($v) return ($dv instance of xs:integer)
+        let $v := validate { <ss:listBase>1</ss:listBase> } 
+        let $dv := fn:data($v) return ($dv instance of xs:integer)
       ]]></test>
       <result>
          <assert-true/>
@@ -734,7 +761,8 @@
       <environment ref="complexSimple"/>
       <test><![CDATA[
         import schema namespace ss="http://www.w3.org/query-test/complexSimple";
-        let $v := validate { <ss:complexExtendsList>1</ss:complexExtendsList> } let $dv := fn:data($v) return ($dv instance of xs:integer)
+        let $v := validate { <ss:complexExtendsList>1</ss:complexExtendsList> } 
+        let $dv := fn:data($v) return ($dv instance of xs:integer)
       ]]></test>
       <result>
          <assert-true/>
