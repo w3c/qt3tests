@@ -33,11 +33,17 @@
     </test-case>
     <test-case name="math-exp10-004">
         <description>Evaluate the function exp10() with the argument set to 0.5</description>
-        <created by="O'Neil Delpratt, Saxonica" on="2010-12-10"/>        
+        <created by="O'Neil Delpratt, Saxonica" on="2010-12-10"/> 
+        <modified by="Michael Kay, Saxonica" on="2012-05-29" change="add alternative result, see bug 15233"/>        
         <environment ref="math"/>        
         <test>math:exp10(0.5)</test>
         <result>
-            <assert-eq>3.1622776601683795e0</assert-eq>
+          <any-of>
+            <assert-eq>3.1622776601683795</assert-eq>
+            <assert-eq>3.162277660168379</assert-eq>
+            <!-- Result according to Wolfram Alfa: 
+                       3.16227766016837933199889354443271853371955513932521682... -->
+          </any-of>  
         </result>
     </test-case>
     <test-case name="math-exp10-005">
