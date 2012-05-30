@@ -10,6 +10,14 @@
          <created by="XQuery WG" on="2005-02-11"/>
       </source>      
    </environment>
+   
+   <environment name="perverse">
+        <schema uri="http://www.w3.org/XQueryTest" file="deep-equal/perverse.xsd">
+            <description>A Schema having mixed, elementOnly, and empty elements with the same name</description>
+            <created by="Michael Kay" on="2012-05-30"/>
+        </schema>        
+   </environment>
+
 
    <test-case name="fn-deep-equalint2args-1">
       <description> Evaluates The "deep-equal" function with the arguments set as follows: $parameter1 = xs:int(lower bound) $parameter2 = xs:int(lower bound) </description>
@@ -1424,7 +1432,128 @@
          <assert-true/>
       </result>
    </test-case>
-
+      
+   <test-case name="K-SeqDeepEqualFunc-56">
+      <description>Use case-blind collation, if supported</description>
+      <created by="Michael Kay" on="2012-05-30"/>
+      <environment>
+         <collation uri="http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind"/>
+      </environment>
+      <test>deep-equal(("a", "A"), ("A", "a"), "http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="K-SeqDeepEqualFunc-57">
+      <description>Use case-blind collation, if supported</description>
+      <created by="Michael Kay" on="2012-05-30"/>
+      <environment>
+         <collation uri="http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind"/>
+      </environment>
+      <test>deep-equal(("a", "A"), ("A", "b"), "http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="K-SeqDeepEqualFunc-58">
+      <description>Use case-blind collation, if supported, within attribute nodes</description>
+      <created by="Michael Kay" on="2012-05-30"/>
+      <environment>
+         <collation uri="http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind"/>
+      </environment>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+         deep-equal(<a><b x="abc"/></a>, <a><b x="ABC"/></a>,
+             "http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind")
+      ]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="K-SeqDeepEqualFunc-59">
+      <description>Use case-blind collation, if supported, within element nodes</description>
+      <created by="Michael Kay" on="2012-05-30"/>
+      <environment>
+         <collation uri="http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind"/>
+      </environment>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+         deep-equal(<a><b>abc</b></a>, <a><b>ABC</b></a>,
+             "http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind")
+      ]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="K-SeqDeepEqualFunc-60">
+      <description>Use case-blind collation, if supported, doesn't apply to names</description>
+      <created by="Michael Kay" on="2012-05-30"/>
+      <environment>
+         <collation uri="http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind"/>
+      </environment>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+         deep-equal(<a><b>abc</b></a>, <a><B>abc</B></a>,
+             "http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind")
+      ]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="K-SeqDeepEqualFunc-61">
+      <description>Use case-blind collation, if supported, doesn't apply to attribute names</description>
+      <created by="Michael Kay" on="2012-05-30"/>
+      <environment>
+         <collation uri="http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind"/>
+      </environment>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+         deep-equal(<a><b x="abc"/></a>, <a><b X="abc"/></a>,
+             "http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind")
+      ]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="K-SeqDeepEqualFunc-62">
+      <description>Use case-blind collation, if supported, partially applied</description>
+      <created by="Michael Kay" on="2012-05-30"/>
+      <environment>
+         <collation uri="http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind"/>
+      </environment>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         let $deep := deep-equal(?, ?, "http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind")
+         return $deep(<a><b>abc</b></a>, <a><b>ABC</b></a>)
+      ]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="K-SeqDeepEqualFunc-63">
+      <description>Use case-blind collation, if supported, in dynamic call</description>
+      <created by="Michael Kay" on="2012-05-30"/>
+      <environment>
+         <collation uri="http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind"/>
+      </environment>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         let $deep := deep-equal#3 
+         return $deep(<a><b>abc</b></a>, <a><b>ABC</b></a>, 
+                      "http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind")
+      ]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
    <test-case name="K2-SeqDeepEqualFunc-1">
       <description> Two date/time values that never will compare equal. </description>
       <created by="Frans Englich" on="2007-11-26"/>
@@ -1736,6 +1865,104 @@
       <created by="Frans Englich" on="2007-11-26"/>
       <dependency type="spec" value="XQ10+"/>
       <test>deep-equal(attribute name {"content "}, attribute name2 {"content "})</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="K2-SeqDeepEqualFunc-33">
+      <description> Namespace prefixes and namespace nodes are ignored</description>
+      <created by="Michael Kay" on="2012-05-30"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        deep-equal(<e xmlns="http://www.example.com/ns"/>, <p:e xmlns:p="http://www.example.com/ns"/>)
+      ]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="K2-SeqDeepEqualFunc-34">
+      <description> Parent node is ignored</description>
+      <created by="Michael Kay" on="2012-05-30"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        deep-equal(<e><a>12</a></e>/*, <f><a>12</a></f>/*)
+      ]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="K2-SeqDeepEqualFunc-35">
+      <description> Type annotation is ignored for atomic values</description>
+      <created by="Michael Kay" on="2012-05-30"/>
+      <test>
+        deep-equal("a", xs:NCName("a"))
+      </test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="K2-SeqDeepEqualFunc-36">
+      <description> Compare typed value, not string value</description>
+      <created by="Michael Kay" on="2012-05-30"/>
+      <dependency type="spec" value="XQ30+"/>
+      <dependency type="feature" value="schemaValidation"/>
+      <test><![CDATA[
+        deep-equal(validate type xs:integer {<e>2012</e>}, validate type xs:gYear{<e>2012</e>})
+      ]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="K2-SeqDeepEqualFunc-37">
+      <description> Type annotation is ignored on nodes</description>
+      <created by="Michael Kay" on="2012-05-30"/>
+      <dependency type="spec" value="XQ30+"/>
+      <dependency type="feature" value="schemaValidation"/>
+      <test><![CDATA[
+        deep-equal(validate type xs:integer {<e>2012</e>}, validate type xs:decimal{<e>2012</e>})
+      ]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="K2-SeqDeepEqualFunc-38">
+      <description>Element with mixed content is not equal to similar element with element-only content</description>
+      <created by="Michael Kay" on="2012-05-30"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaValidation"/>
+      <environment ref="perverse"/>
+      <test><![CDATA[
+        declare namespace p = "http://www.w3.org/XQueryTest/perversity";
+        let $v := validate strict {<p:elementOnly><p:e/></p:elementOnly>}
+        let $w := validate strict {<p:mixed><p:e/></p:mixed>}
+        let $x := validate strict {<p:empty><p:e/></p:empty>}
+        let $y := validate strict {<p:simple><p:e/></p:simple>}
+        return deep-equal($v/p:e, $w/p:e) or deep-equal($w/p:e, $x/p:e) 
+        	or deep-equal($v/p:e, $x/p:e) or deep-equal($x/p:e, $y/p:e)
+      ]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="K2-SeqDeepEqualFunc-39">
+      <description>Element with mixed content is not equal to similar element with simple content</description>
+      <created by="Michael Kay" on="2012-05-30"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaValidation"/>
+      <environment ref="perverse"/>
+      <test><![CDATA[
+        declare namespace p = "http://www.w3.org/XQueryTest/perversity";
+        let $w := validate strict {<p:mixed><p:e>fraternity</p:e></p:mixed>}
+        let $y := validate strict {<p:simple><p:e>fraternity</p:e></p:simple>}
+        return deep-equal($w/p:e, $y/p:e)
+      ]]></test>
       <result>
          <assert-false/>
       </result>
