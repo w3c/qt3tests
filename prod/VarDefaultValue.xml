@@ -353,13 +353,13 @@
       <modified by="O'Neil Delpratt" on="2012-05-29" change="fix bug 16034"/>
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
-        declare variable $y := (<a>1</a>,<a>2</a>,<a>3</a>,<a>4</a>,<a>5</a>,<a>6</a>,<a>7</a>,<a>8</a>,<a>9</a>,<a>10</a>);
+        declare variable $y := <root><a>1</a>,<a>2</a>,<a>3</a>,<a>4</a>,<a>5</a>,<a>6</a>,<a>7</a>,<a>8</a>,<a>9</a>,<a>10</a></root>;
         declare context item := $y;
         declare variable $x external := fn:last();
         $x
       ]]></test>
       <result>
-        <error code="XPTY0004" />
+        <assert-eq>1</assert-eq>
       </result>
    </test-case>
 
