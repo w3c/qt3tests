@@ -6506,16 +6506,25 @@
       </result>
    </test-case>
 
-   <test-case name="CastAs673">
+   <test-case name="CastAs673a">
       <description> Try to cast a variable to xs:QName</description>
       <created by="Nicolae Brinza" on="2009-04-01"/>
-      <dependency type="spec" value="XP30+ XQ10+"/>
+      <modified by="Tim Mills" on="2012-05-31" change="See bug 16059"/>
+      <dependency type="spec" value="XQ10"/>
       <test>let $var := "ABC" return $var cast as xs:QName</test>
       <result>
-         <any-of>
-            <assert-string-value>ABC</assert-string-value>
-            <error code="XPTY0004"/>
-         </any-of>
+	<error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="CastAs673b">
+      <description> Try to cast a variable to xs:QName</description>
+      <created by="Nicolae Brinza" on="2009-04-01"/>
+      <modified by="Tim Mills" on="2012-05-31" change="See bug 16059"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>let $var := "ABC" return $var cast as xs:QName</test>
+      <result>
+	<assert-string-value>ABC</assert-string-value>
       </result>
    </test-case>
 
@@ -7273,15 +7282,25 @@
       </result>
    </test-case>
 
-   <test-case name="K-SeqExprCast-71">
+   <test-case name="K-SeqExprCast-71a">
       <description> Casting xs:untypedAtomic to xs:QName is an error.</description>
       <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="Tim Mills" on="2012-05-31" change="See bug 16059"/>
+      <dependency type="spec" value="XP20 XQ10"/>
       <test>xs:untypedAtomic("ncname") cast as xs:QName?</test>
       <result>
-         <any-of>
-            <assert-string-value>ncname</assert-string-value>
-            <error code="XPTY0004"/>
-         </any-of>
+	<error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqExprCast-71b">
+      <description> Casting xs:untypedAtomic to xs:QName is an error.</description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="Tim Mills" on="2012-05-31" change="See bug 16059"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>xs:untypedAtomic("ncname") cast as xs:QName?</test>
+      <result>
+	<assert-string-value>ncname</assert-string-value>
       </result>
    </test-case>
 
