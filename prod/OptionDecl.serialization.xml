@@ -359,14 +359,15 @@
    </test-case>
 
    <test-case name="Serialization-018">
-      <description> 
-         It is a serialization error [err:SEPM0016] if a parameter value is invalid for the given parameter. 
-         Wrong serialization parameter value for normalization-form.
+     <description> 
+       A serialization error [err:SESU0011] results if the value of the normalization-form parameter 
+       specifies a normalization form that is not supported by the serializer; the serializer MUST 
+       signal the error.
       </description>
       <created by="Dennis Knochenwefel" on="2011-12-05"/>
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
-         declare option output:normalization-form "INVALID_VALUE";
+         declare option output:normalization-form "__NOT_SUPPORTED__";
          <result>ok</result>
       ]]></test>
       <result>
@@ -375,8 +376,8 @@
                 It is the responsibility of the host language to specify how invalid values should be handled at the level of that language. -->
            <assert-xml>&lt;result&gt;ok&lt;/result&gt;</assert-xml>     
 
-           <!-- It is a serialization error [err:SEPM0016] if a parameter value is invalid for the given parameter. -->
-           <assert-serialization-error code="SEPM0016" />
+           <!-- A serialization error [err:SESU0011] results if the value of the normalization-form parameter is not supported. -->
+           <assert-xml-error code="SESU0011" />
          </any-of>
       </result>
    </test-case>
@@ -498,14 +499,16 @@
 
    <test-case name="Serialization-024">
       <description> 
-         It is a serialization error [err:SEPM0016] if a parameter value is invalid for the given parameter. 
-         Wrong serialization parameter value for version.
+        The value of the version parameter MUST match the VersionNum production of the XML Recommendation 
+        [XML10] or [XML11]. A serialization error [err:SESU0013] results if the value of the version 
+        parameter specifies a version of XML that is not supported by the serializer; the serializer 
+        MUST signal the error.
       </description>
       <created by="Dennis Knochenwefel" on="2011-12-05"/>
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
-         (: A string of Unicode characters :)
-         declare option output:version "";
+         (: An unsupported xml version which matches the VersionNum of XML Recommendation XML10 :)
+         declare option output:version "1.14159265";
          <result>ok</result>
       ]]></test>
       <result>
@@ -514,8 +517,8 @@
                 It is the responsibility of the host language to specify how invalid values should be handled at the level of that language. -->
            <assert-xml>&lt;result&gt;ok&lt;/result&gt;</assert-xml>     
 
-           <!-- It is a serialization error [err:SEPM0016] if a parameter value is invalid for the given parameter. -->
-           <assert-serialization-error code="SEPM0016" />
+           <!-- A serialization error [err:SESU0013] results if the value of the version parameter is not supported by the serializer -->
+           <assert-serialization-error code="SESU0013" />
          </any-of>
       </result>
    </test-case>
