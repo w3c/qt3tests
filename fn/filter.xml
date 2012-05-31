@@ -220,7 +220,10 @@
       <dependency type="spec" value="XP30+ XQ30+"/>
       <test>fn:filter( function($a as item()) as xs:boolean* { fn:boolean($a), fn:boolean($a) }, () )</test>
       <result>
-         <assert-empty />
+	<any-of>
+	  <error code="XPST0005" />
+	  <assert-empty />
+	</any-of>
       </result>
    </test-case>
 
@@ -230,17 +233,25 @@
       <dependency type="spec" value="XP30+ XQ30+"/>
       <test>fn:filter( function($a as item()) as xs:boolean? { () }, () )</test>
       <result>
-         <assert-empty />
+	<any-of>
+	  <error code="XPST0005" />
+	  <assert-empty />
+	</any-of>
       </result>
    </test-case>
 
    <test-case name="fn-filter-012">
       <description>Tests the type checking of the $f argument.</description>
       <created by="Tim Mills" on="2012-05-01"/>
+      <modified by="Tim Mills" on="2012-05-31" change="See bug 17250"/>
       <dependency type="spec" value="XP30+ XQ30+"/>
       <test>fn:filter( fn:string#1, () )</test>
       <result>
-         <assert-empty />
+	<any-of>
+	  <error code="XPTY0004" />
+	  <error code="XPST0005" />
+	  <assert-empty />
+	</any-of>
       </result>
    </test-case>
 
