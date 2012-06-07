@@ -817,8 +817,12 @@
                 <div>
                     <h3>assert</h3>
                     <p>
-                        denotes an element that contains an XPath expression of which the result equals the expected result of the test case. 
+                        The assert element contains an XPath expression whose effective boolean
+                        value must be true; usually the expression will use the variable $result
+                        which references the result of the expression. 
                     </p>
+                    <p>For example, <code>&lt;assert&gt;matches(string($result), '[0-9]{3}')&lt;/assert&gt;</code>
+                    asserts that the result of the test expression is a three-digit number.</p>
                 </div> 
             </xs:documentation>
         </xs:annotation>
@@ -835,8 +839,13 @@
                 <div>
                     <h3>assert-eq</h3>
                     <p>
-                        denotes an element whose assumption when run must equal the expected test result.
+                        The assert element contains an XPath expression (usually a simple string or numeric literal) which must
+                        be equal to the result of the test case under the rules of the XPath 'eq' operator. 
                     </p>
+                    <p>For example, <code>&lt;assert-eq&gt;12&lt;/assert-eq&gt;</code>
+                    asserts that the result of the test expression is an atomic value that compares
+                    equal to the integer 12 (which means it might be the double value 12.0 or the
+                    float value 12.0 or the untyped atomic value "12.0", for example).</p>
                 </div> 
             </xs:documentation>
         </xs:annotation>
