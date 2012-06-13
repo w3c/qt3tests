@@ -1429,6 +1429,19 @@
     </result>
   </test-case>
   
+  <test-case name="try-catch-function-result-type-1">
+    <description>Can't catch this error within the function body</description>
+    <created by="Michael Kay" on="2012-06-13"/>
+    
+    <test>declare function local:thrice($x as xs:integer) as xs:integer
+      { try { "three" } catch * { 3 } };
+      local:thrice(3)
+    </test>
+    <result>
+      <error code="XPTY0004"/>
+    </result>
+  </test-case>
+  
   <test-case name="try-catch-all-dynamic-errors-caught-1">
     <description>XPDY0002 must be caught.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
