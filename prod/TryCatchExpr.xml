@@ -1434,7 +1434,7 @@
     <created by="Michael Kay" on="2012-06-13"/>
     
     <test>declare function local:thrice($x as xs:integer) as xs:integer
-      { try { "three" } catch * { 3 } };
+      { try { if (current-date() gt xs:date('2000-01-01')) then "three" else 3 } catch * { 3 } };
       local:thrice(3)
     </test>
     <result>
