@@ -449,12 +449,26 @@
    </test-case>
 
    <test-case name="annotation-28">
-      <description>A function annotation</description>
+      <description>A function annotation (default function namespace does not affect annotations)</description>
       <created by="Josh Spiegel" on="2012-01-08"/>
+      <modified by="John Snelson" on="2012-06-19" change="Changed per bug 16199"/>
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
          declare default function namespace "http://example.com";
          declare %x variable $foo := "bar";
+         $foo
+      ]]></test>
+      <result>
+         <error code="XQST0045"/>
+      </result>
+   </test-case>
+
+   <test-case name="annotation-29">
+      <description>A function annotation (per bug 16199)</description>
+      <created by="John Snelson" on="2012-06-19"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         declare %local:x variable $foo := "bar";
          $foo
       ]]></test>
       <result>

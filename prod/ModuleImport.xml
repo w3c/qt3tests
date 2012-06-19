@@ -1613,9 +1613,11 @@
   <test-case name="modules-pub-priv-30">
       <description> It is an error if a function's annotations contain contain a public and private annotation. </description>
       <created by="Josh Spiegel, Oracle" on="2012-01-04"/>
+      <modified by="John Snelson" on="2012-06-19" change="Revised namespace as per bug 16199"/>
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
-        declare %private %fn:public function local:foo() { () };
+        declare namespace xq="http://www.w3.org/2012/xquery";
+        declare %private %xq:public function local:foo() { () };
         local:foo()
       ]]></test>
       <result>
@@ -1665,9 +1667,11 @@
   <test-case name="modules-pub-priv-34">
       <description> It is an error if a variable's annotations contain contain a public and private annotation. </description>
       <created by="Josh Spiegel, Oracle" on="2012-01-04"/>
+      <modified by="John Snelson" on="2012-06-19" change="Revised namespace as per bug 16199"/>
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
-        declare %private %fn:public variable $foo := ();
+        declare namespace xq="http://www.w3.org/2012/xquery";
+        declare %private %xq:public variable $foo := ();
         $foo
       ]]></test>
       <result>
