@@ -188,5 +188,28 @@
          <assert-empty/>
       </result>
    </test-case>
+
+       <test-case name="Catalog009">
+      <description>List the dependencies in the test suite</description>
+      <created by="O'Neil Delpratt" on="2011-08-23"/>
+      <environment ref="catalog"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+       xquery version "3.0";
+        declare namespace fots = "http://www.w3.org/2010/09/qt-fots-catalog";
+        let $testsets := //fots:test-set/@file/doc(resolve-uri(., base-uri(..)))
+        for $dependencyTS in $testsets//fots:dependency
+        let $name := $dependencyTS/@type
+        let $value := $dependencyTS/@value
+        group by $name, $value
+        order by $name, $value
+
+        return <dependency type='{$name}' value='{$value}' />
+
+      ]]></test>
+      <result>
+        <assert-type>element()*</assert-type>
+      </result>
+   </test-case>
    
 </test-set>
