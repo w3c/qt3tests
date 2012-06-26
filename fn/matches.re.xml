@@ -7891,40 +7891,42 @@ b', ',') satisfies not(matches($s, '^(?:a\sb)$')))</test>
       <description>Test regex syntax</description>
       <created by="Michael Kay" on="2011-07-04"/>
       <modified by="Michael Kay" on="2012-01-05" change="test some strings against the regex to force it to be compiled"/>
-      <test>(every $s in tokenize('', ',') satisfies matches($s, '^(?:(\d*){0,2}a\1)$')) and (every $s in tokenize('33a34', ',') satisfies not(matches($s, '^(?:(\d){0,2}a\1)$')))</test>
+      <modified by="Michael Kay" on="2012-06-26" change="simplify the test. See bug 15545."/>
+      <test>matches('33a34', '^(\d){0,2}a\1$')</test>      
       <result>
-         <assert-true/>
+         <assert-false/>
       </result>
    </test-case>
    <test-case name="re00973">
       <description>Test regex syntax</description>
       <created by="Michael Kay" on="2011-07-04"/>
       <modified by="Michael Kay" on="2012-01-05" change="test some strings against the regex to force it to be compiled"/>
-      <test>(every $s in tokenize('', ',') satisfies matches($s, '^(?:(\d*){2,}a\1)$')) and (every $s in tokenize('333a334', ',') satisfies not(matches($s, '^(?:(\d*){2,}a\1)$')))</test>
+      <modified by="Michael Kay" on="2012-06-26" change="simplify the test. See bug 15545."/>
+      <test>matches('333a334', '^(\d*){2,}a\1$')</test>
       <result>
-         <assert-true/>
+         <assert-false/>
       </result>
    </test-case>
    <test-case name="re00974">
       <description>Test regex syntax</description>
       <created by="Michael Kay" on="2011-07-04"/>
+      <modified by="Michael Kay" on="2012-06-26" change="simplify the test. See bug 15545."/>
       <test>
-         (every $s in tokenize('', ',') satisfies matches($s, '^(?:(\d*){0,2}?a\1)$')) and
-         (every $s in tokenize('22a3', ',') satisfies not(matches($s, '^(?:(\d*){0,2}?a\1)$')))
+         matches('22a3', '^(\d*){0,2}?a\1$')
       </test>
       <result>
-         <assert-true/>
+         <assert-false/>
       </result>
    </test-case>
    <test-case name="re00975">
       <description>Test regex syntax</description>
       <created by="Michael Kay" on="2011-07-04"/>
+      <modified by="Michael Kay" on="2012-06-26" change="simplify the test. See bug 15545."/>
       <test>
-        (every $s in tokenize('', ',') satisfies matches($s, '^(?:(\d*){2,}?a\1)$')) and 
-        (every $s in tokenize('22a3', ',') satisfies not(matches($s, '^(?:(\d*){2,}?a\1)$')))
+        matches('22a3', '^(\d*){2,}?a\1$')
       </test>
       <result>
-         <assert-true/>
+         <assert-false/>
       </result>
    </test-case>
    <test-case name="re00976">
@@ -7933,11 +7935,32 @@ b', ',') satisfies not(matches($s, '^(?:a\sb)$')))</test>
       <modified by="Michael Kay" on="2012-05-23" change="simplify the test to its essentials,
          and allow different results. See bug 15545 and bug 17160"/>
       <test>
-        matches('22a22z', '^(\d*){2,}?a\1z$') and 
-        not(matches('22a22', '^(\d*){2,}?a\1z$'))
+        matches('22a22z', '^(\d*){2,}?a\1z$')
       </test>
       <result>
          <assert-type>xs:boolean</assert-type>
+      </result>
+   </test-case>
+   <test-case name="re00976a">
+      <description>Test regex syntax</description>
+      <created by="Michael Kay" on="2011-07-04"/>
+      <modified by="Michael Kay" on="2012-05-23" change="split test re00976 into three"/>
+      <test>
+        matches('22a22', '^(\d*){2,}?a\1z$')
+      </test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   <test-case name="re00976b">
+      <description>Test regex syntax</description>
+      <created by="Michael Kay" on="2011-07-04"/>
+      <modified by="Michael Kay" on="2012-05-23" change="split test re00976 into three"/>
+      <test>
+        matches('22a22', '^(\d{2,})a\1$')
+      </test>
+      <result>
+         <assert-true/>
       </result>
    </test-case>
    <test-case name="re00977">
