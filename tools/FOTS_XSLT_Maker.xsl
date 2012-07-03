@@ -400,5 +400,12 @@
 
         <x:variable name="{$role}" select="doc('{$uri}')"/>
     </xsl:template>
+    
+    <xsl:template match="fots:environment">
+        <xsl:param name="baseUri"/>
+        <xsl:apply-templates select="fots:source" >
+            <xsl:with-param name="baseUri" select="$baseUri"/>
+        </xsl:apply-templates>
+    </xsl:template>
 
 </xsl:stylesheet>
