@@ -114,6 +114,10 @@
                 </input>
                 <output same-as-1.0="false">
                     <result-document file="expectedResult.out" role="principal" type="xml"/>
+                    <!-- allow for static errors -->
+                    <xsl:for-each select="fots:result//fots:error">
+                        <error error-id="{@code}"/>
+                    </xsl:for-each>
                 </output>
             </testcase>
 
@@ -166,32 +170,21 @@
                                     <xsl:when test="empty(fots:result//fots:error)">
                                         <fail>
                                             <xsl:attribute name="code">{$err:code}</xsl:attribute>
+                                            <xsl:attribute name="line">{$err:line-number}</xsl:attribute>
                                         </fail>
                                     </xsl:when>
                                     <xsl:when test="fots:result//fots:error[self::*/@code='*']">
                                         <ok/>
                                     </xsl:when>
                                     <xsl:otherwise>
-                                        <x:variable name="errVar">
-                                            <xsl:for-each select="fots:result//fots:error">
-                                                <xsl:variable name="code" select="@code"/>
-                                                <x:choose>
-                                                  <x:when test="$err:code='{$code}'">
-                                                  <ok/>
-                                                  </x:when>
-                                                  <x:otherwise>
-                                                  <fail/>
-                                                  </x:otherwise>
-                                                </x:choose>
-                                            </xsl:for-each>
-                                        </x:variable>
-
                                         <x:choose>
-                                            <x:when test="empty($errVar[self::fail])">
+                                            <xsl:for-each select="fots:result//fots:error">
+                                              <x:when test="local-name-from-QName($err:code)='{@code}'">
                                                 <ok/>
-                                            </x:when>
+                                              </x:when>
+                                            </xsl:for-each>
                                             <x:otherwise>
-                                                <x:copy-of select="$errVar[self::fail][1]"/>
+                                                <fail reason="expected error {string-join(fots:result//fots:error/@code, ' or ')}, got {{$err:code}}"/>
                                             </x:otherwise>
                                         </x:choose>
                                     </xsl:otherwise>
@@ -377,6 +370,12 @@
                 <x:copy-of select="$allVar[self::fail][1]"/>
             </x:otherwise>
         </x:choose>
+    </xsl:template>
+    
+    <xsl:template match="fots:error">
+        <fail reason="no error">
+            <x:copy-of select="$result"/>
+        </fail>
     </xsl:template>
     
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
