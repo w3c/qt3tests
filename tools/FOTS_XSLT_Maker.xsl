@@ -254,7 +254,7 @@
         </x:choose>
     </xsl:template>
 
-    <xsl:template match="assert-deep-eq">
+    <xsl:template match="fots:assert-deep-eq">
         <xsl:variable name="assertion" select="."/>
         <x:choose>
             <x:when test="deep-equal($result, ({$assertion}))">
