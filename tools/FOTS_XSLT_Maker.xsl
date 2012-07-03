@@ -24,17 +24,17 @@
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:x="http://www.w3.org/2001/XMLSchema"
-    xmlns:fots="http://www.w3.org/2010/09/qt-fots-catalog" exclude-result-prefixes="xs fots xsl x"
+    xmlns:fots="http://www.w3.org/2010/09/qt-fots-catalog" exclude-result-prefixes="fots xsl x"
     version="3.0">
 
     <xsl:output indent="yes"/>
 
     <xsl:variable name="main-dir" select="'../'"/>
-    <xsl:variable name="xslt-dir" select="concat($main-dir,'xslt/')"/>
+    <xsl:param name="xslt-dir" select="concat($main-dir,'xslt/')"/>
 
     <xsl:namespace-alias stylesheet-prefix="x" result-prefix="xsl"/>
 
-    <xsl:variable name="environment" select="fots:catalog/fots:environment"/>
+    <xsl:variable name="globalEnvironments" select="fots:catalog/fots:environment"/>
 
     <xsl:template match="fots:catalog">
 
@@ -87,7 +87,7 @@
 
         <xsl:variable name="name" select="@name"/>
         <xsl:variable name="checkForXT"
-            select="if($dependency[matches(@value, 'XT|XP')] or not($dependency)) then true() else false()"/>
+            select="$dependency[matches(@value, 'XT|XP')] or not($dependency)"/>
 
         <xsl:if test="$checkForXT">
 
@@ -103,9 +103,9 @@
                 </category>
                 <description>
                     <xsl:value-of select="description"/>
-                </description>
-                <discretionary-version spec="XSLT3.0"/>
+                </description>                
                 <discretionary-items>
+                    <discretionary-version spec="XSLT30"/>
                     <discretionary-feature name="namespace_axis" behavior="on"/>
                 </discretionary-items>
                 <input>
@@ -126,40 +126,29 @@
                 omit-xml-declaration="yes" indent="yes">
 
                 <x:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                    xmlns:fn="http://www.w3.org/2005/xpath-functions"
                     xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                    xmlns:err="http://www.w3.org/2005/xqt-errors" exclude-result-prefixes="err"
+                    xmlns:err="http://www.w3.org/2005/xqt-errors" exclude-result-prefixes="fn err xs"
                     version="{$version}">
+                    <!-- TODO: can't see why the xsl:namespace instruction is necessary, but it does the job -->
+                    <xsl:namespace name="xs">http://www.w3.org/2001/XMLSchema</xsl:namespace>
                     <xsl:text>&#10;</xsl:text>
                     <xsl:comment><xsl:value-of select="$name"/>:<xsl:value-of select="fots:description"/></xsl:comment>
                     <xsl:text>&#10;</xsl:text>
                     <x:template name="main">
-
-                        <xsl:for-each select="fots:environment">
-                            <xsl:variable name="ref" select="@ref"/>
-                            <xsl:choose>
-                                <xsl:when test="$tsEnvironments[@name=$ref]">
-                                    <xsl:apply-templates
-                                        select="$tsEnvironments[@name=$ref]/fots:source">
-                                        <xsl:with-param name="baseUri" select="$baseUri"/>
-                                    </xsl:apply-templates>
-                                </xsl:when>
-                                <xsl:when test="$environment[@name=$ref]">
-                                    <xsl:apply-templates
-                                        select="$environment[@name=$ref]/fots:source">
-                                        <xsl:with-param name="baseUri" select="$baseUri"/>
-                                    </xsl:apply-templates>
-                                </xsl:when>
-                                <xsl:when test="fots:source">
-                                    <xsl:apply-templates select="fots:source">
-                                        <xsl:with-param name="baseUri" select="$baseUri"/>
-                                    </xsl:apply-templates>
-                                </xsl:when>
-                            </xsl:choose>
-                        </xsl:for-each>
+                        
+                        <xsl:variable name="env" as="element(fots:environment)?"
+                            select = "( fots:environment[not(@ref)],
+                                        $tsEnvironments[@name = current()/fots:environment/@ref],
+                                        $globalEnvironments[@name = current()/fots:environment/@ref] )[1]"/>
+                            
+                        <xsl:apply-templates select="$env">
+                            <xsl:with-param name="baseUri" select="$baseUri"/>
+                        </xsl:apply-templates>    
 
                         <x:try>
                             <xsl:choose>
-                                <xsl:when test="fots:environment">
+                                <xsl:when test="$env/fots:source[@role='.']">
                                     <x:for-each select="$contextVar">
                                         <x:variable name="result" select="{$test}"/>
                                         <xsl:apply-templates select="fots:result"/>
@@ -202,7 +191,7 @@
                                                 <ok/>
                                             </x:when>
                                             <x:otherwise>
-                                                <fail/>
+                                                <x:copy-of select="$errVar[self::fail][1]"/>
                                             </x:otherwise>
                                         </x:choose>
                                     </xsl:otherwise>
@@ -224,8 +213,7 @@
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
     <!--                                                                      -->
     <!-- Generate:                                                            -->
-    <!--    1) text to handle the various types of assertions, also           -->
-    <!--       handle source documents as a variable                          -->
+    <!--       text to handle the various types of assertions                 -->
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
     <xsl:template match="fots:assert-true">
         <x:choose>
@@ -252,11 +240,11 @@
     <xsl:template match="fots:assert-string-value">
         <xsl:variable name="assertion" select="."/>
         <x:choose>
-            <x:when test="$result='{$assertion}'">
+            <x:when test="string-join($result!string(), ' ')  eq '{$assertion}'">
                 <ok/>
             </x:when>
             <x:otherwise>
-                <fail/>
+                <fail><x:copy-of select="$result"/></fail>
             </x:otherwise>
         </x:choose>
     </xsl:template>
@@ -264,11 +252,11 @@
     <xsl:template match="fots:assert-eq">
         <xsl:variable name="assertion" select="."/>
         <x:choose>
-            <x:when test="$result={$assertion}">
+            <x:when test="$result eq {$assertion}">
                 <ok/>
             </x:when>
             <x:otherwise>
-                <fail/>
+                <fail><x:copy-of select="$result"/></fail>
             </x:otherwise>
         </x:choose>
     </xsl:template>
@@ -280,7 +268,7 @@
                 <ok/>
             </x:when>
             <x:otherwise>
-                <fail/>
+                <fail><x:copy-of select="$result"/></fail>
             </x:otherwise>
         </x:choose>
     </xsl:template>
@@ -291,7 +279,7 @@
                 <ok/>
             </x:when>
             <x:otherwise>
-                <fail/>
+                <fail><x:copy-of select="$result"/></fail>
             </x:otherwise>
         </x:choose>
     </xsl:template>
@@ -303,7 +291,7 @@
                 <ok/>
             </x:when>
             <x:otherwise>
-                <fail/>
+                <fail><x:copy-of select="$result"/></fail>
             </x:otherwise>
         </x:choose>
     </xsl:template>
@@ -315,7 +303,38 @@
                 <ok/>
             </x:when>
             <x:otherwise>
-                <fail/>
+                <fail><x:copy-of select="$result"/></fail>
+            </x:otherwise>
+        </x:choose>
+    </xsl:template>
+    
+    <xsl:template match="fots:assert-permutation">
+        <xsl:variable name="assertion" select="."/>
+        <x:variable name="expected" select="{$assertion}"/>
+        <x:choose>
+            <x:when test="count($result) eq count($expected) and every $r in $result satisfies $r = $expected">
+                <ok/>
+            </x:when>
+            <x:otherwise>
+                <fail><x:copy-of select="$result"/></fail>
+            </x:otherwise>
+        </x:choose>
+    </xsl:template>
+    
+    <xsl:template match="fots:assert-xml">
+        <xsl:variable name="assertion" select="."/>
+        <x:variable name="expected">
+            <xsl:value-of select="$assertion" disable-output-escaping="yes"/>
+        </x:variable>
+        <x:variable name="actual">
+            <x:copy-of select="$result" />
+        </x:variable>
+        <x:choose>
+            <x:when test="deep-equal($expected, $actual)">
+                <ok/>
+            </x:when>
+            <x:otherwise>
+                <fail><x:copy-of select="$result"/></fail>
             </x:otherwise>
         </x:choose>
     </xsl:template>
@@ -327,14 +346,27 @@
                 <ok/>
             </x:when>
             <x:otherwise>
-                <fail/>
+                <fail><x:copy-of select="$result"/></fail>
+            </x:otherwise>
+        </x:choose>
+    </xsl:template>
+    
+    <xsl:template match="fots:any-of">
+        <x:variable name="anyVar" as="element()*">
+            <xsl:apply-templates select="child::*"/>
+        </x:variable>
+        <x:choose>
+            <x:when test="empty($anyVar[self::ok])">
+                <x:copy-of select="$anyVar[self::fail][1]"/>                
+            </x:when>
+            <x:otherwise>
+                <ok/>
             </x:otherwise>
         </x:choose>
     </xsl:template>
 
-
     <xsl:template match="fots:all-of">
-        <x:variable name="allVar">
+        <x:variable name="allVar" as="element()*">
             <xsl:apply-templates select="child::*"/>
         </x:variable>
         <x:choose>
@@ -342,11 +374,16 @@
                 <ok/>
             </x:when>
             <x:otherwise>
-                <fail/>
+                <x:copy-of select="$allVar[self::fail][1]"/>
             </x:otherwise>
         </x:choose>
-
     </xsl:template>
+    
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+    <!--                                                                      -->
+    <!-- Generate:                                                            -->
+    <!--       handle source documents as a variable                          -->
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
 
     <xsl:template match="fots:source[@role='.']">
         <xsl:param name="baseUri"/>
@@ -356,8 +393,7 @@
         <x:variable name="contextVar" select="doc('{$uri}')"/>
     </xsl:template>
 
-    <xsl:template match="fots:source
-        ">
+    <xsl:template match="fots:source">
         <xsl:param name="baseUri"/>
         <xsl:variable name="file" select="@file"/>
         <xsl:variable name="role" select="substring(@role,2)"/>
