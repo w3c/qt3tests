@@ -83,7 +83,7 @@
 
         <xsl:variable name="testCaseDependency" select="fots:dependency[@type='spec']"/>
 
-        <xsl:variable name="dependency" select="if(matches($testCaseDependency, 'XT')) then $testCaseDependency else  ($testCaseDependency, $testSetDependency)"/>
+        <xsl:variable name="dependency" select="if(matches($testCaseDependency/@value, 'XQ') and not(matches($testCaseDependency/@value, 'XT|XP'))) then $testCaseDependency else  ($testCaseDependency, $testSetDependency)"/>
 
         <xsl:variable name="name" select="@name"/>
         <xsl:variable name="checkForXT"
