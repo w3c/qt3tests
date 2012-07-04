@@ -96,13 +96,13 @@
                     <xsl:value-of select="$name"/>
                 </name>
                 <creator>
-                    <xsl:value-of select="created/@by"/>
+                    <xsl:value-of select="fots:created/@by"/>
                 </creator>
                 <category>
                     <xsl:value-of select="$testSetName"/>
                 </category>
                 <description>
-                    <xsl:value-of select="description"/>
+                    <xsl:value-of select="fots:description"/>
                 </description>                
                 <discretionary-items>
                     <discretionary-version spec="XSLT30"/>
@@ -139,13 +139,16 @@
                     <xsl:text>&#10;</xsl:text>
                     <xsl:comment><xsl:value-of select="$name"/>:<xsl:value-of select="fots:description"/></xsl:comment>
                     <xsl:text>&#10;</xsl:text>
+                    
+                    <xsl:variable name="env" as="element(fots:environment)?"
+                        select = "( fots:environment[not(@ref)],
+                        $tsEnvironments[@name = current()/fots:environment/@ref],
+                        $globalEnvironments[@name = current()/fots:environment/@ref] )[1]"/>
+                    
+                    <xsl:apply-templates select="$env" mode="global"/>
+                    
                     <x:template name="main">
-                        
-                        <xsl:variable name="env" as="element(fots:environment)?"
-                            select = "( fots:environment[not(@ref)],
-                                        $tsEnvironments[@name = current()/fots:environment/@ref],
-                                        $globalEnvironments[@name = current()/fots:environment/@ref] )[1]"/>
-                            
+                                                   
                         <xsl:apply-templates select="$env">
                             <xsl:with-param name="baseUri" select="$baseUri"/>
                         </xsl:apply-templates>    
@@ -202,6 +205,28 @@
         </xsl:if>
 
     </xsl:template>
+    
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+    <!--                                                                      -->
+    <!--  Generate global declarations corresponding to the environment       -->
+    <!--                                                                      -->
+    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+    <xsl:template match="fots:environment" mode="global">
+        <xsl:apply-templates mode="global"/>
+    </xsl:template>
+    
+    <xsl:template match="*" mode="global"/>
+    
+    <xsl:template match="fots:param" mode="global">
+        <x:param name="{@name}" as="{@as}" select="{@select}" required="no"/>
+    </xsl:template>
+    
+    <xsl:template match="fots:decimal-format" mode="global">
+        <x:decimal-format>
+            <xsl:copy-of select="@*"/>
+        </x:decimal-format>    
+    </xsl:template>
+    
 
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
     <!--                                                                      -->
