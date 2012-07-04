@@ -83,7 +83,7 @@
 
         <xsl:variable name="testCaseDependency" select="fots:dependency[@type='spec']"/>
 
-        <xsl:variable name="dependency" select="$testCaseDependency, $testSetDependency"/>
+        <xsl:variable name="dependency" select="if(matches($testCaseDependency, 'XT')) then $testCaseDependency else  ($testCaseDependency, $testSetDependency)"/>
 
         <xsl:variable name="name" select="@name"/>
         <xsl:variable name="checkForXT"
@@ -305,7 +305,7 @@
         <xsl:variable name="assertion" select="."/>
         <x:variable name="expected" select="{$assertion}"/>
         <x:choose>
-            <x:when test="count($result) eq count($expected) and every $r in $result satisfies $r = $expected">
+            <x:when test="count($result) eq count($expected) and (every $r in $result satisfies $r = $expected)">
                 <ok/>
             </x:when>
             <x:otherwise>
