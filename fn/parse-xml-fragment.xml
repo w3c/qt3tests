@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<test-set  xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="fn-parse-xml">
+<test-set  xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="fn-parse-xml-fragment">
     <description>Tests for the fn:parse-xml-fragment function introduced in XPath 3.0</description>
     <link type="spec" document="http://www.w3.org/TR/xpath-functions-11/" idref="func-parse-xml-fragment"/>
         <dependency type="spec" value="XP30+ XQ30+"/>
@@ -116,7 +116,7 @@
         <description>parse-xml-fragment test - text declaration is OK</description>
         <created by="Michael Kay, Saxonica" on="2012-07-05"/>        
         <environment name="empty"/>
-        <test><![CDATA[parse-xml-fragment("<?xml version='1.0' encoding='utf-8'><a/>")]]></test>
+        <test><![CDATA[parse-xml-fragment("<?xml version='1.0' encoding='utf-8'?><a/>")]]></test>
         <result>
             <assert-xml><![CDATA[<a/>]]></assert-xml>
         </result>
@@ -125,7 +125,7 @@
         <description>parse-xml-fragment test - text declaration on its own is OK</description>
         <created by="Michael Kay, Saxonica" on="2012-07-05"/>        
         <environment name="empty"/>
-        <test><![CDATA[parse-xml-fragment("<?xml version='1.0' encoding='utf-8'>")]]></test>
+        <test><![CDATA[parse-xml-fragment("<?xml version='1.0' encoding='utf-8'?>")]]></test>
         <result>
             <assert-string-value/>
         </result>
@@ -134,7 +134,7 @@
         <description>parse-xml-fragment test - text declaration plus text on its own is OK</description>
         <created by="Michael Kay, Saxonica" on="2012-07-05"/>        
         <environment name="empty"/>
-        <test><![CDATA[parse-xml-fragment("<?xml version='1.0' encoding='utf-8'>abc")]]></test>
+        <test><![CDATA[parse-xml-fragment("<?xml version='1.0' encoding='utf-8'?>abc")]]></test>
         <result>
             <assert-string-value>abc</assert-string-value>
         </result>
@@ -143,7 +143,7 @@
         <description>parse-xml-fragment test - encoding attribute in a text declaration is mandatory</description>
         <created by="Michael Kay, Saxonica" on="2012-07-05"/>        
         <environment name="empty"/>
-        <test><![CDATA[parse-xml-fragment("<?xml version='1.0'><a/>")]]></test>
+        <test><![CDATA[parse-xml-fragment("<?xml version='1.0'?><a/>")]]></test>
         <result>
             <error code="FODC0006" />
         </result>
@@ -152,7 +152,7 @@
         <description>parse-xml-fragment test - standalone attribute in a text declaration is disallowed</description>
         <created by="Michael Kay, Saxonica" on="2012-07-05"/>        
         <environment name="empty"/>
-        <test><![CDATA[parse-xml-fragment("<?xml version='1.0' encoding='utf-8' standalone='yes'><a/>")]]></test>
+        <test><![CDATA[parse-xml-fragment("<?xml version='1.0' encoding='utf-8' standalone='yes'?><a/>")]]></test>
         <result>
             <error code="FODC0006" />
         </result>
