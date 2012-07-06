@@ -77,8 +77,7 @@
         <xsl:param name="testGroupName"/>
         <xsl:param name="tsEnvironments"/>
         <xsl:param name="file"/>
-        <xsl:variable name="baseUri" select="base-uri(.)"/>
-
+        
         <xsl:variable name="test" select="fots:test"/>
 
         <xsl:variable name="testCaseDependency" select="fots:dependency[@type='spec']"/>
@@ -88,9 +87,14 @@
         <xsl:variable name="name" select="@name"/>
         <xsl:variable name="checkForXT"
             select="$dependency[matches(@value, 'XT|XP')] or not($dependency)"/>
+        
+        <xsl:variable name="env" as="element(fots:environment)?"
+            select = "( fots:environment[not(@ref)],
+            $tsEnvironments[@name = current()/fots:environment/@ref],
+            $globalEnvironments[@name = current()/fots:environment/@ref] )[1]"/>
 
         <xsl:if test="$checkForXT">
-
+            
             <testcase xmlns="http://www.w3.org/2005/05/xslt20-test-catalog">
                 <name>
                     <xsl:value-of select="$name"/>
@@ -110,6 +114,12 @@
                 </discretionary-items>
                 <input>
                     <stylesheet file="{$testGroupName}/{$testSetName}/{$name}.xsl" role="principal"/>
+                    <xsl:for-each select="$env/fots:source[@uri]">
+                        <source-document file="{resolve-uri(@file, base-uri($env))}" role="secondary" uri="{@uri}"/>
+                    </xsl:for-each>
+                    <xsl:for-each select="$env/fots:resource">
+                        <unparsed-text file="{resolve-uri(@file, base-uri($env))}" role="secondary" uri="{@uri}" encoding="{@encoding}"/>
+                    </xsl:for-each>    
                     <entry-named-template qname="main"/>
                 </input>
                 <output same-as-1.0="false">
@@ -132,26 +142,27 @@
                 <x:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                     xmlns:fn="http://www.w3.org/2005/xpath-functions"
                     xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                    xmlns:err="http://www.w3.org/2005/xqt-errors" exclude-result-prefixes="fn err xs"
+                    xmlns:err="http://www.w3.org/2005/xqt-errors" 
+                    xmlns:math="http://www.w3.org/2005/xpath-functions/math"
+                    xmlns:map="http://www.w3.org/2005/xpath-functions/map"
+                    exclude-result-prefixes="fn err xs math map"
                     version="{$version}">
                     <!-- TODO: can't see why the xsl:namespace instruction is necessary, but it does the job -->
                     <xsl:namespace name="xs">http://www.w3.org/2001/XMLSchema</xsl:namespace>
+                    <xsl:if test="$env/fots:static-base-uri[@uri != '#UNDEFINED']">
+                        <xsl:attribute name="xml:base" select="$env/fots:static-base-uri/@uri"/>
+                    </xsl:if>
                     <xsl:text>&#10;</xsl:text>
                     <xsl:comment><xsl:value-of select="$name"/>:<xsl:value-of select="fots:description"/></xsl:comment>
                     <xsl:text>&#10;</xsl:text>
                     
-                    <xsl:variable name="env" as="element(fots:environment)?"
-                        select = "( fots:environment[not(@ref)],
-                        $tsEnvironments[@name = current()/fots:environment/@ref],
-                        $globalEnvironments[@name = current()/fots:environment/@ref] )[1]"/>
+                    
                     
                     <xsl:apply-templates select="$env" mode="global"/>
                     
                     <x:template name="main">
                                                    
-                        <xsl:apply-templates select="$env">
-                            <xsl:with-param name="baseUri" select="$baseUri"/>
-                        </xsl:apply-templates>    
+                        <xsl:apply-templates select="$env"/>
 
                         <x:try>
                             <xsl:choose>
@@ -266,6 +277,18 @@
             </x:otherwise>
         </x:choose>
     </xsl:template>
+    
+    <xsl:template match="fots:assert-string-value[string(@normalize-space)='true']">
+        <xsl:variable name="assertion" select="."/>
+        <x:choose>
+            <x:when test="normalize-space(string-join($result!string(), ' '))  eq '{normalize-space($assertion)}'">
+                <ok/>
+            </x:when>
+            <x:otherwise>
+                <fail><x:copy-of select="$result"/></fail>
+            </x:otherwise>
+        </x:choose>
+    </xsl:template>
 
     <xsl:template match="fots:assert-eq">
         <xsl:variable name="assertion" select="."/>
@@ -330,7 +353,7 @@
         <xsl:variable name="assertion" select="."/>
         <x:variable name="expected" select="{$assertion}"/>
         <x:choose>
-            <x:when test="count($result) eq count($expected) and (every $r in $result satisfies $r = $expected)">
+            <x:when test="count($result) eq count($expected) and (every $r in $result satisfies exists(index-of($expected, $r)))">
                 <ok/>
             </x:when>
             <x:otherwise>
@@ -342,13 +365,14 @@
     <xsl:template match="fots:assert-xml">
         <xsl:variable name="assertion" select="."/>
         <x:variable name="expected">
-            <xsl:value-of select="$assertion" disable-output-escaping="yes"/>
-        </x:variable>
-        <x:variable name="actual">
+            <xsl:value-of select="if (@file) then unparsed-text(resolve-uri(@file, base-uri(.))) else $assertion"/>
+        </x:variable>       
+        <x:variable name="expected-xml" select="parse-xml-fragment($expected)"/>
+        <x:variable name="actual-xml">
             <x:copy-of select="$result" />
         </x:variable>
         <x:choose>
-            <x:when test="deep-equal($expected, $actual)">
+            <x:when test="deep-equal($expected-xml, $actual-xml)">
                 <ok/>
             </x:when>
             <x:otherwise>
@@ -410,9 +434,8 @@
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
 
     <xsl:template match="fots:source[@role='.']">
-        <xsl:param name="baseUri"/>
         <xsl:variable name="file" select="@file"/>
-        <xsl:variable name="uri" select="resolve-uri(@file, $baseUri)"/>
+        <xsl:variable name="uri" select="resolve-uri(@file, base-uri(.))"/>
 
         <x:variable name="contextVar" select="doc('{$uri}')"/>
     </xsl:template>
@@ -421,16 +444,13 @@
         <xsl:param name="baseUri"/>
         <xsl:variable name="file" select="@file"/>
         <xsl:variable name="role" select="substring(@role,2)"/>
-        <xsl:variable name="uri" select="resolve-uri(@file, $baseUri)"/>
+        <xsl:variable name="uri" select="resolve-uri(@file, base-uri(.))"/>
 
         <x:variable name="{$role}" select="doc('{$uri}')"/>
     </xsl:template>
     
     <xsl:template match="fots:environment">
-        <xsl:param name="baseUri"/>
-        <xsl:apply-templates select="fots:source" >
-            <xsl:with-param name="baseUri" select="$baseUri"/>
-        </xsl:apply-templates>
+        <xsl:apply-templates select="fots:source"/>
     </xsl:template>
 
 </xsl:stylesheet>
