@@ -970,7 +970,7 @@
       </result>
    </test-case>
    
-   <test-case name="orderBy64">
+   <test-case name="orderBy64" covers="flwor-generalization">
       <description>Variant of orderBy62 putting the where clause after the order by clause. Permitted in 3.0</description>
       <created by="Michael Kay" on="2011-09-19"/>
       <environment ref="orderdata"/>
@@ -986,6 +986,49 @@
       ]]></test>
       <result>
          <assert-xml><![CDATA[<results xmlns="http://www.w3.org/XQueryTestOrderBy">-100 -10 -1 0</results>]]></assert-xml>
+      </result>
+   </test-case>
+   
+   <test-case name="orderBy65" covers="flwor-generalization">
+      <description>Variant of orderBy65 with multiple order by clauses. Permitted in 3.0</description>
+      <created by="Michael Kay" on="2012-07-09"/>
+      <environment ref="orderdata"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        declare default element namespace "http://www.w3.org/XQueryTestOrderBy"; 
+        <results>{ 
+            for $x in /DataValues/NegativeNumbers/orderData/xs:decimal(.) 
+            order by $x descending collation "http://www.w3.org/2005/xpath-functions/collation/codepoint" 
+            order by $x ascending collation "http://www.w3.org/2005/xpath-functions/collation/codepoint" 
+            where $x > -1000
+            return $x }
+        </results>
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<results xmlns="http://www.w3.org/XQueryTestOrderBy">-100 -10 -1 0</results>]]></assert-xml>
+      </result>
+   </test-case>
+   
+   <test-case name="orderBy66" covers="flwor-generalization">
+      <description>Multiple order by clauses. Permitted in 3.0</description>
+      <created by="Michael Kay" on="2012-07-09"/>
+      <environment ref="orderdata"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        declare default element namespace "http://www.w3.org/XQueryTestOrderBy"; 
+        <results>{ 
+            for $i in 1 to 100
+            order by -$i
+            let $c := count
+            let $e := <e i="{$i}" pos="{$count}"/>
+            order by number($e/@i)
+            where $count gt 90
+            return $e!@pos!number()
+            }
+        </results>
+      ]]></test>
+      <result>
+         <assert-deep-eq>100, 99, 98, 97, 96, 95, 94, 93, 92, 91</assert-deep-eq>
       </result>
    </test-case>
 

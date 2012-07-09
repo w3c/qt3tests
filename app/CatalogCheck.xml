@@ -234,5 +234,28 @@
       <assert-empty/>
     </result>
   </test-case>
+  
+  <test-case name="Catalog011">
+    <description> Check that for every change listed in the changes.xml file there are at least five tests. </description>
+    <created by="Michael Kay" on="2011-08-23"/>
+    <environment ref="catalog"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test><![CDATA[
+        xquery version "3.0";
+        declare namespace fots = "http://www.w3.org/2010/09/qt-fots-catalog";
+        let $changes := doc('../changes.xml')//change/@id/string()
+        let $testfiles := //fots:test-set/@file/doc(resolve-uri(., base-uri(..)))
+        let $testsets := $testfiles/fots:test-set
+        for $token in distinct-values($changes)
+        let $relevant-testsets := $testsets[tokenize(@covers, ' ') = $token]
+        let $relevant-testcases := $testsets/fots:test-case[tokenize(@covers, ' ') = $token]
+        let $count := count($relevant-testsets/fots:test-case) + count($relevant-testcases)
+        where $count le 5
+        return <out change="{$token}" tests="{$count}"/>
+      ]]></test>
+    <result>
+      <assert-empty/>
+    </result>
+  </test-case>
    
 </test-set>
