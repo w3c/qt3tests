@@ -570,6 +570,7 @@
                 <xs:element ref="test-case" maxOccurs="unbounded"/>
             </xs:sequence>
             <xs:attributeGroup ref="nameAttr" />
+            <xs:attributeGroup ref="coversAttr" />
         </xs:complexType>
     </xs:element>
     
@@ -643,6 +644,7 @@
                 <xs:element ref="result" />
             </xs:sequence>
             <xs:attributeGroup ref="nameAttr" />
+            <xs:attributeGroup ref="coversAttr" />
         </xs:complexType>
     </xs:element>
     
@@ -1258,13 +1260,36 @@
                     <div>
                         <h3>name</h3>
                         <p>
-                            denotes an attribute which provides a string value
+                            An attribute used to provide a string that uniquely names an object within some scope.
                         </p>
                     </div> 
                 </xs:documentation>
             </xs:annotation>
         <xs:attribute name="name" type="xs:string"/>
-      </xs:attributeGroup>
+    </xs:attributeGroup>
+    
+    <xs:attributeGroup name="coversAttr">
+        <xs:annotation>
+            <xs:documentation>
+                <div>
+                    <h3>covers</h3>
+                    <p>
+                        An attribute used to cross-reference tests or test-sets to the changes in the specification
+                        that the tests are designed to cover.
+                    </p>
+                    <p> The value is syntactically similar to an xs:IDREFS value, in that it contains a space-separated
+                    list of change identifiers; however it is not actually an xs:IDREFS value, because the identfiers are
+                    in a different XML document, specifically the identifiers of changes appearing in the changes.xml file.</p>
+
+                </div> 
+            </xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="covers" use="optional">
+            <xs:simpleType>
+                <xs:list itemType="xs:NCName"/>
+            </xs:simpleType>
+        </xs:attribute>    
+    </xs:attributeGroup>
     
     <xs:attributeGroup name="creatorAttr">
         <xs:annotation>

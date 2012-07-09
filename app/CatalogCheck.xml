@@ -168,7 +168,7 @@
       </result>
    </test-case>
 
-     <test-case name="Catalog008">
+   <test-case name="Catalog008">
       <description> Check that, for each test-set, its name in catalog.xml matches its name in the test-set file. </description>
       <created by="Michael Kay" on="2011-08-23"/>
       <environment ref="catalog"/>
@@ -189,7 +189,7 @@
       </result>
    </test-case>
 
-       <test-case name="Catalog009">
+  <test-case name="Catalog009">
       <description>List the dependencies in the test suite</description>
       <created by="O'Neil Delpratt" on="2011-08-23"/>
       <environment ref="catalog"/>
@@ -210,6 +210,29 @@
       <result>
         <assert-type>element()*</assert-type>
       </result>
-   </test-case>
+  </test-case>
+  
+  <test-case name="Catalog010">
+    <description> Check that, for each test-set and each test-case, the names appearing in its "covers" attribute (if present)
+      are names of changes listed in the changes.xml file. </description>
+    <created by="Michael Kay" on="2011-08-23"/>
+    <environment ref="catalog"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test><![CDATA[
+        xquery version "3.0";
+        declare namespace fots = "http://www.w3.org/2010/09/qt-fots-catalog";
+        let $changes := doc('../changes.xml')//change/@id/string()
+        for $xq-test in //fots:test-set
+        let $testfile := $xq-test/@file/doc(resolve-uri(., base-uri(..)))
+        let $testset := $testfile/fots:test-set
+        let $testcases := $testset/fots:test-case
+        for $token in distinct-values((tokenize($testset/@covers, ' '), $testcases/@covers/tokenize(., ' ')))
+        where not($token = $changes)
+        return <out test-set="{string($testset/@name)}" bad-covers-value="{$token}"/>
+      ]]></test>
+    <result>
+      <assert-empty/>
+    </result>
+  </test-case>
    
 </test-set>

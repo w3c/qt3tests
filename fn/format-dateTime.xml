@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="us-ascii"?>
-<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="fn-format-dateTime">
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="fn-format-dateTime"  covers="fn-format-dateTime">
    <description>Tests for the format-dateTime() function</description>
    <link type="spec" document="http://www.w3.org/TR/xpath-functions-11/"
          idref="func-format-dateTime"/>
@@ -816,6 +816,7 @@
    <test-case name="format-dateTime-014">
       <description>test format-dateTime(): timezones in +nn:nn notation</description>
       <created by="Michael Kay, Saxonica" on="2011-07-01"/>
+      <modified by="Michael Kay, Saxonica" on="2012-07-06" change="modify GMT+0 representation"/>
       <environment>
          <param name="t" as="xs:dateTime" select="xs:dateTime('0985-03-01T09:15:06.456Z')"/>
       </environment>
@@ -829,7 +830,7 @@
             0715-14:00; 0745-13:30; 0815-13:00; 0845-12:30; 0915-12:00; 0945-11:30; 1015-11:00; 1045-10:30; 1115-10:00; 
             1145-09:30; 1215-09:00; 1245-08:30; 0115-08:00; 0145-07:30; 0215-07:00; 0245-06:30; 0315-06:00; 0345-05:30;
             0415-05:00; 0445-04:30; 0515-04:00; 0545-03:30; 0615-03:00; 0645-02:30; 0715-02:00; 0745-01:30; 0815-01:00;
-            0845-00:30; 0915Z; 0945+00:30; 1015+01:00; 1045+01:30; 1115+02:00; 1145+02:30; 1215+03:00; 1245+03:30;
+            0845-00:30; 0915+00:00; 0945+00:30; 1015+01:00; 1045+01:30; 1115+02:00; 1145+02:30; 1215+03:00; 1245+03:30;
             0115+04:00; 0145+04:30; 0215+05:00; 0245+05:30; 0315+06:00; 0345+06:30; 0415+07:00; 0445+07:30; 0515+08:00;
             0545+08:30; 0615+09:00; 0645+09:30; 0715+10:00; 0745+10:30; 0815+11:00; 0845+11:30; 0915+12:00; 0945+12:30;
             1015+13:00; 1045+13:30; 1115+14:00
@@ -841,19 +842,20 @@
    <test-case name="format-dateTime-015">
       <description>test format-dateTime(): timezones in GMT+x notation</description>
       <created by="Michael Kay, Saxonica" on="2011-07-01"/>
+      <modified by="Michael Kay, Saxonica" on="2012-07-06" change="use [z0] rather than [z]; modify GMT+0 representation"/>
       <environment>
          <param name="t" as="xs:dateTime" select="xs:dateTime('0985-03-01T09:15:06.456Z')"/>
       </environment>
       <test>string-join(
                for $z in -28 to +28
                return format-dateTime(adjust-dateTime-to-timezone(
-                          $t, $z*xs:dayTimeDuration('PT30M')), '[h01][m01][z]'), '; ')</test>
+                          $t, $z*xs:dayTimeDuration('PT30M')), '[h01][m01][z0]'), '; ')</test>
       <result>
          <assert-string-value normalize-space="true">
             0715GMT-14; 0745GMT-13:30; 0815GMT-13; 0845GMT-12:30; 0915GMT-12; 0945GMT-11:30; 1015GMT-11; 1045GMT-10:30;
             1115GMT-10; 1145GMT-9:30; 1215GMT-9; 1245GMT-8:30; 0115GMT-8; 0145GMT-7:30; 0215GMT-7; 0245GMT-6:30; 0315GMT-6;
             0345GMT-5:30; 0415GMT-5; 0445GMT-4:30; 0515GMT-4; 0545GMT-3:30; 0615GMT-3; 0645GMT-2:30; 0715GMT-2; 0745GMT-1:30;
-            0815GMT-1; 0845GMT-0:30; 0915; 0945GMT+0:30; 1015GMT+1; 1045GMT+1:30; 1115GMT+2; 1145GMT+2:30; 1215GMT+3; 
+            0815GMT-1; 0845GMT-0:30; 0915GMT+0; 0945GMT+0:30; 1015GMT+1; 1045GMT+1:30; 1115GMT+2; 1145GMT+2:30; 1215GMT+3; 
             1245GMT+3:30; 0115GMT+4; 0145GMT+4:30; 0215GMT+5; 0245GMT+5:30; 0315GMT+6; 0345GMT+6:30; 0415GMT+7; 0445GMT+7:30;             
             0515GMT+8; 0545GMT+8:30; 0615GMT+9; 0645GMT+9:30; 0715GMT+10; 0745GMT+10:30; 0815GMT+11; 0845GMT+11:30; 0915GMT+12;             
             0945GMT+12:30; 1015GMT+13; 1045GMT+13:30; 1115GMT+14
@@ -864,13 +866,14 @@
    <test-case name="format-dateTime-016">
       <description>test format-dateTime(): timezones in GMT+x notation</description>
       <created by="Michael Kay, Saxonica" on="2011-07-01"/>
+      <modified by="Michael Kay, Saxonica" on="2012-07-06" change="modify GMT+0 representation"/>
       <environment>
          <param name="t" as="xs:dateTime" select="xs:dateTime('0985-03-01T09:15:06.456Z')"/>
       </environment>
       <test>string-join(
                for $z in -28 to +28
                return format-dateTime(adjust-dateTime-to-timezone(
-               $t, $z*xs:dayTimeDuration('PT30M')), '[h01][m01][z,6-6]'), '; ')
+               $t, $z*xs:dayTimeDuration('PT30M')), '[h01][m01][z00:00]'), '; ')
       </test>
       <result>
          <assert-string-value normalize-space="true">
@@ -878,7 +881,7 @@
              1045GMT-10:30; 1115GMT-10:00; 1145GMT-09:30; 1215GMT-09:00; 1245GMT-08:30; 0115GMT-08:00; 0145GMT-07:30;             
              0215GMT-07:00; 0245GMT-06:30; 0315GMT-06:00; 0345GMT-05:30; 0415GMT-05:00; 0445GMT-04:30; 0515GMT-04:00;             
              0545GMT-03:30; 0615GMT-03:00; 0645GMT-02:30; 0715GMT-02:00; 0745GMT-01:30; 0815GMT-01:00; 0845GMT-00:30;             
-             0915GMT; 0945GMT+00:30; 1015GMT+01:00; 1045GMT+01:30; 1115GMT+02:00; 1145GMT+02:30; 1215GMT+03:00; 1245GMT+03:30;             
+             0915GMT+00:00; 0945GMT+00:30; 1015GMT+01:00; 1045GMT+01:30; 1115GMT+02:00; 1145GMT+02:30; 1215GMT+03:00; 1245GMT+03:30;             
              0115GMT+04:00; 0145GMT+04:30; 0215GMT+05:00; 0245GMT+05:30; 0315GMT+06:00; 0345GMT+06:30; 0415GMT+07:00;             
              0445GMT+07:30; 0515GMT+08:00; 0545GMT+08:30; 0615GMT+09:00; 0645GMT+09:30; 0715GMT+10:00; 0745GMT+10:30;             
              0815GMT+11:00; 0845GMT+11:30; 0915GMT+12:00; 0945GMT+12:30; 1015GMT+13:00; 1045GMT+13:30; 1115GMT+14:00
@@ -889,18 +892,19 @@
    <test-case name="format-dateTime-017">
       <description>test format-dateTime(): timezones in GMT+x notation</description>
       <created by="Michael Kay, Saxonica" on="2011-07-01"/>
+      <modified by="Michael Kay, Saxonica" on="2012-07-06" change="change to use [z00]; modify GMT+0 representation"/>
       <environment>
          <param name="t" as="xs:dateTime" select="xs:dateTime('0985-03-01T09:15:06.456Z')"/>
       </environment>
       <test>string-join(
                for $z in -28 to +28
-               return format-dateTime(adjust-dateTime-to-timezone($t, $z*xs:dayTimeDuration('PT30M')), '[h01][m01][z,5-6]'), '; ')</test>
+               return format-dateTime(adjust-dateTime-to-timezone($t, $z*xs:dayTimeDuration('PT30M')), '[h01][m01][z00]'), '; ')</test>
       <result>
          <assert-string-value normalize-space="true">
              0715GMT-14; 0745GMT-13:30; 0815GMT-13; 0845GMT-12:30; 0915GMT-12; 0945GMT-11:30; 1015GMT-11; 1045GMT-10:30; 
              1115GMT-10; 1145GMT-9:30; 1215GMT-09; 1245GMT-8:30; 0115GMT-08; 0145GMT-7:30; 0215GMT-07; 0245GMT-6:30; 
              0315GMT-06; 0345GMT-5:30; 0415GMT-05; 0445GMT-4:30; 0515GMT-04; 0545GMT-3:30; 0615GMT-03; 0645GMT-2:30; 
-             0715GMT-02; 0745GMT-1:30; 0815GMT-01; 0845GMT-0:30; 0915; 0945GMT+0:30; 1015GMT+01; 1045GMT+1:30; 1115GMT+02; 
+             0715GMT-02; 0745GMT-1:30; 0815GMT-01; 0845GMT-0:30; 0915GMT+0; 0945GMT+0:30; 1015GMT+01; 1045GMT+1:30; 1115GMT+02; 
              1145GMT+2:30; 1215GMT+03; 1245GMT+3:30; 0115GMT+04; 0145GMT+4:30; 0215GMT+05; 0245GMT+5:30; 0315GMT+06; 
              0345GMT+6:30; 0415GMT+07; 0445GMT+7:30; 0515GMT+08; 0545GMT+8:30; 0615GMT+09; 0645GMT+9:30; 0715GMT+10; 
              0745GMT+10:30; 0815GMT+11; 0845GMT+11:30; 0915GMT+12; 0945GMT+12:30; 1015GMT+13; 1045GMT+13:30; 1115GMT+14
@@ -911,14 +915,23 @@
    <test-case name="format-dateTime-018">
       <description>test format-dateTime(): timezones in GMT+x notation</description>
       <created by="Michael Kay, Saxonica" on="2011-07-01"/>
+      <modified by="Michael Kay, Saxonica" on="2012-07-06" change="modify GMT+0 representation"/>
       <environment>
          <param name="t" as="xs:dateTime" select="xs:dateTime('0985-03-01T09:15:06.456Z')"/>
       </environment>
       <test>string-join(
                for $z in -28 to +28
-               return format-dateTime(adjust-dateTime-to-timezone($t, $z*xs:dayTimeDuration('PT30M')), '[h01][m01][z,2-6]'), '; ')</test>
+               return format-dateTime(adjust-dateTime-to-timezone($t, $z*xs:dayTimeDuration('PT30M')), '[h01][m01][z00]'), '; ')</test>
       <result>
-         <assert-string-value>0715GMT-14; 0745GMT-13:30; 0815GMT-13; 0845GMT-12:30; 0915GMT-12; 0945GMT-11:30; 1015GMT-11; 1045GMT-10:30; 1115GMT-10; 1145GMT-9:30; 1215GMT-9; 1245GMT-8:30; 0115GMT-8; 0145GMT-7:30; 0215GMT-7; 0245GMT-6:30; 0315GMT-6; 0345GMT-5:30; 0415GMT-5; 0445GMT-4:30; 0515GMT-4; 0545GMT-3:30; 0615GMT-3; 0645GMT-2:30; 0715GMT-2; 0745GMT-1:30; 0815GMT-1; 0845GMT-0:30; 0915; 0945GMT+0:30; 1015GMT+1; 1045GMT+1:30; 1115GMT+2; 1145GMT+2:30; 1215GMT+3; 1245GMT+3:30; 0115GMT+4; 0145GMT+4:30; 0215GMT+5; 0245GMT+5:30; 0315GMT+6; 0345GMT+6:30; 0415GMT+7; 0445GMT+7:30; 0515GMT+8; 0545GMT+8:30; 0615GMT+9; 0645GMT+9:30; 0715GMT+10; 0745GMT+10:30; 0815GMT+11; 0845GMT+11:30; 0915GMT+12; 0945GMT+12:30; 1015GMT+13; 1045GMT+13:30; 1115GMT+14</assert-string-value>
+         <assert-string-value normalize-space="true">
+            0715GMT-14; 0745GMT-13:30; 0815GMT-13; 0845GMT-12:30; 0915GMT-12; 0945GMT-11:30; 1015GMT-11; 1045GMT-10:30;
+            1115GMT-10; 1145GMT-9:30; 1215GMT-09; 1245GMT-08:30; 0115GMT-8; 0145GMT-7:30; 0215GMT-7; 0245GMT-6:30; 0315GMT-6;
+            0345GMT-5:30; 0415GMT-5; 0445GMT-4:30; 0515GMT-4; 0545GMT-3:30; 0615GMT-3; 0645GMT-2:30; 0715GMT-2; 0745GMT-1:30;
+            0815GMT-1; 0845GMT-0:30; 0915GMT+0; 0945GMT+0:30; 1015GMT+1; 1045GMT+1:30; 1115GMT+2; 1145GMT+2:30; 1215GMT+3; 
+            1245GMT+3:30; 0115GMT+4; 0145GMT+4:30; 0215GMT+5; 0245GMT+5:30; 0315GMT+6; 0345GMT+6:30; 0415GMT+7; 0445GMT+7:30; 
+            0515GMT+8; 0545GMT+8:30; 0615GMT+9; 0645GMT+9:30; 0715GMT+10; 0745GMT+10:30; 0815GMT+11; 0845GMT+11:30; 0915GMT+12; 
+            0945GMT+12:30; 1015GMT+13; 1045GMT+13:30; 1115GMT+14
+         </assert-string-value>
       </result>
    </test-case>
 

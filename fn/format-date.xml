@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="us-ascii"?>
-<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="fn-format-date">
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="fn-format-date" covers="fn-format-date">
    <description>Tests for the format-date() function</description>
    <link type="spec" document="http://www.w3.org/TR/xpath-functions-11/"
          idref="func-format-date"/>
@@ -447,6 +447,7 @@
    <test-case name="format-date-014">
       <description>test format-date(): timezones in +nn:nn notation</description>
       <created by="Michael Kay, Saxonica" on="2011-07-01"/>
+      <modified by="Michael Kay, Saxonica" on="2012-07-06" change="modify GMT+0 representation"/>
       <environment>
          <param name="t" as="xs:date" select="xs:date('1985-03-01Z')"/>
       </environment>
@@ -455,7 +456,7 @@
       <result>
          <assert-string-value normalize-space="true">-14:00 -13:30 -13:00 -12:30 -12:00 -11:30 -11:00 -10:30 -10:00
             -09:30 -09:00 -08:30 -08:00 -07:30 -07:00 -06:30 -06:00 -05:30 -05:00 -04:30
-            -04:00 -03:30 -03:00 -02:30 -02:00 -01:30 -01:00 -00:30 Z +00:30 +01:00
+            -04:00 -03:30 -03:00 -02:30 -02:00 -01:30 -01:00 -00:30 +00:00 +00:30 +01:00
             +01:30 +02:00 +02:30 +03:00 +03:30 +04:00 +04:30 +05:00 +05:30 +06:00 +06:30
             +07:00 +07:30 +08:00 +08:30 +09:00 +09:30 +10:00 +10:30 +11:00 +11:30 +12:00
             +12:30 +13:00 +13:30 +14:00</assert-string-value>
@@ -466,6 +467,7 @@
       <description>test format-date(): timezones in GMT+x notation</description>
       <created by="Michael Kay, Saxonica" on="2011-07-01"/>
       <modified by="Michael Kay" on="2012-05-18" change="see bug 14874"/>
+      <modified by="Michael Kay, Saxonica" on="2012-07-06" change="modify GMT+0 representation"/>
       <environment>
          <param name="t" as="xs:date" select="xs:date('1985-03-01Z')"/>
       </environment>
@@ -475,7 +477,7 @@
          <assert-string-value normalize-space="true">GMT-14; GMT-13:30; GMT-13; GMT-12:30; GMT-12; GMT-11:30; GMT-11;
             GMT-10:30; GMT-10; GMT-9:30; GMT-9; GMT-8:30; GMT-8; GMT-7:30; GMT-7; GMT-6:30; GMT-6;
             GMT-5:30; GMT-5; GMT-4:30; GMT-4; GMT-3:30; GMT-3; GMT-2:30; GMT-2; GMT-1:30; GMT-1;
-            GMT-0:30; ; GMT+0:30; GMT+1; GMT+1:30; GMT+2; GMT+2:30; GMT+3; GMT+3:30; GMT+4;
+            GMT-0:30; GMT+0; GMT+0:30; GMT+1; GMT+1:30; GMT+2; GMT+2:30; GMT+3; GMT+3:30; GMT+4;
             GMT+4:30; GMT+5; GMT+5:30; GMT+6; GMT+6:30; GMT+7; GMT+7:30; GMT+8; GMT+8:30; GMT+9;
             GMT+9:30; GMT+10; GMT+10:30; GMT+11; GMT+11:30; GMT+12; GMT+12:30; GMT+13; GMT+13:30;
             GMT+14</assert-string-value>
@@ -485,6 +487,7 @@
    <test-case name="format-date-016">
       <description>test format-date(): timezones in GMT+x notation</description>
       <created by="Michael Kay, Saxonica" on="2012-05-18"/>
+      <modified by="Michael Kay, Saxonica" on="2012-07-06" change="modify GMT+0 representation"/>
       <environment>
          <param name="t" as="xs:date" select="xs:date('1985-03-01Z')"/>
       </environment>
@@ -496,7 +499,7 @@
 			GMT-10:30; GMT-10:00; GMT-09:30; GMT-09:00; GMT-08:30; GMT-08:00; GMT-07:30;
 			GMT-07:00; GMT-06:30; GMT-06:00; GMT-05:30; GMT-05:00; GMT-04:30; GMT-04:00;
 			GMT-03:30; GMT-03:00; GMT-02:30; GMT-02:00; GMT-01:30; GMT-01:00; GMT-00:30;
-			GMTZ; GMT+00:30; GMT+01:00; GMT+01:30; GMT+02:00; GMT+02:30; GMT+03:00;
+			GMT+00:00; GMT+00:30; GMT+01:00; GMT+01:30; GMT+02:00; GMT+02:30; GMT+03:00;
 			GMT+03:30; GMT+04:00; GMT+04:30; GMT+05:00; GMT+05:30; GMT+06:00; GMT+06:30;
 			GMT+07:00; GMT+07:30; GMT+08:00; GMT+08:30; GMT+09:00; GMT+09:30; GMT+10:00;
 			GMT+10:30; GMT+11:00; GMT+11:30; GMT+12:00; GMT+12:30; GMT+13:00; GMT+13:30;

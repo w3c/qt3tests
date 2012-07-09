@@ -82,16 +82,22 @@
 
         <xsl:variable name="testCaseDependency" select="fots:dependency[@type='spec']"/>
 
-        <xsl:variable name="dependency" select="if(matches($testCaseDependency/@value, 'XQ') and not(matches($testCaseDependency/@value, 'XT|XP'))) then $testCaseDependency else  ($testCaseDependency, $testSetDependency)"/>
+        <xsl:variable name="specDependency" select="if(matches($testCaseDependency/@value, 'XQ') and not(matches($testCaseDependency/@value, 'XT|XP'))) then $testCaseDependency else  ($testCaseDependency, $testSetDependency)"/>
+
+        <xsl:variable name="requiredFeatures"
+            select="(fots:dependency | ../fots:dependency)[@type='feature']"/>
 
         <xsl:variable name="name" select="@name"/>
+        
         <xsl:variable name="checkForXT"
-            select="$dependency[matches(@value, 'XT|XP')] or not($dependency)"/>
+            select="($specDependency[matches(@value, 'XT|XP')] or not($specDependency))
+                    and not($requiredFeatures[@value='staticTyping'])"/>
         
         <xsl:variable name="env" as="element(fots:environment)?"
             select = "( fots:environment[not(@ref)],
             $tsEnvironments[@name = current()/fots:environment/@ref],
             $globalEnvironments[@name = current()/fots:environment/@ref] )[1]"/>
+        
 
         <xsl:if test="$checkForXT">
             
@@ -132,8 +138,9 @@
             </testcase>
 
             <xsl:variable name="version"
-                select="if($dependency and $dependency[matches(@value, 'XT20|XP20')]) then xs:string('2.0') else xs:string('3.0')"/>
-            
+                select="if($specDependency and $specDependency[matches(@value, 'XT20|XP20')]) then xs:string('2.0') else xs:string('3.0')"/>
+ 
+ 
             <!-- Create a xslt file which contains a speicific test-case                        -->
             <xsl:result-document
                 href="{concat($xslt-dir,'TestInputs/',$testGroupName,'/',$testSetName,'/',$name,'.xsl')}"
