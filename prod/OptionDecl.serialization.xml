@@ -615,6 +615,7 @@
          XML method: it's an error to use doctype-system if the document is not well-formed   
       </description>
       <created by="Michael Kay" on="2012-05-01"/>
+      <modified by="O'Neil Delpratt" on="2012-07-12" change="asert-xml changed to serialization-matches"/>
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
          declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
@@ -625,7 +626,7 @@
       <result>
         <any-of>
            <!-- the processor may recover from the error -->
-           <assert-xml><![CDATA[<?xml version="1.0" encoding="UTF-8"?>potato]]></assert-xml>     
+            <serialization-matches>potato</serialization-matches>
            <assert-serialization-error code="SEPM0004" />
          </any-of>
       </result>
@@ -636,6 +637,7 @@
          XML method: it's NOT an error to use standalone=omit if the document is not well-formed   
       </description>
       <created by="Michael Kay" on="2012-05-01"/>
+      <modified by="O'Neil Delpratt" on="2012-07-12" change="asert-xml changed to serialization-matches"/>
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
          declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
@@ -644,7 +646,7 @@
 		 "banana"
       ]]></test>
       <result>
-        <assert-xml><![CDATA[<?xml version="1.0" encoding="UTF-8"?>banana]]></assert-xml>     
+        <serialization-matches>banana</serialization-matches>
       </result>
    </test-case>
    
