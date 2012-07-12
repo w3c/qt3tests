@@ -257,5 +257,20 @@
       <assert-empty/>
     </result>
   </test-case>
+  
+  <test-case name="Catalog012">
+    <description> Test that all assert-xml elements contain no XML declaration </description>
+    <created by="Michael Kay" on="2012-07-10"/>
+    <environment ref="catalog"/>
+    <dependency type="spec" value="XQ10+"/>
+    <test><![CDATA[
+      declare namespace fots = "http://www.w3.org/2010/09/qt-fots-catalog";
+      let $testsets := //fots:test-set/@file/doc(resolve-uri(., base-uri(..)))
+      return $testsets//fots:test-case[.//fots:assert-xml[starts-with(., '<?xml')]]
+    ]]></test>
+    <result>
+      <assert-empty/>
+    </result>
+  </test-case>
    
 </test-set>

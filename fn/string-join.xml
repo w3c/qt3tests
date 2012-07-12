@@ -237,16 +237,47 @@
          <assert-string-value>string-join</assert-string-value>
       </result>
    </test-case>
+   
+   <test-case name="fn-string-join-22" covers="fn-string-join">
+      <description> Default second argument is zero-length string in 3.0 </description>
+      <created by="Michael Kay" on="2012-07-09"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:string-join(("1", "2", "3"))</test>
+      <result>
+         <assert-string-value>123</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-string-join-23" covers="fn-string-join">
+      <description> Default second argument is zero-length string in 3.0 </description>
+      <created by="Michael Kay" on="2012-07-09"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         let $e := <e><a>1</a><b>2</b><c>3</c></e>
+         return fn:string-join($e/*)
+      ]]></test>
+      <result>
+         <assert-string-value>123</assert-string-value>
+      </result>
+   </test-case>
 
    <test-case name="K-StringJoinFunc-1">
       <description> A test whose essence is: `string-join("a string")`. </description>
       <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10 XP20"/>
       <test>string-join("a string")</test>
       <result>
-         <any-of>
-            <assert-string-value>a string</assert-string-value>
-            <error code="XPST0017"/>
-         </any-of>
+        <error code="XPST0017"/>
+      </result>
+   </test-case>
+   
+   <test-case name="K-StringJoinFunc-1a">
+      <description> A test whose essence is: `string-join("a string")`. Allowed in 3.0</description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ30+ XP30+"/>
+      <test>string-join("a string")</test>
+      <result>
+         <assert-string-value>a string</assert-string-value>        
       </result>
    </test-case>
 

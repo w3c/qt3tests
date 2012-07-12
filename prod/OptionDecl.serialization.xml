@@ -238,6 +238,9 @@
 
            <!-- It is a serialization error [err:SEPM0016] if a parameter value is invalid for the given parameter. -->
            <assert-serialization-error code="SEPM0016" />
+           <!-- A serialization error [err:SESU0007] occurs if an output encoding other than UTF-8 or UTF-16 is 
+                requested and the serializer does not support that encoding. -->
+           <assert-serialization-error code="SESU0007" />
          </any-of>
       </result>
    </test-case>
@@ -562,7 +565,8 @@
       <result>
         <any-of>
            <!-- the processor may recover from the error -->
-           <assert-xml><![CDATA[<?xml version="1.0" encoding="UTF-8"?><a/><b/>]]></assert-xml>     
+           <!-- the [^t] causes failure if the declaration includes "standalone" -->
+           <serialization-matches><![CDATA[<\?xml[^t]+\?><a/><b/>]]></serialization-matches>     
            <assert-serialization-error code="SEPM0004" />
          </any-of>
       </result>
@@ -605,7 +609,7 @@
       <result>
         <any-of>
            <!-- the processor may recover from the error -->
-           <assert-xml><![CDATA[<?xml version="1.0" encoding="UTF-8"?><a/><b/>]]></assert-xml>     
+           <serialization-matches><![CDATA[<\?xml.*\?><a/><b/>]]></serialization-matches>     
            <assert-serialization-error code="SEPM0004" />
          </any-of>
       </result>

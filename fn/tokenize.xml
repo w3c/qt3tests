@@ -5,7 +5,7 @@
          idref="func-tokenize"/>
 
    <test-case name="fn-tokenize-1">
-      <description> Evaluation of tokenize function where pattern matches the zero lentgh string. Given on example 3 for this function in the Func and Ops specs. </description>
+      <description> Evaluation of tokenize function where pattern matches the zero length string. Given on example 3 for this function in the Func and Ops specs. </description>
       <created by="Carmelo Montanez" on="2005-10-13"/>
       <test>fn:tokenize("abba", ".?")</test>
       <result>
@@ -272,6 +272,26 @@ abracadabra", "\n")</test>
       <test>fn:tokenize("abracadabraabracadabraabracadabra", "aa{1,2}")</test>
       <result>
          <assert-deep-eq>"abracadabr", "bracadabr", "bracadabra"</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-tokenize-31">
+      <description> Evaluation of tokenize function with regex 'q' flag. </description>
+      <created by="Michael Kay" on="2012-07-09"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:tokenize("abc.def.gh.ijk", ".", "q")</test>
+      <result>
+         <assert-deep-eq>"abc", "def", "gh", "ijk"</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-tokenize-32">
+      <description> Evaluation of tokenize function with regex 'q' and "i" flags. </description>
+      <created by="Michael Kay" on="2012-07-09"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:tokenize("ABRACADABRA", "a", "q")</test>
+      <result>
+         <assert-deep-eq>"", "BR", "C", "D", "BR", ""</assert-deep-eq>
       </result>
    </test-case>
 

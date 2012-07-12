@@ -56,7 +56,6 @@
 
     <xsl:template match="fots:test-set">
         <xsl:variable name="testSetFile" select="doc(concat($main-dir,@file))"/>
-        <xsl:variable name="tests" select="$testSetFile/fots:test-set/fots:test-case"/>
         <xsl:variable name="testSetName" select="$testSetFile/fots:test-set/@name"/>
 
         <xsl:apply-templates select="$testSetFile//fots:test-case">
@@ -121,6 +120,7 @@
                 <input>
                     <stylesheet file="{$testGroupName}/{$testSetName}/{$name}.xsl" role="principal"/>
                     <xsl:for-each select="$env/fots:source[@uri]">
+                        <xsl:message>Resolving <xsl:copy-of select="."/></xsl:message>
                         <source-document file="{resolve-uri(@file, base-uri($env))}" role="secondary" uri="{@uri}"/>
                     </xsl:for-each>
                     <xsl:for-each select="$env/fots:resource">
@@ -441,18 +441,14 @@
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
 
     <xsl:template match="fots:source[@role='.']">
-        <xsl:variable name="file" select="@file"/>
         <xsl:variable name="uri" select="resolve-uri(@file, base-uri(.))"/>
-
         <x:variable name="contextVar" select="doc('{$uri}')"/>
     </xsl:template>
 
     <xsl:template match="fots:source">
         <xsl:param name="baseUri"/>
-        <xsl:variable name="file" select="@file"/>
         <xsl:variable name="role" select="substring(@role,2)"/>
         <xsl:variable name="uri" select="resolve-uri(@file, base-uri(.))"/>
-
         <x:variable name="{$role}" select="doc('{$uri}')"/>
     </xsl:template>
     
