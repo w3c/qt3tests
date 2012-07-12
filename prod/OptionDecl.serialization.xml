@@ -573,6 +573,7 @@
          XML method: it's an error to use standalone=no if the document is not well-formed   
       </description>
       <created by="Michael Kay" on="2012-05-01"/>
+      <modified by="O'Neil Delpratt" on="2012-07-12" change="asert-xml changed to serialization-matches"/>
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
          declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
@@ -583,7 +584,7 @@
       <result>
         <any-of>
            <!-- the processor may recover from the error -->
-           <assert-xml><![CDATA[<?xml version="1.0" encoding="UTF-8"?>banana]]></assert-xml>     
+           <serialization-matches>banana</serialization-matches>
            <assert-serialization-error code="SEPM0004" />
          </any-of>
       </result>
