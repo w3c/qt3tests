@@ -275,7 +275,7 @@ abracadabra", "\n")</test>
       </result>
    </test-case>
    
-   <test-case name="fn-tokenize-31">
+   <test-case name="fn-tokenize-31" covers="regex-q-flag">
       <description> Evaluation of tokenize function with regex 'q' flag. </description>
       <created by="Michael Kay" on="2012-07-09"/>
       <dependency type="spec" value="XP30+ XQ30+"/>
@@ -285,13 +285,23 @@ abracadabra", "\n")</test>
       </result>
    </test-case>
    
-   <test-case name="fn-tokenize-32">
+   <test-case name="fn-tokenize-32" covers="regex-q-flag">
       <description> Evaluation of tokenize function with regex 'q' and "i" flags. </description>
       <created by="Michael Kay" on="2012-07-09"/>
       <dependency type="spec" value="XP30+ XQ30+"/>
       <test>fn:tokenize("A.BRA.CADA.BRA", "a.", "qi")</test>
       <result>
          <assert-deep-eq>"", "BR", "CAD", "BRA"</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-tokenize-33" covers="regex-non-capturing">
+      <description> Evaluation of tokenize function with non-capturing group in the regex. </description>
+      <created by="Michael Kay" on="2012-07-12"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:tokenize("ABRACADABRA", "A(?:B)")</test>
+      <result>
+         <assert-deep-eq>"", "RACAD", "RA"</assert-deep-eq>
       </result>
    </test-case>
 
