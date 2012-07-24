@@ -15,15 +15,72 @@
          
    <dependency type="spec" value="XQ10+"/>      
 
-   <test-case name="version_declaration-001">
+   <!--
+      EBNF:
+
+      XQuery 1.0 & 3.0:
+         [1] Module ::= VersionDecl? (LibraryModule | MainModule)
+
+      XQuery 1.0:
+         [2] VersionDecl ::= "xquery"
+               "version" StringLiteral
+               ("encoding" StringLiteral)?
+               Separator
+
+      XQuery 3.0:
+         [2] VersionDecl ::= "xquery" (
+                  ("encoding" StringLiteral)
+                  |
+                  ("version" StringLiteral ("encoding" StringLiteral)?)
+               )
+               Separator
+   -->
+
+   <!--
+      The next few <test>s contain violations of the EBNF,
+      and so expect XPST0003.
+   -->
+
+   <test-case name="version_declaration-009">
       <description> Demonstrates version declaration,the version declaration occurs at the beginning of the module 
         and identifies the applicable XQuery syntax and semantics for the module </description>
       <created by="Pulkita Tyagi" on="2005-10-05"/>
-      <modified by="O'Neil Delpratt" on="2012-05-23" change="Bug fix related to bug #14955"/>
-      <test>xquery version "1.0" (:encoding "utf-8xx":); 1,2</test>
+      <test>declare boundary-space preserve; xquery version "1.0"; 1,2</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-VersionProlog-3">
+      <description> Use an invalid keyword as encoding. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xquery version "1.0" default; 1</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <!--
+      The following tests involve a Comment before the end of the VersionDecl.
+
+      XQuery 1.0:
+         If a version declaration is present, no Comment may occur before
+         the end of the version declaration. If such a Comment is present,
+         the result is implementation-dependent.
+
+      XQuery 3.0:
+         [will clarify that the processor either raises a static error
+         or treats the Comment as whitespace]
+   -->
+
+   <test-case name="K-VersionProlog-1">
+      <description> A simple version declaration including encoding. Since it's implementation defined how comments 
+        before the version declaration is handled, any error is allowed. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>(:encoding "UTF-8XX":)xquery version "1.0" encoding "UTF-8"; 1 eq 1</test>
       <result>
           <any-of>
-            <assert-string-value>1 2</assert-string-value>
+            <assert-true/>
             <error code="*"/>
           </any-of>
       </result>
@@ -44,29 +101,37 @@
       </result>
    </test-case>
 
-   <test-case name="version_declaration-006" covers="version-decl-30">
+   <test-case name="version_declaration-001">
       <description> Demonstrates version declaration,the version declaration occurs at the beginning of the module 
         and identifies the applicable XQuery syntax and semantics for the module </description>
       <created by="Pulkita Tyagi" on="2005-10-05"/>
       <modified by="O'Neil Delpratt" on="2012-05-23" change="Bug fix related to bug #14955"/>
-      <dependency type="spec" value="XQ10"/>
-      <test><![CDATA[xquery version "3.0"; <bib/>]]></test>
+      <test>xquery version "1.0" (:encoding "utf-8xx":); 1,2</test>
       <result>
-            <error code="XQST0031"/>
+          <any-of>
+            <assert-string-value>1 2</assert-string-value>
+            <error code="*"/>
+          </any-of>
       </result>
    </test-case>
 
-   <test-case name="version_declaration-006a" covers="version-decl-30">
-      <description> Demonstrates version declaration,the version declaration occurs at the beginning of the module
-        and identifies the applicable XQuery syntax and semantics for the module </description>
-      <created by="O'Neil Delpratt" on="2012-05-23"/>
-      <modified by="O'Neil Delpratt" on="2012-05-23" change="Bug fix related to bug #14955: Added dependenct XQ30+"/>      
-      <dependency type="spec" value="XQ30+"/>
-      <test><![CDATA[xquery version "3.0"; <bib/>]]></test>
-      <result>
-          <assert-xml><![CDATA[<bib/>]]></assert-xml>
-      </result>
-   </test-case>
+   <!-- Static Errors -->
+
+   <!--
+      Tests designed to elicit XQST0031...
+
+      XQuery 1.0:
+         An XQuery implementation must raise a static error [err:XQST0031]
+         when processing a module labeled with a version that the implementation
+         does not support.
+
+      XQuery 3.0:
+         If an XQuery 3.0 processor processes a module labeled with a version of
+         "1.0", it must either raise a static error [err:XQST0031],
+         or attempt to process the module with an XQuery 1.0 processor.
+         If any version number other than 3.0 or 1.0 is encountered,
+         a static error [err:XQST0031] is raised.
+   -->
 
    <test-case name="version_declaration-007">
       <description> Demonstrates version declaration,the version declaration occurs at the beginning of the module 
@@ -88,15 +153,30 @@
       </result>
    </test-case>
 
-   <test-case name="version_declaration-009">
+   <test-case name="version_declaration-006" covers="version-decl-30">
       <description> Demonstrates version declaration,the version declaration occurs at the beginning of the module 
         and identifies the applicable XQuery syntax and semantics for the module </description>
       <created by="Pulkita Tyagi" on="2005-10-05"/>
-      <test>declare boundary-space preserve; xquery version "1.0"; 1,2</test>
+      <modified by="O'Neil Delpratt" on="2012-05-23" change="Bug fix related to bug #14955"/>
+      <dependency type="spec" value="XQ10"/>
+      <test><![CDATA[xquery version "3.0"; <bib/>]]></test>
       <result>
-         <error code="XPST0003"/>
+            <error code="XQST0031"/>
       </result>
    </test-case>
+
+   <!--
+      Tests designed to elicit XQST0087...
+
+      XQuery 1.0 & 3.0:
+         The value of the string literal following the keyword encoding is
+         an encoding name, and must conform to the definition of EncName
+         specified in [XML 1.0] [err:XQST0087].
+
+      XML 1.0:
+         [81] EncName ::= [A-Za-z] ([A-Za-z0-9._] | '-')*
+            /* Encoding name contains only Latin characters */
+   -->
 
    <test-case name="version_declaration-010">
       <description>Evaluation of version declaration, for which the encoding does not conforms to "encName" from XML 1.0. </description>
@@ -107,21 +187,38 @@
       </result>
    </test-case>
 
-   <test-case name="prolog-version-1">
-      <description> Prolog version declaration with both version and encoding information (set to 1.0 and "utf-8" respectively. </description>
-      <created by="Carmelo Montanez" on="2006-02-15"/>
-      <test>xquery version "1.0" encoding "utf-8"; 1,2</test>
+   <test-case name="K-VersionProlog-3">
+      <description> A version declaration with an encoding containing whitespace. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xquery version "1.0" encoding "UTF-8 "; 1</test>
       <result>
-         <assert-string-value>1 2</assert-string-value>
+         <error code="XQST0087"/>
       </result>
    </test-case>
 
-   <test-case name="prolog-version-3">
-      <description> Prolog version declaration with both version and encoding information (set to 1.0 and "US-ASCII" respectively. </description>
-      <created by="Carmelo Montanez" on="2006-02-15"/>
-      <test>xquery version "1.0" encoding "US-ASCII"; 1,2</test>
+   <test-case name="K-VersionProlog-4">
+      <description> A version declaration with an encoding containing an disallowed character. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xquery version "1.0" encoding "ISO-8859-1|"; 1</test>
       <result>
-         <assert-string-value>1 2</assert-string-value>
+         <error code="XQST0087"/>
+      </result>
+   </test-case>
+
+   <!--
+      Tests that don't raise static errors...
+   -->
+
+   <!--
+      Tests with a version number but no encoding declaration...
+   -->
+
+   <test-case name="K-VersionProlog-2">
+      <description> A simple version declaration excluding encoding. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xquery version "1.0" ; 1 eq 1</test>
+      <result>
+         <assert-true/>
       </result>
    </test-case>
 
@@ -143,6 +240,18 @@
       <test><![CDATA[xquery version "1.0"; <bib/>]]></test>
       <result>
          <assert-xml><![CDATA[<bib/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="version_declaration-006a" covers="version-decl-30">
+      <description> Demonstrates version declaration,the version declaration occurs at the beginning of the module
+        and identifies the applicable XQuery syntax and semantics for the module </description>
+      <created by="O'Neil Delpratt" on="2012-05-23"/>
+      <modified by="O'Neil Delpratt" on="2012-05-23" change="Bug fix related to bug #14955: Added dependenct XQ30+"/>      
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[xquery version "3.0"; <bib/>]]></test>
+      <result>
+          <assert-xml><![CDATA[<bib/>]]></assert-xml>
       </result>
    </test-case>
 
@@ -180,113 +289,6 @@
       </result>
    </test-case>
 
-   <test-case name="K-VersionProlog-1">
-      <description> A simple version declaration including encoding. Since it's implementation defined how comments 
-        before the version declaration is handled, any error is allowed. </description>
-      <created by="Frans Englich" on="2007-11-26"/>
-      <test>(:encoding "UTF-8XX":)xquery version "1.0" encoding "UTF-8"; 1 eq 1</test>
-      <result>
-          <any-of>
-            <assert-true/>
-            <error code="*"/>
-          </any-of>
-      </result>
-   </test-case>
-
-   <test-case name="K-VersionProlog-2">
-      <description> A simple version declaration excluding encoding. </description>
-      <created by="Frans Englich" on="2007-11-26"/>
-      <test>xquery version "1.0" ; 1 eq 1</test>
-      <result>
-         <assert-true/>
-      </result>
-   </test-case>
-
-   <test-case name="K-VersionProlog-3">
-      <description> A version declaration with an encoding containing whitespace. </description>
-      <created by="Frans Englich" on="2007-11-26"/>
-      <test>xquery version "1.0" encoding "UTF-8 "; 1</test>
-      <result>
-         <error code="XQST0087"/>
-      </result>
-   </test-case>
-
-   <test-case name="K-VersionProlog-4">
-      <description> A version declaration with an encoding containing an disallowed character. </description>
-      <created by="Frans Englich" on="2007-11-26"/>
-      <test>xquery version "1.0" encoding "ISO-8859-1|"; 1</test>
-      <result>
-         <error code="XQST0087"/>
-      </result>
-   </test-case>
-
-   <test-case name="K-VersionProlog-5">
-      <description> A prolog containing many different declarations. TODO function declarations missing TODO variable declarations missing </description>
-      <created by="Frans Englich" on="2007-11-26"/>
-      <test>
-        xquery version "1.0" encoding "ISO-8859-1"; 
-        declare boundary-space preserve; 
-        declare default collation "http://www.w3.org/2005/xpath-functions/collation/codepoint"; 
-        declare base-uri "http://example.com/"; 
-        declare construction strip; 
-        declare ordering ordered; 
-        declare default order empty greatest; 
-        declare copy-namespaces no-preserve, no-inherit; 
-        declare namespace ex = "http://example.com/a/Namespace"; 
-        declare default element namespace "http://example.com/"; 
-        declare default function namespace "http://example.com/"; 
-        declare option fn:x-notRecognized "option content"; 
-        1 eq 1</test>
-      <result>
-         <assert-true/>
-      </result>
-   </test-case>
-
-   <test-case name="K2-VersionProlog-1">
-      <description> a string literal reminding of an xquery version declaration. </description>
-      <created by="Frans Englich" on="2007-11-26"/>
-      <test>'xquery version "1.0" encoding "UTF-8|#%";' eq 'xquery version "1.0" encoding "UTF-8|#%";'</test>
-      <result>
-         <assert-true/>
-      </result>
-   </test-case>
-
-   <test-case name="K2-VersionProlog-2">
-      <description> a string literal reminding of an xquery version declaration. </description>
-      <created by="Frans Englich" on="2007-11-26"/>
-      <test>"xquery version '1.0' encoding 'UTF-8|#%';" eq "xquery version '1.0' encoding 'UTF-8|#%';"</test>
-      <result>
-         <assert-true/>
-      </result>
-   </test-case>
-
-   <test-case name="K2-VersionProlog-3">
-      <description> Use an invalid keyword as encoding. </description>
-      <created by="Frans Englich" on="2007-11-26"/>
-      <test>xquery version "1.0" default; 1</test>
-      <result>
-         <error code="XPST0003"/>
-      </result>
-   </test-case>
-
-   <test-case name="K2-VersionProlog-4">
-      <description> Whitespace isn't allowed after a prefix in a QName. </description>
-      <created by="Frans Englich" on="2007-11-26"/>
-      <test>encoding :localName</test>
-      <result>
-         <error code="XPST0003"/>
-      </result>
-   </test-case>
-
-   <test-case name="K2-VersionProlog-5">
-      <description> Check that the 'xquery' name test is parsed correctly. </description>
-      <created by="Frans Englich" on="2007-11-26"/>
-      <test>xquery gt xquery</test>
-      <result>
-         <error code="XPDY0002"/>
-      </result>
-   </test-case>
-   
    <test-case name="version_declaration-005">
       <description> Demonstrates version declaration,the version declaration occurs at the beginning of the module and 
       identifies the applicable XQuery syntax and semantics for the module </description>
@@ -313,6 +315,98 @@
             <error code="XQST0038"/>
             <error code="XQST0059"/>
          </any-of>
+      </result>
+   </test-case>
+
+   <!--
+      Tests with a version number and an encoding declaration...
+   -->
+
+   <test-case name="prolog-version-1">
+      <description> Prolog version declaration with both version and encoding information (set to 1.0 and "utf-8" respectively. </description>
+      <created by="Carmelo Montanez" on="2006-02-15"/>
+      <test>xquery version "1.0" encoding "utf-8"; 1,2</test>
+      <result>
+         <assert-string-value>1 2</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="prolog-version-3">
+      <description> Prolog version declaration with both version and encoding information (set to 1.0 and "US-ASCII" respectively. </description>
+      <created by="Carmelo Montanez" on="2006-02-15"/>
+      <test>xquery version "1.0" encoding "US-ASCII"; 1,2</test>
+      <result>
+         <assert-string-value>1 2</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K-VersionProlog-5">
+      <description> A prolog containing many different declarations. TODO function declarations missing TODO variable declarations missing </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>
+        xquery version "1.0" encoding "ISO-8859-1"; 
+        declare boundary-space preserve; 
+        declare default collation "http://www.w3.org/2005/xpath-functions/collation/codepoint"; 
+        declare base-uri "http://example.com/"; 
+        declare construction strip; 
+        declare ordering ordered; 
+        declare default order empty greatest; 
+        declare copy-namespaces no-preserve, no-inherit; 
+        declare namespace ex = "http://example.com/a/Namespace"; 
+        declare default element namespace "http://example.com/"; 
+        declare default function namespace "http://example.com/"; 
+        declare option fn:x-notRecognized "option content"; 
+        1 eq 1</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <!--
+      In the following tests, the query doesn't involve a VersionDecl,
+      but it does contain a string that a faulty processor might take
+      for a bad version decl.
+   -->
+
+   <test-case name="K2-VersionProlog-1">
+      <description> a string literal reminding of an xquery version declaration. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>'xquery version "1.0" encoding "UTF-8|#%";' eq 'xquery version "1.0" encoding "UTF-8|#%";'</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-VersionProlog-2">
+      <description> a string literal reminding of an xquery version declaration. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>"xquery version '1.0' encoding 'UTF-8|#%';" eq "xquery version '1.0' encoding 'UTF-8|#%';"</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <!--
+      These tests don't involve a VersionDecl,
+      and don't appear to be particularly concerned with its absence,
+      and so perhaps don't belong in this test-set.
+   -->
+
+   <test-case name="K2-VersionProlog-4">
+      <description> Whitespace isn't allowed after a prefix in a QName. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>encoding :localName</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-VersionProlog-5">
+      <description> Check that the 'xquery' name test is parsed correctly. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>xquery gt xquery</test>
+      <result>
+         <error code="XPDY0002"/>
       </result>
    </test-case>
 
