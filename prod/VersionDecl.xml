@@ -42,8 +42,7 @@
    -->
 
    <test-case name="version_declaration-009">
-      <description> Demonstrates version declaration,the version declaration occurs at the beginning of the module 
-        and identifies the applicable XQuery syntax and semantics for the module </description>
+      <description> A VersionDecl cannot appear after a prolog decl. </description>
       <created by="Pulkita Tyagi" on="2005-10-05"/>
       <test>declare boundary-space preserve; xquery version "1.0"; 1,2</test>
       <result>
@@ -87,8 +86,7 @@
    </test-case>
 
    <test-case name="version_declaration-002">
-      <description> Demonstrates version declaration,the version declaration occurs at the beginning of the module 
-        and identifies the applicable XQuery syntax and semantics for the module </description>
+      <description> A case of Comment-before-VersionDecl, this one without an encoding decl. </description>
       <created by="Pulkita Tyagi" on="2005-10-05"/>
       <modified by="O'Neil Delpratt" on="2012-05-23" change="Bug fix related to bug #14955"/>
       <dependency type="spec" value="XQ10+"/>
@@ -102,8 +100,11 @@
    </test-case>
 
    <test-case name="version_declaration-001">
-      <description> Demonstrates version declaration,the version declaration occurs at the beginning of the module 
-        and identifies the applicable XQuery syntax and semantics for the module </description>
+      <description>
+         The production for VersionDecl includes the final Separator.
+         Thus, a Comment occurring after the bulk of a VersionDecl but before the semicolon,
+         still "occurs before the end of the version declaration".
+      </description>
       <created by="Pulkita Tyagi" on="2005-10-05"/>
       <modified by="O'Neil Delpratt" on="2012-05-23" change="Bug fix related to bug #14955"/>
       <test>xquery version "1.0" (:encoding "utf-8xx":); 1,2</test>
@@ -134,8 +135,7 @@
    -->
 
    <test-case name="version_declaration-007">
-      <description> Demonstrates version declaration,the version declaration occurs at the beginning of the module 
-        and identifies the applicable XQuery syntax and semantics for the module </description>
+      <description> A negative version number. </description>
       <created by="Pulkita Tyagi" on="2005-10-05"/>
       <test>xquery version '-1.0'; 2 + 2</test>
       <result>
@@ -144,8 +144,7 @@
    </test-case>
 
    <test-case name="version_declaration-008">
-      <description> Demonstrates version declaration,the version declaration occurs at the beginning of the module 
-        and identifies the applicable XQuery syntax and semantics for the module </description>
+      <description> A non-numeric version string. </description>
       <created by="Pulkita Tyagi" on="2005-10-05"/>
       <test>xquery version "abc"; 1,2</test>
       <result>
@@ -154,8 +153,7 @@
    </test-case>
 
    <test-case name="version_declaration-006" covers="version-decl-30">
-      <description> Demonstrates version declaration,the version declaration occurs at the beginning of the module 
-        and identifies the applicable XQuery syntax and semantics for the module </description>
+      <description> An XQuery 1.0 processor presumably doesn't support version 3.0. </description>
       <created by="Pulkita Tyagi" on="2005-10-05"/>
       <modified by="O'Neil Delpratt" on="2012-05-23" change="Bug fix related to bug #14955"/>
       <dependency type="spec" value="XQ10"/>
@@ -223,8 +221,7 @@
    </test-case>
 
    <test-case name="prolog-version-4">
-      <description> Demonstrates version declaration,the version declaration occurs at the beginning of the module 
-        and identifies the applicable XQuery syntax and semantics for the module. </description>
+      <description> Simple version decl. </description>
       <created by="Carmelo Montanez" on="2006-02-15"/>
       <test>xquery version "1.0"; 1,2</test>
       <result>
@@ -233,8 +230,7 @@
    </test-case>
 
    <test-case name="prolog-version-5">
-      <description> Demonstrates version declaration,the version declaration occurs at the beginning of the module 
-        and identifies the applicable XQuery syntax and semantics for the module. </description>
+      <description> Simple version decl. </description>
       <created by="Carmelo Montanez" on="2006-02-15"/>
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[xquery version "1.0"; <bib/>]]></test>
@@ -244,8 +240,7 @@
    </test-case>
 
    <test-case name="version_declaration-006a" covers="version-decl-30">
-      <description> Demonstrates version declaration,the version declaration occurs at the beginning of the module
-        and identifies the applicable XQuery syntax and semantics for the module </description>
+      <description> XQuery 3.0 simple version decl </description>
       <created by="O'Neil Delpratt" on="2012-05-23"/>
       <modified by="O'Neil Delpratt" on="2012-05-23" change="Bug fix related to bug #14955: Added dependenct XQ30+"/>      
       <dependency type="spec" value="XQ30+"/>
@@ -256,8 +251,7 @@
    </test-case>
 
    <test-case name="prolog-version-6">
-      <description> Demonstrates version declaration,the version declaration occurs at the beginning of the module 
-        and identifies the applicable XQuery syntax and semantics for the module. </description>
+      <description> A more realistic query with a version decl, no encoding. </description>
       <created by="Carmelo Montanez" on="2006-02-15"/>
       <environment ref="bib2"/>
       <test>
@@ -273,8 +267,7 @@
    </test-case>
 
    <test-case name="prolog-version-7">
-      <description> Demonstrates version declaration,the version declaration occurs at the beginning of the module 
-        and identifies the applicable XQuery syntax and semantics for the module. </description>
+      <description> A more realitic query with a version decl, no encoding. </description>
       <created by="Carmelo Montanez" on="2006-02-15"/>
       <environment ref="bib2"/>
       <test>
@@ -290,8 +283,7 @@
    </test-case>
 
    <test-case name="version_declaration-005">
-      <description> Demonstrates version declaration,the version declaration occurs at the beginning of the module and 
-      identifies the applicable XQuery syntax and semantics for the module </description>
+      <description> A more realistic query with a version decl, no encoding </description>
       <created by="Pulkita Tyagi" on="2005-10-05"/>
       <dependency type="feature" value="schemaImport"/>
       <test>
