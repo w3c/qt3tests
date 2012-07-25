@@ -66,6 +66,7 @@
         <description>serialize test: Error - specified the use-character-map property</description>
         <created by="ONeil Delpratt, Saxonica" on="2010-10-05"/>
         <modified by="Michael Kay, Saxonica" on="2012-05-16" change="See bug 14279"/>
+        <modified by="Michael Kay, Saxonica" on="2012-07-25" change="Change error code, see bug 14831"/>
         <environment ref="atomic-xq"/>
         <dependency type="spec" value="XQ30+"/>
         <test><![CDATA[
@@ -78,7 +79,7 @@
           return serialize(., $params)
         ]]></test>
         <result>
-            <error code="SEPM0016"/>
+            <error code="SEPM0017"/>
         </result>
     </test-case>
     <test-case name="serialize-xml-006">
@@ -104,10 +105,12 @@
         </result>
     </test-case>
     <test-case name="serialize-xml-007">
-        <description>serialize test: list of properties, but one is an unrecognized name (no error,
-            it is ignored)</description>
+        <description>serialize test: list of properties, but one is an unrecognized name 
+            in a vendor namespace (no error, it is ignored)</description>
         <created by="ONeil Delpratt, Saxonica" on="2010-10-06"/>
         <modified by="Michael Kay, Saxonica" on="2012-05-16" change="See bug 14279"/>
+        <modified by="Michael Kay, Saxonica" on="2012-07-25" change="Split test into two cases, where the extension
+         in in the standard/vendor namespace respectively; assumes that the spec will reject the former and accept the latter"/>
         <environment ref="atomic-xq"/>
         <dependency type="spec" value="XQ30+"/>
         <test><![CDATA[
@@ -117,6 +120,29 @@
                 <output:method value="xml"/>   
                 <output:indent value="yes"/>
                 <output:xindent value="yes"/>
+              </output:serialization-parameters>
+          return serialize(., $params)
+        ]]></test>
+        <result>
+            <error code="SEPM0017"/>
+        </result>
+    </test-case>
+    <test-case name="serialize-xml-007a">
+        <description>serialize test: list of properties, but one is an unrecognized name (no error,
+            it is ignored)</description>
+        <created by="ONeil Delpratt, Saxonica" on="2010-10-06"/>
+        <modified by="Michael Kay, Saxonica" on="2012-05-16" change="See bug 14279"/>
+        <modified by="Michael Kay, Saxonica" on="2012-07-25" change="Split test into two cases, where the extension
+         in in the standard/vendor namespace respectively; assumes that the spec will reject the former and accept (ignore) the latter"/>
+        <environment ref="atomic-xq"/>
+        <dependency type="spec" value="XQ30+"/>
+        <test><![CDATA[
+          let $params := 
+              <output:serialization-parameters
+                   xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization">
+                <output:method value="xml"/>   
+                <output:indent value="yes"/>
+                <vendor:xindent value="yes" xmlns:vendor="http://vendor.example.com/">
               </output:serialization-parameters>
           return serialize(., $params)
         ]]></test>
@@ -157,6 +183,7 @@
         <description>serialize test: Error - bad value for indent parameter</description>
         <created by="Michael Kay, Saxonica" on="2010-10-05"/>
         <modified by="Michael Kay, Saxonica" on="2012-05-16" change="See bug 14279"/>
+        <modified by="Michael Kay, Saxonica" on="2012-07-25" change="Change error code, see bug 14831"/>
         <environment ref="atomic-xq"/>
         <dependency type="spec" value="XQ30+"/>
         <test><![CDATA[
@@ -170,7 +197,7 @@
           return serialize(., $params)
         ]]></test>
         <result>
-            <error code="SEPM0016"/>
+            <error code="SEPM0017"/>
         </result>
     </test-case>
 </test-set>
