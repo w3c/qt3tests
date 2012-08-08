@@ -286,11 +286,13 @@ it put its sooty foot.</fn:non-match></fn:analyze-string-result>]]></assert-xml>
       <description> test typed value of result of analyze-string: referencing a name defined in the schema </description>
       <created by="Michael Kay" on="2009-10-18"/>
       <modified by="Michael Kay" on="2011-11-17" change="fix bug 14822"/>
+      <modified by="O'Neil Delpratt" on="2012-08-17" change="fix bug 14873"/>
+      <environment ref="analyze-string-schema" />
       <dependency type="spec" value="XQ30+"/>
       <dependency type="feature" value="schemaValidation"/>
       <dependency type="feature" value="schemaImport"/>
       <test>
-        import schema "http://www.w3.org/assert-xml>2005/xpath-functions"; 
+        import schema "http://www.w3.org/2005/xpath-functions";
         let $result := analyze-string("banana", "(b)(anana)") 
         return $result/fn:match[1] instance of schema-element(fn:match)</test>
       <result>
