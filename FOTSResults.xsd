@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet href="xsd.xsl" type="text/xsl"?>
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
-   attributeFormDefault="unqualified" xmlns:fotsr="http://www.w3.org/2010/09/qt-fots-results"
+   attributeFormDefault="unqualified" xmlns:fotsr="http://www.w3.org/2012/08/qt-fots-results"
    xmlns:xs="http://www.w3.org/2001/XMLSchema"
-   targetNamespace="http://www.w3.org/2010/09/qt-fots-results">
+   targetNamespace="http://www.w3.org/2012/08/qt-fots-results">
    <xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="xml.xsd"
       xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"/>
 
@@ -69,7 +69,7 @@
                <h3>implementation</h3>
                <p>
                   Denotes the implementation details of the results file created. 
-                  Setting anonymous-result-columm='true' will create a result column in reports
+                  Setting anonymous='true' will create a result column in reports
                   that are generated with "Anonymous" instead of the implementation name.
                </p>
             </div> 
@@ -85,7 +85,7 @@
          <xsd:attribute name="name" type="xsd:string" use="required"/>
          <xsd:attribute name="version" type="xsd:string" use="optional"/>
           <xsd:attribute name="processor" type="xsd:string" use="optional"/>
-         <xsd:attribute name="anonymous-result-column" type="xsd:string" use="optional"/>
+         <xsd:attribute name="anonymous" type="xsd:boolean" use="optional"/>
       </xsd:complexType>
    </xsd:element>
 
@@ -111,7 +111,6 @@
       <xsd:complexType>
          <xsd:attribute name="name" type="xsd:string" use="required"/>
          <xsd:attribute name="website" type="xsd:string" use="optional"/>
-         <xsd:attribute name="anonymous" type="xsd:boolean" use="optional"/>
       </xsd:complexType>
    </xsd:element>
 
@@ -120,7 +119,6 @@
          <xsd:attribute name="name" type="xsd:string" use="required"/>
          <xsd:attribute name="title" type="xsd:string" use="optional"/>
          <xsd:attribute name="email" type="xsd:string" use="optional"/>
-         <xsd:attribute name="phone" use="optional"/>
       </xsd:complexType>
    </xsd:element>
    
@@ -156,18 +154,12 @@
          <xs:documentation>
             <div>
                <h3>dependency</h3>
-               <p>Indicates a dependency which must be satisfied in order for the tests to run.</p>
+               <p>Indicates a dependency which the implementation is able to satisfy.</p>
                
-               <p>A dependency may be associated with an individual test case or with
-                  a test-set. A dependency at the level of a test-set appplies to all test cases in
-                  that test-set.</p> 
-               
-               <p>The attribute setting <code>satisfied="false"</code> indicates that the test should only
-                  be run if the dependency is NOT satisfied.</p>
-               
-               <p>The set of recognized values appearing in the <code>value</code> attribute
-                  depends on the content of the <code>type</code> attribute.</p>
-               
+               <p>A dependency that is present in the description of a test case, the same dependency element 
+                  should be present in the results file if and only if the implementation is able to run the 
+                  tests that require that dependency to be satisfied. However, for the dependency="spec", the 
+                  results file should only report on one language, e.g. XQ30 or XP30</p> 
             </div> 
          </xs:documentation>
       </xs:annotation>
@@ -252,7 +244,12 @@
                <h3>test-case</h3>
                <p>
                   Denotes an element that contains the test outcome.  The test case name should be reported exactly as provided in
-                  FOTS Catalog. The element contains the result and any comment, which is used to detail specific failures or dfferent error codes.
+                  FOTS Catalog. The element contains the result and any comment, which is used to detail specific failures or dfferent 
+                  error codes.
+               </p>
+               <p>
+                  The attribute correctError=boolean is used where the test expects an error, a pass should be reported even if the 
+                  implementation raises the wrong error code; but in such cases the attribute correctError=false should be present.
                </p>
             </div> 
             
@@ -265,6 +262,7 @@
       <xsd:attribute name="name" type="xsd:string" use="required"/>
       <xsd:attribute name="result" type="fotsr:resultStatusType" use="required"> </xsd:attribute>
       <xsd:attribute name="comment" type="xsd:string" use="optional"/>
+      <xsd:attribute name="correctError" type="xsd:boolean" use="optional"/>
       <xsd:anyAttribute processContents="lax" namespace="##other"/>
    </xsd:complexType>
 
