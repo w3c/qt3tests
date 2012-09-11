@@ -53,7 +53,19 @@
    <test-case name="K2-VersionProlog-3">
       <description> Use an invalid keyword as encoding. </description>
       <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="Michael Dyck" on="2012-09-10" change="Add dependency on XQ10"/>
+      <dependency type="spec" value="XQ10"/>
       <test>xquery version "1.0" default; 1</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-VersionProlog-3-v3">
+      <description> Use an invalid keyword as encoding. </description>
+      <created by="Michael Dyck" on="2012-09-10"/>
+      <dependency type="spec" value="XQ30"/>
+      <test>xquery version "3.0" default; 1</test>
       <result>
          <error code="XPST0003"/>
       </result>
@@ -179,7 +191,19 @@
    <test-case name="version_declaration-010">
       <description> Asterisk is not allowed in EncName. </description>
       <created by="Carmelo Montanez" on="2005-02-06"/>
+      <modified by="Michael Dyck" on="2012-09-10" change="Add dependency on XQ10"/>
+      <dependency type="spec" value="XQ10"/>
       <test>xquery version "1.0" encoding "999-UTF-8-*"; "ABC"</test>
+      <result>
+         <error code="XQST0087"/>
+      </result>
+   </test-case>
+
+   <test-case name="version_declaration-010-v3">
+      <description> Asterisk is not allowed in EncName. </description>
+      <created by="Michael Dyck" on="2012-09-10"/>
+      <dependency type="spec" value="XQ30"/>
+      <test>xquery version "3.0" encoding "999-UTF-8-*"; "ABC"</test>
       <result>
          <error code="XQST0087"/>
       </result>
@@ -188,7 +212,19 @@
    <test-case name="K-VersionProlog-3">
       <description> Whitespace is not allowed in EncName. </description>
       <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="Michael Dyck" on="2012-09-10" change="Add dependency on XQ10"/>
+      <dependency type="spec" value="XQ10"/>
       <test>xquery version "1.0" encoding "UTF-8 "; 1</test>
+      <result>
+         <error code="XQST0087"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-VersionProlog-3-v3">
+      <description> Whitespace is not allowed in EncName. </description>
+      <created by="Michael Dyck" on="2012-09-10"/>
+      <dependency type="spec" value="XQ30"/>
+      <test>xquery version "3.0" encoding "UTF-8 "; 1</test>
       <result>
          <error code="XQST0087"/>
       </result>
@@ -197,7 +233,19 @@
    <test-case name="K-VersionProlog-4">
       <description> Vertical bar is not allowed in EncName. </description>
       <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="Michael Dyck" on="2012-09-10" change="Add dependency on XQ10"/>
+      <dependency type="spec" value="XQ10"/>
       <test>xquery version "1.0" encoding "ISO-8859-1|"; 1</test>
+      <result>
+         <error code="XQST0087"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-VersionProlog-4-v3">
+      <description> Vertical bar is not allowed in EncName. </description>
+      <created by="Michael Dyck" on="2012-09-10"/>
+      <dependency type="spec" value="XQ30"/>
+      <test>xquery version "3.0" encoding "ISO-8859-1|"; 1</test>
       <result>
          <error code="XQST0087"/>
       </result>
@@ -214,7 +262,19 @@
    <test-case name="K-VersionProlog-2">
       <description> A simple version declaration excluding encoding. </description>
       <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="Michael Dyck" on="2012-09-10" change="Add dependency on XQ10"/>
+      <dependency type="spec" value="XQ10"/>
       <test>xquery version "1.0" ; 1 eq 1</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-VersionProlog-2-v3">
+      <description> A simple version declaration excluding encoding. </description>
+      <created by="Michael Dyck" on="2012-09-10"/>
+      <dependency type="spec" value="XQ30"/>
+      <test>xquery version "3.0" ; 1 eq 1</test>
       <result>
          <assert-true/>
       </result>
@@ -223,7 +283,19 @@
    <test-case name="prolog-version-4">
       <description> Simple version decl. </description>
       <created by="Carmelo Montanez" on="2006-02-15"/>
+      <modified by="Michael Dyck" on="2012-09-10" change="Add dependency on XQ10"/>
+      <dependency type="spec" value="XQ10"/>
       <test>xquery version "1.0"; 1,2</test>
+      <result>
+         <assert-string-value>1 2</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="prolog-version-4-v3">
+      <description> Simple version decl. </description>
+      <created by="Michael Dyck" on="2012-09-10"/>
+      <dependency type="spec" value="XQ30"/>
+      <test>xquery version "3.0"; 1,2</test>
       <result>
          <assert-string-value>1 2</assert-string-value>
       </result>
@@ -255,9 +327,28 @@
    <test-case name="prolog-version-6">
       <description> A more realistic query with a version decl, no encoding. </description>
       <created by="Carmelo Montanez" on="2006-02-15"/>
+      <modified by="Michael Dyck" on="2012-09-10" change="Add dependency on XQ10"/>
       <environment ref="bib2"/>
+      <dependency type="spec" value="XQ10"/>
       <test>
         xquery version '1.0'; 
+        declare boundary-space preserve; 
+        declare default order empty greatest; 
+        declare namespace ns = "http://www.example.org/"; 
+        for $b in//book stable order by xs:decimal($b/price[1]) empty greatest 
+        return $b/title</test>
+      <result>
+         <assert-xml><![CDATA[<title>Data on the Web</title><title>TCP/IP Illustrated</title><title>Advanced Programming in the Unix environment</title><title>The Economics of Technology and Content for Digital TV</title>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="prolog-version-6-v3">
+      <description> A more realistic query with a version decl, no encoding. </description>
+      <created by="Michael Dyck" on="2012-09-10"/>
+      <environment ref="bib2"/>
+      <dependency type="spec" value="XQ30"/>
+      <test>
+        xquery version '3.0'; 
         declare boundary-space preserve; 
         declare default order empty greatest; 
         declare namespace ns = "http://www.example.org/"; 
@@ -271,9 +362,28 @@
    <test-case name="prolog-version-7">
       <description> A more realitic query with a version decl, no encoding. </description>
       <created by="Carmelo Montanez" on="2006-02-15"/>
+      <modified by="Michael Dyck" on="2012-09-10" change="Add dependency on XQ10"/>
       <environment ref="bib2"/>
+      <dependency type="spec" value="XQ10"/>
       <test>
         xquery version "1.0"; 
+        declare boundary-space preserve; 
+        declare default order empty greatest; 
+        declare namespace ns = "http://www.example.org/"; 
+        for $b in //book stable order by xs:decimal($b/price[1]) empty greatest 
+        return $b/title</test>
+      <result>
+         <assert-xml><![CDATA[<title>Data on the Web</title><title>TCP/IP Illustrated</title><title>Advanced Programming in the Unix environment</title><title>The Economics of Technology and Content for Digital TV</title>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="prolog-version-7-v3">
+      <description> A more realitic query with a version decl, no encoding. </description>
+      <created by="Michael Dyck" on="2012-09-10"/>
+      <environment ref="bib2"/>
+      <dependency type="spec" value="XQ30"/>
+      <test>
+        xquery version "3.0"; 
         declare boundary-space preserve; 
         declare default order empty greatest; 
         declare namespace ns = "http://www.example.org/"; 
@@ -308,6 +418,7 @@
             <assert-eq>15</assert-eq>
             <error code="XQST0038"/>
             <error code="XQST0059"/>
+            <error code="XQST0031"/>
          </any-of>
       </result>
    </test-case>
@@ -319,7 +430,19 @@
    <test-case name="prolog-version-1">
       <description> Prolog version declaration with both version and encoding information (set to 1.0 and "utf-8" respectively. </description>
       <created by="Carmelo Montanez" on="2006-02-15"/>
+      <modified by="Michael Dyck" on="2012-09-10" change="Add dependency on XQ10"/>
+      <dependency type="spec" value="XQ10"/>
       <test>xquery version "1.0" encoding "utf-8"; 1,2</test>
+      <result>
+         <assert-string-value>1 2</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="prolog-version-1-v3">
+      <description> Prolog version declaration with both version and encoding information (set to 3.0 and "utf-8" respectively. </description>
+      <created by="Michael Dyck" on="2012-09-10"/>
+      <dependency type="spec" value="XQ30"/>
+      <test>xquery version "3.0" encoding "utf-8"; 1,2</test>
       <result>
          <assert-string-value>1 2</assert-string-value>
       </result>
@@ -328,7 +451,19 @@
    <test-case name="prolog-version-3">
       <description> Prolog version declaration with both version and encoding information (set to 1.0 and "US-ASCII" respectively. </description>
       <created by="Carmelo Montanez" on="2006-02-15"/>
+      <modified by="Michael Dyck" on="2012-09-10" change="Add dependency on XQ10"/>
+      <dependency type="spec" value="XQ10"/>
       <test>xquery version "1.0" encoding "US-ASCII"; 1,2</test>
+      <result>
+         <assert-string-value>1 2</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="prolog-version-3-v3">
+      <description> Prolog version declaration with both version and encoding information (set to 3.0 and "US-ASCII" respectively. </description>
+      <created by="Michael Dyck" on="2012-09-10"/>
+      <dependency type="spec" value="XQ30"/>
+      <test>xquery version "3.0" encoding "US-ASCII"; 1,2</test>
       <result>
          <assert-string-value>1 2</assert-string-value>
       </result>
@@ -337,8 +472,33 @@
    <test-case name="K-VersionProlog-5">
       <description> A prolog containing many different declarations. TODO function declarations missing TODO variable declarations missing </description>
       <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="Michael Dyck" on="2012-09-10" change="Add dependency on XQ10"/>
+      <dependency type="spec" value="XQ10"/>
       <test>
         xquery version "1.0" encoding "ISO-8859-1"; 
+        declare boundary-space preserve; 
+        declare default collation "http://www.w3.org/2005/xpath-functions/collation/codepoint"; 
+        declare base-uri "http://example.com/"; 
+        declare construction strip; 
+        declare ordering ordered; 
+        declare default order empty greatest; 
+        declare copy-namespaces no-preserve, no-inherit; 
+        declare namespace ex = "http://example.com/a/Namespace"; 
+        declare default element namespace "http://example.com/"; 
+        declare default function namespace "http://example.com/"; 
+        declare option fn:x-notRecognized "option content"; 
+        1 eq 1</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="K-VersionProlog-5-v3">
+      <description> A prolog containing many different declarations. TODO function declarations missing TODO variable declarations missing </description>
+      <created by="Michael Dyck" on="2012-09-10"/>
+      <dependency type="spec" value="XQ30"/>
+      <test>
+        xquery version "3.0" encoding "ISO-8859-1"; 
         declare boundary-space preserve; 
         declare default collation "http://www.w3.org/2005/xpath-functions/collation/codepoint"; 
         declare base-uri "http://example.com/"; 
