@@ -212,14 +212,28 @@
       </result>
    </test-case>
 
-   <test-case name="version_declaration-006" covers="version-decl-30">
+   <test-case name="VersionDecl-v1-processor-and-v3-query" covers="version-decl-30">
       <description> An XQuery 1.0 processor presumably doesn't support version 3.0. </description>
       <created by="Pulkita Tyagi" on="2005-10-05"/>
       <modified by="O'Neil Delpratt" on="2012-05-23" change="Bug fix related to bug #14955"/>
+      <modified by="Michael Dyck" on="2012-09-10" change="Rename from version_declaration-006"/>
       <dependency type="spec" value="XQ10"/>
       <test><![CDATA[xquery version "3.0"; <bib/>]]></test>
       <result>
             <error code="XQST0031"/>
+      </result>
+   </test-case>
+
+   <test-case name="VersionDecl-v3-processor-and-v1-query" covers="version-decl-30">
+      <description> An XQuery 3.0 processor might or might not accept version "1.0". </description>
+      <created by="Michael Dyck" on="2012-09-10"/>
+      <dependency type="spec" value="XQ30"/>
+      <test><![CDATA[xquery version "1.0"; <bib/>]]></test>
+      <result>
+         <any-of>
+            <error code="XQST0031"/>
+            <assert-xml><![CDATA[<bib/>]]></assert-xml>
+         </any-of>
       </result>
    </test-case>
 
@@ -360,11 +374,12 @@
       </result>
    </test-case>
 
-   <test-case name="version_declaration-006a" covers="version-decl-30">
+   <test-case name="prolog-version-5-v3" covers="version-decl-30">
       <description> An XQuery 3.0 processor must accept version "3.0". </description>
       <created by="O'Neil Delpratt" on="2012-05-23"/>
       <modified by="O'Neil Delpratt" on="2012-05-23" change="Bug fix related to bug #14955: Added dependenct XQ30+"/>      
       <modified by="Michael Dyck" on="2012-09-10" change="Change dependency from XQ30+ to XQ30."/>
+      <modified by="Michael Dyck" on="2012-09-10" change="Rename from version_declaration-006a"/>
       <dependency type="spec" value="XQ30"/>
       <test><![CDATA[xquery version "3.0"; <bib/>]]></test>
       <result>
