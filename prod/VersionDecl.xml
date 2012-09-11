@@ -80,6 +80,36 @@
       </result>
    </test-case>
 
+   <test-case name="version_declaration-022-v1">
+      <description> You can't swap the order of the 'version' and 'encoding' clauses. </description>
+      <created by="Michael Dyck" on="2012-09-10"/>
+      <dependency type="spec" value="XQ10"/>
+      <test>xquery encoding "utf-8" version "1.0"; 1</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="version_declaration-022-v3">
+      <description> You can't swap the order of the 'version' and 'encoding' clauses. </description>
+      <created by="Michael Dyck" on="2012-09-10"/>
+      <dependency type="spec" value="XQ30"/>
+      <test>xquery encoding "utf-8" version "3.0"; 1</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="version_declaration-023-v1">
+      <description> In XQuery 1.0, you can't omit the 'version' clause. </description>
+      <created by="Michael Dyck" on="2012-09-10"/>
+      <dependency type="spec" value="XQ10"/>
+      <test>xquery encoding "utf-8"; 1</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
    <!--
       The following tests involve a Comment before the end of the VersionDecl.
 
@@ -529,6 +559,20 @@
         declare default function namespace "http://example.com/"; 
         declare option fn:x-notRecognized "option content"; 
         1 eq 1</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <!--
+      Tests with an encoding declaration and no version number ...
+   -->
+
+   <test-case name="version_declaration-023-v3" covers="version-decl-30">
+      <description> In XQuery 3.0, you *can* omit the 'version' clause. </description>
+      <created by="Michael Dyck" on="2012-09-10"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>xquery encoding "utf-8"; 1 eq 1</test>
       <result>
          <assert-true/>
       </result>
