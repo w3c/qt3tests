@@ -305,6 +305,24 @@ abracadabra", "\n")</test>
       </result>
    </test-case>
 
+   <test-case name="fn-tokenize-34">
+      <description> "." does NOT match CR in default mode</description>
+      <created by="Tim Mills" on="2012-09-25"/>
+      <test>fn:tokenize(concat('Mary', codepoints-to-string(13), 'Jones'), 'y.J')</test>
+      <result>
+	<assert-eq>concat('Mary', codepoints-to-string(13), 'Jones')</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-tokenize-35">
+      <description> "." does match CR in dot-all mode</description>
+      <created by="Tim Mills" on="2012-09-25"/>
+      <test>fn:tokenize(concat('Mary', codepoints-to-string(13), 'Jones'), 'y.J', 's')</test>
+      <result>
+	<assert-deep-eq>"Mar", "ones"</assert-deep-eq>
+      </result>
+   </test-case>
+
    <test-case name="K-TokenizeFunc-1">
       <description> fn:tokenize takes at least two arguments. </description>
       <created by="Frans Englich" on="2007-11-26"/>
