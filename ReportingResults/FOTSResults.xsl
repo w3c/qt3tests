@@ -15,7 +15,7 @@
 <!-- If absent, then false is assumed.                                       -->
 
 
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="3.0"
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0"
    xmlns:fots="http://www.w3.org/2010/09/qt-fots-catalog"
    xmlns:fotsr="http://www.w3.org/2010/09/qt-fots-results"
    xmlns:xs="http://www.w3.org/2001/XMLSchema">
@@ -789,7 +789,7 @@ else { obj.style.display="none"; col.innerHTML="[+]"; } }
             <b>Specification change list covered in the following test-set:</b><br/> 
          </xsl:if>
          <xsl:for-each-group select="$specChangeList" group-by=".">
-            <a href="../changelists/{.}.html"><xsl:value-of select="." /></a> (No. of tests: <xsl:value-of select="if(. = $testSetFile/fots:test-set/@covers) then count($testSetFile//fots:test-case) else count(current-group())" />), See: <b><xsl:value-of select="string-join((1 to position())!'*')" /></b><br/>
+            <a href="../changelists/{.}.html"><xsl:value-of select="." /></a> (No. of tests: <xsl:value-of select="if(. = $testSetFile/fots:test-set/@covers) then count($testSetFile//fots:test-case) else count(current-group())" />), See: <b><xsl:value-of select="string-join(for $a in (1 to position()) return '*', '')" /></b><br/>
          </xsl:for-each-group>
          <xsl:apply-templates select="$testSetFile//fots:test-case">
             <xsl:with-param name="detail" select="true()"/>
@@ -874,7 +874,7 @@ else { obj.style.display="none"; col.innerHTML="[+]"; } }
                </a>
                <a href="#x{$test-name}" onmousedown="makeVisible('{$test-name}');"
                   onmouseover="makeVisible('{$test-name}');" id="x{$test-name}">[+]</a>
-               <b><xsl:value-of select="string-join((1 to $specChangeNum)!'*')" /></b>
+               <b><xsl:value-of select="string-join(for $a in (1 to $specChangeNum) return '*', '')" /></b>
               
                <font size="-1">
                   <div id="{$test-name}"
