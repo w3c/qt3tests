@@ -6654,12 +6654,37 @@
       </result>
    </test-case>
 
+   <test-case name="K-SeqExprCast-3a">
+      <description> Syntax: only ? is allowed as occurence indicator in 'cast as' expressions.</description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="O'Neil Delpratt" on="2012-09-25" change="new test case variant, which depends on XQ30 and different error code" />
+      <dependency type="spec" value="XQ30+"/>
+      <test>'string' cast as xs:anyType*</test>
+      <result>
+         <any-of>
+            <error code="XPST0003"/>
+            <error code="XQST0052"/>
+         </any-of>
+      </result>
+   </test-case>
+
    <test-case name="K-SeqExprCast-4">
       <description> 'cast as' where the type is invalid.</description>
       <created by="Frans Englich" on="2007-11-26"/>
       <test>'string' cast as xs:anySimpleType</test>
       <result>
          <error code="XPST0051"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqExprCast-4a">
+      <description> 'cast as' where the type is invalid.</description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="O'Neil Delpratt" on="2012-09-25" change="new test case variant, which depends on XQ30 and different error code" />
+      <dependency type="spec" value="XQ30+"/>
+      <test>'string' cast as xs:anySimpleType</test>
+      <result>
+          <error code="XQST0052"/>
       </result>
    </test-case>
 
@@ -6690,6 +6715,17 @@
       </result>
    </test-case>
 
+   <test-case name="K-SeqExprCast-7a">
+      <description> 'cast as' where the type is invalid.</description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="O'Neil Delpratt" on="2012-09-25" change="new test case variant, which depends on XQ30 and different error code" />
+      <dependency type="spec" value="XQ30+"/>
+      <test>'string' cast as xs:anyType</test>
+      <result>
+         <error code="XQST0052"/>
+      </result>
+   </test-case>
+
    <test-case name="K-SeqExprCast-8">
       <description> A prefix is used which isn't declared.</description>
       <created by="Frans Englich" on="2007-11-26"/>
@@ -6708,6 +6744,17 @@
       </result>
    </test-case>
 
+   <test-case name="K-SeqExprCast-9a">
+      <description> A type is specified which doesn't exist.</description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="O'Neil Delpratt" on="2012-09-25" change="new test case variant, which depends on XQ30 and different error code" />
+      <dependency type="spec" value="XQ30+"/>
+      <test>3 cast as xs:doesNotExist</test>
+      <result>
+         <error code="XQST0052"/>
+      </result>
+   </test-case>
+
    <test-case name="K-SeqExprCast-10">
       <description> A non-atomic type is referenced, leading to a syntax error.</description>
       <created by="Frans Englich" on="2007-11-26"/>
@@ -6716,6 +6763,20 @@
          <any-of>
             <error code="XPST0003"/>
             <error code="XPST0051"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqExprCast-10a">
+      <description> A non-atomic type is referenced, leading to a syntax error.</description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="O'Neil Delpratt" on="2012-09-25" change="new test case variant, which depends on XQ30 and different error code" />
+      <dependency type="spec" value="XQ30+"/>
+      <test>'string' cast as item()</test>
+      <result>
+         <any-of>
+            <error code="XPST0003"/>
+            <error code="XQST0052"/>
          </any-of>
       </result>
    </test-case>
@@ -6732,6 +6793,20 @@
       </result>
    </test-case>
 
+   <test-case name="K-SeqExprCast-11a">
+      <description> A non-atomic type is referenced, leading to a syntax error.</description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="O'Neil Delpratt" on="2012-09-25" change="new test case variant, which depends on XQ30 and different error code" />
+      <dependency type="spec" value="XQ30+"/>
+      <test>'string' cast as node()</test>
+      <result>
+         <any-of>
+            <error code="XPST0003"/>
+            <error code="XQST0052"/>
+         </any-of>
+      </result>
+   </test-case>
+
    <test-case name="K-SeqExprCast-12">
       <description> A non-atomic type is referenced, leading to a syntax error.</description>
       <created by="Frans Englich" on="2007-11-26"/>
@@ -6744,6 +6819,20 @@
       </result>
    </test-case>
 
+   <test-case name="K-SeqExprCast-12a">
+      <description> A non-atomic type is referenced, leading to a syntax error.</description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="O'Neil Delpratt" on="2012-09-25" change="new test case variant, which depends on XQ30 and different error code" />
+      <dependency type="spec" value="XQ30+"/>
+      <test>'string' cast as attribute()</test>
+      <result>
+         <any-of>
+            <error code="XPST0003"/>
+            <error code="XQST0052"/>
+         </any-of>
+      </result>
+   </test-case>
+
    <test-case name="K-SeqExprCast-13">
       <description> A non-atomic type is referenced, leading to a syntax error.</description>
       <created by="Frans Englich" on="2007-11-26"/>
@@ -6752,6 +6841,20 @@
          <any-of>
             <error code="XPST0003"/>
             <error code="XPST0051"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqExprCast-13a">
+      <description> A non-atomic type is referenced, leading to a syntax error.</description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="O'Neil Delpratt" on="2012-09-25" change="new test case variant, which depends on XQ30 and different error code" />
+      <dependency type="spec" value="XQ30+"/>
+      <test>'string' cast as empty-sequence()</test>
+      <result>
+         <any-of>
+            <error code="XPST0003"/>
+            <error code="XQST0052"/>
          </any-of>
       </result>
    </test-case>

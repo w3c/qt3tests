@@ -5924,6 +5924,20 @@
       </result>
    </test-case>
 
+   <test-case name="K-SeqExprCastable-4a">
+      <description> '+' nor '?' is allowed as a cardinality specifier in 'castable as'. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="O'Neil Delpratt" on="2012-09-25" change="new test case variant, which depends on XQ30 and different error code" />
+      <dependency type="spec" value="XQ30+"/>
+      <test>'string' castable as xs:anyType*</test>
+      <result>
+         <any-of>
+            <error code="XPST0003"/>
+            <error code="XQST0052"/>
+         </any-of>
+      </result>
+   </test-case>
+
    <test-case name="K-SeqExprCastable-5">
       <description> An invalid type for 'castable as' is specified. </description>
       <created by="Frans Englich" on="2007-11-26"/>
@@ -5933,12 +5947,34 @@
       </result>
    </test-case>
 
+   <test-case name="K-SeqExprCastable-5a">
+      <description> An invalid type for 'castable as' is specified. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="O'Neil Delpratt" on="2012-09-25" change="new test case variant, which depends on XQ30 and different error code" />
+      <dependency type="spec" value="XQ30+"/>
+      <test>'string' castable as xs:anySimpleType</test>
+      <result>
+            <error code="XQST0052"/>
+      </result>
+   </test-case>
+
    <test-case name="K-SeqExprCastable-6">
       <description> An invalid type for 'castable as' is specified. </description>
       <created by="Frans Englich" on="2007-11-26"/>
       <test>'string' castable as xs:untyped</test>
       <result>
          <error code="XPST0051"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqExprCastable-6a">
+      <description> An invalid type for 'castable as' is specified. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="O'Neil Delpratt" on="2012-09-25" change="new test case variant, which depends on XQ30 and different error code" />
+      <dependency type="spec" value="XQ30+"/>
+      <test>'string' castable as xs:untyped</test>
+      <result>
+          <error code="XQST0052"/>
       </result>
    </test-case>
 
@@ -5994,6 +6030,20 @@
       <result>
          <any-of>
             <error code="XPST0003"/>
+            <error code="XQST0052"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqExprCastable-12a">
+      <description> An invalid type for 'castable as' is specified. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="O'Neil Delpratt" on="2012-09-25" change="new test case variant, which depends on XQ30 and different error code" />
+      <dependency type="spec" value="XQ30+"/>
+      <test>(xs:double(1), xs:double(2), xs:double(3)) castable as xs:double*</test>
+      <result>
+         <any-of>
+            <error code="XPST0003"/>
             <error code="XPST0051"/>
          </any-of>
       </result>
@@ -6007,6 +6057,20 @@
          <any-of>
             <error code="XPST0003"/>
             <error code="XPST0051"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="K-SeqExprCastable-13a">
+      <description> An invalid type for 'castable as' is specified, leading to a syntax error. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="O'Neil Delpratt" on="2012-09-25" change="new test case variant, which depends on XQ30 and different error code" />
+      <dependency type="spec" value="XQ30+"/>
+      <test>'string' castable as item()</test>
+      <result>
+         <any-of>
+            <error code="XPST0003"/>
+            <error code="XQST0052"/>
          </any-of>
       </result>
    </test-case>
