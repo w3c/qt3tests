@@ -404,7 +404,7 @@
       </result>
    </test-case>
 
-   <test-case name="K2-DataFunc-1">
+   <test-case name="K2-DataFunc-1" covers="fn-data">
       <description> fn:data() allows zero arguments in XP30/XQ30. </description>
       <created by="Frans Englich" on="2007-11-26"/>
       <modified by="Michael Kay" on="2012-02-28" change="see bug 16150"/>
@@ -423,6 +423,66 @@
          <error code="XPST0017"/>
       </result>
    </test-case>
+   
+   <test-case name="K2-DataFunc-3" covers="fn-data">
+      <description> fn:data() allows zero arguments in XP30/XQ30. </description>
+      <created by="Michael Kay" on="2012-09-27"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+      	let $x := <e><f>1</f></e>
+      	return $x/data()
+      ]]>	
+      </test>
+      <result>
+        <all-of>
+          <assert-string-value>1</assert-string-value>
+          <assert-type>xs:untypedAtomic</assert-type>
+        </all-of>  
+      </result>
+   </test-case>
+   
+   <test-case name="K2-DataFunc-4" covers="fn-data">
+      <description> fn:data() allows zero arguments in XP30/XQ30. No context item</description>
+      <created by="Michael Kay" on="2012-09-27"/>
+      <dependency type="spec" value="XQ30+"/>
+      <environment ref="empty"/>
+      <test><![CDATA[
+      	data()
+      ]]>	
+      </test>
+      <result>
+        <error code="XPDY0002"/>
+      </result>
+   </test-case>
+   
+   <test-case name="K2-DataFunc-5" covers="fn-data">
+      <description> fn:data() allows zero arguments in XP30/XQ30. Context item is a function item</description>
+      <created by="Michael Kay" on="2012-09-27"/>
+      <dependency type="spec" value="XQ30+"/>
+      <environment ref="empty"/>
+      <test><![CDATA[
+      	(1, data#0)[data()]
+      ]]>	
+      </test>
+      <result>
+        <error code="FOTY0013"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-DataFunc-6" covers="fn-data">
+      <description> fn:data() allows zero arguments in XP30/XQ30. Context item is an element with no typed value</description>
+      <created by="Michael Kay" on="2012-09-27"/>
+      <dependency type="spec" value="XQ30+"/>
+      <environment ref="qname"/>
+      <test><![CDATA[
+      	/*/data()
+      ]]>	
+      </test>
+      <result>
+        <error code="FOTY0012"/>
+      </result>
+   </test-case>
+
 
    <test-case name="fn-datacomplextype-1">
       <description> Evaluates the "data" function with the argument set to a complex element </description>
@@ -485,4 +545,5 @@
       </result>
    </test-case>
    
+
 </test-set>
