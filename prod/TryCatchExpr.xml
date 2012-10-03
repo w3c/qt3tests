@@ -1626,4 +1626,219 @@
       <assert-string-value>Division by zero</assert-string-value>
     </result>
   </test-case>
+
+  <test-case name="try-catch-fn-error-1" covers="fn-error">
+    <description>Try-catch must match fn:error semantics.</description>
+    <created by="Ghislain Fourny" on="2012-10-03"/>
+    
+    <test>fn:error(fn:QName("http://www.example.com/", "example:EXER3141"))</test>
+    <result>
+      <error code="EXER3141"/>
+    </result>
+  </test-case>
+  
+  <test-case name="try-catch-fn-error-2" covers="fn-error">
+    <description>Try-catch must match fn:error semantics.</description>
+    <created by="Ghislain Fourny" on="2012-10-03"/>
+    
+    <test>try { fn:error(fn:QName("http://www.example.com/", "example:EXER3141")) } catch * { 0 }</test>
+    <result>
+      <assert-eq>0</assert-eq>
+    </result>
+  </test-case>
+  
+  <test-case name="try-catch-fn-error-3" covers="fn-error">
+    <description>Try-catch must match fn:error semantics.</description>
+    <created by="Ghislain Fourny" on="2012-10-03"/>
+    
+    <test>try { fn:error(fn:QName("http://www.example.com/", "example:EXER3141")) } catch Q{http://www.example.com/}EXER3141 { 0 }</test>
+    <result>
+      <assert-eq>0</assert-eq>
+    </result>
+  </test-case>
+
+  <test-case name="try-catch-fn-error-4" covers="fn-error">
+    <description>Try-catch must match fn:error semantics.</description>
+    <created by="Ghislain Fourny" on="2012-10-03"/>
+    
+    <test>try { fn:error(fn:QName("http://www.example.com/", "example:EXER3141")) } catch Q{http://www.example.com/}* { 0 }</test>
+    <result>
+      <assert-eq>0</assert-eq>
+    </result>
+  </test-case>
+
+  <test-case name="try-catch-fn-error-5" covers="fn-error">
+    <description>Try-catch must match fn:error semantics.</description>
+    <created by="Ghislain Fourny" on="2012-10-03"/>
+    
+    <test>try { fn:error(fn:QName("http://www.example.com/", "example:EXER3141")) } catch *:EXER3141 { 0 }</test>
+    <result>
+      <assert-eq>0</assert-eq>
+    </result>
+  </test-case>
+
+  <test-case name="try-catch-fn-error-6" covers="fn-error">
+    <description>Try-catch must match fn:error semantics.</description>
+    <created by="Ghislain Fourny" on="2012-10-03"/>
+    <environment ref="err"/>
+    
+    <test>try { fn:error(fn:QName("http://www.example.com/", "example:EXER3141"), "Description") } catch Q{http://www.example.com/}EXER3141 { $err:code }</test>
+    <result>
+      <assert-eq>example:EXER3141</assert-eq>
+    </result>
+  </test-case>
+  
+  <test-case name="try-catch-fn-error-7" covers="fn-error">
+    <description>Try-catch must match fn:error semantics.</description>
+    <created by="Ghislain Fourny" on="2012-10-03"/>
+    <environment ref="err"/>
+    
+    <test>try { fn:error(fn:QName("http://www.example.com/", "example:EXER3141"), "Description") } catch Q{http://www.example.com/}EXER3141 { namespace-uri-from-QName($err:code) }</test>
+    <result>
+      <assert-eq>http://www.example.com/</assert-eq>
+    </result>
+  </test-case>
+  
+  <test-case name="try-catch-fn-error-8" covers="fn-error">
+    <description>Try-catch must match fn:error semantics.</description>
+    <created by="Ghislain Fourny" on="2012-10-03"/>
+    <environment ref="err"/>
+    
+    <test>try { fn:error(fn:QName("http://www.example.com/", "example:EXER3141"), "Description") } catch Q{http://www.example.com/}EXER3141 { prefix-from-QName($err:code) }</test>
+    <result>
+      <assert-eq>example</assert-eq>
+    </result>
+  </test-case>
+  
+  <test-case name="try-catch-fn-error-9" covers="fn-error">
+    <description>Try-catch must match fn:error semantics.</description>
+    <created by="Ghislain Fourny" on="2012-10-03"/>
+    <environment ref="err"/>
+    
+    <test>try { fn:error(fn:QName("http://www.example.com/", "example:EXER3141"), "Description") } catch Q{http://www.example.com/}EXER3141 { local-name-from-QName($err:code) }</test>
+    <result>
+      <assert-eq>EXER3141</assert-eq>
+    </result>
+  </test-case>
+  
+  <test-case name="try-catch-fn-error-10" covers="fn-error">
+    <description>Try-catch must match fn:error semantics.</description>
+    <created by="Ghislain Fourny" on="2012-10-03"/>
+    <environment ref="err"/>
+    
+    <test>try { fn:error(fn:QName("http://www.example.com/", "example:EXER3141"), "Description") } catch Q{http://www.example.com/}EXER3141 { $err:description }</test>
+    <result>
+      <assert-eq>Description</assert-eq>
+    </result>
+  </test-case>
+  
+  <test-case name="try-catch-fn-error-11" covers="fn-error">
+    <description>Try-catch must match fn:error semantics.</description>
+    <created by="Ghislain Fourny" on="2012-10-03"/>
+    <environment ref="err"/>
+    
+    <test>try { fn:error(fn:QName("http://www.example.com/", "example:EXER3141"), "Description", (1, 2)) } catch Q{http://www.example.com/}EXER3141 { $err:value[2] }</test>
+    <result>
+      <assert-eq>2</assert-eq>
+    </result>
+  </test-case>
+
+  <test-case name="try-catch-fn-error-12" covers="fn-error">
+    <description>Try-catch must match any error raised by fn:error.</description>
+    <created by="Ghislain Fourny" on="2012-10-03"/>
+    <environment ref="err"/>
+    
+    <test>try { fn:error(xs:QName("err:XPTY0004")) } catch Q{http://www.w3.org/2005/xqt-errors}XPTY0004 { 0 }</test>
+    <result>
+      <assert-eq>0</assert-eq>
+    </result>
+  </test-case>
+
+  <test-case name="try-catch-fn-error-13" covers="fn-error">
+    <description>Try-catch must match any error raised by fn:error.</description>
+    <created by="Ghislain Fourny" on="2012-10-03"/>
+    <environment ref="err"/>
+    
+    <test>try { fn:error(xs:QName("err:XPST0001")) } catch Q{http://www.w3.org/2005/xqt-errors}XPST0001 { 0 }</test>
+    <result>
+      <assert-eq>0</assert-eq>
+    </result>
+  </test-case>
+
+  <test-case name="try-catch-fn-error-14" covers="fn-error">
+    <description>Try-catch must match any error raised by fn:error.</description>
+    <created by="Ghislain Fourny" on="2012-10-03"/>
+    <environment ref="err"/>
+    
+    <test>try { fn:error(xs:QName("err:XPDY0002")) } catch Q{http://www.w3.org/2005/xqt-errors}XPDY0002 { 0 }</test>
+    <result>
+      <assert-eq>0</assert-eq>
+    </result>
+  </test-case>
+
+  <test-case name="try-catch-fn-error-15" covers="fn-error">
+    <description>Try-catch must match any error raised by fn:error.</description>
+    <created by="Ghislain Fourny" on="2012-10-03"/>
+    <environment ref="err"/>
+    
+    <test>try { fn:error(xs:QName("err:XQTY0105")) } catch Q{http://www.w3.org/2005/xqt-errors}XQTY0105 { 0 }</test>
+    <result>
+      <assert-eq>0</assert-eq>
+    </result>
+  </test-case>
+
+  <test-case name="try-catch-fn-error-16" covers="fn-error">
+    <description>Try-catch must match any error raised by fn:error.</description>
+    <created by="Ghislain Fourny" on="2012-10-03"/>
+    <environment ref="err"/>
+    
+    <test>try { fn:error(xs:QName("err:XQST0089")) } catch Q{http://www.w3.org/2005/xqt-errors}XQST0089 { 0 }</test>
+    <result>
+      <assert-eq>0</assert-eq>
+    </result>
+  </test-case>
+
+  <test-case name="try-catch-fn-error-17" covers="fn-error">
+    <description>Try-catch must match any error raised by fn:error.</description>
+    <created by="Ghislain Fourny" on="2012-10-03"/>
+    <environment ref="err"/>
+    
+    <test>try { fn:error(xs:QName("err:XQDY0061")) } catch Q{http://www.w3.org/2005/xqt-errors}XQDY0061 { 0 }</test>
+    <result>
+      <assert-eq>0</assert-eq>
+    </result>
+  </test-case>
+
+  <test-case name="try-catch-fn-error-18" covers="fn-error">
+    <description>Try-catch must match any error raised by fn:error.</description>
+    <created by="Ghislain Fourny" on="2012-10-03"/>
+    <environment ref="err"/>
+    
+    <test>try { fn:error(xs:QName("err:FOTY0014")) } catch Q{http://www.w3.org/2005/xqt-errors}FOTY0014 { 0 }</test>
+    <result>
+      <assert-eq>0</assert-eq>
+    </result>
+  </test-case>
+
+  <test-case name="try-catch-fn-error-19" covers="fn-error">
+    <description>Try-catch must match any error raised by fn:error.</description>
+    <created by="Ghislain Fourny" on="2012-10-03"/>
+    <environment ref="err"/>
+    
+    <test>try { fn:error(xs:QName("err:FORG0001")) } catch Q{http://www.w3.org/2005/xqt-errors}FORG0001 { 0 }</test>
+    <result>
+      <assert-eq>0</assert-eq>
+    </result>
+  </test-case>
+
+  <test-case name="try-catch-fn-error-20" covers="fn-error">
+    <description>Try-catch must match any error raised by fn:error.</description>
+    <created by="Ghislain Fourny" on="2012-10-03"/>
+    <environment ref="err"/>
+    
+    <test>try { fn:error(xs:QName("err:FONS0004")) } catch Q{http://www.w3.org/2005/xqt-errors}FONS0004 { 0 }</test>
+    <result>
+      <assert-eq>0</assert-eq>
+    </result>
+  </test-case>
 </test-set>
