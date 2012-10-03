@@ -10,8 +10,8 @@
          <description>A schema defining a list of unions.</description>
          <created by="Anonymous" on="2006-06-07"/>
       </schema>
-   </environment>      
-         
+   </environment>
+   
    <test-case name="FunctionCall-001">
       <description>Test that arguments are atomized - built in function</description>
       <created by="Michael Kay" on="2011-10-31"/>
@@ -89,6 +89,7 @@
       <created by="Michael Kay" on="2011-10-31"/>
       <dependency type="spec" value="XQ30+"/>
       <dependency type="feature" value="schemaValidation"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
       <test><![CDATA[
          declare function local:f($in as xs:anyAtomicType) as xs:boolean { $in instance of xs:decimal };
          let $f := function-lookup(xs:QName('local:f'), 1)
@@ -103,6 +104,7 @@
       <created by="Michael Kay" on="2011-10-31"/>
       <dependency type="spec" value="XQ30+"/>
       <dependency type="feature" value="schemaValidation"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
       <test><![CDATA[
         let $f := xs:integer#1
         return $f(validate type xs:decimal {<a>93.7</a>})
@@ -137,6 +139,7 @@
          Also tests XPath 3.0 inline functions, casting to list, and bang operator.</description>
       <created by="Michael Kay" on="2011-10-31"/>
       <dependency type="spec" value="XP30+"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
       <test>function($in as xs:decimal*) as xs:decimal {sum($in, 0.0)}(xs:NMTOKENS('1 1.2 1.3 1.4')!xs:untypedAtomic(.))</test>
       <result>
         <all-of>
@@ -193,6 +196,7 @@
       <description>Test that the untypedAtomic result of an inline function is cast to the declared type.</description>
       <created by="Michael Kay" on="2011-10-31"/>
       <dependency type="spec" value="XQ30+"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
       <test><![CDATA[
         let $f := function($a as xs:integer, $b as xs:integer) as xs:integer {
           data(<a>{$a}{$b}</a>)
@@ -331,6 +335,7 @@
          Also tests XPath 3.0 inline functions.</description>
       <created by="Michael Kay" on="2011-10-31"/>
       <dependency type="spec" value="XP30+"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
       <test>function($in as xs:double*) as xs:double {sum($in, 0.0e0)}((1, xs:float(0.25), xs:decimal(0.5)))</test>
       <result>
         <all-of>
@@ -345,6 +350,7 @@
          Also tests XPath 3.0 inline functions.</description>
       <created by="Michael Kay" on="2011-10-31"/>
       <dependency type="spec" value="XP30+"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
       <test>function($in as xs:string*) as xs:string {string-join($in, ';')}((xs:anyURI('http://one.com/'), xs:anyURI('http://two.com/')))</test>
       <result>
         <all-of>
@@ -354,7 +360,7 @@
       </result>
    </test-case>
    
-   <test-case name="FunctionCall-027">
+   <test-case name="FunctionCall-027" covers="union-as-sequence-type">
       <description>Test that an untypedAtomic value is NOT cast to the target type where the target type is a list type.
          This is an error because although casting to a list type is allowed, a list type cannot be used in a function signature.</description>
       <created by="Michael Kay" on="2011-10-31"/>
@@ -365,12 +371,13 @@
       </result>
    </test-case>
    
-   <test-case name="FunctionCall-028">
+   <test-case name="FunctionCall-028" covers="union-as-sequence-type">
       <description>Test that the target type can be a union type.</description>
       <created by="Michael Kay" on="2011-10-31"/>
       <environment ref="ListUnionTypes"/>
       <dependency type="spec" value="XQ30+"/>
       <dependency type="feature" value="schemaImport"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
       <test>
         declare namespace lu = 'http://www.w3.org/XQueryTest/ListUnionTypes' ;
         import schema "http://www.w3.org/XQueryTest/ListUnionTypes";
@@ -380,12 +387,13 @@
       </result>
    </test-case>
    
-   <test-case name="FunctionCall-029">
+   <test-case name="FunctionCall-029" covers="union-as-sequence-type">
       <description>Test that the target type can be a union type.</description>
       <created by="Michael Kay" on="2011-10-31"/>
       <environment ref="ListUnionTypes"/>
       <dependency type="spec" value="XQ30+"/>
       <dependency type="feature" value="schemaImport"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
       <test>
         declare namespace lu = 'http://www.w3.org/XQueryTest/ListUnionTypes' ;
         import schema "http://www.w3.org/XQueryTest/ListUnionTypes";
@@ -395,12 +403,13 @@
       </result>
    </test-case>
    
-   <test-case name="FunctionCall-030">
+   <test-case name="FunctionCall-030" covers="union-as-sequence-type">
       <description>Test that numeric promotion does not occur when the target type is a union type.</description>
       <created by="Michael Kay" on="2011-10-31"/>
       <environment ref="ListUnionTypes"/>
       <dependency type="spec" value="XQ30+"/>
       <dependency type="feature" value="schemaImport"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
       <test>
         declare namespace lu = 'http://www.w3.org/XQueryTest/ListUnionTypes' ;
         import schema "http://www.w3.org/XQueryTest/ListUnionTypes";
@@ -410,12 +419,13 @@
       </result>
    </test-case>
    
-   <test-case name="FunctionCall-031">
+   <test-case name="FunctionCall-031" covers="union-as-sequence-type">
       <description>Test that casting of untypedAtomic does occur when the target type is a union type.</description>
       <created by="Michael Kay" on="2011-10-31"/>
       <environment ref="ListUnionTypes"/>
       <dependency type="spec" value="XQ30+"/>
       <dependency type="feature" value="schemaImport"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
       <test>
         declare namespace lu = 'http://www.w3.org/XQueryTest/ListUnionTypes' ;
         import schema "http://www.w3.org/XQueryTest/ListUnionTypes";
@@ -425,12 +435,13 @@
       </result>
    </test-case>
    
-   <test-case name="FunctionCall-032">
+   <test-case name="FunctionCall-032" covers="union-as-sequence-type">
       <description>Test that the argument type cannot be a union type having a list type in its membership.</description>
       <created by="Michael Kay" on="2011-10-31"/>
       <environment ref="ListUnionTypes"/>
       <dependency type="spec" value="XQ30+"/>
       <dependency type="feature" value="schemaImport"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
       <test>
         declare namespace lu = 'http://www.w3.org/XQueryTest/ListUnionTypes' ;
         import schema "http://www.w3.org/XQueryTest/ListUnionTypes";
@@ -440,12 +451,13 @@
       </result>
    </test-case>
    
-   <test-case name="FunctionCall-033">
+   <test-case name="FunctionCall-033" covers="union-as-sequence-type">
       <description>Test that the argument type cannot be a union type derived by restriction from another union type.</description>
       <created by="Michael Kay" on="2011-10-31"/>
       <environment ref="ListUnionTypes"/>
       <dependency type="spec" value="XQ30+"/>
       <dependency type="feature" value="schemaImport"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
       <test>
         declare namespace lu = 'http://www.w3.org/XQueryTest/ListUnionTypes' ;
         import schema "http://www.w3.org/XQueryTest/ListUnionTypes";
@@ -455,12 +467,13 @@
       </result>
    </test-case>
    
-   <test-case name="FunctionCall-034">
+   <test-case name="FunctionCall-034" covers="union-as-sequence-type">
       <description>Test that the argument type cannot be a list type.</description>
       <created by="Michael Kay" on="2011-10-31"/>
       <environment ref="ListUnionTypes"/>
       <dependency type="spec" value="XQ30+"/>
       <dependency type="feature" value="schemaImport"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
       <test>
         declare namespace lu = 'http://www.w3.org/XQueryTest/ListUnionTypes' ;
         import schema "http://www.w3.org/XQueryTest/ListUnionTypes";
@@ -470,12 +483,13 @@
       </result>
    </test-case>
    
-   <test-case name="FunctionCall-035">
+   <test-case name="FunctionCall-035" covers="union-as-sequence-type">
       <description>Test that the result type can be a union type and that the return value can be a member of the union.</description>
       <created by="Michael Kay" on="2011-10-31"/>
       <environment ref="ListUnionTypes"/>
       <dependency type="spec" value="XQ30+"/>
       <dependency type="feature" value="schemaImport"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
       <test>
         declare namespace lu = 'http://www.w3.org/XQueryTest/ListUnionTypes' ;
         import schema "http://www.w3.org/XQueryTest/ListUnionTypes";
@@ -488,7 +502,7 @@
       </result>
    </test-case>
    
-   <test-case name="FunctionCall-036">
+   <test-case name="FunctionCall-036" covers="union-as-sequence-type">
       <description>Test that the result type can be a union type and that the return value can be a member of the union.</description>
       <created by="Michael Kay" on="2011-10-31"/>
       <environment ref="ListUnionTypes"/>
@@ -505,7 +519,7 @@
       </result>
    </test-case>
    
-   <test-case name="FunctionCall-037">
+   <test-case name="FunctionCall-037" covers="union-as-sequence-type">
       <description>Test that the result type can be a union type and that the return value can be cast to the union type.</description>
       <created by="Michael Kay" on="2011-10-31"/>
       <environment ref="ListUnionTypes"/>
@@ -532,6 +546,7 @@
       <environment ref="ListUnionTypes"/>
       <dependency type="spec" value="XQ30+"/>
       <dependency type="feature" value="schemaImport"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
       <test>
         declare namespace lu = 'http://www.w3.org/XQueryTest/ListUnionTypes' ;
         import schema "http://www.w3.org/XQueryTest/ListUnionTypes";
@@ -558,6 +573,7 @@
       <environment ref="ListUnionTypes"/>
       <dependency type="spec" value="XQ30+"/>
       <dependency type="feature" value="schemaImport"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
       <test>
         declare namespace lu = 'http://www.w3.org/XQueryTest/ListUnionTypes' ;
         import schema "http://www.w3.org/XQueryTest/ListUnionTypes";
@@ -573,6 +589,7 @@
       <environment ref="ListUnionTypes"/>
       <dependency type="spec" value="XQ30+"/>
       <dependency type="feature" value="schemaImport"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
       <test><![CDATA[
         declare namespace lu = 'http://www.w3.org/XQueryTest/ListUnionTypes' ;
         import schema "http://www.w3.org/XQueryTest/ListUnionTypes";
@@ -590,6 +607,7 @@
       <environment ref="ListUnionTypes"/>
       <dependency type="spec" value="XQ30+"/>
       <dependency type="feature" value="schemaImport"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
       <test>
         declare namespace lu = 'http://www.w3.org/XQueryTest/ListUnionTypes' ;
         import schema "http://www.w3.org/XQueryTest/ListUnionTypes";
@@ -606,6 +624,7 @@
       <environment ref="ListUnionTypes"/>
       <dependency type="spec" value="XQ30+"/>
       <dependency type="feature" value="schemaImport"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
       <test>
         declare namespace lu = 'http://www.w3.org/XQueryTest/ListUnionTypes' ;
         import schema "http://www.w3.org/XQueryTest/ListUnionTypes";
@@ -626,6 +645,7 @@
       <environment ref="ListUnionTypes"/>
       <dependency type="spec" value="XQ30+"/>
       <dependency type="feature" value="schemaImport"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
       <test>
         declare namespace lu = 'http://www.w3.org/XQueryTest/ListUnionTypes' ;
         import schema "http://www.w3.org/XQueryTest/ListUnionTypes";
