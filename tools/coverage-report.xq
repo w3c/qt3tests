@@ -9,6 +9,6 @@ xquery version "3.0";
         let $relevant-testsets := $testsets[tokenize(@covers, ' ') = $token]
         let $relevant-testcases := $testsets/fots:test-case[tokenize(@covers, ' ') = $token]
         let $count := count($relevant-testsets/fots:test-case) + count($relevant-testcases)
-        let $desc := doc('../changes.xml')//change[@id=$token]
-        return <change change="{$token}" description="{$desc}" tests="{$count}"/>
+        let $change := doc('../changes.xml')//change[@id=$token]
+        return <change change="{$token}" description="{$change}" owner="{$change/@owner}" tests="{$count}"/>
   }</changes>      
