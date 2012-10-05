@@ -294,7 +294,7 @@
                     <h3>context-item</h3>
                     <p>
                         An element within an environment that declares the value of the context item
-                        for a query.
+                        for a query.</p>
                      <p>   
                         The query is called with the value of the select expression as the context item.
                     </p>
@@ -1215,17 +1215,17 @@
                     <div>
                         <h3>code (as an attribute name)</h3>
                         <p>
-                            denotes an attribute which provides a NCName to be used as an error code 
+                            denotes an attribute which in most cases provides a NCName to be used as an error code 
                             in the scope of a error element. The attribute gives the local name of the
-                            error code; the code is assumed to be in the standard error namespace. The value
-                            "*" indicates that any error code is allowed. 
-                        </p>
+                            error code; the code is assumed to be in the standard error namespace.</p>
+                        <p> The value "*" indicates that any error code is allowed.</p>
+                        <p> The value may also be an EQName (Q{uri}local) to allow for user-defined error codes </p>
                     </div> 
                 </xs:documentation>
             </xs:annotation>
         <xs:attribute name="code">
             <xs:simpleType>
-                <xs:union memberTypes="xs:NCName">
+                <xs:union memberTypes="xs:NCName EQName">
                     <xs:simpleType>
                         <xs:restriction base="xs:string">
                             <xs:annotation>
@@ -1240,6 +1240,17 @@
             </xs:simpleType>    
         </xs:attribute>
     </xs:attributeGroup>
+    
+    <xs:simpleType name="EQName">
+      <xs:annotation>
+        <xs:documentation>
+          <p>Allows a user-defined error code to be expressed in the form Q{uri}local</p>
+        </xs:documentation>
+      </xs:annotation>
+      <xs:restriction base="xs:string">
+        <xs:pattern value="Q\{.*\}\i\c*"/>
+      </xs:restriction>
+    </xs:simpleType>
     
     <xs:attributeGroup name="fileAttr">
         <xs:annotation>
@@ -1399,7 +1410,7 @@
     
     <xs:simpleType name="encodingType">
       <xs:restriction base="xs:string">
-	<xs:pattern value="[A-Za-z]([A-Za-z0-9._-])*"/>
+	    <xs:pattern value="[A-Za-z]([A-Za-z0-9._-])*"/>
       </xs:restriction>
     </xs:simpleType>
 
