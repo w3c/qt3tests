@@ -124,6 +124,18 @@
         </any-of>
       </result>
    </test-case>
+   
+   <test-case name="contextDecl-023">
+      <description>Context item type must be an item type (no occurrence indicator)</description>
+      <created by="Michael Kay" on="2012-10-05"/>
+      <test>
+        declare context item as xs:integer+ := (1 to 17)[position() = 5];
+        .
+      </test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
 
    <test-case name="contextDecl-028">
       <description>Context item bound to an atomic value </description>
@@ -201,7 +213,7 @@
       <description>Context item successfully matches its type</description>
       <created by="Michael Kay" on="2012-10-02"/>
       <test>
-        declare context item as xs:integer+ := (1 to 17)[position() = 5];
+        declare context item as xs:integer := (1 to 17)[position() = 5];
         .
       </test>
       <result>
