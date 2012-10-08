@@ -1238,6 +1238,39 @@
          <assert-string-value>space</assert-string-value>
        </result>
    </test-case>
+   
+   <test-case name="CastAs-UnionType-34" covers="cast-to-union">
+       <description>Cast to a union type derived by restriction</description>
+       <created by="Michael Kay" on="2012-10-08"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <test><![CDATA[
+         xquery version "3.0";
+         import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+         s:restrictedUnion('2012-10-08')
+       ]]></test>
+       <result>
+         <all-of>
+           <assert-type>xs:date</assert-type>
+           <assert-string-value>2012-10-08</assert-string-value>
+         </all-of>  
+       </result>
+   </test-case>
+   
+   <test-case name="CastAs-UnionType-35" covers="cast-to-union">
+       <description>Failing cast to a union type derived by restriction</description>
+       <created by="Michael Kay" on="2012-10-08"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <test><![CDATA[
+         xquery version "3.0";
+         import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+         s:restrictedUnion('1912-10-08')
+       ]]></test>
+       <result>
+         <error code="FORG0001"/>
+       </result>
+   </test-case>
 
 
    <test-case name="CastAs-ListType-1" covers="cast-to-list">

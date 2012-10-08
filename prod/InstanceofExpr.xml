@@ -10,6 +10,13 @@
          <description>A schema defining a list of unions.</description>
          <created by="Anonymous" on="2006-06-07"/>
       </schema>
+   </environment>
+   
+   <environment name="union-List-defined-Types" >
+     <schema uri="http://www.w3.org/XQueryTest/unionListDefined" file="SchemaImport/unionListDefined.xsd">
+       <description>A Schema of union and list defined types</description>
+       <created by="O'Neil Delpratt" on="2011-10-27"/>
+     </schema>
    </environment> 
 
    <test-case name="instanceof1">
@@ -1002,7 +1009,7 @@
       </result>
    </test-case>
    
-   <test-case name="instanceof111">
+   <test-case name="instanceof111" covers="type-derivation-with-unions">
       <description>purpose: Test that a value is not testable as an instance of a list type. </description>
       <created by="Michael Kay" on="2011-10-31"/>
       <test>xs:NMTOKEN('abc') instance of xs:NMTOKENS</test>
@@ -1011,7 +1018,7 @@
       </result>
    </test-case>
    
-   <test-case name="instanceof112" covers="union-as-sequence-type">
+   <test-case name="instanceof112" covers="union-as-sequence-type type-derivation-with-unions">
       <description>purpose: Test that a value is an instance of a simple union type. </description>
       <created by="Michael Kay" on="2011-10-31"/>
       <environment ref="ListUnionTypes"/>
@@ -1026,7 +1033,7 @@
       </result>
    </test-case>
    
-   <test-case name="instanceof113" covers="union-as-sequence-type">
+   <test-case name="instanceof113" covers="union-as-sequence-type type-derivation-with-unions">
       <description>purpose: Test that a value cannot be tested to be an instance of a union type derived by restriction. </description>
       <created by="Michael Kay" on="2011-10-31"/>
       <environment ref="ListUnionTypes"/>
@@ -1041,7 +1048,7 @@
       </result>
    </test-case>
    
-   <test-case name="instanceof114" covers="union-as-sequence-type">
+   <test-case name="instanceof114" covers="union-as-sequence-type type-derivation-with-unions">
       <description>purpose: Test that a value cannot be tested to be an instance of a list whose item type is a union. </description>
       <created by="Michael Kay" on="2011-10-31"/>
       <environment ref="ListUnionTypes"/>
@@ -1056,7 +1063,7 @@
       </result>
    </test-case>
    
-   <test-case name="instanceof115" covers="union-as-sequence-type">
+   <test-case name="instanceof115" covers="union-as-sequence-type type-derivation-with-unions">
       <description>purpose: Test that a value cannot be tested to be an instance of a union type with a list in its membership. </description>
       <created by="Michael Kay" on="2011-10-31"/>
       <environment ref="ListUnionTypes"/>
@@ -1071,7 +1078,7 @@
       </result>
    </test-case>
    
-   <test-case name="instanceof116" covers="union-as-sequence-type">
+   <test-case name="instanceof116" covers="union-as-sequence-type type-derivation-with-unions">
       <description>purpose: Test that a value can be tested to be an instance of a union type with a union in its membership. </description>
       <created by="Michael Kay" on="2011-10-31"/>
       <environment ref="ListUnionTypes"/>
@@ -1087,7 +1094,331 @@
          <assert-true/>
       </result>
    </test-case>
+   
+   <test-case name="instanceof117" covers="type-derivation-with-unions">
+       <description>Instance of a union type derived by restriction</description>
+       <created by="Michael Kay" on="2012-10-08"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <test><![CDATA[
+         xquery version "3.0";
+         import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+         s:gYearMonth('2012-10') instance of s:restrictedUnion
+       ]]></test>
+       <result>
+         <error code="XPST0051"/>  
+       </result>
+   </test-case>
+   
+   <test-case name="instanceof118" covers="type-derivation-with-unions">
+       <description>Instance of a union type not derived by restriction</description>
+       <created by="Michael Kay" on="2012-10-08"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <test><![CDATA[
+         xquery version "3.0";
+         import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+         s:unrestrictedInteger(3) instance of s:myUnionType1
+       ]]></test>
+       <result>
+         <assert-true/> 
+       </result>
+   </test-case>
 
+   <test-case name="instanceof119" covers="type-derivation-with-unions">
+       <description>Instance of a union type not derived by restriction</description>
+       <created by="Michael Kay" on="2012-10-08"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <test><![CDATA[
+         xquery version "3.0";
+         import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+         s:restrictedString("IB40") instance of s:myUnionType2
+       ]]></test>
+       <result>
+         <assert-true/> 
+       </result>
+   </test-case>
+   
+   <test-case name="instanceof120" covers="type-derivation-with-unions">
+       <description>Instance of a union type with a list type in its membership</description>
+       <created by="Michael Kay" on="2012-10-08"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <test><![CDATA[
+         xquery version "3.0";
+         import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+         85 instance of s:unionOfListsAndAtomic
+       ]]></test>
+       <result>
+         <error code="XPST0051"/> 
+       </result>
+   </test-case>
+   
+   <test-case name="instanceof121" covers="sequence-type-relationships">
+       <description>Instance of with function types</description>
+       <created by="Michael Kay" on="2012-10-08"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="higherOrderFunctions"/>
+       <test><![CDATA[
+         name#1 instance of function(*)
+       ]]></test>
+       <result>
+         <assert-true/>
+       </result>
+   </test-case>
+   
+   <test-case name="instanceof122" covers="sequence-type-relationships">
+       <description>Instance of with function types</description>
+       <created by="Michael Kay" on="2012-10-08"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="higherOrderFunctions"/>
+       <test><![CDATA[
+         name#1 instance of function(node()?) as xs:string
+       ]]></test>
+       <result>
+         <assert-true/>
+       </result>
+   </test-case>
+   
+   <test-case name="instanceof123" covers="sequence-type-relationships">
+       <description>Instance of with function types</description>
+       <created by="Michael Kay" on="2012-10-08"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="higherOrderFunctions"/>
+       <test><![CDATA[
+         name#1 instance of function(node()) as xs:string
+       ]]></test>
+       <result>
+         <assert-true/>
+       </result>
+   </test-case>
+   
+   <test-case name="instanceof124" covers="sequence-type-relationships">
+       <description>Instance of with function types</description>
+       <created by="Michael Kay" on="2012-10-08"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="higherOrderFunctions"/>
+       <test><![CDATA[
+         name#1 instance of function(element(A)?) as xs:string
+       ]]></test>
+       <result>
+         <assert-true/>
+       </result>
+   </test-case>
+   
+   <test-case name="instanceof125" covers="sequence-type-relationships">
+       <description>Instance of with function types</description>
+       <created by="Michael Kay" on="2012-10-08"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="higherOrderFunctions"/>
+       <test><![CDATA[
+         name#1 instance of function(element(A)) as xs:string
+       ]]></test>
+       <result>
+         <assert-true/>
+       </result>
+   </test-case>
+   
+   <test-case name="instanceof126" covers="sequence-type-relationships">
+       <description>Instance of with function types</description>
+       <created by="Michael Kay" on="2012-10-08"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="higherOrderFunctions"/>
+       <test><![CDATA[
+         name#1 instance of function(element(A)) as xs:anyAtomicType
+       ]]></test>
+       <result>
+         <assert-true/>
+       </result>
+   </test-case>
+   
+   <test-case name="instanceof127" covers="sequence-type-relationships">
+       <description>Instance of with function types</description>
+       <created by="Michael Kay" on="2012-10-08"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="higherOrderFunctions"/>
+       <test><![CDATA[
+         name#1 instance of function(element(A)) as xs:string+
+       ]]></test>
+       <result>
+         <assert-true/>
+       </result>
+   </test-case>
+   
+   <test-case name="instanceof128" covers="sequence-type-relationships">
+       <description>Instance of with function types</description>
+       <created by="Michael Kay" on="2012-10-08"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="higherOrderFunctions"/>
+       <test><![CDATA[
+         name#1 instance of function(element(A)) as xs:NCName
+       ]]></test>
+       <result>
+         <assert-false/>
+       </result>
+   </test-case>
+   
+   <test-case name="instanceof129" covers="sequence-type-relationships">
+       <description>Instance of with function types</description>
+       <created by="Michael Kay" on="2012-10-08"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="higherOrderFunctions"/>
+       <test><![CDATA[
+         name#1 instance of function(node()*) as xs:string
+       ]]></test>
+       <result>
+         <assert-false/>
+       </result>
+   </test-case>
+   
+   <test-case name="instanceof130" covers="sequence-type-relationships">
+       <description>Instance of with function types</description>
+       <created by="Michael Kay" on="2012-10-08"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="higherOrderFunctions"/>
+       <test><![CDATA[
+         name#1 instance of function(item()) as xs:string
+       ]]></test>
+       <result>
+         <assert-false/>
+       </result>
+   </test-case>
+   
+   <test-case name="instanceof131" covers="sequence-type-relationships">
+       <description>Instance of with function types</description>
+       <created by="Michael Kay" on="2012-10-08"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="higherOrderFunctions"/>
+       <test><![CDATA[
+         name#0 instance of function(item()) as xs:string
+       ]]></test>
+       <result>
+         <assert-false/>
+       </result>
+   </test-case>
+   
+   <test-case name="instanceof132" covers="sequence-type-relationships">
+       <description>Instance of with function types</description>
+       <created by="Michael Kay" on="2012-10-08"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="higherOrderFunctions"/>
+       <test><![CDATA[
+         filter#2 instance of function(function(item()) as xs:boolean, item()*) as item()*
+       ]]></test>
+       <result>
+         <assert-true/>
+       </result>
+   </test-case>
+   
+   <test-case name="instanceof133" covers="sequence-type-relationships">
+       <description>Instance of with function types</description>
+       <created by="Michael Kay" on="2012-10-08"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="higherOrderFunctions"/>
+       <test><![CDATA[
+         filter#2 instance of function(function(item()*) as xs:boolean, item()*) as item()*
+       ]]></test>
+       <result>
+         <assert-true/>
+       </result>
+   </test-case>
+   
+   <test-case name="instanceof134" covers="sequence-type-relationships">
+       <description>Instance of with function types</description>
+       <created by="Michael Kay" on="2012-10-08"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="higherOrderFunctions"/>
+       <test><![CDATA[
+         filter#2 instance of function(function(*), item()*) as item()*
+       ]]></test>
+       <result>
+         <assert-false/>
+       </result>
+   </test-case>
+   
+   <test-case name="instanceof135" covers="sequence-type-relationships type-derivation-with-unions">
+       <description>Instance of with function types and union types</description>
+       <created by="Michael Kay" on="2012-10-08"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="higherOrderFunctions"/>
+       <test><![CDATA[
+         import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+         declare function local:f($a as s:myUnionType1) as xs:boolean { true() };
+         local:f#1 instance of function(s:myUnionType1) as xs:boolean
+       ]]></test>
+       <result>
+         <assert-true/>
+       </result>
+   </test-case>
+   
+   <test-case name="instanceof136" covers="sequence-type-relationships type-derivation-with-unions">
+       <description>Instance of with function types and union types</description>
+       <created by="Michael Kay" on="2012-10-08"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="higherOrderFunctions"/>
+       <test><![CDATA[
+         import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+         declare function local:f($a as s:myUnionType1) as xs:boolean { true() };
+         local:f#1 instance of function(s:unrestrictedDate) as xs:boolean
+       ]]></test>
+       <result>
+         <assert-true/>
+       </result>
+   </test-case>
+   
+   <test-case name="instanceof137" covers="sequence-type-relationships type-derivation-with-unions">
+       <description>Instance of with function types and union types</description>
+       <created by="Michael Kay" on="2012-10-08"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="higherOrderFunctions"/>
+       <test><![CDATA[
+         import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+         declare function local:f($a as s:myUnionType1) as xs:boolean { true() };
+         local:f#1 instance of function(s:unrestrictedInteger) as xs:boolean
+       ]]></test>
+       <result>
+         <assert-true/>
+       </result>
+   </test-case>
+   
+   <test-case name="instanceof138" covers="sequence-type-relationships type-derivation-with-unions">
+       <description>Instance of with function types and union types</description>
+       <created by="Michael Kay" on="2012-10-08"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="higherOrderFunctions"/>
+       <test><![CDATA[
+         import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+         declare function local:f($a as s:myUnionType1) as xs:boolean { true() };
+         local:f#1 instance of function(s:restrictedDate) as xs:boolean
+       ]]></test>
+       <result>
+         <assert-true/>
+       </result>
+   </test-case>
+   
+   <test-case name="instanceof139" covers="sequence-type-relationships type-derivation-with-unions">
+       <description>Instance of with function types and union types. Note: there is no
+                    subtype relationship between union(A,B,C) and union(A,B).</description>
+       <created by="Michael Kay" on="2012-10-08"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="higherOrderFunctions"/>
+       <test><![CDATA[
+         import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+         declare function local:f($a as s:approximateDate) as xs:boolean { true() };
+         local:f#1 instance of function(s:dateOrDateTime) as xs:boolean
+       ]]></test>
+       <result>
+         <assert-false/>
+       </result>
+   </test-case>
+   
    <test-case name="K-SeqExprInstanceOf-1">
       <description> A test whose essence is: `1 instance of item()`. </description>
       <created by="Frans Englich" on="2007-11-26"/>
