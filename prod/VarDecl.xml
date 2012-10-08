@@ -620,6 +620,7 @@
    <test-case name="K2-InternalVariablesWithout-1">
       <description> A variable depending on a recursive function. </description>
       <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10"/>
       <test>
         declare variable $local:myVar := local:myFunction(); 
         declare function local:myFunction() { local:myFunction(), 1, $local:myVar }; 
@@ -630,9 +631,24 @@
       </result>
    </test-case>
 
+   <test-case name="K2-InternalVariablesWithout-1a">
+      <description>Test case based on K2-InterVariablesWithout-1 with XQuery 3.0 error code</description>
+      <created by="O'Neil Delpratt" on="2012-10-08"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>
+        declare variable $local:myVar := local:myFunction();
+        declare function local:myFunction() { local:myFunction(), 1, $local:myVar };
+        $local:myVar
+      </test>
+      <result>
+         <error code="XQDY0054"/>
+      </result>
+   </test-case>
+
    <test-case name="K2-InternalVariablesWithout-2">
       <description> A variable depending on a recursive function. </description>
       <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10"/>
       <test>
         declare variable $local:myVar := local:myFunction(); 
         declare function local:myFunction() { $local:myVar, 1, local:myFunction() }; 
@@ -643,66 +659,157 @@
       </result>
    </test-case>
 
+   <test-case name="K2-InternalVariablesWithout-2a">
+      <description>Test case based on K2-InterVariablesWithout-2 with XQuery 3.0 error code</description>
+      <created by="O'Neil Delpratt" on="2012-10-08"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>
+        declare variable $local:myVar := local:myFunction();
+        declare function local:myFunction() { $local:myVar, 1, local:myFunction() };
+        $local:myVar
+      </test>
+      <result>
+         <error code="XQDY0054"/>
+      </result>
+   </test-case>
+
    <test-case name="K2-InternalVariablesWithout-3">
       <description> A variable depending on a recursive function. </description>
       <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10"/>
       <test>declare variable $local:myVar := local:myFunction(); declare function local:myFunction() { $local:myVar, 1, local:myFunction() }; $local:myVar</test>
       <result>
          <error code="XQST0054"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-InternalVariablesWithout-3a">
+      <description>Test case based on K2-InterVariablesWithout-3 with XQuery 3.0 error code</description>
+      <created by="O'Neil Delpratt" on="2012-10-08"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>declare variable $local:myVar := local:myFunction(); declare function local:myFunction() { $local:myVar, 1, local:myFunction() }; $local:myVar</test>
+      <result>
+         <error code="XQDY0054"/>
       </result>
    </test-case>
 
    <test-case name="K2-InternalVariablesWithout-4">
       <description> A variable depending on a recursive function. </description>
       <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10"/>
       <test>declare variable $local:myVar := local:myFunction(); declare function local:myFunction() { $local:myVar, 1, local:myFunction() }; $local:myVar</test>
       <result>
          <error code="XQST0054"/>
       </result>
    </test-case>
 
+   <test-case name="K2-InternalVariablesWithout-4a">
+      <description>Test case based on K2-InterVariablesWithout-4 with XQuery 3.0 error code</description>
+      <created by="O'Neil Delpratt" on="2012-10-08"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>declare variable $local:myVar := local:myFunction(); declare function local:myFunction() { $local:myVar, 1, local:myFunction() }; $local:myVar</test>
+      <result>
+         <error code="XQDY0054"/>
+      </result>
+   </test-case>
+
    <test-case name="K2-InternalVariablesWithout-5">
       <description> A variable depending indirectly on a recursive function. </description>
       <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10"/>
       <test>declare variable $local:myVar := local:myFunction(); declare function local:myFunction2() { $local:myVar, 1, local:myFunction() }; declare function local:myFunction() { local:myFunction2() }; $local:myVar</test>
       <result>
          <error code="XQST0054"/>
       </result>
    </test-case>
 
+   <test-case name="K2-InternalVariablesWithout-5a">
+      <description>Test case based on K2-InterVariablesWithout-5 with XQuery 3.0 error code</description>
+      <created by="O'Neil Delpratt" on="2012-10-08"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>declare variable $local:myVar := local:myFunction(); declare function local:myFunction2() { $local:myVar, 1, local:myFunction() }; declare function local:myFunction() { local:myFunction2() }; $local:myVar</test>
+      <result>
+         <error code="XQDY0054"/>
+      </result>
+   </test-case>
+
    <test-case name="K2-InternalVariablesWithout-6">
       <description> A variable depending indirectly on a recursive function. </description>
       <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10"/>
       <test>declare variable $local:myVar := local:myFunction(); declare function local:myFunction2() { local:myFunction(), $local:myVar }; declare function local:myFunction() { local:myFunction2() }; local:myFunction()</test>
       <result>
          <error code="XQST0054"/>
       </result>
    </test-case>
 
+   <test-case name="K2-InternalVariablesWithout-6a">
+      <description>Test case based on K2-InterVariablesWithout-6 with XQuery 3.0 error code</description>
+      <created by="O'Neil Delpratt" on="2012-10-08"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>declare variable $local:myVar := local:myFunction(); declare function local:myFunction2() { local:myFunction(), $local:myVar }; declare function local:myFunction() { local:myFunction2() }; local:myFunction()</test>
+      <result>
+         <error code="XQDY0054"/>
+      </result>
+   </test-case>
+
    <test-case name="K2-InternalVariablesWithout-7">
       <description> A variable depending indirectly on a recursive function. </description>
       <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10"/>
       <test>declare variable $local:myVar := local:myFunction(); declare function local:myFunction2() { local:myFunction(), $local:myVar }; declare function local:myFunction4() { local:myFunction2() }; declare function local:myFunction3() { local:myFunction4() }; declare function local:myFunction() { local:myFunction3() }; local:myFunction()</test>
       <result>
          <error code="XQST0054"/>
       </result>
    </test-case>
 
+   <test-case name="K2-InternalVariablesWithout-7a">
+      <description>Test case based on K2-InterVariablesWithout-7 with XQuery 3.0 error code</description>
+      <created by="O'Neil Delpratt" on="2012-10-08"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>declare variable $local:myVar := local:myFunction(); declare function local:myFunction2() { local:myFunction(), $local:myVar }; declare function local:myFunction4() { local:myFunction2() }; declare function local:myFunction3() { local:myFunction4() }; declare function local:myFunction() { local:myFunction3() }; local:myFunction()</test>
+      <result>
+         <error code="XQDY0054"/>
+      </result>
+   </test-case>
+
    <test-case name="K2-InternalVariablesWithout-8">
       <description> A variable depending indirectly on a recursive function. </description>
       <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10"/>
       <test>declare variable $local:myVar := local:myFunction(); declare function local:myFunction2() { local:myFunction4() }; declare function local:myFunction4() { local:myFunction2(), $local:myVar }; declare function local:myFunction3() { local:myFunction4() }; declare function local:myFunction() { local:myFunction3() }; local:myFunction()</test>
       <result>
          <error code="XQST0054"/>
       </result>
    </test-case>
 
+   <test-case name="K2-InternalVariablesWithout-8a">
+      <description>Test case based on K2-InterVariablesWithout-8 with XQuery 3.0 error code</description>
+      <created by="O'Neil Delpratt" on="2012-10-08"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>declare variable $local:myVar := local:myFunction(); declare function local:myFunction2() { local:myFunction4() }; declare function local:myFunction4() { local:myFunction2(), $local:myVar }; declare function local:myFunction3() { local:myFunction4() }; declare function local:myFunction() { local:myFunction3() }; local:myFunction()</test>
+      <result>
+         <error code="XQDY0054"/>
+      </result>
+   </test-case>
+
    <test-case name="K2-InternalVariablesWithout-9">
       <description> A variable depending on its self through the argument of a user function callsite. </description>
       <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10"/>
       <test>declare variable $local:myVar := local:myFunc(3); declare function local:myFunc($arg) { local:myFunc($local:myVar) }; $local:myVar</test>
       <result>
          <error code="XQST0054"/>
+      </result>
+   </test-case>
+
+   <test-case name="K2-InternalVariablesWithout-9a">
+      <description>Test case based on K2-InterVariablesWithout-9 with XQuery 3.0 error code</description>
+      <created by="O'Neil Delpratt" on="2012-10-08"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>declare variable $local:myVar := local:myFunc(3); declare function local:myFunc($arg) { local:myFunc($local:myVar) }; $local:myVar</test>
+      <result>
+         <error code="XQDY0054"/>
       </result>
    </test-case>
 
@@ -1178,45 +1285,100 @@
    <test-case name="K-InternalVariablesWith-16">
       <description> A prolog variable having a circular dependency, stretching through many functions. </description>
       <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10"/>
       <test>declare variable $var := local:func1(); declare function local:func1() { local:func2() }; declare function local:func2() { local:func3() }; declare function local:func3() { local:func4() }; declare function local:func4() { $var }; boolean($var)</test>
       <result>
          <error code="XQST0054"/>
       </result>
    </test-case>
 
+   <test-case name="K-InternalVariablesWith-16a">
+      <description>Test case based on K-InternalVariablesWith-16. XQuery 3.0 error code.</description>
+      <created by="O'Neil Delpratt" on="2012-10-08"/>
+      <dependency type="spec" value="XQ30"/>
+      <test>declare variable $var := local:func1(); declare function local:func1() { local:func2() }; declare function local:func2() { local:func3() }; declare function local:func3() { local:func4() }; declare function local:func4() { $var }; boolean($var)</test>
+      <result>
+         <error code="XQDY0054"/>
+      </result>
+   </test-case>
+
    <test-case name="K-InternalVariablesWith-17">
       <description> A prolog variable having a circular dependency, by having a variable reference in a call site argument. This is an error even though the variable isn't used, because implementations cannot skip reporting static errors. </description>
       <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10"/>
       <test>declare variable $var := local:func1(); declare function local:func1() { local:func2($var) }; declare function local:func2($arg2) { 1 }; true()</test>
       <result>
          <error code="XQST0054"/>
       </result>
    </test-case>
 
+   <test-case name="K-InternalVariablesWith-17a">
+      <description>Test case based on K-InternalVariablesWith-17. XQuery 3.0 error code.</description>
+      <created by="O'Neil Delpratt" on="2012-10-08"/>
+      <dependency type="spec" value="XQ30"/>
+      <test>declare variable $var := local:func1(); declare function local:func1() { local:func2($var) }; declare function local:func2($arg2) { 1 }; true()</test>
+      <result>
+         <error code="XQDY0054"/>
+      </result>
+   </test-case>
+
    <test-case name="K-InternalVariablesWith-18">
       <description> A prolog variable having a circular dependency, by having a variable reference in a call site argument. </description>
       <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10"/>
       <test>declare variable $var := local:func1(); declare function local:func1() { local:func2($var) }; declare function local:func2($arg2) { $arg2 }; $var</test>
       <result>
          <error code="XQST0054"/>
       </result>
    </test-case>
 
+   <test-case name="K-InternalVariablesWith-18a">
+      <description>Test case based on K-InternalVariablesWith-18 with XQuery 3.0 error code.</description>
+      <created by="O'Neil Delpratt" on="2012-10-08"/>
+      <dependency type="spec" value="XQ30"/>
+      <test>declare variable $var := local:func1(); declare function local:func1() { local:func2($var) }; declare function local:func2($arg2) { $arg2 }; $var</test>
+      <result>
+         <error code="XQDY0054"/>
+      </result>
+   </test-case>
+
    <test-case name="K-InternalVariablesWith-19">
       <description> A prolog variable having a circular dependency, stretching through functions and variables. </description>
       <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10"/>
       <test>declare variable $var2 := local:func1(); declare variable $var := ($var2 treat as xs:integer) + 1; declare function local:func1() { local:func2() }; declare function local:func2() { local:func3() }; declare function local:func3() { local:func4() }; declare function local:func4() { $var }; boolean($var)</test>
       <result>
          <error code="XQST0054"/>
       </result>
    </test-case>
 
+   <test-case name="K-InternalVariablesWith-19a">
+      <description>Test case based on K-InternalVariablesWith-19 with XQuery 3.0 error code.</description>
+      <created by="O'Neil Delpratt" on="2012-10-08"/>
+      <dependency type="spec" value="XQ30"/>
+      <test>declare variable $var2 := local:func1(); declare variable $var := ($var2 treat as xs:integer) + 1; declare function local:func1() { local:func2() }; declare function local:func2() { local:func3() }; declare function local:func3() { local:func4() }; declare function local:func4() { $var }; boolean($var)</test>
+      <result>
+         <error code="XQDY0054"/>
+      </result>
+   </test-case>
+
    <test-case name="K-InternalVariablesWith-20">
       <description> A prolog variable having a circular dependency, stretching through functions and variables(#2). </description>
       <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10"/>
       <test>declare variable $var := local:func1(); declare function local:func1() { local:func2() }; declare function local:func2() { local:func3() }; declare variable $var2 := local:func2(); declare function local:func3() { $var2 }; boolean($var)</test>
       <result>
          <error code="XQST0054"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-InternalVariablesWith-20a">
+      <description>Test case based on K-InternalVariablesWith-20 with XQuery 3.0 error code.</description>
+      <created by="O'Neil Delpratt" on="2012-10-08"/>
+      <dependency type="spec" value="XQ30"/>
+      <test>declare variable $var := local:func1(); declare function local:func1() { local:func2() }; declare function local:func2() { local:func3() }; declare variable $var2 := local:func2(); declare function local:func3() { $var2 }; boolean($var)</test>
+      <result>
+         <error code="XQDY0054"/>
       </result>
    </test-case>
    
