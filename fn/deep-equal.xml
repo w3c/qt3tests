@@ -1934,11 +1934,13 @@
    <test-case name="K2-SeqDeepEqualFunc-38">
       <description>Element with mixed content is not equal to similar element with element-only content</description>
       <created by="Michael Kay" on="2012-05-30"/>
+      <modified by="O'Neil Delpratt" on="2012-10-09" change="Bug fix relating to 17267" />
       <environment ref="perverse"/>
       <dependency type="spec" value="XQ10+"/>
       <dependency type="feature" value="schemaValidation"/>
+      <dependency type="feature" value="schemaImport"/>
       <test><![CDATA[
-        declare namespace p = "http://www.w3.org/XQueryTest/perversity";
+        import schema namespace p = "http://www.w3.org/XQueryTest/perversity";
         let $v := validate strict {<p:elementOnly><p:e/></p:elementOnly>}
         let $w := validate strict {<p:mixed><p:e/></p:mixed>}
         let $x := validate strict {<p:empty><p:e/></p:empty>}
@@ -1954,11 +1956,13 @@
    <test-case name="K2-SeqDeepEqualFunc-39">
       <description>Element with mixed content is not equal to similar element with simple content</description>
       <created by="Michael Kay" on="2012-05-30"/>
+      <modified by="O'Neil Delpratt" on="2012-10-09" change="Bug fix relating to 17267" />
       <environment ref="perverse"/>
       <dependency type="spec" value="XQ10+"/>
       <dependency type="feature" value="schemaValidation"/>
+      <dependency type="feature" value="schemaImport"/>
       <test><![CDATA[
-        declare namespace p = "http://www.w3.org/XQueryTest/perversity";
+        import schema namespace p = "http://www.w3.org/XQueryTest/perversity";
         let $w := validate strict {<p:mixed><p:e>fraternity</p:e></p:mixed>}
         let $y := validate strict {<p:simple><p:e>fraternity</p:e></p:simple>}
         return deep-equal($w/p:e, $y/p:e)
