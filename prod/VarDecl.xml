@@ -602,9 +602,22 @@
    <test-case name="vardeclerr">
       <description> Test circularity on variable/function declaration . </description>
       <created by="Carmelo Montanez" on="2006-02-06"/>
+      <modified by="O'Neil Delpratt" on="2012-10-08" change="bug fix 19331: add dependency" />
+      <dependency type="spec" value="XQ10" />
       <test>declare namespace foo = "http://www..oracle.com/xquery/test"; declare variable $var1 as xs:integer := foo:price(xs:integer(2)); declare function foo:price ($b as xs:integer) as xs:integer { $var1 + 1 }; declare variable $input-context1 external; $var1</test>
       <result>
          <error code="XQST0054"/>
+      </result>
+   </test-case>
+
+   <test-case name="vardeclerr-1">
+      <description> Test circularity on variable/function declaration . </description>
+      <created by="Carmelo Montanez" on="2006-02-06"/>
+      <modified by="O'Neil Delpratt" on="2012-10-08" change="Variant of vardeclerr. Bug fix 19331: add dependency" />
+      <dependency type="spec" value="XQ30+" />
+      <test>declare namespace foo = "http://www..oracle.com/xquery/test"; declare variable $var1 as xs:integer := foo:price(xs:integer(2)); declare function foo:price ($b as xs:integer) as xs:integer { $var1 + 1 }; declare variable $input-context1 external; $var1</test>
+      <result>
+         <error code="XQDY0054"/>
       </result>
    </test-case>
 
