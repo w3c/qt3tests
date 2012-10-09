@@ -6596,7 +6596,173 @@
       </result>
    </test-case>
 
-   <test-case name="CastFOCA0001-1">
+  <test-case name="CastAsNamespaceSensitiveType-1" covers="cast-to-qname-errors">
+    <description>Implicit cast to a namespace-sensitive type during a function call is not allowed.</description>
+    <created by="Ghislain Fourny" on="2012-10-09"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test><![CDATA[
+      declare function local:clarkname($q as xs:QName) as xs:string { 
+      concat('{', namespace-uri-from-QName($q), '}', local-name-from-QName($q)) 
+      }; 
+      local:clarkname(xs:untypedAtomic("xs:integer"))
+    ]]>
+    </test>
+    <result>
+      <error code="XPTY0117"/>
+    </result>
+  </test-case>
+  
+  <test-case name="CastAsNamespaceSensitiveType-2" covers="cast-to-qname-errors">
+    <description>Implicit cast to a namespace-sensitive type during a function call is not allowed.</description>
+    <created by="Ghislain Fourny" on="2012-10-09"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test><![CDATA[
+      declare function local:clarkname($q as xs:QName) as xs:string { 
+      concat('{', namespace-uri-from-QName($q), '}', local-name-from-QName($q)) 
+      }; 
+      local:clarkname(<tag>xs:integer</tag>))
+    ]]>
+    </test>
+    <result>
+      <error code="XPTY0117"/>
+    </result>
+  </test-case>
+  
+  <test-case name="CastAsNamespaceSensitiveType-3" covers="cast-to-qname-errors">
+    <description>Namespace-sensitive type during a function call (without cast) is allowed.</description>
+    <created by="Ghislain Fourny" on="2012-10-09"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test><![CDATA[
+      declare function local:clarkname($q as xs:QName) as xs:string { 
+      concat('{', namespace-uri-from-QName($q), '}', local-name-from-QName($q)) 
+      }; 
+      local:clarkname(xs:QName("xs:integer"))
+    ]]>
+    </test>
+    <result>
+      <assert-eq>{http://www.w3.org/2001/XMLSchema}integer</assert-eq>
+    </result>
+  </test-case>
+  
+  <test-case name="CastAsNamespaceSensitiveType-4" covers="cast-to-qname-errors">
+    <description>Implicit cast to a namespace-sensitive type during a function call is not allowed.</description>
+    <created by="Ghislain Fourny" on="2012-10-09"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test><![CDATA[
+      declare function local:clarkname($q as xs:NOTATION) as xs:string { 
+        $q
+      }; 
+      local:clarkname(xs:untypedAtomic("xs:integer"))
+    ]]>
+    </test>
+    <result>
+      <error code="XPTY0117"/>
+    </result>
+  </test-case>
+  
+  <test-case name="CastAsNamespaceSensitiveType-5" covers="cast-to-qname-errors">
+    <description>Implicit cast to a namespace-sensitive type during a function call is not allowed.</description>
+    <created by="Ghislain Fourny" on="2012-10-09"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test><![CDATA[
+      declare function local:clarkname($q as xs:NOTATION) as xs:string { 
+        $q 
+      }; 
+      local:clarkname(<tag>xs:integer</tag>)
+    ]]>
+    </test>
+    <result>
+      <error code="XPTY0117"/>
+    </result>
+  </test-case>
+  
+  <environment name="NOTATION-type">
+    <schema uri="http://www.w3.org/XQueryTest/Cast/Notation" file="CastExpr/notation.xsd"/>
+    <description>Contains a type derived from xs:NOTATION</description>
+    <created by="Ghislain Fourny" on="2012-10-09"/>
+  </environment>
+  
+  <test-case name="CastAsNamespaceSensitiveType-6" covers="cast-to-qname-errors">
+    <description>Namespace-sensitive type during a function call (without cast) is allowed.</description>
+    <environment ref="NOTATION-type"/>
+    <created by="Ghislain Fourny" on="2012-10-09"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test><![CDATA[
+      import schema namespace ntn="http://www.w3.org/XQueryTest/Cast/Notation" at "notation.xsd";
+      declare function local:is-jpg($q as xs:NOTATION) as xs:boolean { 
+        $q eq ntn:pictures("ntn:jpg")
+      }; 
+      local:is-jpg(validate {
+        <ntn:notation xmlns:ntn="http://www.w3.org/XQueryTest/Cast/Notation"
+                      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                      xsi:schemaLocation="http://www.w3.org/XQueryTest/Cast/Notation CastExpr/notation.xsd">ntn:jpg</ntn:notation>
+      })
+    ]]>
+    </test>
+    <result>
+      <assert-true/>
+    </result>
+  </test-case>
+  
+  <test-case name="CastAsNamespaceSensitiveType-7" covers="cast-to-qname-errors">
+    <description>Namespace-sensitive type during a function call (without cast) is allowed.</description>
+    <environment ref="NOTATION-type"/>
+    <created by="Ghislain Fourny" on="2012-10-09"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test><![CDATA[
+      import schema namespace ntn="http://www.w3.org/XQueryTest/Cast/Notation" at "notation.xsd";
+      declare function local:is-jpg($q as ntn:pictures) as xs:boolean { 
+        $q eq ntn:pictures("ntn:jpg")
+      }; 
+      local:is-jpg(validate {
+        <ntn:notation xmlns:ntn="http://www.w3.org/XQueryTest/Cast/Notation"
+                      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                      xsi:schemaLocation="http://www.w3.org/XQueryTest/Cast/Notation CastExpr/notation.xsd">ntn:jpg</ntn:notation>
+      })
+    ]]>
+    </test>
+    <result>
+      <assert-true/>
+    </result>
+  </test-case>
+  
+  <test-case name="CastAsNamespaceSensitiveType-8" covers="cast-to-qname-errors">
+    <description>Implicit cast to a namespace-sensitive type during a function call is not allowed.</description>
+    <environment ref="NOTATION-type"/>
+    <created by="Ghislain Fourny" on="2012-10-09"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test><![CDATA[
+      import schema namespace ntn="http://www.w3.org/XQueryTest/Cast/Notation" at "notation.xsd";
+      declare function local:is-jpg($q as ntn:pictures) as xs:boolean { 
+        $q eq ntn:pictures("ntn:jpg")
+      }; 
+      local:is-jpg(xs:untypedAtomic("ntn:picture"))
+    ]]>
+    </test>
+    <result>
+      <error code="XPTY0117"/>
+    </result>
+  </test-case>
+  
+  <test-case name="CastAsNamespaceSensitiveType-9" covers="cast-to-qname-errors">
+    <description>Implicit cast to a namespace-sensitive type during a function call is not allowed.</description>
+    <environment ref="NOTATION-type"/>
+    <created by="Ghislain Fourny" on="2012-10-09"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test><![CDATA[
+      import schema namespace ntn="http://www.w3.org/XQueryTest/Cast/Notation" at "notation.xsd";
+      declare function local:is-jpg($q as ntn:pictures) as xs:boolean { 
+        $q eq ntn:pictures("ntn:jpg")
+      }; 
+      local:is-jpg(<tag>ntn:picture</tag>)
+    ]]>
+    </test>
+    <result>
+      <error code="XPTY0117"/>
+    </result>
+  </test-case>
+  
+  <test-case name="CastFOCA0001-1">
       <description> casting an xs:decimal with a value to big for that type.</description>
       <created by="Carmelo Montanez" on="2005-10-03"/>
       <test>xs:decimal(99e100)</test>
