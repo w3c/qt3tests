@@ -207,7 +207,20 @@
          <assert-string-value>1*234!567</assert-string-value>
       </result>
    </test-case>
-   
+   <test-case name="decimal-format-21">
+      <description>
+        Purpose: Decimal formats apply only within their own module. </description>
+      <created by="Michael Kay, Saxonica" on="2012-10-08"/>
+      <module uri="http://www.w3.org/TestModules/dfd-module-001" file="DecimalFormatDecl/dfd-module-001.xq"/>
+      <test>
+        import module namespace m="http://www.w3.org/TestModules/dfd-module-001";
+        declare decimal-format df001 grouping-separator="!";
+        format-number(123456.789,'#!###!###.###','df001')||'-'||m:do()
+      </test>
+      <result>
+         <assert-string-value>123!456.789-123'456.789</assert-string-value>
+      </result>
+   </test-case>
    
    <test-case name="decimal-format-901err">
       <description>
@@ -275,7 +288,7 @@
         Purpose: test error condition: no digit or zero-digit in picture. </description>
       <created by="Michael Kay, Saxonica" on="2012-10-08"/>
       <test>
-        declare decimal-format q decimal-separator="." grouping-separator=","
+        declare decimal-format q decimal-separator="." grouping-separator=",";
         format-number(931.4857,'fred.ginger', 'q')</test>
       <result>
          <error code="FODF1310"/>
@@ -300,10 +313,10 @@
       <test>
         declare namespace a="http://a.com/";
         declare namespace b="http://a.com/";
-        declare decimal-format a:one digit='$' zero=digit="0" minus-sign="_" digit="#";
+        declare decimal-format a:one digit='$' zero-digit="0" minus-sign="_" digit="#";
         format-number(931.4857,'000.$$0', 'a:one')</test>
       <result>
-         <error code="XQST0111"/>
+         <error code="XQST0114"/>
       </result>
    </test-case>
    

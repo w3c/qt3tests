@@ -88,7 +88,19 @@
     <xs:restriction base="s:unrestrictedDate">      
       <xs:pattern value="20.*"/>
     </xs:restriction>  
-  </xs:simpleType>  
+  </xs:simpleType>
+  
+  <xs:element name="elementContainingApproximateDate">
+    <xs:sequence>
+      <xs:element name="e" type="s:approximateDate"/>
+    </xs:sequence>
+  </xs:element>
+  
+  <xs:element name="elementContainingDateTime" substitutionGroup="s:elementContainingApproximateDate">
+    <xs:sequence>
+      <xs:element name="e" type="xs:dateTime"/>
+    </xs:sequence>
+  </xs:element>  
 
 
 </xs:schema>
