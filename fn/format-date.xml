@@ -628,6 +628,7 @@
    <test-case name="format-date-025">
       <description>test format-date(): timezones with two-digit format, no separator</description>
       <created by="Michael Kay, Saxonica" on="2012-05-18"/>
+      <modified by="O'Neil Delpratt, Saxonica" on="2012-10-08" change="bug fix for 17285"/>
       <environment>
          <param name="t" as="xs:date" select="xs:date('1985-03-01Z')"/>
       </environment>
@@ -635,11 +636,11 @@
          $z*xs:dayTimeDuration('PT30M')), '[Z99]'), '; ')</test>
       <result>
          <assert-string-value normalize-space="true">
-         	-14; -1330; -13; -1230; -12; -1130; -11; -1030; -10; -0930; -09; -0830; -08; 
-         	-0730; -07; -0630; -06; -0530; -05; -0430; -04; -0330; -03; -0230; -02; -0130; 
-         	-01; -0030; +00; +0030; +01; +0130; +02; +0230; +03; +0330; +04; +0430; +05; 
-         	+0530; +06; +0630; +07; +0730; +08; +0830; +09; +0930; +10; +1030; +11; +1130; 
-         	+12; +1230; +13; +1330; +14
+         	-14; -13:30; -13; -12:30; -12; -11:30; -11; -10:30; -10; -09:30; -09; -08:30; -08;
+         	-07:30; -07; -06:30; -06; -05:30; -05; -04:30; -04; -03:30; -03; -02:30; -02; -01:30;
+         	-01; -00:30; +00; +00:30; +01; +01:30; +02; +02:30; +03; +03:30; +04; +04:30; +05;
+         	+05:30; +06; +06:30; +07; +07:30; +08; +08:30; +09; +09:30; +10; +10:30; +11; +11:30;
+         	+12; +12:30; +13; +13:30; +14
 		 </assert-string-value>
       </result>
    </test-case>
@@ -647,6 +648,7 @@
    <test-case name="format-date-026">
       <description>test format-date(): timezones with one-digit format, no separator, t modifier</description>
       <created by="Michael Kay, Saxonica" on="2012-05-18"/>
+      <modified by="O'Neil Delpratt, Saxonica" on="2012-10-08" change="bug fix for 17285"/>
       <environment>
          <param name="t" as="xs:date" select="xs:date('1985-03-01Z')"/>
       </environment>
@@ -654,11 +656,11 @@
          $z*xs:dayTimeDuration('PT30M')), '[Z0t]'), '; ')</test>
       <result>
          <assert-string-value normalize-space="true">
-         	-14; -1330; -13; -1230; -12; -1130; -11; -1030; -10; -930; -9; -830; -8; 
-         	-730; -7; -630; -6; -530; -5; -430; -4; -330; -3; -230; -2; -130; -1; -030; 
-         	Z; +030; +1; +130; +2; +230; +3; +330; +4; +430; +5; +530; +6; +630; +7; 
-         	+730; +8; +830; +9; +930; +10; +1030; +11; +1130; +12; +1230; +13; 
-         	+1330; +14
+         	-14; -13:30; -13; -12:30; -12; -11:30; -11; -10:30; -10; -9:30; -9; -8:30; -8;
+         	-7:30; -7; -6:30; -6; -5:30; -5; -4:30; -4; -3:30; -3; -2:30; -2; -1:30; -1; -0:30;
+         	Z; +0:30; +1; +1:30; +2; +2:30; +3; +3:30; +4; +4:30; +5; +5:30; +6; +6:30; +7;
+         	+7:30; +8; +8:30; +9; +9:30; +10; +10:30; +11; +11:30; +12; +12:30; +13;
+         	+13:30; +14
 		 </assert-string-value>
       </result>
    </test-case>
