@@ -3,6 +3,7 @@
            elementFormDefault="qualified"
            targetNamespace="http://www.w3.org/XQueryTest/Cast/Notation"
            xmlns:nt="http://www.w3.org/XQueryTest/Cast/Notation">
+
   <xs:notation name="jpg" public="image/jpeg" system="viewer.exe"/>
   <xs:notation name="png" public="image/png" system="viewer.exe"/>
   <xs:simpleType name="pictures">
@@ -12,4 +13,13 @@
     </xs:restriction>
   </xs:simpleType>
   <xs:element name="notation" type="nt:pictures"/>
+
+  <xs:simpleType name="qnames">
+    <xs:restriction base="xs:QName">
+      <xs:enumeration value="nt:jpg"/>
+      <xs:enumeration value="nt:png"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="qname" type="nt:qnames"/>
+
 </xs:schema>

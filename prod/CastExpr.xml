@@ -6762,6 +6762,64 @@
     </result>
   </test-case>
   
+  <test-case name="CastAsNamespaceSensitiveType-10" covers="cast-to-qname-errors">
+    <description>Namespace-sensitive type during a function call (without cast) is allowed.</description>
+    <environment ref="NOTATION-type"/>
+    <created by="Ghislain Fourny" on="2012-10-09"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test><![CDATA[
+      import schema namespace ntn="http://www.w3.org/XQueryTest/Cast/Notation" at "notation.xsd";
+      declare function local:is-jpg($q as ntn:qnames) as xs:boolean { 
+        $q eq ntn:qnames("ntn:jpg")
+      }; 
+      local:is-jpg(validate {
+        <ntn:qname xmlns:ntn="http://www.w3.org/XQueryTest/Cast/Notation"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.w3.org/XQueryTest/Cast/Notation CastExpr/notation.xsd">ntn:jpg</ntn:qname>
+      })
+    ]]>
+    </test>
+    <result>
+      <assert-true/>
+    </result>
+  </test-case>
+  
+  <test-case name="CastAsNamespaceSensitiveType-11" covers="cast-to-qname-errors">
+    <description>Implicit cast to a namespace-sensitive type during a function call is not allowed.</description>
+    <environment ref="NOTATION-type"/>
+    <created by="Ghislain Fourny" on="2012-10-09"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test><![CDATA[
+      import schema namespace ntn="http://www.w3.org/XQueryTest/Cast/Notation" at "notation.xsd";
+      declare function local:is-jpg($q as ntn:qnames) as xs:boolean { 
+        $q eq ntn:qnames("ntn:jpg")
+      }; 
+      local:is-jpg(xs:untypedAtomic("ntn:picture"))
+    ]]>
+    </test>
+    <result>
+      <error code="XPTY0117"/>
+    </result>
+  </test-case>
+  
+  <test-case name="CastAsNamespaceSensitiveType-12" covers="cast-to-qname-errors">
+    <description>Implicit cast to a namespace-sensitive type during a function call is not allowed.</description>
+    <environment ref="NOTATION-type"/>
+    <created by="Ghislain Fourny" on="2012-10-09"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test><![CDATA[
+      import schema namespace ntn="http://www.w3.org/XQueryTest/Cast/Notation" at "notation.xsd";
+      declare function local:is-jpg($q as ntn:qnames) as xs:boolean { 
+        $q eq ntn:qnames("ntn:jpg")
+      }; 
+      local:is-jpg(<tag>ntn:picture</tag>)
+    ]]>
+    </test>
+    <result>
+      <error code="XPTY0117"/>
+    </result>
+  </test-case>
+  
   <test-case name="CastFOCA0001-1">
       <description> casting an xs:decimal with a value to big for that type.</description>
       <created by="Carmelo Montanez" on="2005-10-03"/>
