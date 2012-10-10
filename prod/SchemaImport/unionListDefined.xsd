@@ -90,17 +90,26 @@
     </xs:restriction>  
   </xs:simpleType>
   
-  <xs:element name="elementContainingApproximateDate">
-    <xs:sequence>
-      <xs:element name="e" type="s:approximateDate"/>
-    </xs:sequence>
-  </xs:element>
+  <xs:element name="elementContainingApproximateDate" type="s:elementContainingApproximateDateType"/>
   
-  <xs:element name="elementContainingDateTime" substitutionGroup="s:elementContainingApproximateDate">
-    <xs:sequence>
-      <xs:element name="e" type="xs:dateTime"/>
-    </xs:sequence>
-  </xs:element>  
+    <xs:complexType name="elementContainingApproximateDateType">
+      <xs:sequence>
+        <xs:element name="e" type="s:approximateDate"/>
+      </xs:sequence>
+    </xs:complexType>  
+  
+  <xs:element name="elementContainingDateTime" substitutionGroup="s:elementContainingApproximateDate"
+            type="s:elementContainingDateType"/>
+    
+  <xs:complexType name="elementContainingDateType">
+    <xs:complexContent>
+      <xs:restriction base="s:elementContainingApproximateDateType">
+        <xs:sequence>
+          <xs:element name="e" type="xs:dateTime"/>
+        </xs:sequence>
+      </xs:restriction>
+    </xs:complexContent>    
+  </xs:complexType>    
 
 
 </xs:schema>
