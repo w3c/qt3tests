@@ -1,5 +1,7 @@
 xquery version "3.0";
     declare namespace fots = "http://www.w3.org/2010/09/qt-fots-catalog";
+    
+   (: produce a report of the number of tests labelled with each keyword in the changes.xml file :) 
         
    <changes>{     
         let $changes := doc('../changes.xml')//change/@id/string()
