@@ -32,7 +32,7 @@
       </result>
    </test-case>
    
-   <test-case name="FunctionCall-003">
+   <test-case name="FunctionCall-003" covers="validate-by-type">
       <description>Test that arguments are atomized - constructor function</description>
       <created by="Michael Kay" on="2011-10-31"/>
       <dependency type="spec" value="XQ30+"/>
@@ -58,7 +58,7 @@
       </result>
    </test-case>
    
-   <test-case name="FunctionCall-005">
+   <test-case name="FunctionCall-005" covers="validate-by-type">
       <description>Test that arguments are atomized - user-defined function</description>
       <created by="Michael Kay" on="2011-10-31"/>
       <dependency type="spec" value="XQ30+"/>
@@ -71,10 +71,11 @@
       </result>
    </test-case>
    
-   <test-case name="FunctionCall-006">
+   <test-case name="FunctionCall-006" covers="dynamic-function-call">
       <description>Test that arguments are atomized - anonymous inline function</description>
       <created by="Michael Kay" on="2011-10-31"/>
       <dependency type="spec" value="XQ30+"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
       <test><![CDATA[
          let $f := function ($in as xs:boolean) as xs:boolean { $in }
          return $f(<a>0</a>)
@@ -117,9 +118,9 @@
       </result>
    </test-case>
    
-   <test-case name="FunctionCall-009">
+   <test-case name="FunctionCall-009" covers="cast-to-list bang-operator">
       <description>Test that a sequence of untypedAtomic values is cast to the target type: user-defined function.
-         Also tests XPath 3.0 inline functions, casting to list, and bang operator.</description>
+         Also tests XPath 3.0 casting to list, and bang operator.</description>
       <created by="Michael Kay" on="2011-10-31"/>
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
@@ -149,7 +150,7 @@
       </result>
    </test-case>
    
-   <test-case name="FunctionCall-011">
+   <test-case name="FunctionCall-011" covers="cast-to-list bang-operator">
       <description>Test that a sequence of untypedAtomic values is cast to the target type: built-in function.
          Also tests casting to list, and bang operator.</description>
       <created by="Michael Kay" on="2011-10-31"/>
@@ -192,7 +193,7 @@
       </result>
    </test-case>
    
-   <test-case name="FunctionCall-014">
+   <test-case name="FunctionCall-014" covers="inline-function">
       <description>Test that the untypedAtomic result of an inline function is cast to the declared type.</description>
       <created by="Michael Kay" on="2011-10-31"/>
       <dependency type="spec" value="XQ30+"/>
@@ -211,12 +212,13 @@
       </result>
    </test-case>
    
-   <test-case name="FunctionCall-015">
+   <test-case name="FunctionCall-015" covers="dynamic-function-call">
       <description>Test that arguments are atomized - but not the argument of casting to QName</description>
       <created by="Michael Kay" on="2011-10-31"/>
       <modified by="O'Neil Delpratt" on="2012-08-08" change="fix bug 14873"/>
       <dependency type="spec" value="XQ30+"/>
       <dependency type="feature" value="schemaValidation"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
       <test><![CDATA[
          declare function local:f($in as xs:integer) as xs:integer { $in + 1 };
          let $f := function-lookup(xs:QName(<f>local:f</f>), 1)
@@ -226,7 +228,7 @@
       </result>
    </test-case>
    
-   <test-case name="FunctionCall-016">
+   <test-case name="FunctionCall-016" covers="cast-to-qname">
       <description>Test that untyped arguments are converted - but not when the expected type is QName</description>
       <created by="Michael Kay" on="2011-10-31"/>
       <dependency type="spec" value="XQ30+"/>
@@ -240,7 +242,7 @@
       </result>
    </test-case>
    
-   <test-case name="FunctionCall-017">
+   <test-case name="FunctionCall-017" covers="cast-to-qname">
       <description>Test that untyped arguments are converted - but not when the expected type is QName</description>
       <created by="Michael Kay" on="2011-10-31"/>
       <dependency type="spec" value="XQ30+"/>
@@ -255,7 +257,7 @@
       </result>
    </test-case>
    
-   <test-case name="FunctionCall-018">
+   <test-case name="FunctionCall-018" covers="cast-to-qname">
       <description>Test that untyped arguments are converted - but not when the expected type is QName</description>
       <created by="Michael Kay" on="2011-10-31"/>
       <dependency type="spec" value="XQ30+"/>
@@ -268,7 +270,7 @@
       </result>
    </test-case>
    
-   <test-case name="FunctionCall-019">
+   <test-case name="FunctionCall-019" covers="cast-to-qname">
       <description>Test that untyped results are converted - but not when the expected type is QName</description>
       <created by="Michael Kay" on="2011-10-31"/>
       <dependency type="spec" value="XQ30+"/>
@@ -284,7 +286,7 @@
       </result>
    </test-case>
    
-   <test-case name="FunctionCall-020">
+   <test-case name="FunctionCall-020" covers="cast-to-qname">
       <description>Test that untyped results are converted - but not when the expected type is QName</description>
       <created by="Michael Kay" on="2011-10-31"/>
       <dependency type="spec" value="XQ30+"/>
@@ -300,7 +302,7 @@
       </result>
    </test-case>
    
-   <test-case name="FunctionCall-021">
+   <test-case name="FunctionCall-021" covers="cast-to-qname">
       <description>Test that untyped results are converted - but not when the expected type is QName</description>
       <created by="Michael Kay" on="2011-10-31"/>
       <dependency type="spec" value="XQ30+"/>
@@ -330,7 +332,7 @@
    </test-case>
    
 
-   <test-case name="FunctionCall-025">
+   <test-case name="FunctionCall-025" covers="inline-function dynamic-function-call">
       <description>Test that a sequence of numeric values undergoes numeric promotion to the target type.
          Also tests XPath 3.0 inline functions.</description>
       <created by="Michael Kay" on="2011-10-31"/>
@@ -345,7 +347,7 @@
       </result>
    </test-case>
    
-   <test-case name="FunctionCall-026">
+   <test-case name="FunctionCall-026" covers="inline-function dynamic-function-call">
       <description>Test that a sequence of anyURI values undergoes numeric promotion to the target type.
          Also tests XPath 3.0 inline functions.</description>
       <created by="Michael Kay" on="2011-10-31"/>
@@ -567,7 +569,7 @@
       </result>
    </test-case>
    
-   <test-case name="FunctionCall-039">
+   <test-case name="FunctionCall-039" covers="inline-function dynamic-function-call">
       <description>Test that the result type cannot be a union type derived by restriction from another union.</description>
       <created by="Michael Kay" on="2011-10-31"/>
       <environment ref="ListUnionTypes"/>
@@ -583,7 +585,7 @@
       </result>
    </test-case>
    
-   <test-case name="FunctionCall-040">
+   <test-case name="FunctionCall-040" covers="inline-function dynamic-function-call">
       <description>Test that the result type can be a namespace-sensitive union type.</description>
       <created by="Michael Kay" on="2011-10-31"/>
       <environment ref="ListUnionTypes"/>
@@ -601,7 +603,7 @@
       </result>
    </test-case>
    
-   <test-case name="FunctionCall-041">
+   <test-case name="FunctionCall-041" covers="inline-function dynamic-function-call">
       <description>Test that if the result type is a namespace-sensitive union type, casting from untypedAtomic is not allowed.</description>
       <created by="Michael Kay" on="2011-10-31"/>
       <environment ref="ListUnionTypes"/>
@@ -618,7 +620,7 @@
       </result>
    </test-case>
    
-   <test-case name="FunctionCall-042">
+   <test-case name="FunctionCall-042" covers="inline-function dynamic-function-call type-derivation-with-unions">
       <description>Test that Union(A, B) is substitutable for A as a function argument type</description>
       <created by="Michael Kay" on="2011-10-31"/>
       <environment ref="ListUnionTypes"/>
@@ -639,7 +641,7 @@
       </result>
    </test-case>
    
-   <test-case name="FunctionCall-043">
+   <test-case name="FunctionCall-043" covers="type-derivation-with-unions">
       <description>Test that Union(Union(A, B), c) is substitutable for Union(A, B) as a function argument type</description>
       <created by="Michael Kay" on="2011-10-31"/>
       <environment ref="ListUnionTypes"/>
@@ -832,7 +834,7 @@
       </result>
    </test-case>
    
-   <test-case name="K-FunctionCallExpr-16a">
+   <test-case name="K-FunctionCallExpr-16a" covers="fn-format-time">
       <description> No function by name fn:format-time() exists in XQuery 1.0 (although one does in XSLT). </description>
       <created by="Frans Englich" on="2007-11-26"/>
       <modified by="Michael Kay" on="2011-05-21" change="make results repeatable"/>
@@ -856,7 +858,7 @@
       </result>
    </test-case>
    
-   <test-case name="K-FunctionCallExpr-17a">
+   <test-case name="K-FunctionCallExpr-17a" covers="fn-format-time">
       <description> No function by name fn:format-time() exists in XQuery 1.0 (although one does in XSLT). </description>
       <created by="Frans Englich" on="2007-11-26"/>
       <modified by="Michael Kay" on="2011-05-21" change="make results repeatable"/>
@@ -880,7 +882,7 @@
       </result>
    </test-case>
 
-   <test-case name="K-FunctionCallExpr-19">
+   <test-case name="K-FunctionCallExpr-19" covers="fn-format-dateTime">
       <description> No function by name fn:format-dateTime() exists in XQuery 1.0 (although one does in XSLT and XQuery 1.1). </description>
       <created by="Frans Englich" on="2007-11-26"/>
       <test>matches(format-dateTime(current-dateTime(), "[Y0001]-[M01]-[D01]", (), (), ()), "....-..-..")</test>
@@ -904,7 +906,7 @@
       </result>
    </test-case>
 
-   <test-case name="K-FunctionCallExpr-21">
+   <test-case name="K-FunctionCallExpr-21" covers="fn-format-dateTime">
       <description> No function by name fn:format-dateTime() exists in XQuery 1.0 (although it does exist in XSLT and XQuery 1.1). </description>
       <created by="Frans Englich" on="2007-11-26"/>
       <test>matches(format-dateTime(current-dateTime(), "[M01]/[D01]/[Y0001] at [H01]:[m01]:[s01]", (), (), ()), "../../.... at ..:..:..")</test>
@@ -917,7 +919,7 @@
    </test-case>
 
    <test-case name="K-FunctionCallExpr-22">
-      <description> No function by name fn:current() exists(although one does in XSL-T). </description>
+      <description> No function by name fn:current() exists(although one does in XSLT). </description>
       <created by="Frans Englich" on="2007-11-26"/>
       <test>current()</test>
       <result>
@@ -926,7 +928,7 @@
    </test-case>
 
    <test-case name="K-FunctionCallExpr-23">
-      <description> No function by name fn:unparsed-entity-uri() exists(although one does in XSL-T). </description>
+      <description> No function by name fn:unparsed-entity-uri() exists(although one does in XSLT). </description>
       <created by="Frans Englich" on="2007-11-26"/>
       <test>unparsed-entity-uri("example.com/file.ext")</test>
       <result>
@@ -953,7 +955,7 @@
       </result>
    </test-case>
    
-   <test-case name="K-FunctionCallExpr-25a">
+   <test-case name="K-FunctionCallExpr-25a" covers="fn-generate-id">
       <description> Function by name fn:generate-id() does exist in XQuery 3.0. </description>
       <created by="Frans Englich" on="2007-11-26"/>
       <dependency type="spec" value="XQ30+"/>

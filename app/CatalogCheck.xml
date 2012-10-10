@@ -147,7 +147,7 @@
       </result>
    </test-case>
    
-   <test-case name="Catalog007">
+   <test-case name="Catalog007" covers="group-by">
       <description> Check that all test names are unique </description>
       <created by="Michael Kay" on="2011-08-23"/>
       <environment ref="catalog"/>
@@ -172,9 +172,8 @@
       <description> Check that, for each test-set, its name in catalog.xml matches its name in the test-set file. </description>
       <created by="Michael Kay" on="2011-08-23"/>
       <environment ref="catalog"/>
-      <dependency type="spec" value="XQ30+"/>
+      <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[
-        xquery version "3.0";
         declare namespace fots = "http://www.w3.org/2010/09/qt-fots-catalog";
 
         for $xq-testcase in //fots:test-set
@@ -189,13 +188,13 @@
       </result>
    </test-case>
 
-  <test-case name="Catalog009">
+  <test-case name="Catalog009" covers="group-by">
       <description>List the dependencies in the test suite</description>
       <created by="O'Neil Delpratt" on="2011-08-23"/>
       <environment ref="catalog"/>
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
-       xquery version "3.0";
+        xquery version "3.0";
         declare namespace fots = "http://www.w3.org/2010/09/qt-fots-catalog";
         let $testsets := //fots:test-set/@file/doc(resolve-uri(., base-uri(..)))
         for $dependencyTS in $testsets//fots:dependency
@@ -217,9 +216,8 @@
       are names of changes listed in the changes.xml file. </description>
     <created by="Michael Kay" on="2011-08-23"/>
     <environment ref="catalog"/>
-    <dependency type="spec" value="XQ30+"/>
+    <dependency type="spec" value="XQ10+"/>
     <test><![CDATA[
-        xquery version "3.0";
         declare namespace fots = "http://www.w3.org/2010/09/qt-fots-catalog";
         let $changes := doc('../changes.xml')//change/@id/string()
         for $xq-test in //fots:test-set
@@ -239,9 +237,8 @@
     <description> Check that for every change listed in the changes.xml file there are at least five tests. </description>
     <created by="Michael Kay" on="2011-08-23"/>
     <environment ref="catalog"/>
-    <dependency type="spec" value="XQ30+"/>
+    <dependency type="spec" value="XQ10+"/>
     <test><![CDATA[
-        xquery version "3.0";
         declare namespace fots = "http://www.w3.org/2010/09/qt-fots-catalog";
         let $changes := doc('../changes.xml')//change/@id/string()
         let $testfiles := //fots:test-set/@file/doc(resolve-uri(., base-uri(..)))

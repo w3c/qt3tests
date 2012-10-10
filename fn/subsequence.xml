@@ -622,7 +622,7 @@
    <test-case name="K2-SeqSubsequenceFunc-1">
       <description> Use fn:subsequence where the input is via variable references. </description>
       <created by="Frans Englich" on="2007-11-26"/>
-      <dependency type="spec" value="XP30+ XQ30+"/>
+      <dependency type="spec" value="XP30+ XQ10+"/>
       <test>let $start := (current-time(), 2)[2] treat as xs:integer,
                 $len := (current-time(), 1)[2] treat as xs:integer
                 return subsequence((1, 2, 3), $start, $len)</test>
@@ -685,20 +685,22 @@
       </result>
    </test-case>
 
-   <test-case name="K2-SeqSubsequenceFunc-8">
+   <test-case name="K2-SeqSubsequenceFunc-8" covers="inline-function">
       <description> Have subsequence inside a function body, to trap bugs related to inference, rewrites and function call sites. This expression typically constant propagates to a sequence of integers. </description>
       <created by="Frans Englich" on="2008-05-08"/>
       <dependency type="spec" value="XP30+ XQ30+"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
       <test>let $f :=function() { subsequence(subsequence((1, 2, 3, 4), 3, 1), 1, 4) } return $f()</test>
       <result>
          <assert-eq>3</assert-eq>
       </result>
    </test-case>
 
-   <test-case name="K2-SeqSubsequenceFunc-9">
+   <test-case name="K2-SeqSubsequenceFunc-9" covers="inline-function">
       <description> Have subsequence inside a function body, to trap bugs related to inference, rewrites and function call sites(#2). This expression typically constant propagates to a sequence of integers. </description>
       <created by="Frans Englich" on="2008-05-08"/>
       <dependency type="spec" value="XP30+ XQ30+"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
       <test>let $f :=function() { subsequence((1, 2, 3), 1) } return $f()</test>
       <result>
          <assert-deep-eq>1, 2, 3</assert-deep-eq>
