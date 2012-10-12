@@ -1671,7 +1671,20 @@
    </test-case>
    
    <test-case name="substitution-003" covers="substitution-groups">
-      <description>Use of schema-element on a pseudo-abstract-member of a substitution group</description>
+      <description>
+        Use of schema-element on a pseudo-abstract-member of a substitution group.
+        
+        Element A does not satisfy the schema-element() test because although there
+        is an element declaration named A within the substitution group of H, the
+        element declaration of A is abstract, so no element named A can ever be
+        substituted for H; if an element named A is encountered, it must have been
+        validated using a different element declaration. 
+      
+        This situation was discussed under bug 10065, and the resolution was that
+        when the "substituted element" (here, A) is abstract, elements named A
+        cannot satisfy the schema-element() test.
+            
+      </description>
       <created by="Michael Kay" on="2012-10-10"/>
       <environment ref="substitution"/>
       <dependency type="spec" value="XQ30+"/>
@@ -1812,8 +1825,22 @@
    </test-case>
    
    <test-case name="substitution-010" covers="substitution-groups">
-      <description>Use of schema-element on an extended member of a substitution group
-        when extension is blocked</description>
+      <description>
+        Use of schema-element on an extended member of a substitution group
+        when extension is blocked.
+        
+        This relies on the resolution of bug 10207, which unfortunately is not
+        well represented in the current draft of the specification. It was established
+        in the resolution of this bug that when the specification speaks of membership
+        of a substitution group, it means what the XSD specification calls "actual
+        membership" of the substitution group, as distinct from "potential membership".
+        The actual membership of a substitution group contains elements that are
+        "validly substitutable" for the head of the substitution group. In this example,
+        the type of H blocks extension, and the type of G is derived by extension. This
+        has the effect that G is not validly substitutable for H, which in turn means
+        that the G element in this instance does not satisfy schema-element(H).
+                
+        </description>
       <created by="Michael Kay" on="2012-10-10"/>
       <environment ref="substitution"/>
       <dependency type="spec" value="XQ30+"/>
@@ -1833,7 +1860,13 @@
    </test-case>
    
    <test-case name="substitution-011" covers="substitution-groups">
-      <description>Use of schema-element on a blocked member of a substitution group.</description>
+      <description>
+      Use of schema-element on a blocked member of a substitution group.
+      
+      The rationale for this case is similar to that for test case substitution-010.
+      In this case, however, E is not an "actual member" of the substitution group
+      whose head is D, because D blocks substitution.      
+      </description>
       <created by="Michael Kay" on="2012-10-10"/>
       <environment ref="substitution"/>
       <dependency type="spec" value="XQ30+"/>
@@ -1983,8 +2016,13 @@
    </test-case>
 
    <test-case name="substitution-030" covers="substitution-groups">
-      <description>Test type subsumption of schema-element tests
-                   (Note: see bug 19425)</description>
+      <description>
+        Test type subsumption of schema-element tests (Note: see bug 19425)
+        
+        As described in bug 19425, there is a problem in the specification here,
+        and the outcome of this test depends on how this is resolved.
+        
+        </description>
       <created by="Michael Kay" on="2012-10-10"/>
       <environment ref="substitution"/>
       <dependency type="spec" value="XQ30+"/>
