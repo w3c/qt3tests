@@ -13,7 +13,18 @@
 		  <description>Document containing an element with mixed content but statically could have element only content.</description>
 		  <created by="Oliver Hallam" on="2010-03-17"/>
 	  </schema>
-   </environment>      
+   </environment> 
+   
+   <environment name="complexData">
+      <source role="." file="data/complexData.xml" validation="strict">
+         <description>Document containing some nasty cases for fn:data.</description>
+         <created by="Oliver Hallam" on="2009-02-27"/>
+      </source>
+      <schema uri="http://www.cbcl.co.uk/XQueryTest/complexData" file="data/complexData.xsd">
+		  <description>Schema containing some nasty cases for fn:data.</description>
+		  <created by="Oliver Hallam" on="2009-02-27"/>
+	  </schema>
+   </environment>        
 
    <test-case name="fn-dataint1args-1">
       <description> Evaluates The "data" function with the arguments set as follows: $arg = xs:int(lower bound) </description>
@@ -544,6 +555,121 @@
          </any-of>
       </result>
    </test-case>
+
+   <test-case name="cbcl-data-001">
+      <description> test fn:data on fn:error Author: Tim Mills </description>
+      <created by="Oliver Hallam" on="2008-04-11"/>      
+      <test>fn:data(fn:error()) instance of xs:integer</test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <error code="FOER0000"/>
+         </any-of>
+      </result>
+   </test-case>
    
+
+   <test-case name="cbcl-data-002">
+      <description> fn:data on a complex type with simple content </description>
+      <created by="Oliver Hallam" on="2007-02-27"/>
+      <environment ref="complexData"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <dependency type="feature" value="schemaValidation"/>
+      <test>
+      	import schema namespace cd="http://www.cbcl.co.uk/XQueryTest/complexData"; 
+      	let $x := validate strict {.} 
+      	return string-length(data($x//cd:complexTypeWithSimpleContent))</test>
+      <result>
+         <assert-string-value>3</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-data-003">
+      <description> fn:data on a union type </description>
+      <created by="Oliver Hallam" on="2007-02-27"/>
+      <environment ref="complexData"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <dependency type="feature" value="schemaValidation"/>
+      <test>
+      	import schema namespace cd="http://www.cbcl.co.uk/XQueryTest/complexData"; 
+      	let $x := validate strict {.} 
+      	return data($x//cd:unionType) instance of xs:string</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-data-004">
+      <description> fn:data on a list type </description>
+      <created by="Oliver Hallam" on="2007-02-27"/>
+      <environment ref="complexData"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <dependency type="feature" value="schemaValidation"/>
+      <test>
+      	import schema namespace cd="http://www.cbcl.co.uk/XQueryTest/complexData"; 
+      	let $x := validate strict {.} 
+      	return sum($x//cd:listType)</test>
+      <result>
+         <assert-string-value>6</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-data-005">
+      <description> fn:data on a union type possibly containing a list type </description>
+      <created by="Oliver Hallam" on="2007-02-27"/>
+      <environment ref="complexData"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <dependency type="feature" value="schemaValidation"/>
+      <test>
+      	import schema namespace cd="http://www.cbcl.co.uk/XQueryTest/complexData"; 
+      	let $x := validate strict {.} 
+      	return count(data($x//cd:unionWithList))
+      </test>
+      <result>
+         <assert-string-value>3</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-data-006">
+      <description> fn:data on a more complicated type heirarchy </description>
+      <created by="Oliver Hallam" on="2007-02-27"/>
+      <environment ref="complexData"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <dependency type="feature" value="schemaValidation"/>
+      <test>
+      	import schema namespace cd="http://www.cbcl.co.uk/XQueryTest/complexData";      
+      	let $x := validate strict {.} 
+      	return string-length($x//cd:extendedComplexTypeWithSimpleUnionContent)
+      </test>
+      <result>
+         <assert-string-value>3</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-data-007">
+      <description> fn:data on list of union type </description>
+      <created by="Oliver Hallam" on="2007-02-27"/>
+      <environment ref="complexData"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <dependency type="feature" value="schemaValidation"/>
+      <test>
+      	import schema namespace cd="http://www.cbcl.co.uk/XQueryTest/complexData"; 
+      	let $x := validate strict {.} 
+      	return count(data($x//cd:listOfUnion)[. instance of xs:integer])</test>
+      <result>
+         <assert-string-value>3</assert-string-value>
+      </result>
+   </test-case>   
 
 </test-set>

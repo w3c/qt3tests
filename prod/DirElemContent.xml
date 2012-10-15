@@ -1382,9 +1382,30 @@
       <description> Serialize an undeclaration. </description>
       <created by="Frans Englich" on="2007-11-26"/>
       <dependency type="spec" value="XQ10+"/>
-      <test><![CDATA[<e xmlns="http://www.example.com/"> <a xmlns=""/> </e>, <e xmlns="http://www.example.com/"> <a xmlns=""/> </e>/count(in-scope-prefixes(a)), <e xmlns="http://www.example.com/"> <a xmlns=""> <b xmlns=""/> </a> </e>]]></test>
+      <test><![CDATA[
+      	<e xmlns="http://www.example.com/"> <a xmlns=""/> </e>, 
+      	<e xmlns="http://www.example.com/"> <a xmlns=""/> </e>/count(in-scope-prefixes(a)), 
+      	<e xmlns="http://www.example.com/"> <a xmlns=""> <b xmlns=""/> </a> </e>
+      ]]></test>
       <result>
-         <assert-xml><![CDATA[<e xmlns="http://www.example.com/"><a xmlns=""/></e>1<e xmlns="http://www.example.com/"><a xmlns=""><b/></a></e>]]></assert-xml>
+         <assert-xml><![CDATA[
+         	<e xmlns="http://www.example.com/"><a xmlns=""/></e>1<e xmlns="http://www.example.com/"><a xmlns=""><b/></a></e>
+         ]]></assert-xml>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-ns-fixup-1">
+      <description> Ensure that namespace fixup occurs when namespace prefix names clash </description>
+      <created by="Tim Mills" on="2007-02-27"/>      
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[ 
+      	let $x := <ns:foo xmlns:ns="http://www.w3.org/foo" ns:attr="foo" /> 
+      	return let $y := <ns:foo xmlns:ns="http://www.w3.org/bar" ns:attr="bar" /> 
+      	return let $z := <root> { $x/@*, $y/@* } </root> 
+      	return count(distinct-values(in-scope-prefixes($z)))
+      ]]></test>
+      <result>
+         <assert-eq>3</assert-eq>
       </result>
    </test-case>
 </test-set>

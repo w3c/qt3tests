@@ -263,4 +263,28 @@
          <assert-true/>
       </result>
    </test-case>
+   
+      <test-case name="cbcl-constr-compcomment-001">
+      <description> test detection of '--' in computed comment </description>
+      <created by="Tim Mills" on="2008-07-01"/>      
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<element> { comment { '-', '-' } } </element>]]></test>
+      <result>
+         <error code="XQDY0072"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-constr-compcomment-002">
+      <description> test detection of '--' in computed comment </description>
+      <created by="Tim Mills" on="2008-07-01"/>      
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+      	declare function local:tag($arg) as element() { element { 'tag' } { $arg } }; 
+      	<element> { comment { 'comment', local:tag('--') } } </element>
+      ]]></test>
+      <result>
+         <error code="XQDY0072"/>
+      </result>
+   </test-case>
 </test-set>

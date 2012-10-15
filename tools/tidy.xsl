@@ -99,10 +99,30 @@
         </xsl:element>
     </xsl:template>
     
+    <xsl:template match="fots:created">
+      <xsl:next-match/>
+      <xsl:if test="not(../fots:dependency) and (contains(../fots:test, 'declare function') or matches(../fots:test, '&lt;[\p{L}]'))">
+        <xsl:element name="dependency" namespace="http://www.w3.org/2010/09/qt-fots-catalog">
+          <xsl:attribute name="type">spec</xsl:attribute>
+          <xsl:attribute name="value">XQ10+</xsl:attribute>
+        </xsl:element>
+      </xsl:if>
+    </xsl:template>       
+    
     <xsl:template match="fots:created/@on">
         <!-- remove timezone -->
         <xsl:attribute name="on" select="substring(., 1, 10)"/>
     </xsl:template>
+    
+    <xsl:template match="fots:environment[@ref='']"/>
+    
+    <xsl:template name="main">
+      <xsl:for-each select="collection('file:///Users/mike/qt3?select=*.xml')">
+        <xsl:result-document href="qt3-cbcl/{tokenize(document-uri(.), '/')[last()]}">
+          <xsl:apply-templates/>
+        </xsl:result-document>
+     </xsl:for-each>
+   </xsl:template>
         
  
 </xsl:stylesheet>

@@ -284,4 +284,74 @@
          <assert-false/>
       </result>
    </test-case>
+   
+   <test-case name="cbcl-codepoint-equal-001">
+      <description> test fn:codepoint-equal with empty $arg1 </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>     
+      <test>declare function local:yes-empty($arg as xs:boolean) as xs:string? { if ($arg) then 'yes' else () }; 
+      empty(fn:codepoint-equal( local:yes-empty(fn:false()), local:yes-empty(fn:true()) ) )</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-codepoint-equal-002">
+      <description> test fn:codepoint-equal with empty $arg2 </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>declare function local:yes-empty($arg as xs:boolean) as xs:string? { if ($arg) then 'yes' else () }; 
+      empty(fn:codepoint-equal( local:yes-empty(fn:true()), local:yes-empty(fn:false()) ) )</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-codepoint-equal-003">
+      <description> test fn:codepoint-equal with non-empty arguments </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:yes-no($arg as xs:boolean) as xs:string { if ($arg) then 'yes' else 'no' }; 
+      fn:codepoint-equal( local:yes-no(fn:true()), local:yes-no(fn:false()) ) = false()</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-codepoint-equal-004">
+      <description> test fn:boolean on fn:codepoint-equal with empty $arg2 </description>
+      <created by="Oliver Hallam" on="2008-04-14"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:yes-empty($arg as xs:boolean) as xs:string? { if ($arg) then 'yes' else () }; 
+      boolean(fn:codepoint-equal( local:yes-empty(fn:true()), local:yes-empty(fn:false()) ) )</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-codepoint-equal-005">
+      <description> test fn:boolean on fn:codepoint-equal with empty $arg1 </description>
+      <created by="Oliver Hallam" on="2008-04-14"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:yes-empty($arg as xs:boolean) as xs:string? { if ($arg) then 'yes' else () }; 
+      boolean(fn:codepoint-equal( local:yes-empty(fn:false()), local:yes-empty(fn:true()) ) )</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-codepoint-equal-006">
+      <description> test fn:codepoint-equal evaluate to item </description>
+      <created by="Tim Mills" on="2008-04-14"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:yes-no($arg as xs:boolean) as xs:string { if ($arg) then 'yes' else 'no' }; 
+      fn:index-of( (fn:true(), fn:false()), fn:codepoint-equal( local:yes-no(fn:false()), local:yes-no(fn:true()) ) )</test>
+      <result>
+         <assert-string-value>2</assert-string-value>
+      </result>
+   </test-case>
 </test-set>

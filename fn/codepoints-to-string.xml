@@ -483,4 +483,294 @@
          <error code="FOCH0001"/>
       </result>
    </test-case>
+   
+  <test-case name="cbcl-codepoints-to-string-001">
+      <description> test fn:codepoints-to-string with invalid control character </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>     
+      <test>
+        declare function local:test($test as xs:integer) as xs:integer? { 
+          if ($test = 1) then ( 0 ) else if ($test = 2) then ( 9 ) else if ($test = 3) then ( 13 ) else if ($test = 4) then ( 16 ) else () 
+        }; 
+        fn:codepoints-to-string( local:test(1) to 32 )</test>
+      <result>
+         <error code="FOCH0001"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-codepoints-to-string-002">
+      <description> test fn:codepoints-to-string with invalid control character </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>
+        declare function local:test($test as xs:integer) as xs:integer? { 
+          if ($test = 1) then ( 0 ) else if ($test = 2) then ( 9 ) else if ($test = 3) then ( 13 ) else if ($test = 4) then ( 16 ) else () 
+        }; 
+        fn:codepoints-to-string( local:test(2) to 32 )</test>
+      <result>
+         <error code="FOCH0001"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-codepoints-to-string-003">
+      <description> test fn:codepoints-to-string with invalid control character </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>
+      declare function local:test($test as xs:integer) as xs:integer? { 
+        if ($test = 1) then ( 0 ) else if ($test = 2) then ( 9 ) else if ($test = 3) then ( 13 )else if ($test = 4) then ( 16 ) else () 
+      }; 
+      fn:codepoints-to-string( local:test(3) to 32 )</test>
+      <result>
+         <error code="FOCH0001"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-codepoints-to-string-004">
+      <description> test fn:codepoints-to-string with invalid control character </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>declare function local:test($test as xs:integer) as xs:integer? { 
+        if ($test = 1) then ( 0 ) else if ($test = 2) then ( 9 ) else if ($test = 3) then ( 13 ) else if ($test = 4) then ( 16 ) else () 
+      }; 
+      fn:codepoints-to-string( local:test(4) to 32 )</test>
+      <result>
+         <error code="FOCH0001"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-codepoints-to-string-005">
+      <description> test fn:codepoints-to-string with codepoints above 0x10FFFF </description>
+      <created by="Tim Mills" on="2008-04-11"/>      
+      <test>fn:codepoints-to-string( 65536 to 1114112 )</test>
+      <result>
+         <error code="FOCH0001"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-codepoints-to-string-006">
+      <description> test fn:codepoints-to-string spanning surrogate characters </description>
+      <created by="Tim Mills" on="2008-04-11"/>      
+      <test>fn:codepoints-to-string( 55295 to 55297 )</test>
+      <result>
+         <error code="FOCH0001"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-codepoints-to-string-007">
+      <description> test fn:codepoints-to-string spanning surrogate characters </description>
+      <created by="Tim Mills" on="2008-04-11"/>     
+      <test>fn:codepoints-to-string( 55296 to 57343 )</test>
+      <result>
+         <error code="FOCH0001"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-codepoints-to-string-008">
+      <description> test fn:codepoints-to-string spanning surrogate characters </description>
+      <created by="Tim Mills" on="2008-04-11"/>     
+      <test>fn:codepoints-to-string( 65535 to 70000 )</test>
+      <result>
+         <error code="FOCH0001"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-codepoints-to-string-009">
+      <description> test fn:codepoints-to-string spanning surrogate characters </description>
+      <created by="Tim Mills" on="2008-04-11"/>      
+      <test>fn:codepoints-to-string( 65530 to 70000 )</test>
+      <result>
+         <error code="FOCH0001"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-codepoints-to-string-010">
+      <description> test fn:boolean on fn:codepoints-to-string </description>
+      <created by="Tim Mills" on="2008-04-11"/>      
+      <test>fn:boolean(fn:codepoints-to-string( 65 to 76 ))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-codepoints-to-string-011">
+      <description> test fn:boolean on fn:codepoints-to-string </description>
+      <created by="Tim Mills" on="2008-04-11"/>      
+      <test>fn:boolean(fn:codepoints-to-string( 0 ))</test>
+      <result>
+         <error code="FOCH0001"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-codepoints-to-string-012">
+      <description> test fn:boolean on fn:codepoints-to-string </description>
+      <created by="Tim Mills" on="2008-04-11"/>      
+      <test>fn:boolean(fn:codepoints-to-string( 999999999 ))</test>
+      <result>
+         <error code="FOCH0001"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-codepoints-to-string-013">
+      <description> test fn:boolean on fn:codepoints-to-string </description>
+      <created by="Tim Mills" on="2008-04-11"/>      
+      <test>fn:boolean(fn:codepoints-to-string( 65 ))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-codepoints-to-string-014">
+      <description> test fn:boolean on fn:codepoints-to-string </description>
+      <created by="Tim Mills" on="2008-04-11"/>      
+      <test>fn:boolean(fn:codepoints-to-string( () ))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-codepoints-to-string-015">
+      <description> fn:codepoints-to-string on multibyte ranges </description>
+      <created by="Oliver Hallam" on="2008-04-15"/>      
+      <test>deep-equal( fn:string-to-codepoints(fn:codepoints-to-string(65536 to 66000)), 65536 to 66000 )</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-codepoints-to-string-016">
+      <description> fn:codepoints-to-string on multibyte ranges </description>
+      <created by="Oliver Hallam" on="2008-04-15"/>      
+      <test>deep-equal( fn:string-to-codepoints(fn:codepoints-to-string(65536 to 100000)), 65536 to 100000 )</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-codepoints-to-string-017">
+      <description> Test codepoints to string on a range, returning a boolean </description>
+      <created by="Nick Jones" on="2008-06-12"/>
+      <test>for $x in 32 to 64 return boolean(codepoints-to-string($x to $x + 10))</test>
+      <result>
+         <assert-string-value>true true true true true true true true true true true true true true true true true true true true true true true true true true true true true true true true true</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-codepoints-to-string-018">
+      <description> Tries to force evaluate to item on codepoint-to-string </description>
+      <created by="Nick Jones" on="2008-06-13"/>      
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[if(5 < exactly-one((1 to 10)[. div 2 = 5])) then codepoints-to-string(32 to exactly-one((1 to 100)[. div 2 = 40])) else ()]]></test>
+      <result>
+         <assert-string-value> !"#$%&amp;amp;'()*+,-./0123456789:;&amp;lt;=&amp;gt;?@ABCDEFGHIJKLMNOP</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-codepoints-to-string-019">
+      <description> Tests for calling EvaluateToOptionalItem </description>
+      <created by="Nick Jones" on="2008-06-16"/>      
+      <test>for $x in 65 to 75 return string-length(codepoints-to-string($x to $x+10))</test>
+      <result>
+         <assert-string-value>11 11 11 11 11 11 11 11 11 11 11</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-codepoints-to-string-020">
+      <description> Tests false returns from TryArguments </description>
+      <created by="Nick Jones" on="2008-06-16"/>      
+      <test>for $x in 65 to 75 return boolean(codepoints-to-string($x[. mod 2 = 0] to ($x+9)[. mod 2 = 0]))</test>
+      <result>
+         <assert-string-value>false false false false false false false false false false false</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-codepoints-to-string-021">
+      <description> Tests overflows </description>
+      <created by="Nick Jones" on="2008-06-16"/>      
+      <test>let $y := 65536*65536 return for $x in $y to $y+10 return codepoints-to-string(65 to $x)</test>
+      <result>
+         <error code="FOCH0001"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-codepoints-to-string-022">
+      <description> Tests overflows </description>
+      <created by="Nick Jones" on="2008-06-16"/>      
+      <test>let $y := 65536*65536 return for $x in $y to $y+10 return codepoints-to-string($x to $x+10)</test>
+      <result>
+         <error code="FOCH0001"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-codepoints-to-string-023">
+      <description> Tests invalid codepoint 0xB </description>
+      <created by="Nick Jones" on="2008-06-16"/>      
+      <test>for $x in 9 to 15 return codepoints-to-string($x to $x)</test>
+      <result>
+         <error code="FOCH0001"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-codepoints-to-string-024">
+      <description> Tests invalid codepoint 0xD </description>
+      <created by="Nick Jones" on="2008-06-16"/>      
+      <test>for $x in 13 to 15 return codepoints-to-string($x to $x)</test>
+      <result>
+         <error code="FOCH0001"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-codepoints-to-string-025">
+      <description> Tests invalid codepoint 0xD </description>
+      <created by="Nick Jones" on="2008-06-16"/>      
+      <test>for $x in 9 to 9 return codepoints-to-string($x to $x+1)</test>
+      <result>
+         <assert-string-value>	
+</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-codepoints-to-string-026">
+      <description> Tests invalid codepoint 0xD </description>
+      <created by="Nick Jones" on="2008-06-16"/>      
+      <test>for $x in 13 to 13 return codepoints-to-string($x to $x)</test>
+      <result>
+         <assert-string-value>&amp;#xD;</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-codepoints-to-string-027">
+      <description> Tests last lower codepoint case </description>
+      <created by="Nick Jones" on="2008-06-16"/>      
+      <test>for $x in (13), $y in (13,9,10) return codepoints-to-string($x to $y)</test>
+      <result>
+         <assert-string-value>&amp;#xD;  </assert-string-value>
+      </result>
+   </test-case>   
 </test-set>

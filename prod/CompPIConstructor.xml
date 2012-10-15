@@ -495,4 +495,30 @@
          <assert-true/>
       </result>
    </test-case>
+   
+   <test-case name="cbcl-constr-comppi-001">
+      <description> test detection of '?&gt;' in computed comment </description>
+      <created by="Tim Mills" on="2008-07-01"/>      
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+      	<element> { processing-instruction { 'pi' } { <element>?&gt;</element> } } </element>
+      ]]></test>
+      <result>
+         <error code="XQDY0026"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-constr-comppi-002">
+      <description> test detection of '?&gt;' in computed comment </description>
+      <created by="Tim Mills" on="2008-07-01"/>      
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+      	declare function local:tag($arg) as element() { element { 'tag' } { $arg } }; 
+      	<element> { processing-instruction { 'pi' } { "content", local:tag('?&gt;') } } </element>
+      ]]></test>
+      <result>
+         <error code="XQDY0026"/>
+      </result>
+   </test-case>
 </test-set>

@@ -363,4 +363,31 @@
          <assert-false/>
       </result>
    </test-case>
+      
+   <test-case name="cbcl-contains-001">
+      <description> test fn:contains with collation and $arg2 as empty string </description>
+      <created by="Tim Mills" on="2008-04-11"/>      
+      <test>fn:boolean(fn:contains('input', '', 'http://www.w3.org/2005/xpath-functions/collation/codepoint'))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-contains-002">
+      <description> test fn:contains with collation and $arg1 as empty string Author: Tim Mills </description>
+      <created by="Oliver Hallam" on="2008-04-11"/>      
+      <test>fn:boolean(fn:contains('', 'empty', 'http://www.w3.org/2005/xpath-functions/collation/codepoint'))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-contains-003">
+      <description> test evaluation of fn:contains to exactly one item Author: Tim Mills </description>
+      <created by="Oliver Hallam" on="2008-04-11"/>      
+      <test>fn:index-of( ( fn:true(), fn:false()), fn:contains('input', 'in', 'http://www.w3.org/2005/xpath-functions/collation/codepoint'))</test>
+      <result>
+         <assert-string-value>1</assert-string-value>
+      </result>
+   </test-case>
 </test-set>

@@ -424,4 +424,30 @@
          <assert-eq>1</assert-eq>
       </result>
    </test-case>
+   
+   <test-case name="cbcl-condexpr-001">
+      <description> Tests if(exists($x)) then f($x) else () optimization </description>
+      <created by="Nick Jones" on="2008-06-23"/> 
+      <dependency type="spec" value="XQ10+ XP30+"/>     
+      <test>
+      	let $x := zero-or-one((1 to 10)[. div 2 = 2]) 
+      	return if(exists($x)) then xs:string($x) else ()
+      </test>
+      <result>
+         <assert-string-value>4</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-condexpr-002">
+      <description> tests if(empty($x)) then () else f($x) optimization </description>
+      <created by="Nick Jones" on="2008-06-23"/>      
+      <dependency type="spec" value="XQ10+ XP30+"/>     
+      <test>
+      	let $x := zero-or-one((1 to 10)[. div 2 = 2]) 
+      	return if(empty($x)) then () else xs:string($x)
+      </test>
+      <result>
+         <assert-string-value>4</assert-string-value>
+      </result>
+   </test-case>
 </test-set>

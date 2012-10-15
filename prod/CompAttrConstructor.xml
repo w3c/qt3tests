@@ -1009,4 +1009,105 @@
          <error code="XQDY0044"/>
       </result>
    </test-case>
+   
+   <test-case name="cbcl-constr-compattr-001">
+      <description> test XQDY0044 in attribute construction </description>
+      <created by="Tim Mills" on="2008-05-28"/>      
+      <test>for $a in attribute { fn:QName("http://www.w3.org/2000/xmlns/", "namespace:foo") } { "bar" } return name($a)</test>
+      <result>
+         <error code="XQDY0044"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-constr-compattr-002">
+      <description> test XQDY0044 in attribute construction </description>
+      <created by="Tim Mills" on="2008-05-28"/>      
+      <test>for $a in attribute { fn:QName("http://www.example.com/", "xmlns:foo") } { "bar" } return name($a)</test>
+      <result>
+         <error code="XQDY0044"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-constr-compattr-003">
+      <description> test XQDY0044 in attribute construction </description>
+      <created by="Tim Mills" on="2008-05-28"/>     
+      <test>for $a in attribute { "xmlns" } { "bar" } return name($a)</test>
+      <result>
+         <error code="XQDY0044"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-constr-compattr-005">
+      <description> test XQDY0044 in attribute construction </description>
+      <created by="Tim Mills" on="2008-05-28"/>      
+      <test>
+      	for $a in attribute { fn:QName("http://www.example.com/", "xml:foo") } { "bar" } 
+      	return name($a)
+      </test>
+      <result>
+         <error code="XQDY0044"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-constr-compattr-006">
+      <description> test XQDY0044 in attribute construction </description>
+      <created by="Tim Mills" on="2008-05-28"/>    
+      <test>
+      	for $a in attribute { fn:QName("http://www.w3.org/XML/1998/namespace", "sgml:foo") } { "bar" } 
+      	return name($a)
+      </test>
+      <result>
+         <error code="XQDY0044"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-constr-compattr-007">
+      <description> test attribute constructionn </description>
+      <created by="Tim Mills" on="2008-05-28"/>      
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+      	<element xmlns:sgml="http://www.example.com/other"> { 
+      		for $a in attribute { fn:QName("http://www.example.com/", "sgml:foo") } { } 
+      		return concat(name($a), "=", namespace-uri($a)) } 
+      	</element>
+      ]]></test>
+      <result>
+         <assert-xml>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;element xmlns:sgml="http://www.example.com/other"&gt;sgml:foo=http://www.example.com/&lt;/element&gt;</assert-xml>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-constr-compattr-008">
+      <description> test attribute constructionn </description>
+      <created by="Tim Mills" on="2008-05-28"/>      
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+      	declare function local:factorial($arg as xs:integer) as xs:integer { 
+      		if ($arg le 1) then 1 else $arg * local:factorial($arg - 1) 
+      	}; 
+      	<element> { attribute { fn:QName("http://www.example.com/", "sgml:foo") } { local:factorial(5) } } </element>
+      ]]></test>
+      <result>
+         <assert-xml>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;element xmlns:sgml="http://www.example.com/" sgml:foo="120"/&gt;</assert-xml>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-constr-compattr-009">
+      <description> test attribute construction with empty content </description>
+      <created by="Tim Mills" on="2008-06-24"/>      
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+      	declare function local:even-range($arg as xs:integer) as xs:integer* { (1 to $arg)[. mod 2 = 9] }; 
+      	<element> { attribute { 'attr' } { local:even-range(0) } } </element>
+      ]]></test>
+      <result>
+         <assert-xml>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;element attr=""/&gt;</assert-xml>
+      </result>
+   </test-case>
 </test-set>
