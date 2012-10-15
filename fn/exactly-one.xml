@@ -453,4 +453,58 @@
          <error code="XPST0017"/>
       </result>
    </test-case>
+   
+   
+   <test-case name="cbcl-exactly-one-001">
+      <description> Test fn:boolean(fn:exactly-one). </description>
+      <created by="Tim Mills" on="2008-04-10"/>
+      
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[boolean( exactly-one( remove( (<a/>, 1), 1 ) ) )]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-exactly-one-002">
+      <description> test fn:exactly-one on a count-preserving function </description>
+      <created by="Tim Mills" on="2008-04-10"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>
+      	declare function local:generate($arg as xs:integer) { if ($arg = 0) then (1, 2, 3) else $arg }; 
+      	fn:exactly-one(fn:unordered( local:generate(1) ))
+      </test>
+      <result>
+         <assert-string-value>1</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-exactly-one-003">
+      <description> test fn:exactly-one on a sequence of one-or-more items </description>
+      <created by="Tim Mills" on="2008-04-10"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>
+      	declare function local:generate($arg as xs:integer?) { if ($arg = 0) then () else if ($arg = 1) then $arg else ($arg, $arg) }; 
+      	1 + fn:exactly-one(fn:one-or-more( local:generate( 1 ) ))
+      </test>
+      <result>
+         <assert-string-value>2</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-exactly-one-004">
+      <description> test fn:exactly-one on a sequence of zero-or-one items </description>
+      <created by="Tim Mills" on="2008-04-10"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>
+      	declare function local:generate($arg as xs:integer?) { if ($arg = 0) then () else if ($arg = 1) then $arg else ($arg, $arg) }; 
+      	1 + fn:exactly-one(fn:zero-or-one( local:generate( 1 ) ))
+      </test>
+      <result>
+         <assert-string-value>2</assert-string-value>
+      </result>
+   </test-case>
 </test-set>

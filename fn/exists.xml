@@ -480,4 +480,57 @@
          <assert-true/>
       </result>
    </test-case>
+   
+   
+   <test-case name="cbcl-exists-001">
+      <description> test fn:exists on a mix of values and expressions </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>
+      	declare function local:generate($arg as xs:integer?) { if ($arg = 0) then (1, 2, 3) else $arg }; 
+      	fn:exists( ( (), local:generate( () ), local:generate( 0 ), (1 to 10000000), local:generate( () ), local:generate(1)) )</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-exists-002">
+      <description> Tests aggregation optimizations for exists </description>
+      <created by="Nick Jones" on="2008-06-09"/>      
+      <test>exists(for $x in (1 to 10)[. mod 2 = 0] return "blah")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-exists-003">
+      <description> Tests exists on text node </description>
+      <created by="Nick Jones" on="2008-06-17"/>      
+      <test>exists(text {(1 to 10)[. mod 2 = 0]})</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-exists-004">
+      <description> Test on optimization as aggregate function </description>
+      <created by="Nick Jones" on="2008-06-17"/>      
+      <test>exists(for $x in (1 to 10)[. mod 2 = 0] return true())</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-exists-005">
+      <description> Tests exists on a map expression </description>
+      <created by="Nick Jones" on="2008-06-17"/>      
+      <test>exists(for $x in (1 to 10)[. mod 2 = 0] return floor($x))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
 </test-set>
