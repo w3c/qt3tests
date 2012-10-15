@@ -334,4 +334,28 @@ together with the numeric-equal operator "ge".
          <assert-false/>
       </result>
    </test-case>
+   
+   
+   <test-case name="cbcl-subtract-dayTimeDuration-from-dateTime-001">
+      <description> test subtraction of zero duration from dateTime </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:two-digit($number as xs:integer) { let $string := string($number) return if (string-length($string) lt 2) then concat('0', $string) else $string }; declare function local:dateTime($year as xs:integer, $month as xs:integer, $day as xs:integer, $hour as xs:integer, $mins as xs:integer) { let $m := local:two-digit($month), $d := local:two-digit($day), $h := local:two-digit($hour), $n := local:two-digit($mins) return xs:dateTime(concat($year, '-', $m, '-', $d, 'T', $h, ':', $n, ':00')) }; local:dateTime(2008, 05, 12, 12, 59) - xs:dayTimeDuration("P0D")</test>
+      <result>
+         <assert-string-value>2008-05-12T12:59:00</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-subtract-dayTimeDuration-from-dateTime-002">
+      <description> test subtraction of large duration from date </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:two-digit($number as xs:integer) { let $string := string($number) return if (string-length($string) lt 2) then concat('0', $string) else $string }; declare function local:dateTime($year as xs:integer, $month as xs:integer, $day as xs:integer, $hour as xs:integer, $mins as xs:integer) { let $m := local:two-digit($month), $d := local:two-digit($day), $h := local:two-digit($hour), $n := local:two-digit($mins) return xs:dateTime(concat($year, '-', $m, '-', $d, 'T', $h, ':', $n, ':00')) }; local:dateTime(-25252734927766554, 05, 12, 12, 59) - xs:dayTimeDuration("P0D")</test>
+      <result>
+         <assert-string-value>-25252734927766554-05-12T12:59:00</assert-string-value>
+      </result>
+   </test-case>
 </test-set>

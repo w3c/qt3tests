@@ -400,4 +400,40 @@ together with the numeric-equal operator "ge".
          <assert-true/>
       </result>
    </test-case>
+   
+
+   <test-case name="cbcl-add-dayTimeDurations-001">
+      <description> test addition of zero duration to dayTimeDuration </description>
+      <created by="Tim Mills" on="2008-05-12"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:dayTimeDuration($days as xs:integer, $hours as xs:integer ) { xs:dayTimeDuration(concat('P', $days, 'DT', $hours, 'H')) }; local:dayTimeDuration(1, 1) + xs:dayTimeDuration("P0D")</test>
+      <result>
+         <assert-string-value>P1DT1H</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-add-dayTimeDurations-002">
+      <description> test addition of zero duration to dayTimeDuration </description>
+      <created by="Tim Mills" on="2008-05-12"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:dayTimeDuration($days as xs:integer, $hours as xs:integer ) { xs:dayTimeDuration(concat('P', $days, 'DT', $hours, 'H')) }; xs:dayTimeDuration("P0D") + local:dayTimeDuration(1, 1)</test>
+      <result>
+         <assert-string-value>P1DT1H</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-add-dayTimeDurations-003">
+      <description> test addition of dayTimeDurations </description>
+      <created by="Tim Mills" on="2008-05-12"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:dayTimeDuration($days as xs:integer, $hours as xs:integer ) { xs:dayTimeDuration(concat('P', $days, 'DT', $hours, 'H')) }; local:dayTimeDuration(1, 1) + local:dayTimeDuration(1, 1)</test>
+      <result>
+         <assert-string-value>P2DT2H</assert-string-value>
+      </result>
+   </test-case>   
 </test-set>

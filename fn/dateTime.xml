@@ -434,4 +434,25 @@
          <assert-true/>
       </result>
    </test-case>
+   
+    <test-case name="cbcl-dateTime-001">
+      <description> test evaluation of fn:dateTime to exactly one item Author: Tim Mills </description>
+      <created by="Oliver Hallam" on="2008-04-14"/>
+      
+      <test>fn:index-of( ( 'A', fn:current-dateTime(), 'B' ), fn:dateTime(fn:current-date(), fn:current-time()) )</test>
+      <result>
+         <assert-string-value>2</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-dateTime-002">
+      <description> test evaluation of fn:dateTime to exactly one item with invalid timezones </description>
+      <created by="Oliver Hallam" on="2008-04-14"/>
+      
+      <test>fn:index-of( ( 'A', fn:current-dateTime(), 'B' ), fn:dateTime(adjust-date-to-timezone(fn:current-date(), xs:dayTimeDuration("PT1H")), adjust-time-to-timezone(fn:current-time(), xs:dayTimeDuration("PT2H"))))</test>
+      <result>
+         <error code="FORG0008"/>
+      </result>
+   </test-case>
 </test-set>

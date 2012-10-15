@@ -516,4 +516,76 @@ multiplied by +0. Use fn:count to avoid empty file.
          <error code="FOCA0005"/>
       </result>
    </test-case>
+   
+   
+   <test-case name="cbcl-multiply-dayTimeDuration-001">
+      <description> test multiplication of xs:dayTimeDuration by 0 </description>
+      <created by="Oliver Hallam" on="2008-05-14"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:dayTimeDuration($days as xs:integer) as xs:dayTimeDuration { xs:dayTimeDuration(concat("P", $days, "D")) }; local:dayTimeDuration(2) * 0</test>
+      <result>
+         <assert-string-value>PT0S</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-multiply-dayTimeDuration-002">
+      <description> test multiplication of xs:dayTimeDuration by 1 </description>
+      <created by="Oliver Hallam" on="2008-05-14"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:dayTimeDuration($days as xs:integer) as xs:dayTimeDuration { xs:dayTimeDuration(concat("P", $days, "D")) }; local:dayTimeDuration(2) * 1</test>
+      <result>
+         <assert-string-value>P2D</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-multiply-dayTimeDuration-003">
+      <description> test multiplication of xs:dayTimeDuration by NaN </description>
+      <created by="Oliver Hallam" on="2008-05-14"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:dayTimeDuration($days as xs:integer) as xs:dayTimeDuration { xs:dayTimeDuration(concat("P", $days, "D")) }; local:dayTimeDuration(2) * xs:double("NaN")</test>
+      <result>
+         <error code="FOCA0005"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-multiply-dayTimeDuration-004">
+      <description> test multiplication of xs:dayTimeDuration by 0 </description>
+      <created by="Oliver Hallam" on="2008-05-14"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:dayTimeDuration($days as xs:integer) as xs:dayTimeDuration { xs:dayTimeDuration(concat("P", $days, "D")) }; 0 * local:dayTimeDuration(2)</test>
+      <result>
+         <assert-string-value>PT0S</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-multiply-dayTimeDuration-005">
+      <description> test multiplication of xs:dayTimeDuration by 1 </description>
+      <created by="Oliver Hallam" on="2008-05-14"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:dayTimeDuration($days as xs:integer) as xs:dayTimeDuration { xs:dayTimeDuration(concat("P", $days, "D")) }; 1 * local:dayTimeDuration(2)</test>
+      <result>
+         <assert-string-value>P2D</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-multiply-dayTimeDuration-006">
+      <description> test multiplication of xs:dayTimeDuration by NaN </description>
+      <created by="Oliver Hallam" on="2008-05-14"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:dayTimeDuration($days as xs:integer) as xs:dayTimeDuration { xs:dayTimeDuration(concat("P", $days, "D")) }; xs:double("NaN") * local:dayTimeDuration(2)</test>
+      <result>
+         <error code="FOCA0005"/>
+      </result>
+   </test-case>
 </test-set>

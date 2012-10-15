@@ -1983,4 +1983,90 @@
          <assert-true/>
       </result>
    </test-case>
+   
+   
+   <test-case name="cbcl-deep-equal-001">
+      <description> Test deep-equal ignores processing instructions and comments in elements. </description>
+      <created by="Oliver Hallam" on="2008-04-15"/>      
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[let $doc1 := <doc><?processing-instruction content ?></doc> let $doc2 := <doc><!--comment--></doc> return deep-equal($doc1, $doc2)]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-deep-equal-002">
+      <description> Test deep-equal on processing instructions with different values. </description>
+      <created by="Oliver Hallam" on="2008-04-15"/>      
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[let $doc1 := <?cheese brie?> let $doc2 := <?cheese stilton?> return deep-equal($doc1, $doc2)]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-deep-equal-003">
+      <description> Test deep-equal on processing instructions with different names. </description>
+      <created by="Oliver Hallam" on="2008-04-15"/>      
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[let $doc1 := <?foo test?> let $doc2 := <?bar test?> return deep-equal($doc1, $doc2)]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-deep-equal-004">
+      <description> Test deep-equal on equal processing instructions </description>
+      <created by="Oliver Hallam" on="2008-04-15"/>      
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[let $doc1 := <?foo bar?> let $doc2 := <?foo bar?> return deep-equal($doc1, $doc2)]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-deep-equal-005">
+      <description> Test deep-equal simplifying to fn:empty </description>
+      <created by="Oliver Hallam" on="2008-04-15"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>declare function local:f($x as xs:integer)as xs:integer* { 1 to $x }; deep-equal((local:f(3), 2, local:f(1)), (local:f(3), 2))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-deep-equal-006">
+      <description> Test deep-equal simplifying to fn:empty </description>
+      <created by="Oliver Hallam" on="2008-04-15"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>declare function local:f($x as xs:integer) as xs:integer* { 1 to $x }; deep-equal((local:f(3), 2), (local:f(3), 2, local:f(1)))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-deep-equal-007">
+      <description> Test deep-equal on comparison requiring dynamic context </description>
+      <created by="Oliver Hallam" on="2008-04-15"/>      
+      <test>deep-equal(xs:gMonth("--12+03:00"), xs:gMonth("--12")) eq (implicit-timezone() eq xs:dayTimeDuration("PT3H"))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-deep-equal-008">
+      <description> Test that deep equal compares untypedAtomic values correctly </description>
+      <created by="Oliver Hallam" on="2008-06-17"/>      
+      <test>deep-equal((xs:untypedAtomic("a"), xs:untypedAtomic("P12M"), 2.0), (xs:untypedAtomic("a"), xs:yearMonthDuration("P1Y"), xs:untypedAtomic(" 2")))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
 </test-set>

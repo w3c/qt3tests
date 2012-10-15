@@ -858,4 +858,210 @@ $arg2 = xs:dateTime(upper bound)
          <assert-true/>
       </result>
    </test-case>
+   
+   
+   <test-case name="cbcl-dateTime-equal-001">
+      <description> test comparison of dateTime </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:two-digit($number as xs:integer) { let $string := string($number) return if (string-length($string) lt 2) then concat('0', $string) else $string }; declare function local:dateTime($year as xs:integer, $month as xs:integer, $day as xs:integer) { let $m := local:two-digit($month), $d := local:two-digit($day) return xs:dateTime(concat($year, '-', $m, '-', $d, "T12:00:00")) }; not(local:dateTime(2008, 05, 12) eq xs:dateTime("1972-12-15T12:00:00"))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-dateTime-equal-002">
+      <description> test comparison of dateTime </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      
+      <test>xs:dateTime("2008-01-30T00:01:00") eq xs:dateTime("2008-01-31T01:00:00+09:00")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-dateTime-equal-003">
+      <description> test comparison of dateTime </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      
+      <test>xs:dateTime("2008-01-31T00:01:00+09:00") eq xs:dateTime("2008-01-30T00:01:00")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-dateTime-equal-004">
+      <description> test comparison of dateTime </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      
+      <test>xs:dateTime("2008-01-31T00:01:00") eq xs:dateTime("2008-01-31T00:01:00+09:00")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-dateTime-equal-005">
+      <description> test comparison of dateTime </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      
+      <test>xs:dateTime("2008-01-31T00:01:00+09:00") eq xs:dateTime("2008-01-31T00:01:00")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-dateTime-equal-006">
+      <description> test comparison of dateTime </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:two-digit($number as xs:integer) { let $string := string($number) return if (string-length($string) lt 2) then concat('0', $string) else $string }; declare function local:dateTime($year as xs:integer, $month as xs:integer, $day as xs:integer) { let $m := local:two-digit($month), $d := local:two-digit($day) return xs:dateTime(concat($year, '-', $m, '-', $d, "T12:00:00")) }; not(local:dateTime(2008, 05, 12) ne xs:dateTime("1972-12-15T12:00:00"))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-dateTime-equal-007">
+      <description> test comparison of dateTime </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      
+      <test>xs:dateTime("2008-01-30T00:01:00") ne xs:dateTime("2008-01-31T00:01:00+09:00")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-dateTime-equal-008">
+      <description> test comparison of dateTime </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      
+      <test>xs:dateTime("2008-01-31T00:01:00+09:00") ne xs:dateTime("2008-01-30T00:01:00")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-dateTime-equal-009">
+      <description> test comparison of dateTime </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      
+      <test>xs:dateTime("2008-01-31T00:01:00") ne xs:dateTime("2008-01-31T00:01:00+09:00")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-dateTime-equal-010">
+      <description> test comparison of dateTime </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      
+      <test>xs:dateTime("2008-01-31T00:01:00+09:00") ne xs:dateTime("2008-01-31T00:01:00")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-dateTime-equal-011">
+      <description> test comparison of dateTime </description>
+      <created by="Tim Mills" on="2008-05-21"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:dateTime($dateTime as xs:dateTime, $null as xs:boolean) { if ($null) then () else $dateTime }; exists(local:dateTime(xs:dateTime("1972-12-15T12:00:00"), fn:true()) eq xs:dateTime("1972-12-15T12:00:00"))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-dateTime-equal-012">
+      <description> test comparison of dateTime </description>
+      <created by="Tim Mills" on="2008-05-21"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:dateTime($dateTime as xs:dateTime, $null as xs:boolean) { if ($null) then () else $dateTime }; local:dateTime(xs:dateTime("1972-12-15T12:00:00"), fn:false()) eq xs:dateTime("1972-12-15T12:00:00")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-dateTime-equal-013">
+      <description> test comparison of dateTime </description>
+      <created by="Tim Mills" on="2008-05-21"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:dateTime($dateTime as xs:dateTime, $null as xs:boolean) { if ($null) then () else $dateTime }; exists(local:dateTime(xs:dateTime("1972-12-15T12:00:00"), fn:true()) ne xs:dateTime("1972-12-15T12:00:00"))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-dateTime-equal-014">
+      <description> test comparison of dateTime </description>
+      <created by="Tim Mills" on="2008-05-21"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:dateTime($dateTime as xs:dateTime, $null as xs:boolean) { if ($null) then () else $dateTime }; local:dateTime(xs:dateTime("1972-12-15T12:00:00"), fn:false()) ne xs:dateTime("1972-12-15T12:00:00")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-dateTime-equal-015">
+      <description> test comparison of dateTime </description>
+      <created by="Tim Mills" on="2008-05-23"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:dateTime($dateTime as xs:string, $timezone as xs:string) { xs:dateTime( concat($dateTime, $timezone) ) }; adjust-dateTime-to-timezone(local:dateTime("1972-12-14T00:00:00", "-12:00")) eq adjust-dateTime-to-timezone(xs:dateTime("1972-12-15T00:00:00+12:00"))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-dateTime-equal-016">
+      <description> test comparison of dateTime </description>
+      <created by="Tim Mills" on="2008-05-23"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:dateTime($dateTime as xs:string, $timezone as xs:string) { xs:dateTime( concat($dateTime, $timezone) ) }; adjust-dateTime-to-timezone(local:dateTime("1972-12-14T00:00:00", "-12:00")) ne adjust-dateTime-to-timezone(xs:dateTime("1972-12-15T00:00:00+12:00"))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-dateTime-equal-017">
+      <description> test comparison of dateTime </description>
+      <created by="Tim Mills" on="2008-05-23"/>
+      
+      <test>xs:dateTime("1972-12-15T00:00:00+12:00") eq xs:dateTime("1972-12-15T00:00:01")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-dateTime-equal-018">
+      <description> test comparison of dateTime </description>
+      <created by="Tim Mills" on="2008-05-23"/>
+      
+      <test>xs:dateTime("1972-12-15T00:00:00+12:00") ne xs:dateTime("1972-12-15T00:00:01")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
 </test-set>

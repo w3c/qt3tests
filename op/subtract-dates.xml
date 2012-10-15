@@ -409,4 +409,48 @@ part of a addition expression
          <error code="XPTY0004"/>
       </result>
    </test-case>
+   
+
+   <test-case name="cbcl-subtract-dates-001">
+      <description> test subtraction of large dates </description>
+      <created by="Tim Mills" on="2008-05-15"/>
+      
+      <test>xs:date("-25252734927766554-12-31") - xs:date("25252734927766554-12-31")</test>
+      <result>
+         <error code="FODT0001"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-subtract-dates-002">
+      <description> test subtraction of large dates </description>
+      <created by="Tim Mills" on="2008-05-15"/>
+      
+      <test>xs:date("-25252734927766554-12-31") - xs:date("25252734927766554-12-31+01:00")</test>
+      <result>
+         <error code="FODT0001"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-subtract-dates-003">
+      <description> test subtraction of large dates </description>
+      <created by="Tim Mills" on="2008-05-15"/>
+      
+      <test>xs:date("2008-12-31") - xs:date("2002-12-31+01:00")</test>
+      <result>
+         <assert-string-value>P2192DT1H</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-subtract-dates-004">
+      <description> test subtraction of large dates </description>
+      <created by="Tim Mills" on="2008-05-15"/>
+      
+      <test>xs:date("2002-12-31+01:00") - xs:date("2008-12-31")</test>
+      <result>
+         <assert-string-value>-P2192DT1H</assert-string-value>
+      </result>
+   </test-case>   
 </test-set>

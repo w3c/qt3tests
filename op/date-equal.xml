@@ -498,4 +498,209 @@ $arg2 = xs:date(upper bound)
          <assert-true/>
       </result>
    </test-case>
+   
+<test-case name="cbcl-date-eq-001">
+      <description> Test that comparing large dates does not overflow. </description>
+      <created by="Oliver Hallam" on="2008-05-14"/>
+      
+      <test>xs:date("-25252734927766555-06-07+02:00") = xs:date("25252734927766555-07-28")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-date-ne-001">
+      <description> Test that comparing large dates does not overflow. </description>
+      <created by="Oliver Hallam" on="2008-05-14"/>
+      
+      <test>xs:date("25252734927766555-07-28") != xs:date("-25252734927766555-06-07+02:00")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-date-equal-001">
+      <description> test comparison of date </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:two-digit($number as xs:integer) { let $string := string($number) return if (string-length($string) lt 2) then concat('0', $string) else $string }; declare function local:date($year as xs:integer, $month as xs:integer, $day as xs:integer) { let $m := local:two-digit($month), $d := local:two-digit($day) return xs:date(concat($year, '-', $m, '-', $d)) }; not(local:date(2008, 05, 12) eq xs:date("1972-12-15"))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-date-equal-002">
+      <description> test comparison of date </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      
+      <test>xs:date("2008-01-30") eq xs:date("2008-01-31+09:00")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-date-equal-003">
+      <description> test comparison of date </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      
+      <test>xs:date("2008-01-31+09:00") eq xs:date("2008-01-30")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-date-equal-004">
+      <description> test comparison of date </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      
+      <test>xs:date("2008-01-31") eq xs:date("2008-01-31+09:00")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-date-equal-005">
+      <description> test comparison of date </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      
+      <test>xs:date("2008-01-31+09:00") eq xs:date("2008-01-31")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-date-equal-006">
+      <description> test comparison of date </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:two-digit($number as xs:integer) { let $string := string($number) return if (string-length($string) lt 2) then concat('0', $string) else $string }; declare function local:date($year as xs:integer, $month as xs:integer, $day as xs:integer) { let $m := local:two-digit($month), $d := local:two-digit($day) return xs:date(concat($year, '-', $m, '-', $d)) }; not(local:date(2008, 05, 12) ne xs:date("1972-12-15"))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-date-equal-007">
+      <description> test comparison of date </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      
+      <test>xs:date("2008-01-30") ne xs:date("2008-01-31+09:00")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-date-equal-008">
+      <description> test comparison of date </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      
+      <test>xs:date("2008-01-31+09:00") ne xs:date("2008-01-30")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-date-equal-009">
+      <description> test comparison of date </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      
+      <test>xs:date("2008-01-31") ne xs:date("2008-01-31+09:00")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-date-equal-010">
+      <description> test comparison of date </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      
+      <test>xs:date("2008-01-31+09:00") ne xs:date("2008-01-31")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-date-equal-011">
+      <description> test comparison of date </description>
+      <created by="Tim Mills" on="2008-05-21"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:date($date as xs:date, $null as xs:boolean) { if ($null) then () else $date }; exists(local:date(xs:date("1972-12-15"), fn:true()) eq xs:date("1972-12-15"))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-date-equal-012">
+      <description> test comparison of date </description>
+      <created by="Tim Mills" on="2008-05-21"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:date($date as xs:date, $null as xs:boolean) { if ($null) then () else $date }; local:date(xs:date("1972-12-15"), fn:false()) eq xs:date("1972-12-15")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-date-equal-013">
+      <description> test comparison of date </description>
+      <created by="Tim Mills" on="2008-05-21"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:date($date as xs:date, $null as xs:boolean) { if ($null) then () else $date }; exists(local:date(xs:date("1972-12-15"), fn:true()) ne xs:date("1972-12-15"))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-date-equal-014">
+      <description> test comparison of date </description>
+      <created by="Tim Mills" on="2008-05-21"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:date($date as xs:date, $null as xs:boolean) { if ($null) then () else $date }; local:date(xs:date("1972-12-15"), fn:false()) ne xs:date("1972-12-15")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-date-equal-015">
+      <description> test comparison of date </description>
+      <created by="Tim Mills" on="2008-05-23"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:date($date as xs:string, $timezone as xs:string) { xs:date( concat($date, $timezone) ) }; adjust-date-to-timezone(local:date("1972-12-14", "-12:00")) eq adjust-date-to-timezone(xs:date("1972-12-15+12:00"))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-date-equal-016">
+      <description> test comparison of date </description>
+      <created by="Tim Mills" on="2008-05-23"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:date($date as xs:string, $timezone as xs:string) { xs:date( concat($date, $timezone) ) }; adjust-date-to-timezone(local:date("1972-12-14", "-12:00")) ne adjust-date-to-timezone(xs:date("1972-12-15+12:00"))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>   
 </test-set>

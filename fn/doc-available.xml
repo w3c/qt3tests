@@ -102,4 +102,54 @@
          </any-of>
       </result>
    </test-case>
+   
+   
+   <test-case name="cbcl-doc-available-001">
+      <description> test fn:doc-available on () </description>
+      <created by="Tim Mills" on="2008-04-10"/>      
+      <test>fn:doc-available( () )</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-doc-available-002">
+      <description> test fn:doc-available on invalid input </description>
+      <created by="Tim Mills" on="2008-04-10"/>      
+      <test>fn:doc-available( '%gg' )</test>
+      <result>
+         <error code="FODC0005"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-doc-available-003">
+      <description> test fn:doc-available on a URI which is not that of a document </description>
+      <created by="Tim Mills" on="2008-04-10"/>      
+      <test>fn:doc-available( 'collection1' )</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-doc-available-004">
+      <description> Test doc-available with a URL </description>
+      <created by="Nick Jones" on="2008-06-12"/>      
+      <test>doc-available("%gg")</test>
+      <result>
+         <error code="FODC0005"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-doc-available-005">
+      <description> tests doc-available on an actual document </description>
+      <created by="Nick Jones" on="2008-06-13"/>      
+      <test>doc-available('validate')</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
 </test-set>
