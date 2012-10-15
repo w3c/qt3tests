@@ -3645,4 +3645,54 @@
          <error code="XPST0003"/>
       </result>
    </test-case>
+      
+   <test-case name="cbcl-logical-and-002">
+      <description> test logical and </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>declare function local:times-table($n as xs:integer) as xs:integer* { for $x in 1 to 12 return $x * $n }; (every $x in local:times-table(15) satisfies ($x mod 3 eq 0)) and (every $y in local:times-table(15) satisfies ($y mod 5 eq 0))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-logical-and-003">
+      <description> test logical and </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>declare function local:factorial($n as xs:integer) as xs:integer { if ($n le 1) then 1 else $n * local:factorial($n - 1) }; declare function local:is-divisible($n as xs:integer, $d as xs:integer) { $n mod $d eq 0 }; not(local:is-divisible(local:factorial(5), 3)) and not(local:is-divisible(local:factorial(5), 2))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-logical-or-001">
+      <description> test logical or </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>declare function local:times-table($n as xs:integer) as xs:integer* { for $x in 1 to 12 return $x * $n }; (some $x in local:times-table(15) satisfies ($x mod 2 eq 0)) or (some $y in local:times-table(15) satisfies ($y mod 3 eq 0))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-logical-or-002">
+      <description> test logical or </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>declare function local:factorial($n as xs:integer) as xs:integer? { if ($n lt 1) then () else if ($n eq 1) then 1 else $n * local:factorial($n - 1) }; (every $x in local:factorial(5) satisfies ($x mod 3 eq 0)) or (every $y in local:factorial(5) satisfies ($y mod 5 eq 0))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-logical-or-003">
+      <description> test logical or </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>     
+      <test>declare function local:factorial($n as xs:integer) as xs:integer { if ($n le 1) then 1 else $n * local:factorial($n - 1) }; declare function local:is-divisible($n as xs:integer, $d as xs:integer) { $n mod $d eq 0 }; not(local:is-divisible(local:factorial(5), 3)) or not(local:is-divisible(local:factorial(5), 2))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
 </test-set>

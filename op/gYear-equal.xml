@@ -527,4 +527,164 @@ together with "fn:false"/or expression (ne operator).
          <assert-true/>
       </result>
    </test-case>
+   
+   
+   <test-case name="cbcl-gYear-equal-001">
+      <description> test comparison of gYear </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:gYear($year as xs:integer) { xs:gYear(string(2000 + $year)) }; not(local:gYear(7) eq xs:gYear("2008"))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gYear-equal-002">
+      <description> test comparison of gYear </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      
+      <test>xs:gYear("2008") eq xs:gYear("2008+09:00")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gYear-equal-003">
+      <description> test comparison of gYear </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      
+      <test>xs:gYear("2008+09:00") eq xs:gYear("2008")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gYear-equal-004">
+      <description> test comparison of gYear </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      
+      <test>xs:gYear("2008") eq xs:gYear("2008+09:00")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gYear-equal-005">
+      <description> test comparison of gYear </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      
+      <test>xs:gYear("2008+09:00") eq xs:gYear("2008")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gYear-equal-006">
+      <description> test comparison of gYear </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:gYear($year as xs:integer) { xs:gYear(string(2000 + $year)) }; not(local:gYear(7) ne xs:gYear("2008"))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gYear-equal-007">
+      <description> test comparison of gYear </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      
+      <test>xs:gYear("2008") ne xs:gYear("2008+09:00")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gYear-equal-008">
+      <description> test comparison of gYear </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      
+      <test>xs:gYear("2008+09:00") ne xs:gYear("2008")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gYear-equal-009">
+      <description> test comparison of gYear </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      
+      <test>xs:gYear("2008") ne xs:gYear("2008+09:00")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gYear-equal-010">
+      <description> test comparison of gYear </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      
+      <test>xs:gYear("2008+09:00") ne xs:gYear("2008")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gYear-equal-011">
+      <description> test comparison of gYear </description>
+      <created by="Tim Mills" on="2008-05-21"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:gYear($gYear as xs:gYear, $null as xs:boolean) { if ($null) then () else $gYear }; exists(local:gYear(xs:gYear("1972"), fn:true()) eq xs:gYear("1972"))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gYear-equal-012">
+      <description> test comparison of gYear </description>
+      <created by="Tim Mills" on="2008-05-21"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:gYear($gYear as xs:gYear, $null as xs:boolean) { if ($null) then () else $gYear }; local:gYear(xs:gYear("1972"), fn:false()) ne xs:gYear("1972")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gYear-equal-013">
+      <description> test comparison of gYear </description>
+      <created by="Tim Mills" on="2008-05-21"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:gYear($gYear as xs:gYear, $null as xs:boolean) { if ($null) then () else $gYear }; exists(local:gYear(xs:gYear("1972"), fn:true()) ne xs:gYear("1972"))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gYear-equal-014">
+      <description> test comparison of gYear </description>
+      <created by="Tim Mills" on="2008-05-21"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:gYear($gYear as xs:gYear, $null as xs:boolean) { if ($null) then () else $gYear }; local:gYear(xs:gYear("1972"), fn:false()) ne xs:gYear("1972")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
 </test-set>

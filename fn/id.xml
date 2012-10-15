@@ -439,4 +439,48 @@
          <assert-string-value>a b c d e f i</assert-string-value>
       </result>
    </test-case>
+   
+   
+   <test-case name="cbcl-id-001">
+      <description> test fn:id on the empty sequence </description>
+      <created by="Tim Mills" on="2008-04-15"/>      
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+      	declare function local:generate($arg as xs:integer?) as xs:string* { if ($arg = 0) then () else 'id1', 'id2' }; 
+      	let $doc := document { <root /> } return fn:empty( fn:id( local:generate(0), $doc) )
+      ]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-id-002">
+      <description> test fn:id on the empty sequence </description>
+      <created by="Tim Mills" on="2008-04-15"/>     
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+      	let $doc := document { <root /> } return fn:empty( fn:id( (), $doc) )
+      ]]></test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <error code="XPST0005"/>
+         </any-of>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-id-003">
+      <description> test fn:id in an axis expression </description>
+      <created by="Tim Mills" on="2008-04-15"/>      
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+      	declare function local:generate($arg as xs:integer?) as xs:string* { if ($arg = 0) then () else 'id1', 'id2' }; 
+      	let $doc := document { <root /> } return fn:empty( $doc/fn:id( local:generate(0)) )
+      ]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
 </test-set>

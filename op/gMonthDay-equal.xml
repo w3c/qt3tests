@@ -510,4 +510,230 @@ together with "fn:false"/or expression (ne operator).
          <assert-true/>
       </result>
    </test-case>
+   
+   
+   <test-case name="cbcl-gMonthDay-equal-001">
+      <description> test comparison of gMonthDay </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:gMonthDay($day as xs:integer) { if ($day lt 10) then xs:gMonthDay(concat("--12-0", $day)) else xs:gMonthDay(concat("--12-", $day)) }; not(local:gMonthDay(1) eq xs:gMonthDay("--12-31"))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gMonthDay-equal-002">
+      <description> test comparison of gMonthDay </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      
+      <test>xs:gMonthDay("--12-30") eq xs:gMonthDay("--12-31+09:00")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gMonthDay-equal-003">
+      <description> test comparison of gMonthDay </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      
+      <test>xs:gMonthDay("--12-31+09:00") eq xs:gMonthDay("--12-30")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gMonthDay-equal-004">
+      <description> test comparison of gMonthDay </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      
+      <test>xs:gMonthDay("--12-30") eq xs:gMonthDay("--12-31+09:00")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gMonthDay-equal-005">
+      <description> test comparison of gMonthDay </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      
+      <test>xs:gMonthDay("--12-31+09:00") eq xs:gMonthDay("--12-30")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gMonthDay-equal-006">
+      <description> test comparison of gMonthDay </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:gMonthDay($day as xs:integer) { if ($day lt 10) then xs:gMonthDay(concat("--12-0", $day)) else xs:gMonthDay(concat("--12-", $day)) }; not(local:gMonthDay(1) ne xs:gMonthDay("--12-31"))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gMonthDay-equal-007">
+      <description> test comparison of gMonthDay </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      
+      <test>xs:gMonthDay("--12-30") ne xs:gMonthDay("--12-31+09:00")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gMonthDay-equal-008">
+      <description> test comparison of gMonthDay </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      
+      <test>xs:gMonthDay("--12-31+09:00") ne xs:gMonthDay("--12-30")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gMonthDay-equal-009">
+      <description> test comparison of gMonthDay </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      
+      <test>xs:gMonthDay("--12-30") ne xs:gMonthDay("--12-31+09:00")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gMonthDay-equal-010">
+      <description> test comparison of gMonthDay </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      
+      <test>xs:gMonthDay("--12-31+09:00") ne xs:gMonthDay("--12-30")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gMonthDay-equal-011">
+      <description> test comparison of gMonthDay </description>
+      <created by="Tim Mills" on="2008-05-21"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:gMonthDay($gMonthDay as xs:gMonthDay, $null as xs:boolean) { if ($null) then () else $gMonthDay }; exists(local:gMonthDay(xs:gMonthDay("--12-31"), fn:true()) eq xs:gMonthDay("--12-31"))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gMonthDay-equal-012">
+      <description> test comparison of gMonthDay </description>
+      <created by="Tim Mills" on="2008-05-21"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:gMonthDay($gMonthDay as xs:gMonthDay, $null as xs:boolean) { if ($null) then () else $gMonthDay }; local:gMonthDay(xs:gMonthDay("--12-31"), fn:false()) eq xs:gMonthDay("--12-31")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gMonthDay-equal-013">
+      <description> test comparison of gMonthDay </description>
+      <created by="Tim Mills" on="2008-05-21"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:gMonthDay($gMonthDay as xs:gMonthDay, $null as xs:boolean) { if ($null) then () else $gMonthDay }; exists(local:gMonthDay(xs:gMonthDay("--12-31"), fn:true()) ne xs:gMonthDay("--12-31"))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gMonthDay-equal-014">
+      <description> test comparison of gMonthDay </description>
+      <created by="Tim Mills" on="2008-05-21"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:gMonthDay($gMonthDay as xs:gMonthDay, $null as xs:boolean) { if ($null) then () else $gMonthDay }; local:gMonthDay(xs:gMonthDay("--12-31"), fn:false()) ne xs:gMonthDay("--12-31")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gMonthDay-equal-015">
+      <description> test comparison of gDay </description>
+      <created by="Oliver Hallam" on="2008-05-21"/>
+      
+      <test>xs:gMonthDay("--01-30-12:00") eq xs:gMonthDay("--01-31+12:00")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gMonthDay-equal-016">
+      <description> test comparison of gDay </description>
+      <created by="Oliver Hallam" on="2008-05-21"/>
+      
+      <test>xs:gMonthDay("--01-31+12:00") eq xs:gMonthDay("--01-30-12:00")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gMonthDay-equal-017">
+      <description> test comparison of gDay </description>
+      <created by="Oliver Hallam" on="2008-05-21"/>
+      
+      <test>xs:gMonthDay("--01-30-12:00") ne xs:gMonthDay("--01-31+12:00")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gMonthDay-equal-018">
+      <description> test comparison of gDay </description>
+      <created by="Oliver Hallam" on="2008-05-21"/>
+      
+      <test>xs:gMonthDay("--01-31+12:00") ne xs:gMonthDay("--01-30-12:00")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gMonthDay-equal-019">
+      <description> test comparison of gMonthDay </description>
+      <created by="Tim Mills" on="2008-05-23"/>
+      
+      <test>xs:gMonthDay("--12-31") eq xs:gMonthDay("--12-31+01:00")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gMonthDay-equal-020">
+      <description> test comparison of gMonthDay </description>
+      <created by="Tim Mills" on="2008-05-23"/>
+      
+      <test>xs:gMonthDay("--12-31+01:00") eq xs:gMonthDay("--12-31")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
 </test-set>

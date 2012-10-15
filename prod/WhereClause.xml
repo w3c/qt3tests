@@ -693,4 +693,275 @@
          <error code="XPST0003"/>
       </result>
    </test-case>
+   
+   
+   <test-case name="cbcl-hash-join-1">
+      <description> A query that can be optimized down to a hash join - testing that the implicit cast-operand is emulated correctly </description>
+      <created by="Oliver Hallam" on="2008-01-04"/>
+      <test>for $x in (xs:untypedAtomic("123"), xs:untypedAtomic("234")) for $y in (xs:string("123"), xs:float(123), xs:double(123)) where $x = $y return $x</test>
+      <result>
+         <any-of>
+            <assert-string-value>123 123 123</assert-string-value>
+            <error code="XPST0004"/>
+         </any-of>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-hash-join-2">
+      <description> A query that can be optimized down to a hash join - with integer types. </description>
+      <created by="Oliver Hallam" on="2008-01-04"/>      
+      <test>for $x in (xs:integer("123"), xs:integer("234")) for $y in (xs:integer("123"), xs:integer("456")) where $x = $y return $x</test>
+      <result>
+         <assert-string-value>123</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-hash-join-3">
+      <description> A query that can be optimized down to a hash join - with date types of varying timezones, assumes context timezone Z </description>
+      <created by="Oliver Hallam" on="2008-01-04"/>      
+      <test>for $x in (xs:date("2010-10-10"), xs:date("1997-01-01+12:00"), xs:date("1997-01-02+12:00")) for $y in (xs:date("2010-10-10Z"), xs:date("2010-10-10+01:00"), xs:date("1997-01-01-12:00")) where $x = $y return $x</test>
+      <result>
+         <assert-string-value>2010-10-10 1997-01-02+12:00</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-hash-join-4">
+      <description> A query that can be optimized down to a hash join - with a mixture of untypedAtomics and doubles. </description>
+      <created by="Oliver Hallam" on="2008-01-04"/>      
+      <test>for $x in (xs:untypedAtomic("2.0"), xs:untypedAtomic("3"), xs:double("3.0")) for $y in (xs:untypedAtomic("2"), xs:untypedAtomic("3"), xs:double("3")) where $x = $y return $x</test>
+      <result>
+         <any-of>
+            <assert-string-value>3 3 3 3</assert-string-value>
+            <error code="XPST0004"/>
+         </any-of>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-hash-join-005">
+      <description> Test tricky hash-join implicit conversion case. </description>
+      <created by="Oliver Hallam" on="2008-06-02"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>declare function local:durationOrFloat($i as xs:integer) { (xs:float(123), xs:float(234), xs:duration("P1D"))[$i] }; for $x in (xs:untypedAtomic("123"), xs:untypedAtomic("234")) for $y in (for $z in (1,2) return local:durationOrFloat($z)) where $x = $y return $x</test>
+      <result>
+         <assert-string-value>123 234</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-product-001">
+      <description> Test products which return empty sequence </description>
+      <created by="Tim Mills" on="2008-07-11"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>declare function local:odds($arg as xs:integer*) as xs:integer* { $arg[. mod 2 eq 1] }; boolean(zero-or-one(for $x in local:odds((2,4,8)),$y in local:odds((2,4,8)) return ($x,$y)))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-set-from-optional-item-001">
+      <description> Tests set from optional item returning empty sequence </description>
+      <created by="Tim Mills" on="2008-07-11"/>      
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare function local:odds($arg as xs:integer?) as xs:integer? { $arg[. mod 2 eq 1] }; boolean(for $x in local:odds(2) where $x < 3 return $x + 1)]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-hash-join-006">
+      <description> Test a hash join that produces a dynamic type check error </description>
+      <created by="Oliver Hallam" on="2008-07-14"/>
+      <dependency type="spec" value="XQ10+"/>     
+      <test>declare function local:sequence($arg as xs:integer) as item()* { if ($arg mod 2 eq 0) then (1, 3, 5, 7, 9) else ("a", "b", "c") }; for $x in local:sequence(2) for $y in local:sequence(3) where $x = $y return ($x, $y)</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-hash-join-007">
+      <description> Test a hash join that produces a static type check error, but is fine in dynamic mode </description>
+      <created by="Oliver Hallam" on="2008-07-14"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>declare function local:sequence($arg as xs:integer) as item()* { if ($arg mod 2 eq 0) then (1, 3, 5, 7, 9) else ("a", "b", "c") }; for $x in local:sequence(2) for $y in local:sequence(2) where $x = $y return ($x, $y)</test>
+      <result>
+         <assert-string-value>1 1 3 3 5 5 7 7 9 9</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-hash-join-008">
+      <description> Test a hash join that casts untypedAtomic values to multiple types </description>
+      <created by="Oliver Hallam" on="2008-07-14"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>declare function local:sequence($arg as xs:integer) as item()* { if ($arg mod 2 eq 0) then (1, 3, 5, 7, 9, "cheese") else (xs:untypedAtomic("1"), xs:untypedAtomic("2")) }; for $x in local:sequence(2) for $y in local:sequence(3) where $x = $y return ($x, $y)</test>
+      <result>
+         <assert-string-value>1 1</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-hash-join-009">
+      <description> Test a hash join with type error </description>
+      <created by="Oliver Hallam" on="2008-07-14"/>      
+      <test>for $x in (1,2,3,"cheese") for $y in (1,2,3,"cheese") where $x = $y return ($x, $y)</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-hash-join-010">
+      <description> Test hash-join requiring untypedAtomic casting, with a type error. </description>
+      <created by="Oliver Hallam" on="2008-07-14"/>      
+      <test>for $x in (1,2,3, xs:untypedAtomic("1")) for $y in (1,2,3,"cheese") where $x = $y return ($x, $y)</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-group-by-key-001">
+      <description> Test producing a group-by-key expression </description>
+      <created by="Oliver Hallam" on="2008-07-11"/>      
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare function local:get-words() { tokenize("she sells sea shells by the sea shore", "\s+") }; let $words := local:get-words() let $distinct-words := distinct-values($words) for $word in $distinct-words return <word word="{$word}" count="{count($words[. = $word])}" />]]></test>
+      <result>
+         <assert-xml>&lt;word word="she" count="1"/&gt;&lt;word word="sells" count="1"/&gt;&lt;word word="sea" count="2"/&gt;&lt;word word="shells" count="1"/&gt;&lt;word word="by" count="1"/&gt;&lt;word word="the" count="1"/&gt;&lt;word word="shore" count="1"/&gt;</assert-xml>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-group-by-key-002">
+      <description> A variant on group-by-key that does not involve a left outer join </description>
+      <created by="Oliver Hallam" on="2008-07-11"/>      
+      <test>let $items := for $x in 1 to 100 return $x mod 10, $distinct-items := distinct-values($items) for $dist in $distinct-items, $item in $items where $item = $dist return $item</test>
+      <result>
+         <assert-string-value>1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 3 3 3 3 3 3 3 3 3 3 4 4 4 4 4 4 4 4 4 4 5 5 5 5 5 5 5 5 5 5 6 6 6 6 6 6 6 6 6 6 7 7 7 7 7 7 7 7 7 7 8 8 8 8 8 8 8 8 8 8 9 9 9 9 9 9 9 9 9 9 0 0 0 0 0 0 0 0 0 0</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-group-by-key-003">
+      <description> A group-by-key that has to be careful about errors </description>
+      <created by="Oliver Hallam" on="2008-07-11"/>      
+      <test>let $items := for $x in 1 to 100 return $x mod 10, $distinct-items := distinct-values($items) for $dist in $distinct-items return min( if ($dist = 0) then 0 else for $item in $items where $item = $dist return 1 div $item )</test>
+      <result>
+         <assert-string-value>1 0.5 0.333333333333333333 0.25 0.2 0.166666666666666667 0.142857142857142857 0.125 0.111111111111111111 0</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-group-by-key-004">
+      <description> A group by that has to be careful about errors </description>
+      <created by="Oliver Hallam" on="2008-07-11"/>      
+      <test>let $items := for $x in 1 to 100 return $x mod 10, $distinct-items := distinct-values($items) for $dist in $distinct-items return min( for $item in $items where $item = $dist return if ($dist = 0) then 0 else 1 div $item )</test>
+      <result>
+         <assert-string-value>1 0.5 0.333333333333333333 0.25 0.2 0.166666666666666667 0.142857142857142857 0.125 0.111111111111111111 0</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-left-outer-join-001">
+      <description> A left outer join with some tricky error avoidance </description>
+      <created by="Oliver Hallam" on="2008-07-15"/>      
+      <test>let $items := for $x in 1 to 100 return $x mod 10, $distinct-items := for $y in 1 to (count($items) idiv 10) return $y mod 10 for $dist in $distinct-items return if ($dist = 0) then 0 else min( for $item in $items where $item = $dist return 1 div $item )</test>
+      <result>
+         <assert-string-value>1 0.5 0.333333333333333333 0.25 0.2 0.166666666666666667 0.142857142857142857 0.125 0.111111111111111111 0</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-hash-join-011">
+      <description> Test a hash join with sequences for keys </description>
+      <created by="Oliver Hallam" on="2008-07-16"/>      
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[for $x in <t><r><d>1</d><d>1</d><d>1</d></r><r><d>1</d><d>2</d><d>3</d></r><r><d>2</d><d>3</d><d>4</d></r></t>/r, $y in <t><r><d>1</d><d>1</d><d>1</d></r><r><d>2</d><d>4</d><d>6</d></r><r><d>3</d><d>2</d><d>1</d></r></t>/r where $x/d/string(.) = $y/d/string(.) return concat($x, '=', $y)]]></test>
+      <result>
+         <assert-string-value>111=111 111=321 123=111 123=246 123=321 234=246 234=321</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-map-concat-001">
+      <description> Test to hit EvaluateOptional on MapConcatSingle </description>
+      <created by="Oliver Hallam" on="2008-07-23"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>declare function local:f($x) { if ($x) then true() else () }; declare function local:g($x) { if ($x) then "true" else "false" }; let $x := local:g(true()) for $y in local:f($x) return ($y, $x)</test>
+      <result>
+         <assert-string-value>true true</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-map-concat-002">
+      <description> Test to hit Evaluate on MapConcatOptional </description>
+      <created by="Oliver Hallam" on="2008-07-23"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>declare function local:f($x) { if ($x) then true() else () }; empty(for $x in local:f(false()), $y in 1 to 10 return ($x, $y))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-map-concat-003">
+      <description> Test product with optional input </description>
+      <created by="Oliver Hallam" on="2008-07-23"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>declare function local:f($x) { if ($x) then true() else () }; for $x in local:f(true()), $y in 1 to 10 return ($x, $y)</test>
+      <result>
+         <assert-string-value>true 1 true 2 true 3 true 4 true 5 true 6 true 7 true 8 true 9 true 10</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-left-outer-join-002">
+      <description> A left outer join that requires tricky predicate hoisting to spot. </description>
+      <created by="Oliver Hallam" on="2008-07-23"/>      
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e> { for $x in 1 to 10 return <a>{for $y in 1 to 10 where $x > 7 and $y = $x return $y}</a> } </e>]]></test>
+      <result>
+         <assert-xml>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;e&gt;&lt;a/&gt;&lt;a/&gt;&lt;a/&gt;&lt;a/&gt;&lt;a/&gt;&lt;a/&gt;&lt;a/&gt;&lt;a&gt;8&lt;/a&gt;&lt;a&gt;9&lt;/a&gt;&lt;a&gt;10&lt;/a&gt;&lt;/e&gt;</assert-xml>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-left-outer-join-003">
+      <description> A left outer join with multiple predicates </description>
+      <created by="Oliver Hallam" on="2008-07-24"/>      
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e> { for $x in 1 to 10 where $x > 7 return <a>{for $y in 1 to 10 where $y = $x return $y}</a> } </e>]]></test>
+      <result>
+         <assert-xml>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;e&gt;&lt;a&gt;8&lt;/a&gt;&lt;a&gt;9&lt;/a&gt;&lt;a&gt;10&lt;/a&gt;&lt;/e&gt;</assert-xml>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-left-outer-join-004">
+      <description/>
+      <created by="Nick Jones" on="2010-03-24"/>      
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<tbody> { let $rows := <tables> <table> <row> <entry>Acetazolamide</entry> <entry>Acetazolamide</entry> </row> <row> <entry>Acetazolamide sodium</entry> <entry>Acetazolamide sodium</entry> </row> </table> <table> <row> <entry>Acetylcholine chloride</entry> <entry>Acetylcholine chloride</entry> </row> </table> <table> <row> <entry>Acetylcysteine</entry> <entry>Acetylcysteine</entry> </row> <row> <entry>Acetylcysteine sodium</entry> <entry>Acetylcysteine sodium</entry> </row> </table> </tables>/table/row return for $g in distinct-values($rows/entry[2][string(.)]) order by $g return let $matches := for $row in $rows where $g = string($row/entry[2][string(.)]) return $row/entry[1] return <entry> { $matches/( <link> { node() } </link>, text { if (position() lt last()) then '; ' else () } ) } </entry> } </tbody>]]></test>
+      <result>
+         <assert-xml>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;tbody&gt;&lt;entry&gt;&lt;link&gt;Acetazolamide&lt;/link&gt;&lt;/entry&gt;&lt;entry&gt;&lt;link&gt;Acetazolamide sodium&lt;/link&gt;&lt;/entry&gt;&lt;entry&gt;&lt;link&gt;Acetylcholine chloride&lt;/link&gt;&lt;/entry&gt;&lt;entry&gt;&lt;link&gt;Acetylcysteine&lt;/link&gt;&lt;/entry&gt;&lt;entry&gt;&lt;link&gt;Acetylcysteine sodium&lt;/link&gt;&lt;/entry&gt;&lt;/tbody&gt;</assert-xml>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-hash-join-012">
+      <description> Tests hash join between anyAtomicType containing only untypedAtomic and string </description>
+      <created by="Nick Jones" on="2009-04-02"/>      
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[declare variable $strings := ('1','2'); declare variable $untypeds := (<untyped>1</untyped>,<untyped>2</untyped>); for $string in $strings for $untyped in $untypeds where $untyped = $string return $string]]></test>
+      <result>
+         <assert-string-value>1 2</assert-string-value>
+      </result>
+   </test-case>
 </test-set>

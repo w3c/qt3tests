@@ -527,4 +527,164 @@ together with "fn:false"/or expression (ne operator).
          <assert-true/>
       </result>
    </test-case>
+   
+   
+   <test-case name="cbcl-gYearMonth-equal-001">
+      <description> test comparison of gYearMonth </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:gYearMonth($year as xs:integer) { xs:gYearMonth(concat(string(2000 + $year), "-01")) }; not(local:gYearMonth(7) eq xs:gYearMonth("2008-01"))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gYearMonth-equal-002">
+      <description> test comparison of gYearMonth </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      
+      <test>xs:gYearMonth("2008-01") eq xs:gYearMonth("2008-01+09:00")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gYearMonth-equal-003">
+      <description> test comparison of gYearMonth </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      
+      <test>xs:gYearMonth("2008-01+09:00") eq xs:gYearMonth("2008-01")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gYearMonth-equal-004">
+      <description> test comparison of gYearMonth </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      
+      <test>xs:gYearMonth("2008-01") eq xs:gYearMonth("2008-01+09:00")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gYearMonth-equal-005">
+      <description> test comparison of gYearMonth </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      
+      <test>xs:gYearMonth("2008-01+09:00") eq xs:gYearMonth("2008-01")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gYearMonth-equal-006">
+      <description> test comparison of gYearMonth </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:gYearMonth($year as xs:integer) { xs:gYearMonth(concat(string(2000 + $year), "-01")) }; not(local:gYearMonth(7) ne xs:gYearMonth("2008-01"))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gYearMonth-equal-007">
+      <description> test comparison of gYearMonth </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      
+      <test>xs:gYearMonth("2008-01") ne xs:gYearMonth("2008-01+09:00")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gYearMonth-equal-008">
+      <description> test comparison of gYearMonth </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      
+      <test>xs:gYearMonth("2008-01+09:00") ne xs:gYearMonth("2008-01")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gYearMonth-equal-009">
+      <description> test comparison of gYearMonth </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      
+      <test>xs:gYearMonth("2008-01") ne xs:gYearMonth("2008-01+09:00")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gYearMonth-equal-010">
+      <description> test comparison of gYearMonth </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      
+      <test>xs:gYearMonth("2008-01+09:00") ne xs:gYearMonth("2008-01")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gYearMonth-equal-011">
+      <description> test comparison of gYearMonth </description>
+      <created by="Tim Mills" on="2008-05-21"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:gYearMonth($gYearMonth as xs:gYearMonth, $null as xs:boolean) { if ($null) then () else $gYearMonth }; exists(local:gYearMonth(xs:gYearMonth("1972-12"), fn:true()) eq xs:gYearMonth("1972-12"))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gYearMonth-equal-012">
+      <description> test comparison of gYearMonth </description>
+      <created by="Tim Mills" on="2008-05-21"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:gYearMonth($gYearMonth as xs:gYearMonth, $null as xs:boolean) { if ($null) then () else $gYearMonth }; local:gYearMonth(xs:gYearMonth("1972-12"), fn:false()) eq xs:gYearMonth("1972-12")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gYearMonth-equal-013">
+      <description> test comparison of gYearMonth </description>
+      <created by="Tim Mills" on="2008-05-21"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:gYearMonth($gYearMonth as xs:gYearMonth, $null as xs:boolean) { if ($null) then () else $gYearMonth }; exists(local:gYearMonth(xs:gYearMonth("1972-12"), fn:true()) ne xs:gYearMonth("1972-12"))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gYearMonth-equal-014">
+      <description> test comparison of gYearMonth </description>
+      <created by="Tim Mills" on="2008-05-21"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:gYearMonth($gYearMonth as xs:gYearMonth, $null as xs:boolean) { if ($null) then () else $gYearMonth }; local:gYearMonth(xs:gYearMonth("1972-12"), fn:false()) ne xs:gYearMonth("1972-12")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
 </test-set>

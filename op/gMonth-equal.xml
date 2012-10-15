@@ -510,4 +510,164 @@ together with "fn:false"/or expression (ne operator).
          <assert-true/>
       </result>
    </test-case>
+   
+   
+   <test-case name="cbcl-gMonth-equal-001">
+      <description> test comparison of gMonth </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:gMonth($month as xs:integer) { if ($month lt 10) then xs:gMonth(concat("--0", $month)) else xs:gMonth(concat("--", $month)) }; not(local:gMonth(1) eq xs:gMonth("--06"))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gMonth-equal-002">
+      <description> test comparison of gMonth </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      
+      <test>xs:gMonth("--06") eq xs:gMonth("--06+09:00")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gMonth-equal-003">
+      <description> test comparison of gMonth </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      
+      <test>xs:gMonth("--06+09:00") eq xs:gMonth("--06")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gMonth-equal-004">
+      <description> test comparison of gMonth </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      
+      <test>xs:gMonth("--06") eq xs:gMonth("--06+09:00")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gMonth-equal-005">
+      <description> test comparison of gMonth </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      
+      <test>xs:gMonth("--06+09:00") eq xs:gMonth("--06")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gMonth-equal-006">
+      <description> test comparison of gMonth </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:gMonth($month as xs:integer) { if ($month lt 10) then xs:gMonth(concat("--0", $month)) else xs:gMonth(concat("--", $month)) }; not(local:gMonth(1) ne xs:gMonth("--06"))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gMonth-equal-007">
+      <description> test comparison of gMonth </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      
+      <test>xs:gMonth("--06") ne xs:gMonth("--06+09:00")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gMonth-equal-008">
+      <description> test comparison of gMonth </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      
+      <test>xs:gMonth("--06+09:00") ne xs:gMonth("--06")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gMonth-equal-009">
+      <description> test comparison of gMonth </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      
+      <test>xs:gMonth("--06") ne xs:gMonth("--06+09:00")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gMonth-equal-010">
+      <description> test comparison of gMonth </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      
+      <test>xs:gMonth("--06+09:00") ne xs:gMonth("--06")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gMonth-equal-011">
+      <description> test comparison of gMonth </description>
+      <created by="Tim Mills" on="2008-05-21"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:gMonth($gMonth as xs:gMonth, $null as xs:boolean) { if ($null) then () else $gMonth }; exists(local:gMonth(xs:gMonth("--12"), fn:true()) eq xs:gMonth("--12"))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gMonth-equal-012">
+      <description> test comparison of gMonth </description>
+      <created by="Tim Mills" on="2008-05-21"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:gMonth($gMonth as xs:gMonth, $null as xs:boolean) { if ($null) then () else $gMonth }; local:gMonth(xs:gMonth("--12"), fn:false()) eq xs:gMonth("--12")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gMonth-equal-013">
+      <description> test comparison of gMonth </description>
+      <created by="Tim Mills" on="2008-05-21"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:gMonth($gMonth as xs:gMonth, $null as xs:boolean) { if ($null) then () else $gMonth }; exists(local:gMonth(xs:gMonth("--12"), fn:true()) ne xs:gMonth("--12"))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gMonth-equal-014">
+      <description> test comparison of gMonth </description>
+      <created by="Tim Mills" on="2008-05-21"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:gMonth($gMonth as xs:gMonth, $null as xs:boolean) { if ($null) then () else $gMonth }; local:gMonth(xs:gMonth("--12"), fn:false()) ne xs:gMonth("--12")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
 </test-set>

@@ -1612,4 +1612,92 @@ line2</assert-string-value>
          <assert-string-value>a &#xA;&#xA;&#xA; &#xA;string literal &#xA;</assert-string-value>
       </result>
    </test-case>
+   
+   
+   <test-case name="cbcl-literals-001">
+      <description> test invalid character in hex character reference </description>
+      <created by="Tim Mills" on="2008-08-13"/>
+      
+      <test><![CDATA['&#x100000000x']]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-literals-002">
+      <description> test missing ; in hex character reference </description>
+      <created by="Tim Mills" on="2008-08-13"/>
+      
+      <test><![CDATA['&#x100000000']]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-literals-003">
+      <description> test missing digits in hex character reference </description>
+      <created by="Tim Mills" on="2008-08-13"/>
+      
+      <test><![CDATA['&#x;']]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-literals-004">
+      <description> test invalid hex character reference </description>
+      <created by="Tim Mills" on="2008-08-13"/>
+      
+      <test><![CDATA['&#x0;']]></test>
+      <result>
+         <error code="XQST0090"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-literals-005">
+      <description> test invalid character in decimal character reference </description>
+      <created by="Tim Mills" on="2008-08-13"/>
+      
+      <test><![CDATA['&#100000000x']]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-literals-006">
+      <description> test missing ; in decimal character reference </description>
+      <created by="Tim Mills" on="2008-08-13"/>
+      
+      <test><![CDATA['&#100000000']]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-literals-007">
+      <description> test missing digits in decimal character reference </description>
+      <created by="Tim Mills" on="2008-08-13"/>
+      
+      <test><![CDATA['&#;']]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-literals-008">
+      <description> test invalid decimal character reference </description>
+      <created by="Tim Mills" on="2008-08-13"/>
+      
+      <test><![CDATA['&#x0;']]></test>
+      <result>
+         <error code="XQST0090"/>
+      </result>
+   </test-case>
 </test-set>

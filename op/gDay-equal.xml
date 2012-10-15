@@ -511,4 +511,209 @@ together with "fn:false"/or expression (ne operator).
          <assert-true/>
       </result>
    </test-case>
+   
+   <test-case name="cbcl-gDay-equal-001">
+      <description> test comparison of gDay </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>declare function local:gDay($day as xs:integer) { if ($day lt 10) then xs:gDay(concat("---0", $day)) else xs:gDay(concat("---", $day)) }; not(local:gDay(1) eq xs:gDay("---31"))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gDay-equal-002">
+      <description> test comparison of gDay </description>
+      <created by="Tim Mills" on="2008-05-16"/>      
+      <test>xs:gDay("---30") eq xs:gDay("---31+09:00")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gDay-equal-003">
+      <description> test comparison of gDay </description>
+      <created by="Tim Mills" on="2008-05-16"/>      
+      <test>xs:gDay("---31+09:00") eq xs:gDay("---30")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gDay-equal-004">
+      <description> test comparison of gDay </description>
+      <created by="Tim Mills" on="2008-05-16"/>      
+      <test>xs:gDay("---30") eq xs:gDay("---31+09:00")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gDay-equal-005">
+      <description> test comparison of gDay </description>
+      <created by="Tim Mills" on="2008-05-16"/>      
+      <test>xs:gDay("---31+09:00") eq xs:gDay("---30")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gDay-equal-006">
+      <description> test comparison of gDay </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>declare function local:gDay($day as xs:integer) { if ($day lt 10) then xs:gDay(concat("---0", $day)) else xs:gDay(concat("---", $day)) }; not(local:gDay(1) ne xs:gDay("---31"))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gDay-equal-007">
+      <description> test comparison of gDay </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      <test>xs:gDay("---30") ne xs:gDay("---31+09:00")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gDay-equal-008">
+      <description> test comparison of gDay </description>
+      <created by="Tim Mills" on="2008-05-16"/>      
+      <test>xs:gDay("---31+09:00") ne xs:gDay("---30")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gDay-equal-009">
+      <description> test comparison of gDay </description>
+      <created by="Tim Mills" on="2008-05-16"/>      
+      <test>xs:gDay("---30") ne xs:gDay("---31+09:00")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gDay-equal-010">
+      <description> test comparison of gDay </description>
+      <created by="Tim Mills" on="2008-05-16"/>      
+      <test>xs:gDay("---31+09:00") ne xs:gDay("---30")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gDay-equal-011">
+      <description> test comparison of gDay </description>
+      <created by="Tim Mills" on="2008-05-21"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>declare function local:gDay($gDay as xs:gDay, $null as xs:boolean) { if ($null) then () else $gDay }; exists(local:gDay(xs:gDay("---31"), fn:true()) eq xs:gDay("---31"))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gDay-equal-012">
+      <description> test comparison of gDay </description>
+      <created by="Tim Mills" on="2008-05-21"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>declare function local:gDay($gDay as xs:gDay, $null as xs:boolean) { if ($null) then () else $gDay }; local:gDay(xs:gDay("---31"), fn:false()) eq xs:gDay("---31")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gDay-equal-013">
+      <description> test comparison of gDay </description>
+      <created by="Tim Mills" on="2008-05-21"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>declare function local:gDay($gDay as xs:gDay, $null as xs:boolean) { if ($null) then () else $gDay }; exists(local:gDay(xs:gDay("---31"), fn:true()) ne xs:gDay("---31"))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gDay-equal-014">
+      <description> test comparison of gDay </description>
+      <created by="Tim Mills" on="2008-05-21"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>declare function local:gDay($gDay as xs:gDay, $null as xs:boolean) { if ($null) then () else $gDay }; local:gDay(xs:gDay("---31"), fn:false()) ne xs:gDay("---31")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gDay-equal-015">
+      <description> test comparison of gDay </description>
+      <created by="Oliver Hallam" on="2008-05-21"/>      
+      <test>xs:gDay("---30-12:00") eq xs:gDay("---31+12:00")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gDay-equal-016">
+      <description> test comparison of gDay </description>
+      <created by="Oliver Hallam" on="2008-05-21"/>
+      <test>xs:gDay("---31+12:00") eq xs:gDay("---30-12:00")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gDay-equal-017">
+      <description> test comparison of gDay </description>
+      <created by="Oliver Hallam" on="2008-05-21"/>      
+      <test>xs:gDay("---30-12:00") ne xs:gDay("---31+12:00")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gDay-equal-018">
+      <description> test comparison of gDay </description>
+      <created by="Oliver Hallam" on="2008-05-21"/>      
+      <test>xs:gDay("---31+12:00") ne xs:gDay("---30-12:00")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gDay-equal-019">
+      <description> test comparison of gDay </description>
+      <created by="Tim Mills" on="2008-05-23"/>      
+      <test>xs:gDay("---31+01:00") eq xs:gDay("---31")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-gDay-equal-020">
+      <description> test comparison of gDay </description>
+      <created by="Tim Mills" on="2008-05-23"/>      
+      <test>xs:gDay("---31") eq xs:gDay("---31+01:00")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
 </test-set>
