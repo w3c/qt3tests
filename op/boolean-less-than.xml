@@ -642,4 +642,115 @@ Purpose: Evaluates The "boolean-less-than" function
          <assert-true/>
       </result>
    </test-case>
+   
+   <test-case name="cbcl-boolean-less-than-001">
+      <description></description>
+      <created by="Tim Mills" on="2008-05-14"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>declare function local:is-even($arg as xs:integer) as xs:boolean { (($arg mod 2) eq 0) }; 
+      not(local:is-even(15) le local:is-even(17))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-boolean-less-than-002">
+      <description></description>
+      <created by="Tim Mills" on="2008-05-14"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>declare function local:is-even($arg as xs:integer) as xs:boolean { (($arg mod 2) eq 0) }; 
+      fn:true() le local:is-even(17)</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-boolean-less-than-003">
+      <description></description>
+      <created by="Tim Mills" on="2008-05-14"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>declare function local:is-even($arg as xs:integer) as xs:boolean { (($arg mod 2) eq 0) }; 
+      fn:false() le local:is-even(17)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-boolean-less-than-004">
+      <description></description>
+      <created by="Tim Mills" on="2008-05-14"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>declare function local:is-even($arg as xs:integer) as xs:boolean { (($arg mod 2) eq 0) }; 
+      not(local:is-even(15) lt local:is-even(17))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-boolean-less-than-005">
+      <description></description>
+      <created by="Tim Mills" on="2008-05-14"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>declare function local:is-even($arg as xs:integer) as xs:boolean { (($arg mod 2) eq 0) }; 
+      fn:true() lt local:is-even(17)</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-boolean-less-than-006">
+      <description></description>
+      <created by="Tim Mills" on="2008-05-14"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>declare function local:is-even($arg as xs:integer) as xs:boolean { (($arg mod 2) eq 0) }; 
+      fn:false() lt local:is-even(17)</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-boolean-less-than-007">
+      <description></description>
+      <created by="Tim Mills" on="2008-05-14"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>declare function local:is-even($arg as xs:integer) as xs:boolean { (($arg mod 2) eq 0) }; 
+      local:is-even(17) le fn:true()</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-boolean-less-than-008">
+      <description></description>
+      <created by="Tim Mills" on="2008-05-14"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>declare function local:is-even($arg as xs:integer) as xs:boolean { (($arg mod 2) eq 0) }; 
+      local:is-even(17) le fn:false()</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-boolean-less-than-009">
+      <description></description>
+      <created by="Tim Mills" on="2008-05-14"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>declare function local:is-even($arg as xs:integer) as xs:boolean { (($arg mod 2) eq 0) }; 
+      local:is-even(17) lt fn:true()</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-boolean-less-than-010">
+      <description></description>
+      <created by="Tim Mills" on="2008-05-14"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>declare function local:is-even($arg as xs:integer) as xs:boolean { (($arg mod 2) eq 0) }; 
+      local:is-even(17) lt fn:false()</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
 </test-set>

@@ -613,4 +613,77 @@
          <assert-string-value>http://example.com/DEF/file.test</assert-string-value>
       </result>
    </test-case>
+   
+   <test-case name="cbcl-base-uri-001">
+      <description>The base-uri property of the copied node, and of each of its descendants, 
+      is set to be the same as that of its new parent, unless it (the child node) has an xml:base attribute, 
+      in which case its base-uri property is set to the value of that attribute, resolved (if it is relative) 
+      against the base-uri property of its new parent node. 
+      </description>
+      <created by="Tim Mills" on="2007-02-27"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+      	let $d := document { <root xml:base="http://www.w3.org/"><implicit-base><child /></implicit-base><explicit-base xml:base="http://www.w3.org/TR/xquery"><child /></explicit-base></root> } 
+      	return let $y := <copy xml:base="http://www.example.org"> { $d/root/explicit-base } </copy> return fn:base-uri(($y/explicit-base)[1])
+      ]]></test>
+      <result>
+         <assert-string-value>http://www.w3.org/TR/xquery</assert-string-value>
+      </result>
+   </test-case>
+   <test-case name="cbcl-base-uri-002">
+      <description>
+      The base-uri property of the copied node, and of each of its descendants, is set to be the same as 
+      that of its new parent, unless it (the child node) has an xml:base attribute, in which case its 
+      base-uri property is set to the value of that attribute, resolved (if it is relative) against 
+      the base-uri property of its new parent node. 
+	  </description>
+      <created by="Tim Mills" on="2007-02-27"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+      let $d := document { <root xml:base="http://www.w3.org/"> <implicit-base><child /></implicit-base> <explicit-base xml:base="http://www.w3.org/TR/xquery"><child /></explicit-base> </root> } 
+      return let $y := <copy xml:base="http://www.example.org"> { $d/root/explicit-base } </copy> 
+      return fn:base-uri(($y/explicit-base/child)[1])
+      ]]></test>
+      <result>
+         <assert-string-value>http://www.w3.org/TR/xquery</assert-string-value>
+      </result>
+   </test-case>
+   <test-case name="cbcl-base-uri-003">
+      <description>
+      The base-uri property of the copied node, and of each of its descendants, is set to be the 
+      same as that of its new parent, unless it (the child node) has an xml:base attribute, 
+      in which case its base-uri property is set to the value of that attribute, resolved 
+      (if it is relative) against the base-uri property of its new parent node. 
+      </description>
+      <created by="Tim Mills" on="2007-02-27"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+      let $d := document { <root xml:base="http://www.w3.org/"> <implicit-base><child /></implicit-base> <explicit-base xml:base="http://www.w3.org/TR/xquery"><child /></explicit-base> </root> } 
+      return let $y := <copy xml:base="http://www.example.org"> { $d/root/implicit-base } </copy> 
+      return fn:base-uri(($y/implicit-base)[1])
+      ]]></test>
+      <result>
+         <assert-string-value>http://www.example.org</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-base-uri-004">
+      <description>
+      The base-uri property of the copied node, and of each of its descendants, is set to be the 
+      same as that of its new parent, unless it (the child node) has an xml:base attribute, 
+      in which case its base-uri property is set to the value of that attribute, resolved 
+      (if it is relative) against the base-uri property of its new parent node. 
+	  </description>
+      <created by="Tim Mills" on="2007-02-27"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+      let $d := document { <root xml:base="http://www.w3.org/"> <implicit-base><child /></implicit-base> <explicit-base xml:base="http://www.w3.org/TR/xquery"><child /></explicit-base> </root> } 
+      return let $y := <copy xml:base="http://www.example.org"> { $d/root/implicit-base } </copy> 
+      return fn:base-uri(($y/implicit-base/child)[1])
+      ]]></test>
+      <result>
+         <assert-string-value>http://www.example.org</assert-string-value>
+      </result>
+   </test-case>
+   
 </test-set>

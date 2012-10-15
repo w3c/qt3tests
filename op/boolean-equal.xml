@@ -785,4 +785,100 @@ Purpose: Evaluates cardinality violation on a sequence
          <error code="XPTY0004"/>
       </result>
    </test-case>
+   <test-case name="cbcl-boolean-equal-001">
+      <description>
+ Name: cbcl-boolean-equal-001 
+ Description: test equality of xs:boolean 
+ Author: Tim Mills 
+ Date: 2008-05-14 
+</description>
+      <created by="Tim Mills" on="2008-05-14"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+      declare function local:is-even($arg as xs:integer) as xs:boolean { (($arg mod 2) eq 0) }; 
+      fn:false() eq local:is-even(17)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   <test-case name="cbcl-boolean-equal-002">
+      <description>
+ Name: cbcl-boolean-equal-002 
+ Description: test equality of xs:boolean 
+ Author: Tim Mills 
+ Date: 2008-05-14 
+</description>
+      <created by="Tim Mills" on="2008-05-14"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+      declare function local:is-even($arg as xs:integer) as xs:boolean { (($arg mod 2) eq 0) }; 
+      not(local:is-even(13) eq local:is-even(17))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   <test-case name="cbcl-boolean-equal-003">
+      <description>
+ Name: cbcl-boolean-equal-003 
+ Description: test equality of xs:boolean 
+ Author: Tim Mills 
+ Date: 2008-05-14 
+</description>
+      <created by="Tim Mills" on="2008-05-14"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+      declare function local:is-even($arg as xs:integer) as xs:boolean { (($arg mod 2) eq 0) }; 
+      fn:true() ne local:is-even(17)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   <test-case name="cbcl-boolean-equal-004">
+      <description>
+ Name: cbcl-boolean-equal-004 
+ Description: test equality of xs:boolean 
+ Author: Tim Mills 
+ Date: 2008-05-14 
+</description>
+      <created by="Tim Mills" on="2008-05-14"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+      declare function local:is-even($arg as xs:integer) as xs:boolean { (($arg mod 2) eq 0) }; 
+      local:is-even(17) ne fn:true()</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   <test-case name="cbcl-boolean-equal-005">
+      <description>
+ Name: cbcl-boolean-equal-005 
+ Description: test equality of xs:boolean 
+ Author: Tim Mills 
+ Date: 2008-05-14 
+</description>
+      <created by="Tim Mills" on="2008-05-14"/>
+      <environment ref=""/>
+      <test>
+      declare function local:is-even($arg as xs:integer) as xs:boolean { (($arg mod 2) eq 0) }; 
+      local:is-even(17) ne fn:false()</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   <test-case name="cbcl-boolean-equal-006">
+      <description>
+ Name: cbcl-boolean-equal-006 
+ Description: test equal to of xs:boolean 
+ Author: Tim Mills 
+ Date: 2008-05-14 
+</description>
+      <created by="Tim Mills" on="2008-05-14"/>
+      <environment ref=""/>
+      <test>
+      declare function local:is-even($arg as xs:integer) as xs:boolean { (($arg mod 2) eq 0) }; 
+      not(not(local:is-even(17) eq local:is-even(16)))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
 </test-set>

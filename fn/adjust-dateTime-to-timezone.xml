@@ -436,4 +436,40 @@
          <assert-string-value>2000-01-01T00:00:00</assert-string-value>
       </result>
    </test-case>
+   
+   <test-case name="cbcl-adjust-dateTime-to-timezone-001">
+      <description>Check optimization codepath in adjust-dateTime-to-timezone</description>
+      <created by="Oliver Hallam" on="2008-04-10"/>
+      <test>adjust-dateTime-to-timezone(current-dateTime(), implicit-timezone()) eq current-dateTime()</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-adjust-dateTime-to-timezone-002">
+      <description>Test that adjust-dateTime-to-timezone underflows nicely. </description>
+      <created by="Oliver Hallam" on="2008-04-10"/>
+      <test>adjust-dateTime-to-timezone(xs:dateTime("-25252734927766555-06-07T01:00:00+02:00"), xs:dayTimeDuration("PT0S"))</test>
+      <result>
+         <error code="FODT0001"/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-adjust-dateTime-to-timezone-003">
+      <description>A query testing that adjust-dateTime-to-timezone overflows nicely. </description>
+      <created by="Oliver Hallam" on="2008-04-10"/>
+      <test>adjust-dateTime-to-timezone(xs:dateTime("25252734927766555-07-28T23:00:00-02:00"), xs:dayTimeDuration("PT0S"))</test>
+      <result>
+         <error code="FODT0001"/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-adjust-dateTime-to-timezone-004">
+      <description>Check optimization codepath in adjust-dateTime-to-timezone </description>
+      <created by="Oliver Hallam" on="2008-04-10"/>
+      <test>adjust-dateTime-to-timezone(current-dateTime(), xs:dayTimeDuration("PT2H")) eq adjust-dateTime-to-timezone(current-dateTime(), xs:dayTimeDuration("-PT2H"))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
 </test-set>

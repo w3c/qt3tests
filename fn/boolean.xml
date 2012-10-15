@@ -1180,4 +1180,72 @@
          <assert-true/>
       </result>
    </test-case>
+   
+   <test-case name="cbcl-boolean-001">
+      <description>test fn:boolean on a count-preserving function </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>declare function local:generate($count as xs:integer) { if ($count &lt; 0) then "string" else for $x in 1 to $count return if ($x mod 3 = 0) then &lt;a /&gt; else if ($x mod 3 = 1) then &lt;b /&gt; else &lt;c /&gt; }; fn:boolean(fn:reverse( local:generate(5) ))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-boolean-002">
+      <description> test fn:boolean on fn:count function</description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>declare function local:generate($count as xs:integer) { for $x in 1 to $count return if ($x mod 3 = 0) then &lt;a /&gt; else if ($x mod 3 = 1) then &lt;b /&gt; else &lt;c /&gt; }; fn:boolean(fn:count( local:generate(5) ))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   <test-case name="cbcl-boolean-003">
+      <description>Test fn:boolean on sequence of node and string</description>
+      <created by="Oliver Hallam" on="2008-04-14"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>declare function local:f() { (&lt;a/&gt;, "a") }; boolean(local:f())</test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <error code="FORG0006"/>
+         </any-of>
+      </result>
+   </test-case>
+   <test-case name="cbcl-boolean-004">
+      <description>Tests negation of fn:boolean </description>
+      <created by="Nick Jones" on="2008-06-02"/>
+      <test>not(boolean(for $x in 1 to 10 return $x * $x))</test>
+      <result>
+         <error code="FORG0006"/>
+      </result>
+   </test-case>
+   <test-case name="cbcl-boolean-005">
+      <description>test fn:boolean on a text node</description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+      declare function local:repeat($count as xs:integer, $arg as xs:string) { for $x in 1 to $count return $arg }; 
+      fn:boolean( text { local:repeat(0, "string") } )
+      </test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-boolean-006">
+      <description>test fn:boolean on a text node </description>
+      <created by="Tim Mills" on="2008-04-11"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+      declare function local:repeat($count as xs:integer, $arg as xs:string) as item()* { 
+      	if ($count lt 0) then '$count must not be negative' 
+      	else text { for $x in 1 to $count return $arg }
+       }; 
+      fn:boolean( local:repeat(0, "string") )</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
 </test-set>

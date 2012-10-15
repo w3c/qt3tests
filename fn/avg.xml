@@ -2039,4 +2039,127 @@
          </any-of>
       </result>
    </test-case>
+   
+   <test-case name="cbcl-avg-001">
+      <description> Testing fn:avg overflows correctly with xs:decimals </description>
+      <created by="Oliver Hallam" on="2008-04-11"/>
+      <test>fn:avg((xs:decimal("79000000000000000000000000000"), xs:decimal("79000000000000000000000000000")))</test>
+      <result>
+         <error code="FOAR0002"/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-avg-002">
+      <description> Test fn:avg overflows correctly with xs:dayTimeDurations</description>
+      <created by="Oliver Hallam" on="2008-04-11"/>
+      <test>fn:avg((xs:dayTimeDuration("P9223372036854775807D"), xs:dayTimeDuration("P1D")))</test>
+      <result>
+         <error code="FODT0002"/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-avg-003">
+      <description>Test fn:avg overflows correctly with xs:yearMonthDurations </description>
+      <created by="Oliver Hallam" on="2008-04-11"/>
+      <test>fn:avg((xs:yearMonthDuration("P768614336404564650Y"), xs:yearMonthDuration("P1Y")))</test>
+      <result>
+         <error code="FODT0002"/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-avg-004">
+      <description>Test fn:avg on xs:dayTimeDurations </description>
+      <created by="Oliver Hallam" on="2008-04-11"/>
+      <test>fn:avg((xs:dayTimeDuration("P1DT2H"), xs:dayTimeDuration("PT22H"), xs:dayTimeDuration("P1D")))</test>
+      <result>
+         <assert-string-value>P1D</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-avg-005">
+      <description>Test fn:avg raises error with xs:dayTimeDurations followed by xs:yearMonthDuration </description>
+      <created by="Oliver Hallam" on="2008-04-11"/>
+      <test>fn:avg((xs:dayTimeDuration("P1DT2H"), xs:dayTimeDuration("PT22H"), xs:yearMonthDuration("P1M")))</test>
+      <result>
+         <error code="FORG0006"/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-avg-006">
+      <description> Test fn:avg on xs:yearMonthDurations </description>
+      <created by="Oliver Hallam" on="2008-04-11"/>
+      <test>fn:avg((xs:yearMonthDuration("P1Y1M"), xs:yearMonthDuration("P11M"), xs:yearMonthDuration("P1Y")))</test>
+      <result>
+         <assert-string-value>P1Y</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-avg-007">
+      <description>Test fn:avg raises error with xs:yearMonthDurations followed by xs:dayTimeDuration</description>
+      <created by="Oliver Hallam" on="2008-04-11"/>
+      <test>fn:avg((xs:yearMonthDuration("P1Y1M"), xs:yearMonthDuration("P11M"), xs:dayTimeDuration("P1D")))</test>
+      <result>
+         <error code="FORG0006"/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-avg-008">
+      <description>Test fn:avg on mixed numeric types. </description>
+      <created by="Oliver Hallam" on="2008-04-11"/>
+      <test>typeswitch (fn:avg((xs:float(1), xs:double(2), xs:float(3)))) case $x as xs:double return $x default return "FAIL"</test>
+      <result>
+         <assert-string-value>2</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-avg-009">
+      <description>Test boolean(avg) and avg(()).</description>
+      <created by="Oliver Hallam" on="2008-04-11"/>
+      <test>boolean(avg(()))</test>
+      <result>
+         <any-of>
+            <assert-false/>
+            <error code="XPST0005"/>
+         </any-of>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-avg-010">
+      <description>Test tpe checking is performed when optimizin fn:avg to NaN. </description>
+      <created by="Oliver Hallam" on="2008-04-11"/>
+      <test>avg((xs:double("NaN"), current-date() - xs:date("1997-01-01") ))</test>
+      <result>
+         <error code="FORG0006"/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-avg-011">
+      <description>Test fn:avg returning double NaN.</description>
+      <created by="Oliver Hallam" on="2008-04-11"/>
+      <test>avg((xs:double("NaN"), day-from-date(current-date())))</test>
+      <result>
+         <assert-string-value>NaN</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-avg-012">
+      <description>Test fn:avg returning float NaN. </description>
+      <created by="Oliver Hallam" on="2008-04-11"/>
+      <test>avg((xs:float("NaN"), day-from-date(current-date())))</test>
+      <result>
+         <assert-string-value>NaN</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-avg-013">
+      <description> Test fn:avg on (). </description>
+      <created by="Oliver Hallam" on="2008-04-14"/>
+      <test>empty(avg(()))</test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <error code="XPST0005"/>
+         </any-of>
+      </result>
+   </test-case>   
 </test-set>

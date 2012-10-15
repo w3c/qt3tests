@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-    xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="xs f xqts xd"
+<xsl:stylesheet 
+xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+    exclude-result-prefixes="xs f xqts xd"
     xmlns:xqts="http://www.w3.org/2005/02/query-test-XQTSCatalog"
     xmlns="http://www.w3.org/2010/09/qt-fots-catalog"
     xmlns:f="http://local/functions"
-    xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl" version="2.0">
+    xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl" 
+    version="3.0">
     <xd:doc scope="stylesheet">
         <xd:desc>
             <xd:p><xd:b>Created on:</xd:b> Sep 28, 2010</xd:p>
@@ -30,7 +33,7 @@
                 else if ($prefix eq 'uc') then 'use-case'
                 else ''"/>
     
-    <xsl:output method="xml" indent="yes" saxon:next-in-chain="tidy.xsl" xmlns:saxon="http://saxon.sf.net/"/>
+    <!--<xsl:output method="xml" indent="yes" saxon:next-in-chain="tidy.xsl" xmlns:saxon="http://saxon.sf.net/"/>-->
     
     <xsl:variable name="main-catalog" select="doc(resolve-uri('../XQTSCatalog.xml', base-uri(.)))"/>
     
@@ -60,12 +63,15 @@
                     <module uri="{@namespace}" file="ModuleImport/{.}.xq"/>
                 </environment>
             </xsl:for-each-group>
-            <xsl:apply-templates select="xqts:test-case"/>
+            <xsl:try>
+              <xsl:apply-templates select="xqts:test-case"/>
+              <xsl:catch/>
+            </xsl:try>  
         </test-set>
     </xsl:template>
     
     <xsl:template match="xqts:test-case">
-        <xsl:variable name="querytext" select="unparsed-text(resolve-uri(concat('../Queries/XQuery/', @FilePath, xqts:query/@name, '.xq'), base-uri(.)))"/>
+        <xsl:variable name="querytext" select="unparsed-text(resolve-uri(concat('Queries/XQuery/', @FilePath, xqts:query/@name, '.xq'), base-uri(.)))"/>
         <xsl:variable name="rawquery" select="normalize-space(replace($querytext, '\(:.*?:\)', ''))"/>
         <!--<xsl:variable name="rawquery" select="$querytext"/>  for XQueryComment tests only -->
         <xsl:variable name="comments" select="f:comments($querytext)"/>
@@ -81,7 +87,7 @@
             <xsl:if test="xqts:input-query">
                 <environment>
                     <xsl:for-each select="xqts:input-query">
-                        <xsl:variable name="querytext" select="unparsed-text(resolve-uri(concat('../Queries/XQuery/', ../@FilePath, @name, '.xq'), base-uri(.)))"/>
+                        <xsl:variable name="querytext" select="unparsed-text(resolve-uri(concat('Queries/XQuery/', ../@FilePath, @name, '.xq'), base-uri(.)))"/>
                         <param name="{@variable}" select="{normalize-space($querytext)}" declared="yes"/>
                     </xsl:for-each>
                 </environment> 
@@ -115,7 +121,7 @@
     </xsl:template>
     
     <xsl:template match="xqts:output-file">
-        <xsl:variable name="results" select="unparsed-text(resolve-uri(concat('../ExpectedTestResults/', ../@FilePath, .), base-uri(.)))"/>
+        <xsl:variable name="results" select="unparsed-text(resolve-uri(concat('ExpectedTestResults/', ../@FilePath, .), base-uri(.)))"/>
         <xsl:choose>
             <xsl:when test="$results = 'true'">
                 <assert-true/>
@@ -161,6 +167,17 @@
             <xsl:apply-templates select="$collection//xqts:test-case"/>
         </test-set>
     </xsl:template>
+    
+    <!-- Entry point for converting the CBCL tests -->
+    
+    <xsl:template name="cbcl">
+      <xsl:variable name="cat" select="doc('file:///Users/mike/Downloads/cbcl-xqts/XQTSCatalog.xml')"/>
+      <xsl:for-each select="$cat//xqts:test-group[not(.//xqts-test-group)]">
+        <xsl:result-document href="qt3/{@name}.xml" indent="yes">
+          <xsl:apply-templates select="."/>
+        </xsl:result-document>
+      </xsl:for-each>
+    </xsl:template>  
         
     
 </xsl:stylesheet>
