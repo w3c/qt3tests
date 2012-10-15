@@ -1,0 +1,835 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="prod-RequireProhibitFeature">
+   <description>Tests for the require-feature and prohibit-feature options.</description>
+   <link type="spec" document="http://www.w3.org/TR/xquery-30/"
+         idref="doc-xquery30-RequireProhibitFeature"/>
+   <link type="spec" document="XQuery" section-number="4.20"
+         idref="id-require-prohibit-feature"/>
+
+  <environment name="dummy-schema">
+    <schema uri="http://www.w3.org/XQueryTest/RequireProhibitFeature" file="RequireProhibityFeature/dummy.xsd">
+      <description>An empty schema</description>
+      <created by="Ghislain Fourny" on="2012-10-15"/>
+    </schema>
+  </environment>
+  
+  <environment name="dummy-module">
+    <schema uri="http://www.w3.org/XQueryTest/RequireProhibitFeature" file="RequireProhibityFeature/dummy.xquery">
+      <description>An empty module</description>
+      <created by="Ghislain Fourny" on="2012-10-15"/>
+    </schema>
+  </environment>
+  
+  <test-case name="require-schema-aware-1">
+    <description>An error must be thrown if the feature is not supported.</description>
+    <created by="Ghislain Fourny" on="2012-10-15"/>
+    <dependency type="spec" value="XQ30+"/>
+    <environment ref="dummy-schema"/>
+    <test>
+      declare option require-feature "schema-aware";
+      import schema namespace s = "http://www.w3.org/XQueryTest/RequireProhibitFeature";
+      ()
+    </test>
+    <result>
+      <!-- The test must be reported to fail if a different error is returned -->
+      <any-of>
+        <!-- supported -->
+        <assert-eq>()</assert-eq>
+        <!-- not supported -->
+        <error code="XQST0120"/>
+      </any-of>
+    </result>
+  </test-case>
+  
+  <test-case name="require-schema-aware-2">
+    <description>An error must be thrown if the feature is not supported.</description>
+    <created by="Ghislain Fourny" on="2012-10-15"/>
+    <dependency type="spec" value="XQ30+"/>
+    <environment ref="dummy-schema"/>
+    <test><![CDATA[
+      declare option require-feature "schema-aware";
+      (validate type xs:integer { <element>42</element> }) instance of xs:integer
+      ]]>
+    </test>
+    <result>
+      <!-- The test must be reported to fail if a different error is returned -->
+      <any-of>
+        <!-- supported -->
+        <assert-true/>
+        <!-- not supported -->
+        <error code="XQST0120"/>
+      </any-of>
+    </result>
+  </test-case>
+  
+  <test-case name="require-schema-aware-3">
+    <description>An error must be thrown if the feature is not supported.</description>
+    <created by="Ghislain Fourny" on="2012-10-15"/>
+    <dependency type="spec" value="XQ30+"/>
+    <environment ref="dummy-schema"/>
+    <test>
+      import schema namespace s = "http://www.w3.org/XQueryTest/RequireProhibitFeature";
+      ()
+    </test>
+    <result>
+      <!-- The test must be reported to fail if a different error is returned -->
+      <any-of>
+        <!-- supported -->
+        <assert-eq>()</assert-eq>
+        <!-- not supported -->
+        <error code="XQST0009"/>
+      </any-of>
+    </result>
+  </test-case>
+  
+  <test-case name="require-schema-aware-4">
+    <description>An error must be thrown if the feature is not supported.</description>
+    <created by="Ghislain Fourny" on="2012-10-15"/>
+    <dependency type="spec" value="XQ30+"/>
+    <environment ref="dummy-schema"/>
+    <test><![CDATA[
+      (validate type xs:integer { <element>42</element> }) instance of xs:integer
+      ]]>
+    </test>
+    <result>
+      <!-- The test must be reported to fail if a different error is returned -->
+      <any-of>
+        <!-- supported -->
+        <assert-true/>
+        <!-- not supported -->
+        <error code="XQST0075"/>
+      </any-of>
+    </result>
+  </test-case>
+  
+  <test-case name="require-static-typing-1">
+    <description>An error must be thrown if the feature is not supported.</description>
+    <created by="Ghislain Fourny" on="2012-10-15"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test>
+      declare option require-feature "static-typing";
+      let $i as xs:integer := "foo" return $i
+    </test>
+    <result>
+      <!-- The test must be reported to fail if a different error is returned -->
+      <any-of>
+        <!-- supported -->
+        <error code="XPTY0004"/>
+        <!-- not supported -->
+        <error code="XQST0120"/>
+      </any-of>
+    </result>
+  </test-case>
+  
+  <test-case name="require-module-1">
+    <description>An error must be thrown if the feature is not supported.</description>
+    <created by="Ghislain Fourny" on="2012-10-15"/>
+    <dependency type="spec" value="XQ30+"/>
+    <environment ref="dummy-module"/>
+    <test>
+      declare option require-feature "module";
+      import module namespace m = "http://www.example.com/dummy-module";
+    </test>
+    <result>
+      <!-- The test must be reported to fail if a different error is returned -->
+      <any-of>
+        <!-- supported -->
+        <assert-eq>()</assert-eq>
+        <!-- not supported -->
+        <error code="XQST0120"/>
+      </any-of>
+    </result>
+  </test-case>
+  
+  <test-case name="require-module-2">
+    <description>An error must be thrown if the feature is not supported.</description>
+    <created by="Ghislain Fourny" on="2012-10-15"/>
+    <dependency type="spec" value="XQ30+"/>
+    <environment ref="dummy-module"/>
+    <test>
+      import module namespace m = "http://www.example.com/dummy-module";
+    </test>
+    <result>
+      <!-- The test must be reported to fail if a different error is returned -->
+      <any-of>
+        <!-- supported -->
+        <assert-eq>()</assert-eq>
+        <!-- not supported -->
+        <error code="XPST0016"/>
+      </any-of>
+    </result>
+  </test-case>
+  
+  <test-case name="require-serialization-1">
+    <description>An error must be thrown if the feature is not supported.</description>
+    <created by="Ghislain Fourny" on="2012-10-15"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test>
+      declare option require-feature "serialization";
+      ()
+    </test>
+    <result>
+      <!-- The test must be reported to fail if a different error is returned -->
+      <any-of>
+        <!-- supported -->
+        <assert-eq>()</assert-eq>
+        <!-- not supported -->
+        <error code="XQST0120"/>
+      </any-of>
+    </result>
+  </test-case>
+  
+  <test-case name="require-higher-order-function-1">
+    <description>An error must be thrown if the feature is not supported.</description>
+    <created by="Ghislain Fourny" on="2012-10-15"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test>
+      declare option require-feature "higher-order-function";
+      1 instance of function(*)
+    </test>
+    <result>
+      <!-- The test must be reported to fail if a different error is returned -->
+      <any-of>
+        <!-- supported -->
+        <assert-false/>
+        <!-- not supported -->
+        <error code="XQST0120"/>
+      </any-of>
+    </result>
+  </test-case>
+  
+  <test-case name="require-higher-order-function-2">
+    <description>An error must be thrown if the feature is not supported.</description>
+    <created by="Ghislain Fourny" on="2012-10-15"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test>
+      declare option require-feature "higher-order-function";
+      for $f in () return $f(1)
+    </test>
+    <result>
+      <!-- The test must be reported to fail if a different error is returned -->
+      <any-of>
+        <!-- supported -->
+        <assert-eq>()</assert-eq>
+        <!-- not supported -->
+        <error code="XQST0120"/>
+      </any-of>
+    </result>
+  </test-case>
+  
+  <test-case name="require-higher-order-function-3">
+    <description>An error must be thrown if the feature is not supported.</description>
+    <created by="Ghislain Fourny" on="2012-10-15"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test>
+      declare option require-feature "higher-order-function";
+      let $f := function($x) { $x + 1 } return 0
+    </test>
+    <result>
+      <!-- The test must be reported to fail if a different error is returned -->
+      <any-of>
+        <!-- supported -->
+        <assert-eq>0</assert-eq>
+        <!-- not supported -->
+        <error code="XQST0120"/>
+      </any-of>
+    </result>
+  </test-case>
+  
+  <test-case name="require-higher-order-function-4">
+    <description>An error must be thrown if the feature is not supported.</description>
+    <created by="Ghislain Fourny" on="2012-10-15"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test>
+      declare option require-feature "higher-order-function";
+      let $f := sum#1 return 0
+    </test>
+    <result>
+      <!-- The test must be reported to fail if a different error is returned -->
+      <any-of>
+        <!-- supported -->
+        <assert-eq>0</assert-eq>
+        <!-- not supported -->
+        <error code="XQST0120"/>
+      </any-of>
+    </result>
+  </test-case>
+  
+  <test-case name="require-higher-order-function-5">
+    <description>An error must be thrown if the feature is not supported.</description>
+    <created by="Ghislain Fourny" on="2012-10-15"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test>
+      declare option require-feature "higher-order-function";
+      for $f := () return $f(1, ?)
+    </test>
+    <result>
+      <!-- The test must be reported to fail if a different error is returned -->
+      <any-of>
+        <!-- supported -->
+        <assert-eq>()</assert-eq>
+        <!-- not supported -->
+        <error code="XQST0120"/>
+      </any-of>
+    </result>
+  </test-case>
+  
+  <test-case name="require-higher-order-function-6">
+    <description>An error must be thrown if the feature is not supported.</description>
+    <created by="Ghislain Fourny" on="2012-10-15"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test>
+      1 instance of function(*)
+    </test>
+    <result>
+      <!-- The test must be reported to fail if a different error is returned -->
+      <any-of>
+        <!-- supported -->
+        <assert-false/>
+        <!-- not supported -->
+        <error code="XQST0129"/>
+      </any-of>
+    </result>
+  </test-case>
+  
+  <test-case name="require-higher-order-function-7">
+    <description>An error must be thrown if the feature is not supported.</description>
+    <created by="Ghislain Fourny" on="2012-10-15"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test>
+      for $f in () return $f(1)
+    </test>
+    <result>
+      <!-- The test must be reported to fail if a different error is returned -->
+      <any-of>
+        <!-- supported -->
+        <assert-eq>()</assert-eq>
+        <!-- not supported -->
+        <error code="XQST0129"/>
+      </any-of>
+    </result>
+  </test-case>
+  
+  <test-case name="require-higher-order-function-8">
+    <description>An error must be thrown if the feature is not supported.</description>
+    <created by="Ghislain Fourny" on="2012-10-15"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test>
+      let $f := function($x) { $x + 1 } return 0
+    </test>
+    <result>
+      <!-- The test must be reported to fail if a different error is returned -->
+      <any-of>
+        <!-- supported -->
+        <assert-eq>0</assert-eq>
+        <!-- not supported -->
+        <error code="XQST0129"/>
+      </any-of>
+    </result>
+  </test-case>
+  
+  <test-case name="require-higher-order-function-9">
+    <description>An error must be thrown if the feature is not supported.</description>
+    <created by="Ghislain Fourny" on="2012-10-15"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test>
+      let $f := sum#1 return 0
+    </test>
+    <result>
+      <!-- The test must be reported to fail if a different error is returned -->
+      <any-of>
+        <!-- supported -->
+        <assert-eq>0</assert-eq>
+        <!-- not supported -->
+        <error code="XQST0129"/>
+      </any-of>
+    </result>
+  </test-case>
+  
+  <test-case name="require-higher-order-function-10">
+    <description>An error must be thrown if the feature is not supported.</description>
+    <created by="Ghislain Fourny" on="2012-10-15"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test>
+      for $f := () return $f(1, ?)
+    </test>
+    <result>
+      <!-- The test must be reported to fail if a different error is returned -->
+      <any-of>
+        <!-- supported -->
+        <assert-eq>()</assert-eq>
+        <!-- not supported -->
+        <error code="XQST0129"/>
+      </any-of>
+    </result>
+  </test-case>  
+  
+    <test-case name="prohibit-schema-aware-1">
+    <description>An error must be thrown if the feature is prohibited and used.</description>
+    <created by="Ghislain Fourny" on="2012-10-15"/>
+    <dependency type="spec" value="XQ30+"/>
+    <environment ref="dummy-schema"/>
+    <test>
+      declare option prohibit-feature "schema-aware";
+      import schema namespace s = "http://www.w3.org/XQueryTest/RequireProhibitFeature";
+      ()
+    </test>
+    <result>
+      <!-- The test must be reported to fail if a different error is returned -->
+      <any-of>
+        <!-- can deactivate -->
+        <error code="XQST0009"/>
+        <!-- cannot deactivate -->
+        <error code="XQST0128"/>
+      </any-of>
+    </result>
+  </test-case>
+  
+  <test-case name="prohibit-schema-aware-2">
+    <description>An error must be thrown if the feature is prohibited and used.</description>
+    <created by="Ghislain Fourny" on="2012-10-15"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test><![CDATA[
+      (validate type xs:integer { <element>42</element> }) instance of xs:integer
+      ]]>
+    </test>
+    <result>
+      <!-- The test must be reported to fail if a different error is returned -->
+      <any-of>
+        <!-- can deactivate -->
+        <error code="XQST0075"/>
+        <!-- cannot deactivate -->
+        <error code="XQST0128"/>
+      </any-of>
+    </result>
+  </test-case>
+  
+  <test-case name="prohibit-static-typing-1">
+    <description>An error must be thrown if the feature is prohibited and used.</description>
+    <created by="Ghislain Fourny" on="2012-10-15"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test>
+      declare option prohibit-feature "static-typing";
+      try { let $i as xs:integer := "foo" return $i } catch * { 0 }
+    </test>
+    <result>
+      <!-- The test must be reported to fail if a different error is returned -->
+      <any-of>
+        <!-- can deactivate -->
+        <assert-eq>0</assert-eq>
+        <!-- cannot deactivate -->
+        <error code="XQST0128"/>
+      </any-of>
+    </result>
+  </test-case>
+  
+  <test-case name="prohibit-module-1">
+    <description>An error must be thrown if the feature is prohibited and used.</description>
+    <created by="Ghislain Fourny" on="2012-10-15"/>
+    <dependency type="spec" value="XQ30+"/>
+    <environment ref="dummy-module"/>
+    <test>
+      declare option require-feature "module";
+      import module namespace m = "http://www.example.com/dummy-module";
+    </test>
+    <result>
+      <!-- The test must be reported to fail if a different error is returned -->
+      <any-of>
+        <!-- can deactivate -->
+        <error code="XPST0016"/>
+        <!-- cannot deactivate -->
+        <error code="XQST0128"/>
+      </any-of>
+    </result>
+  </test-case>
+  
+  <test-case name="prohibit-serialization-1">
+    <description>An error must be thrown if the feature is prohibited and used.  </description>
+    <created by="Ghislain Fourny" on="2012-10-15"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test>
+      declare option prohibit-feature "serialization";
+      ()
+    </test>
+    <result>
+      <!-- The test must be reported to fail if a different error is returned -->
+      <any-of>
+        <!-- can deactivate -->
+        <assert-eq>()</assert-eq>
+        <!-- cannot deactivate -->
+        <error code="XQST0128"/>
+      </any-of>
+    </result>
+  </test-case>
+  
+  <test-case name="prohibit-higher-order-function-1">
+    <description>An error must be thrown if the feature is prohibited and used. </description>
+    <created by="Ghislain Fourny" on="2012-10-15"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test>
+      declare option prohibit-feature "higher-order-function";
+      1 instance of function(*)
+    </test>
+    <result>
+      <!-- The test must be reported to fail if a different error is returned -->
+      <any-of>
+        <!-- can deactivate -->
+        <error code="XQST0129"/>
+        <!-- cannot deactivate -->
+        <error code="XQST0128"/>
+      </any-of>
+    </result>
+  </test-case>
+  
+  <test-case name="prohibit-higher-order-function-2">
+    <description>An error must be thrown if the feature is prohibited and used. </description>
+    <created by="Ghislain Fourny" on="2012-10-15"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test>
+      declare option prohibit-feature "higher-order-function";
+      for $f in () return $f(1)
+    </test>
+    <result>
+      <!-- The test must be reported to fail if a different error is returned -->
+      <any-of>
+        <!-- can deactivate -->
+        <error code="XQST0129"/>
+        <!-- cannot deactivate -->
+        <error code="XQST0128"/>
+      </any-of>
+    </result>
+  </test-case>
+  
+  <test-case name="prohibit-higher-order-function-3">
+    <description>An error must be thrown if the feature is prohibited and used.</description>
+    <created by="Ghislain Fourny" on="2012-10-15"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test>
+      declare option prohibit-feature "higher-order-function";
+      let $f := function($x) { $x + 1 } return 0
+    </test>
+    <result>
+      <!-- The test must be reported to fail if a different error is returned -->
+      <any-of>
+        <!-- can deactivate -->
+        <error code="XQST0129"/>
+        <!-- cannot deactivate -->
+        <error code="XQST0128"/>
+      </any-of>
+    </result>
+  </test-case>
+  
+  <test-case name="prohibit-higher-order-function-4">
+    <description>An error must be thrown if the feature is prohibited and used.</description>
+    <created by="Ghislain Fourny" on="2012-10-15"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test>
+      declare option prohibit-feature "higher-order-function";
+      let $f := sum#1 return 0
+    </test>
+    <result>
+      <!-- The test must be reported to fail if a different error is returned -->
+      <any-of>
+        <!-- can deactivate -->
+        <error code="XQST0129"/>
+        <!-- cannot deactivate -->
+        <error code="XQST0128"/>
+      </any-of>
+    </result>
+  </test-case>
+  
+  <test-case name="prohibit-higher-order-function-5">
+    <description>An error must be thrown if the feature is prohibited and used.</description>
+    <created by="Ghislain Fourny" on="2012-10-15"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test>
+      declare option prohibit-feature "higher-order-function";
+      for $f := () return $f(1, ?)
+    </test>
+    <result>
+      <!-- The test must be reported to fail if a different error is returned -->
+      <any-of>
+        <!-- can deactivate -->
+        <error code="XQST0129"/>
+        <!-- cannot deactivate -->
+        <error code="XQST0128"/>
+      </any-of>
+    </result>
+  </test-case>  
+  
+  <test-case name="unknown-feature">
+    <description>An error must be thrown if the feature is not recognized.</description>
+    <created by="Ghislain Fourny" on="2012-10-15"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test>
+      declare namespace example = "http://www.example.com/does/not/exist";
+      declare option require-feature "example:does-not-exist";
+      ()
+    </test>
+    <result>
+      <error code="XQST0123"/>
+    </result>
+  </test-case>
+  
+  <test-case name="well-formed-feature-1">
+    <description>Features must be lexical QNames.</description>
+    <created by="Ghislain Fourny" on="2012-10-15"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test>
+      declare option require-feature "not:a:qname";
+      ()
+    </test>
+    <result>
+      <error code="XQST0122"/>
+    </result>
+  </test-case>
+
+  <test-case name="well-formed-feature-2">
+    <description>Features must be lexical QNames.</description>
+    <created by="Ghislain Fourny" on="2012-10-15"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test>
+      declare option require-feature "qname not:a:qname";
+      ()
+    </test>
+    <result>
+      <error code="XQST0122"/>
+    </result>
+  </test-case>
+  
+  <test-case name="well-formed-feature-3">
+    <description>Features must be lexical QNames.</description>
+    <created by="Ghislain Fourny" on="2012-10-15"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test>
+      declare option require-feature "123";
+      ()
+    </test>
+    <result>
+      <error code="XQST0122"/>
+    </result>
+  </test-case>
+  
+  <test-case name="well-formed-feature-4">
+    <description>The prefix of a feature must be bound.</description>
+    <created by="Ghislain Fourny" on="2012-10-15"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test>
+      declare option require-feature "unkonwn:prefix";
+      ()
+    </test>
+    <result>
+      <error code="XQST0081"/>
+    </result>
+  </test-case>
+  
+  <test-case name="require-prohibit-1">
+    <description>A feature cannot be both required and prohibited.</description>
+    <created by="Ghislain Fourny" on="2012-10-15"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test>
+      declare option require-feature "schema-aware";
+      declare option prohibit-feature "schema-aware";
+    </test>
+    <result>
+      <error code="XQST0127"/>
+    </result>
+  </test-case>
+  
+  <test-case name="require-prohibit-2">
+    <description>A feature cannot be both required and prohibited.</description>
+    <created by="Ghislain Fourny" on="2012-10-15"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test>
+      declare option require-feature "module";
+      declare option prohibit-feature "module";
+    </test>
+    <result>
+      <error code="XQST0127"/>
+    </result>
+  </test-case>
+  
+  <test-case name="require-prohibit-3">
+    <description>A feature cannot be both required and prohibited.</description>
+    <created by="Ghislain Fourny" on="2012-10-15"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test>
+      declare option require-feature "serialization";
+      declare option prohibit-feature "serialization";
+    </test>
+    <result>
+      <error code="XQST0127"/>
+    </result>
+  </test-case>
+  
+  <test-case name="require-prohibit-4">
+    <description>A feature cannot be both required and prohibited.</description>
+    <created by="Ghislain Fourny" on="2012-10-15"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test>
+      declare option require-feature "higher-order-function";
+      declare option prohibit-feature "higher-order-function";
+    </test>
+    <result>
+      <error code="XQST0127"/>
+    </result>
+  </test-case>
+  
+  <test-case name="require-prohibit-5">
+    <description>A feature cannot be both required and prohibited.</description>
+    <created by="Ghislain Fourny" on="2012-10-15"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test>
+      declare option require-feature "static-typing";
+      declare option prohibit-feature "static-typing";
+    </test>
+    <result>
+      <error code="XQST0127"/>
+    </result>
+  </test-case>
+  
+  <test-case name="require-all-extensions-1">
+    <description>All extensions features cannot be activated.</description>
+    <created by="Ghislain Fourny" on="2012-10-15"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test>
+      declare option require-feature "all-extensions";
+    </test>
+    <result>
+      <error code="XQST0126"/>
+    </result>
+  </test-case>
+  
+  <test-case name="require-all-optional-features-1">
+    <description>An error must be thrown if the feature is not supported.</description>
+    <created by="Ghislain Fourny" on="2012-10-15"/>
+    <dependency type="spec" value="XQ30+"/>
+    <environment ref="dummy-schema"/>
+    <test>
+      declare option require-feature "all-optional-features";
+      import schema namespace s = "http://www.w3.org/XQueryTest/RequireProhibitFeature";
+      ()
+    </test>
+    <result>
+      <!-- The test must be reported to fail if a different error is returned -->
+      <any-of>
+        <!-- supported -->
+        <assert-eq>()</assert-eq>
+        <!-- not supported -->
+        <error code="XQST0120"/>
+      </any-of>
+    </result>
+  </test-case>
+  
+  <test-case name="require-all-optional-features-3">
+    <description>An error must be thrown if the feature is prohibited and used. </description>
+    <created by="Ghislain Fourny" on="2012-10-15"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test>
+      declare option prohibit-feature "higher-order-function";
+      declare option require-feature "all-optional-features";
+      1 instance of function(*)
+    </test>
+    <result>
+      <!-- The test must be reported to fail if a different error is returned -->
+      <any-of>
+        <!-- can deactivate -->
+        <error code="XQST0129"/>
+        <!-- cannot deactivate -->
+        <error code="XQST0128"/>
+        <!-- not supported -->
+        <error code="XQST0120"/>
+      </any-of>
+    </result>
+  </test-case>
+  
+  <test-case name="require-all-optional-features-2">
+    <description>An error must be thrown if the feature is prohibited and used. </description>
+    <created by="Ghislain Fourny" on="2012-10-15"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test>
+      declare option require-feature "all-optional-features";
+      declare option prohibit-feature "higher-order-function";
+      1 instance of function(*)
+    </test>
+    <result>
+      <!-- The test must be reported to fail if a different error is returned -->
+      <any-of>
+        <!-- can deactivate -->
+        <error code="XQST0129"/>
+        <!-- cannot deactivate -->
+        <error code="XQST0128"/>
+        <!-- not supported -->
+        <error code="XQST0120"/>
+      </any-of>
+    </result>
+  </test-case>
+  
+  <test-case name="prohibit-all-optional-features-1">
+    <description>An error must be thrown if the feature is prohibited and used. </description>
+    <created by="Ghislain Fourny" on="2012-10-15"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test>
+      declare option prohibit-feature "all-optional-features";
+      1 instance of function(*)
+    </test>
+    <result>
+      <!-- The test must be reported to fail if a different error is returned -->
+      <any-of>
+        <!-- can deactivate -->
+        <error code="XQST0129"/>
+        <!-- cannot deactivate -->
+        <error code="XQST0128"/>
+      </any-of>
+    </result>
+  </test-case>
+  
+  <test-case name="require-all-optional-features-2">
+    <description>An error must be thrown if the feature is not supported.</description>
+    <created by="Ghislain Fourny" on="2012-10-15"/>
+    <dependency type="spec" value="XQ30+"/>
+    <environment ref="dummy-schema"/>
+    <test>
+      declare option prohibit-feature "all-optional-features";
+      declare option require-feature "schema-aware";
+      import schema namespace s = "http://www.w3.org/XQueryTest/RequireProhibitFeature";
+      ()
+    </test>
+    <result>
+      <!-- The test must be reported to fail if a different error is returned -->
+      <any-of>
+        <!-- supported -->
+        <assert-eq>()</assert-eq>
+        <!-- not supported -->
+        <error code="XQST0120"/>
+        <!-- cannot deactivate -->
+        <error code="XQST0128"/>
+      </any-of>
+    </result>
+  </test-case>
+  
+  <test-case name="require-all-optional-features-3">
+    <description>An error must be thrown if the feature is not supported.</description>
+    <created by="Ghislain Fourny" on="2012-10-15"/>
+    <dependency type="spec" value="XQ30+"/>
+    <environment ref="dummy-schema"/>
+    <test>
+      declare option require-feature "schema-aware";
+      declare option prohibit-feature "all-optional-features";
+      import schema namespace s = "http://www.w3.org/XQueryTest/RequireProhibitFeature";
+      ()
+    </test>
+    <result>
+      <!-- The test must be reported to fail if a different error is returned -->
+      <any-of>
+        <!-- supported -->
+        <assert-eq>()</assert-eq>
+        <!-- not supported -->
+        <error code="XQST0120"/>
+        <!-- cannot deactivate -->
+        <error code="XQST0128"/>
+      </any-of>
+    </result>
+  </test-case>
+  
+</test-set>
