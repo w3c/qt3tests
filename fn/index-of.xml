@@ -436,4 +436,58 @@
          <assert-true/>
       </result>
    </test-case>
+   
+   <test-case name="cbcl-fn-indexof-1">
+      <description> Test an index-of on a range expression </description>
+      <created by="Nick Jones" on="2008-05-30"/>
+      <test>index-of(1 to 5,4)</test>
+      <result>
+         <assert-string-value>4</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-fn-indexof-2">
+      <description> Test optimization of index-of to equal </description>
+      <created by="Nick Jones" on="2008-06-06"/>
+      <test>index-of(exactly-one((1 to 10)[. div 5 = 1]),5)</test>
+      <result>
+         <assert-string-value>1</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-fn-indexof-3">
+      <description> Test boolean of indexof </description>
+      <created by="Nick Jones" on="2008-06-12"/>
+      <test>boolean(index-of((1 to 10)[. mod 2 = 0],4))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-fn-indexof-4">
+      <description> Tests false boolean of indexof </description>
+      <created by="Nick Jones" on="2008-06-12"/>
+      <test>boolean(index-of((1 to 10)[. mod 2 = 0],5))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-fn-indexof-5">
+      <description> Tests fn:index-of of a range value followed by an sequence </description>
+      <created by="Nick Jones" on="2008-06-16"/>
+      <test>index-of((1 to 10,(1 to 10)[. mod 2 = 0]),4)</test>
+      <result>
+         <assert-string-value>4 12</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-fn-indexof-006">
+      <description> Tests corner case </description>
+      <created by="Nick Jones" on="2008-06-27"/>
+      <test>index-of(1 to 10,(1 to 10)[. div 2 = 0][1])</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
 </test-set>

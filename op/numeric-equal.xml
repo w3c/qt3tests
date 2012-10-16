@@ -1668,4 +1668,252 @@
          <error code="XPTY0004"/>
       </result>
    </test-case>
+      
+   <test-case name="cbcl-numeric-equal-001">
+      <description> test comparison of xs:double </description>
+      <created by="Tim Mills" on="2008-05-21"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>
+      	declare function local:square($arg as xs:double) as xs:double { $arg * $arg }; 
+      	not( local:square(1e0) eq local:square(2e0) )</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-numeric-equal-002">
+      <description> test comparison of xs:float </description>
+      <created by="Tim Mills" on="2008-05-21"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>
+      	declare function local:square($arg as xs:float) as xs:float { $arg * $arg }; 
+      	not( local:square(xs:float(1e0)) eq local:square(xs:float(2e0)) )</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-numeric-equal-003">
+      <description> test comparison of xs:decimal </description>
+      <created by="Tim Mills" on="2008-05-21"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>
+      	declare function local:square($arg as xs:decimal) as xs:decimal { $arg * $arg }; 
+      	not( local:square(1.0) eq local:square(2.0) )</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-numeric-equal-004">
+      <description> test comparison of xs:integer </description>
+      <created by="Tim Mills" on="2008-05-21"/>
+      <dependency type="spec" value="XQ10+"/>     
+      <test>
+      	declare function local:square($arg as xs:integer) as xs:integer { $arg * $arg }; 
+      	not( local:square(1) eq local:square(2) )</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-numeric-equal-005">
+      <description> test comparison of xs:double </description>
+      <created by="Tim Mills" on="2008-05-21"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>
+      	declare function local:square($arg as xs:double) as xs:double { $arg * $arg }; 
+      	not( local:square(1e0) ne local:square(2e0) )</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-numeric-equal-006">
+      <description> test comparison of xs:float </description>
+      <created by="Tim Mills" on="2008-05-21"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>
+      	declare function local:square($arg as xs:float) as xs:float { $arg * $arg }; 
+      	not( local:square(xs:float(1e0)) ne local:square(xs:float(2e0)) )</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-numeric-equal-007">
+      <description> test comparison of xs:decimal </description>
+      <created by="Tim Mills" on="2008-05-21"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>
+      	declare function local:square($arg as xs:decimal) as xs:decimal { $arg * $arg }; 
+      	not( local:square(1.0) ne local:square(2.0) )</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-numeric-equal-008">
+      <description> test comparison of xs:integer </description>
+      <created by="Tim Mills" on="2008-05-21"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>
+      	declare function local:square($arg as xs:integer) as xs:integer { $arg * $arg }; 
+      	not( local:square(1) ne local:square(2) )</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-numeric-equal-009">
+      <description> test comparison </description>
+      <created by="Tim Mills" on="2008-07-01"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>
+      	declare function local:square($arg as xs:integer) as xs:integer { $arg * $arg }; 
+      	let $x := local:square(4) return 0 eq $x - 1</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-numeric-equal-010">
+      <description> test comparison </description>
+      <created by="Tim Mills" on="2008-07-01"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>
+      	declare function local:square($arg as xs:integer) as xs:integer { $arg * $arg }; 
+      	let $x := local:square(4) return 0 eq $x + 1</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-numeric-equal-011">
+      <description> test comparison </description>
+      <created by="Tim Mills" on="2008-07-01"/>
+      <dependency type="spec" value="XQ10+"/>     
+      <test>
+      	declare function local:square($arg as xs:integer) as xs:integer { $arg * $arg }; 
+      	let $x := local:square(4) return 4 eq $x + 1</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-numeric-equal-012">
+      <description> test comparison </description>
+      <created by="Tim Mills" on="2008-07-01"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>
+      	declare function local:square($arg as xs:integer) as xs:integer { $arg * $arg }; 
+      	let $x := local:square(4) return 4 eq 1 + $x</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-numeric-equal-013">
+      <description> test comparison </description>
+      <created by="Tim Mills" on="2008-07-01"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>
+      	declare function local:square($arg as xs:integer) as xs:integer { $arg * $arg }; 
+      	let $x := local:square(4) return -52676506002282294014967032012 eq $x + 52676506002282294014967032012</test>
+      <result>
+         <any-of>
+            <assert-false/>
+            <error code="FOAR0002"/>
+         </any-of>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-numeric-equal-014">
+      <description> test comparison </description>
+      <created by="Tim Mills" on="2008-07-01"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>
+      	declare function local:square($arg as xs:integer) as xs:integer { $arg * $arg }; 
+      	let $x := local:square(4) return -52676506002282294014967032012 eq 52676506002282294014967032012 + $x</test>
+      <result>
+         <any-of>
+            <assert-false/>
+            <error code="FOAR0002"/>
+         </any-of>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-numeric-equal-015">
+      <description> test comparison </description>
+      <created by="Tim Mills" on="2008-07-01"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>
+      	declare function local:square($arg as xs:integer) as xs:integer { $arg * $arg }; 
+      	let $x := local:square(4) return 4 eq 1 - $x</test>
+      <result>
+         <any-of>
+            <assert-false/>
+            <error code="FOAR0002"/>
+         </any-of>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-numeric-equal-016">
+      <description> test comparison </description>
+      <created by="Tim Mills" on="2008-07-01"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>
+      	declare function local:square($arg as xs:integer) as xs:integer { $arg * $arg }; 
+      	let $x := local:square(4) return 4 eq $x - 1</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-numeric-equal-017">
+      <description> test comparison </description>
+      <created by="Tim Mills" on="2008-07-01"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>
+      	declare function local:square($arg as xs:integer) as xs:integer { $arg * $arg }; 
+      	let $x := local:square(4) return -52676506002282294014967032012 eq 52676506002282294014967032012 - $x</test>
+      <result>
+         <any-of>
+            <assert-false/>
+            <error code="FOAR0002"/>
+         </any-of>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-numeric-equal-018">
+      <description> test comparison </description>
+      <created by="Tim Mills" on="2008-07-01"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>
+      	declare function local:square($arg as xs:integer) as xs:integer { $arg * $arg }; 
+      	let $x := local:square(4) return 52676506002282294014967032012 eq $x - 52676506002282294014967032012</test>
+      <result>
+         <any-of>
+            <assert-false/>
+            <error code="FOAR0002"/>
+         </any-of>
+      </result>
+   </test-case>
 </test-set>

@@ -381,5 +381,44 @@
       <result>
          <assert-true/>
       </result>
+   </test-case>   
+   
+   <test-case name="cbcl-node-same-001">
+      <description> test is same node operator </description>
+      <created by="Tim Mills" on="2008-05-14"/>      
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+      	let $node := <a> <b/> <c/> </a> 
+      	return not(exactly-one($node/b[1]) is exactly-one($node/c[1]))
+      ]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>   
+
+   <test-case name="cbcl-node-same-002">
+      <description> test is same node operator </description>
+      <created by="Tim Mills" on="2008-05-14"/>      
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+      	let $node := <a> <b/> <c/> </a> 
+      	return not(not(exactly-one($node/b[1]) is exactly-one($node/c[1])))
+      ]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+      
+   <test-case name="cbcl-is-same-node-001">
+      <description> Check node identity for return values of creative user defined functions. </description>
+      <created by="Oliver Hallam" on="2008-11-03"/>      
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+      	declare function local:f() as node() { <a/> }; 
+      	local:f() is local:f()
+      ]]></test>
+      <result>
+         <assert-false/>
+      </result>
    </test-case>
 </test-set>

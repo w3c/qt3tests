@@ -710,4 +710,62 @@
          <assert-true/>
       </result>
    </test-case>
+   
+   <test-case name="cbcl-not-001">
+      <description> test fn:not on a sequence of one or more nodes </description>
+      <created by="Oliver Hallam" on="2008-04-22"/>      
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[fn:not(for $x in 1 to 10 return <e>{$x}</e>)]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-not-002">
+      <description> test fn:not on the empty sequence </description>
+      <created by="Oliver Hallam" on="2008-04-22"/>      
+      <test>fn:not(())</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-not-003">
+      <description> test fn:not on a context-sensitive comparison </description>
+      <created by="Oliver Hallam" on="2008-04-22"/>     
+      <test>fn:not(current-date() &gt; xs:date("1997-01-01Z"))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-not-004">
+      <description> test fn:not on fn:not </description>
+      <created by="Oliver Hallam" on="2008-04-22"/>
+      <dependency type="spec" value="XQ10+"/>    
+      <test>
+      	declare function local:f($x as xs:integer) as xs:integer { $x }; 
+      	not(not(local:f(1)))
+      </test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-not-005">
+      <description> test fn:not on fn:exists </description>
+      <created by="Oliver Hallam" on="2008-04-22"/>
+      <dependency type="spec" value="XQ10+"/>     
+      <test>
+      	declare function local:f($x as xs:integer) as xs:integer* { 1 to $x }; 
+      	not(exists(local:f(0)))
+      </test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
 </test-set>

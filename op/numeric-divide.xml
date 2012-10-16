@@ -1201,4 +1201,209 @@
          <assert-string-value>decimal decimal float double double decimal decimal float double double float float float double double double double double double double double double double double double</assert-string-value>
       </result>
    </test-case>
+   
+   <test-case name="cbcl-numeric-divide-001">
+      <description> test division of xs:double NaN </description>
+      <created by="Tim Mills" on="2008-05-14"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>
+      	declare function local:square($arg as xs:double) as xs:double { $arg * $arg }; 
+      	xs:double('NaN') div local:square(7)
+      </test>
+      <result>
+         <assert-string-value>NaN</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-numeric-divide-002">
+      <description> test division by xs:double NaN </description>
+      <created by="Tim Mills" on="2008-05-14"/>
+      <dependency type="spec" value="XQ10+"/>     
+      <test>
+      	declare function local:square($arg as xs:double) as xs:double { $arg * $arg }; 
+      	local:square(7) div xs:double('NaN')
+      </test>
+      <result>
+         <assert-string-value>NaN</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-numeric-divide-003">
+      <description> test division by xs:double 1 </description>
+      <created by="Tim Mills" on="2008-05-14"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>
+      	declare function local:square($arg as xs:double) as xs:double { $arg * $arg }; 
+      	local:square(7) div 1e0
+      	</test>
+      <result>
+         <assert-string-value>49</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-numeric-divide-004">
+      <description> test division by xs:double -1 </description>
+      <created by="Tim Mills" on="2008-05-14"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>
+      	declare function local:square($arg as xs:double) as xs:double { $arg * $arg }; 
+      	local:square(7) div -1e0
+      </test>
+      <result>
+         <assert-string-value>-49</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-numeric-divide-005">
+      <description> test division of xs:float NaN </description>
+      <created by="Tim Mills" on="2008-05-14"/>
+      <dependency type="spec" value="XQ10+"/>     
+      <test>
+      	declare function local:square($arg as xs:float) as xs:float { $arg * $arg }; 
+      	xs:float('NaN') div local:square(7)
+      </test>
+      <result>
+         <assert-string-value>NaN</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-numeric-divide-006">
+      <description> test division by xs:float NaN </description>
+      <created by="Tim Mills" on="2008-05-14"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>
+      	declare function local:square($arg as xs:float) as xs:float { $arg * $arg }; 
+      	local:square(7) div xs:float('NaN')
+      </test>
+      <result>
+         <assert-string-value>NaN</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-numeric-divide-007">
+      <description> test division by xs:float 1 </description>
+      <created by="Tim Mills" on="2008-05-14"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>
+      	declare function local:square($arg as xs:float) as xs:float { $arg * $arg }; 
+      	local:square(7) div xs:float(1)
+      </test>
+      <result>
+         <assert-string-value>49</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-numeric-divide-008">
+      <description> test division by xs:float -1 </description>
+      <created by="Tim Mills" on="2008-05-14"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>
+      	declare function local:square($arg as xs:float) as xs:float { $arg * $arg }; 
+      	local:square(7) div xs:float(-1)
+      </test>
+      <result>
+         <assert-string-value>-49</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-numeric-divide-009">
+      <description> test division by xs:decimal 0 </description>
+      <created by="Tim Mills" on="2008-05-14"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>
+      	declare function local:square($arg as xs:decimal) as xs:decimal { $arg * $arg }; 
+      	local:square(2.0) div 0.0
+      </test>
+      <result>
+         <error code="FOAR0001"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-numeric-divide-010">
+      <description> test division by xs:decimal 1 </description>
+      <created by="Tim Mills" on="2008-05-14"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>
+      	declare function local:square($arg as xs:decimal) as xs:decimal { $arg * $arg }; 
+      	local:square(7.0) div 1.0
+      </test>
+      <result>
+         <assert-string-value>49</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-numeric-divide-011">
+      <description> test division by xs:decimal -1 </description>
+      <created by="Tim Mills" on="2008-05-14"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>
+      	declare function local:square($arg as xs:decimal) as xs:decimal { $arg * $arg }; 
+      	local:square(7.0) div -1.0
+      </test>
+      <result>
+         <assert-string-value>-49</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-numeric-divide-012">
+      <description> test division by xs:integer 0 </description>
+      <created by="Tim Mills" on="2008-05-14"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>
+      	declare function local:square($arg as xs:integer) as xs:integer { $arg * $arg }; 
+      	local:square(2) div 0
+      </test>
+      <result>
+         <error code="FOAR0001"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-numeric-divide-013">
+      <description> test division by xs:integer 1 </description>
+      <created by="Tim Mills" on="2008-05-14"/>
+      <dependency type="spec" value="XQ10+"/>     
+      <test>
+      	declare function local:square($arg as xs:integer) as xs:integer { $arg * $arg }; 
+      	local:square(7) div 1
+      </test>
+      <result>
+         <assert-string-value>49</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-numeric-divide-014">
+      <description> test division by xs:integer -1 </description>
+      <created by="Tim Mills" on="2008-05-14"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>
+      	declare function local:square($arg as xs:integer) as xs:integer { $arg * $arg }; 
+      	local:square(7) div -1
+      </test>
+      <result>
+         <assert-string-value>-49</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-numeric-divide-015">
+      <description> check that overflow occurs correctly when adding values of type xs:decimal </description>
+      <created by="Oliver Hallam" on="2008-05-30"/>      
+      <test>10000000000000000000000000000.0 div 0.1</test>
+      <result>
+         <error code="FOAR0002"/>
+      </result>
+   </test-case>
 </test-set>

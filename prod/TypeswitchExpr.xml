@@ -757,7 +757,71 @@
       <result>
          <assert-true/>
       </result>
+   </test-case>   
+   
+   <test-case name="cbcl-typeswitch-001">
+      <description> Tests evaluateoptionalitem </description>
+      <created by="Nick Jones" on="2008-06-26"/>
+      <test>
+        upper-case(typeswitch ((1 to 10)[. mod 2 = 0]) case xs:integer+ return "int" default return "false")
+      </test>
+      <result>
+         <assert-string-value>INT</assert-string-value>
+      </result>
    </test-case>
 
+   <test-case name="cbcl-typeswitch-002">
+      <description> Tests evaluateOptionalItem with default clause </description>
+      <created by="Nick Jones" on="2008-06-26"/>
+      <test>
+        upper-case(typeswitch ((1 to 10)[. div 2 = 0]) case xs:integer+ return "int" default return "false")
+      </test>
+      <result>
+         <assert-string-value>FALSE</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-typeswitch-003">
+      <description> Tests typeswitch clause which always returns the same value </description>
+      <created by="Nick Jones" on="2008-06-26"/>
+      <test>
+        typeswitch ((1 to 10)[. mod 2 = 0]) case xs:integer+ return true() default return true()
+      </test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-typeswitch-004">
+      <description> Tests optimization of typeswitch clause to "instance of" </description>
+      <created by="Nick Jones" on="2008-06-26"/>
+      <test>
+        typeswitch ((1 to 10)[. mod 2 = 0]) case xs:integer+ return false() default return true()
+      </test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-typeswitch-005">
+      <description> Tests which calls Evaluate method </description>
+      <created by="Nick Jones" on="2008-06-26"/>
+      <test>
+        subsequence((1 to 10)[. mod 2 = 0] instance of xs:integer+,1)
+      </test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-typeswitch-006">
+      <description> Test which calls EvaluateToOptionalItem method </description>
+      <created by="Nick Jones" on="2008-06-26"/>
+      <test>xs:string((1 to 10)[. mod 2 = 0] instance of xs:integer+)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
 
 </test-set>

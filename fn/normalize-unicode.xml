@@ -352,4 +352,63 @@
          </any-of>
       </result>
    </test-case>
+   
+   <test-case name="cbcl-fn-normalize-unicode-001">
+      <description> tests FULLY-NORMALIZED </description>
+      <created by="Nick Jones" on="2008-06-13"/>      
+      <test>normalize-unicode("blah","FULLY-NORMALIZED")</test>
+      <result>
+         <assert-string-value>blah</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-fn-normalize-unicode-002">
+      <description> Tests boolean(normalize-unicode(...)) </description>
+      <created by="Nick Jones" on="2008-06-13"/>      
+      <test>boolean(normalize-unicode("blah","NFC"))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-fn-normalize-unicode-003">
+      <description> Tests boolean(normalize-unicode(....)) with an error thrown </description>
+      <created by="Nick Jones" on="2008-06-13"/>      
+      <test>boolean(normalize-unicode("blah","ZZZ"))</test>
+      <result>
+         <error code="FOCH0003"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-fn-normalize-unicode-004">
+      <description> tests normalize-unicode on empty </description>
+      <created by="Nick Jones" on="2008-06-13"/>      
+      <test>normalize-unicode((),"NFC")</test>
+      <result>
+         <assert-string-value/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-fn-normalize-unicode-005">
+      <description> Tests normalize-unicode on empty </description>
+      <created by="Nick Jones" on="2008-06-13"/>      
+      <test>normalize-unicode("","NFC")</test>
+      <result>
+         <assert-string-value/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-fn-normalize-unicode-006">
+      <description> Tests a composing character by itself </description>
+      <created by="Nick Jones" on="2008-06-16"/>     
+      <test>normalize-unicode(codepoints-to-string(2494),"FULLY-NORMALIZED")</test>
+      <result>
+         <assert-string-value> &#2494;</assert-string-value>
+      </result>
+   </test-case>
 </test-set>

@@ -372,4 +372,16 @@
          <error code="XPTY0004"/>
       </result>
    </test-case>
+   
+   <test-case name="cbcl-fn-string-join-001">
+      <description> Test boolean fn:string-join on various cases </description>
+      <created by="Nick Jones" on="2008-06-12"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:repeat($count as xs:integer, $arg as xs:string) as xs:string* { if ($count le 0) then "" else for $x in 1 to $count return $arg };
+        string-join( for $x in 0 to 4 return local:repeat($x, 'a') , ' ') and string-join( for $x in 0 to 4 return local:repeat($x, 'a') , '')</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
 </test-set>

@@ -1207,4 +1207,130 @@
          </all-of>
       </result>
    </test-case>
+   
+   <test-case name="cbcl-round-half-to-even-001">
+      <description> test fn:found-half-to-even on xs:double with large $precision argment </description>
+      <created by="Tim Mills" on="2008-05-02"/>
+      <test>fn:round-half-to-even(3.567812E+3, 4294967296)</test>
+      <result>
+         <assert-string-value>3567.812</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-round-half-to-even-002">
+      <description> test fn:found-half-to-even on integer with positive precision </description>
+      <created by="Tim Mills" on="2008-05-02"/>
+      <test>fn:round-half-to-even(12345, 2)</test>
+      <result>
+         <assert-string-value>12345</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-round-half-to-even-003">
+      <description> test fn:found-half-to-even on integer with negative precision </description>
+      <created by="Tim Mills" on="2008-05-02"/>
+      <test>fn:round-half-to-even(12345, -2)</test>
+      <result>
+         <assert-string-value>12300</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-round-half-to-even-004">
+      <description> test fn:found-half-to-even on short with positive precision </description>
+      <created by="Tim Mills" on="2008-05-02"/>
+      <test>fn:round-half-to-even(xs:short(12345), 2)</test>
+      <result>
+         <assert-string-value>12345</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-round-half-to-even-005">
+      <description> test fn:found-half-to-even on short with negative precision </description>
+      <created by="Tim Mills" on="2008-05-02"/>
+      <test>fn:round-half-to-even(xs:short(12345), -2)</test>
+      <result>
+         <assert-string-value>12300</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-round-half-to-even-006">
+      <description> test fn:found-half-to-even on decimal with positive precision </description>
+      <created by="Tim Mills" on="2008-05-02"/>
+      <test>fn:round-half-to-even(12345.6, 2)</test>
+      <result>
+         <assert-string-value>12345.6</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-round-half-to-even-007">
+      <description> test fn:found-half-to-even on decimal with negative precision </description>
+      <created by="Tim Mills" on="2008-05-02"/>
+      <test>fn:round-half-to-even(12345.6, -2)</test>
+      <result>
+         <assert-string-value>12300</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-round-half-to-even-008">
+      <description> test fn:found-half-to-even on float with positive precision </description>
+      <created by="Tim Mills" on="2008-05-02"/>
+      <test>fn:round-half-to-even(xs:float(12345.6), 2)</test>
+      <result>
+         <assert-string-value>12345.6</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-round-half-to-even-009">
+      <description> test fn:found-half-to-even on float with negative precision </description>
+      <created by="Tim Mills" on="2008-05-02"/>
+      <test>fn:round-half-to-even(xs:float(12345.6), -2)</test>
+      <result>
+         <assert-string-value>12300</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-round-half-to-even-010">
+      <description> test fn:found-half-to-even on double with positive precision </description>
+      <created by="Tim Mills" on="2008-05-02"/>
+      <test>fn:round-half-to-even(123456e-2, 2)</test>
+      <result>
+         <assert-string-value>1234.56</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-round-half-to-even-011">
+      <description> test fn:found-half-to-even on double with negative precision </description>
+      <created by="Tim Mills" on="2008-05-02"/>
+      <test>fn:round-half-to-even(123456e-2, -2)</test>
+      <result>
+         <assert-string-value>1200</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-round-half-to-even-012">
+      <description> test fn:found-half-to-even on xs:decimal with large $precision argment </description>
+      <created by="Tim Mills" on="2008-05-02"/>
+      <test>fn:round-half-to-even(3.567812, 4294967296)</test>
+      <result>
+         <assert-string-value>3.567812</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-round-half-to-even-013">
+      <description> test EBV of fn:found-half-to-even with invalid type for argument 2 </description>
+      <created by="Tim Mills" on="2008-05-02"/>
+      <test>fn:boolean(fn:round-half-to-even(5, 1))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-round-half-to-even-014">
+      <description> test fn:found-half-to-even with invalid type for argument 2 </description>
+      <created by="Tim Mills" on="2008-05-02"/>
+      <test>fn:round-half-to-even(123456e-2, "two")</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
 </test-set>

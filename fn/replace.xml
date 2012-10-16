@@ -647,4 +647,57 @@ abracadabra", "\n","with")</test>
          <assert-xml><![CDATA[<result><para>ThiQ Qbcd.</para><para>ThiQ iQ a abQQ.</para></result>ThiQ abcdQ. ThiQ iQ a abQQ.]]></assert-xml>
       </result>
    </test-case>
+   
+      <test-case name="cbcl-fn-replace-001">
+      <description> Tests a replace with prepared value evaluated to a boolean </description>
+      <created by="Nick Jones" on="2008-06-10"/>
+      <test>
+      boolean(replace(if(exists((1 to 10)[. mod 2 = 0])) then "blah" else (),"a","e","m"))
+   </test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-fn-replace-002">
+      <description> Tests a prepared expression which matches the empty sequence </description>
+      <created by="Nick Jones" on="2008-06-16"/>
+      <test>replace("a","","b")</test>
+      <result>
+         <error code="FORX0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-fn-replace-003">
+      <description> Tests empty regex on prepared fn:replace </description>
+      <created by="Nick Jones" on="2008-06-17"/>
+      <test>
+        replace(string-join(for $x in (1 to 10)[. mod 2 = 0] return string($x),","),"","c")
+      </test>
+      <result>
+         <error code="FORX0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-fn-replace-004">
+      <description> Tests empty regex on prepared fn:replace </description>
+      <created by="Nick Jones" on="2008-06-17"/>
+      <test>
+        replace(string-join(for $x in (1 to 10)[. mod 2 = 0] return string($x),","),"","c","m")
+      </test>
+      <result>
+         <error code="FORX0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-fn-replace-005">
+      <description> Tests empty regex on prepared fn:replace </description>
+      <created by="Nick Jones" on="2008-06-17"/>
+      <test>
+        replace(string-join(for $x in (1 to 10)[. mod 2 = 0] return string($x),","),"","c","m")
+      </test>
+      <result>
+         <error code="FORX0003"/>
+      </result>
+   </test-case>
 </test-set>

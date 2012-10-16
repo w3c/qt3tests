@@ -551,4 +551,411 @@ together with the numeric-equal operator "ge".
          <error code="FODT0002"/>
       </result>
    </test-case>
+   
+      <test-case name="cbcl-minus-001">
+      <description> Test behaviour of minus operator when presented with an expression with static type duration </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:f($x) { if ($x) then xs:duration("P1D") else xs:dayTimeDuration("P1D") }; xs:date("1997-01-01") - local:f(false())</test>
+      <result>
+         <assert-string-value>1996-12-31</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-minus-002">
+      <description> Test behaviour of minus operator when presented with an expression with static type duration </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:f($x) { if ($x) then xs:duration("P1D") else xs:dayTimeDuration("P1D") }; xs:date("1997-01-01") - local:f(true())</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-minus-003">
+      <description> Test behaviour of minus operator when presented with an expression with static type duration </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:f($x) { if ($x) then xs:duration("P1D") else xs:yearMonthDuration("P1M") }; xs:date("1997-01-01") - local:f(false())</test>
+      <result>
+         <assert-string-value>1996-12-01</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-minus-004">
+      <description> Test behaviour of minus operator when presented with an expression with static type duration </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:f($x) { if ($x) then xs:duration("P1D") else xs:yearMonthDuration("P1M") }; xs:date("1997-01-01") - local:f(true())</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-minus-005">
+      <description> Test behaviour of minus operator when presented with an expression with static type duration </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:f($x) { if ($x) then xs:duration("P1D") else xs:dayTimeDuration("P1D") }; xs:dateTime("1997-01-01T12:00:00") - local:f(false())</test>
+      <result>
+         <assert-string-value>1996-12-31T12:00:00</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-minus-006">
+      <description> Test behaviour of minus operator when presented with an expression with static type duration </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:f($x) { if ($x) then xs:duration("P1D") else xs:dayTimeDuration("P1D") }; xs:dateTime("1997-01-01T12:00:00") - local:f(true())</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-minus-007">
+      <description> Test behaviour of minus operator when presented with an expression with static type duration </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:f($x) { if ($x) then xs:duration("P1D") else xs:yearMonthDuration("P1M") }; xs:dateTime("1997-01-01T12:00:00") - local:f(false())</test>
+      <result>
+         <assert-string-value>1996-12-01T12:00:00</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-minus-008">
+      <description> Test behaviour of minus operator when presented with an expression with static type duration </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:f($x) { if ($x) then xs:duration("P1D") else xs:yearMonthDuration("P1M") }; xs:dateTime("1997-01-01T12:00:00") - local:f(true())</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-minus-009">
+      <description> Test behaviour of minus operator when presented with an expression with static type duration </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:f($x) { if ($x) then xs:duration("P1D") else xs:dayTimeDuration("PT1H") }; xs:time("12:00:00") - local:f(false())</test>
+      <result>
+         <assert-string-value>11:00:00</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-minus-010">
+      <description> Test behaviour of minus operator when presented with an expression with static type duration </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:f($x) { if ($x) then xs:duration("P1D") else xs:dayTimeDuration("P1H") }; xs:time("12:00:00") - local:f(true())</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-minus-011">
+      <description> Test behaviour of minus operator when presented with an expression with static type duration </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:f($x) { if ($x) then xs:duration("P1D") else xs:dayTimeDuration("P1D") }; xs:dayTimeDuration("PT1H") - local:f(false())</test>
+      <result>
+         <assert-string-value>-PT23H</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-minus-012">
+      <description> Test behaviour of minus operator when presented with an expression with static type duration </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:f($x) { if ($x) then xs:duration("P1D") else xs:dayTimeDuration("P1D") }; xs:dayTimeDuration("PT1H") - local:f(true())</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-minus-013">
+      <description> Test behaviour of minus operator when presented with an expression with static type duration </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:f($x) { if ($x) then xs:duration("P1M") else xs:yearMonthDuration("P1M") }; xs:yearMonthDuration("P1Y") - local:f(false())</test>
+      <result>
+         <assert-string-value>P11M</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-minus-014">
+      <description> Test behaviour of minus operator when presented with an expression with static type duration </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:f($x) { if ($x) then xs:duration("P1M") else xs:yearMonthDuration("P1M") }; xs:yearMonthDuration("P1Y") - local:f(true())</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-minus-015">
+      <description> Test behaviour of minus operator when presented with an expression with static type duration </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:f($x) { if ($x) then xs:duration("P1D") else xs:dayTimeDuration("P1D") }; local:f(false()) - xs:date("1997-01-01")</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-minus-016">
+      <description> Test behaviour of minus operator when presented with an expression with static type duration </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:f($x) { if ($x) then xs:duration("P1D") else xs:dayTimeDuration("P1D") }; local:f(true()) - xs:date("1997-01-01")</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-minus-017">
+      <description> Test behaviour of minus operator when presented with an expression with static type duration </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:f($x) { if ($x) then xs:duration("P1D") else xs:yearMonthDuration("P1M") }; local:f(false()) - xs:date("1997-01-01")</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-minus-018">
+      <description> Test behaviour of minus operator when presented with an expression with static type duration </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:f($x) { if ($x) then xs:duration("P1D") else xs:yearMonthDuration("P1M") }; local:f(true()) - xs:date("1997-01-01")</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-minus-019">
+      <description> Test behaviour of minus operator when presented with an expression with static type duration </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:f($x) { if ($x) then xs:duration("P1D") else xs:dayTimeDuration("P1D") }; local:f(false()) - xs:dateTime("1997-01-01T12:00:00")</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-minus-020">
+      <description> Test behaviour of minus operator when presented with an expression with static type duration </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:f($x) { if ($x) then xs:duration("P1D") else xs:dayTimeDuration("P1D") }; local:f(true()) - xs:dateTime("1997-01-01T12:00:00")</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-minus-021">
+      <description> Test behaviour of minus operator when presented with an expression with static type duration </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:f($x) { if ($x) then xs:duration("P1D") else xs:yearMonthDuration("P1M") }; local:f(false()) - xs:dateTime("1997-01-01T12:00:00")</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-minus-022">
+      <description> Test behaviour of minus operator when presented with an expression with static type duration </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:f($x) { if ($x) then xs:duration("P1D") else xs:yearMonthDuration("P1M") }; local:f(true()) - xs:dateTime("1997-01-01T12:00:00")</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-minus-023">
+      <description> Test behaviour of minus operator when presented with an expression with static type duration </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:f($x) { if ($x) then xs:duration("P1D") else xs:dayTimeDuration("P1H") }; local:f(false()) - xs:time("12:00:00")</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-minus-024">
+      <description> Test behaviour of minus operator when presented with an expression with static type duration </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:f($x) { if ($x) then xs:duration("P1D") else xs:dayTimeDuration("P1H") }; local:f(true()) - xs:time("12:00:00")</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-minus-025">
+      <description> Test behaviour of minus operator when presented with an expression with static type duration </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:f($x) { if ($x) then xs:duration("P1D") else xs:dayTimeDuration("P1D") }; local:f(false()) - xs:dayTimeDuration("PT1H")</test>
+      <result>
+         <assert-string-value>PT23H</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-minus-026">
+      <description> Test behaviour of minus operator when presented with an expression with static type duration </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:f($x) { if ($x) then xs:duration("P1D") else xs:dayTimeDuration("P1D") }; local:f(true()) - xs:dayTimeDuration("PT1H")</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-minus-027">
+      <description> Test behaviour of minus operator when presented with an expression with static type duration </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:f($x) { if ($x) then xs:duration("P1M") else xs:yearMonthDuration("P1M") }; local:f(false()) - xs:yearMonthDuration("P1Y")</test>
+      <result>
+         <assert-string-value>-P11M</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-minus-028">
+      <description> Test behaviour of minus operator when presented with an expression with static type duration </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:f($x) { if ($x) then xs:duration("P1M") else xs:yearMonthDuration("P1M") }; local:f(true()) - xs:yearMonthDuration("P1Y")</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-minus-029">
+      <description> Test behaviour of minus operator when presented with an expression with static type duration </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:f($x) { if ($x) then xs:duration("P1M") else xs:yearMonthDuration("P1M") }; local:f(false()) - local:f(false())</test>
+      <result>
+         <assert-string-value>P0M</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-minus-030">
+      <description> Test behaviour of minus operator when presented with an expression with static type duration </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:f($x) { if ($x) then xs:duration("P1M") else xs:yearMonthDuration("P1M") }; local:f(true()) - local:f(true())</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-minus-031">
+      <description> Test behaviour of minus operator when presented with an expression with static type duration </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:f($x) { if ($x) then xs:duration("P1D") else xs:dayTimeDuration("P1D") }; local:f(false()) - local:f(false())</test>
+      <result>
+         <assert-string-value>PT0S</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-minus-032">
+      <description> Test behaviour of minus operator when presented with an expression with static type duration </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:f($x) { if ($x) then xs:duration("P1D") else xs:dayTimeDuration("P1D") }; local:f(true()) - local:f(true())</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-minus-033">
+      <description> Test behaviour of minus operator when presented with an expression with static type duration </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:f($x) { if ($x) then xs:duration("P1D") else xs:dayTimeDuration("P1D") }; declare function local:g($x) { if ($x) then xs:duration("P1M") else xs:yearMonthDuration("P1M") }; local:f(false()) - local:g(false())</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-minus-034">
+      <description> Test behaviour of minus operator when presented with an expression with static type duration </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      
+      <test>declare function local:f($x) { if ($x) then xs:duration("P1D") else xs:dayTimeDuration("P1D") }; declare function local:g($x) { if ($x) then xs:duration("P1M") else xs:yearMonthDuration("P1M") }; local:f(true()) - local:g(true())</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
 </test-set>

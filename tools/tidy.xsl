@@ -28,7 +28,22 @@
         <xsl:copy/>
     </xsl:template>
     
-    <xsl:template match="fots:test|fots:assert-serialization">
+    <xsl:template match="fots:test">
+      <xsl:copy>  
+        <xsl:choose>
+            <xsl:when test="(contains(., '&lt;') or contains(., '&amp;')) and not(contains(.,']]&gt;'))">
+                <xsl:text disable-output-escaping="yes">&lt;![CDATA[</xsl:text>
+                <xsl:value-of select="fots:wrap(.)" disable-output-escaping="yes"/>
+                <xsl:text disable-output-escaping="yes">]]&gt;</xsl:text>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:value-of select="fots:wrap(.)"/>
+            </xsl:otherwise>
+        </xsl:choose>
+      </xsl:copy>
+    </xsl:template>
+    
+    <xsl:template match="fots:assert-xml">
       <xsl:copy>  
         <xsl:choose>
             <xsl:when test="(contains(., '&lt;') or contains(., '&amp;')) and not(contains(.,']]&gt;'))">
@@ -93,7 +108,22 @@
         </xsl:element>
     </xsl:template>
     
-    <xsl:template match="fots:assert-serialization[not(contains(., '&lt;'))]">
+    <xsl:function name="fots:wrap" as="xs:string">
+      <xsl:param name="in" as="xs:string"/>
+      <xsl:choose>
+        <xsl:when test="string-length($in) gt 60 and contains($in, ';')">
+          <xsl:sequence select="concat('&#xa;        ', string-join(tokenize($in, ';'), ';&#xa;       '))"/>
+        </xsl:when>
+        <xsl:when test="string-length($in) gt 60">
+          <xsl:sequence select="concat('&#xa;      ', $in, '&#xa;   ')"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:sequence select="$in"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:function>  
+    
+    <xsl:template match="fots:assert-xml[not(contains(., '&lt;'))]">
         <xsl:element name="assert-string-value" namespace="http://www.w3.org/2010/09/qt-fots-catalog">
             <xsl:value-of select="."/>
         </xsl:element>
@@ -123,6 +153,12 @@
         </xsl:result-document>
      </xsl:for-each>
    </xsl:template>
+   
+   <xsl:variable name="test" select="
+   let $f := function($m as xs:integer, $n as xs:integer) as xs:integer
+                         {$m + $n}
+           return
+               $f(5, ?)(3)"/>
         
  
 </xsl:stylesheet>

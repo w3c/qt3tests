@@ -73,6 +73,18 @@
         <created by="Michael Kay" on="2012-10-10"/>
       </schema>
     </environment>
+    
+    <environment name="validate">
+      <schema uri="http://www.w3.org/XQueryTest/testcases" file="../fn/nilled/validate.xsd">
+          <description>A Schema with some nillable elements</description>
+          <created by="Tim Mills" on="2008-01-01"/>
+      </schema>
+      <source role="." file="../fn/nilled/validate.xml" validation="strict">
+          <description>An instance with some nilled elements</description>
+          <created by="Tim Mills" on="2008-01-01"/>
+      </source>
+      <namespace prefix="" uri="http://www.w3.org/XQueryTest/testcases"/>
+   </environment>
    
    <dependency type="spec" value="XQ10+"/>
    <dependency type="feature" value="schemaImport"/>   
@@ -2070,6 +2082,247 @@
          <assert-false/>
       </result>
    </test-case>
+   
+   <test-case name="cbcl-schema-element-1">
+      <description> Test schema element </description>
+      <created by="Tim Mills" on="2007-02-27"/>
+      <environment ref="validate"/>
+      <test>
+        import schema namespace tc="http://www.w3.org/XQueryTest/testcases";
+        declare variable $input-context1 external;
+        count($input-context1/tc:root/schema-element(tc:schema-element-head))</test>
+      <result>
+         <assert-string-value>6</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-schema-element-2">
+      <description> Test schema element </description>
+      <created by="Tim Mills" on="2007-02-27"/>
+      <environment ref="validate"/>
+      <test>
+        import schema namespace tc="http://www.w3.org/XQueryTest/testcases";
+        declare variable $input-context1 external;
+        count($input-context1/tc:root/schema-element(tc:schema-element-group))</test>
+      <result>
+         <assert-string-value>2</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-schema-element-3">
+      <description> Test schema element </description>
+      <created by="Tim Mills" on="2007-02-27"/>
+      <environment ref="validate"/>
+      <test>
+        import schema namespace tc="http://www.w3.org/XQueryTest/testcases";
+        count(/tc:root/schema-element(tc:schema-element-group-nillable))</test>
+      <result>
+         <assert-string-value>3</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-schema-element-4">
+      <description> Test schema element </description>
+      <created by="Tim Mills" on="2007-02-27"/>
+      <environment ref="validate"/>
+      <test>
+        import schema namespace tc="http://www.w3.org/XQueryTest/testcases";
+        count(/tc:root/schema-element(tc:schema-element-nillable-head))</test>
+      <result>
+         <assert-string-value>7</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-schema-element-5">
+      <description> Test schema element </description>
+      <created by="Tim Mills" on="2007-02-27"/>
+      <environment ref="validate"/>
+      <test>
+        import schema namespace tc="http://www.w3.org/XQueryTest/testcases";
+        count(/tc:root/schema-element(tc:schema-element-nillable-group))</test>
+      <result>
+         <assert-string-value>6</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-schema-element-6">
+      <description> Test schema element </description>
+      <created by="Tim Mills" on="2007-02-27"/>
+      <environment ref="validate"/>
+      <test>
+        import schema namespace tc="http://www.w3.org/XQueryTest/testcases";
+        count(/tc:root/schema-element(tc:schema-element-nillable-group-restriction))</test>
+      <result>
+         <assert-string-value>3</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-schema-element-7">
+      <description> Test schema element </description>
+      <created by="Tim Mills" on="2007-02-27"/>
+      <environment ref="validate"/>
+      <test>
+        import schema namespace tc="http://www.w3.org/XQueryTest/testcases";
+        count(/tc:root/schema-element(tc:nillable))</test>
+      <result>
+         <assert-string-value>3</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-schema-element-8">
+      <description> Test static type of schema-element tests in a substitution group </description>
+      <created by="Oliver Hallam" on="2009-02-20"/>
+      <environment ref="validate"/>
+      <test>
+        import schema namespace tc="http://www.w3.org/XQueryTest/testcases";
+        exists(/tc:root/schema-element(tc:schema-element-head)/self::tc:schema-element-group)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-schema-element-9">
+      <description> Test static type of schema-element tests in a substitution group </description>
+      <created by="Oliver Hallam" on="2009-02-20"/>
+      <dependency type="spec" value="XQ10+"/>
+      <environment ref="validate"/>
+      <test>
+        import schema namespace tc="http://www.w3.org/XQueryTest/testcases";
+        declare function local:f($x as schema-element(tc:schema-element-head)) { local-name($x) };
+        local:f(exactly-one(/tc:root/schema-element(tc:schema-element-group-nillable)[2]))</test>
+      <result>
+         <assert-string-value>schema-element-group-nillable</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-validated-schema-element-1">
+      <description> Test schema element with validation </description>
+      <created by="Tim Mills" on="2007-02-27"/>
+      <environment ref="validate"/>
+      <test>
+        declare construction strip;
+        import schema namespace tc="http://www.w3.org/XQueryTest/testcases";
+        let $x := validate strict {/} 
+        return count($x/tc:root/schema-element(tc:schema-element-head))</test>
+      <result>
+         <assert-string-value>6</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-validated-schema-element-2">
+      <description> Test schema element with validation </description>
+      <created by="Tim Mills" on="2007-02-27"/>
+      <environment ref="validate"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        declare construction strip;
+        import schema namespace tc="http://www.w3.org/XQueryTest/testcases";
+        let $x := <newroot>{/}</newroot> return count($x/tc:root/schema-element(tc:schema-element-head))]]></test>
+      <result>
+         <assert-string-value>0</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-validated-schema-element-3">
+      <description> Test schema element with validation </description>
+      <created by="Tim Mills" on="2007-02-27"/>
+      <environment ref="validate"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        declare construction strip;
+        import schema namespace tc="http://www.w3.org/XQueryTest/testcases";
+        let $x := validate lax {<newroot>{/}</newroot>} 
+        return count($x/tc:root/schema-element(tc:schema-element-head))]]></test>
+      <result>
+         <assert-string-value>6</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-validated-schema-element-4">
+      <description> Test static type of schema-element tests in a substitution group when validated </description>
+      <created by="Oliver Hallam" on="2009-02-20"/>
+      <environment ref="validate"/>
+      <test>
+        import schema namespace tc="http://www.w3.org/XQueryTest/testcases";
+        let $x := validate strict {/} 
+        return exists($x/tc:root/schema-element(tc:schema-element-head)/self::tc:schema-element-group)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-schema-attribute-1">
+      <description> Test schema element </description>
+      <created by="Tim Mills" on="2007-02-27"/>
+      <environment ref="validate"/>
+      <test>
+        import schema namespace tc="http://www.w3.org/XQueryTest/testcases";
+        count(/tc:root/tc:schema-attribute/schema-attribute(tc:x))</test>
+      <result>
+         <assert-string-value>1</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-schema-attribute-2">
+      <description> Test schema element </description>
+      <created by="Tim Mills" on="2007-02-27"/>
+      <environment ref="validate"/>
+      <test>
+        import schema namespace tc="http://www.w3.org/XQueryTest/testcases";
+        count(/tc:root/tc:schema-attribute/schema-attribute(tc:y))</test>
+      <result>
+         <assert-string-value>0</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-default-attribute-1">
+      <description> Test schema element </description>
+      <created by="Tim Mills" on="2007-02-27"/>
+      <environment ref="validate"/>
+      <test>
+        import schema namespace tc="http://www.w3.org/XQueryTest/testcases";
+        count(/tc:root/tc:default-attribute[1]/@attr)</test>
+      <result>
+         <assert-string-value>1</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-default-attribute-2">
+      <description> Test schema element </description>
+      <created by="Tim Mills" on="2007-02-27"/>
+      <environment ref="validate"/>
+      <test>
+        import schema namespace tc="http://www.w3.org/XQueryTest/testcases";
+        count(/tc:root/tc:default-attribute[2]/@attr)</test>
+      <result>
+         <assert-string-value>1</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-fixed-attribute-1">
+      <description> Test schema element </description>
+      <created by="Tim Mills" on="2007-02-27"/>
+      <environment ref="validate"/>
+      <test>
+        import schema namespace tc="http://www.w3.org/XQueryTest/testcases";
+        string(/tc:root/tc:fixed-attribute[1]/@attr)</test>
+      <result>
+         <assert-string-value>fixed</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-fixed-attribute-2">
+      <description> Test schema element </description>
+      <created by="Tim Mills" on="2007-02-27"/>
+      <environment ref="validate"/>
+      <test>
+        import schema namespace tc="http://www.w3.org/XQueryTest/testcases";
+        string(/tc:root/tc:fixed-attribute[2]/@attr)</test>
+      <result>
+         <assert-string-value>fixed</assert-string-value>
+      </result>
+   </test-case>
+
 
 
 </test-set>

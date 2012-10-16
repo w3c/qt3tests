@@ -1029,4 +1029,102 @@
          <assert-string-value>integer decimal float double double decimal decimal float double double float float float double double double double double double double double double double double double</assert-string-value>
       </result>
    </test-case>
+   
+   
+   <test-case name="cbcl-numeric-subtract-001">
+      <description> test subtraction of large xs:decimal </description>
+      <created by="Tim Mills" on="2008-05-14"/>
+      <test>-79228162514264337593543950335.0 - 1.0</test>
+      <result>
+         <error code="FOAR0002"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-numeric-subtract-002">
+      <description> test subtraction of large xs:integer </description>
+      <created by="Tim Mills" on="2008-05-14"/>
+      <test>-79228162514264337593543950335 - 1</test>
+      <result>
+         <error code="FOAR0002"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-numeric-subtract-003">
+      <description> test subtraction of xs:decimal 0 </description>
+      <created by="Tim Mills" on="2008-05-14"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+      	declare function local:square($arg as xs:decimal) as xs:decimal { $arg * $arg }; 
+      	local:square(7.5) - 0.0</test>
+      <result>
+         <assert-string-value>56.25</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-numeric-subtract-004">
+      <description> test subtraction of xs:integer 0 </description>
+      <created by="Tim Mills" on="2008-05-14"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+      	declare function local:square($arg as xs:integer) as xs:integer { $arg * $arg }; 
+      	local:square(7) - 0</test>
+      <result>
+         <assert-string-value>49</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-numeric-subtract-005">
+      <description> ensure that subtracting xs:integers returns an xs:integer </description>
+      <created by="Oliver Hallam" on="2008-05-29"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+      	declare function local:integer($x as xs:decimal) { if ($x mod 1 eq 0) then xs:integer($x) else $x }; 
+      	(local:integer(2) - local:integer(2)) instance of xs:integer</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-numeric-subtract-006">
+      <description> test subtraction of negated integers </description>
+      <created by="Tim Mills" on="2008-07-01"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>
+      	declare function local:integer($x as xs:decimal) { if ($x mod 1 eq 0) then xs:integer($x) else $x }; 
+      	-(local:integer(2)) - -(local:integer(4))</test>
+      <result>
+         <assert-string-value>2</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-numeric-subtract-007">
+      <description> test subtraction of negated integers </description>
+      <created by="Tim Mills" on="2008-07-01"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>
+      	declare function local:integer($x as xs:decimal) { if ($x mod 1 eq 0) then xs:integer($x) else $x }; 
+      	local:integer(2) - -(local:integer(4))</test>
+      <result>
+         <assert-string-value>6</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-numeric-subtract-008">
+      <description> test subtraction of negated integers </description>
+      <created by="Tim Mills" on="2008-07-01"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>
+      	declare function local:integer($x as xs:decimal) { if ($x mod 1 eq 0) then xs:integer($x) else $x }; 
+      	-(local:integer(2)) - local:integer(4)</test>
+      <result>
+         <assert-string-value>-6</assert-string-value>
+      </result>
+   </test-case>
 </test-set>

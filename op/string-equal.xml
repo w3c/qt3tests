@@ -103,7 +103,52 @@
       <description> Compare two non-matching values returned from fn:lower-case() and fn:upper-case(). </description>
       <created by="Frans Englich" on="2007-11-26"/>
       <dependency type="spec" value="XQ10+"/>
-      <test><![CDATA[declare variable $vA as xs:string := ("B STRING", current-time(), string(<e>content</e>))[1] treat as xs:string; declare variable $vB as xs:string := ("b string", current-time(), string(<e>content</e>))[1] treat as xs:string; (lower-case($vA) eq upper-case($vB))]]></test>
+      <test><![CDATA[
+        declare variable $vA as xs:string := ("B STRING", current-time(), string(<e>content</e>))[1] treat as xs:string; 
+        declare variable $vB as xs:string := ("b string", current-time(), string(<e>content</e>))[1] treat as xs:string; 
+        (lower-case($vA) eq upper-case($vB))
+      ]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   
+   <test-case name="cbcl-string-equal-001">
+      <description> test string comparison </description>
+      <created by="Tim Mills" on="2008-05-23"/>
+      <test>not(string(current-time()) eq "now")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-string-equal-002">
+      <description> test string comparison </description>
+      <created by="Tim Mills" on="2008-05-23"/>
+      <test>not(string(current-time()) ne "now")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-string-equal-003">
+      <description> test string comparison </description>
+      <created by="Tim Mills" on="2008-05-23"/>
+      <test>
+        not(xs:untypedAtomic(current-time()) eq xs:untypedAtomic("now"))
+      </test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-string-equal-004">
+      <description> test string comparison </description>
+      <created by="Tim Mills" on="2008-05-23"/>
+      <test>
+        not(xs:untypedAtomic(current-time()) ne xs:untypedAtomic("now"))
+      </test>
       <result>
          <assert-false/>
       </result>

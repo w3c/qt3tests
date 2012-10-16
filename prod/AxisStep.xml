@@ -4624,4 +4624,112 @@
       </result>
    </test-case>
    
+      <test-case name="cbcl-selfAxis-001">
+      <description> Tests self attribute test </description>
+      <created by="Nick Jones" on="2008-06-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<a> { <a b="blah"/>/@*/self::attribute(b) } </a>]]></test>
+      <result>
+         <assert-xml><![CDATA[<?xml version="1.0" encoding="UTF-8"?><a b="blah"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-childAxis-001">
+      <description> Tests to child::attribute(b) </description>
+      <created by="Nick Jones" on="2008-06-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[count(<a b="blah"/>/child::attribute(b))]]></test>
+      <result>
+         <assert-string-value>0</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-followingAxis-001">
+      <description> Tests for following-sibling::* </description>
+      <created by="Nick Jones" on="2008-06-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[count(<a><b/><b/></a>/b[1]/following-sibling::*)]]></test>
+      <result>
+         <assert-string-value>1</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-precedingAxis-001">
+      <description> Tests for preceding-sibling::* </description>
+      <created by="Nick Jones" on="2008-06-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[count(<a><b/><b/></a>/b[2]/preceding-sibling::*)]]></test>
+      <result>
+         <assert-string-value>1</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-precedingAxis-002">
+      <description> Test for preceding-sibling::b </description>
+      <created by="Nick Jones" on="2008-06-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[count(<a><b/><b/></a>/b[2]/preceding-sibling::b)]]></test>
+      <result>
+         <assert-string-value>1</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-precedingAxis-003">
+      <description> Test for preceding-sibling::b </description>
+      <created by="Nick Jones" on="2008-06-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[count(<a><b/><b/></a>/b[1]/preceding-sibling::b)]]></test>
+      <result>
+         <assert-string-value>0</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-except-001">
+      <description> Tests Equals method on NodeOperator tests </description>
+      <created by="Nick Jones" on="2008-06-27"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+      let $x := <a><b/><c/><d/></a> return count(($x/(node() except b) | $x/(node() except b)))
+   ]]></test>
+      <result>
+         <assert-string-value>2</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-wild-001">
+      <description> Tests Equals function on wild localname tests </description>
+      <created by="Nick Jones" on="2008-06-27"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        declare namespace foo="test";
+        let $x := <a><foo:b/><c/><d/></a> return count($x/foo:* | $x/foo:*)]]></test>
+      <result>
+         <assert-string-value>1</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-wild-002">
+      <description> Tests the typing of a test foo:bar/foo:* </description>
+      <created by="Nick Jones" on="2008-07-01"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        declare namespace foo="http://localhost/";
+        <a><foo:b/><foo:c/></a>/foo:b/self::foo:*]]></test>
+      <result>
+         <assert-xml><![CDATA[<foo:b xmlns:foo="http://localhost/"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-path-nodes-and-atomics">
+      <description> A test with both nodes and atomics appearing in a (not last) step </description>
+      <created by="Oliver Hallam" on="2008-08-20"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        declare function local:f($x) { if ($x mod 2 = 1) then <a/> else "a" };
+        let $y := for $x in (1 to 10) return <e>{$x}</e> return $y/local:f(.)/a]]></test>
+      <result>
+         <error code="XPTY0019"/>
+      </result>
+   </test-case>
+   
 </test-set>

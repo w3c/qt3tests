@@ -1934,4 +1934,61 @@
          </any-of>
       </result>
    </test-case>
+   
+   
+   <test-case name="cbcl-sum-func-001">
+      <description> Test sum(1 to 10) </description>
+      <created by="Nick Jones" on="2008-06-10"/>
+      <test>sum(1 to 10)</test>
+      <result>
+         <assert-string-value>55</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-sum-func-002">
+      <description> Test sum(foreach) </description>
+      <created by="Nick Jones" on="2008-06-10"/>
+      <test>sum(for $x in 1 to 10 return 5)</test>
+      <result>
+         <assert-string-value>50</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-sum-func-003">
+      <description> Test sum($x to $y) </description>
+      <created by="Nick Jones" on="2008-06-10"/>
+      <test>
+        for $x in 1 to 10, $y in 1 to 10 return concat('sum(',$x,' to ',$y,') = ',sum($x to $y))
+      </test>
+      <result>
+         <assert-string-value>sum(1 to 1) = 1 sum(1 to 2) = 3 sum(1 to 3) = 6 sum(1 to 4) = 10 sum(1 to 5) = 15 sum(1 to 6) = 21 sum(1 to 7) = 28 sum(1 to 8) = 36 sum(1 to 9) = 45 sum(1 to 10) = 55 sum(2 to 1) = 0 sum(2 to 2) = 2 sum(2 to 3) = 5 sum(2 to 4) = 9 sum(2 to 5) = 14 sum(2 to 6) = 20 sum(2 to 7) = 27 sum(2 to 8) = 35 sum(2 to 9) = 44 sum(2 to 10) = 54 sum(3 to 1) = 0 sum(3 to 2) = 0 sum(3 to 3) = 3 sum(3 to 4) = 7 sum(3 to 5) = 12 sum(3 to 6) = 18 sum(3 to 7) = 25 sum(3 to 8) = 33 sum(3 to 9) = 42 sum(3 to 10) = 52 sum(4 to 1) = 0 sum(4 to 2) = 0 sum(4 to 3) = 0 sum(4 to 4) = 4 sum(4 to 5) = 9 sum(4 to 6) = 15 sum(4 to 7) = 22 sum(4 to 8) = 30 sum(4 to 9) = 39 sum(4 to 10) = 49 sum(5 to 1) = 0 sum(5 to 2) = 0 sum(5 to 3) = 0 sum(5 to 4) = 0 sum(5 to 5) = 5 sum(5 to 6) = 11 sum(5 to 7) = 18 sum(5 to 8) = 26 sum(5 to 9) = 35 sum(5 to 10) = 45 sum(6 to 1) = 0 sum(6 to 2) = 0 sum(6 to 3) = 0 sum(6 to 4) = 0 sum(6 to 5) = 0 sum(6 to 6) = 6 sum(6 to 7) = 13 sum(6 to 8) = 21 sum(6 to 9) = 30 sum(6 to 10) = 40 sum(7 to 1) = 0 sum(7 to 2) = 0 sum(7 to 3) = 0 sum(7 to 4) = 0 sum(7 to 5) = 0 sum(7 to 6) = 0 sum(7 to 7) = 7 sum(7 to 8) = 15 sum(7 to 9) = 24 sum(7 to 10) = 34 sum(8 to 1) = 0 sum(8 to 2) = 0 sum(8 to 3) = 0 sum(8 to 4) = 0 sum(8 to 5) = 0 sum(8 to 6) = 0 sum(8 to 7) = 0 sum(8 to 8) = 8 sum(8 to 9) = 17 sum(8 to 10) = 27 sum(9 to 1) = 0 sum(9 to 2) = 0 sum(9 to 3) = 0 sum(9 to 4) = 0 sum(9 to 5) = 0 sum(9 to 6) = 0 sum(9 to 7) = 0 sum(9 to 8) = 0 sum(9 to 9) = 9 sum(9 to 10) = 19 sum(10 to 1) = 0 sum(10 to 2) = 0 sum(10 to 3) = 0 sum(10 to 4) = 0 sum(10 to 5) = 0 sum(10 to 6) = 0 sum(10 to 7) = 0 sum(10 to 8) = 0 sum(10 to 9) = 0 sum(10 to 10) = 10</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-sum-func-004">
+      <description> Tests boolean call to sum </description>
+      <created by="Nick Jones" on="2008-06-17"/>
+      <test>boolean(sum((1 to 10)[. mod 2 = 0]))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-sum-func-005">
+      <description> Tests sum of a sum </description>
+      <created by="Nick Jones" on="2008-06-17"/>
+      <test>sum(sum((1 to 10)[. mod 2 = 0],()))</test>
+      <result>
+         <assert-string-value>30</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-sum-func-006">
+      <description> Tests sum of two integer converts to plus </description>
+      <created by="Nick Jones" on="2008-06-17"/>
+      <test>sum((1,exactly-one((1 to 10)[. div 2 = 2])))</test>
+      <result>
+         <assert-string-value>5</assert-string-value>
+      </result>
+   </test-case>
 </test-set>

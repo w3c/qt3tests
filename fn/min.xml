@@ -1652,4 +1652,238 @@
          <assert-string-value>1066-10-02</assert-string-value>
       </result>
    </test-case>
+   
+   
+   <test-case name="cbcl-min-001">
+      <description> test fn:min on xs:boolean arguments </description>
+      <created by="Oliver Hallam" on="2008-04-16"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>
+      	declare function local:f($x as xs:integer) { if ($x = 0) then false() else true() }; 
+      	min(for $x in (1,2,3) return local:f($x))
+      </test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>   
+
+   <test-case name="cbcl-min-002">
+      <description> test fn:min on xs:boolean arguments </description>
+      <created by="Oliver Hallam" on="2008-04-16"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>
+      	declare function local:f($x as xs:integer) { if ($x = 2) then false() else true() }; 
+      	min(for $x in (1,2,3) return local:f($x))
+      </test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>  
+
+   <test-case name="cbcl-min-003">
+      <description> test fn:min on xs:boolean arguments </description>
+      <created by="Oliver Hallam" on="2008-04-16"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>
+      	declare function local:f($x as xs:integer) { if ($x = 3) then $x else false() }; 
+      	min(for $x in (1,2,3) return local:f($x))
+      </test>
+      <result>
+         <error code="FORG0006"/>
+      </result>
+   </test-case>   
+
+   <test-case name="cbcl-min-004">
+      <description> test fn:min with xs:date argument causing type error </description>
+      <created by="Oliver Hallam" on="2008-04-16"/>      
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+      	declare function local:f($x as xs:integer) { if ($x < 3) then current-date() else current-time() }; 
+      	min(for $x in (1,2,3) return local:f($x))
+      ]]></test>
+      <result>
+         <error code="FORG0006"/>
+      </result>
+   </test-case>   
+
+   <test-case name="cbcl-min-005">
+      <description> test fn:min with xs:dateTime arguments </description>
+      <created by="Oliver Hallam" on="2008-04-16"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>
+      	declare function local:f($x as xs:integer) { if ($x = 2) then xs:dateTime("1996-12-01T12:00:00") else current-dateTime() }; 
+      	min(for $x in (1,2,3) return local:f($x))
+      </test>
+      <result>
+         <assert-string-value>1996-12-01T12:00:00</assert-string-value>
+      </result>
+   </test-case>  
+
+   <test-case name="cbcl-min-006">
+      <description> test fn:min with xs:dateTime argument causing type error </description>
+      <created by="Oliver Hallam" on="2008-04-16"/>      
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+      	declare function local:f($x as xs:integer) { if ($x < 3) then current-dateTime() else xs:dayTimeDuration("PT3S") }; 
+      	min(for $x in (1,2,3) return local:f($x))
+      ]]></test>
+      <result>
+         <error code="FORG0006"/>
+      </result>
+   </test-case>  
+
+   <test-case name="cbcl-min-007">
+      <description> Test fn:min with xs:dayTimeDuration arguments </description>
+      <created by="Oliver Hallam" on="2008-04-16"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>
+      	declare function local:f($x as xs:integer) { if ($x = 2) then xs:dayTimeDuration("P1D") else xs:dayTimeDuration("PT3S") }; 
+      	min(for $x in (1,2,3) return local:f($x))
+      </test>
+      <result>
+         <assert-string-value>PT3S</assert-string-value>
+      </result>
+   </test-case>   
+
+   <test-case name="cbcl-min-008">
+      <description> Test fn:min with xs:dayTimeDuration argument causing type error </description>
+      <created by="Oliver Hallam" on="2008-04-16"/>
+      <dependency type="spec" value="XQ10+"/>     
+      <test>
+      	declare function local:f($x as xs:integer) { if ($x = 3) then xs:duration("P1D") else xs:dayTimeDuration("PT3S") }; 
+      	min(for $x in (1,2,3) return local:f($x))
+      </test>
+      <result>
+         <error code="FORG0006"/>
+      </result>
+   </test-case>   
+
+   <test-case name="cbcl-min-009">
+      <description> Test fn:min with numeric arguments </description>
+      <created by="Oliver Hallam" on="2008-04-16"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>
+      	declare function local:f($x as xs:integer) { (xs:decimal(1.1), xs:float(2.2), xs:double(1.4), xs:integer(2))[$x] }; 
+      	min(for $x in (1,2,3) return local:f($x)) instance of xs:double
+      </test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>   
+
+   <test-case name="cbcl-min-010">
+      <description> Test fn:min with numeric arguments </description>
+      <created by="Oliver Hallam" on="2008-04-16"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>
+      	declare function local:f($x as xs:integer) { (xs:decimal(1.3), xs:float(1.2), xs:double(1.4), xs:integer(2))[$x] }; 
+      	min(for $x in (1,2,3) return local:f($x)) instance of xs:double</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>   
+
+   <test-case name="cbcl-min-011">
+      <description> Test fn:min with numeric arguments rasing error </description>
+      <created by="Oliver Hallam" on="2008-04-16"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>
+      	declare function local:f($x as xs:integer) { (xs:decimal(1.1), xs:float(1.2), xs:double(0.4), xs:string("2"))[$x] }; 
+      	min(for $x in (1,4,2,3) return local:f($x))
+      </test>
+      <result>
+         <error code="FORG0006"/>
+      </result>
+   </test-case>   
+
+   <test-case name="cbcl-min-012">
+      <description> Test fn:min with numeric arguments </description>
+      <created by="Oliver Hallam" on="2008-04-16"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>
+      	declare function local:f($x as xs:integer) { (xs:decimal(1.1), xs:float(1.2), xs:double(0.4), xs:integer("-3"))[$x] }; 
+      	min(for $x in (4,2,1,3) return local:f($x)) instance of xs:double
+      </test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>   
+
+   <test-case name="cbcl-min-013">
+      <description> test fn:min with xs:time arguments </description>
+      <created by="Oliver Hallam" on="2008-04-16"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>
+      	declare function local:f($x as xs:integer) { if ($x = 2) then xs:time("12:00:00-01:00") else xs:time("12:00:00+01:00") }; 
+      	min(for $x in (1,2,3) return local:f($x))
+      </test>
+      <result>
+         <assert-string-value>12:00:00+01:00</assert-string-value>
+      </result>
+   </test-case>   
+
+   <test-case name="cbcl-min-014">
+      <description> test fn:min with xs:time argument causing type error </description>
+      <created by="Oliver Hallam" on="2008-04-16"/>      
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+      	declare function local:f($x as xs:integer) { if ($x < 3) then current-time() else xs:dayTimeDuration("PT3S") }; 
+      	min(for $x in (1,2,3) return local:f($x))
+      ]]></test>
+      <result>
+         <error code="FORG0006"/>
+      </result>
+   </test-case>   
+
+   <test-case name="cbcl-min-015">
+      <description> Test fn:min with xs:yearMonthDuration arguments </description>
+      <created by="Oliver Hallam" on="2008-04-16"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>
+      	declare function local:f($x as xs:integer) { if ($x = 2) then xs:yearMonthDuration("P11M") else xs:yearMonthDuration("P1Y") }; 
+      	min(for $x in (1,2,3) return local:f($x))
+      </test>
+      <result>
+         <assert-string-value>P11M</assert-string-value>
+      </result>
+   </test-case>   
+
+   <test-case name="cbcl-min-016">
+      <description> Test fn:min with xs:yearMonthDuration argument causing type error </description>
+      <created by="Oliver Hallam" on="2008-04-16"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>
+      	declare function local:f($x as xs:integer) { if ($x = 3) then xs:duration("P1Y") else xs:yearMonthDuration("P11M") }; 
+      	min(for $x in (1,2,3) return local:f($x))
+      </test>
+      <result>
+         <error code="FORG0006"/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-min-017">
+      <description> Test fn:min with invalid type for first argument </description>
+      <created by="Oliver Hallam" on="2008-04-16"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>
+      	declare function local:f($x as xs:integer) as xs:duration { if ($x = 1) then xs:duration("P1Y") else xs:yearMonthDuration("P11M") }; 
+      	min(for $x in (1,2,3) return local:f($x))
+      </test>
+      <result>
+         <error code="FORG0006"/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-min-018">
+      <description> Test fn:min on a range expression </description>
+      <created by="Oliver Hallam" on="2008-04-22"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>
+      	declare function local:f($x as xs:integer) as xs:integer { $x }; 
+      	min(local:f(4) to local:f(10))
+      </test>
+      <result>
+         <assert-string-value>4</assert-string-value>
+      </result>
+   </test-case>
 </test-set>

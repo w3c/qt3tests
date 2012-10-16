@@ -1162,4 +1162,112 @@
          <assert-eq>0</assert-eq>
       </result>
    </test-case>
+   
+
+   <test-case name="cbcl-numeric-idivide-001">
+      <description> test possible overflow of xs:decimal </description>
+      <created by="Tim Mills" on="2008-05-14"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>
+      	declare function local:square($arg as xs:decimal) as xs:decimal { $arg * $arg }; 
+      	local:square(4294967296.0) idiv 0.0000000000005</test>
+      <result>
+         <error code="FOAR0002"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-numeric-idivide-002">
+      <description> test possible overflow of xs:double </description>
+      <created by="Tim Mills" on="2008-05-14"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>
+      	declare function local:square($arg as xs:double) as xs:double { $arg * $arg }; 
+      	local:square(1e100) idiv 5e-100</test>
+      <result>
+         <error code="FOAR0002"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-numeric-idivide-003">
+      <description> test possible overflow of xs:float </description>
+      <created by="Tim Mills" on="2008-05-14"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>
+      	declare function local:square($arg as xs:float) as xs:float { $arg * $arg }; 
+      	local:square(xs:float(1e30)) idiv xs:float(5e-30)</test>
+      <result>
+         <error code="FOAR0002"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-numeric-idivide-004">
+      <description> ensure that idividing xs:integers returns an xs:integer </description>
+      <created by="Oliver Hallam" on="2008-05-29"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>
+      	declare function local:integer($x as xs:decimal) { if ($x mod 1 eq 0) then xs:integer($x) else $x };
+      	 (local:integer(2) idiv local:integer(2)) instance of xs:integer</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-numeric-idivide-005">
+      <description> Test idiv by one on an xs:integer </description>
+      <created by="Oliver Hallam" on="2008-05-30"/>      
+      <test>xs:integer(2) idiv xs:decimal(1)</test>
+      <result>
+         <assert-string-value>2</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-numeric-idivide-006">
+      <description> Test idiv by one on an xs:float </description>
+      <created by="Oliver Hallam" on="2008-05-30"/>      
+      <test>xs:float(1.5) idiv xs:decimal(1)</test>
+      <result>
+         <assert-string-value>1</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-numeric-idivide-007">
+      <description> Test idiv by one on an xs:double </description>
+      <created by="Oliver Hallam" on="2008-05-30"/>      
+      <test>xs:double(1.5) idiv xs:decimal(1)</test>
+      <result>
+         <assert-string-value>1</assert-string-value>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-numeric-idivide-008">
+      <description> Test idiv by one on an xs:double </description>
+      <created by="Tim Mills" on="2008-06-17"/>      
+      <test>xs:float('1e38') idiv xs:float('1e-37')</test>
+      <result>
+         <error code="FOAR0002"/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-numeric-idivide-009">
+      <description> Test numeric idiv with a potential type check error </description>
+      <created by="Tim Mills" on="2008-06-17"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>
+      	declare function local:value($number as xs:boolean) { if ($number) then 1 else xs:string('1') }; 
+      	local:value(true()) idiv local:value(true())</test>
+      <result>
+         <any-of>
+            <assert-string-value>1</assert-string-value>
+            <error code="XPTY0004"/>
+         </any-of>
+      </result>
+   </test-case>   
 </test-set>

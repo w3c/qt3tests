@@ -285,4 +285,32 @@
          <error code="FOER0000"/>
       </result>
    </test-case>
+   
+   <test-case name="cbcl-fn-unordered-001">
+      <description> Tests optimizations for unordered </description>
+      <created by="Nick Jones" on="2008-06-12"/>
+      <test>boolean(unordered(reverse((1 to 10)[. div 2 = 2])))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-fn-unordered-002">
+      <description> Tries EvaluateOptionalItem on fn:unordered </description>
+      <created by="Nick Jones" on="2008-06-16"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[local-name(unordered(<a><b/><c/></a>/*[1]))]]></test>
+      <result>
+         <assert-string-value>b</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-fn-unordered-003">
+      <description> Tests corner evaluation case </description>
+      <created by="Nick Jones" on="2008-06-27"/>
+      <test>floor(unordered((1 to 10)[. div 2 = 0]))</test>
+      <result>
+         <assert-string-value/>
+      </result>
+   </test-case>
 </test-set>

@@ -867,6 +867,35 @@
          <assert-xml><![CDATA[<hours>12</hours><grade>13</grade><grade>13</grade><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>40</hours><hours>40</hours><hours>40</hours><hours>80</hours><hours>80</hours><hours>80</hours>]]></assert-xml>
       </result>
    </test-case>
+      
+   <test-case name="cbcl-fn-union-001">
+      <description> Tests various optimizations on op:union </description>
+      <created by="Nick Jones" on="2008-08-19"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        declare variable $x := <b/>;
+        declare variable $y := <a/>;
+        ($x union $y) union $x, ($x intersect $y) union $x, ($x except $y) union $x, ($y except $x) union $x, $x union ($x union $y), $x union ($x intersect $y), $x union ($x except $y), $x union ($y except $x)]]></test>
+      <result>
+         <any-of>
+            <assert-xml><![CDATA[<b/><a/><b/><b/><b/><a/><b/><a/><b/><b/><b/><a/>]]></assert-xml>
+            <assert-xml><![CDATA[<a/><b/><b/><b/><a/><b/><a/><b/><b/><b/><a/><b/>]]></assert-xml>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-fn-union-002">
+      <description> Tests optimization of union of path expressions </description>
+      <created by="Nick Jones" on="2008-08-19"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        declare variable $doc := <root><test><x/><y/></test></root>;
+        $doc/test[x] union $doc/test[y]]]></test>
+      <result>
+         <assert-xml><![CDATA[<test><x/><y/></test>]]></assert-xml>
+      </result>
+   </test-case>
+
 
    
 </test-set>

@@ -580,4 +580,18 @@
          <assert-string-value>integer decimal float double double</assert-string-value>
       </result>
    </test-case>
+   
+   
+   <test-case name="cbcl-numeric-unary-minus-001">
+      <description> Test unary minus with a potential type check error </description>
+      <created by="Tim Mills" on="2008-06-17"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>declare function local:value($number as xs:boolean) { if ($number) then 1 else xs:string('1') }; -(local:value(true()))</test>
+      <result>
+         <any-of>
+            <assert-string-value>-1</assert-string-value>
+            <error code="XPTY0004"/>
+         </any-of>
+      </result>
+   </test-case>
 </test-set>

@@ -15,6 +15,18 @@
       </source>
       <namespace prefix="" uri="http://www.w3.org/XQueryTest/nillable"/>
    </environment>
+   
+   <environment name="validate">
+      <schema uri="http://www.w3.org/XQueryTest/testcases" file="nilled/validate.xsd">
+          <description>A Schema with some nillable elements</description>
+          <created by="Tim Mills" on="2008-01-01"/>
+      </schema>
+      <source role="." file="nilled/validate.xml" validation="strict">
+          <description>An instance with some nilled elements</description>
+          <created by="Tim Mills" on="2008-01-01"/>
+      </source>
+      <namespace prefix="" uri="http://www.w3.org/XQueryTest/testcases"/>
+   </environment>
          
 
    <test-case name="fn-nilled-1">
@@ -436,6 +448,109 @@
       <test>nilled(1)</test>
       <result>
          <error code="XPTY0004"/>
+      </result>
+   </test-case>  
+   
+   <test-case name="cbcl-nilled-001">
+      <description> Evaluation of nilled function with a non-nil nillable element </description>
+      <created by="Tim Mills" on="2007-02-27"/>
+      <environment ref="validate"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>
+      	import schema namespace tc="http://www.w3.org/XQueryTest/testcases"; 
+      	fn:nilled(/tc:root/tc:nillable[1])
+      </test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>   
+
+   <test-case name="cbcl-nilled-002">
+      <description> Evaluation of nilled function with a nil nillable element </description>
+      <created by="Tim Mills" on="2007-02-27"/>
+      <environment ref="validate"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>
+      	import schema namespace tc="http://www.w3.org/XQueryTest/testcases"; 
+      	fn:nilled(/tc:root/tc:nillable[2])
+      </test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>   
+
+   <test-case name="cbcl-nilled-003">
+      <description> Evaluation of nilled function with a non-nil nillable element </description>
+      <created by="Tim Mills" on="2007-02-27"/>
+      <environment ref="validate"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>
+      	import schema namespace tc="http://www.w3.org/XQueryTest/testcases"; 
+      	fn:nilled(/tc:root/tc:nillable[3])
+      </test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>   
+
+   <test-case name="cbcl-nilled-004">
+      <description> Evaluation of nilled function with a non-nil nillable element </description>
+      <created by="Tim Mills" on="2007-02-27"/>
+      <environment ref="validate"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test><![CDATA[
+      	import schema namespace tc="http://www.w3.org/XQueryTest/testcases"; 
+      	let $v := validate { <tc:nillable xsi:nil="false" /> } 
+      	return fn:nilled($v)
+      ]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-nilled-005">
+      <description> Evaluation of nilled function with a nil nillable element </description>
+      <created by="Tim Mills" on="2007-02-27"/>
+      <environment ref="validate"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test><![CDATA[
+      	import schema namespace tc="http://www.w3.org/XQueryTest/testcases"; 
+      	let $v := validate { <tc:nillable xsi:nil="true" /> } return fn:nilled($v)
+      ]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-nilled-006">
+      <description> Evaluation of nilled function with a non-nil nillable element </description>
+      <created by="Tim Mills" on="2007-02-27"/>
+      <environment ref="validate"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test><![CDATA[
+      	import schema namespace tc="http://www.w3.org/XQueryTest/testcases"; 
+      	let $v := validate { <tc:nillable /> } return fn:nilled($v)
+      ]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-nilled-007">
+      <description> Test fn:nilled on non-element nodes. </description>
+      <created by="Tim Mills" on="2008-10-04"/>      
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+      	empty(nilled( <?foo ?> ))
+      ]]></test>
+      <result>
+         <assert-true/>
       </result>
    </test-case>
 </test-set>

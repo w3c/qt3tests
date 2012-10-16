@@ -1836,4 +1836,31 @@
          <assert-true/>
       </result>
    </test-case>
+      
+   <test-case name="cbcl-every-001">
+      <description> Test optimization when the domain may be empty and return type is a value </description>
+      <created by="Nick Jones" on="2008-06-05"/>
+      <test>every $x in (1 to 10)[. div 2 = 11] satisfies false()</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-some-001">
+      <description> Test optimization where the domain may be empty and the return type a value </description>
+      <created by="Nick Jones" on="2008-06-05"/>
+      <test>some $x in (1 to 10)[. div 2 = 11] satisfies true()</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-every-002">
+      <description> Tests optimization of every $x in .... satisfies true() </description>
+      <created by="Nick Jones" on="2008-06-20"/>
+      <test>every $x in (1 to 10)[. mod 2 = 0] satisfies true()</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
 </test-set>

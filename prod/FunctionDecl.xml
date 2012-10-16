@@ -1633,4 +1633,26 @@
          <assert-string-value>testing ...</assert-string-value>
       </result>
    </test-case>
+   
+   
+   <test-case name="cbcl-function-decl-001">
+      <description> check that XPST0005 is NOT a valid response </description>
+      <created by="Tim Mills" on="2008-07-17"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>declare function local:nothing() as empty-sequence() { () }; empty(local:nothing())</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+
+   <test-case name="cbcl-function-declaration-002">
+      <description> Test passing a large sequence to a function. </description>
+      <created by="Oliver Hallam" on="2008-11-25"/>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>declare function local:count($x) { count($x) }; local:count((1 to 100000, 1 to 100000))</test>
+      <result>
+         <assert-string-value>200000</assert-string-value>
+      </result>
+   </test-case>
 </test-set>

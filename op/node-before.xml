@@ -409,5 +409,31 @@
       <result>
          <error code="XPST0003"/>
       </result>
+   </test-case>   
+   
+   <test-case name="cbcl-node-before-001">
+      <description> test node before operator </description>
+      <created by="Tim Mills" on="2008-05-14"/>     
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+      	let $node := <a> <b/> <c/> </a> 
+      	return not(exactly-one($node/b[1]) << exactly-one($node/c[1]))
+      ]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>  
+
+   <test-case name="cbcl-node-before-002">
+      <description> test node before operator </description>
+      <created by="Tim Mills" on="2008-05-14"/>      
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+      	let $node := <a> <b/> <c/> </a> 
+      	return not(not(exactly-one($node/b[1]) << exactly-one($node/c[1])))
+      ]]></test>
+      <result>
+         <assert-true/>
+      </result>
    </test-case>
 </test-set>

@@ -435,5 +435,416 @@ together with the numeric-equal operator "ge".
       <result>
          <assert-string-value>P2DT2H</assert-string-value>
       </result>
+   </test-case>
+   
+   
+   <test-case name="cbcl-plus-001">
+      <description> Test behaviour of plus operator when presented with an expression with static type duration </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:f($x) { if ($x) then xs:duration("P1D") else xs:dayTimeDuration("P1D") };
+        xs:date("1997-01-01") + local:f(false())</test>
+      <result>
+         <assert-string-value>1997-01-02</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-plus-002">
+      <description> Test behaviour of plus operator when presented with an expression with static type duration </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:f($x) { if ($x) then xs:duration("P1D") else xs:dayTimeDuration("P1D") };
+        xs:date("1997-01-01") + local:f(true())</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-plus-003">
+      <description> Test behaviour of plus operator when presented with an expression with static type duration </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:f($x) { if ($x) then xs:duration("P1D") else xs:yearMonthDuration("P1M") };
+        xs:date("1997-01-01") + local:f(false())</test>
+      <result>
+         <assert-string-value>1997-02-01</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-plus-004">
+      <description> Test behaviour of plus operator when presented with an expression with static type duration </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:f($x) { if ($x) then xs:duration("P1D") else xs:yearMonthDuration("P1M") };
+        xs:date("1997-01-01") + local:f(true())</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-plus-005">
+      <description> Test behaviour of plus operator when presented with an expression with static type duration </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:f($x) { if ($x) then xs:duration("P1D") else xs:dayTimeDuration("P1D") };
+        xs:dateTime("1997-01-01T12:00:00") + local:f(false())</test>
+      <result>
+         <assert-string-value>1997-01-02T12:00:00</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-plus-006">
+      <description> Test behaviour of plus operator when presented with an expression with static type duration </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:f($x) { if ($x) then xs:duration("P1D") else xs:dayTimeDuration("P1D") };
+        xs:dateTime("1997-01-01T12:00:00") + local:f(true())</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-plus-007">
+      <description> Test behaviour of plus operator when presented with an expression with static type duration </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:f($x) { if ($x) then xs:duration("P1D") else xs:yearMonthDuration("P1M") };
+        xs:dateTime("1997-01-01T12:00:00") + local:f(false())</test>
+      <result>
+         <assert-string-value>1997-02-01T12:00:00</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-plus-008">
+      <description> Test behaviour of plus operator when presented with an expression with static type duration </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:f($x) { if ($x) then xs:duration("P1D") else xs:yearMonthDuration("P1M") };
+        xs:dateTime("1997-01-01T12:00:00") + local:f(true())</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-plus-009">
+      <description> Test behaviour of plus operator when presented with an expression with static type duration </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:f($x) { if ($x) then xs:duration("P1D") else xs:dayTimeDuration("PT1H") };
+        xs:time("12:00:00") + local:f(false())</test>
+      <result>
+         <assert-string-value>13:00:00</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-plus-010">
+      <description> Test behaviour of plus operator when presented with an expression with static type duration </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:f($x) { if ($x) then xs:duration("P1D") else xs:dayTimeDuration("P1H") };
+        xs:time("12:00:00") + local:f(true())</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-plus-011">
+      <description> Test behaviour of plus operator when presented with an expression with static type duration </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:f($x) { if ($x) then xs:duration("P1D") else xs:dayTimeDuration("P1D") };
+        xs:dayTimeDuration("PT1H") + local:f(false())</test>
+      <result>
+         <assert-string-value>P1DT1H</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-plus-012">
+      <description> Test behaviour of plus operator when presented with an expression with static type duration </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:f($x) { if ($x) then xs:duration("P1D") else xs:dayTimeDuration("P1D") };
+        xs:dayTimeDuration("PT1H") + local:f(true())</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-plus-013">
+      <description> Test behaviour of plus operator when presented with an expression with static type duration </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:f($x) { if ($x) then xs:duration("P1M") else xs:yearMonthDuration("P1M") };
+        xs:yearMonthDuration("P1Y") + local:f(false())</test>
+      <result>
+         <assert-string-value>P1Y1M</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-plus-014">
+      <description> Test behaviour of plus operator when presented with an expression with static type duration </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:f($x) { if ($x) then xs:duration("P1M") else xs:yearMonthDuration("P1M") };
+        xs:yearMonthDuration("P1Y") + local:f(true())</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-plus-015">
+      <description> Test behaviour of plus operator when presented with an expression with static type duration </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:f($x) { if ($x) then xs:duration("P1D") else xs:dayTimeDuration("P1D") };
+        local:f(false()) + xs:date("1997-01-01")</test>
+      <result>
+         <assert-string-value>1997-01-02</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-plus-016">
+      <description> Test behaviour of plus operator when presented with an expression with static type duration </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:f($x) { if ($x) then xs:duration("P1D") else xs:dayTimeDuration("P1D") };
+        local:f(true()) + xs:date("1997-01-01")</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-plus-017">
+      <description> Test behaviour of plus operator when presented with an expression with static type duration </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:f($x) { if ($x) then xs:duration("P1D") else xs:yearMonthDuration("P1M") };
+        local:f(false()) + xs:date("1997-01-01")</test>
+      <result>
+         <assert-string-value>1997-02-01</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-plus-018">
+      <description> Test behaviour of plus operator when presented with an expression with static type duration </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:f($x) { if ($x) then xs:duration("P1D") else xs:yearMonthDuration("P1M") };
+        local:f(true()) + xs:date("1997-01-01")</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-plus-019">
+      <description> Test behaviour of plus operator when presented with an expression with static type duration </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:f($x) { if ($x) then xs:duration("P1D") else xs:dayTimeDuration("P1D") };
+        local:f(false()) + xs:dateTime("1997-01-01T12:00:00")</test>
+      <result>
+         <assert-string-value>1997-01-02T12:00:00</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-plus-020">
+      <description> Test behaviour of plus operator when presented with an expression with static type duration </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:f($x) { if ($x) then xs:duration("P1D") else xs:dayTimeDuration("P1D") };
+        local:f(true()) + xs:dateTime("1997-01-01T12:00:00")</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-plus-021">
+      <description> Test behaviour of plus operator when presented with an expression with static type duration </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:f($x) { if ($x) then xs:duration("P1D") else xs:yearMonthDuration("P1M") };
+        local:f(false()) + xs:dateTime("1997-01-01T12:00:00")</test>
+      <result>
+         <assert-string-value>1997-02-01T12:00:00</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-plus-022">
+      <description> Test behaviour of plus operator when presented with an expression with static type duration </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:f($x) { if ($x) then xs:duration("P1D") else xs:yearMonthDuration("P1M") };
+        local:f(true()) + xs:dateTime("1997-01-01T12:00:00")</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-plus-023">
+      <description> Test behaviour of plus operator when presented with an expression with static type duration </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:f($x) { if ($x) then xs:duration("P1D") else xs:dayTimeDuration("PT1H") };
+        local:f(false()) + xs:time("12:00:00")</test>
+      <result>
+         <assert-string-value>13:00:00</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-plus-024">
+      <description> Test behaviour of plus operator when presented with an expression with static type duration </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:f($x) { if ($x) then xs:duration("P1D") else xs:dayTimeDuration("PT1H") };
+        local:f(true()) + xs:time("12:00:00")</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-plus-025">
+      <description> Test behaviour of plus operator when presented with an expression with static type duration </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:f($x) { if ($x) then xs:duration("P1D") else xs:dayTimeDuration("P1D") };
+        local:f(false()) + xs:dayTimeDuration("PT1H")</test>
+      <result>
+         <assert-string-value>P1DT1H</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-plus-026">
+      <description> Test behaviour of plus operator when presented with an expression with static type duration </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:f($x) { if ($x) then xs:duration("P1D") else xs:dayTimeDuration("P1D") };
+        local:f(true()) + xs:dayTimeDuration("PT1H")</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-plus-027">
+      <description> Test behaviour of plus operator when presented with an expression with static type duration </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:f($x) { if ($x) then xs:duration("P1M") else xs:yearMonthDuration("P1M") };
+        local:f(false()) + xs:yearMonthDuration("P1Y")</test>
+      <result>
+         <assert-string-value>P1Y1M</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-plus-028">
+      <description> Test behaviour of plus operator when presented with an expression with static type duration </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:f($x) { if ($x) then xs:duration("P1M") else xs:yearMonthDuration("P1M") };
+        local:f(true()) + xs:yearMonthDuration("P1Y")</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-plus-029">
+      <description> Test behaviour of plus operator when presented with an expression with static type duration </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:f($x) { if ($x) then xs:duration("P1M") else xs:yearMonthDuration("P1M") };
+        local:f(false()) + local:f(false())</test>
+      <result>
+         <assert-string-value>P2M</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-plus-030">
+      <description> Test behaviour of plus operator when presented with an expression with static type duration </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:f($x) { if ($x) then xs:duration("P1M") else xs:yearMonthDuration("P1M") };
+        local:f(true()) + local:f(true())</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-plus-031">
+      <description> Test behaviour of plus operator when presented with an expression with static type duration </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:f($x) { if ($x) then xs:duration("P1D") else xs:dayTimeDuration("P1D") };
+        local:f(false()) + local:f(false())</test>
+      <result>
+         <assert-string-value>P2D</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-plus-032">
+      <description> Test behaviour of plus operator when presented with an expression with static type duration </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:f($x) { if ($x) then xs:duration("P1D") else xs:dayTimeDuration("P1D") };
+        local:f(true()) + local:f(true())</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-plus-033">
+      <description> Test behaviour of plus operator when presented with an expression with static type duration </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:f($x) { if ($x) then xs:duration("P1D") else xs:dayTimeDuration("P1D") };
+        declare function local:g($x) { if ($x) then xs:duration("P1M") else xs:yearMonthDuration("P1M") };
+        local:f(false()) + local:g(false())</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-plus-034">
+      <description> Test behaviour of plus operator when presented with an expression with static type duration </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:f($x) { if ($x) then xs:duration("P1D") else xs:dayTimeDuration("P1D") };
+        declare function local:g($x) { if ($x) then xs:duration("P1M") else xs:yearMonthDuration("P1M") };
+        local:f(true()) + local:g(true())</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
    </test-case>   
 </test-set>

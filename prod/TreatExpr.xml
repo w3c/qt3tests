@@ -456,4 +456,247 @@
          <assert-true/>
       </result>
    </test-case>
+   
+   <test-case name="cbcl-treat-as-001">
+      <description> Tests treat as with + quantifier </description>
+      <created by="Nick Jones" on="2008-06-24"/>
+      <test>(1 to 10)[. mod 2 = 0] treat as xs:integer+</test>
+      <result>
+         <assert-string-value>2 4 6 8 10</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-treat-as-002">
+      <description> Tests treat as with * quantifier </description>
+      <created by="Nick Jones" on="2008-06-24"/>
+      <test>(1 to 10)[. mod 2 = 0] treat as xs:integer*</test>
+      <result>
+         <assert-string-value>2 4 6 8 10</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-treat-as-003">
+      <description> Tests treat as with + quantifier with ? input </description>
+      <created by="Nick Jones" on="2008-06-24"/>
+      <test>zero-or-one((1 to 10)[. div 2 = 1]) treat as xs:integer+</test>
+      <result>
+         <assert-string-value>2</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-treat-as-004">
+      <description> Tests treat as with * quantifier with ? input </description>
+      <created by="Nick Jones" on="2008-06-24"/>
+      <test>zero-or-one((1 to 10)[. div 2 = 1]) treat as xs:integer*</test>
+      <result>
+         <assert-string-value>2</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-treat-as-005">
+      <description> Tests treat as with + quantifier with 1 input </description>
+      <created by="Nick Jones" on="2008-06-24"/>
+      <test>exactly-one((1 to 10)[. div 2 = 1]) treat as xs:integer+</test>
+      <result>
+         <assert-string-value>2</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-treat-as-006">
+      <description> Tests treat as with * quantifier and 1 input </description>
+      <created by="Nick Jones" on="2008-06-24"/>
+      <test>exactly-one((1 to 10)[. div 2 = 1]) treat as xs:integer*</test>
+      <result>
+         <assert-string-value>2</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-treat-as-007">
+      <description> Tests treat as with + quantifier </description>
+      <created by="Nick Jones" on="2008-06-24"/>
+      <test>count((1 to 10)[. mod 2 = 0] treat as xs:integer+)</test>
+      <result>
+         <assert-string-value>5</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-treat-as-008">
+      <description> Tests treat as with + quantifier </description>
+      <created by="Nick Jones" on="2008-06-24"/>
+      <test>subsequence((1 to 10)[. mod 2 = 0] treat as xs:integer+,1,2)</test>
+      <result>
+         <assert-string-value>2 4</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-treat-as-009">
+      <description> Tests treat as with + quantifier </description>
+      <created by="Nick Jones" on="2008-06-24"/>
+      <test>(1 to 10)[. div 2 = 0] treat as xs:integer+</test>
+      <result>
+         <error code="XPDY0050"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-treat-as-010">
+      <description> Tests treat as with + quantifier </description>
+      <created by="Nick Jones" on="2008-06-24"/>
+      <test>(1 to 10)[. mod 2 = 0] treat as xs:negativeInteger+</test>
+      <result>
+         <error code="XPDY0050"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-treat-as-011">
+      <description> Tests treat as with + quantifier </description>
+      <created by="Nick Jones" on="2008-06-24"/>
+      <test>(1 to 10)[. mod 2 = 0] treat as xs:integer</test>
+      <result>
+         <error code="XPDY0050"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-treat-as-012">
+      <description> Tests treat as with + quantifier </description>
+      <created by="Nick Jones" on="2008-06-24"/>
+      <test>(1 to 10)[. mod 2 = 0] treat as xs:negativeInteger*</test>
+      <result>
+         <error code="XPDY0050"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-treat-as-013">
+      <description> Tests treat as with + quantifier </description>
+      <created by="Nick Jones" on="2008-06-24"/>
+      <test>zero-or-one((1 to 10)[. div 2 = 0]) treat as xs:integer</test>
+      <result>
+         <error code="XPDY0050"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-treat-as-014">
+      <description> Tests treat as with + quantifier with ? input </description>
+      <created by="Nick Jones" on="2008-06-24"/>
+      <test>zero-or-one((1 to 10)[. div 2 = 0]) treat as xs:integer+</test>
+      <result>
+         <error code="XPDY0050"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-treat-as-015">
+      <description> test treat as cardinality checks are correct </description>
+      <created by="Tim Mills" on="2008-09-19"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:range($arg as xs:integer) as xs:integer* { 1 to $arg };
+        declare function local:double($arg as xs:integer) { $arg * 2 };
+        local:double(local:range(0) treat as xs:integer)</test>
+      <result>
+         <error code="XPDY0050"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-treat-as-016">
+      <description> test treat as cardinality checks are correct </description>
+      <created by="Tim Mills" on="2008-09-19"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:range($arg as xs:integer) as xs:integer* { 1 to $arg };
+        declare function local:double($arg as xs:integer) { $arg * 2 };
+        local:double(local:range(1) treat as xs:integer)</test>
+      <result>
+         <assert-string-value>2</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-treat-as-017">
+      <description> test treat as cardinality checks are correct </description>
+      <created by="Tim Mills" on="2008-09-19"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:range($arg as xs:integer) as xs:integer* { 1 to $arg };
+        declare function local:double($arg as xs:integer) { $arg * 2 };
+        local:double(local:range(3) treat as xs:integer)</test>
+      <result>
+         <error code="XPDY0050"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-treat-as-018">
+      <description> test treat as cardinality checks are correct </description>
+      <created by="Tim Mills" on="2008-09-19"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:range($arg as xs:integer) as xs:integer* { 1 to $arg };
+        declare function local:double($arg as xs:integer?) { $arg * 2 };
+        empty(local:double(local:range(0) treat as xs:integer?))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-treat-as-019">
+      <description> test treat as cardinality checks are correct </description>
+      <created by="Tim Mills" on="2008-09-19"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:range($arg as xs:integer) as xs:integer* { 1 to $arg };
+        declare function local:double($arg as xs:integer?) { $arg * 2 };
+        local:double(local:range(1) treat as xs:integer?)</test>
+      <result>
+         <assert-string-value>2</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-treat-as-020">
+      <description> test treat as cardinality checks are correct </description>
+      <created by="Tim Mills" on="2008-09-19"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:range($arg as xs:integer) as xs:integer* { 1 to $arg };
+        declare function local:double($arg as xs:integer?) { $arg * 2 };
+        local:double(local:range(2) treat as xs:integer?)</test>
+      <result>
+         <error code="XPDY0050"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-treat-as-021">
+      <description> test treat as cardinality checks are correct </description>
+      <created by="Tim Mills" on="2008-09-19"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:range($arg as xs:integer) as xs:integer* { 1 to $arg };
+        declare function local:double($arg as xs:integer+) { for $a in $arg return $a * 2 };
+        local:double(local:range(0) treat as xs:integer+)</test>
+      <result>
+         <error code="XPDY0050"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-treat-as-022">
+      <description> test treat as cardinality checks are correct </description>
+      <created by="Tim Mills" on="2008-09-19"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:range($arg as xs:integer) as xs:integer* { 1 to $arg };
+        declare function local:double($arg as xs:integer+) { for $a in $arg return $a * 2 };
+        local:double(local:range(1) treat as xs:integer+)</test>
+      <result>
+         <assert-string-value>2</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-treat-as-023">
+      <description> test treat as cardinality checks are correct </description>
+      <created by="Tim Mills" on="2008-09-19"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:range($arg as xs:integer) as xs:integer* { 1 to $arg };
+        declare function local:double($arg as xs:integer+) { for $a in $arg return $a * 2 };
+        local:double(local:range(2) treat as xs:integer+)</test>
+      <result>
+         <assert-string-value>2 4</assert-string-value>
+      </result>
+   </test-case>
 </test-set>
