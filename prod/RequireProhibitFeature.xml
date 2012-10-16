@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="us-ascii"?>
-<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="prod-RequireProhibitFeature">
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="prod-RequireProhibitFeature"
+          covers="require-and-prohibit-feature">
    <description>Tests for the require-feature and prohibit-feature options.</description>
    <link type="spec" document="http://www.w3.org/TR/xquery-30/"
          idref="doc-xquery30-RequireProhibitFeature"/>
@@ -16,8 +17,8 @@
   <test-case name="require-schema-aware-1">
     <description>An error must be thrown if the feature is not supported.</description>
     <created by="Ghislain Fourny" on="2012-10-15"/>
-    <dependency type="spec" value="XQ30+"/>
     <environment ref="dummy-schema"/>
+    <dependency type="spec" value="XQ30+"/>
     <test>
       declare option require-feature "schema-aware";
       import schema namespace s = "http://www.w3.org/XQueryTest/RequireProhibitFeature";
@@ -37,8 +38,8 @@
   <test-case name="require-schema-aware-2">
     <description>An error must be thrown if the feature is not supported.</description>
     <created by="Ghislain Fourny" on="2012-10-15"/>
-    <dependency type="spec" value="XQ30+"/>
     <environment ref="dummy-schema"/>
+    <dependency type="spec" value="XQ30+"/>
     <test><![CDATA[
       declare option require-feature "schema-aware";
       (validate type xs:integer { <element>42</element> }) instance of xs:integer
@@ -58,8 +59,8 @@
   <test-case name="require-schema-aware-3">
     <description>An error must be thrown if the feature is not supported.</description>
     <created by="Ghislain Fourny" on="2012-10-15"/>
-    <dependency type="spec" value="XQ30+"/>
     <environment ref="dummy-schema"/>
+    <dependency type="spec" value="XQ30+"/>
     <test>
       import schema namespace s = "http://www.w3.org/XQueryTest/RequireProhibitFeature";
       ()
@@ -78,8 +79,8 @@
   <test-case name="require-schema-aware-4">
     <description>An error must be thrown if the feature is not supported.</description>
     <created by="Ghislain Fourny" on="2012-10-15"/>
-    <dependency type="spec" value="XQ30+"/>
     <environment ref="dummy-schema"/>
+    <dependency type="spec" value="XQ30+"/>
     <test><![CDATA[
       (validate type xs:integer { <element>42</element> }) instance of xs:integer
       ]]>
@@ -117,8 +118,8 @@
   <test-case name="require-module-1">
     <description>An error must be thrown if the feature is not supported.</description>
     <created by="Ghislain Fourny" on="2012-10-15"/>
-    <dependency type="spec" value="XQ30+"/>
     <module uri="http://www.w3.org/XQueryTest/RequireProhibitFeature" file="RequireProhibitFeature/dummy.xquery"/>
+    <dependency type="spec" value="XQ30+"/>
     <test>
       declare option require-feature "module";
       import module namespace m = "http://www.example.com/dummy-module";
@@ -137,8 +138,8 @@
   <test-case name="require-module-2">
     <description>An error must be thrown if the feature is not supported.</description>
     <created by="Ghislain Fourny" on="2012-10-15"/>
-    <dependency type="spec" value="XQ30+"/>
     <module uri="http://www.w3.org/XQueryTest/RequireProhibitFeature" file="RequireProhibitFeature/dummy.xquery"/>
+    <dependency type="spec" value="XQ30+"/>
     <test>
       import module namespace m = "http://www.example.com/dummy-module";
     </test>
@@ -360,8 +361,8 @@
     <test-case name="prohibit-schema-aware-1">
     <description>An error must be thrown if the feature is prohibited and used.</description>
     <created by="Ghislain Fourny" on="2012-10-15"/>
-    <dependency type="spec" value="XQ30+"/>
     <environment ref="dummy-schema"/>
+    <dependency type="spec" value="XQ30+"/>
     <test>
       declare option prohibit-feature "schema-aware";
       import schema namespace s = "http://www.w3.org/XQueryTest/RequireProhibitFeature";
@@ -419,8 +420,8 @@
   <test-case name="prohibit-module-1">
     <description>An error must be thrown if the feature is prohibited and used.</description>
     <created by="Ghislain Fourny" on="2012-10-15"/>
-    <dependency type="spec" value="XQ30+"/>
     <module uri="http://www.w3.org/XQueryTest/RequireProhibitFeature" file="RequireProhibitFeature/dummy.xquery"/>
+    <dependency type="spec" value="XQ30+"/>
     <test>
       declare option require-feature "module";
       import module namespace m = "http://www.example.com/dummy-module";
@@ -696,8 +697,8 @@
   <test-case name="require-all-optional-features-1">
     <description>An error must be thrown if the feature is not supported.</description>
     <created by="Ghislain Fourny" on="2012-10-15"/>
-    <dependency type="spec" value="XQ30+"/>
     <environment ref="dummy-schema"/>
+    <dependency type="spec" value="XQ30+"/>
     <test>
       declare option require-feature "all-optional-features";
       import schema namespace s = "http://www.w3.org/XQueryTest/RequireProhibitFeature";
@@ -777,11 +778,11 @@
     </result>
   </test-case>
   
-  <test-case name="require-all-optional-features-2">
+  <test-case name="prohibit-all-optional-features-2">
     <description>An error must be thrown if the feature is not supported.</description>
     <created by="Ghislain Fourny" on="2012-10-15"/>
-    <dependency type="spec" value="XQ30+"/>
     <environment ref="dummy-schema"/>
+    <dependency type="spec" value="XQ30+"/>
     <test>
       declare option prohibit-feature "all-optional-features";
       declare option require-feature "schema-aware";
@@ -801,11 +802,11 @@
     </result>
   </test-case>
   
-  <test-case name="require-all-optional-features-3">
+  <test-case name="prohibit-all-optional-features-3">
     <description>An error must be thrown if the feature is not supported.</description>
     <created by="Ghislain Fourny" on="2012-10-15"/>
-    <dependency type="spec" value="XQ30+"/>
     <environment ref="dummy-schema"/>
+    <dependency type="spec" value="XQ30+"/>
     <test>
       declare option require-feature "schema-aware";
       declare option prohibit-feature "all-optional-features";

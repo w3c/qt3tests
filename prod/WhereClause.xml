@@ -928,7 +928,7 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[<e> { for $x in 1 to 10 return <a>{for $y in 1 to 10 where $x > 7 and $y = $x return $y}</a> } </e>]]></test>
       <result>
-         <assert-xml>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;e&gt;&lt;a/&gt;&lt;a/&gt;&lt;a/&gt;&lt;a/&gt;&lt;a/&gt;&lt;a/&gt;&lt;a/&gt;&lt;a&gt;8&lt;/a&gt;&lt;a&gt;9&lt;/a&gt;&lt;a&gt;10&lt;/a&gt;&lt;/e&gt;</assert-xml>
+         <assert-xml>&lt;e&gt;&lt;a/&gt;&lt;a/&gt;&lt;a/&gt;&lt;a/&gt;&lt;a/&gt;&lt;a/&gt;&lt;a/&gt;&lt;a&gt;8&lt;/a&gt;&lt;a&gt;9&lt;/a&gt;&lt;a&gt;10&lt;/a&gt;&lt;/e&gt;</assert-xml>
       </result>
    </test-case>
    
@@ -939,22 +939,20 @@
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[<e> { for $x in 1 to 10 where $x > 7 return <a>{for $y in 1 to 10 where $y = $x return $y}</a> } </e>]]></test>
       <result>
-         <assert-xml>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;e&gt;&lt;a&gt;8&lt;/a&gt;&lt;a&gt;9&lt;/a&gt;&lt;a&gt;10&lt;/a&gt;&lt;/e&gt;</assert-xml>
+         <assert-xml>&lt;e&gt;&lt;a&gt;8&lt;/a&gt;&lt;a&gt;9&lt;/a&gt;&lt;a&gt;10&lt;/a&gt;&lt;/e&gt;</assert-xml>
       </result>
    </test-case>
    
-
    <test-case name="cbcl-left-outer-join-004">
       <description/>
       <created by="Nick Jones" on="2010-03-24"/>      
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[<tbody> { let $rows := <tables> <table> <row> <entry>Acetazolamide</entry> <entry>Acetazolamide</entry> </row> <row> <entry>Acetazolamide sodium</entry> <entry>Acetazolamide sodium</entry> </row> </table> <table> <row> <entry>Acetylcholine chloride</entry> <entry>Acetylcholine chloride</entry> </row> </table> <table> <row> <entry>Acetylcysteine</entry> <entry>Acetylcysteine</entry> </row> <row> <entry>Acetylcysteine sodium</entry> <entry>Acetylcysteine sodium</entry> </row> </table> </tables>/table/row return for $g in distinct-values($rows/entry[2][string(.)]) order by $g return let $matches := for $row in $rows where $g = string($row/entry[2][string(.)]) return $row/entry[1] return <entry> { $matches/( <link> { node() } </link>, text { if (position() lt last()) then '; ' else () } ) } </entry> } </tbody>]]></test>
       <result>
-         <assert-xml>&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;tbody&gt;&lt;entry&gt;&lt;link&gt;Acetazolamide&lt;/link&gt;&lt;/entry&gt;&lt;entry&gt;&lt;link&gt;Acetazolamide sodium&lt;/link&gt;&lt;/entry&gt;&lt;entry&gt;&lt;link&gt;Acetylcholine chloride&lt;/link&gt;&lt;/entry&gt;&lt;entry&gt;&lt;link&gt;Acetylcysteine&lt;/link&gt;&lt;/entry&gt;&lt;entry&gt;&lt;link&gt;Acetylcysteine sodium&lt;/link&gt;&lt;/entry&gt;&lt;/tbody&gt;</assert-xml>
+         <assert-xml>&lt;tbody&gt;&lt;entry&gt;&lt;link&gt;Acetazolamide&lt;/link&gt;&lt;/entry&gt;&lt;entry&gt;&lt;link&gt;Acetazolamide sodium&lt;/link&gt;&lt;/entry&gt;&lt;entry&gt;&lt;link&gt;Acetylcholine chloride&lt;/link&gt;&lt;/entry&gt;&lt;entry&gt;&lt;link&gt;Acetylcysteine&lt;/link&gt;&lt;/entry&gt;&lt;entry&gt;&lt;link&gt;Acetylcysteine sodium&lt;/link&gt;&lt;/entry&gt;&lt;/tbody&gt;</assert-xml>
       </result>
    </test-case>
    
-
    <test-case name="cbcl-hash-join-012">
       <description> Tests hash join between anyAtomicType containing only untypedAtomic and string </description>
       <created by="Nick Jones" on="2009-04-02"/>      
