@@ -56,8 +56,30 @@
             <description>A schema defining a motley collection of types.</description>
             <created by="Michael Kay" on="2006-11-14"/>
         </schema>
-   </environment> 
-
+   </environment>
+   
+   <environment name="complexData">
+      <source role="." file="../fn/data/complexData.xml" validation="strict">
+         <description>Document containing some nasty cases for fn:data.</description>
+         <created by="Oliver Hallam" on="2009-02-27"/>
+      </source>
+      <schema uri="http://www.cbcl.co.uk/XQueryTest/complexData" file="../fn/data/complexData.xsd">
+		  <description>Schema containing some nasty cases for fn:data.</description>
+		  <created by="Oliver Hallam" on="2009-02-27"/>
+	  </schema>
+   </environment>        
+ 
+   <environment name="validate">
+      <schema uri="http://www.w3.org/XQueryTest/testcases" file="../fn/nilled/validate.xsd">
+          <description>A Schema with some nillable elements</description>
+          <created by="Tim Mills" on="2008-01-01"/>
+      </schema>
+      <source role="." file="../fn/nilled/validate.xml" validation="strict">
+          <description>An instance with some nilled elements</description>
+          <created by="Tim Mills" on="2008-01-01"/>
+      </source>
+      <namespace prefix="" uri="http://www.w3.org/XQueryTest/testcases"/>
+   </environment>
    
    <dependency type="spec" value="XQ10+"/>
    <dependency type="feature" value="schemaImport"/>
@@ -970,6 +992,221 @@
       ]]></test>
       <result>
          <error code="XPST0003"/>
+      </result>
+   </test-case>
+   
+   
+   <test-case name="cbcl-validateexpr-1">
+      <description> Evaluation of a validate expression, with lax validation and a type sepcified by xsi:type </description>
+      <created by="Nick Jones" on="2007-11-01"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        declare default element namespace "http://www.w3.org/XQueryTest/testcases";
+        import schema "http://www.w3.org/XQueryTest/testcases";
+        let $var := validate lax { <Unknown xsi:type="tc:choice" xmlns:tc="http://www.w3.org/XQueryTest/testcases"> {element a {element z {"12.345"}}}</Unknown>} return $var]]></test>
+      <result>
+         <error code="XQDY0027"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-validateexpr-2">
+      <description> Evaluation of a validate expression, with lax validation and a type sepcified by xsi:type </description>
+      <created by="Nick Jones" on="2007-11-01"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        declare default element namespace "http://www.w3.org/XQueryTest/testcases";
+        import schema "http://www.w3.org/XQueryTest/testcases";
+        let $var := validate lax { <Unknown xsi:type="choice"> {element a {"12.345"}}</Unknown>} return $var]]></test>
+      <result>
+         <assert-xml><![CDATA[<Unknown xmlns="http://www.w3.org/XQueryTest/testcases" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="choice"><a>12.345</a></Unknown>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-validateexpr-3">
+      <description> Evaluation of a validate expression, with lax validation and a type sepcified by xsi:type </description>
+      <created by="Nick Jones" on="2007-11-01"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        declare default element namespace "http://www.w3.org/XQueryTest/testcases";
+        import schema "http://www.w3.org/XQueryTest/testcases";
+        let $var := validate lax { <Unknown xsi:type="tc:choice" xmlns:tc="http://www.w3.org/XQueryTest/testcases"> {element z {"12.345"}}</Unknown>} return $var]]></test>
+      <result>
+         <error code="XQDY0027"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-validateexpr-4">
+      <description> Evaluation of a validate expression, with lax validation and a type sepcified by xsi:type </description>
+      <created by="Nick Jones" on="2007-11-01"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        declare default element namespace "http://www.w3.org/XQueryTest/testcases";
+        import schema "http://www.w3.org/XQueryTest/testcases";
+        let $var := validate lax { <Unknown> {element z {"12.345"}}</Unknown>} return $var]]></test>
+      <result>
+         <assert-xml><![CDATA[<Unknown xmlns="http://www.w3.org/XQueryTest/testcases"><z>12.345</z></Unknown>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-validateexpr-5">
+      <description> Evaluation of a validate expression, with lax validation and a type sepcified by xsi:type </description>
+      <created by="Nick Jones" on="2007-11-01"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        declare default element namespace "http://www.w3.org/XQueryTest/testcases";
+        import schema "http://www.w3.org/XQueryTest/testcases";
+        let $var := validate strict { <Unknown xsi:type="tc:choice" xmlns:tc="http://www.w3.org/XQueryTest/testcases"> {element a {element z {"12.345"}}}</Unknown>} return $var]]></test>
+      <result>
+         <error code="XQDY0084"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-validateexpr-6">
+      <description> Evaluation of a validate expression, with lax validation and a type sepcified by xsi:type </description>
+      <created by="Nick Jones" on="2007-11-01"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        declare default element namespace "http://www.w3.org/XQueryTest/testcases";
+        import schema "http://www.w3.org/XQueryTest/testcases";
+        let $var := validate strict { <Unknown xsi:type="tc:choice" xmlns:tc="http://www.w3.org/XQueryTest/testcases"> {element a {"12.345"}}</Unknown>} return $var]]></test>
+      <result>
+         <error code="XQDY0084"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-validateexpr-7">
+      <description> Evaluation of a validate expression, with lax validation and a type sepcified by xsi:type </description>
+      <created by="Nick Jones" on="2007-11-01"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        declare default element namespace "http://www.w3.org/XQueryTest/testcases";
+        import schema "http://www.w3.org/XQueryTest/testcases";
+        let $var := validate strict { <Unknown xsi:type="tc:choice" xmlns:tc="http://www.w3.org/XQueryTest/testcases"> {element z {"12.345"}}</Unknown>} return $var]]></test>
+      <result>
+         <error code="XQDY0084"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-validateexpr-8">
+      <description> Evaluation of a validate expression, with lax validation and a type sepcified by xsi:type </description>
+      <created by="Nick Jones" on="2007-11-01"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        declare default element namespace "http://www.w3.org/XQueryTest/testcases";
+        import schema "http://www.w3.org/XQueryTest/testcases";
+        let $var := validate strict { <Unknown> {element z {"12.345"}}</Unknown>} return $var]]></test>
+      <result>
+         <error code="XQDY0084"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-validateexpr-9">
+      <description> Evaluation of a validate expression, with lax validation and a type sepcified by xsi:type </description>
+      <created by="Nick Jones" on="2007-11-01"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        declare default element namespace "http://www.w3.org/XQueryTest/testcases";
+        import schema "http://www.w3.org/XQueryTest/testcases";
+        let $var := validate lax { <Unknown> {element a {element z {"12.345"}}}</Unknown>} return $var]]></test>
+      <result>
+         <error code="XQDY0027"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-validateexpr-10">
+      <description> Evaluation of a validate expression, with lax validation and a type sepcified by xsi:type </description>
+      <created by="Nick Jones" on="2007-11-01"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        declare default element namespace "http://www.w3.org/XQueryTest/testcases";
+        import schema "http://www.w3.org/XQueryTest/testcases";
+        let $var := validate strict { <Unknown> {element a {element z {"12.345"}}}</Unknown>} return $var]]></test>
+      <result>
+         <error code="XQDY0084"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-validateexpr-11">
+      <description> Test validation on a document with a single element with extra nodes </description>
+      <created by="Oliver Hallam" on="2008-12-09"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[validate { document { (<e/>, "text") } }]]></test>
+      <result>
+         <error code="XQDY0084"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-validateexpr-12">
+      <description> Test validation on a document with no element nodes. </description>
+      <created by="Oliver Hallam" on="2008-12-09"/>
+      <test>validate{ document { "text" } }</test>
+      <result>
+         <error code="XQDY0061"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-validateexpr-13">
+      <description> Test validation on a document with more than one element nodes. </description>
+      <created by="Oliver Hallam" on="2008-12-09"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[validate lax { document { (<a/>, <b/>) } }]]></test>
+      <result>
+         <error code="XQDY0061"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-validateexpr-14">
+      <description>Description : name test against an element with schema validity not known. </description>
+      <created by="Oliver Hallam" on="2009-02-24"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        declare default element namespace "http://www.w3.org/XQueryTest/testcases";
+        import schema "http://www.w3.org/XQueryTest/testcases";
+        declare namespace tc="http://www.w3.org/XQueryTest/testcases";
+        let $var := validate lax { <Unknown> {element z {"12.345"}}</Unknown>} return count($var/element(*, xs:decimal))]]></test>
+      <result>
+         <assert-string-value>0</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-validateexpr-15">
+      <description> Test against schema base type. </description>
+      <created by="Oliver Hallam" on="2009-02-24"/>
+      <dependency type="spec" value="XQ10+"/>
+      <environment ref="complexData"/>
+      <test>
+        import schema namespace cd="http://www.cbcl.co.uk/XQueryTest/complexData";
+        declare function local:f($x) as element(cd:complexTypeWithSimpleContent, cd:shortString)* { $x//cd:complexTypeWithSimpleContent };
+        let $x := validate strict {/} return (count(local:f($x)/@value))</test>
+      <result>
+         <assert-string-value>1</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-validateexpr-16">
+      <description> Test validation of a global schema attribute </description>
+      <created by="Oliver Hallam" on="2009-12-18"/>
+      <environment ref="validate"/>
+      <test>
+        import schema namespace tc="http://www.w3.org/XQueryTest/testcases";
+        validate { attribute { xs:QName("tc:a") } { "value" } }</test>
+      <result>
+         <error code="XQTY0030"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-validateexpr-17">
+      <description> Evaluation of a validate expression, with lax validation and a type sepcified by xsi:type where the prefix is only passively in scope </description>
+      <created by="Oliver Hallam" on="2010-07-01"/>
+      <dependency type="spec" value="XQ10+"/>
+      <environment ref="validate"/>
+      <test><![CDATA[
+        declare default element namespace "http://www.w3.org/XQueryTest/testcases";
+        import schema "http://www.w3.org/XQueryTest/testcases";
+        declare namespace tc="http://www.w3.org/XQueryTest/testcases";
+        let $var := validate lax { <Unknown xsi:type="tc:choice"> {element a {"foo"}}</Unknown>} return $var]]></test>
+      <result>
+         <error code="XQDY0027"/>
       </result>
    </test-case>
  

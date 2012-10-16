@@ -466,4 +466,77 @@ together with "fn:false"/or expression (le operator).
          <assert-true/>
       </result>
    </test-case>
+   
+   
+   <test-case name="cbcl-yearMonthDuration-less-than-001">
+      <description> test comparison of xs:yearMonthDuration </description>
+      <created by="Tim Mills" on="2008-05-14"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:yearMonthDuration($years as xs:integer, $months as xs:integer ) { xs:yearMonthDuration(concat('P', $years, 'Y', $months, 'M')) };
+        not(local:yearMonthDuration(1, 1) lt xs:yearMonthDuration("P0Y"))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-yearMonthDuration-less-than-002">
+      <description> test comparison of xs:yearMonthDuration </description>
+      <created by="Tim Mills" on="2008-05-14"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:yearMonthDuration($years as xs:integer, $months as xs:integer ) { xs:yearMonthDuration(concat('P', $years, 'Y', $months, 'M')) };
+        not(local:yearMonthDuration(1, 1) le xs:yearMonthDuration("P0Y"))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-yearMonthDuration-less-than-003">
+      <description> test comparison of xs:yearMonthDuration </description>
+      <created by="Tim Mills" on="2008-05-21"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:yearMonthDuration($yearMonthDuration as xs:yearMonthDuration, $null as xs:boolean) { if ($null) then () else $yearMonthDuration };
+        exists(local:yearMonthDuration(xs:yearMonthDuration("P0Y"), fn:true()) lt xs:yearMonthDuration("P0Y"))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-yearMonthDuration-less-than-004">
+      <description> test comparison of xs:yearMonthDuration </description>
+      <created by="Tim Mills" on="2008-05-21"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:yearMonthDuration($yearMonthDuration as xs:yearMonthDuration, $null as xs:boolean) { if ($null) then () else $yearMonthDuration };
+        local:yearMonthDuration(xs:yearMonthDuration("P0Y"), fn:false()) lt xs:yearMonthDuration("P0Y")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-yearMonthDuration-less-than-005">
+      <description> test comparison of xs:yearMonthDuration </description>
+      <created by="Tim Mills" on="2008-05-21"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:yearMonthDuration($yearMonthDuration as xs:yearMonthDuration, $null as xs:boolean) { if ($null) then () else $yearMonthDuration };
+        exists(local:yearMonthDuration(xs:yearMonthDuration("P0Y"), fn:true()) ge xs:yearMonthDuration("P0Y"))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-yearMonthDuration-less-than-006">
+      <description> test comparison of xs:yearMonthDuration </description>
+      <created by="Tim Mills" on="2008-05-21"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:yearMonthDuration($yearMonthDuration as xs:yearMonthDuration, $null as xs:boolean) { if ($null) then () else $yearMonthDuration };
+        local:yearMonthDuration(xs:yearMonthDuration("P0Y"), fn:false()) ge xs:yearMonthDuration("P0Y")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
 </test-set>

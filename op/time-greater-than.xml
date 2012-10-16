@@ -499,4 +499,150 @@ together with "fn:false"/or expression (ge operator).
          <assert-true/>
       </result>
    </test-case>
+   
+      <test-case name="cbcl-time-greater-than-001">
+      <description> test comparison of time </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:two-digit($number as xs:integer) { let $string := string($number) return if (string-length($string) lt 2) then concat('0', $string) else $string };
+        declare function local:time($hours as xs:integer, $mins as xs:integer, $seconds as xs:decimal) { let $h := local:two-digit($hours), $m := local:two-digit($mins) return xs:time(concat($h, ':', $m, ':', $seconds)) };
+        not(local:time(12, 59, 30) gt xs:time("12:32:05"))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-time-greater-than-002">
+      <description> test comparison of time </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      <test>xs:time("14:00:00-12:00") gt xs:time("02:00:00")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-time-greater-than-003">
+      <description> test comparison of time </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      <test>xs:time("02:00:00") gt xs:time("14:00:00-12:00")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-time-greater-than-004">
+      <description> test comparison of time </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      <test>xs:time("00:00:01+01:00") gt xs:time("00:00:00")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-time-greater-than-005">
+      <description> test comparison of time </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      <test>xs:time("00:00:00") gt xs:time("00:00:01+01:00")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-time-greater-than-006">
+      <description> test comparison of time </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:two-digit($number as xs:integer) { let $string := string($number) return if (string-length($string) lt 2) then concat('0', $string) else $string };
+        declare function local:time($hours as xs:integer, $mins as xs:integer, $seconds as xs:decimal) { let $h := local:two-digit($hours), $m := local:two-digit($mins) return xs:time(concat($h, ':', $m, ':', $seconds)) };
+        not(local:time(12, 59, 30) le xs:time("12:32:05"))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-time-greater-than-007">
+      <description> test comparison of time </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      <test>xs:time("14:00:00-12:00") le xs:time("02:00:00")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-time-greater-than-008">
+      <description> test comparison of time </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      <test>xs:time("02:00:00") le xs:time("14:00:00-12:00")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-time-greater-than-009">
+      <description> test comparison of time </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      <test>xs:time("00:00:01+01:00") le xs:time("00:00:00")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-time-greater-than-010">
+      <description> test comparison of time </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      <test>xs:time("00:00:00") le xs:time("00:00:01+01:00")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-time-greater-than-011">
+      <description> test comparison of time </description>
+      <created by="Tim Mills" on="2008-05-21"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:time($time as xs:time, $null as xs:boolean) { if ($null) then () else $time };
+        exists(local:time(xs:time("23:58:00"), fn:true()) gt xs:time("23:58:00"))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-time-greater-than-012">
+      <description> test comparison of time </description>
+      <created by="Tim Mills" on="2008-05-21"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:time($time as xs:time, $null as xs:boolean) { if ($null) then () else $time };
+        local:time(xs:time("23:58:00"), fn:false()) gt xs:time("23:58:00")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-time-greater-than-013">
+      <description> test comparison of time </description>
+      <created by="Tim Mills" on="2008-05-21"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:time($time as xs:time, $null as xs:boolean) { if ($null) then () else $time };
+        exists(local:time(xs:time("23:58:00"), fn:true()) le xs:time("23:58:00"))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-time-greater-than-014">
+      <description> test comparison of time </description>
+      <created by="Tim Mills" on="2008-05-21"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:time($time as xs:time, $null as xs:boolean) { if ($null) then () else $time };
+        local:time(xs:time("23:58:00"), fn:false()) le xs:time("23:58:00")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
 </test-set>

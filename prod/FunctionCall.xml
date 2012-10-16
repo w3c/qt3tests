@@ -1143,4 +1143,89 @@
          <assert-eq>1</assert-eq>
       </result>
    </test-case>
+   
+   <test-case name="cbcl-promotion-001">
+      <description> Ensure sequence types are promoted correctly </description>
+      <created by="Tim Mills" on="2008-05-01"/>
+      <test>
+        string-join( (xs:anyURI('http://www.microsoft.com'), xs:anyURI('http://www.google.com/')), ' ')
+      </test>
+      <result>
+         <assert-string-value>http://www.microsoft.com http://www.google.com/</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-promotion-002">
+      <description> Test that type promotion occurs correctly for values passed to user-defined functions </description>
+      <created by="Oliver Hallam" on="2008-06-12"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:index-of($seq as xs:double*, $item as xs:double) { for $x at $p in $seq return if ($x eq $item) then $p else () };
+        declare function local:sequence($x as xs:integer) { ("string", 1, 2.0, xs:float(3))[$x] };
+        local:index-of(for $x in (2,3,4) return local:sequence($x), 2)</test>
+      <result>
+         <assert-string-value>2</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-promotion-003">
+      <description> Test that type promotion occurs correctly for values returned from user-defined functions </description>
+      <created by="Oliver Hallam" on="2008-06-12"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:index-of($seq as xs:integer*, $item as xs:integer?) as xs:float* { if (empty($item)) then "item was empty" else for $x at $p in $seq return if ($x eq $item) then $p else () };
+        local:index-of(1 to 10, 3)</test>
+      <result>
+         <assert-string-value>3</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-promotion-004">
+      <description> Test that type promotion occurs correctly for sequence values returned from user-defined functions </description>
+      <created by="Oliver Hallam" on="2008-06-12"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        declare function local:f() as xs:double* { if (day-from-date(current-date()) < 32) then xs:integer(3) else "string" };
+        local:f() + 1]]></test>
+      <result>
+         <assert-string-value>4</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-promotion-005">
+      <description> Test a function declared to return optional returning more than one value </description>
+      <created by="Oliver Hallam" on="2008-06-12"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:index-of($seq, $item) as xs:double? { for $x at $p in $seq return if ($x eq $item) then $p else () };
+        local:index-of((1, 2.0, xs:float(3), 2), 2)</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-promotion-006">
+      <description> Test a function taking optional argument being passed more than one </description>
+      <created by="Oliver Hallam" on="2008-06-12"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:f($arg as xs:anyAtomicType?) { $arg };
+        local:f(index-of((1,2,3,2),2))</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-promotion-007">
+      <description> Check that correct type constraint is inserted. </description>
+      <created by="Oliver Hallam" on="2008-07-03"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:f($v as xs:double*) as xs:double+ { if (empty($v)) then 0 else $v };
+        declare function local:g($v as xs:double*) as xs:double+ { local:f($v) };
+        local:g((1,2,3))</test>
+      <result>
+         <assert-string-value>1 2 3</assert-string-value>
+      </result>
+   </test-case>
 </test-set>

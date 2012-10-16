@@ -444,4 +444,29 @@
          <assert-string-value/>
       </result>
    </test-case>
+   
+   
+   <test-case name="cbcl-zero-or-one-001">
+      <description> test fn:zero-or-one on a count-preserving function </description>
+      <created by="Tim Mills" on="2008-04-10"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:generate($arg as xs:integer?) { if ($arg = 0) then (1, 2, 3) else $arg };
+        fn:empty( fn:zero-or-one(fn:unordered( local:generate( () ) )) )</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-zero-or-one-002">
+      <description> test fn:zero-or-one on a sequence of one-or-more items </description>
+      <created by="Tim Mills" on="2008-04-10"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:generate($arg as xs:integer?) { if ($arg = 0) then () else if ($arg = 1) then $arg else ($arg, $arg) };
+        1 + fn:zero-or-one(fn:one-or-more( local:generate( 1 ) ))</test>
+      <result>
+         <assert-string-value>2</assert-string-value>
+      </result>
+   </test-case>
 </test-set>

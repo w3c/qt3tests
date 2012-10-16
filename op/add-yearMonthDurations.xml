@@ -402,4 +402,39 @@ together with the numeric-equal operator "ge".
          <assert-true/>
       </result>
    </test-case>
+      <test-case name="cbcl-add-yearMonthDurations-001">
+      <description> test addition of zero duration to yearMonthDuration </description>
+      <created by="Tim Mills" on="2008-05-12"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:yearMonthDuration($years as xs:integer, $months as xs:integer ) { xs:yearMonthDuration(concat('P', $years, 'Y', $months, 'M')) };
+        local:yearMonthDuration(1, 1) + xs:yearMonthDuration("P0Y")</test>
+      <result>
+         <assert-string-value>P1Y1M</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-add-yearMonthDurations-002">
+      <description> test addition of zero duration to yearMonthDuration </description>
+      <created by="Tim Mills" on="2008-05-12"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:yearMonthDuration($years as xs:integer, $months as xs:integer ) { xs:yearMonthDuration(concat('P', $years, 'Y', $months, 'M')) };
+        xs:yearMonthDuration("P0Y") + local:yearMonthDuration(1, 1)</test>
+      <result>
+         <assert-string-value>P1Y1M</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-add-yearMonthDurations-003">
+      <description> test addition of zero duration to yearMonthDuration </description>
+      <created by="Tim Mills" on="2008-05-12"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:yearMonthDuration($years as xs:integer, $months as xs:integer ) { xs:yearMonthDuration(concat('P', $years, 'Y', $months, 'M')) };
+        local:yearMonthDuration(1, 1) + local:yearMonthDuration(1, 1)</test>
+      <result>
+         <assert-string-value>P2Y2M</assert-string-value>
+      </result>
+   </test-case>
 </test-set>

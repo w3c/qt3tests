@@ -678,4 +678,177 @@ $arg2 = xs:time(upper bound)
          <assert-true/>
       </result>
    </test-case>
+   
+      <test-case name="cbcl-time-equal-001">
+      <description> test comparison of time </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:two-digit($number as xs:integer) { let $string := string($number) return if (string-length($string) lt 2) then concat('0', $string) else $string };
+        declare function local:time($hours as xs:integer, $mins as xs:integer, $seconds as xs:decimal) { let $h := local:two-digit($hours), $m := local:two-digit($mins) return xs:time(concat($h, ':', $m, ':', $seconds)) };
+        not(local:time(12, 59, 30) eq xs:time("12:32:05"))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-time-equal-002">
+      <description> test comparison of time </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      <test>xs:time("14:00:00-12:00") eq xs:time("02:00:00")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-time-equal-003">
+      <description> test comparison of time </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      <test>xs:time("02:00:00") eq xs:time("14:00:00-12:00")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-time-equal-004">
+      <description> test comparison of time </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      <test>xs:time("00:00:01+01:00") eq xs:time("00:00:00")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-time-equal-005">
+      <description> test comparison of time </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      <test>xs:time("00:00:00") eq xs:time("00:00:01+01:00")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-time-equal-006">
+      <description> test comparison of time </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:two-digit($number as xs:integer) { let $string := string($number) return if (string-length($string) lt 2) then concat('0', $string) else $string };
+        declare function local:time($hours as xs:integer, $mins as xs:integer, $seconds as xs:decimal) { let $h := local:two-digit($hours), $m := local:two-digit($mins) return xs:time(concat($h, ':', $m, ':', $seconds)) };
+        not(local:time(12, 59, 30) ne xs:time("12:32:05"))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-time-equal-007">
+      <description> test comparison of time </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      <test>xs:time("14:00:00-12:00") ne xs:time("02:00:00")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-time-equal-008">
+      <description> test comparison of time </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      <test>xs:time("02:00:00") ne xs:time("14:00:00-12:00")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-time-equal-009">
+      <description> test comparison of time </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      <test>xs:time("00:00:01+01:00") ne xs:time("00:00:00")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-time-equal-010">
+      <description> test comparison of time </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      <test>xs:time("00:00:00") ne xs:time("00:00:01+01:00")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-time-equal-011">
+      <description> test comparison of time </description>
+      <created by="Tim Mills" on="2008-05-21"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:time($time as xs:time, $null as xs:boolean) { if ($null) then () else $time };
+        exists(local:time(xs:time("23:58:00"), fn:true()) eq xs:time("23:58:00"))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-time-equal-012">
+      <description> test comparison of time </description>
+      <created by="Tim Mills" on="2008-05-21"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:time($time as xs:time, $null as xs:boolean) { if ($null) then () else $time };
+        local:time(xs:time("23:58:00"), fn:false()) eq xs:time("23:58:00")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-time-equal-013">
+      <description> test comparison of time </description>
+      <created by="Tim Mills" on="2008-05-21"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:time($time as xs:time, $null as xs:boolean) { if ($null) then () else $time };
+        exists(local:time(xs:time("23:58:00"), fn:true()) ne xs:time("23:58:00"))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-time-equal-014">
+      <description> test comparison of time </description>
+      <created by="Tim Mills" on="2008-05-21"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:time($time as xs:time, $null as xs:boolean) { if ($null) then () else $time };
+        local:time(xs:time("23:58:00"), fn:false()) ne xs:time("23:58:00")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-time-equal-017">
+      <description> test comparison of time </description>
+      <created by="Tim Mills" on="2008-05-23"/>
+      <test>xs:time("00:00:00+12:00") eq xs:time("00:00:01")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-time-equal-018">
+      <description> test comparison of time </description>
+      <created by="Tim Mills" on="2008-05-23"/>
+      <test>xs:time("00:00:00+12:00") ne xs:time("00:00:01")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-time-equal-019">
+      <description> test comparison of time </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      <test>xs:time("12:00:00+01:00") eq xs:time("12:00:00")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
 </test-set>

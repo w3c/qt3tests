@@ -459,4 +459,41 @@ See Erratum FO.E12                           .
          <error code="FODT0002"/>
       </result>
    </test-case>
+   
+   
+   <test-case name="cbcl-divide-yearMonthDuration-001">
+      <description> test division of xs:yearMonthDuration by 0 </description>
+      <created by="Tim Mills" on="2008-05-14"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:yearMonthDuration($years as xs:integer) as xs:yearMonthDuration { xs:yearMonthDuration(concat("P", $years, "Y")) };
+        local:yearMonthDuration(2) div 0</test>
+      <result>
+         <error code="FODT0002"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-divide-yearMonthDuration-002">
+      <description> test division of xs:yearMonthDuration by 1 </description>
+      <created by="Tim Mills" on="2008-05-14"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:yearMonthDuration($years as xs:integer) as xs:yearMonthDuration { xs:yearMonthDuration(concat("P", $years, "Y")) };
+        local:yearMonthDuration(2) div 1</test>
+      <result>
+         <assert-string-value>P2Y</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-divide-yearMonthDuration-003">
+      <description> test possible overflow in division of xs:yearMonthDuration </description>
+      <created by="Tim Mills" on="2008-05-14"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:yearMonthDuration($years as xs:integer) as xs:yearMonthDuration { xs:yearMonthDuration(concat("P", $years, "Y")) };
+        local:yearMonthDuration(768614336404564650) div 0.5</test>
+      <result>
+         <error code="FODT0002"/>
+      </result>
+   </test-case>
 </test-set>

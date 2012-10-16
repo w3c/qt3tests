@@ -425,4 +425,17 @@ used as part of a boolean expression (and operator) and the "fn:false" function.
          <error code="XPTY0004"/>
       </result>
    </test-case>
+   
+   <test-case name="cbcl-subtract-dayTimeDuration-from-time-001">
+      <description> test subtraction of zero duration from time </description>
+      <created by="Oliver Hallam" on="2008-05-16"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:two-digit($number as xs:integer) { let $string := string($number) return if (string-length($string) lt 2) then concat('0', $string) else $string };
+        declare function local:time($hour as xs:integer, $mins as xs:integer) { let $h := local:two-digit($hour), $m := local:two-digit($mins) return xs:time(concat($h, ':', $m, ':00')) };
+        local:time(12, 59) - xs:dayTimeDuration("P0D")</test>
+      <result>
+         <assert-string-value>12:59:00</assert-string-value>
+      </result>
+   </test-case>
 </test-set>

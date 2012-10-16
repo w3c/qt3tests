@@ -492,4 +492,40 @@ together with the numeric-equal operator "ge".
          <error code="XPTY0004"/>
       </result>
    </test-case>
+   
+      <test-case name="cbcl-subtract-yearMonthDurations-001">
+      <description> test subtraction of zero duration from yearMonthDurations </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:yearMonthDuration($years as xs:integer, $months as xs:integer ) { xs:yearMonthDuration(concat('P', $years, 'Y', $months, 'M')) };
+        local:yearMonthDuration(1, 1) - xs:yearMonthDuration("P0Y")</test>
+      <result>
+         <assert-string-value>P1Y1M</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-subtract-yearMonthDurations-002">
+      <description> test subtraction of yearMonthDurations </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:yearMonthDuration($years as xs:integer, $months as xs:integer ) { xs:yearMonthDuration(concat('P', $years, 'Y', $months, 'M')) };
+        local:yearMonthDuration(1, 1) - local:yearMonthDuration(1, 1)</test>
+      <result>
+         <assert-string-value>P0M</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-subtract-yearMonthDurations-003">
+      <description> test subtraction of large yearMonthDuration </description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:yearMonthDuration($years as xs:integer, $months as xs:integer ) { xs:yearMonthDuration(concat('P', $years, 'Y', $months, 'M')) };
+        xs:yearMonthDuration("-P768614336404564650Y") - local:yearMonthDuration(768614336404564650, 1)</test>
+      <result>
+         <error code="FODT0002"/>
+      </result>
+   </test-case>
 </test-set>

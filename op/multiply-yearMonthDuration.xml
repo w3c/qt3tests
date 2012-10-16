@@ -615,4 +615,71 @@ Purpose: Test rounding behaviour, FO.E12.
          <error code="XPTY0004"/>
       </result>
    </test-case>
+   
+   
+   <test-case name="cbcl-multiply-yearMonthDuration-001">
+      <description> test multiplication of xs:yearMonthDuration by 0 </description>
+      <created by="Tim Mills" on="2008-05-14"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:yearMonthDuration($years as xs:integer) as xs:yearMonthDuration { xs:yearMonthDuration(concat("P", $years, "Y")) };
+        local:yearMonthDuration(2) * 0</test>
+      <result>
+         <assert-string-value>P0M</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-multiply-yearMonthDuration-002">
+      <description> test multiplication of xs:yearMonthDuration by 1 </description>
+      <created by="Tim Mills" on="2008-05-14"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:yearMonthDuration($years as xs:integer) as xs:yearMonthDuration { xs:yearMonthDuration(concat("P", $years, "Y")) };
+        local:yearMonthDuration(2) * 1</test>
+      <result>
+         <assert-string-value>P2Y</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-multiply-yearMonthDuration-003">
+      <description> test multiplication of xs:yearMonthDuration by NaN </description>
+      <created by="Tim Mills" on="2008-05-14"/>
+      <test>xs:yearMonthDuration("P2Y") * xs:double('NaN')</test>
+      <result>
+         <error code="FOCA0005"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-multiply-yearMonthDuration-004">
+      <description> test multiplication of xs:yearMonthDuration by 0 </description>
+      <created by="Tim Mills" on="2008-05-14"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:yearMonthDuration($years as xs:integer) as xs:yearMonthDuration { xs:yearMonthDuration(concat("P", $years, "Y")) };
+        0 * local:yearMonthDuration(2)</test>
+      <result>
+         <assert-string-value>P0M</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-multiply-yearMonthDuration-005">
+      <description> test multiplication of xs:yearMonthDuration by 1 </description>
+      <created by="Tim Mills" on="2008-05-14"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:yearMonthDuration($years as xs:integer) as xs:yearMonthDuration { xs:yearMonthDuration(concat("P", $years, "Y")) };
+        1 * local:yearMonthDuration(2)</test>
+      <result>
+         <assert-string-value>P2Y</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-multiply-yearMonthDuration-006">
+      <description> test multiplication of xs:yearMonthDuration by NaN </description>
+      <created by="Tim Mills" on="2008-05-14"/>
+      <test>xs:double('NaN') * xs:yearMonthDuration("P2Y")</test>
+      <result>
+         <error code="FOCA0005"/>
+      </result>
+   </test-case>
 </test-set>

@@ -430,4 +430,39 @@ abracadabra", "\n")</test>
          <assert-string-value>2 2 a|b a|b a b a b</assert-string-value>
       </result>
    </test-case>
+   
+   
+   <test-case name="cbcl-fn-tokenize-001">
+      <description> Test boolean on tokenize </description>
+      <created by="Nick Jones" on="2008-06-12"/>
+      <test>
+      let $x := xs:string(zero-or-one((1 to 10)[. mod 2 = -1])) return tokenize($x,',')
+      </test>
+      <result>
+         <assert-string-value/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-fn-tokenize-002">
+      <description> Test invalid regex expression </description>
+      <created by="Nick Jones" on="2008-06-13"/>
+      <test>
+      tokenize(string-join(for $x in (1 to 10)[. mod 2 = 0] return string($x),','),'[')
+      </test>
+      <result>
+         <error code="FORX0002"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-fn-tokenize-003">
+      <description> Test tokenize on empty string </description>
+      <created by="Nick Jones" on="2008-06-13"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+      tokenize(string-join(for $x in (1 to 10)[. mod 2 < 0] return string($x),','),',')
+      ]]></test>
+      <result>
+         <assert-string-value/>
+      </result>
+   </test-case>
 </test-set>

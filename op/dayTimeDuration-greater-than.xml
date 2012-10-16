@@ -538,4 +538,292 @@ together with "fn:false"/or expression (ge operator).
          <assert-true/>
       </result>
    </test-case>
+   
+         <test-case name="cbcl-value-greater-equal-001">
+      <description> Test behaviour of the overloaded greater equal value comparison operator when presented with an expression with static type xs:duration. </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:f($x) { if ($x) then xs:duration("P1M") else xs:yearMonthDuration("P1M") };
+        local:f(false()) ge xs:yearMonthDuration("P1Y")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-value-greater-equal-002">
+      <description> Test behaviour of the overloaded greater equal value comparison operator when presented with an expression with static type xs:duration. </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:f($x) { if ($x) then xs:duration("P1M") else xs:yearMonthDuration("P1M") };
+        local:f(true()) ge xs:yearMonthDuration("P1Y")</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-value-greater-equal-003">
+      <description> Test behaviour of the overloaded greater equal value comparison operator when presented with an expression with static type xs:duration. </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:f($x) { if ($x) then xs:duration("P1M") else xs:dayTimeDuration("PT1H") };
+        local:f(false()) ge xs:dayTimeDuration("P1D")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-value-greater-equal-004">
+      <description> Test behaviour of the overloaded greater equal value comparison operator when presented with an expression with static type xs:duration. </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:f($x) { if ($x) then xs:duration("P1M") else xs:dayTimeDuration("PT1H") };
+        local:f(true()) ge xs:dayTimeDuration("P1D")</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-value-greater-equal-005">
+      <description> Test behaviour of the overloaded greater equal value comparison operator when presented with an expression with static type xs:duration. </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:f($x) { if ($x) then xs:duration("P1M") else xs:yearMonthDuration("P1M") };
+        xs:yearMonthDuration("P1Y") ge local:f(false())</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-value-greater-equal-006">
+      <description> Test behaviour of the overloaded greater equal value comparison operator when presented with an expression with static type xs:duration. </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:f($x) { if ($x) then xs:duration("P1M") else xs:yearMonthDuration("P1M") };
+        xs:yearMonthDuration("P1Y") ge local:f(true())</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-value-greater-equal-007">
+      <description> Test behaviour of the overloaded greater equal value comparison operator when presented with an expression with static type xs:duration. </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:f($x) { if ($x) then xs:duration("P1M") else xs:dayTimeDuration("PT1H") };
+        xs:dayTimeDuration("P1D") ge local:f(false())</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-value-greater-equal-008">
+      <description> Test behaviour of the overloaded greater equal value comparison operator when presented with an expression with static type xs:duration. </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:f($x) { if ($x) then xs:duration("P1M") else xs:dayTimeDuration("PT1H") };
+        xs:dayTimeDuration("P1D") ge local:f(true())</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-value-greater-equal-009">
+      <description> Test behaviour of the overloaded greater equal value comparison operator when presented with an expression with static type xs:duration. </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:f($x) { if ($x) then xs:duration("P1M") else xs:yearMonthDuration("P1M") };
+        local:f(false()) ge local:f(false())</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-value-greater-equal-010">
+      <description> Test behaviour of the overloaded greater equal value comparison operator when presented with an expression with static type xs:duration. </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:f($x) { if ($x) then xs:duration("P1M") else xs:yearMonthDuration("P1M") };
+        local:f(true()) ge local:f(false())</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-value-greater-equal-011">
+      <description> Test behaviour of the overloaded greater equal value comparison operator when presented with an expression with static type xs:duration. </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:f($x) { if ($x) then xs:duration("P1M") else xs:dayTimeDuration("PT1H") };
+        local:f(false()) ge local:f(false())</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-value-greater-equal-012">
+      <description> Test behaviour of the overloaded greater equal value comparison operator when presented with an expression with static type xs:duration. </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:f($x) { if ($x) then xs:duration("P1M") else xs:dayTimeDuration("PT1H") };
+        local:f(false()) ge local:f(true())</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-value-greater-than-001">
+      <description> Test behaviour of the overloaded greater than value comparison operator when presented with an expression with static type xs:duration. </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:f($x) { if ($x) then xs:duration("P1M") else xs:yearMonthDuration("P1M") };
+        local:f(false()) gt xs:yearMonthDuration("P1Y")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-value-greater-than-002">
+      <description> Test behaviour of the overloaded greater than value comparison operator when presented with an expression with static type xs:duration. </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:f($x) { if ($x) then xs:duration("P1M") else xs:yearMonthDuration("P1M") };
+        local:f(true()) gt xs:yearMonthDuration("P1Y")</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-value-greater-than-003">
+      <description> Test behaviour of the overloaded greater than value comparison operator when presented with an expression with static type xs:duration. </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:f($x) { if ($x) then xs:duration("P1M") else xs:dayTimeDuration("PT1H") };
+        local:f(false()) gt xs:dayTimeDuration("P1D")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-value-greater-than-004">
+      <description> Test behaviour of the overloaded greater than value comparison operator when presented with an expression with static type xs:duration. </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:f($x) { if ($x) then xs:duration("P1M") else xs:dayTimeDuration("PT1H") };
+        local:f(true()) gt xs:dayTimeDuration("P1D")</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-value-greater-than-005">
+      <description> Test behaviour of the overloaded greater than value comparison operator when presented with an expression with static type xs:duration. </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:f($x) { if ($x) then xs:duration("P1M") else xs:yearMonthDuration("P1M") };
+        xs:yearMonthDuration("P1Y") gt local:f(false())</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-value-greater-than-006">
+      <description> Test behaviour of the overloaded greater than value comparison operator when presented with an expression with static type xs:duration. </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:f($x) { if ($x) then xs:duration("P1M") else xs:yearMonthDuration("P1M") };
+        xs:yearMonthDuration("P1Y") gt local:f(true())</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-value-greater-than-007">
+      <description> Test behaviour of the overloaded greater than value comparison operator when presented with an expression with static type xs:duration. </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:f($x) { if ($x) then xs:duration("P1M") else xs:dayTimeDuration("PT1H") };
+        xs:dayTimeDuration("P1D") gt local:f(false())</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-value-greater-than-008">
+      <description> Test behaviour of the overloaded greater than value comparison operator when presented with an expression with static type xs:duration. </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:f($x) { if ($x) then xs:duration("P1M") else xs:dayTimeDuration("PT1H") };
+        xs:dayTimeDuration("P1D") gt local:f(true())</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-value-greater-than-009">
+      <description> Test behaviour of the overloaded greater than value comparison operator when presented with an expression with static type xs:duration. </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:f($x) { if ($x) then xs:duration("P1M") else xs:yearMonthDuration("P1M") };
+        local:f(false()) gt local:f(false())</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-value-greater-than-010">
+      <description> Test behaviour of the overloaded greater than value comparison operator when presented with an expression with static type xs:duration. </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:f($x) { if ($x) then xs:duration("P1M") else xs:yearMonthDuration("P1M") };
+        local:f(true()) gt local:f(false())</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-value-greater-than-011">
+      <description> Test behaviour of the overloaded greater than value comparison operator when presented with an expression with static type xs:duration. </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:f($x) { if ($x) then xs:duration("P1M") else xs:dayTimeDuration("PT1H") };
+        local:f(false()) gt local:f(false())</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-value-greater-than-012">
+      <description> Test behaviour of the overloaded greater than value comparison operator when presented with an expression with static type xs:duration. </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:f($x) { if ($x) then xs:duration("P1M") else xs:dayTimeDuration("PT1H") };
+        local:f(false()) gt local:f(true())</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
 </test-set>

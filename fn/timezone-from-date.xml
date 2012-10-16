@@ -246,4 +246,88 @@
          <assert-true/>
       </result>
    </test-case>
+   
+   
+   <test-case name="cbcl-timezone-from-date-001">
+      <description> test fn:timezone-from-date on fn:adjust-date-to-timezone </description>
+      <created by="Oliver Hallam" on="2008-04-22"/>
+      <test>
+      timezone-from-date(adjust-date-to-timezone(xs:date("1997-01-01"))) = implicit-timezone()
+   </test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-timezone-from-date-002">
+      <description> test fn:timezone-from-date </description>
+      <created by="Tim Mills" on="2008-06-30"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:timezone($arg as xs:integer) { if ($arg gt 0) then xs:dayTimeDuration(concat('PT', $arg, 'H')) else if ($arg lt 0) then xs:dayTimeDuration(concat('-PT', -$arg, 'H')) else xs:dayTimeDuration('PT0H') };
+        timezone-from-date( adjust-date-to-timezone( fn:current-date(), local:timezone(15)))</test>
+      <result>
+         <error code="FODT0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-timezone-from-date-003">
+      <description> test fn:timezone-from-date </description>
+      <created by="Tim Mills" on="2008-06-30"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:timezone($arg as xs:integer) { if ($arg gt 0) then xs:dayTimeDuration(concat('PT', $arg, 'H')) else if ($arg lt 0) then xs:dayTimeDuration(concat('-PT', -$arg, 'H')) else xs:dayTimeDuration('PT0H') };
+        timezone-from-date( adjust-date-to-timezone( fn:current-date(), local:timezone(14)))</test>
+      <result>
+         <assert-string-value>PT14H</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-timezone-from-date-004">
+      <description> test fn:timezone-from-date </description>
+      <created by="Tim Mills" on="2008-06-30"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:timezone($arg as xs:integer) { if ($arg gt 0) then xs:dayTimeDuration(concat('PT', $arg, 'H')) else if ($arg lt 0) then xs:dayTimeDuration(concat('-PT', -$arg, 'H')) else xs:dayTimeDuration('PT0H') };
+        timezone-from-date( adjust-date-to-timezone( fn:current-date(), timezone-from-date( adjust-date-to-timezone( xs:date('1970-01-01'), local:timezone(-12)))))</test>
+      <result>
+         <assert-string-value>-PT12H</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-timezone-from-date-005">
+      <description> test fn:timezone-from-date </description>
+      <created by="Tim Mills" on="2008-06-30"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:date($arg as xs:boolean) { if ($arg) then xs:date('1970-01-01Z') else fn:current-date() };
+        timezone-from-date( adjust-date-to-timezone( xs:date('2008-08-01'), timezone-from-date(local:date(true()))))</test>
+      <result>
+         <assert-string-value>PT0S</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-timezone-from-date-006">
+      <description> test fn:timezone-from-date </description>
+      <created by="Tim Mills" on="2008-06-30"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:dateTime($arg as xs:boolean) { if ($arg) then xs:dateTime('1970-01-01T00:00:00Z') else fn:current-dateTime() };
+        timezone-from-date( adjust-date-to-timezone( xs:date('2008-08-01'), timezone-from-dateTime(local:dateTime(true()))))</test>
+      <result>
+         <assert-string-value>PT0S</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-timezone-from-date-007">
+      <description> test fn:timezone-from-date </description>
+      <created by="Tim Mills" on="2008-06-30"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:time($arg as xs:boolean) { if ($arg) then xs:time('12:00:00Z') else fn:current-time() };
+        timezone-from-date( adjust-date-to-timezone( xs:date('2008-08-01'), timezone-from-time(local:time(true()))))</test>
+      <result>
+         <assert-string-value>PT0S</assert-string-value>
+      </result>
+   </test-case>
 </test-set>

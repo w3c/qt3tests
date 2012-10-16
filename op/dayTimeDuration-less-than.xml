@@ -538,4 +538,148 @@ together with "fn:false"/or expression (le operator).
          <assert-true/>
       </result>
    </test-case>
+   
+   <test-case name="cbcl-value-less-equal-001">
+      <description> Test behaviour of the overloaded less equal value comparison operator when presented with an expression with static type xs:duration. </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:f($x) { if ($x) then xs:duration("P1M") else xs:yearMonthDuration("P1M") };
+        local:f(false()) le xs:yearMonthDuration("P1Y")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-value-less-equal-002">
+      <description> Test behaviour of the overloaded less equal value comparison operator when presented with an expression with static type xs:duration. </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:f($x) { if ($x) then xs:duration("P1M") else xs:yearMonthDuration("P1M") };
+        local:f(true()) le xs:yearMonthDuration("P1Y")</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-value-less-equal-003">
+      <description> Test behaviour of the overloaded less equal value comparison operator when presented with an expression with static type xs:duration. </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:f($x) { if ($x) then xs:duration("P1M") else xs:dayTimeDuration("PT1H") };
+        local:f(false()) le xs:dayTimeDuration("P1D")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-value-less-equal-004">
+      <description> Test behaviour of the overloaded less equal value comparison operator when presented with an expression with static type xs:duration. </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:f($x) { if ($x) then xs:duration("P1M") else xs:dayTimeDuration("PT1H") };
+        local:f(true()) le xs:dayTimeDuration("P1D")</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-value-less-equal-005">
+      <description> Test behaviour of the overloaded less equal value comparison operator when presented with an expression with static type xs:duration. </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:f($x) { if ($x) then xs:duration("P1M") else xs:yearMonthDuration("P1M") };
+        xs:yearMonthDuration("P1Y") le local:f(false())</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-value-less-equal-006">
+      <description> Test behaviour of the overloaded less equal value comparison operator when presented with an expression with static type xs:duration. </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:f($x) { if ($x) then xs:duration("P1M") else xs:yearMonthDuration("P1M") };
+        xs:yearMonthDuration("P1Y") le local:f(true())</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-value-less-equal-007">
+      <description> Test behaviour of the overloaded less equal value comparison operator when presented with an expression with static type xs:duration. </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:f($x) { if ($x) then xs:duration("P1M") else xs:dayTimeDuration("PT1H") };
+        xs:dayTimeDuration("P1D") le local:f(false())</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-value-less-equal-008">
+      <description> Test behaviour of the overloaded less equal value comparison operator when presented with an expression with static type xs:duration. </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:f($x) { if ($x) then xs:duration("P1M") else xs:dayTimeDuration("PT1H") };
+        xs:dayTimeDuration("P1D") le local:f(true())</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-value-less-equal-009">
+      <description> Test behaviour of the overloaded less equal value comparison operator when presented with an expression with static type xs:duration. </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:f($x) { if ($x) then xs:duration("P1M") else xs:yearMonthDuration("P1M") };
+        local:f(false()) le local:f(false())</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-value-less-equal-010">
+      <description> Test behaviour of the overloaded less equal value comparison operator when presented with an expression with static type xs:duration. </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:f($x) { if ($x) then xs:duration("P1M") else xs:yearMonthDuration("P1M") };
+        local:f(true()) le local:f(false())</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-value-less-equal-011">
+      <description> Test behaviour of the overloaded less equal value comparison operator when presented with an expression with static type xs:duration. </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:f($x) { if ($x) then xs:duration("P1M") else xs:dayTimeDuration("PT1H") };
+        local:f(false()) le local:f(false())</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-value-less-equal-012">
+      <description> Test behaviour of the overloaded less equal value comparison operator when presented with an expression with static type xs:duration. </description>
+      <created by="Oliver Hallam" on="2010-02-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        declare function local:f($x) { if ($x) then xs:duration("P1M") else xs:dayTimeDuration("PT1H") };
+        local:f(false()) le local:f(true())</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
 </test-set>
