@@ -43,6 +43,20 @@
       </schema>
    </environment>
 
+    <environment name="xqdy0027">
+      <schema uri="http://www.cbcl.co.uk/2007/schema/XQDY0027" file="CombinedErrorCodes\XQST0036.xsd">
+	<description>A schema used to test XQDY0027.</description>
+	<created by="Tim Mills" on="2008-05-16"/>
+      </schema>
+   </environment>
+
+    <environment name="xqdy0084">
+      <schema uri="http://www.cbcl.co.uk/2007/schema/XQDY0084" file="CombinedErrorCodes\XQDY0084.xsd">
+	<description>A schema used to test XQDY0084.</description>
+	<created by="Tim Mills" on="2008-05-16"/>
+      </schema>
+   </environment>
+
    <test-case name="combined-errors-1">
       <description> Evaluates simple module import to generate error code if feature not supported. </description>
       <created by="Carmelo Montanez" on="2006-06-06"/>
@@ -1800,7 +1814,7 @@
    <test-case name="XPTY0004_45">
       <description> test bad casts </description>
       <created by="Tim Mills" on="2008-05-16"/>
-      
+      <dependency type="spec" value="XP10 XQ10"/>
       <test>concat('prefix:', 'localname') cast as xs:QName</test>
       <result>
          <error code="XPTY0004"/>
@@ -1919,7 +1933,7 @@
    <test-case name="XQDY0027">
       <description> Test generating XQDY0027 </description>
       <created by="Tim Mills" on="2008-05-16"/>
-      
+      <environment ref="xqdy0027" />
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[declare construction preserve; declare copy-namespaces no-preserve,inherit; import schema namespace foo = "http://www.cbcl.co.uk/2007/schema/XQDY0027"; let $x := validate strict { <foo:element attr="foo:notation">foo:qname</foo:element> } return <a>{$x}</a>]]></test>
       <result>
@@ -2038,7 +2052,7 @@
    <test-case name="XQDY0084">
       <description> check that strict validate errors are reported correctly </description>
       <created by="Tim Mills" on="2008-05-16"/>
-      
+      <environment ref="xqdy0084" />
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[import schema namespace foo = "http://www.cbcl.co.uk/2007/schema/XQDY0084"; validate strict { <foo:a /> }]]></test>
       <result>
