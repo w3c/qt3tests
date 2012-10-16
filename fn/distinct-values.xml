@@ -897,6 +897,7 @@
    <test-case name="cbcl-distinct-values-004">
       <description> test fn:distinct-values with xs:date </description>
       <created by="Tim Mills" on="2008-06-02"/>      
+      <dependency type="spec" value="XQ10+"/>
       <test>for $value in fn:distinct-values(( xs:date('2008-06-01'), xs:date('2008-06-01'), xs:date('2012-06-01'), xs:date('1918-11-11Z'), xs:date('1972-06-01Z'), xs:date('1972-06-01Z') )) order by $value return $value</test>
       <result>
          <assert-string-value>1918-11-11Z 1972-06-01Z 2008-06-01 2012-06-01</assert-string-value>
@@ -907,6 +908,7 @@
    <test-case name="cbcl-distinct-values-005">
       <description> test fn:distinct-values with xs:dateTime </description>
       <created by="Tim Mills" on="2008-06-02"/>      
+      <dependency type="spec" value="XQ10+"/>
       <test>for $value in fn:distinct-values(( xs:dateTime('2008-06-01T12:00:00'), xs:dateTime('2008-06-01T12:00:00'), xs:dateTime('2008-06-01T00:00:00'), xs:dateTime('2008-06-02T00:00:00'), xs:dateTime('1918-11-11T11:00:00Z'), xs:dateTime('1972-06-01T13:00:00Z'), xs:dateTime('1972-06-01T13:00:00Z') )) order by $value return $value</test>
       <result>
          <assert-string-value>1918-11-11T11:00:00Z 1972-06-01T13:00:00Z 2008-06-01T00:00:00 2008-06-01T12:00:00 2008-06-02T00:00:00</assert-string-value>
@@ -917,6 +919,7 @@
    <test-case name="cbcl-distinct-values-006">
       <description> test fn:distinct-values with xs:time </description>
       <created by="Tim Mills" on="2008-06-02"/>      
+      <dependency type="spec" value="XQ10+"/>
       <test>for $value in fn:distinct-values(( xs:time('12:00:00'), xs:time('11:00:00'), xs:time('12:00:00'))) order by $value return $value</test>
       <result>
          <assert-string-value>11:00:00 12:00:00</assert-string-value>
@@ -927,6 +930,7 @@
    <test-case name="cbcl-distinct-values-007">
       <description> test fn:distinct-values with xs:time </description>
       <created by="Tim Mills" on="2008-06-02"/>      
+      <dependency type="spec" value="XQ10+"/>
       <test>for $value at $p in ( for $time in fn:distinct-values(( xs:time('12:00:00'), xs:time('12:00:00'), xs:time('20:00:00'), xs:time('01:00:00+12:00'), xs:time('02:00:00+13:00'))) order by $time return $time ) return adjust-time-to-timezone($value, (xs:dayTimeDuration("PT0S")[$p]))</test>
       <result>
          <assert-string-value>13:00:00Z 12:00:00 20:00:00</assert-string-value>
@@ -937,6 +941,7 @@
    <test-case name="cbcl-distinct-values-008">
       <description> test fn:distinct-values with xs:hexBinary </description>
       <created by="Tim Mills" on="2008-06-13"/>
+      <dependency type="spec" value="XQ10+"/>
       <test>for $value in fn:distinct-values(( xs:hexBinary('FFFF'), xs:hexBinary('FFFF'), xs:hexBinary('FFFE'), xs:hexBinary('FF'))) order by string($value) return $value</test>
       <result>
          <assert-string-value>FF FFFE FFFF</assert-string-value>
@@ -947,6 +952,7 @@
    <test-case name="cbcl-distinct-values-009">
       <description> test fn:distinct-values with xs:base64Binary </description>
       <created by="Tim Mills" on="2008-06-13"/>      
+      <dependency type="spec" value="XQ10+"/>
       <test>for $value in fn:distinct-values(( xs:base64Binary('aGVsbG8NCg=='), xs:base64Binary('aGVsbG8NCg=='), xs:base64Binary('aGFsbG8NCg=='), xs:base64Binary('aGkNCg=='))) order by string($value) return $value</test>
       <result>
          <assert-string-value>aGFsbG8NCg== aGVsbG8NCg== aGkNCg==</assert-string-value>
@@ -957,6 +963,7 @@
    <test-case name="cbcl-distinct-values-010">
       <description> test fn:distinct-values with xs:untypedAtomic </description>
       <created by="Tim Mills" on="2008-06-13"/>      
+      <dependency type="spec" value="XQ10+"/>
       <test>for $value in fn:distinct-values(( xs:untypedAtomic('a'), xs:untypedAtomic('a'), xs:untypedAtomic('b'), xs:untypedAtomic(''))) order by string($value) return $value</test>
       <result>
          <assert-string-value> a b</assert-string-value>
@@ -967,6 +974,7 @@
    <test-case name="cbcl-distinct-values-011">
       <description> test fn:distinct-values with xs:string </description>
       <created by="Tim Mills" on="2008-06-13"/>      
+      <dependency type="spec" value="XQ10+"/>
       <test>for $value in fn:distinct-values(( xs:string('a'), xs:string('a'), xs:string('b'), xs:string(''))) order by string($value) return $value</test>
       <result>
          <assert-string-value> a b</assert-string-value>
@@ -977,6 +985,7 @@
    <test-case name="cbcl-distinct-values-012">
       <description> test fn:distinct-values with xs:gYear </description>
       <created by="Tim Mills" on="2008-06-13"/>
+      <dependency type="spec" value="XQ10+"/>
       <test>for $value in fn:distinct-values(( xs:gYear('2008'), xs:gYear('2008'), xs:gYear('1972'))) order by string($value) return $value</test>
       <result>
          <assert-string-value>1972 2008</assert-string-value>
@@ -987,6 +996,7 @@
    <test-case name="cbcl-distinct-values-013">
       <description> test fn:distinct-values with durations </description>
       <created by="Tim Mills" on="2008-06-13"/>      
+      <dependency type="spec" value="XQ10+"/>
       <test>for $value in fn:distinct-values(( xs:dayTimeDuration('P0D'), xs:yearMonthDuration('P0Y'), xs:duration('P0Y'), xs:duration('P0Y'), xs:yearMonthDuration('P0Y'), xs:dayTimeDuration('P0D'), xs:dayTimeDuration('P1D'), xs:yearMonthDuration('P1Y'), xs:duration('P1Y'))) order by string($value) return $value</test>
       <result>
          <assert-string-value>P1D P1Y PT0S</assert-string-value>
@@ -997,6 +1007,7 @@
    <test-case name="cbcl-distinct-values-014">
       <description> test fn:distinct-values with xs:gMnnthDay </description>
       <created by="Tim Mills" on="2008-06-13"/>      
+      <dependency type="spec" value="XQ10+"/>
       <test>for $value in fn:distinct-values(( xs:gMonthDay('--06-16'), xs:gMonthDay('--06-16'), xs:gMonthDay('--12-15'))) order by string($value) return $value</test>
       <result>
          <assert-string-value>--06-16 --12-15</assert-string-value>
