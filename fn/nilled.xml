@@ -13,7 +13,7 @@
           <description>An instance with some nilled elements</description>
           <created by="Michael Kay" on="2012-10-02"/>
       </source>
-      <!--<namespace prefix="" uri="http://www.w3.org/XQueryTest/nillable"/>-->
+      <namespace prefix="" uri="http://www.w3.org/XQueryTest/nillable"/>
    </environment>
    
    <environment name="validate">
@@ -25,7 +25,7 @@
           <description>An instance with some nilled elements</description>
           <created by="Tim Mills" on="2008-01-01"/>
       </source>
-      <!--<namespace prefix="" uri="http://www.w3.org/XQueryTest/testcases"/>-->
+      <namespace prefix="" uri="http://www.w3.org/XQueryTest/testcases"/>
    </environment>
          
 
@@ -408,6 +408,206 @@
       <environment ref="nillable"/>
       <dependency type="spec" value="XQ30+ XP30+"/>
       <test>/root/branch/branch[2]/twig/nilled()</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-nilled-38">
+      <description> If node is nilled, its typed value is empty </description>
+      <created by="Michael Kay" on="2012-10-17"/>
+      <environment ref="nillable"/>
+      <dependency type="spec" value="XQ10+ XP20+"/>
+      <test>data(/root/branch/note[3])</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-nilled-39">
+      <description> If node is nilled, its typed value is empty </description>
+      <created by="Michael Kay" on="2012-10-17"/>
+      <environment ref="nillable"/>
+      <dependency type="spec" value="XQ10+ XP20+"/>
+      <test>data(/root/branch/branch[2]/twig)</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-nilled-40">
+      <description> If node is nilled, it matches element(E, T?) </description>
+      <created by="Michael Kay" on="2012-10-17"/>
+      <environment ref="nillable"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>
+        import schema namespace ids="http://www.w3.org/XQueryTest/nillable";
+      	/root/branch/branch[1] instance of element(branch, ids:root?)
+      </test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-nilled-41">
+      <description> If node is nilled, it doesn't match element(E, T) </description>
+      <created by="Michael Kay" on="2012-10-17"/>
+      <environment ref="nillable"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>
+        import schema namespace ids="http://www.w3.org/XQueryTest/nillable";
+      	/root/branch/branch[1] instance of element(branch, ids:root)
+      </test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-nilled-42">
+      <description> If node is nilled, it matches element(E, T?) </description>
+      <created by="Michael Kay" on="2012-10-17"/>
+      <environment ref="nillable"/>
+      <dependency type="spec" value="XQ10+ XP20+"/>
+      <test>/root/branch/branch[2]/twig instance of element(twig, xs:int?)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-nilled-43">
+      <description> If node is nilled, it matches element(E, T?) </description>
+      <created by="Michael Kay" on="2012-10-17"/>
+      <environment ref="nillable"/>
+      <dependency type="spec" value="XQ10+ XP20+"/>
+      <test>/root/branch/branch[2]/twig instance of element(twig, xs:decimal?)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-nilled-44">
+      <description> If node is nilled, it does not match element(E, T) </description>
+      <created by="Michael Kay" on="2012-10-17"/>
+      <environment ref="nillable"/>
+      <dependency type="spec" value="XQ10+ XP20+"/>
+      <test>/root/branch/branch[2]/twig instance of element(twig, xs:int)</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-nilled-45">
+      <description> If node is nilled, it does not match element(E, T) </description>
+      <created by="Michael Kay" on="2012-10-17"/>
+      <environment ref="nillable"/>
+      <dependency type="spec" value="XQ10+ XP20+"/>
+      <test>/root/branch/branch[2]/twig instance of element(twig, xs:decimal)</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-nilled-46">
+      <description> Nilled value with user-defined simple type </description>
+      <created by="Michael Kay" on="2012-10-17"/>
+      <environment ref="nillable"/>
+      <dependency type="spec" value="XQ10+ XP20+"/>
+      <test>nilled(/root/branch/date)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-nilled-47">
+      <description> If node is nilled, its typed value is empty (user-defined simple type)</description>
+      <created by="Michael Kay" on="2012-10-17"/>
+      <environment ref="nillable"/>
+      <dependency type="spec" value="XQ10+ XP20+"/>
+      <test>data(/root/branch/date)</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-nilled-48">
+      <description> If node is nilled, it does not match element(E, T)</description>
+      <created by="Michael Kay" on="2012-10-17"/>
+      <environment ref="nillable"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>
+        import schema namespace ids="http://www.w3.org/XQueryTest/nillable";
+      	/root/branch/date instance of element(*, ids:date)
+      </test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-nilled-49">
+      <description> If node is nilled, it matches element(E, T?)</description>
+      <created by="Michael Kay" on="2012-10-17"/>
+      <environment ref="nillable"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>
+        import schema default element namespace "http://www.w3.org/XQueryTest/nillable";
+      	/root/branch/date instance of element(*, date?)
+      </test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-nilled-50">
+      <description> Nilled value with user-defined complex type with simple content</description>
+      <created by="Michael Kay" on="2012-10-17"/>
+      <environment ref="nillable"/>
+      <dependency type="spec" value="XQ10+ XP20+"/>
+      <test>nilled(/root/branch/size)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-nilled-51">
+      <description> If node is nilled, its typed value is empty (user-defined complex type with simple content)</description>
+      <created by="Michael Kay" on="2012-10-17"/>
+      <environment ref="nillable"/>
+      <dependency type="spec" value="XQ10+ XP20+"/>
+      <test>data(/root/branch/size)</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-nilled-52">
+      <description> If node is nilled, it does not match element(E, T)</description>
+      <created by="Michael Kay" on="2012-10-17"/>
+      <environment ref="nillable"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>
+        import schema namespace ids="http://www.w3.org/XQueryTest/nillable";
+      	/ids:root/ids:branch/ids:size instance of element(*, ids:size)
+      </test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-nilled-53">
+      <description> If node is nilled, it matches element(E, T?)</description>
+      <created by="Michael Kay" on="2012-10-17"/>
+      <environment ref="nillable"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>
+        import schema namespace ids="http://www.w3.org/XQueryTest/nillable";
+      	/ids:root/ids:branch/ids:size instance of element(*, ids:size?)
+      </test>
       <result>
          <assert-true/>
       </result>
