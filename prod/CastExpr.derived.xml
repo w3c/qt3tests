@@ -1075,14 +1075,28 @@
    <test-case name="cbcl-cast-normalizedString-001">
       <description> test cast to xs:normalizedString </description>
       <created by="Tim Mills" on="2008-04-28"/>
+      <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[
-        let $string := ("&#xD;
-        foo &#x9;
-        bar &#xA;
-       " cast as xs:normalizedString) return not( contains($string, '&#x9;
-       ') or contains($string, '&#xA;
-       ') or contains($string, '&#xD;
-       ') or string-length($string) ne 13)]]></test>
+        for $string in ("&#xD; foo &#x9; bar &#xA;" cast as xs:normalizedString)
+        return not(contains($string, '&#x9;') or 
+                   contains($string, '&#xA;') or 
+                   contains($string, '&#xD;') or 
+                   string-length($string) ne 13)]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-normalizedString-001b">
+      <description> test cast to xs:normalizedString </description>
+      <created by="Tim Mills" on="2008-04-28"/>
+      <dependency type="spec" value="XP10+"/>
+      <test>
+        for $string in ("&#xD; foo &#x9; bar &#xA;" cast as xs:normalizedString)
+        return not(contains($string, '&#x9;') or 
+                   contains($string, '&#xA;') or 
+                   contains($string, '&#xD;') or 
+                   string-length($string) ne 13)</test>
       <result>
          <assert-true/>
       </result>
@@ -1145,14 +1159,28 @@
    <test-case name="cbcl-cast-token-001">
       <description> test cast to xs:token </description>
       <created by="Tim Mills" on="2008-04-28"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+        for $string in ("&#xD; foo &#x9; bar &#xA;" cast as xs:token) 
+        return not(contains($string, '&#x9;') or 
+                   contains($string, '&#xA;') or 
+                   contains($string, '&#xD;') or 
+                   string-length($string) ne 7)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-token-001b">
+      <description> test cast to xs:token </description>
+      <created by="Tim Mills" on="2008-04-28"/>
+      <dependency type="spec" value="XP10+"/>
       <test><![CDATA[
-        let $string := ("&#xD;
-        foo &#x9;
-        bar &#xA;
-       " cast as xs:token) return not( contains($string, '&#x9;
-       ') or contains($string, '&#xA;
-       ') or contains($string, '&#xD;
-       ') or string-length($string) ne 7)]]></test>
+        for $string in ("&#xD; foo &#x9; bar &#xA;" cast as xs:token) 
+        return not(contains($string, '&#x9;') or 
+                   contains($string, '&#xA;') or 
+                   contains($string, '&#xD;') or 
+                   string-length($string) ne 7)]]></test>
       <result>
          <assert-true/>
       </result>
