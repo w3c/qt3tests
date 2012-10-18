@@ -943,12 +943,21 @@ defg
       </result>
    </test-case>
    
-
    <test-case name="cbcl-matches-006">
       <description> test with a character class containing an escaped character </description>
       <created by="Tim Mills" on="2008-07-17"/>
-      
+      <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[fn:matches('&#x9;', '[\t]')]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-matches-006b">
+      <description> test with a character class containing an escaped character </description>
+      <created by="Tim Mills" on="2008-07-17"/>
+      <dependency type="spec" value="XP10+"/>
+      <test>fn:matches('&#x9;', '[\t]')</test>
       <result>
          <assert-true/>
       </result>
@@ -1326,18 +1335,26 @@ defg
       </result>
    </test-case>
    
-
    <test-case name="cbcl-matches-041">
       <description> test the multi-character escape \S </description>
       <created by="Tim Mills" on="2008-07-29"/>
-      
+      <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[fn:matches('&#xD;&#x20;&#x9;', '\S+')]]></test>
       <result>
          <assert-false/>
       </result>
    </test-case>
-   
 
+   <test-case name="cbcl-matches-041b">
+      <description> test the multi-character escape \S </description>
+      <created by="Tim Mills" on="2008-07-29"/>
+      <dependency type="spec" value="XP10+"/>
+      <test>fn:matches('&#xD;&#x20;&#x9;', '\S+')</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
    <test-case name="cbcl-matches-042">
       <description> test the multi-character escape \i </description>
       <created by="Tim Mills" on="2008-07-29"/>
@@ -1392,12 +1409,21 @@ defg
       </result>
    </test-case>
    
-
    <test-case name="cbcl-matches-047">
       <description> test the multi-character escape \c </description>
       <created by="Tim Mills" on="2008-07-29"/>
-      
+      <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[fn:matches('&#x20;&#x9;&#xD;', '\c+')]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-matches-047b">
+      <description> test the multi-character escape \c </description>
+      <created by="Tim Mills" on="2008-07-29"/>
+      <dependency type="spec" value="XP10+"/>
+      <test>fn:matches('&#x20;&#x9;&#xD;', '\c+')</test>
       <result>
          <assert-false/>
       </result>
