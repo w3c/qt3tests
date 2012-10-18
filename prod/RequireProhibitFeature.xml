@@ -20,8 +20,8 @@
     <environment ref="dummy-schema"/>
     <dependency type="spec" value="XQ30+"/>
     <test>
-      declare option require-feature "schema-aware";
       import schema namespace s = "http://www.w3.org/XQueryTest/RequireProhibitFeature";
+      declare option require-feature "schema-aware";
       ()
     </test>
     <result>
@@ -255,7 +255,7 @@
     <dependency type="spec" value="XQ30+"/>
     <test>
       declare option require-feature "higher-order-function";
-      for $f := () return $f(1, ?)
+      for $f in () return $f(1, ?)
     </test>
     <result>
       <!-- The test must be reported to fail if a different error is returned -->
@@ -345,7 +345,7 @@
     <created by="Ghislain Fourny" on="2012-10-15"/>
     <dependency type="spec" value="XQ30+"/>
     <test>
-      for $f := () return $f(1, ?)
+      for $f in () return $f(1, ?)
     </test>
     <result>
       <!-- The test must be reported to fail if a different error is returned -->
@@ -364,8 +364,8 @@
     <environment ref="dummy-schema"/>
     <dependency type="spec" value="XQ30+"/>
     <test>
-      declare option prohibit-feature "schema-aware";
       import schema namespace s = "http://www.w3.org/XQueryTest/RequireProhibitFeature";
+      declare option prohibit-feature "schema-aware";
       ()
     </test>
     <result>
@@ -538,7 +538,7 @@
     <dependency type="spec" value="XQ30+"/>
     <test>
       declare option prohibit-feature "higher-order-function";
-      for $f := () return $f(1, ?)
+      for $f in () return $f(1, ?)
     </test>
     <result>
       <!-- The test must be reported to fail if a different error is returned -->
@@ -700,8 +700,8 @@
     <environment ref="dummy-schema"/>
     <dependency type="spec" value="XQ30+"/>
     <test>
-      declare option require-feature "all-optional-features";
       import schema namespace s = "http://www.w3.org/XQueryTest/RequireProhibitFeature";
+      declare option require-feature "all-optional-features";
       ()
     </test>
     <result>
@@ -784,9 +784,9 @@
     <environment ref="dummy-schema"/>
     <dependency type="spec" value="XQ30+"/>
     <test>
+      import schema namespace s = "http://www.w3.org/XQueryTest/RequireProhibitFeature";
       declare option prohibit-feature "all-optional-features";
       declare option require-feature "schema-aware";
-      import schema namespace s = "http://www.w3.org/XQueryTest/RequireProhibitFeature";
       ()
     </test>
     <result>
@@ -808,9 +808,9 @@
     <environment ref="dummy-schema"/>
     <dependency type="spec" value="XQ30+"/>
     <test>
+      import schema namespace s = "http://www.w3.org/XQueryTest/RequireProhibitFeature";
       declare option require-feature "schema-aware";
       declare option prohibit-feature "all-optional-features";
-      import schema namespace s = "http://www.w3.org/XQueryTest/RequireProhibitFeature";
       ()
     </test>
     <result>
@@ -822,6 +822,191 @@
         <error code="XQST0120"/>
         <!-- cannot deactivate -->
         <error code="XQST0128"/>
+      </any-of>
+    </result>
+  </test-case>
+  
+  <test-case name="separate-modules-1">
+    <description>Prohibiting or requiring a feature only affects the module.</description>
+    <created by="Ghislain Fourny" on="2012-10-18"/>
+    <module uri="http://www.w3.org/XQueryTest/RequireProhibitFeature" file="RequireProhibitFeature/uses.xquery"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test>
+      import module module = "http://www.w3.org/XQueryTest/RequireProhibitFeature";
+      declare option prohibit-feature "higher-order-function";
+      let $f in module:one() return 1
+    </test>
+    <result>
+      <any-of>
+        <assert-eq>1</assert-eq>
+        <!-- cannot deactivate -->
+        <error code="XQST0128"/>
+      </any-of>
+    </result>
+  </test-case>
+  
+  <test-case name="separate-modules-2">
+    <description>Prohibiting or requiring a feature only affects the module.</description>
+    <created by="Ghislain Fourny" on="2012-10-18"/>
+    <module uri="http://www.w3.org/XQueryTest/RequireProhibitFeature" file="RequireProhibitFeature/uses.xquery"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test>
+      import module module = "http://www.w3.org/XQueryTest/RequireProhibitFeature";
+      declare option prohibit-feature "all-optional-features";
+      for $f in module:one() return 1
+    </test>
+    <result>
+      <any-of>
+        <assert-eq>1</assert-eq>
+        <!-- cannot deactivate -->
+        <error code="XQST0128"/>
+      </any-of>
+    </result>
+  </test-case>
+  
+  <test-case name="separate-modules-3">
+    <description>Prohibiting or requiring a feature only affects the module.</description>
+    <created by="Ghislain Fourny" on="2012-10-18"/>
+    <module uri="http://www.w3.org/XQueryTest/RequireProhibitFeature" file="RequireProhibitFeature/requires.xquery"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test>
+      import module module = "http://www.w3.org/XQueryTest/RequireProhibitFeature";
+      declare option prohibit-feature "higher-order-function";
+      for $f in module:one() return 1
+    </test>
+    <result>
+      <any-of>
+        <assert-eq>1</assert-eq>
+        <!-- cannot deactivate -->
+        <error code="XQST0128"/>
+        <!-- not supported -->
+        <error code="XQST0120"/>
+      </any-of>
+    </result>
+  </test-case>
+  
+  <test-case name="separate-modules-4">
+    <description>Prohibiting or requiring a feature only affects the module.</description>
+    <created by="Ghislain Fourny" on="2012-10-18"/>
+    <module uri="http://www.w3.org/XQueryTest/RequireProhibitFeature" file="RequireProhibitFeature/requires.xquery"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test>
+      import module module = "http://www.w3.org/XQueryTest/RequireProhibitFeature";
+      module:one()()
+    </test>
+    <result>
+      <!-- The test must be reported to fail if a different error is returned -->
+      <any-of>
+        <assert-eq>1</assert-eq>
+        <!-- not supported -->
+        <error code="XQST0120"/>
+      </any-of>
+    </result>
+  </test-case>
+  
+  <test-case name="separate-modules-5">
+    <description>Prohibiting or requiring a feature only affects the module.</description>
+    <created by="Ghislain Fourny" on="2012-10-18"/>
+    <module uri="http://www.w3.org/XQueryTest/RequireProhibitFeature" file="RequireProhibitFeature/requires.xquery"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test>
+      import module module = "http://www.w3.org/XQueryTest/RequireProhibitFeature";
+      declare option prohibit-feature "higher-order-function";
+      module:one()()
+    </test>
+    <result>
+      <!-- The test must be reported to fail if a different error is returned -->
+      <any-of>
+        <!-- can deactivate -->
+        <error code="XQST0129"/>
+        <!-- cannot deactivate -->
+        <error code="XQST0128"/>
+        <!-- not supported -->
+        <error code="XQST0120"/>
+      </any-of>
+    </result>
+  </test-case>
+  
+  <test-case name="separate-modules-6">
+    <description>Prohibiting or requiring a feature only affects the module.</description>
+    <created by="Ghislain Fourny" on="2012-10-18"/>
+    <module uri="http://www.w3.org/XQueryTest/RequireProhibitFeature" file="RequireProhibitFeature/prohibits-uses.xquery"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test>
+      import module module = "http://www.w3.org/XQueryTest/RequireProhibitFeature";
+      ()
+    </test>
+    <result>
+      <!-- The test must be reported to fail if a different error is returned -->
+      <any-of>
+        <!-- can deactivate -->
+        <error code="XQST0129"/>
+        <!-- cannot deactivate -->
+        <error code="XQST0128"/>
+      </any-of>
+    </result>
+  </test-case>
+  
+  <test-case name="separate-modules-7">
+    <description>Prohibiting or requiring a feature only affects the module.</description>
+    <created by="Ghislain Fourny" on="2012-10-18"/>
+    <module uri="http://www.w3.org/XQueryTest/RequireProhibitFeature" file="RequireProhibitFeature/prohibits-uses.xquery"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test>
+      import module module = "http://www.w3.org/XQueryTest/RequireProhibitFeature";
+      declare option require-feature "higher-order-function";
+      ()
+    </test>
+    <result>
+      <!-- The test must be reported to fail if a different error is returned -->
+      <any-of>
+        <!-- can deactivate -->
+        <error code="XQST0129"/>
+        <!-- cannot deactivate -->
+        <error code="XQST0128"/>
+        <!-- not supported -->
+        <error code="XQST0120"/>
+      </any-of>
+    </result>
+  </test-case>
+  
+  <test-case name="separate-modules-8">
+    <description>Prohibiting or requiring a feature only affects the module.</description>
+    <created by="Ghislain Fourny" on="2012-10-18"/>
+    <module uri="http://www.w3.org/XQueryTest/RequireProhibitFeature" file="RequireProhibitFeature/prohibits.xquery"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test>
+      import module module = "http://www.w3.org/XQueryTest/RequireProhibitFeature";
+      let $f in () return $f()
+    </test>
+    <result>
+      <!-- The test must be reported to fail if a different error is returned -->
+      <any-of>
+        <assert-eq>()</assert-eq>
+        <!-- cannot deactivate -->
+        <error code="XQST0128"/>
+      </any-of>
+    </result>
+  </test-case>
+  
+  <test-case name="separate-modules-9">
+    <description>Prohibiting or requiring a feature only affects the module.</description>
+    <created by="Ghislain Fourny" on="2012-10-18"/>
+    <module uri="http://www.w3.org/XQueryTest/RequireProhibitFeature" file="RequireProhibitFeature/prohibits.xquery"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test>
+      import module module = "http://www.w3.org/XQueryTest/RequireProhibitFeature";
+      declare option require-feature "higher-order-function";
+      let $f in () return $f()
+    </test>
+    <result>
+      <!-- The test must be reported to fail if a different error is returned -->
+      <any-of>
+        <assert-eq>1</assert-eq>
+        <!-- cannot deactivate -->
+        <error code="XQST0128"/>
+        <!-- not supported -->
+        <error code="XQST0120"/>
       </any-of>
     </result>
   </test-case>
