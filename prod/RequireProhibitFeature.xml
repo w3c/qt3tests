@@ -42,7 +42,10 @@
     <dependency type="spec" value="XQ30+"/>
     <test><![CDATA[
       declare option require-feature "schema-aware";
-      (validate type xs:integer { <element>42</element> }) instance of xs:integer
+      (validate lax { <element
+                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                         xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                         xsi:type="xs:integer">42</element> }) instance of element(*, xs:integer)
       ]]>
     </test>
     <result>
@@ -82,7 +85,10 @@
     <environment ref="dummy-schema"/>
     <dependency type="spec" value="XQ30+"/>
     <test><![CDATA[
-      (validate type xs:integer { <element>42</element> }) instance of xs:integer
+      (validate lax { <element
+                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                         xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                         xsi:type="xs:integer">42</element> }) instance of element(*, xs:integer)
       ]]>
     </test>
     <result>
@@ -384,7 +390,10 @@
     <created by="Ghislain Fourny" on="2012-10-15"/>
     <dependency type="spec" value="XQ30+"/>
     <test><![CDATA[
-      (validate type xs:integer { <element>42</element> }) instance of xs:integer
+      (validate lax { <element
+                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                         xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                         xsi:type="xs:integer">42</element> }) instance of element(*, xs:integer)
       ]]>
     </test>
     <result>
