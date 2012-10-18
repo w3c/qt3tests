@@ -1009,17 +1009,19 @@
    <test-case name="cbcl-cast-nmtoken-001">
       <description> test cast to xs:NMTOKEN </description>
       <created by="Tim Mills" on="2008-04-28"/>
+      <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[
-        let $string := ("&#xD;
-       &#xA;
-       &#x9;
-        foobar &#xA;
-       &#xD;
-       &#x9;
-       " cast as xs:NMTOKEN) return not( contains($string, '&#x9;
-       ') or contains($string, '&#xA;
-       ') or contains($string, '&#xD;
-       ') or string-length($string) ne 6)]]></test>
+        let $string := ("&#xD;&#xA;&#x9; foobar &#xA;&#xD;&#x9;" cast as xs:NMTOKEN) return not(contains($string, '&#x9;') or contains($string, '&#xA;') or contains($string, '&#xD;') or string-length($string) ne 6)]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-nmtoken-001b">
+      <description> test cast to xs:NMTOKEN </description>
+      <created by="Tim Mills" on="2008-04-28"/>
+      <dependency type="spec" value="XP10+"/>
+      <test>for $string in ("&#xD;&#xA;&#x9; foobar &#xA;&#xD;&#x9;" cast as xs:NMTOKEN) return not(contains($string, '&#x9;') or contains($string, '&#xA;') or contains($string, '&#xD;') or string-length($string) ne 6)</test>
       <result>
          <assert-true/>
       </result>
