@@ -790,10 +790,7 @@
       <created by="Oliver Hallam" on="2008-05-14"/>
       <test>subsequence(1 to 100, 99, 2147483648)</test>
       <result>
-         <any-of>
-            <assert-string-value>99 100</assert-string-value>
-            <error code="ANDY0001"/>
-         </any-of>
+	<assert-string-value>99 100</assert-string-value>
       </result>
    </test-case>
 
@@ -816,31 +813,25 @@
    </test-case>
 
    <test-case name="cbcl-subsequence-011">
-      <description> Test unbou&#x7f;nded subsequence with starting position out of int range. </description>
+      <description> Test unbounded subsequence with starting position out of int range. </description>
       <created by="Oliver Hallam" on="2008-05-14"/>
       <test>count(subsequence(1 to 3000000000, -2147483649))</test>
       <result>
-         <any-of>
-            <assert-string-value>3000000000</assert-string-value>
-            <error code="ANDY0001"/>
-         </any-of>
+	<assert-string-value>3000000000</assert-string-value>
       </result>
    </test-case>
 
    <test-case name="cbcl-subsequence-012">
-      <description> Test unbou&#x7f;nded subsequence with starting position out of int range. </description>
+      <description> Test unbounded subsequence with starting position out of int range. </description>
       <created by="Oliver Hallam" on="2008-05-14"/>
       <test>count(subsequence(1 to 3000000000, 2147483648))</test>
       <result>
-         <any-of>
-            <assert-string-value>852516353</assert-string-value>
-            <error code="ANDY0001"/>
-         </any-of>
+	<assert-string-value>852516353</assert-string-value>
       </result>
    </test-case>
 
    <test-case name="cbcl-subsequence-013">
-      <description> Test unbou&#x7f;nded subsequence with largest allowed starting position. </description>
+      <description> Test unbounded subsequence with largest allowed starting position. </description>
       <created by="Oliver Hallam" on="2008-05-14"/>
       <test>count(subsequence(1 to 3000000000, 2147483647))</test>
       <result>
@@ -849,7 +840,7 @@
    </test-case>
 
    <test-case name="cbcl-subsequence-014">
-      <description> Test unbou&#x7f;nded subsequence with largest allowed starting position. </description>
+      <description> Test unbounded subsequence with largest allowed starting position. </description>
       <created by="Oliver Hallam" on="2008-05-14"/>
       <test>subsequence(1 to 3000000000, 2147483647, 5)</test>
       <result>
@@ -902,6 +893,7 @@
    <test-case name="cbcl-subsequence-019">
       <description> Test subsequence that gets the last item </description>
       <created by="Oliver Hallam" on="2008-05-15"/>
+      <dependency type="spec" value="XP30+ XQ10+"/>
       <test>
         let $y := for $x in 1 to 10 return $x * $x return subsequence($y, count($y), 3)
       </test>
@@ -971,6 +963,7 @@
    <test-case name="cbcl-subsequence-026">
       <description> Tests for subsequence on divided sequence </description>
       <created by="Nick Jones" on="2008-06-17"/>
+      <dependency type="spec" value="XP30+ XQ10+"/>
       <test>
         let $x := (1 to 10)[. mod 2 = 0] return subsequence((0,$x),3,count($x) div 2)
       </test>
@@ -982,6 +975,7 @@
    <test-case name="cbcl-subsequence-027">
       <description> Tests for subsequence on a map expression </description>
       <created by="Nick Jones" on="2008-06-17"/>
+      <dependency type="spec" value="XP30+ XQ10+"/>
       <test>
         let $z := (1 to 10)[. mod 2 = 0] return subsequence(for $x in $z return floor($x),2,4)
       </test>
