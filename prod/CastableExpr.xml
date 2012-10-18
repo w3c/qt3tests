@@ -6871,14 +6871,19 @@
    <test-case name="cbcl-castable-nmtoken-002">
       <description> test cast to xs:NMTOKEN </description>
       <created by="Tim Mills" on="2008-04-28"/>
+      <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[
-        "&#xD;
-       &#xA;
-       &#x9;
-        foobar &#xA;
-       &#xD;
-       &#x9;
-       " castable as xs:NMTOKEN]]></test>
+        "&#xD;&#xA;&#x9; foobar &#xA;&#xD;&#x9;" castable as xs:NMTOKEN]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-castable-nmtoken-002b">
+      <description> test cast to xs:NMTOKEN </description>
+      <created by="Tim Mills" on="2008-04-28"/>
+      <dependency type="spec" value="XP10+"/>
+      <test>"&#xD;&#xA;&#x9; foobar &#xA;&#xD;&#x9;" castable as xs:NMTOKEN</test>
       <result>
          <assert-true/>
       </result>
