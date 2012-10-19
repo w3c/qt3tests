@@ -1,5 +1,5 @@
 <?xml version="1.1" encoding="us-ascii"?>
-<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="misc-XMLEdition">
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="misc-XMLEdition" covers="xml11">
    <description>Tests for the XMLEdition</description>
    <link type="spec" document="http://www.w3.org/TR/xquery-30/"
          idref="doc-xquery30-XMLEdition"/>
@@ -207,6 +207,17 @@
       <test>deep-equal(string-to-codepoints('&#xd;&#xa;'), (10))</test>
       <result>
          <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="XML11-c0-001">
+      <description>Use a C0 control character written in the query as a numeric char reference</description>
+      <created by="Michael Kay" on="2012-10-19"/>
+      <dependency type="spec" value="XQ30+"/>
+      <dependency type="xml-version" value="1.1"/>
+      <test file="XMLEdition/XML11-c0-001.xq"/>
+      <result>
+         <assert-eq>7</assert-eq>
       </result>
    </test-case>
 </test-set>
