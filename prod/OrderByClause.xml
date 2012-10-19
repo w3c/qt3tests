@@ -1009,23 +1009,22 @@
       </result>
    </test-case>
    
-   <test-case name="orderBy66" covers="flwor-generalization">
+   <test-case name="orderBy66" covers="flwor-generalization bang-operator">
       <description>Multiple order by clauses. Permitted in 3.0</description>
       <created by="Michael Kay" on="2012-07-09"/>
       <environment ref="orderdata"/>
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
         declare default element namespace "http://www.w3.org/XQueryTestOrderBy"; 
-        <results>{ 
+ 
             for $i in 1 to 100
             order by -$i
-            let $c := count
+            count $count
             let $e := <e i="{$i}" pos="{$count}"/>
             order by number($e/@i)
             where $count gt 90
             return $e!@pos!number()
-            }
-        </results>
+
       ]]></test>
       <result>
          <assert-deep-eq>100, 99, 98, 97, 96, 95, 94, 93, 92, 91</assert-deep-eq>
