@@ -124,11 +124,12 @@
   <test-case name="require-module-1">
     <description>An error must be thrown if the feature is not supported.</description>
     <created by="Ghislain Fourny" on="2012-10-15"/>
+    <modified by="O'Neil Delpratt" on="2012-10-22" change="declare option now appears after import" />
     <module uri="http://www.w3.org/XQueryTest/RequireProhibitFeature" file="RequireProhibitFeature/dummy.xquery"/>
     <dependency type="spec" value="XQ30+"/>
     <test>
-      declare option require-feature "module";
       import module namespace m = "http://www.example.com/dummy-module";
+      declare option require-feature "module";
     </test>
     <result>
       <!-- The test must be reported to fail if a different error is returned -->
@@ -385,7 +386,7 @@
     </result>
   </test-case>
   
-  <test-case name="prohibit-schema-aware-2">
+      <test-case name="prohibit-schema-aware-2">
     <description>An error must be thrown if the feature is prohibited and used.</description>
     <created by="Ghislain Fourny" on="2012-10-15"/>
     <dependency type="spec" value="XQ30+"/>
@@ -432,8 +433,8 @@
     <module uri="http://www.w3.org/XQueryTest/RequireProhibitFeature" file="RequireProhibitFeature/dummy.xquery"/>
     <dependency type="spec" value="XQ30+"/>
     <test>
-      declare option require-feature "module";
       import module namespace m = "http://www.example.com/dummy-module";
+      declare option prohibit-feature "module";
     </test>
     <result>
       <!-- The test must be reported to fail if a different error is returned -->
