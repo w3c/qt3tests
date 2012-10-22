@@ -3002,5 +3002,37 @@
          <error code="XQTY0086"/>
       </result>
    </test-case>         
+
+   <test-case name="XQST0125_1" covers="inline-function">
+      <description>It is a static error if an inline function expression is annotated as %public.</description>
+      <created by="Tim Mills" on="2012-10-22"/>
+      <dependency type="spec" value="XQ30+"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <test><![CDATA[
+        let $f := %public function($arg as xs:integer) as xs:integer 
+                          { $arg + 1 }
+        return $f(1)
+      ]]></test>
+      <result>
+         <error code="XQST0125"/>
+      </result>
+   </test-case>
+   
+   <test-case name="XQST0125_2" covers="inline-function">
+      <description>It is a static error if an inline function expression is annotated as %private.</description>
+      <created by="Tim Mills" on="2012-10-22"/>
+      <dependency type="spec" value="XQ30+"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <test><![CDATA[
+        return $f(12, 34)
+        let $f := %private function($arg as xs:integer) as xs:integer 
+                           { $arg + 1 }
+        return $f(1)
+      ]]></test>
+      <result>
+         <error code="XQST0125"/>
+      </result>
+   </test-case>
+
 </test-set>
 
