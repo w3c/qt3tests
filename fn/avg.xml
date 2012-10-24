@@ -2043,9 +2043,15 @@
    <test-case name="cbcl-avg-001">
       <description> Testing fn:avg overflows correctly with xs:decimals </description>
       <created by="Oliver Hallam" on="2008-04-11"/>
-      <test>fn:avg((xs:decimal("79000000000000000000000000000"), xs:decimal("79000000000000000000000000000")))</test>
+      <test>fn:avg((xs:decimal("79000000000000000000000000000"),
+                    xs:decimal("79000000000000000000000000000")))
+            eq 79000000000000000000000000000
+      </test>
       <result>
-         <error code="FOAR0002"/>
+	<any-of>
+	  <assert-true />
+	  <error code="FOAR0002"/>
+	</any-of>
       </result>
    </test-case>
    
