@@ -13,6 +13,13 @@
       <created by="Ghislain Fourny" on="2012-10-15"/>
     </schema>
   </environment>
+
+  <environment name="data-doc">
+    <source role="." file="RequireProhibitFeature/data.xml">
+      <description>Simple xml document</description>
+      <created by="O'Neil Delpratt, Saxonica" on="2012-10-23"/>
+    </source>
+  </environment>
   
   <test-case name="require-schema-aware-1">
     <description>An error must be thrown if the feature is not supported.</description>
@@ -38,11 +45,12 @@
   
   <test-case name="require-schema-aware-2">
     <description>An error must be thrown if the feature is not supported.</description>
+    <modified by="O'Neil Delpratt, Saxonica" on="2012-10-23" change="declaration of prohibit-feature option missing" />
     <created by="Ghislain Fourny" on="2012-10-15"/>
     <environment ref="dummy-schema"/>
     <dependency type="spec" value="XQ30+"/>
     <test><![CDATA[
-      declare option require-feature "schema-aware";
+      declare option prohibit-feature "schema-aware";
       (validate lax { <element
                          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                          xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -84,9 +92,11 @@
   <test-case name="require-schema-aware-4">
     <description>An error must be thrown if the feature is not supported.</description>
     <created by="Ghislain Fourny" on="2012-10-15"/>
+    <modified by="O'Neil Delpratt, Saxonica" on="2012-10-23" change="declaration of prohibit-feature option missing" />
     <environment ref="dummy-schema"/>
     <dependency type="spec" value="XQ30+"/>
     <test><![CDATA[
+      declare option prohibit-feature "schema-aware";
       (validate lax { <element
                          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                          xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -239,7 +249,7 @@
       <!-- The test must be reported to fail if a different error is returned -->
       <any-of>
         <!-- supported -->
-        <assert-empty />
+        <assert-eq >0</assert-eq >
         <!-- not supported -->
         <error code="XQST0120"/>
       </any-of>
@@ -822,7 +832,10 @@
       import schema namespace s = "http://www.w3.org/XQueryTest/RequireProhibitFeature";
       declare option prohibit-feature "all-optional-features";
       declare option require-feature "schema-aware";
-      ()
+      (validate lax { <element
+                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                         xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                         xsi:type="xs:integer">42</element> }) instance of element(*, xs:integer)
     </test>
     <result>
       <!-- The test must be reported to fail if a different error is returned -->
@@ -847,7 +860,10 @@
       import schema namespace s = "http://www.w3.org/XQueryTest/RequireProhibitFeature";
       declare option require-feature "schema-aware";
       declare option prohibit-feature "all-optional-features";
-      ()
+      (validate lax { <element
+                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                         xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                         xsi:type="xs:integer">42</element> }) instance of element(*, xs:integer)
     </test>
     <result>
       <!-- The test must be reported to fail if a different error is returned -->
@@ -858,6 +874,70 @@
         <error code="XQST0120"/>
         <!-- cannot deactivate -->
         <error code="XQST0128"/>
+      </any-of>
+    </result>
+  </test-case>
+
+
+  <test-case name="require-all-optional-features-5">
+    <description>Test should succeed if feature is supported by implementation, otherwise error. </description>
+    <created by="O'Neil Delpratt, Saxonica" on="2012-10-24"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test>
+      declare option prohibit-feature "all-optional-features";
+      declare option require-feature "higher-order-function";
+      1 instance of function(*)
+    </test>
+    <result>
+      <!-- The test must be reported to fail if a different error is returned -->
+      <any-of>
+        <!-- is supported -->
+        <assert-false />
+        <!-- not supported -->
+        <error code="XQST0120"/>
+      </any-of>
+    </result>
+  </test-case>
+
+
+
+  <test-case name="require-all-optional-features-6">
+    <description>An error must be thrown if the feature is prohibited and used. </description>
+    <created by="O'Neil Delpratt, Saxonica" on="2012-10-24"/>
+    <environment ref="data-doc"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test>
+        declare option require-feature 'serialization';
+        declare option prohibit-feature 'all-optional-features';
+        let $data:= . return fn:serialize($data)
+    </test>
+    <result>
+      <!-- The test must be reported to fail if a different error is returned -->
+      <any-of>
+        <!-- is supported -->
+        <assert-xml ><![CDATA[&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;a b="3"/&gt;]]></assert-xml>
+        <!-- not supported -->
+        <error code="XQST0120"/>
+      </any-of>
+    </result>
+  </test-case>
+
+  <test-case name="require-all-optional-features-7">
+    <description>Test should succeed if feature is supported by implementation, otherwise error. </description>
+    <created by="O'Neil Delpratt, Saxonica" on="2012-10-24"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test>
+      declare option prohibit-feature "all-optional-features";
+      declare option require-feature "module";
+      1 instance of function(*)
+    </test>
+    <result>
+      <!-- The test must be reported to fail if a different error is returned -->
+      <any-of>
+        <!-- is supported -->
+        <assert-false />
+        <!-- not supported -->
+        <error code="XQST0120"/>
       </any-of>
     </result>
   </test-case>
