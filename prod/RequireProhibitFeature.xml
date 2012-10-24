@@ -916,7 +916,7 @@
   </test-case>
 
   <test-case name="require-all-optional-features-7">
-    <description>Test should succeed if feature is supported by implementation, otherwise error. </description>
+    <description>An error must be thrown if the feature is prohibited and used. </description>
     <created by="O'Neil Delpratt, Saxonica" on="2012-10-24"/>
     <dependency type="spec" value="XQ30+"/>
     <test>
@@ -927,10 +927,12 @@
     <result>
       <!-- The test must be reported to fail if a different error is returned -->
       <any-of>
-        <!-- is supported -->
-        <assert-false />
+        <!-- is deactivated -->
+         <error code="XQST0129"/>
         <!-- not supported -->
         <error code="XQST0120"/>
+        <!-- cannot deactivate -->
+        <error code="XQST0128"/>
       </any-of>
     </result>
   </test-case>
