@@ -45,12 +45,11 @@
   
   <test-case name="require-schema-aware-2">
     <description>An error must be thrown if the feature is not supported.</description>
-    <modified by="O'Neil Delpratt, Saxonica" on="2012-10-23" change="declaration of prohibit-feature option missing" />
     <created by="Ghislain Fourny" on="2012-10-15"/>
     <environment ref="dummy-schema"/>
     <dependency type="spec" value="XQ30+"/>
     <test><![CDATA[
-      declare option prohibit-feature "schema-aware";
+      declare option require-feature "schema-aware";
       (validate lax { <element
                          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                          xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -92,11 +91,11 @@
   <test-case name="require-schema-aware-4">
     <description>An error must be thrown if the feature is not supported.</description>
     <created by="Ghislain Fourny" on="2012-10-15"/>
-    <modified by="O'Neil Delpratt, Saxonica" on="2012-10-23" change="declaration of prohibit-feature option missing" />
+    <modified by="O'Neil Delpratt, Saxonica" on="2012-10-23" change="declaration of require-feature option missing" />
     <environment ref="dummy-schema"/>
     <dependency type="spec" value="XQ30+"/>
     <test><![CDATA[
-      declare option prohibit-feature "schema-aware";
+      declare option require-feature "schema-aware";
       (validate lax { <element
                          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                          xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -249,7 +248,7 @@
       <!-- The test must be reported to fail if a different error is returned -->
       <any-of>
         <!-- supported -->
-        <assert-eq >0</assert-eq >
+        <assert-empty />
         <!-- not supported -->
         <error code="XQST0120"/>
       </any-of>
@@ -832,10 +831,7 @@
       import schema namespace s = "http://www.w3.org/XQueryTest/RequireProhibitFeature";
       declare option prohibit-feature "all-optional-features";
       declare option require-feature "schema-aware";
-      (validate lax { <element
-                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                         xmlns:xs="http://www.w3.org/2001/XMLSchema"
-                         xsi:type="xs:integer">42</element> }) instance of element(*, xs:integer)
+      ()
     </test>
     <result>
       <!-- The test must be reported to fail if a different error is returned -->
