@@ -1,1 +1,1 @@
-module namespace = "http://www.w3.org/XQueryTest/RequireProhibitFeature";
+module namespace m = "http://www.w3.org/XQueryTest/RequireProhibitFeature";
