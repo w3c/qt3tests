@@ -1160,12 +1160,12 @@
       <description> test cast to xs:token </description>
       <created by="Tim Mills" on="2008-04-28"/>
       <dependency type="spec" value="XQ10+"/>
-      <test>
+      <test><![CDATA[
         for $string in ("&#xD; foo &#x9; bar &#xA;" cast as xs:token) 
         return not(contains($string, '&#x9;') or 
                    contains($string, '&#xA;') or 
                    contains($string, '&#xD;') or 
-                   string-length($string) ne 7)</test>
+                   string-length($string) ne 7)]]></test>
       <result>
          <assert-true/>
       </result>
@@ -1175,12 +1175,12 @@
       <description> test cast to xs:token </description>
       <created by="Tim Mills" on="2008-04-28"/>
       <dependency type="spec" value="XP10+"/>
-      <test><![CDATA[
+      <test>
         for $string in ("&#xD; foo &#x9; bar &#xA;" cast as xs:token) 
         return not(contains($string, '&#x9;') or 
                    contains($string, '&#xA;') or 
                    contains($string, '&#xD;') or 
-                   string-length($string) ne 7)]]></test>
+                   string-length($string) ne 7)</test>
       <result>
          <assert-true/>
       </result>
