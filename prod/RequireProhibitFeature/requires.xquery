@@ -1,4 +1,4 @@
-module namespace = "http://www.w3.org/XQueryTest/RequireProhibitFeature";
+module namespace my = "http://www.w3.org/XQueryTest/RequireProhibitFeature";
 
 declare option require-feature "higher-order-function";
 
