@@ -2083,13 +2083,16 @@
    
 
    <test-case name="XQDY0092">
-      <description> check that bad comments are reported correctly </description>
+      <description> check construction of xml:space attribute with a value other than preserve or default. </description>
       <created by="Tim Mills" on="2008-05-16"/>
       
       <dependency type="spec" value="XQ10+"/>
-      <test><![CDATA[<a xml:space="space" />]]></test>
+      <test><![CDATA[<a xml:space="space"/>]]></test>
       <result>
-         <error code="XQDY0092"/>
+	<any-of>
+	  <error code="XQDY0092"/>
+	  <assert-xml>&lt;a xml:space="space"/&gt;</assert-xml>
+	</any-of>
       </result>
    </test-case>
    
