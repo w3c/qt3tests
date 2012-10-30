@@ -2064,9 +2064,9 @@
    <test-case name="cbcl-deep-equal-008">
       <description> Test that deep equal compares untypedAtomic values correctly </description>
       <created by="Oliver Hallam" on="2008-06-17"/>      
-      <test>deep-equal((xs:untypedAtomic("a"), xs:untypedAtomic("P12M"), 2.0), (xs:untypedAtomic("a"), xs:yearMonthDuration("P1Y"), xs:untypedAtomic(" 2")))</test>
+      <test>deep-equal((xs:untypedAtomic("a"), xs:untypedAtomic("P1Y"), 2.0), (xs:untypedAtomic("a"), xs:yearMonthDuration("P12M"), xs:untypedAtomic(" 2")))</test>
       <result>
-         <assert-true/>
+         <assert-false/>
       </result>
    </test-case>
    
@@ -2079,4 +2079,14 @@
          <assert-false/>
       </result>
    </test-case>
+
+   <test-case name="cbcl-deep-equal-010">
+      <description> Test that deep equal compares untypedAtomic values correctly </description>
+      <created by="Tim Mills" on="2012-10-30"/>
+      <test><![CDATA[deep-equal((<a />, xs:untypedAtomic("a"), xs:untypedAtomic("P1Y"), 2.0), (<a />, xs:untypedAtomic("a"), xs:yearMonthDuration("P12M"), xs:untypedAtomic(" 2")))]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
 </test-set>
