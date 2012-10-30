@@ -281,6 +281,7 @@
    <test-case name="K-NormalizeUnicodeFunc-6">
       <description> A test whose essence is: `normalize-unicode("foo", "NFD") eq "foo"`. </description>
       <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="unicode-normalization-form" value="NFD"/>
       <test>normalize-unicode("foo", "NFD") eq "foo"</test>
       <result>
          <assert-true/>
@@ -290,6 +291,7 @@
    <test-case name="K-NormalizeUnicodeFunc-7">
       <description> A test whose essence is: `normalize-unicode("foo", "NFKD") eq "foo"`. </description>
       <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="unicode-normalization-form" value="NFKD"/>
       <test>normalize-unicode("foo", "NFKD") eq "foo"</test>
       <result>
          <assert-true/>
@@ -299,6 +301,7 @@
    <test-case name="K-NormalizeUnicodeFunc-8">
       <description> A test whose essence is: `normalize-unicode("foo", "NFKC") eq "foo"`. </description>
       <created by="Frans Englich" on="2007-11-26"/>
+      <dependency type="unicode-normalization-form" value="NFKC"/>
       <test>normalize-unicode("foo", "NFKC") eq "foo"</test>
       <result>
          <assert-true/>
@@ -356,12 +359,23 @@
    <test-case name="cbcl-fn-normalize-unicode-001">
       <description> tests FULLY-NORMALIZED </description>
       <created by="Nick Jones" on="2008-06-13"/>      
+      <modified by="Michael Kay" on="2012-10-30"/>     
+      <dependency type="unicode-normalization-form" value="FULLY-NORMALIZED"/>
       <test>normalize-unicode("blah","FULLY-NORMALIZED")</test>
       <result>
-	<any-of>
-	  <error code="FOCH0003"/>
-	  <assert-string-value>blah</assert-string-value>
-         </any-of>
+	    <assert-string-value>blah</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-fn-normalize-unicode-001a">
+      <description> tests FULLY-NORMALIZED; alternative version of test for processors
+         that do not implement this normalization form </description>
+      <created by="Nick Jones" on="2008-06-13"/>      
+      <modified by="Michael Kay" on="2012-10-30"/>     
+      <dependency type="unicode-normalization-form" value="FULLY-NORMALIZED" satisfied="false"/>
+      <test>normalize-unicode("blah","FULLY-NORMALIZED")</test>
+      <result>
+	    <error code="FOCH0003"/>
       </result>
    </test-case>
    
@@ -405,16 +419,26 @@
       </result>
    </test-case>
    
-
    <test-case name="cbcl-fn-normalize-unicode-006">
       <description> Tests a composing character by itself </description>
       <created by="Nick Jones" on="2008-06-16"/>     
+      <modified by="Michael Kay" on="2012-10-30"/>     
+      <dependency type="unicode-normalization-form" value="FULLY-NORMALIZED"/>
       <test>normalize-unicode(codepoints-to-string(2494),"FULLY-NORMALIZED")</test>
       <result>
-	<any-of>
-	  <error code="FOCH0003"/>
-	  <assert-string-value> &#2494;</assert-string-value>
-         </any-of>
+	    <assert-string-value> &#2494;</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-fn-normalize-unicode-006a">
+      <description> Tests a composing character by itself; alternative version of test
+        for processors that do not implement FULLY-NORMALIZED </description>
+      <created by="Nick Jones" on="2008-06-16"/>
+      <modified by="Michael Kay" on="2012-10-30"/>     
+      <dependency type="unicode-normalization-form" value="FULLY-NORMALIZED" satisfied="false"/>
+      <test>normalize-unicode(codepoints-to-string(2494),"FULLY-NORMALIZED")</test>
+      <result>
+	    <error code="FOCH0003"/>
       </result>
    </test-case>
 </test-set>
