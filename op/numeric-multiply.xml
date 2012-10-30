@@ -1059,9 +1059,12 @@
       <dependency type="spec" value="XQ10+"/>      
       <test>
       	declare function local:square($arg as xs:decimal) as xs:decimal { $arg * $arg }; 
-      	local:square(9223372036854775808.1)</test>
+      	local:square(9223372036854775808.1) gt 0</test>
       <result>
-         <error code="FOAR0002"/>
+	<any-of>
+	  <assert-true/>
+	  <error code="FOAR0002"/>
+	</any-of>
       </result>
    </test-case>
    
@@ -1072,9 +1075,12 @@
       <dependency type="spec" value="XQ10+"/>      
       <test>
       	declare function local:square($arg as xs:integer) as xs:integer { $arg * $arg }; 
-      	local:square(9223372036854775808)</test>
+      	local:square(9223372036854775808) gt 0</test>
       <result>
-         <error code="FOAR0002"/>
+	<any-of>
+	  <assert-true/>
+	  <error code="FOAR0002"/>
+	</any-of>
       </result>
    </test-case>
    

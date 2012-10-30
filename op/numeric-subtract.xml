@@ -1034,9 +1034,12 @@
    <test-case name="cbcl-numeric-subtract-001">
       <description> test subtraction of large xs:decimal </description>
       <created by="Tim Mills" on="2008-05-14"/>
-      <test>-79228162514264337593543950335.0 - 1.0</test>
+      <test>-79228162514264337593543950335.0 - 1.0 lt 0.0</test>
       <result>
-         <error code="FOAR0002"/>
+	<any-of>
+	  <assert-true/>
+	  <error code="FOAR0002"/>
+	</any-of>
       </result>
    </test-case>
    
@@ -1044,9 +1047,12 @@
    <test-case name="cbcl-numeric-subtract-002">
       <description> test subtraction of large xs:integer </description>
       <created by="Tim Mills" on="2008-05-14"/>
-      <test>-79228162514264337593543950335 - 1</test>
+      <test>-79228162514264337593543950335 - 1 lt 0</test>
       <result>
-         <error code="FOAR0002"/>
+	<any-of>
+	  <assert-true/>
+	  <error code="FOAR0002"/>
+	</any-of>
       </result>
    </test-case>
    
