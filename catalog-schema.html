@@ -53,6 +53,9 @@
 <a href="#attgrp_codeAttr">Attribute group <em>codeAttr</em></a>
 </li>
 <li>
+<a href="#attgrp_coversAttr">Attribute group <em>coversAttr</em></a>
+</li>
+<li>
 <a href="#attgrp_creatorAttr">Attribute group <em>creatorAttr</em></a>
 </li>
 <li>
@@ -161,6 +164,9 @@
 <a href="#elem_collection">Element <em>collection</em></a>
 </li>
 <li>
+<a href="#elem_context-item">Element <em>context-item</em></a>
+</li>
+<li>
 <a href="#elem_created">Element <em>created</em></a>
 </li>
 <li>
@@ -231,6 +237,9 @@
 </li>
 <li>
 <a href="#type_encodingType">Simple type <em>encodingType</em></a>
+</li>
+<li>
+<a href="#type_EQName">Simple type <em>EQName</em></a>
 </li>
 <li>
 <a href="#type_one-char">Simple type <em>one-char</em></a>
@@ -381,6 +390,7 @@
                         &lt;xs:element ref="<a href="#elem_source">source</a>"/&gt;
                         &lt;xs:element ref="<a href="#elem_resource">resource</a>"/&gt;
                         &lt;xs:element ref="<a href="#elem_param">param</a>"/&gt;
+                        &lt;xs:element ref="<a href="#elem_context-item">context-item</a>"/&gt;
                         &lt;xs:element ref="<a href="#elem_decimal-format">decimal-format</a>"/&gt;
                         &lt;xs:element ref="<a href="#elem_namespace">namespace</a>"/&gt;
                         &lt;xs:element ref="<a href="#elem_function-library">function-library</a>"/&gt;
@@ -598,6 +608,37 @@
 </div>
     
     
+<div id="elem_context-item">
+<h3>
+<a name="elem_context-item">Element <em>context-item</em></a>
+</h3>
+<div class="bodytext">
+<div>
+<div xmlns="http://www.w3.org/2010/09/qt-fots-catalog" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                    <h3>context-item</h3>
+                    <p>
+                        An element within an environment that declares the value of the context item
+                        for a query.</p>
+                     <p>   
+                        The query is called with the value of the select expression as the context item.
+                    </p>
+                </div>
+</div>
+<div>
+<h4>Formal declaration in XSD source form</h4>
+<pre>
+    
+    &lt;xs:element name="context-item"&gt;
+        
+        &lt;xs:complexType&gt;
+            &lt;xs:attribute name="select" type="<span class="external-link diff-ns">xs:string</span>" use="optional"/&gt;
+        &lt;/xs:complexType&gt;
+    &lt;/xs:element&gt;</pre>
+</div>
+</div>
+</div>
+    
+    
 <div id="elem_collection">
 <h3>
 <a name="elem_collection">Element <em>collection</em></a>
@@ -783,6 +824,7 @@
                 &lt;/xs:sequence&gt;
                 &lt;xs:attributeGroup ref="<a href="#attgrp_uriAttr">uriAttr</a>"/&gt;
                 &lt;xs:attributeGroup ref="<a href="#attgrp_fileAttr">fileAttr</a>"/&gt;
+                &lt;xs:attribute name="xsd-version" type="<span class="external-link diff-ns">xs:decimal</span>" default="1.0"/&gt;
                 
             &lt;/xs:extension&gt;
             
@@ -1024,6 +1066,7 @@
                 &lt;xs:element ref="<a href="#elem_test-case">test-case</a>" maxOccurs="unbounded"/&gt;
             &lt;/xs:sequence&gt;
             &lt;xs:attributeGroup ref="<a href="#attgrp_nameAttr">nameAttr</a>"/&gt;
+            &lt;xs:attributeGroup ref="<a href="#attgrp_coversAttr">coversAttr</a>"/&gt;
         &lt;/xs:complexType&gt;
     &lt;/xs:element&gt;</pre>
 </div>
@@ -1112,6 +1155,7 @@
                 &lt;xs:element ref="<a href="#elem_result">result</a>"/&gt;
             &lt;/xs:sequence&gt;
             &lt;xs:attributeGroup ref="<a href="#attgrp_nameAttr">nameAttr</a>"/&gt;
+            &lt;xs:attributeGroup ref="<a href="#attgrp_coversAttr">coversAttr</a>"/&gt;
         &lt;/xs:complexType&gt;
     &lt;/xs:element&gt;</pre>
 </div>
@@ -1409,8 +1453,12 @@
 <div xmlns="http://www.w3.org/2010/09/qt-fots-catalog" xmlns:xs="http://www.w3.org/2001/XMLSchema">
                     <h3>assert</h3>
                     <p>
-                        denotes an element that contains an XPath expression of which the result equals the expected result of the test case. 
+                        The assert element contains an XPath expression whose effective boolean
+                        value must be true; usually the expression will use the variable $result
+                        which references the result of the expression. 
                     </p>
+                    <p>For example, <code>&lt;assert&gt;matches(string($result), '[0-9]{3}')&lt;/assert&gt;</code>
+                    asserts that the result of the test expression is a three-digit number.</p>
                 </div>
 </div>
 <div>
@@ -1441,8 +1489,13 @@
 <div xmlns="http://www.w3.org/2010/09/qt-fots-catalog" xmlns:xs="http://www.w3.org/2001/XMLSchema">
                     <h3>assert-eq</h3>
                     <p>
-                        denotes an element whose assumption when run must equal the expected test result.
+                        The assert element contains an XPath expression (usually a simple string or numeric literal) which must
+                        be equal to the result of the test case under the rules of the XPath 'eq' operator. 
                     </p>
+                    <p>For example, <code>&lt;assert-eq&gt;12&lt;/assert-eq&gt;</code>
+                    asserts that the result of the test expression is an atomic value that compares
+                    equal to the integer 12 (which means it might be the double value 12.0 or the
+                    float value 12.0 or the untyped atomic value "12.0", for example).</p>
                 </div>
 </div>
 <div>
@@ -1856,6 +1909,15 @@
                         Asserts that the test is expected to fail with a static or dynamic error condition. 
                         The "code" attribute gives the expected error code.
                     </p>
+                    <p>
+                        For the purpose of official test reporting, an implementation is considered to pass a test
+                        if the test expects and error and the implementation raises an error, regardless whether
+                        the error codes match. Implementors are advised, however, that raising the wrong error code
+                        often indicates a problem, so it is advisable to detect this situation. When reporting
+                        requirements are finalized, we will be asking implementors to indicate tests which passed
+                        but raised a different error, so that we can assess the extent to which implementations are
+                        interoperable at the level of error codes.
+                    </p>
                 </div>
 </div>
 <div>
@@ -1946,11 +2008,11 @@
 <div xmlns="http://www.w3.org/2010/09/qt-fots-catalog" xmlns:xs="http://www.w3.org/2001/XMLSchema">
                         <h3>code (as an attribute name)</h3>
                         <p>
-                            denotes an attribute which provides a NCName to be used as an error code 
+                            denotes an attribute which in most cases provides a NCName to be used as an error code 
                             in the scope of a error element. The attribute gives the local name of the
-                            error code; the code is assumed to be in the standard error namespace. The value
-                            "*" indicates that any error code is allowed. 
-                        </p>
+                            error code; the code is assumed to be in the standard error namespace.</p>
+                        <p> The value "*" indicates that any error code is allowed.</p>
+                        <p> The value may also be an EQName (Q{uri}local) to allow for user-defined error codes </p>
                     </div>
 </div>
 <div>
@@ -1961,7 +2023,7 @@
         
         &lt;xs:attribute name="code"&gt;
             &lt;xs:simpleType&gt;
-                &lt;xs:union memberTypes="<span class="external-link diff-ns">xs:NCName</span>"&gt;
+                &lt;xs:union memberTypes="<span class="external-link diff-ns">xs:NCName</span> <a href="#type_EQName">EQName</a>"&gt;
                     &lt;xs:simpleType&gt;
                         &lt;xs:restriction base="<span class="external-link diff-ns">xs:string</span>"&gt;
                             
@@ -1972,6 +2034,30 @@
             &lt;/xs:simpleType&gt;    
         &lt;/xs:attribute&gt;
     &lt;/xs:attributeGroup&gt;</pre>
+</div>
+</div>
+</div>
+    
+    
+<div id="type_EQName">
+<h3>
+<a name="type_EQName">Simple type <em>EQName</em></a>
+</h3>
+<div class="bodytext">
+<div>
+<h4>Notes</h4>
+<p xmlns="http://www.w3.org/2010/09/qt-fots-catalog" xmlns:xs="http://www.w3.org/2001/XMLSchema">Allows a user-defined error code to be expressed in the form Q{uri}local</p>
+</div>
+<div>
+<h4>Formal declaration in XSD source form</h4>
+<pre>
+    
+    &lt;xs:simpleType name="EQName"&gt;
+      
+      &lt;xs:restriction base="<span class="external-link diff-ns">xs:string</span>"&gt;
+        &lt;xs:pattern value="Q\{.*\}\i\c*"/&gt;
+      &lt;/xs:restriction&gt;
+    &lt;/xs:simpleType&gt;</pre>
 </div>
 </div>
 </div>
@@ -2052,7 +2138,7 @@
 <div xmlns="http://www.w3.org/2010/09/qt-fots-catalog" xmlns:xs="http://www.w3.org/2001/XMLSchema">
                         <h3>name</h3>
                         <p>
-                            denotes an attribute which provides a string value
+                            An attribute used to provide a string that uniquely names an object within some scope.
                         </p>
                     </div>
 </div>
@@ -2063,7 +2149,42 @@
     &lt;xs:attributeGroup name="nameAttr"&gt;
         
         &lt;xs:attribute name="name" type="<span class="external-link diff-ns">xs:string</span>"/&gt;
-      &lt;/xs:attributeGroup&gt;</pre>
+    &lt;/xs:attributeGroup&gt;</pre>
+</div>
+</div>
+</div>
+    
+    
+<div id="attgrp_coversAttr">
+<h3>
+<a name="attgrp_coversAttr">Attribute group <em>coversAttr</em></a>
+</h3>
+<div class="bodytext">
+<div>
+<div xmlns="http://www.w3.org/2010/09/qt-fots-catalog" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+                    <h3>covers</h3>
+                    <p>
+                        An attribute used to cross-reference tests or test-sets to the changes in the specification
+                        that the tests are designed to cover.
+                    </p>
+                    <p> The value is syntactically similar to an xs:IDREFS value, in that it contains a space-separated
+                    list of change identifiers; however it is not actually an xs:IDREFS value, because the identfiers are
+                    in a different XML document, specifically the identifiers of changes appearing in the changes.xml file.</p>
+
+                </div>
+</div>
+<div>
+<h4>Formal declaration in XSD source form</h4>
+<pre>
+    
+    &lt;xs:attributeGroup name="coversAttr"&gt;
+        
+        &lt;xs:attribute name="covers" use="optional"&gt;
+            &lt;xs:simpleType&gt;
+                &lt;xs:list itemType="<span class="external-link diff-ns">xs:NCName</span>"/&gt;
+            &lt;/xs:simpleType&gt;
+        &lt;/xs:attribute&gt;    
+    &lt;/xs:attributeGroup&gt;</pre>
 </div>
 </div>
 </div>
@@ -2218,7 +2339,7 @@
     
     &lt;xs:simpleType name="encodingType"&gt;
       &lt;xs:restriction base="<span class="external-link diff-ns">xs:string</span>"&gt;
-	&lt;xs:pattern value="[A-Za-z]([A-Za-z0-9._-])*"/&gt;
+	    &lt;xs:pattern value="[A-Za-z]([A-Za-z0-9._-])*"/&gt;
       &lt;/xs:restriction&gt;
     &lt;/xs:simpleType&gt;</pre>
 </div>
@@ -2284,6 +2405,7 @@
             &lt;xs:enumeration value="limits"/&gt;
             &lt;xs:enumeration value="spec"/&gt;
             &lt;xs:enumeration value="schemaAware"/&gt;
+            &lt;xs:enumeration value="unicode-normalization-form"/&gt;
             &lt;xs:enumeration value="xml-version"/&gt;
             &lt;xs:enumeration value="xsd-version"/&gt;
         &lt;/xs:restriction&gt;
