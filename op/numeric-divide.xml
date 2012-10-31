@@ -1409,4 +1409,16 @@
 	</any-of>
       </result>
    </test-case>
+
+   <test-case name="op-numeric-divide-big-01">
+      <description> check that overflow occurs correctly when dividing values of type xs:decimal </description>
+      <created by="Andrew Eisenberg" on="2012-10-31"/>      
+      <test>(10000000000000000000000000000.0 div 0.1) cast as xs:string</test>
+      <result>
+	<any-of>
+	  <error code="FOAR0002"/>
+	  <assert-string-value>100000000000000000000000000000.0</assert-string-value>
+	</any-of>
+      </result>
+   </test-case>
 </test-set>
