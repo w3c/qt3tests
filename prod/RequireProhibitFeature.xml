@@ -181,11 +181,16 @@
     <description>An error must be thrown if the feature is not supported.</description>
     <created by="Ghislain Fourny" on="2012-10-15"/>
     <modified by="Ghislain Fourny" on="2012-11-01" change="Duplicating tests depending on feature support." />
+    <modified by="Tim Mills" on="2012-11-05" change="See Bug 19606." />
     <dependency type="spec" value="XQ30+"/>
     <dependency type="feature" value="staticTyping" satisfied="true"/>
     <test>
       declare option require-feature "static-typing";
-      let $i as xs:integer := "foo" return $i
+      let $i as xs:integer := 
+              if (current-date() eq xs:date('1900-01-01'))
+              then ()
+              else 1
+      return $i
     </test>
     <result>
       <error code="XPTY0004"/>
@@ -196,11 +201,16 @@
     <description>An error must be thrown if the feature is not supported.</description>
     <created by="Ghislain Fourny" on="2012-10-15"/>
     <modified by="Ghislain Fourny" on="2012-11-01" change="Duplicating tests depending on feature support." />
+    <modified by="Tim Mills" on="2012-11-05" change="See Bug 19606." />
     <dependency type="spec" value="XQ30+"/>
     <dependency type="feature" value="staticTyping" satisfied="false"/>
     <test>
       declare option require-feature "static-typing";
-      let $i as xs:integer := "foo" return $i
+      let $i as xs:integer := 
+              if (current-date() eq xs:date('1900-01-01'))
+              then ()
+              else 1
+      return $i
     </test>
     <result>
       <!-- The test must be reported to fail if a different error is returned -->
@@ -699,11 +709,16 @@
     <description>An error must be thrown if the feature is prohibited and used.</description>
     <created by="Ghislain Fourny" on="2012-10-15"/>
     <modified by="Ghislain Fourny" on="2012-11-01" change="Duplicating tests depending on feature support." />
+    <modified by="Tim Mills" on="2012-11-05" change="See Bug 19606." />
     <dependency type="spec" value="XQ30+"/>
     <dependency type="feature" value="staticTyping" satisfied="true"/>
     <test>
       declare option prohibit-feature "static-typing";
-      try { let $i as xs:integer := "foo" return $i } catch * { 0 }
+      try { let $i as xs:integer := 
+              if (current-date() eq xs:date('1900-01-01'))
+              then ()
+              else 1
+            return $i } catch * { 0 }
     </test>
     <result>
       <!-- The test must be reported to fail if a different error is returned -->
@@ -720,11 +735,16 @@
     <description>An error must be thrown if the feature is prohibited and used.</description>
     <created by="Ghislain Fourny" on="2012-10-15"/>
     <modified by="Ghislain Fourny" on="2012-11-01" change="Duplicating tests depending on feature support." />
+    <modified by="Tim Mills" on="2012-11-05" change="See Bug 19606." />
     <dependency type="spec" value="XQ30+"/>
     <dependency type="feature" value="staticTyping" satisfied="false"/>
     <test>
       declare option prohibit-feature "static-typing";
-      try { let $i as xs:integer := "foo" return $i } catch * { 0 }
+      try { let $i as xs:integer := 
+              if (current-date() eq xs:date('1900-01-01'))
+              then ()
+              else 1
+            return $i } catch * { 0 }
     </test>
     <result>
       <any-of>
