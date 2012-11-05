@@ -27,11 +27,23 @@
    </test-case>
 
    <test-case name="K-OptionDeclarationProlog-1">
-      <description> The name of an option must be a full QName. </description>
+      <description> The name of an option must be a full QName in XQuery 1.0. </description>
       <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="Tim Mills" on="2012-11-05" change="XQ10 only.  See bug 19633" />
+      <dependency type="spec" value="XQ10"/>      
       <test>declare option myopt "option value"; 1</test>
       <result>
          <error code="XPST0081"/>
+      </result>
+   </test-case>
+
+   <test-case name="K-OptionDeclarationProlog-1b">
+      <description> The name of an option need not be a full QName in XQuery 3.0. </description>
+      <created by="Tim Mills" on="2012-11-05"/>
+      <dependency type="spec" value="XQ30+"/>      
+      <test>declare option myopt "option value"; true()</test>
+      <result>
+         <assert-true/>
       </result>
    </test-case>
 
