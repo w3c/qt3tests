@@ -5,4 +5,4 @@ declare option prohibit-feature "higher-order-function";
 declare function my:one() as function(*)
 {
   function() { 1 }
-}
+};
