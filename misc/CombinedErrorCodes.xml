@@ -32,35 +32,35 @@
    <!-- deleted. Having an invalid schema here is testing the test driver, not the XQuery implementation.
         And the error code seems to have disappeared in XQuery 3.0
    <environment name="xqst0012">
-      <schema uri="http://www.cbcl.co.uk/2007/schema/XQST0012" file="CombinedErrorCodes/XQST0012.xsd">
+      <schema uri="http://www.example.org/2007/schema/XQST0012" file="CombinedErrorCodes/XQST0012.xsd">
 	    <description>A schema used to test XQST0012.</description>
 	    <created by="Tim Mills" on="2008-05-16"/>
       </schema>
    </environment>-->
 
     <environment name="xqst0036">
-      <schema uri="http://www.cbcl.co.uk/2007/schema/XQST0036" file="CombinedErrorCodes/XQST0036.xsd">
+      <schema uri="http://www.example.org/2007/schema/XQST0036" file="CombinedErrorCodes/XQST0036.xsd">
 	<description>A schema used to test XQST0036.</description>
 	<created by="Tim Mills" on="2008-05-16"/>
       </schema>
    </environment>
 
     <environment name="foty0012">
-      <schema uri="http://www.cbcl.co.uk/2007/schema/FOTY0012" file="CombinedErrorCodes/FOTY0012.xsd">
+      <schema uri="http://www.example.org/2007/schema/FOTY0012" file="CombinedErrorCodes/FOTY0012.xsd">
 	<description>A schema used to test FOTY0012.</description>
 	<created by="Tim Mills" on="2008-05-16"/>
       </schema>
    </environment>
 
     <environment name="xqdy0027">
-      <schema uri="http://www.cbcl.co.uk/2007/schema/XQDY0027" file="CombinedErrorCodes/XQDY0027.xsd">
+      <schema uri="http://www.example.org/2007/schema/XQDY0027" file="CombinedErrorCodes/XQDY0027.xsd">
 	<description>A schema used to test XQDY0027.</description>
 	<created by="Tim Mills" on="2008-05-16"/>
       </schema>
    </environment>
 
     <environment name="xqdy0084">
-      <schema uri="http://www.cbcl.co.uk/2007/schema/XQDY0084" file="CombinedErrorCodes/XQDY0084.xsd">
+      <schema uri="http://www.example.org/2007/schema/XQDY0084" file="CombinedErrorCodes/XQDY0084.xsd">
 	<description>A schema used to test XQDY0084.</description>
 	<created by="Tim Mills" on="2008-05-16"/>
       </schema>
@@ -755,7 +755,7 @@
       <description> check that fn:doc throws FOAR0002 </description>
       <created by="Tim Mills" on="2008-05-16"/>
       
-      <test>doc('http://www.cbcl.co.uk/notFound.xml')</test>
+      <test>doc('http://www.example.org/notFound.xml')</test>
       <result>
          <error code="FODC0002"/>
       </result>
@@ -766,7 +766,7 @@
       <description> check that fn:doc throws FOAR0002 </description>
       <created by="Tim Mills" on="2008-05-16"/>
       
-      <test>doc('http://www.cbcl.co.uk/notFound.xml')</test>
+      <test>doc('http://www.example.org/notFound.xml')</test>
       <result>
          <error code="FODC0002"/>
       </result>
@@ -777,7 +777,7 @@
       <description> check that fn:doc throws FOAR0002 </description>
       <created by="Tim Mills" on="2008-05-16"/>
       
-      <test>doc('http://www.cbcl.co.uk/notFound.xml')</test>
+      <test>doc('http://www.example.org/notFound.xml')</test>
       <result>
          <error code="FODC0002"/>
       </result>
@@ -1244,7 +1244,7 @@
       <created by="Tim Mills" on="2008-05-16"/>
       <environment ref="foty0012" />
       <dependency type="spec" value="XQ10+"/>
-      <test><![CDATA[import schema namespace foo = "http://www.cbcl.co.uk/2007/schema/FOTY0012"; data(validate strict { <foo:element /> } )]]></test>
+      <test><![CDATA[import schema namespace foo = "http://www.example.org/2007/schema/FOTY0012"; data(validate strict { <foo:element /> } )]]></test>
       <result>
          <error code="FOTY0012"/>
       </result>
@@ -1324,7 +1324,7 @@
       <created by="Tim Mills" on="2008-05-16"/>
       
       <dependency type="spec" value="XQ10+"/>
-      <test><![CDATA[declare namespace foo = "http://www.cbcl.co.uk"; declare function foo:something() { (<a />, 1, <b/>, 2) }; foo:something()/a]]></test>
+      <test><![CDATA[declare namespace foo = "http://www.example.org"; declare function foo:something() { (<a />, 1, <b/>, 2) }; foo:something()/a]]></test>
       <result>
          <error code="XPTY0019"/>
       </result>
@@ -1336,7 +1336,7 @@
       <created by="Tim Mills" on="2008-05-16"/>
       
       <dependency type="spec" value="XQ10+"/>
-      <test><![CDATA[declare namespace foo = "http://www.cbcl.co.uk"; declare function foo:something($pos as xs:integer) { if ($pos eq 1) then 1 else <a /> }; let $x := <a><b><c/></b><b><c/></b></a> return $x/b/(foo:something(position()))/a]]></test>
+      <test><![CDATA[declare namespace foo = "http://www.example.org"; declare function foo:something($pos as xs:integer) { if ($pos eq 1) then 1 else <a /> }; let $x := <a><b><c/></b><b><c/></b></a> return $x/b/(foo:something(position()))/a]]></test>
       <result>
          <error code="XPTY0019"/>
       </result>
@@ -1414,7 +1414,7 @@
       <created by="Tim Mills" on="2008-05-16"/>
       
       <dependency type="spec" value="XQ10+"/>
-      <test><![CDATA[declare namespace foo = "http://www.cbcl.co.uk"; declare function foo:content($type as xs:integer) { if ($type eq 1) then attribute {'foo'} {} else <foo /> }; document { foo:content(1) }]]></test>
+      <test><![CDATA[declare namespace foo = "http://www.example.org"; declare function foo:content($type as xs:integer) { if ($type eq 1) then attribute {'foo'} {} else <foo /> }; document { foo:content(1) }]]></test>
       <result>
          <error code="XPTY0004"/>
       </result>
@@ -1636,7 +1636,7 @@
       <created by="Tim Mills" on="2008-05-16"/>
       <dependency type="spec" value="XQ10+"/>
       
-      <test>declare namespace foo = "http://www.cbcl.co.uk"; declare function foo:something($type as xs:integer) { if ($type eq 1) then xs:date('2007-11-28') else 1.0 }; abs(foo:something(1))</test>
+      <test>declare namespace foo = "http://www.example.org"; declare function foo:something($type as xs:integer) { if ($type eq 1) then xs:date('2007-11-28') else 1.0 }; abs(foo:something(1))</test>
       <result>
          <error code="XPTY0004"/>
       </result>
@@ -1648,7 +1648,7 @@
       <created by="Tim Mills" on="2008-05-16"/>
       <dependency type="spec" value="XQ10+"/>
       
-      <test>declare namespace foo = "http://www.cbcl.co.uk"; declare function foo:something($type as xs:integer) { if ($type eq 1) then xs:date('2007-11-28') else 'foo' }; element { foo:something(1) } { }</test>
+      <test>declare namespace foo = "http://www.example.org"; declare function foo:something($type as xs:integer) { if ($type eq 1) then xs:date('2007-11-28') else 'foo' }; element { foo:something(1) } { }</test>
       <result>
          <error code="XPTY0004"/>
       </result>
@@ -1660,7 +1660,7 @@
       <created by="Tim Mills" on="2008-05-16"/>
       <dependency type="spec" value="XQ10+"/>
       
-      <test>declare namespace foo = "http://www.cbcl.co.uk"; declare function foo:something($type as xs:integer) { if ($type eq 1) then xs:date('2007-11-28') else 'foo' }; processing-instruction { foo:something(1) } { }</test>
+      <test>declare namespace foo = "http://www.example.org"; declare function foo:something($type as xs:integer) { if ($type eq 1) then xs:date('2007-11-28') else 'foo' }; processing-instruction { foo:something(1) } { }</test>
       <result>
          <error code="XPTY0004"/>
       </result>
@@ -1672,7 +1672,7 @@
       <created by="Tim Mills" on="2008-05-16"/>
       
       <dependency type="spec" value="XQ10+"/>
-      <test><![CDATA[declare namespace foo = "http://www.cbcl.co.uk"; declare function foo:something($type as xs:integer) { if ($type eq 1) then xs:date('2007-11-28') else 'foo' }; <e> { attribute { foo:something(1) } { } } </e>]]></test>
+      <test><![CDATA[declare namespace foo = "http://www.example.org"; declare function foo:something($type as xs:integer) { if ($type eq 1) then xs:date('2007-11-28') else 'foo' }; <e> { attribute { foo:something(1) } { } } </e>]]></test>
       <result>
          <error code="XPTY0004"/>
       </result>
@@ -1684,7 +1684,7 @@
       <created by="Tim Mills" on="2008-05-16"/>
       <dependency type="spec" value="XQ10+"/>
       
-      <test>declare namespace foo = "http://www.cbcl.co.uk"; declare function foo:something($type as xs:integer) { if ($type eq 1) then ('foo', xs:date('2007-11-28'), 'foo') else 'foo' }; let $x as xs:string* := foo:something(1) return $x</test>
+      <test>declare namespace foo = "http://www.example.org"; declare function foo:something($type as xs:integer) { if ($type eq 1) then ('foo', xs:date('2007-11-28'), 'foo') else 'foo' }; let $x as xs:string* := foo:something(1) return $x</test>
       <result>
          <error code="XPTY0004"/>
       </result>
@@ -1696,7 +1696,7 @@
       <created by="Tim Mills" on="2008-05-16"/>
       <dependency type="spec" value="XQ10+"/>
       
-      <test>declare namespace foo = "http://www.cbcl.co.uk"; declare function foo:something($type as xs:integer) { if ($type eq 1) then xs:date('2007-11-28') else 'foo' }; for $x as xs:string in foo:something(1) return $x</test>
+      <test>declare namespace foo = "http://www.example.org"; declare function foo:something($type as xs:integer) { if ($type eq 1) then xs:date('2007-11-28') else 'foo' }; for $x as xs:string in foo:something(1) return $x</test>
       <result>
          <error code="XPTY0004"/>
       </result>
@@ -1708,7 +1708,7 @@
       <created by="Tim Mills" on="2008-05-16"/>
       <dependency type="spec" value="XQ10+"/>
       
-      <test>declare namespace foo = "http://www.cbcl.co.uk"; declare function foo:something($type) as xs:integer { $type }; foo:something('foo')</test>
+      <test>declare namespace foo = "http://www.example.org"; declare function foo:something($type) as xs:integer { $type }; foo:something('foo')</test>
       <result>
          <error code="XPTY0004"/>
       </result>
@@ -1720,7 +1720,7 @@
       <created by="Tim Mills" on="2008-05-16"/>
       <dependency type="spec" value="XQ10+"/>
       
-      <test>declare namespace foo = "http://www.cbcl.co.uk"; declare function foo:something($type as xs:integer) as xs:integer { if ($type eq 1) then xs:date('2007-11-28') else $type }; foo:something(1)</test>
+      <test>declare namespace foo = "http://www.example.org"; declare function foo:something($type as xs:integer) as xs:integer { if ($type eq 1) then xs:date('2007-11-28') else $type }; foo:something(1)</test>
       <result>
          <error code="XPTY0004"/>
       </result>
@@ -1743,7 +1743,7 @@
       <created by="Tim Mills" on="2008-05-16"/>
       <dependency type="spec" value="XQ10+"/>
       
-      <test>declare namespace foo = "http://www.cbcl.co.uk"; declare function foo:something($pos as xs:integer) { if ($pos eq 1) then 1 else xs:date('2007-11-29') }; -foo:something(2)</test>
+      <test>declare namespace foo = "http://www.example.org"; declare function foo:something($pos as xs:integer) { if ($pos eq 1) then 1 else xs:date('2007-11-29') }; -foo:something(2)</test>
       <result>
          <error code="XPTY0004"/>
       </result>
@@ -1755,7 +1755,7 @@
       <created by="Tim Mills" on="2008-05-16"/>
       <dependency type="spec" value="XQ10+"/>
       
-      <test>declare namespace foo = "http://www.cbcl.co.uk"; declare function foo:something($pos as xs:integer) { if ($pos eq 1) then 1 else xs:date('2007-11-29') }; +foo:something(2)</test>
+      <test>declare namespace foo = "http://www.example.org"; declare function foo:something($pos as xs:integer) { if ($pos eq 1) then 1 else xs:date('2007-11-29') }; +foo:something(2)</test>
       <result>
          <error code="XPTY0004"/>
       </result>
@@ -1944,7 +1944,7 @@
       <created by="Tim Mills" on="2008-05-16"/>
       <environment ref="xqdy0027" />
       <dependency type="spec" value="XQ10+"/>
-      <test><![CDATA[declare construction preserve; declare copy-namespaces no-preserve,inherit; import schema namespace foo = "http://www.cbcl.co.uk/2007/schema/XQDY0027"; let $x := validate strict { <foo:element attr="foo:notation">foo:qname</foo:element> } return <a>{$x}</a>]]></test>
+      <test><![CDATA[declare construction preserve; declare copy-namespaces no-preserve,inherit; import schema namespace foo = "http://www.example.org/2007/schema/XQDY0027"; let $x := validate strict { <foo:element attr="foo:notation">foo:qname</foo:element> } return <a>{$x}</a>]]></test>
       <result>
          <error code="XQDY0027"/>
       </result>
@@ -2063,7 +2063,7 @@
       <created by="Tim Mills" on="2008-05-16"/>
       <environment ref="xqdy0084" />
       <dependency type="spec" value="XQ10+"/>
-      <test><![CDATA[import schema namespace foo = "http://www.cbcl.co.uk/2007/schema/XQDY0084"; validate strict { <foo:a /> }]]></test>
+      <test><![CDATA[import schema namespace foo = "http://www.example.org/2007/schema/XQDY0084"; validate strict { <foo:a /> }]]></test>
       <result>
          <error code="XQDY0084"/>
       </result>
@@ -2103,7 +2103,7 @@
       <created by="Tim Mills" on="2008-05-16"/>
       <environment ref="xqst0012" />
       <dependency type="spec" value="XQ10+"/>
-      <test><![CDATA[import schema namespace foo = "http://www.cbcl.co.uk/2007/schema/XQST0012"; data(<foo:element />)]]></test>
+      <test><![CDATA[import schema namespace foo = "http://www.example.org/2007/schema/XQST0012"; data(<foo:element />)]]></test>
       <result>
          <error code="XQST0012"/>
       </result>
@@ -2149,7 +2149,7 @@
       <description> check that invalid prolog declarations are reported correctly </description>
       <created by="Tim Mills" on="2008-05-16"/>
       
-      <test>declare base-uri "http://www.cbcl.co.uk/A"; declare base-uri "http://www.cbcl.co.uk/B"; 1 + 2</test>
+      <test>declare base-uri "http://www.example.org/A"; declare base-uri "http://www.example.org/B"; 1 + 2</test>
       <result>
          <error code="XQST0032"/>
       </result>
@@ -2160,7 +2160,7 @@
       <description> check that invalid namespace declarations are reported correctly </description>
       <created by="Tim Mills" on="2008-05-16"/>
       
-      <test>declare namespace cheddar = 'http://www.cbcl.co.uk/cheddar'; declare namespace cheddar = 'http://www.cbcl.co.uk/cheddar'; 1 + 2</test>
+      <test>declare namespace cheddar = 'http://www.example.org/cheddar'; declare namespace cheddar = 'http://www.example.org/cheddar'; 1 + 2</test>
       <result>
          <error code="XQST0033"/>
       </result>
@@ -2172,7 +2172,7 @@
       <created by="Tim Mills" on="2008-05-16"/>
       <dependency type="spec" value="XQ10+"/>
       
-      <test>declare namespace prefix = "http://www.cbcl.co.uk/"; declare function prefix:foo() { 1 }; declare function prefix:foo() { 1 }; 1</test>
+      <test>declare namespace prefix = "http://www.example.org/"; declare function prefix:foo() { 1 }; declare function prefix:foo() { 1 }; 1</test>
       <result>
          <error code="XQST0034"/>
       </result>
@@ -2183,8 +2183,8 @@
       <description> Test generating XQST0036 </description>
       <created by="Tim Mills" on="2008-05-16"/>
       <environment ref="xqst0036" />
-      <module uri="http://www.cbcl.co.uk/2007/test" file="CombinedErrorCodes/XQST0036_lib1.xq"/>
-      <test>import module namespace test = "http://www.cbcl.co.uk/2007/test"; $test:test</test>
+      <module uri="http://www.example.org/2007/test" file="CombinedErrorCodes/XQST0036_lib1.xq"/>
+      <test>import module namespace test = "http://www.example.org/2007/test"; $test:test</test>
       <result>
          <error code="XQST0036"/>
       </result>
@@ -2195,8 +2195,8 @@
       <description> Test generating XQST0036 </description>
       <created by="Tim Mills" on="2008-05-16"/>
       <environment ref="xqst0036" />
-      <module uri="http://www.cbcl.co.uk/2007/test" file="CombinedErrorCodes/XQST0036_lib2.xq"/>
-      <test>import module namespace test = "http://www.cbcl.co.uk/2007/test"; test:bool-to-uppercase(true())</test>
+      <module uri="http://www.example.org/2007/test" file="CombinedErrorCodes/XQST0036_lib2.xq"/>
+      <test>import module namespace test = "http://www.example.org/2007/test"; test:bool-to-uppercase(true())</test>
       <result>
          <error code="XQST0036"/>
       </result>
@@ -2207,8 +2207,8 @@
       <description> Test generating XQST0036 </description>
       <created by="Tim Mills" on="2008-05-16"/>
       <environment ref="xqst0036" />
-      <module uri="http://www.cbcl.co.uk/2007/test" file="CombinedErrorCodes/XQST0036_lib3.xq"/>
-      <test>import module namespace test = "http://www.cbcl.co.uk/2007/test"; test:f()</test>
+      <module uri="http://www.example.org/2007/test" file="CombinedErrorCodes/XQST0036_lib3.xq"/>
+      <test>import module namespace test = "http://www.example.org/2007/test"; test:f()</test>
       <result>
          <error code="XQST0036"/>
       </result>
@@ -2219,8 +2219,8 @@
       <description> Test generating XQST0036 </description>
       <created by="Tim Mills" on="2008-05-16"/>
       <environment ref="xqst0036" />
-      <module uri="http://www.cbcl.co.uk/2007/test" file="CombinedErrorCodes/XQST0036_lib4.xq"/>
-      <test>import module namespace test = "http://www.cbcl.co.uk/2007/test"; $test:i</test>
+      <module uri="http://www.example.org/2007/test" file="CombinedErrorCodes/XQST0036_lib4.xq"/>
+      <test>import module namespace test = "http://www.example.org/2007/test"; $test:i</test>
       <result>
          <error code="XQST0036"/>
       </result>
@@ -2231,8 +2231,8 @@
       <description> Test generating XQST0036 </description>
       <created by="Tim Mills" on="2008-05-16"/>
       <environment ref="xqst0036" />
-      <module uri="http://www.cbcl.co.uk/2007/test" file="CombinedErrorCodes/XQST0036_lib5.xq"/>
-      <test>import module namespace test = "http://www.cbcl.co.uk/2007/test"; test:attrs()</test>
+      <module uri="http://www.example.org/2007/test" file="CombinedErrorCodes/XQST0036_lib5.xq"/>
+      <test>import module namespace test = "http://www.example.org/2007/test"; test:attrs()</test>
       <result>
          <error code="XQST0036"/>
       </result>
@@ -2243,8 +2243,8 @@
       <description> Test generating XQST0036 </description>
       <created by="Tim Mills" on="2008-05-16"/>
       <environment ref="xqst0036" />
-      <module uri="http://www.cbcl.co.uk/2007/test" file="CombinedErrorCodes/XQST0036_lib6.xq"/>
-      <test>import module namespace test = "http://www.cbcl.co.uk/2007/test"; $test:none</test>
+      <module uri="http://www.example.org/2007/test" file="CombinedErrorCodes/XQST0036_lib6.xq"/>
+      <test>import module namespace test = "http://www.example.org/2007/test"; $test:none</test>
       <result>
          <error code="XQST0036"/>
       </result>
@@ -2255,8 +2255,8 @@
       <description> Test generating XQST0036 </description>
       <created by="Tim Mills" on="2008-05-16"/>
       <environment ref="xqst0036" />
-      <module uri="http://www.cbcl.co.uk/2007/test" file="CombinedErrorCodes/XQST0036_lib7.xq"/>
-      <test>import module namespace test = "http://www.cbcl.co.uk/2007/test"; test:attrs()</test>
+      <module uri="http://www.example.org/2007/test" file="CombinedErrorCodes/XQST0036_lib7.xq"/>
+      <test>import module namespace test = "http://www.example.org/2007/test"; test:attrs()</test>
       <result>
          <error code="XQST0036"/>
       </result>
@@ -2277,7 +2277,7 @@
       <description> check that invalid prolog declarations are reported correctly </description>
       <created by="Tim Mills" on="2008-05-16"/>
       
-      <test>declare default collation "http://www.cbcl.co.uk/"; 1 + 2</test>
+      <test>declare default collation "http://www.example.org/"; 1 + 2</test>
       <result>
          <error code="XQST0038"/>
       </result>
@@ -2359,11 +2359,15 @@
    <test-case name="XQST0046_01">
       <description> check that bad namespace declarations are reported correctly </description>
       <created by="Tim Mills" on="2008-05-16"/>
-      <module uri="http://www.cbcl.co.uk/test" file="CombinedErrorCodes/XQST0046_lib.xq"/>
+      <modified by="Tim Mills" on="2011-11-06" change="Also accept XQST0046"/>
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[base-uri(<a xml:base="%gg" />)]]></test>
       <result>
-         <error code="FORG0001"/>
+	<any-of>
+	  <error code="XQST0046"/>
+	  <error code="FORG0001"/>
+	  <assert-string-value>%gg</assert-string-value>
+	</any-of>
       </result>
    </test-case>
    
@@ -2371,10 +2375,14 @@
    <test-case name="XQST0046_02">
       <description> check that bad namespace declarations are reported correctly </description>
       <created by="Tim Mills" on="2008-05-16"/>
-      <module uri="http://www.cbcl.co.uk/test" file="CombinedErrorCodes/XQST0046_lib.xq"/>
-      <test>import module "http://www.cbcl.co.uk/test"; 1</test>
+      <modified by="Tim Mills" on="2011-11-06" change="Resolved Bug 19868"/>
+      <module uri="http://www.example.org/test" file="CombinedErrorCodes/XQST0046_lib.xq"/>
+      <test>import module "http://www.example.org/test"; true()</test>
       <result>
-         <error code="XQST0046"/>
+	<any-of>
+	  <error code="XQST0046"/>
+	  <assert-true />
+	</any-of>
       </result>
    </test-case>
    
@@ -2382,9 +2390,13 @@
    <test-case name="XQST0046_03">
       <description> check that bad namespace declarations are reported correctly </description>
       <created by="Tim Mills" on="2008-05-16"/>      
-      <test>declare namespace foo = "%gg"; 1</test>
+      <modified by="Tim Mills" on="2011-11-06" change="Resolved Bug 19868"/>
+      <test>declare namespace foo = "%gg"; true()</test>
       <result>
-         <error code="XQST0046"/>
+	<any-of>
+	  <error code="XQST0046"/>
+	  <assert-true />
+	</any-of>
       </result>
    </test-case>
    
@@ -2392,9 +2404,13 @@
    <test-case name="XQST0046_04">
       <description> check that bad namespace declarations are reported correctly </description>
       <created by="Tim Mills" on="2008-05-16"/>      
-      <test>declare default element namespace "%gg"; 1</test>
+      <modified by="Tim Mills" on="2011-11-06" change="Resolved Bug 19868"/>
+      <test>declare default element namespace "%gg"; true()</test>
       <result>
-         <error code="XQST0046"/>
+	<any-of>
+	  <error code="XQST0046"/>
+	  <assert-true />
+	</any-of>
       </result>
    </test-case>
    
@@ -2402,9 +2418,13 @@
    <test-case name="XQST0046_05">
       <description> check that bad namespace declarations are reported correctly </description>
       <created by="Tim Mills" on="2008-05-16"/>
-      <test>declare default function namespace "%gg"; 1</test>
+      <modified by="Tim Mills" on="2011-11-06" change="Resolved Bug 19868"/>
+      <test>declare default function namespace "%gg"; fn:true()</test>
       <result>
-         <error code="XQST0046"/>
+	<any-of>
+	  <error code="XQST0046"/>
+	  <assert-true />
+	</any-of>
       </result>
    </test-case>
    
@@ -2412,9 +2432,17 @@
    <test-case name="XQST0046_06">
       <description> check that bad namespace declarations are reported correctly </description>
       <created by="Tim Mills" on="2008-05-16"/>      
-      <test>declare default collation "%gg"; 1</test>
+      <modified by="Tim Mills" on="2011-11-06" change="Resolved Bug 19868"/>
+      <test>declare default collation "%gg"; fn:true()</test>
       <result>
-         <error code="XQST0046"/>
+	<any-of>
+	  <!-- %gg is not a valid URI -->
+	  <error code="XQST0046"/>
+	  <!-- %gg is not known a statically known collation -->
+	  <error code="XQST0038"/>
+	  <!-- %gg is a statically known collation (unlikely) -->
+	  <assert-true />
+	</any-of>
       </result>
    </test-case>
    
@@ -2422,10 +2450,13 @@
    <test-case name="XQST0046_07">
       <description> check that bad namespace declarations are reported correctly </description>
       <created by="Tim Mills" on="2008-05-16"/>
-      
-      <test>declare base-uri "%gg"; 1</test>
+      <modified by="Tim Mills" on="2011-11-06" change="Resolved Bug 19868"/>
+      <test>declare base-uri "%gg"; true()</test>
       <result>
-         <error code="XQST0046"/>
+	<any-of>
+	  <error code="XQST0046"/>
+	  <assert-true />
+	</any-of>
       </result>
    </test-case>
    
@@ -2433,7 +2464,6 @@
    <test-case name="XQST0046_08">
       <description> check that bad namespace declarations are reported correctly </description>
       <created by="Tim Mills" on="2008-05-16"/>
-      
       <test>import schema "%gg" at "http://www.w3.org/"; 1</test>
       <result>
          <error code="XQST0046"/>
@@ -2444,7 +2474,6 @@
    <test-case name="XQST0046_09">
       <description> check that bad namespace declarations are reported correctly </description>
       <created by="Tim Mills" on="2008-05-16"/>
-      
       <test>import schema "http://www.w3.org/" at "%gg"; 1</test>
       <result>
          <error code="XQST0046"/>
@@ -2455,10 +2484,14 @@
    <test-case name="XQST0046_10">
       <description> check that bad namespace declarations are reported correctly </description>
       <created by="Tim Mills" on="2008-05-16"/>
-      
-      <test>import module "%gg" at "http://www.w3.org/"; 1</test>
+      <modified by="Tim Mills" on="2011-11-06" change="Resolved Bug 19868"/>
+      <module uri="http://www.example.org/test" file="CombinedErrorCodes/XQST0046_lib.xq"/>
+      <test>import module "%gg" at "http://www.example.org/test"; true()</test>
       <result>
-         <error code="XQST0046"/>
+	<any-of>
+	  <error code="XQST0046"/>
+	  <assert-true />
+	</any-of>
       </result>
    </test-case>
    
@@ -2466,7 +2499,6 @@
    <test-case name="XQST0046_11">
       <description> check that bad namespace declarations are reported correctly </description>
       <created by="Tim Mills" on="2008-05-16"/>
-      
       <test>import module "http://www.w3.org/" at "%gg"; 1</test>
       <result>
          <error code="XQST0046"/>
@@ -2477,10 +2509,17 @@
    <test-case name="XQST0046_12">
       <description> check that invalid collation URIs are reported correctly </description>
       <created by="Tim Mills" on="2008-05-16"/>
-      
-      <test>for $x in ("a", "b", "c") order by $x collation "%gg" return $x</test>
+      <modified by="Tim Mills" on="2011-11-06" change="Resolved Bug 19868"/>
+      <test>for $x in ("a", "a", "a") order by $x collation "%gg" return $x</test>
       <result>
-         <error code="XQST0046"/>
+	<any-of>
+	  <!-- %gg is not a valid URI -->
+	  <error code="XQST0046"/>
+	  <!-- %gg is not known a statically known collation -->
+	  <error code="XQST0038"/>
+	  <!-- %gg is a statically known collation (unlikely) -->
+	  <assert-string-value>aaa</assert-string-value>
+	</any-of>
       </result>
    </test-case>
    
@@ -2512,8 +2551,8 @@
    <test-case name="XQST0047">
       <description> check that bad module imports are reported correctly </description>
       <created by="Tim Mills" on="2008-05-16"/>
-      <module uri="http://www.cbcl.co.uk/foo" file="CombinedErrorCodes/XQST0047_lib.xq"/>
-      <test>import module "http://www.cbcl.co.uk/foo"; import module "http://www.cbcl.co.uk/foo"; 1</test>
+      <module uri="http://www.example.org/foo" file="CombinedErrorCodes/XQST0047_lib.xq"/>
+      <test>import module "http://www.example.org/foo"; import module "http://www.example.org/foo"; 1</test>
       <result>
          <error code="XQST0047"/>
       </result>
@@ -2523,8 +2562,8 @@
    <test-case name="XQST0048">
       <description> check that bad declarations are reported correctly </description>
       <created by="Tim Mills" on="2008-05-16"/>
-      <module uri="http://www.cbcl.co.uk/foo" file="CombinedErrorCodes/XQST0048_lib.xq"/>
-      <test>import module namespace foo = "http://www.cbcl.co.uk/foo"; 1</test>
+      <module uri="http://www.example.org/foo" file="CombinedErrorCodes/XQST0048_lib.xq"/>
+      <test>import module namespace foo = "http://www.example.org/foo"; 1</test>
       <result>
          <error code="XQST0048"/>
       </result>
@@ -2547,7 +2586,7 @@
       <created by="Tim Mills" on="2008-05-16"/>
       <dependency type="spec" value="XQ10"/>
       
-      <test>declare namespace foo = "http://www.cbcl.co.uk/"; declare variable $a := foo:bar(); declare function foo:bar() { $a + 1 }; $a</test>
+      <test>declare namespace foo = "http://www.example.org/"; declare variable $a := foo:bar(); declare function foo:bar() { $a + 1 }; $a</test>
       <result>
          <error code="XQST0054"/>
       </result>
@@ -2600,7 +2639,7 @@
    <test-case name="XQST0059_2">
       <description> check that missing module imports are reported correctly </description>
       <created by="Tim Mills" on="2008-05-16"/>
-      <module uri="http://www.cbcl.co.uk" file="CombinedErrorCodes/XQST0059_lib.xq"/>
+      <module uri="http://www.example.org" file="CombinedErrorCodes/XQST0059_lib.xq"/>
       <test>import module namespace foo = "http://www.w3.org/" at "DoesNotExist.xq"; 1</test>
       <result>
          <error code="XQST0059"/>
@@ -2633,8 +2672,8 @@
    <test-case name="XQST0059_5">
       <description> Test generating XQST0059 </description>
       <created by="Tim Mills" on="2008-05-16"/>
-      <module uri="http://www.cbcl.co.uk" file="CombinedErrorCodes/XQST0059_lib.xq"/>
-      <test>import module namespace foo = "http://www.cbcl.co.uk/"; foo:bar()</test>
+      <module uri="http://www.example.org" file="CombinedErrorCodes/XQST0059_lib.xq"/>
+      <test>import module namespace foo = "http://www.example.org/"; foo:bar()</test>
       <result>
          <error code="XQST0059"/>
       </result>
@@ -2645,7 +2684,7 @@
       <description> Test generating XQST0059 </description>
       <created by="Tim Mills" on="2008-05-16"/>
       
-      <test>import schema namespace foo = "http://www.cbcl.co.uk/" at "XQST0059.xsd"; 1</test>
+      <test>import schema namespace foo = "http://www.example.org/" at "XQST0059.xsd"; 1</test>
       <result>
          <error code="XQST0059"/>
       </result>
@@ -2690,7 +2729,7 @@
       <description> check that invalid prolog declarations are reported correctly </description>
       <created by="Tim Mills" on="2008-05-16"/>
       
-      <test>declare default function namespace "http://www.cbcl.co.uk/"; declare default function namespace "http://www.w3.org/2005/xpath-functions/collation/codepoint"; 1 + 2</test>
+      <test>declare default function namespace "http://www.example.org/"; declare default function namespace "http://www.w3.org/2005/xpath-functions/collation/codepoint"; 1 + 2</test>
       <result>
          <error code="XQST0066"/>
       </result>
@@ -2735,7 +2774,7 @@
       <description> check that invalid prolog declarations are reported correctly </description>
       <created by="Tim Mills" on="2008-05-16"/>
       
-      <test>import schema namespace xml = "http://www.cbcl.co.uk/"; 1 + 2</test>
+      <test>import schema namespace xml = "http://www.example.org/"; 1 + 2</test>
       <result>
          <error code="XQST0070"/>
       </result>
@@ -2745,7 +2784,7 @@
    <test-case name="XQST0070_2">
       <description> check that invalid prolog declarations are reported correctly </description>
       <created by="Tim Mills" on="2008-05-16"/>      
-      <test>import module namespace xml = "http://www.cbcl.co.uk/"; 1 + 2</test>
+      <test>import module namespace xml = "http://www.example.org/"; 1 + 2</test>
       <result>
          <error code="XQST0070"/>
       </result>
@@ -2755,8 +2794,8 @@
    <test-case name="XQST0070_3">
       <description> check that invalid module declarations are reported correctly </description>
       <created by="Tim Mills" on="2008-05-16"/>
-      <module uri="http://www.cbcl.co.uk/foo" file="CombinedErrorCodes/XQST0070_lib.xq"/>
-      <test>import module namespace xml = 'http://www.cbcl.co.uk/'; 1 + 2</test>
+      <module uri="http://www.example.org/foo" file="CombinedErrorCodes/XQST0070_lib.xq"/>
+      <test>import module namespace xml = 'http://www.example.org/'; 1 + 2</test>
       <result>
          <error code="XQST0070"/>
       </result>
@@ -2767,7 +2806,7 @@
       <description> check that invalid prolog declarations are reported correctly </description>
       <created by="Tim Mills" on="2008-05-16"/>
       
-      <test>declare namespace xml = "http://www.cbcl.co.uk/"; 1 + 2</test>
+      <test>declare namespace xml = "http://www.example.org/"; 1 + 2</test>
       <result>
          <error code="XQST0070"/>
       </result>
@@ -2857,8 +2896,8 @@
    <test-case name="XQST0088_2">
       <description> check that invalid module declarations are reported correctly </description>
       <created by="Tim Mills" on="2008-05-16"/>
-      <module uri="http://www.cbcl.co.uk/test" file="CombinedErrorCodes/XQST0088_lib.xq"/>
-      <test>import module "http://www.cbcl.co.uk/test"; 1</test>
+      <module uri="http://www.example.org/test" file="CombinedErrorCodes/XQST0088_lib.xq"/>
+      <test>import module "http://www.example.org/test"; 1</test>
       <result>
          <error code="XQST0088"/>
       </result>
@@ -2891,9 +2930,9 @@
    <test-case name="XQST0093">
       <description> Test generating XQST0093 </description>
       <created by="Tim Mills" on="2008-05-16"/>
-      <module uri="http://www.cbcl.co.uk/foo" file="CombinedErrorCodes/XQST0093_lib1.xq"/>
-      <module uri="http://www.cbcl.co.uk/foo" file="CombinedErrorCodes/XQST0093_lib2.xq"/>
-      <test>import module namespace foo="http://www.cbcl.co.uk/foo"; $foo:variable2</test>
+      <module uri="http://www.example.org/foo" file="CombinedErrorCodes/XQST0093_lib1.xq"/>
+      <module uri="http://www.example.org/foo" file="CombinedErrorCodes/XQST0093_lib2.xq"/>
+      <test>import module namespace foo="http://www.example.org/foo"; $foo:variable2</test>
       <result>
          <error code="XQST0093"/>
       </result>

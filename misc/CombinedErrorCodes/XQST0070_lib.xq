@@ -2,7 +2,7 @@
 (: Description: check that invalid module declarations are reported correctly :)
 (: Author: Tim Mills :)
 (: Date: 2008-05-16 :)
-module namespace xml = 'http://www.cbcl.co.uk/';
+module namespace xml = 'http://www.example.org/';
 
 declare function xml:foo()
 {
