@@ -2488,9 +2488,13 @@
    <test-case name="XQST0046_09">
       <description> check that bad namespace declarations are reported correctly </description>
       <created by="Tim Mills" on="2008-05-16"/>
+      <module uri="http://www.example.org/test" file="CombinedErrorCodes/XQST0046_lib.xq"/>
       <test>import schema "http://www.w3.org/" at "%gg"; 1</test>
       <result>
-         <error code="XQST0046"/>
+	<any-of>
+	  <error code="XQST0046"/>
+	  <error code="XQST0059"/>
+	</any-of>
       </result>
    </test-case>
    
@@ -2500,7 +2504,7 @@
       <created by="Tim Mills" on="2008-05-16"/>
       <modified by="Tim Mills" on="2011-11-06" change="Resolved Bug 19868"/>
       <module uri="http://www.example.org/test" file="CombinedErrorCodes/XQST0046_lib.xq"/>
-      <test>import module "%gg" at "http://www.example.org/test"; true()</test>
+      <test>import module "%gg"; true()</test>
       <result>
 	<any-of>
 	  <error code="XQST0046"/>
@@ -2513,9 +2517,13 @@
    <test-case name="XQST0046_11">
       <description> check that bad namespace declarations are reported correctly </description>
       <created by="Tim Mills" on="2008-05-16"/>
+      <module uri="http://www.example.org/test" file="CombinedErrorCodes/XQST0046_lib.xq"/>
       <test>import module "http://www.w3.org/" at "%gg"; 1</test>
       <result>
-         <error code="XQST0046"/>
+	<any-of>
+	  <error code="XQST0046"/>
+	  <error code="XQST0059"/>
+	</any-of>
       </result>
    </test-case>
    
