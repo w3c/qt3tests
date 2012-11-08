@@ -6827,12 +6827,11 @@
   <test-case name="CastFOCA0001-1">
       <description> casting an xs:decimal with a value to big for that type.</description>
       <created by="Carmelo Montanez" on="2005-10-03"/>
+      <modified by="O'Neil Delpratt" on="2012-11-08" change="Bug #19782 - change expected result" />
       <test>xs:decimal(99e100)</test>
       <result>
          <any-of>
-            <assert-eq>989999999999999971062477677470550235220096190889648004812994130017827049653182301025734968880029237248</assert-eq>
-            <assert-eq>990000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000</assert-eq>
-            <assert-eq>989999999999999970000000000000000000000000000000000000000000000000000000000000000000000000000000000000</assert-eq>
+            <assert>abs($result - 989999999999999971062477677470550235220096190889648004812994130017827049653182301025734968880029237248) lt 9e99</assert>
             <error code="FOCA0001"/>
          </any-of>
       </result>
@@ -6841,12 +6840,11 @@
    <test-case name="CastFOCA0003-1">
       <description> casting an xs:integer with a value to big for that type.</description>
       <created by="Carmelo Montanez" on="2005-10-03"/>
+      <modified by="O'Neil Delpratt" on="2012-11-08" change="Bug #19782 - change expected result" />
       <test>xs:integer(99e100)</test>
       <result>
          <any-of>
-            <assert-eq>989999999999999971062477677470550235220096190889648004812994130017827049653182301025734968880029237248</assert-eq>
-            <assert-eq>990000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000</assert-eq>
-            <assert-eq>989999999999999970000000000000000000000000000000000000000000000000000000000000000000000000000000000000</assert-eq>
+            <assert>abs($result - 989999999999999971062477677470550235220096190889648004812994130017827049653182301025734968880029237248) lt 9e99</assert>
             <error code="FOCA0003"/>
          </any-of>
       </result>
@@ -20617,9 +20615,13 @@
    <test-case name="K2-SeqExprCast-17">
       <description> Pass a large, the largest if such a limit exists, to long.</description>
       <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="O'Neil Delpratt" on="2012-11-08" change="Bug #19782 - change expected result" />
       <test>xs:long("-9223372036854775808")</test>
       <result>
-         <assert-eq>-9223372036854775808</assert-eq>
+          <any-of>
+            <assert-eq>-9223372036854775808</assert-eq>
+            <error code="FOAR0002"/>
+          </any-of>
       </result>
    </test-case>
 
