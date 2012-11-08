@@ -16,11 +16,12 @@
   
     <test-case name="math-pi-002">
         <description>function pi() converts an angle of 60 degrees to radians</description>
-        <created by="O'Neil Delpratt, Saxonica" on="2010-12-10"/>        
+        <created by="O'Neil Delpratt, Saxonica" on="2010-12-10"/>
+        <modified by="O'Neil Delpratt" on="2012-11-08" change="Bug #19783 - change expected result" />
         <environment ref="math"/>        
         <test>60 * (math:pi() div 180)</test>
         <result>
-            <assert-eq>math:pi() div 3</assert-eq>
+            <assert>abs($result - 1.0471975511965976e0) lt 1e-14</assert>
         </result>
     </test-case>
 </test-set>

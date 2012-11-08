@@ -1028,15 +1028,16 @@
    <test-case name="errata6-003">
       <description> Test lack of XQST0036 for known simple type in imported function return type </description>
       <created by="John Snelson" on="2009-10-01"/>
+      <modified by="O'Neil Delpratt" on="2012-11-08" change="Bug #19783 - moved assertion as an eq operation inside the test" />
       <environment ref="user-defined-types"/>
       <module uri="http://www.w3.org/TestModules/errata6-2" file="ModuleImport/errata6-module2.xq"/>
       <dependency type="feature" value="schemaImport"/>
       <test><![CDATA[
         import module namespace errata6_2="http://www.w3.org/TestModules/errata6-2"; 
         import schema namespace a = "http://www.w3.org/XQueryTest/userDefinedTypes"; 
-        errata6_2:hatsize-add(3, 5)]]></test>
+        errata6_2:hatsize-add(3, 5) eq 8]]></test>
       <result>
-         <assert-eq>8</assert-eq>
+         <assert-true />
       </result>
    </test-case>
 
