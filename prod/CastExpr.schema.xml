@@ -525,12 +525,13 @@
       <test-case name="user-defined-1">
       <description> Evaluation of simple user defined data type restricted from xs:integer. </description>
       <created by="Carmelo Montanez" on="2006-04-03"/>
+      <modified by="O'Neil Delpratt" on="2012-11-08" change="Bug #19783 - moved assertion as an eq operation inside the test" />
       <environment ref="user-defined-types"/>
       <test>
         import schema namespace myType="http://www.w3.org/XQueryTest/userDefinedTypes"; 
-        let $value := myType:sizeType(1) return $value</test>
+        let $value := myType:sizeType(1) return ($value eq 1)</test>
       <result>
-            <assert-eq>1</assert-eq>
+            <assert-true />
       </result>
    </test-case>
 
@@ -589,12 +590,13 @@
       <description> use constructor function for user defined type and cast value 
       to base type (xs:integer) restricted from xs:integer. </description>
       <created by="Carmelo Montanez" on="2006-04-03"/>
+      <modified by="O'Neil Delpratt" on="2012-11-08" change="Bug #19783 - moved assertion as an eq operation inside the test" />
       <environment ref="user-defined-types"/>
       <test>
         import schema namespace myType="http://www.w3.org/XQueryTest/userDefinedTypes"; 
-        myType:sizeType(2) cast as xs:integer</test>
+        (myType:sizeType(2) cast as xs:integer) eq 2</test>
       <result>
-            <assert-eq>2</assert-eq>
+            <assert-true />
       </result>
    </test-case>
 
@@ -615,12 +617,13 @@
       <description> Use constructor function to evaluate if two user defined types can be 
       casted to another. Restricted from xs:integer and xs;float. </description>
       <created by="Carmelo Montanez" on="2006-04-03"/>
+      <modified by="O'Neil Delpratt" on="2012-11-08" change="Bug #19783 - moved assertion as an eq operation inside the test" />
       <environment ref="user-defined-types"/>
       <test>
         import schema namespace myType="http://www.w3.org/XQueryTest/userDefinedTypes"; 
-        myType:sizeType(16) cast as myType:floatBased</test>
+        (myType:sizeType(16) cast as myType:floatBased) eq 16</test>
       <result>
-            <assert-eq>16</assert-eq>
+            <assert-true />
       </result>
    </test-case>
 
