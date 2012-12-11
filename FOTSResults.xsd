@@ -1,338 +1,434 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet href="xsd.xsl" type="text/xsl"?>
-<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
-   attributeFormDefault="unqualified" xmlns:fotsr="http://www.w3.org/2012/08/qt-fots-results"
-   xmlns:xs="http://www.w3.org/2001/XMLSchema"
-   targetNamespace="http://www.w3.org/2012/08/qt-fots-results">
-   <xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="xml.xsd"
-      xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"/>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+  attributeFormDefault="unqualified" xmlns:qtr="http://www.w3.org/2012/08/qt-fots-results"
+  targetNamespace="http://www.w3.org/2012/08/qt-fots-results">
 
-   <xs:annotation>
+  <xs:annotation>
+    <xs:documentation>
+      <h1>QT3 Test Suite Result Schema</h1>
+      <p> This schema documentation describes the elements and attributes which are to be used in a
+        submission of QT3 test results. </p>
+      <p>The results file must be rooted at a <code>test-suite-result</code> element. </p>
+    </xs:documentation>
+  </xs:annotation>
+
+  <xs:element name="test-suite-result">
+    <xs:annotation>
       <xs:documentation>
-         
-         <h1>QT3 Test Suite Result Schema</h1>
-         <p>
-            This schema documentation describes the elements and attributes
-            which are to be used in the results instance 
-            documents, and belongs to the QT3 test suite (known during development as FOTS).
-         </p>
-         <p>This schema describes the results file, rooted at a
-            <code>fots-test-suite</code> element. </p>
-         
-         
+        <div>
+          <h3>test-suite-result</h3>
+          <p> Denotes the root element of the results document. The root element contains the
+            following elements <ul>
+              <li>The element <code>submission</code> contains administrative details of the results
+                submission.</li>
+              <li>The element <code>product</code> contains information about the product under
+                test.</li>
+              <li>The <code>test-set</code> elements (which in turn contain a sequence of
+                  <code>test-case</code> elements) detail the outcome of the each test-case that was
+                executed.</li>
+            </ul>
+          </p>
+        </div>
       </xs:documentation>
-   </xs:annotation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="qtr:submission"/>
+        <xs:element ref="qtr:product"/>
+        <xs:element maxOccurs="unbounded" minOccurs="1" ref="qtr:test-set"/>
+      </xs:sequence>
+      <xs:anyAttribute processContents="lax" namespace="##other"/>
+    </xs:complexType>
 
-   <xsd:element name="FOTS-test-suite-result">
-      <xs:annotation>
-         <xs:documentation>
-            <div>
-               <h3>fots-test-suite-result</h3>
-               <p>
-                  Denotes the root element of the results document.
-                  The root element contains the following elements
-                  
-                  <ul>
-                     <li>The element <code>implementation</code> which contains relevant information of the implementation</li>
-                     <li>The element <code>dependencies-satisfied</code> which contains a list of dependencies supported or not 
-                        supported by the implementation. These are related to specification, features, language and others.</li>
-                     <li>The element <code>test-run</code> which details the date when the test was run and implementation version number</li>
-                     <li>A sequence of <code>test-set</code> elements which in turn contain a sequence of <code>test-case</code> elements detailing 
-                        the outcome of the test-case executed on the host implementation.</li>
-                  </ul>
-               </p>
-            </div> 
-            
-         </xs:documentation>
-      </xs:annotation>
-      <xsd:complexType>
-         <xsd:sequence>
-            <xsd:element ref="fotsr:implementation"/>
-            <xsd:element ref="fotsr:dependencies-satisfied" minOccurs="0" maxOccurs="1"/>
-            <xsd:element ref="fotsr:test-run"/>
-            <xsd:element maxOccurs="unbounded" minOccurs="1" ref="fotsr:test-set"/>
-         </xsd:sequence>
-         <xsd:anyAttribute processContents="lax" namespace="##other"/>
-      </xsd:complexType>
+    <xs:unique name="unique-test-cases">
+      <xs:selector xpath=".//qtr:test-case"/>
+      <xs:field xpath="@name"/>
+    </xs:unique>
 
-      <xsd:unique name="unique-test-cases">
-         <xsd:selector xpath=".//fotsr:test-case"/>
-         <xsd:field xpath="@name"/>
-      </xsd:unique>
+  </xs:element>
 
-   </xsd:element>
+  <xs:element name="submission">
+    <xs:annotation>
+      <xs:documentation>
+        <div>
+          <h3>submission</h3>
+          <p> Provides administrative information about the results submission. </p>
+        </div>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="anonymous" type="xs:boolean">
+          <xs:annotation>
+            <xs:documentation>
+              <p>True if the submitter requires the details of the submitter and the product under
+                test to remain anonymous; false if this information can be published.</p>
+            </xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="qtr:created"/>
+        <xs:element name="test-run">
+          <xs:annotation>
+            <xs:documentation>
+              <div>
+                <h3>test-run</h3>             
+                <p>Information about the test run whose results are being reported: the version
+                of the test suite that was used, and the date on which it was run.</p>
+              </div>
+            </xs:documentation>
+          </xs:annotation>
+          <xs:complexType>
+            <xs:attribute name="test-suite-version">
+              <xs:annotation>
+                <xs:documentation>
+                  <p>The version of the test suite that was run. Use "CVS" to mean the version of the
+                    test suite that was current in the W3C CVS repository on the date of submission, or
+                    CVS-nnnn to identify an earlier CVS version; or a specific version number for a non-CVS
+                    version.</p>
+                </xs:documentation>
+              </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="date-run" type="xs:date"/>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="notes" minOccurs="0" maxOccurs="1" type="xs:anyType">
+          <xs:annotation>
+            <xs:documentation>
+              <p>Optional text describing the submission</p>
+            </xs:documentation>
+          </xs:annotation>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
 
-   <xsd:element name="implementation">
-      <xs:annotation>
-         <xs:documentation>
-            <div>
-               <h3>implementation</h3>
-               <p>
-                  Denotes the implementation details of the results file created. 
-                  Setting anonymous='true' will create a result column in reports
-                  that are generated with "Anonymous" instead of the implementation name.
-               </p>
-            </div> 
-            
-         </xs:documentation>
-      </xs:annotation>
-      <xsd:complexType>
-         <xsd:sequence>
-            <xsd:element ref="fotsr:organization"/>
-            <xsd:element ref="fotsr:submitter"/>
-            <xsd:element ref="fotsr:description" minOccurs="0" maxOccurs="1"/>
-         </xsd:sequence>
-         <xsd:attribute name="name" type="xsd:string" use="required"/>
-         <xsd:attribute name="version" type="xsd:string" use="optional"/>
-          <xsd:attribute name="processor" type="xsd:string" use="optional"/>
-         <xsd:attribute name="anonymous" type="xsd:boolean" use="optional"/>
-      </xsd:complexType>
-   </xsd:element>
+  <xs:element name="created">
+    <xs:annotation>
+      <xs:documentation>
+        <div>
+          <h3>created</h3>
+          <p> Identifies who created the results submission, and when. </p>
+        </div>
+      </xs:documentation>
+    </xs:annotation>
 
-   <xsd:element name="organization">
+    <xs:complexType>
+      <xs:attribute name="by" type="xs:string" use="required">
+        <xs:annotation>
+          <xs:documentation>
+            <p> The name of the individual who submitted the results </p>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="email" type="xs:string" use="required">
+        <xs:annotation>
+          <xs:documentation>
+            <p> The email contact information for the individual who submitted the results </p>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="organization" type="xs:string" use="required">
+        <xs:annotation>
+          <xs:documentation>
+            <p> The name of the organization on whose behalf the results were submitted </p>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="on" type="xs:date" use="required">
+        <xs:annotation>
+          <xs:documentation>
+            <p> The date on which the results were submitted </p>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
 
-      <xs:annotation>
-         <xs:documentation>
-            <div>
-               <h3>organization</h3>
-               <p>
-                  Denotes the organization details for the implementation.
-               </p>
-               
-               <p>
-                  Setting anonymous='true' will cause the organization and implementation
-                  information not to be listed at the top of reports that are generated.
-               </p>
-            </div> 
-            
-         </xs:documentation>
-      </xs:annotation>
-
-      <xsd:complexType>
-         <xsd:attribute name="name" type="xsd:string" use="required"/>
-         <xsd:attribute name="website" type="xsd:string" use="optional"/>
-      </xsd:complexType>
-   </xsd:element>
-
-   <xsd:element name="submitter">
-      <xsd:complexType>
-         <xsd:attribute name="name" type="xsd:string" use="required"/>
-         <xsd:attribute name="title" type="xsd:string" use="optional"/>
-         <xsd:attribute name="email" type="xsd:string" use="optional"/>
-      </xsd:complexType>
-   </xsd:element>
-   
-   
-   <xsd:element name="dependencies-satisfied">
-      
-      <xs:annotation>
-         <xs:documentation>
-            <div>
-               <h3>dependencies-satisfied</h3>
-               <p>
-                  Denotes a sequence of dependencies. We indicate if the dependency is supported or not by this implementation.
-               </p>
-               
-            </div> 
-            
-         </xs:documentation>
-      </xs:annotation>
-      
-      <xsd:complexType>
-         <xsd:sequence>
-            <xsd:element minOccurs="0" maxOccurs="unbounded" ref="fotsr:dependency"/>
-         </xsd:sequence>
-      </xsd:complexType>
-      
-      
-   </xsd:element>
-
-
-
-   <xs:element name="dependency">
-      <xs:annotation>
-         <xs:documentation>
-            <div>
-               <h3>dependency</h3>
-               <p>Indicates a dependency which the implementation is able to satisfy.</p>
-               
-               <p>A dependency that is present in the description of a test case, the same dependency element 
-                  should be present in the results file if and only if the implementation is able to run the 
-                  tests that require that dependency to be satisfied. However, for the dependency="spec", the 
-                  results file should only report on one language, e.g. XQ30 or XP30</p> 
-            </div> 
-         </xs:documentation>
-      </xs:annotation>
-      <xs:complexType>
-         <xs:attributeGroup ref="fotsr:typeAttr" />
-         <xs:attributeGroup ref="fotsr:valueAttr" />
-         <xs:attribute name="satisfied" type="xs:boolean" default="true">
-            <xs:annotation>
-               <xs:documentation>
-                  <p>The default value "true" indicates that the dependency must be satisified
-                     for the test to run</p>
-                  <p>The setting "false" indicates that the test should only be run if the
-                     dependency is NOT satisfied. For example, this might be used in a test to
-                     show what happens if a language (such as <code>lang="jp"</code> is requested
-                     and the processor does not support that language.</p>
-               </xs:documentation>
-            </xs:annotation>
-         </xs:attribute>
-      </xs:complexType>
-   </xs:element>
-
-
-
-
-   <xsd:element name="test-run">
-
-      <xs:annotation>
-         <xs:documentation>
-            <div>
-               <h3>test-run</h3>
-               <p>
-                  Denotes information on when the test were run and which version of the implementation. 
-               </p>
-               
-            </div> 
-            
-         </xs:documentation>
-      </xs:annotation>
-
-      <xsd:complexType>
-         <xsd:sequence>
-            <xsd:element name="comment" type="xsd:string" minOccurs="0" maxOccurs="1"/>
-         </xsd:sequence>
-         <xsd:attribute name="dateRun" type="xsd:date" use="required"/>
-         <xsd:attribute name="testSuiteVersion" type="xsd:string" use="required"/>
-      </xsd:complexType>
-   </xsd:element>
+  <xs:element name="product">
+    <xs:annotation>
+      <xs:documentation>
+        <div>
+          <h3>product</h3>
+          <p> Information about the product under test. This includes identification information,
+            and information about the optional features implemented (or not implemented) by the
+            product. </p>
+        </div>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="qtr:dependency" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+      <xs:attribute name="language" use="required">
+        <xs:annotation>
+          <xs:documentation>
+            <p> The W3C language/version implemented by the product under test for the purpose of
+              this submission. </p>
+          </xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:NMTOKEN">
+            <xs:enumeration value="XP20"/>
+            <xs:enumeration value="XP30"/>
+            <xs:enumeration value="XQ10"/>
+            <xs:enumeration value="XQ30"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="name" type="xs:string" use="required">
+        <xs:annotation>
+          <xs:documentation>
+            <p>The name of the product under test</p>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="version" type="xs:string" use="required">
+        <xs:annotation>
+          <xs:documentation>
+            <p> The version of the product under test </p>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="released" type="xs:boolean" use="required">
+        <xs:annotation>
+          <xs:documentation>
+            <p> True if the product under test is generally available at the time of submission </p>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="open-source" type="xs:boolean" use="required">
+        <xs:annotation>
+          <xs:documentation>
+            <p> True if the product under test is available under an open source license </p>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
 
 
-
-   <xsd:element name="test-set">
-
-      <xs:annotation>
-         <xs:documentation>
-            <div>
-               <h3>test-set</h3>
-               <p>
-                  Denotes an element which provides a sequence of test-case results for the entries defined 
-                  in the catalog files for a particular function. 
-               </p>
-               
-            </div> 
-            
-         </xs:documentation>
-      </xs:annotation>
-
-      <xsd:complexType>
-         <xsd:sequence>
-            <xsd:element maxOccurs="unbounded" minOccurs="1" ref="fotsr:test-case"/>
-         </xsd:sequence>
-         <xsd:attribute name="name" type="xsd:string" use="required"/>
-      </xsd:complexType>
-   </xsd:element>
-
-   <xsd:element name="description" type="xsd:string"/>
-
-
-   <xsd:element name="test-case" type="fotsr:test-caseType">
-      <xs:annotation>
-         <xs:documentation>
-            <div>
-               <h3>test-case</h3>
-               <p>
-                  Denotes an element that contains the test outcome.  The test case name should be reported exactly as provided in
-                  FOTS Catalog. The element contains the result and any comment, which is used to detail specific failures or dfferent 
-                  error codes.
-               </p>
-               <p>
-                  The attribute correctError=boolean is used where the test expects an error, a pass should be reported even if the 
-                  implementation raises the wrong error code; but in such cases the attribute correctError=false should be present.
-               </p>
-            </div> 
-            
-         </xs:documentation>
-      </xs:annotation>
-
-   </xsd:element>
-
-   <xsd:complexType name="test-caseType">
-      <xsd:attribute name="name" type="xsd:string" use="required"/>
-      <xsd:attribute name="result" type="fotsr:resultStatusType" use="required"> </xsd:attribute>
-      <xsd:attribute name="comment" type="xsd:string" use="optional"/>
-      <xsd:attribute name="correctError" type="xsd:boolean" use="optional"/>
-      <xsd:anyAttribute processContents="lax" namespace="##other"/>
-   </xsd:complexType>
-
-   <xsd:simpleType name="resultStatusType">
-      <xsd:restriction base="xsd:string">
-         <xsd:enumeration value="pass"/>
-         <xsd:enumeration value="fail"/>
-         <xsd:enumeration value="not applicable"/>
-         <xsd:enumeration value="notRun"/>
-         <xsd:enumeration value="cannot tell"/>
-      </xsd:restriction>
-   </xsd:simpleType>
-   
-   
-   <xs:attributeGroup name="typeAttr">
-      <xs:annotation>
-         <xs:documentation>
-            <div>
-               <h3>type</h3>
-               <p>
-                  The <code>type</code> attribute of a <code>dependency</code> element indicates what type of dependency
-                  it is: the set of possible values is enumerated.
-               </p>
-               <p>
-                  The most common <code>type</code> is <code>spec</code>, which indicates a dependency on specific versions of
-                  XPath or XQuery. In this case the corresponding <code>value</code> attribute is a space-separated list
-                  whose tokens are, for example, "XQ10" indicating XQuery 1.0, "XQ10+" indicating XQuery 1.0 or later, 
-                  "XQ30+" indication XQuery 3.0 or later, or "XP20+" indicating XPath 2.0 or later. The tokens in the list
-                  are alternatives; the test may be run if any of the dependencies is satisfied.
-               </p>
-               <p>Similarly, if the <code>type</code> is <code>xml-version</code>, the corresponding value is a space-separated
-                  list whose tokens are "1.0" (XML 1.0), "1.1" (XML 1.1), "1.0:5+" (1.0, 5th edition or later), "1.0:4-" (1.0,
-                  fourth edition or earlier).</p>
-            </div> 
-         </xs:documentation>
-      </xs:annotation>
-      <xs:attribute name="type" type="fotsr:dependencyEnumType"/>
-   </xs:attributeGroup>
-   
-   <xs:simpleType name="dependencyEnumType">
-      <xs:restriction base="xs:normalizedString">
-         <xs:enumeration value="calendar" />
-         <xs:enumeration value="collection-stability" />
-         <xs:enumeration value="default-language" />
-         <xs:enumeration value="directory-as-collection-uri" />
-         <xs:enumeration value="feature" />
-         <xs:enumeration value="format-integer-sequence" />
-         <xs:enumeration value="language" />
-         <xs:enumeration value="limits" />
-         <xs:enumeration value="spec" />
-         <xs:enumeration value="schemaAware" />
-         <xs:enumeration value="xml-version" />
-         <xs:enumeration value="xsd-version" />
-      </xs:restriction>
-   </xs:simpleType>
-   
-   <xs:attributeGroup name="valueAttr">
-      <xs:annotation>
-         <xs:documentation>
-            <div>
-               <h3>value</h3>
-               <p>
-                  As an attribute of the <code>dependency</code> element,
-                  provides a string value to be used to indicate the dependency.
-               </p>
-            </div> 
-         </xs:documentation>
-      </xs:annotation>
-      <xs:attribute name="value" type="xs:string"/>
-   </xs:attributeGroup>
+  <xs:element name="dependency">
+    <xs:annotation>
+      <xs:documentation>
+        <div>
+          <h3>dependency</h3>
+          <p>Indicates a dependency which the implementation is or is not able to satisfy.</p>
+            <p>For every dependency that is present in the test catalog, the same dependency element
+            should be present in the results file. If the product under test is able to satisfy the
+            dependency, the attribute "satisfied" should have the value "true". If the product under
+            test is not able to satisfy the dependency, the attribute "satisfied" should have the
+            value "false". If the product under test is capable of being configured so that it runs
+            both the tests with satisfied="true" and those with satisfied="false", the attribute
+            "satisfied" should have the value "both".</p> <p>The dependency with type="spec" is
+            handled specially. The results file should only include results for one language, for
+            example XQ30 or XP30, and should indicate which language was run by means of the
+            "language" attribute of the "product" element.</p> </div>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:attributeGroup ref="qtr:typeAttr"/>
+      <xs:attributeGroup ref="qtr:valueAttr"/>
+      <xs:attribute name="satisfied" default="true">
+        <xs:annotation>
+          <xs:documentation>
+            <p>The default value "true" indicates that the dependency must be satisified for the
+              test to run</p>
+            <p>The setting "false" indicates that the test should only be run if the dependency is
+              NOT satisfied. For example, this might be used in a test to show what happens if a
+              language (such as <code>lang="jp"</code> is requested and the processor does not
+              support that language.</p>
+            <p>The value "both" indicates that the test driver runs both those tests where the
+              dependency is satisfied and those where it is not satisfied, the implication being
+              that the product can be configured to either satisfy the dependency or not.</p>
+          </xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:NMTOKEN">
+            <xs:enumeration value="true"/>
+            <xs:enumeration value="false"/>
+            <xs:enumeration value="both"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
 
 
-</xsd:schema>
+
+
+  <xs:element name="test-run">
+
+    <xs:annotation>
+      <xs:documentation>
+        <div>
+          <h3>test-run</h3>
+          <p> Denotes information on when the test were run and which version of the implementation.
+          </p> </div>
+      </xs:documentation>
+    </xs:annotation>
+
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="comment" type="xs:string" minOccurs="0" maxOccurs="1"/>
+      </xs:sequence>
+      <xs:attribute name="date-run" type="xs:date" use="required"/>
+      <xs:attribute name="test-suite-version" type="xs:string" use="required"/>
+    </xs:complexType>
+  </xs:element>
+
+
+
+  <xs:element name="test-set">
+
+    <xs:annotation>
+      <xs:documentation>
+        <div>
+          <h3>test-set</h3>
+          <p> Represents the results of a test-set present in the test catalog. The name must match
+            the name of a test-set in the catalog. </p>
+          <p> The element contains one test-case element for every test case that was actually run
+            and is to be included in the submission. </p>
+        </div>
+      </xs:documentation>
+    </xs:annotation>
+
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" minOccurs="0" ref="qtr:test-case"/>
+      </xs:sequence>
+      <xs:attribute name="name" type="xs:string" use="required">
+        <xs:annotation>
+          <xs:documentation>
+            <p> The name of the test set, which must match the name of a test set in the catalog.
+            </p>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="description" type="xs:string"/>
+
+
+  <xs:element name="test-case">
+    <xs:annotation>
+      <xs:documentation>
+        <div>
+          <h3>test-case</h3>
+          <p> This element contains the outcome of a test. The test case name should be reported
+            exactly as provided in test suite catalog. The element contains the result and any
+            comment, which is used to detail specific failures or dfferent error codes. </p>
+          <p> The attribute correctError=boolean is used where the test expects an error, a pass
+            should be reported even if the implementation raises the wrong error code; but in such
+            cases the attribute correctError=false should be present. </p>
+        </div>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:attribute name="name" type="xs:string" use="required">
+        <xs:annotation>
+          <xs:documentation>
+            <p> The name of the test case, which must match the name of a test case in the catalog.
+            </p>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="result" use="required">
+        <xs:annotation>
+          <xs:documentation>
+            <p> The outcome of the test case. The values "pass" and "fail" indicate that the test
+              was run and the test assertions were or were not satisfied. Note that a pass may be
+              claimed if the test expects an error and the product threw an error, whether or not
+              the error code matches; but in this case the attribute wrong-error-code must be set to
+              true. The value "not-run" is assumed for tests that are present in the catalog and not
+              present in the results submission; but including a "not-run" entry explicitly allows
+              the inclusion of comments explaining why the test was not run (for example, it might
+              be because a bug is outstanding against the test case). </p>
+          </xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="pass"/>
+            <xs:enumeration value="fail"/>
+            <xs:enumeration value="not-run"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="comment" type="xs:string" use="optional">
+        <xs:annotation>
+          <xs:documentation>
+            <p> Optional comments about the test result, for example the reason why the test failed
+              or why it was not run. </p>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="wrong-error-code" type="xs:boolean" use="optional">
+        <xs:annotation>
+          <xs:documentation>
+            <p> Should be set to true if a test pass is being claimed in the situation where the
+              test case expects an error, and the product under test reports an error, but the error
+              code reported by the product does not match the error code(s) expected. </p>
+          </xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:anyAttribute processContents="lax" namespace="##other"/>
+    </xs:complexType>
+  </xs:element>
+
+
+
+  <xs:attributeGroup name="typeAttr">
+    <xs:annotation>
+      <xs:documentation>
+        <div>
+          <h3>type</h3>
+          <p> The <code>type</code> attribute of a <code>dependency</code> element indicates what
+            type of dependency it is: the set of possible values is enumerated. </p>
+          <p> The most common <code>type</code> is <code>spec</code>, which indicates a dependency
+            on specific versions of XPath or XQuery. In this case the corresponding
+              <code>value</code> attribute is a space-separated list whose tokens are, for example,
+            "XQ10" indicating XQuery 1.0, "XQ10+" indicating XQuery 1.0 or later, "XQ30+" indication
+            XQuery 3.0 or later, or "XP20+" indicating XPath 2.0 or later. The tokens in the list
+            are alternatives; the test may be run if any of the dependencies is satisfied. </p>
+          <p>Similarly, if the <code>type</code> is <code>xml-version</code>, the corresponding
+            value is a space-separated list whose tokens are "1.0" (XML 1.0), "1.1" (XML 1.1),
+            "1.0:5+" (1.0, 5th edition or later), "1.0:4-" (1.0, fourth edition or earlier).</p>
+        </div>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="type" type="qtr:dependencyEnumType"/>
+  </xs:attributeGroup>
+
+  <xs:simpleType name="dependencyEnumType">
+    <xs:restriction base="xs:normalizedString">
+      <xs:enumeration value="calendar"/>
+      <xs:enumeration value="collection-stability"/>
+      <xs:enumeration value="default-language"/>
+      <xs:enumeration value="directory-as-collection-uri"/>
+      <xs:enumeration value="feature"/>
+      <xs:enumeration value="format-integer-sequence"/>
+      <xs:enumeration value="language"/>
+      <xs:enumeration value="limits"/>
+      <xs:enumeration value="spec"/>
+      <xs:enumeration value="schemaAware"/>
+      <xs:enumeration value="xml-version"/>
+      <xs:enumeration value="xsd-version"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:attributeGroup name="valueAttr">
+    <xs:annotation>
+      <xs:documentation>
+        <div>
+          <h3>value</h3>
+          <p> As an attribute of the <code>dependency</code> element, provides a string value to be
+            used to indicate the dependency. </p>
+        </div>
+      </xs:documentation>
+    </xs:annotation>
+    <xs:attribute name="value" type="xs:string"/>
+  </xs:attributeGroup>
+
+
+</xs:schema>

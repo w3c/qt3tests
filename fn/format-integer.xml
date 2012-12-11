@@ -574,4 +574,22 @@
             <assert-eq>'1'</assert-eq>
         </result>    
     </test-case>
+    <test-case name="format-integer-062">
+        <description>Third argument as a string in the form of a language code</description>
+        <created by="Michael Kay, Saxonica" on="2012-12-07"/>
+        <environment ref="empty"/>
+        <test>format-integer(11, 'Ww', 'en')</test>
+        <result>
+            <assert-eq>'Eleven'</assert-eq>
+        </result>    
+    </test-case>
+    <test-case name="format-integer-063">
+        <description>Third argument as a string not in the form of a language code</description>
+        <created by="Michael Kay, Saxonica" on="2012-12-07"/>
+        <environment ref="empty"/>
+        <test>format-integer(11, 'Ww', '@*!+%')</test>
+        <result>
+            <error code="FODF1310"/>
+        </result>    
+    </test-case>
 </test-set>

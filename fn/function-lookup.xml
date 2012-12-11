@@ -17,27 +17,27 @@
       <source role="." 
               file="function-lookup/function-lookup.xml" 
               uri="http://www.w3.org/fots/fn/function-lookup/function-lookup.xml">
-	<description>Data for function-lookup tests</description>
-	<created by="Tim Mills" on="2011-11-28"/>
+          <description>Data for function-lookup tests</description>
+          <created by="Tim Mills" on="2011-11-28"/>
       </source>
       <resource file="unparsed-text/text-plain-utf-8.txt"
-                media-type="text/plain" 
-                encoding="utf-8"
-                uri="http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt">
-         <description>UTF-8 encoded plain text.</description>
-         <created by="Tim Mills" on="2012-01-05"/>
+             media-type="text/plain" 
+             encoding="utf-8"
+             uri="http://www.w3.org/fots/unparsed-text/text-plain-utf-8.txt">
+          <description>UTF-8 encoded plain text.</description>
+          <created by="Tim Mills" on="2012-01-05"/>
       </resource>
       <collection uri="">
-	<source file="function-lookup/collection-1.xml" 
-                uri="http://www.w3.org/fots/fn/function-lookup/collection-1.xml">
-	  <description>Data for function-lookup tests</description>
-         <created by="Tim Mills" on="2012-04-16"/>
-	</source>
-	<source file="function-lookup/collection-2.xml" 
-                uri="http://www.w3.org/fots/fn/function-lookup/collection-2.xml">
-	  <description>Data for function-lookup tests</description>
-	  <created by="Tim Mills" on="2012-04-16"/>
-	</source>     
+          <source file="function-lookup/collection-1.xml" 
+                       uri="http://www.w3.org/fots/fn/function-lookup/collection-1.xml">
+              <description>Data for function-lookup tests</description>
+              <created by="Tim Mills" on="2012-04-16"/>
+          </source>
+          <source file="function-lookup/collection-2.xml" 
+                       uri="http://www.w3.org/fots/fn/function-lookup/collection-2.xml">
+              <description>Data for function-lookup tests</description>
+              <created by="Tim Mills" on="2012-04-16"/>
+          </source>     
       </collection>
    </environment>
 
@@ -570,9 +570,10 @@
   <test-case name="fn-function-lookup-064" covers="dynamic-function-call">
     <description>Attempts to invoke function math:exp.</description>
     <created by="Tim Mills" on="2011-11-28"/>
+    <modified by="Michael Kay" on="2012-12-07" change="avoid spurious precision"/>
     <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/math', 'exp'), 1)(1e0)</test>
     <result>
-      <assert-string-value>2.718281828459045</assert-string-value>
+      <assert>abs($result - 2.71828182845) lt 1e-10</assert>
     </result>
   </test-case>
   <test-case name="fn-function-lookup-065">

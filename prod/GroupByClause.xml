@@ -337,14 +337,14 @@
    <test-case name="group-014">
       <description>Referenced grouping variable is not in the tuple stream. </description>
       <created by="Josh Spiegel" on="2012-10-02"/>
-      <test><![CDATA[
+      <test>
          let $x := 1
          return
            for $i in ("a", "b")
            group by $x
            return
              ($x, count($i))
-      ]]></test>
+      </test>
       <result>
          <error code="XQST0094"/>
       </result>
@@ -353,11 +353,11 @@
    <test-case name="group-015">
       <description>No value comparisons are available to compare the grouping keys.</description>
       <created by="Josh Spiegel" on="2012-10-02"/>
-      <test><![CDATA[
+      <test>
           for $x in (true(), "true", xs:QName("true"))
           group by $x
           return $x
-      ]]></test>
+      </test>
       <result>
          <assert-xml><![CDATA[true true true]]></assert-xml>
       </result>
@@ -366,14 +366,14 @@
    <test-case name="group-016">
      <description>In the first grouping spec, the grouping variable does not reference the generated let binding.  See also group-013 </description>
      <created by="Josh Spiegel" on="2012-10-02"/>
-     <test><![CDATA[
+     <test>
        count(
          for $y in 1 to 10
          group by $y := $y, $y := $y mod 2
          return $y
        )
-     ]]></test>
-     <result><assert-xml>2</assert-xml></result>
+     </test>
+     <result><assert-eq>2</assert-eq></result>
    </test-case>
    
    <test-case name="use-case-groupby-Q1">

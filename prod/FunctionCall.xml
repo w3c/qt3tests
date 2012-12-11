@@ -1173,7 +1173,11 @@
       <created by="Oliver Hallam" on="2008-06-12"/>
       <dependency type="spec" value="XQ10+"/>
       <test>
-        declare function local:index-of($seq as xs:integer*, $item as xs:integer?) as xs:float* { if (empty($item)) then "item was empty" else for $x at $p in $seq return if ($x eq $item) then $p else () };
+        declare function local:index-of($seq as xs:integer*, $item as xs:integer?) as xs:float* { 
+          if (empty($item)) 
+            then "item was empty" 
+            else for $x at $p in $seq return if ($x eq $item) then $p else () 
+        };
         local:index-of(1 to 10, 3)</test>
       <result>
          <assert-string-value>3</assert-string-value>
@@ -1185,7 +1189,9 @@
       <created by="Oliver Hallam" on="2008-06-12"/>
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[
-        declare function local:f() as xs:double* { if (day-from-date(current-date()) < 32) then xs:integer(3) else "string" };
+        declare function local:f() as xs:double* { 
+          if (day-from-date(current-date()) < 32) then xs:integer(3) else "string" 
+        };
         local:f() + 1]]></test>
       <result>
          <assert-string-value>4</assert-string-value>

@@ -475,7 +475,20 @@
       </result>
    </test-case>   
    
-   
+  <test-case name="contextDecl-055">
+    <description>Forwards reference to context item involving function lookup</description>
+    <created by="Michael Kay" on="2012-12-10"/>
+    <environment ref="empty"/>
+    <test><![CDATA[
+      declare variable $f := function-lookup(xs:QName("fn:"||$p), 0);
+      declare context item := <e/>;
+      declare variable $p := "local-name";
+      $f()
+    ]]></test>
+    <result>
+      <assert-eq>"e"</assert-eq>
+    </result>
+  </test-case>
    
 
 
