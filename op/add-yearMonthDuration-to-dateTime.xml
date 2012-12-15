@@ -248,9 +248,17 @@
    <test-case name="cbcl-add-yearMonthDuration-to-dateTime-001">
       <description> test addition of zero duration to dateTime </description>
       <created by="Tim Mills" on="2008-05-12"/>
-      <dependency type="spec" value="XQ10+"/>
-      
-      <test>declare function local:two-digit($number as xs:integer) { let $string := string($number) return if (string-length($string) lt 2) then concat('0', $string) else $string }; declare function local:dateTime($year as xs:integer, $month as xs:integer, $day as xs:integer, $hour as xs:integer, $mins as xs:integer) { let $m := local:two-digit($month), $d := local:two-digit($day), $h := local:two-digit($hour), $n := local:two-digit($mins) return xs:dateTime(concat($year, '-', $m, '-', $d, 'T', $h, ':', $n, ':00')) }; xs:yearMonthDuration("P0Y") + local:dateTime(2008, 05, 12, 12, 59)</test>
+      <dependency type="spec" value="XQ10+"/>     
+      <test>
+         declare function local:two-digit($number as xs:integer) { 
+            let $string := string($number) 
+            return if (string-length($string) lt 2) then concat('0', $string) else $string 
+         }; 
+         declare function local:dateTime($year as xs:integer, $month as xs:integer, $day as xs:integer, $hour as xs:integer, $mins as xs:integer) { 
+            let $m := local:two-digit($month), $d := local:two-digit($day), $h := local:two-digit($hour), $n := local:two-digit($mins) 
+            return xs:dateTime(concat($year, '-', $m, '-', $d, 'T', $h, ':', $n, ':00')) 
+         }; 
+         xs:yearMonthDuration("P0Y") + local:dateTime(2008, 05, 12, 12, 59)</test>
       <result>
          <assert-string-value>2008-05-12T12:59:00</assert-string-value>
       </result>
@@ -260,9 +268,16 @@
    <test-case name="cbcl-add-yearMonthDuration-to-dateTime-002">
       <description> test addition of zero duration to dateTime </description>
       <created by="Tim Mills" on="2008-05-12"/>
-      <dependency type="spec" value="XQ10+"/>
-      
-      <test>declare function local:two-digit($number as xs:integer) { let $string := string($number) return if (string-length($string) lt 2) then concat('0', $string) else $string }; declare function local:dateTime($year as xs:integer, $month as xs:integer, $day as xs:integer, $hour as xs:integer, $mins as xs:integer) { let $m := local:two-digit($month), $d := local:two-digit($day), $h := local:two-digit($hour), $n := local:two-digit($mins) return xs:dateTime(concat($year, '-', $m, '-', $d, 'T', $h, ':', $n, ':00')) }; local:dateTime(2008, 05, 12, 12, 59) + xs:yearMonthDuration("P0Y")</test>
+      <dependency type="spec" value="XQ10+"/>     
+      <test>
+         declare function local:two-digit($number as xs:integer) { 
+            let $string := string($number) return if (string-length($string) lt 2) then concat('0', $string) else $string 
+         }; 
+         declare function local:dateTime($year as xs:integer, $month as xs:integer, $day as xs:integer, $hour as xs:integer, $mins as xs:integer) { 
+            let $m := local:two-digit($month), $d := local:two-digit($day), $h := local:two-digit($hour), $n := local:two-digit($mins) 
+            return xs:dateTime(concat($year, '-', $m, '-', $d, 'T', $h, ':', $n, ':00')) 
+         }; 
+         local:dateTime(2008, 05, 12, 12, 59) + xs:yearMonthDuration("P0Y")</test>
       <result>
          <assert-string-value>2008-05-12T12:59:00</assert-string-value>
       </result>
@@ -272,9 +287,16 @@
    <test-case name="cbcl-add-yearMonthDuration-to-dateTime-003">
       <description> test addition of large duration to dateTime </description>
       <created by="Tim Mills" on="2008-05-12"/>
-      <dependency type="spec" value="XQ10+"/>
-      
-      <test>declare function local:two-digit($number as xs:integer) { let $string := string($number) return if (string-length($string) lt 2) then concat('0', $string) else $string }; declare function local:dateTime($year as xs:integer, $month as xs:integer, $day as xs:integer, $hour as xs:integer, $mins as xs:integer) { let $m := local:two-digit($month), $d := local:two-digit($day), $h := local:two-digit($hour), $n := local:two-digit($mins) return xs:dateTime(concat($year, '-', $m, '-', $d, 'T', $h, ':', $n, ':00')) }; local:dateTime(2008, 05, 12, 12, 59) + xs:yearMonthDuration("P4026720960Y")</test>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>
+         declare function local:two-digit($number as xs:integer) { 
+            let $string := string($number) return if (string-length($string) lt 2) then concat('0', $string) else $string 
+         }; 
+         declare function local:dateTime($year as xs:integer, $month as xs:integer, $day as xs:integer, $hour as xs:integer, $mins as xs:integer) { 
+            let $m := local:two-digit($month), $d := local:two-digit($day), $h := local:two-digit($hour), $n := local:two-digit($mins) 
+            return xs:dateTime(concat($year, '-', $m, '-', $d, 'T', $h, ':', $n, ':00')) 
+         }; 
+         local:dateTime(2008, 05, 12, 12, 59) + xs:yearMonthDuration("P4026720960Y")</test>
       <result>
          <assert-string-value>4026722968-05-12T12:59:00</assert-string-value>
       </result>
