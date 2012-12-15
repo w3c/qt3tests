@@ -267,10 +267,13 @@
                     <p>
                         An element within an environment that declares a variable that can be referenced
                         within test expressions that use this environment.
-                        </p>
+                    </p>
+                    <p>The value to be bound to the variable is given in the select attribute, which should
+                    be a simple XPath expression - typically a literal, or a simple call on a constructor function.</p>
                      <p>   
-                        The test expression will not include a declaration of the variable (so it can be
-                        executed if appropriate using XPath). The test driver can add a declaration of the
+                        The test expression may or may not include a declaration of the variable (so it can be
+                        executed if appropriate using XPath). The "declared" attribute will be present with the
+                        value "true" if the variable is declared in the query prolog. The test driver can add a declaration of the
                         variable to the query prolog if required. If the test expression includes the string
                         "(:%VARDECL%:)" then the variable declaration should be added to replace this string;
                         if it does not include this string, the variable declaration can be added at the start.
@@ -295,6 +298,8 @@
                     <p>
                         An element within an environment that declares the value of the context item
                         for a query.</p>
+                    <p>The value to be bound to the variable is given in the select attribute, which should
+                        be a simple XPath expression - typically a literal, or a simple call on a constructor function.</p>
                      <p>   
                         The query is called with the value of the select expression as the context item.
                     </p>
