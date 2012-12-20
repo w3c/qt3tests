@@ -397,10 +397,13 @@
    <test-case name="FOAR0002_1">
       <description> check that underflow/overflow throws FOAR0002 </description>
       <created by="Tim Mills" on="2008-05-16"/>
-      
+      <modified by="Michael Kay" on="2012-12-20" change="The specification also allows INF"/>
       <test>2e308</test>
       <result>
-         <error code="FOAR0002"/>
+        <any-of>
+           <error code="FOAR0002"/>
+           <assert-string-value>INF</assert-string-value>
+        </any-of>
       </result>
    </test-case>
    
@@ -441,18 +444,25 @@
    <test-case name="FOCA0001_1">
       <description> check that values too large for decimal throws FOCA0001 </description>
       <created by="Tim Mills" on="2008-05-16"/>
-      
+      <modified by="Michael Kay" on="2012-12-20" change="success is also allowed!"/>
       <test>xs:decimal(1e308)</test>
       <result>
-         <error code="FOCA0001"/>
+         <any-of>
+           <error code="FOCA0001"/>
+           <all-of>
+             <assert-type>xs:decimal</assert-type>
+             <!-- allow for the fact that the xs:double is approximate -->
+             <assert>string-length(string($result)) = (308, 309)</assert>
+             <assert>starts-with(string($result), '1000000000') or starts-with(string($result), '999999999')</assert>
+           </all-of>  
+         </any-of>
       </result>
    </test-case>
    
 
    <test-case name="FOCA0002_1">
       <description> check that invalid lexical values throw FOCA0001 </description>
-      <created by="Tim Mills" on="2008-05-16"/>
-      
+      <created by="Tim Mills" on="2008-05-16"/>      
       <test>xs:float('INF') cast as xs:integer</test>
       <result>
          <error code="FOCA0002"/>
@@ -462,8 +472,7 @@
 
    <test-case name="FOCA0002_2">
       <description> check that invalid lexical values throw FOCA0002 </description>
-      <created by="Tim Mills" on="2008-05-16"/>
-      
+      <created by="Tim Mills" on="2008-05-16"/>      
       <test>QName("http://www.w3.org/", "1")</test>
       <result>
          <error code="FOCA0002"/>
@@ -473,8 +482,7 @@
 
    <test-case name="FOCA0002_3">
       <description> check that invalid lexical values throw FOCA0002 </description>
-      <created by="Tim Mills" on="2008-05-16"/>
-      
+      <created by="Tim Mills" on="2008-05-16"/>      
       <test>QName("", "prefix:localName")</test>
       <result>
          <error code="FOCA0002"/>
@@ -484,8 +492,7 @@
 
    <test-case name="FOCA0002_4">
       <description> check that invalid lexical values throw FOCA0002 </description>
-      <created by="Tim Mills" on="2008-05-16"/>
-      
+      <created by="Tim Mills" on="2008-05-16"/>      
       <test>QName("http://www.w3.org/", "1prefix:localName")</test>
       <result>
          <error code="FOCA0002"/>
@@ -495,8 +502,7 @@
 
    <test-case name="FOCA0002_5">
       <description> check that invalid lexical values throw FOCA0002 </description>
-      <created by="Tim Mills" on="2008-05-16"/>
-      
+      <created by="Tim Mills" on="2008-05-16"/>      
       <test>QName("http://www.w3.org/", "prefix:2localName")</test>
       <result>
          <error code="FOCA0002"/>
@@ -506,8 +512,7 @@
 
    <test-case name="FOCA0002_6">
       <description> check that invalid lexical values throw FOCA0002 </description>
-      <created by="Tim Mills" on="2008-05-16"/>
-      
+      <created by="Tim Mills" on="2008-05-16"/>      
       <test>QName("", "2localName")</test>
       <result>
          <error code="FOCA0002"/>
@@ -517,8 +522,7 @@
 
    <test-case name="FOCA0002_7">
       <description> check that invalid lexical values throw FOCA0002 </description>
-      <created by="Tim Mills" on="2008-05-16"/>
-      
+      <created by="Tim Mills" on="2008-05-16"/>      
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[resolve-QName("2localName", <localName />)]]></test>
       <result>
@@ -529,8 +533,7 @@
 
    <test-case name="FOCA0002_8">
       <description> check that invalid lexical values throw FOCA0002 </description>
-      <created by="Tim Mills" on="2008-05-16"/>
-      
+      <created by="Tim Mills" on="2008-05-16"/>      
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[resolve-QName("1prefix:localName", <localName />)]]></test>
       <result>
@@ -541,8 +544,7 @@
 
    <test-case name="FOCA0002_9">
       <description> check that invalid lexical values throw FOCA0002 </description>
-      <created by="Tim Mills" on="2008-05-16"/>
-      
+      <created by="Tim Mills" on="2008-05-16"/>      
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[resolve-QName("2localName", <localName />)]]></test>
       <result>
@@ -553,19 +555,26 @@
 
    <test-case name="FOCA0003_1">
       <description> check that large integers throw FOCA0003 </description>
-      <created by="Tim Mills" on="2008-05-16"/>
-      
+      <created by="Tim Mills" on="2008-05-16"/>     
+      <modified by="Michael Kay" on="2012-12-20" change="success is also allowed"/>      
       <test>xs:integer(xs:double(1e308))</test>
       <result>
-         <error code="FOCA0003"/>
+         <any-of>
+           <error code="FOCA0003"/>
+           <all-of>
+             <assert-type>xs:integer</assert-type>
+             <!-- allow for the fact that the xs:double is approximate -->
+             <assert>string-length(string($result)) = (308, 309)</assert>
+             <assert>starts-with(string($result), '1000000000') or starts-with(string($result), '999999999')</assert>
+           </all-of>
+         </any-of>  
       </result>
    </test-case>
    
 
    <test-case name="FOCA0005_1">
       <description> check that using NaN throws FOCA0005 </description>
-      <created by="Tim Mills" on="2008-05-16"/>
-      
+      <created by="Tim Mills" on="2008-05-16"/>      
       <test>xs:dayTimeDuration('P3DT10H30M') div xs:double('NaN')</test>
       <result>
          <error code="FOCA0005"/>
@@ -575,8 +584,7 @@
 
    <test-case name="FOCA0005_2">
       <description> check that using NaN throws FOCA0005 </description>
-      <created by="Tim Mills" on="2008-05-16"/>
-      
+      <created by="Tim Mills" on="2008-05-16"/>      
       <test>xs:dayTimeDuration('P3DT10H30M') * xs:double('NaN')</test>
       <result>
          <error code="FOCA0005"/>
@@ -586,8 +594,7 @@
 
    <test-case name="FOCA0005_3">
       <description> check that using NaN throws FOCA0005 </description>
-      <created by="Tim Mills" on="2008-05-16"/>
-      
+      <created by="Tim Mills" on="2008-05-16"/>      
       <test>xs:dayTimeDuration('P3DT10H30M') div xs:double('NaN')</test>
       <result>
          <error code="FOCA0005"/>
@@ -598,7 +605,6 @@
    <test-case name="FOCA0005_4">
       <description> check that using NaN throws FOCA0005 </description>
       <created by="Tim Mills" on="2008-05-16"/>
-      
       <test>xs:dayTimeDuration('P3DT10H30M') * xs:double('NaN')</test>
       <result>
          <error code="FOCA0005"/>
@@ -808,8 +814,7 @@
 
    <test-case name="FODC0005-1">
       <description> check that fn:doc throws FODC0005 </description>
-      <created by="Tim Mills" on="2008-05-16"/>
-      
+      <created by="Tim Mills" on="2008-05-16"/>      
       <test>doc('%gg')</test>
       <result>
          <error code="FODC0005"/>
@@ -820,18 +825,20 @@
    <test-case name="FODC0005-2">
       <description> check that fn:doc-available throws FODC0005 </description>
       <created by="Tim Mills" on="2008-05-16"/>
-      
+      <modified by="Michael Kay" on="2012-12-20" change="returning false is also acceptable"/>      
       <test>doc-available('%gg')</test>
       <result>
-         <error code="FODC0005"/>
+         <any-of>
+           <error code="FODC0005"/>
+           <assert-false/>
+         </any-of>
       </result>
    </test-case>
    
    
    <test-case name="FODT0001-1">
       <description> check that date/time functions throw FODT0001 </description>
-      <created by="Tim Mills" on="2008-05-16"/>
-      
+      <created by="Tim Mills" on="2008-05-16"/>      
       <test>adjust-dateTime-to-timezone( xs:dateTime("25252734927766555-07-28T23:59:59-14:00"), xs:dayTimeDuration("PT14H"))</test>
       <result>
          <error code="FODT0001"/>
@@ -841,8 +848,7 @@
 
    <test-case name="FODT0001-10">
       <description> check that date/time operators throw FODT0001 </description>
-      <created by="Tim Mills" on="2008-05-16"/>
-      
+      <created by="Tim Mills" on="2008-05-16"/>      
       <test>xs:date("25252734927766555-07-28-14:00") - xs:yearMonthDuration("-P1Y0M")</test>
       <result>
          <error code="FODT0001"/>
@@ -852,8 +858,7 @@
 
    <test-case name="FODT0001-11">
       <description> check that date/time operators throw FODT0001 </description>
-      <created by="Tim Mills" on="2008-05-16"/>
-      
+      <created by="Tim Mills" on="2008-05-16"/>     
       <test>xs:date("25252734927766555-07-28-14:00") - xs:date("-25252734927766555-07-28-14:00")</test>
       <result>
          <error code="FODT0001"/>
@@ -863,8 +868,7 @@
 
    <test-case name="FODT0001-12">
       <description> check that date/time operators throw FODT0001 </description>
-      <created by="Tim Mills" on="2008-05-16"/>
-      
+      <created by="Tim Mills" on="2008-05-16"/>      
       <test>xs:dateTime("25252734927766555-07-28T23:59:59-14:00") - xs:dateTime("-25252734927766555-07-28T23:59:59-14:00")</test>
       <result>
          <error code="FODT0001"/>
@@ -874,8 +878,7 @@
 
    <test-case name="FODT0001-2">
       <description> check that date/time functions throw FODT0001 </description>
-      <created by="Tim Mills" on="2008-05-16"/>
-      
+      <created by="Tim Mills" on="2008-05-16"/>      
       <test>adjust-date-to-timezone( xs:date("25252734927766555-07-28-14:00"), xs:dayTimeDuration("PT14H"))</test>
       <result>
          <error code="FODT0001"/>
@@ -885,8 +888,7 @@
 
    <test-case name="FODT0001-3">
       <description> check that date/time operators throw FODT0001 </description>
-      <created by="Tim Mills" on="2008-05-16"/>
-      
+      <created by="Tim Mills" on="2008-05-16"/>      
       <test>xs:dateTime("25252734927766555-07-28T23:59:59-14:00") + xs:dayTimeDuration("PT14H")</test>
       <result>
          <error code="FODT0001"/>
@@ -896,8 +898,7 @@
 
    <test-case name="FODT0001-4">
       <description> check that date/time operators throw FODT0001 </description>
-      <created by="Tim Mills" on="2008-05-16"/>
-      
+      <created by="Tim Mills" on="2008-05-16"/>      
       <test>xs:date("25252734927766555-07-28-14:00") + xs:dayTimeDuration("PT24H")</test>
       <result>
          <error code="FODT0001"/>
@@ -2073,11 +2074,14 @@
    <test-case name="XQDY0091">
       <description> check that bad xml:id attributes are reported correctly </description>
       <created by="Tim Mills" on="2008-05-16"/>
-      
+      <modified by="Michael Kay" on="2012-12-20" change="The spec makes reporting of this error optional"/>      
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[<e xml:id=" ab c d "/>]]></test>
       <result>
-         <error code="XQDY0091"/>
+         <any-of>
+           <error code="XQDY0091"/>
+           <assert-xml><![CDATA[<e xml:id="ab c d"/>]]></assert-xml>
+         </any-of>  
       </result>
    </test-case>
    
