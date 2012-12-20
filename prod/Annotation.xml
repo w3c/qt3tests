@@ -376,7 +376,7 @@
    </test-case>
 
    <test-case name="annotation-23">
-      <description>Annotation in a reserved namespace</description>
+      <description>Annotation in no namespace</description>
       <created by="Josh Spiegel" on="2012-01-08"/>
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
@@ -466,15 +466,67 @@
    </test-case>
 
    <test-case name="annotation-29">
-      <description>A function annotation (per bug 16199)</description>
+      <description>A variable annotation (per bug 16199)</description>
       <created by="John Snelson" on="2012-06-19"/>
       <dependency type="spec" value="XQ30+"/>
-      <test><![CDATA[
+      <test>
          declare %local:x variable $foo := "bar";
          $foo
+      </test>
+      <result>
+         <assert-eq>"bar"</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="annotation-30">
+      <description>An inline function annotation with parameters</description>
+      <created by="Michael Kay" on="2012-12-15"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>
+         declare namespace eg = "http://example.com";
+         %eg:sequential("abc", 3) function () { "bar" } ()
+      </test>
+      <result>
+         <assert-xml><![CDATA[bar]]></assert-xml>
+      </result>
+   </test-case>
+   
+   <test-case name="annotation-31">
+      <description>An inline function annotation using an EQName</description>
+      <created by="Michael Kay" on="2012-12-15"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         declare namespace eg = "http://example.com";
+         % Q{http://example.com}sequential("abc", 3) function () { "bar" } ()
       ]]></test>
       <result>
          <assert-xml><![CDATA[bar]]></assert-xml>
+      </result>
+   </test-case>
+   
+   <test-case name="annotation-32">
+      <description>An inline function with multiple annotations </description>
+      <created by="Michael Kay" on="2012-12-15"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         declare namespace eg = "http://example.com";
+         %eg:sequential("abc", 3) %eg:memo-function function () { "bar" } ()
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[bar]]></assert-xml>
+      </result>
+   </test-case>
+   
+   <test-case name="annotation-33">
+      <description>An inline function using true() as an annotation parameter </description>
+      <created by="Michael Kay" on="2012-12-15"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         declare namespace eg = "http://example.com";
+         %eg:sequential(true())  function () { "bar" } ()
+      ]]></test>
+      <result>
+         <error code="XPST0003"/>
       </result>
    </test-case>
 
