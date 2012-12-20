@@ -47,8 +47,7 @@
       <description/>
       <created by="Michael Kay" on="2008-11-25"/>
       <modified by="O'Neil Delpratt" on="2011-10-12" change="Removed local dependency. See bug# 14438"/>
-      <environment ref="err"/>
-      <test><![CDATA[
+      <environment ref="err"/>  <test><![CDATA[
         try { doc('rubbish.xml') } 
         catch err:FODC0001 {<caught-error code="FODC0001"/>} 
         catch err:FODC0002 {<caught-error code="FODC0002"/>} 
@@ -111,8 +110,7 @@
       <description>does catch error evaluating function call </description>
       <created by="Michael Kay" on="2008-11-25"/>
       <modified by="O'Neil Delpratt" on="2011-10-12" change="Removed local dependency. See bug# 14438"/>
-      <environment ref="err"/>
-      <test><![CDATA[
+      <environment ref="err"/>  <test><![CDATA[
         declare function local:f($d as xs:integer) { 10 div $d }; 
         try { local:f(0) } catch err:FOAR0001 {"ok"}
       ]]></test>
@@ -124,8 +122,7 @@
    <test-case name="try-010">
       <description>Use err:code local variable, implicitly declared</description>
       <created by="Michael Kay" on="2011-12-23"/>
-      <environment ref="err"/>
-      <test><![CDATA[
+      <environment ref="err"/>  <test><![CDATA[
         declare function local:f($d as xs:integer) { 10 div $d };
         try { local:f(0) } catch * {local-name-from-QName($err:code)}
       ]]></test>
@@ -137,8 +134,7 @@
   <test-case name="try-011">
     <description>Use err:code local variable in a nested tryCatch. The cast as expr should throw a dynamic error</description>
     <created by="O'Neil Delpratt" on="2012-03-02"/>
-    <environment ref="err"/>
-    <test><![CDATA[
+    <environment ref="err"/><test><![CDATA[
         declare function local:f($d as xs:integer) { 10 div $d };
         declare variable $t as xs:string := "text";
         try { local:f(0) } catch * { try { local:f($t cast as xs:integer) } catch * {local-name-from-QName($err:code)} }
@@ -151,8 +147,7 @@
   <test-case name="try-012">
     <description>Use err:description local variable, implicitly declared</description>
     <created by="O'Neil Delpratt" on="2012-03-02"/>
-    <environment ref="err"/>
-    <test><![CDATA[
+    <environment ref="err"/><test><![CDATA[
         declare function local:f($d as xs:integer) { 10 div $d };
         try { local:f(0) } catch * {$err:description}
       ]]></test>
@@ -167,8 +162,7 @@
   <test-case name="try-013">
     <description>Use err:value, err:line-number and err:column-number local variable, implicitly declared</description>
     <created by="O'Neil Delpratt" on="2012-03-02"/>
-    <environment ref="err"/>
-    <test><![CDATA[
+    <environment ref="err"/><test><![CDATA[
         declare function local:f($d as xs:integer) { 10 div $d };
         try { local:f(0) } catch * {$err:column-number, $err:line-number, $err:line-number}
       ]]></test>
@@ -221,7 +215,6 @@
     <description>A division by zero (dynamic error) is caught when the error is specified.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>try { 1 div 0 } catch err:FOAR0001 { "Division by zero" }</test>
     <result>
       <assert-eq>"Division by zero"</assert-eq>
@@ -232,7 +225,6 @@
     <description>A division by zero (dynamic error) is caught when the error namespace is specified.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>try { 1 div 0 } catch err:* { "Division by zero" }</test>
     <result>
       <assert-eq>"Division by zero"</assert-eq>
@@ -263,7 +255,6 @@
     <description>An undefined variable (static error) is not caught.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>try { $x } catch err:XPST0008 { "Undefined variable" }</test>
     <result>
       <error code="XPST0008"/>
@@ -274,7 +265,6 @@
     <description>An undefined variable (static error) is not caught.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>try { $x } catch err:* { "Undefined variable" }</test>
     <result>
       <error code="XPST0008"/>
@@ -308,7 +298,6 @@
     <description>A static type mismatch (type error) is caught.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>try { let $i as xs:string := 1 return $i } catch err:XPTY0004 { "Type error" }</test>
     <result>
       <any-of>
@@ -322,7 +311,6 @@
     <description>A static type mismatch (type error) is caught.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>try { let $i as xs:string := 1 return $i } catch err:* { "Type error" }</test>
     <result>
       <any-of>
@@ -359,7 +347,6 @@
     <description>A dynamic error before a try catch expression is not caught.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>1 div 0, try { () } catch err:FOAR0001 { "Division by zero" }</test>
     <result>
       <error code="FOAR0001"/>
@@ -370,7 +357,6 @@
     <description>A dynamic error before a try catch expression is not caught.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>1 div 0, try { () } catch err:* { "Division by zero" }</test>
     <result>
       <error code="FOAR0001"/>
@@ -401,7 +387,6 @@
     <description>A dynamic error after a try catch expression is not caught.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>try { () } catch err:FOAR0001 { "Division by zero" }, 1 div 0</test>
     <result>
       <error code="FOAR0001"/>
@@ -412,7 +397,6 @@
     <description>A dynamic error after a try catch expression is not caught.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>try { () } catch err:* { "Division by zero" }, 1 div 0</test>
     <result>
       <error code="FOAR0001"/>
@@ -442,7 +426,6 @@
     <description>A dynamic error outside a try catch expression is not caught.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>1 + (try { "" } catch err:XPTY0004 { "Invalid argument" })</test>
     <result>
       <error code="XPTY0004"/>
@@ -453,7 +436,6 @@
     <description>A dynamic error outside a try catch expression is not caught.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>1 + (try { "" } catch err:* { "Invalid argument" })</test>
     <result>
       <error code="XPTY0004"/>
@@ -484,7 +466,6 @@
     <description>A dynamic error outside a try catch expression is not caught.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>(try { "" } catch err:FOAR0001 { "Invalid argument" }) + 1</test>
     <result>
       <error code="XPTY0004"/>
@@ -494,8 +475,7 @@
   <test-case name="try-catch-dynamic-error-outside-7">
     <description>A dynamic error outside a try catch expression is not caught.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
-    <environment ref="err"/>
-    <test>(try { "" } catch err:* { "Invalid argument" }) + 1</test>
+    <environment ref="err"/><test>(try { "" } catch err:* { "Invalid argument" }) + 1</test>
     <result>
       <error code="XPTY0004"/>
     </result>
@@ -525,7 +505,6 @@
     <description>If no error is raised, the result of the try catch expression is the result of the try clause.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>try { 0 } catch err:FOAR0001 { "No error" }</test>
     <result>
       <assert-eq>0</assert-eq>
@@ -536,7 +515,6 @@
     <description>If no error is raised, the result of the try catch expression is the result of the try clause.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>try { 0 } catch err:* { "No error" }</test>
     <result>
       <assert-eq>0</assert-eq>
@@ -557,7 +535,6 @@
     <description>If no error is raised, the result of the try catch expression is the result of the try clause.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>try { 0 } catch err:FOAR0001 { "No error" } catch *:FOAR0001 { "No error "} catch err:* { "No error "}  catch * { "No error "}</test>
     <result>
       <assert-eq>0</assert-eq>
@@ -588,7 +565,6 @@
     <description>If there is no matching catch clause, the error is forwarded.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>try { 1 div 0 } catch err:XPST0008 { "Division by zero" }</test>
     <result>
       <error code="FOAR0001"/>
@@ -639,7 +615,6 @@
     <description>If there is no matching catch clause, the error is forwarded.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>try { 1 div 0 } catch err:XPST0008 { "Division by zero" } catch xs:* { "Division by zero" } catch *:XPST0008 { "Division by zero" } catch Q{http://www.w3.org/2005/not-xqt-errors}* { "Division by zero" } catch Q{http://www.w3.org/2005/xqt-errors}XPST0008 { "Division by zero" }</test>
     <result>
       <error code="FOAR0001"/>
@@ -650,7 +625,6 @@
     <description>A catch clause with one or more NameTests matches any error whose error code matches one of these NameTests.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>try { 1 div 0 } catch err:XPST0008 | err:FOAR0001 { "Division by zero" }</test>
     <result>
       <assert-string-value>Division by zero</assert-string-value>
@@ -661,7 +635,6 @@
     <description>A catch clause with one or more NameTests matches any error whose error code matches one of these NameTests.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>try { 1 div 0 } catch err:FOAR0001 | err:XPST0008 { "Division by zero" }</test>
     <result>
       <assert-string-value>Division by zero</assert-string-value>
@@ -672,7 +645,6 @@
     <description>A catch clause with one or more NameTests matches any error whose error code matches one of these NameTests.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>try { 1 div 0 } catch err:XPTY0004 | err:FOAR0001 | err:XPST0008 { "Division by zero" }</test>
     <result>
       <assert-string-value>Division by zero</assert-string-value>
@@ -683,7 +655,6 @@
     <description>The first matching catch clause is used.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>try { 1 div 0 } catch err:FOAR0001 { "Clause 1" } catch err:FOAR0001 { "Clause 2" }</test>
     <result>
       <assert-string-value>Clause 1</assert-string-value>
@@ -694,7 +665,6 @@
     <description>The first matching catch clause is used.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>try { 1 div 0 } catch err:XQST008 { "Clause 1" } catch err:FOAR0001 { "Clause 2" }</test>
     <result>
       <assert-string-value>Clause 2</assert-string-value>
@@ -705,7 +675,6 @@
     <description>The first matching catch clause is used.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>try { 1 div 0 } catch err:FOAR0001 { "Clause 1" } catch err:XQST008 { "Clause 2" }</test>
     <result>
       <assert-string-value>Clause 1</assert-string-value>
@@ -716,7 +685,6 @@
     <description>The first matching catch clause is used.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>try { 1 div 0 } catch err:FOAR0001 { "Clause 1" } catch err:XQST008 { "Clause 2" } catch err:XPTY0004 { "Clause 3" }</test>
     <result>
       <assert-string-value>Clause 1</assert-string-value>
@@ -727,7 +695,6 @@
     <description>The first matching catch clause is used.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>try { 1 div 0 } catch err:FOAR0001 { "Clause 1" } catch err:XPTY0004 { "Clause 2" } catch err:XQST008 { "Clause 3" }</test>
     <result>
       <assert-string-value>Clause 1</assert-string-value>
@@ -738,7 +705,6 @@
     <description>The first matching catch clause is used.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>try { 1 div 0 } catch err:XPTY0004 { "Clause 1" } catch err:FOAR0001 { "Clause 2" } catch err:XQST008 { "Clause 3" }</test>
     <result>
       <assert-string-value>Clause 2</assert-string-value>
@@ -749,7 +715,6 @@
     <description>The first matching catch clause is used.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>try { 1 div 0 } catch err:XPTY0004 { "Clause 1" } catch err:XPST0008 { "Clause 2" } catch err:FOAR0001 { "Clause 3" }</test>
     <result>
       <assert-string-value>Clause 3</assert-string-value>
@@ -760,7 +725,6 @@
     <description>The first matching catch clause is used.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>try { 1 div 0 } catch err:* { "Clause 1" } catch xs:* { "Clause 2" }</test>
     <result>
       <assert-string-value>Clause 1</assert-string-value>
@@ -771,7 +735,6 @@
     <description>The first matching catch clause is used.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>try { 1 div 0 } catch xs:* { "Clause 1" } catch err:* { "Clause 2" }</test>
     <result>
       <assert-string-value>Clause 2</assert-string-value>
@@ -802,7 +765,6 @@
     <description>The first matching catch clause is used.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>try { 1 div 0 } catch * { "Clause 1" } catch err:FOAR0001 { "Clause 2" }</test>
     <result>
       <assert-string-value>Clause 1</assert-string-value>
@@ -813,7 +775,6 @@
     <description>err:code returns the error code.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>try { 1 div 0 } catch * { $err:code }</test>
     <result>
       <assert-string-value>err:FOAR0001</assert-string-value>
@@ -824,7 +785,6 @@
     <description>err:code returns the error code.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>try { 1 div 0 } catch * { fn:prefix-from-QName($err:code) }</test>
     <result>
       <assert-string-value>err</assert-string-value>
@@ -835,7 +795,6 @@
     <description>err:code returns the error code.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>try { 1 div 0 } catch * { fn:local-name-from-QName($err:code) }</test>
     <result>
       <assert-string-value>FOAR0001</assert-string-value>
@@ -846,7 +805,6 @@
     <description>err:code returns the error code.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>try { 1 div 0 } catch * { fn:namespace-uri-from-QName($err:code) }</test>
     <result>
       <assert-string-value>http://www.w3.org/2005/xqt-errors</assert-string-value>
@@ -857,7 +815,6 @@
     <description>err:code returns the error code.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>try { fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:FOER0001')) } catch * { $err:code }</test>
     <result>
       <assert-string-value>err:FOER0001</assert-string-value>
@@ -868,7 +825,6 @@
     <description>err:code returns the error code.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>try { fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:FOER0001')) } catch * { fn:prefix-from-QName($err:code) }</test>
     <result>
       <assert-string-value>err</assert-string-value>
@@ -879,7 +835,6 @@
     <description>err:code returns the error code.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>try { fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:FOER0001')) } catch * { fn:local-name-from-QName($err:code) }</test>
     <result>
       <assert-string-value>FOER0001</assert-string-value>
@@ -890,7 +845,6 @@
     <description>err:code returns the error code.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>try { fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:FOER0001')) } catch * { fn:namespace-uri-from-QName($err:code) }</test>
     <result>
       <assert-string-value>http://www.w3.org/2005/xqt-errors</assert-string-value>
@@ -901,7 +855,6 @@
     <description>err:code returns the error code.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>try { fn:error() } catch * { $err:code }</test>
     <result>
       <assert-string-value>err:FOER0000</assert-string-value>
@@ -912,7 +865,6 @@
     <description>err:code returns the error code.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>try { fn:error() } catch * { fn:prefix-from-QName($err:code) }</test>
     <result>
       <assert-string-value>err</assert-string-value>
@@ -923,7 +875,6 @@
     <description>err:code returns the error code.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>try { fn:error() } catch * { fn:local-name-from-QName($err:code) }</test>
     <result>
       <assert-string-value>FOER0000</assert-string-value>
@@ -934,7 +885,6 @@
     <description>err:code returns the error code.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>try { fn:error() } catch * { fn:namespace-uri-from-QName($err:code) }</test>
     <result>
       <assert-string-value>http://www.w3.org/2005/xqt-errors</assert-string-value>
@@ -945,7 +895,6 @@
     <description>err:description returns a description string or the empty sequence.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>try { 1 div 0 } catch * { count($err:description) le 1 }</test>
     <result>
       <assert-true/>
@@ -956,7 +905,6 @@
     <description>err:code returns a description string or the empty sequence.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>try { 1 div 0 } catch * { if (($err:description)) then $err:description instance of xs:string else fn:true() }</test>
     <result>
       <assert-true/>
@@ -967,7 +915,6 @@
     <description>err:code returns a description string or the empty sequence.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>try { fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:FOER0000'), "Description") } catch * { $err:description }</test>
     <result>
       <assert-string-value>Description</assert-string-value>
@@ -978,7 +925,6 @@
     <description>err:value returns a sequence of error values.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>try { fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:FOER0000'), "Description", "Value") } catch * { $err:value }</test>
     <result>
       <assert-string-value>Value</assert-string-value>
@@ -989,7 +935,6 @@
     <description>err:value returns a sequence of error values.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>try { fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:FOER0000'), "Description", ("Value", 3, &lt;a/>, true())) } catch * { count($err:value) }</test>
     <result>
       <assert-eq>4</assert-eq>
@@ -1000,7 +945,6 @@
     <description>err:value returns a sequence of error values.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>try { fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:FOER0000'), "Description", ("Value", 3)) } catch * { $err:value[2] }</test>
     <result>
       <assert-eq>3</assert-eq>
@@ -1011,7 +955,6 @@
     <description>err:module must be defined.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>try { fn:error() } catch * { let $n := $err:module return true() }</test>
     <result>
       <assert-true/>
@@ -1022,7 +965,6 @@
     <description>err:module must be defined.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>try { fn:error() } catch * { count($err:module) }</test>
     <result>
       <any-of>
@@ -1036,7 +978,6 @@
     <description>err:module must be a string if it is not empty.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>try { fn:error() } catch * { if (count($err:module) eq 1) then $err:module else "" }</test>
     <result>
       <assert-type>xs:string</assert-type>
@@ -1047,7 +988,6 @@
     <description>err:line-number must be defined.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>try { fn:error() } catch * { let $n := $err:line-number return true() }</test>
     <result>
       <assert-true/>
@@ -1058,7 +998,6 @@
     <description>err:line-number must be defined.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>try { fn:error() } catch * { count($err:line-number) }</test>
     <result>
       <any-of>
@@ -1072,7 +1011,6 @@
     <description>err:line-number must be an integer if it is not empty.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>try { fn:error() } catch * { if (count($err:line-number) eq 1) then $err:line-number else 0 }</test>
     <result>
       <assert-type>xs:integer</assert-type>
@@ -1083,7 +1021,6 @@
     <description>err:column-number must be defined.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>try { fn:error() } catch * { let $n := $err:column-number return true() }</test>
     <result>
       <assert-true/>
@@ -1094,7 +1031,6 @@
     <description>err:column-number must be defined.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>try { fn:error() } catch * { count($err:column-number) }</test>
     <result>
       <any-of>
@@ -1108,7 +1044,6 @@
     <description>err:column-number must be an integer if it is not empty.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>try { fn:error() } catch * { if (count($err:column-number) eq 1) then $err:column-number else 0 }</test>
     <result>
       <assert-type>xs:integer</assert-type>
@@ -1119,7 +1054,6 @@
     <description>err:other must not be defined.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>try { fn:error() } catch * { $err:other }</test>
     <result>
       <error code="XPST0008"/>
@@ -1140,7 +1074,6 @@
     <description>A dynamic error raised by a non-executed catch clause must be ignored.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>try { 1 div 0 } catch err:FOER0000 { fn:error() }</test>
     <result>
       <error code="FOAR0001"/>
@@ -1151,7 +1084,6 @@
     <description>A dynamic error raised by a non-executed catch clause must be ignored.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>try { 0 } catch err:FOER0000 { fn:error() }</test>
     <result>
       <assert-eq>0</assert-eq>
@@ -1162,7 +1094,6 @@
     <description>A dynamic error raised by a non-executed catch clause must be ignored.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>try { fn:error() } catch err:FOER0001 { fn:error() } catch err:FOER0000 { 0 }</test>
     <result>
       <assert-eq>0</assert-eq>
@@ -1173,7 +1104,6 @@
     <description>A dynamic error raised by a non-executed catch clause must be ignored.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>try { fn:error() } catch err:FOER0000 { 0 } catch err:FOER0001 { fn:error() }</test>
     <result>
       <assert-eq>0</assert-eq>
@@ -1184,7 +1114,6 @@
     <description>If a function call occurs within a try clause, errors raised by evaluating the corresponding function are caught by the try/catch expression.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>try { fn:error() } catch err:FOER0000 { 0 }</test>
     <result>
       <assert-eq>0</assert-eq>
@@ -1195,7 +1124,6 @@
     <description>If a function call occurs within a try clause, errors raised by evaluating the corresponding function are caught by the try/catch expression.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>try { fn:one-or-more(()) } catch err:FORG0004 { 0 }</test>
     <result>
       <assert-eq>0</assert-eq>
@@ -1207,7 +1135,6 @@
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
     <dependency type="feature" value="higherOrderFunctions" satisfied="true"/>
-    
     <test>try { function() { fn:error() } () } catch err:FOER0000 { 0 }</test>
     <result>
       <assert-eq>0</assert-eq>
@@ -1219,7 +1146,6 @@
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
     <dependency type="feature" value="higherOrderFunctions" satisfied="true"/>
-    
     <test>try { function() { 1 div 0 } () } catch err:FOAR0001 { 0 }</test>
     <result>
       <assert-eq>0</assert-eq>
@@ -1230,7 +1156,6 @@
     <description>An error raised with fn:error() must be handled as a dynamic error.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>try { fn:error(xs:QName("err:XPST0008")) } catch err:XPST0008 { 0 }</test>
     <result>
       <assert-eq>0</assert-eq>
@@ -1241,7 +1166,6 @@
     <description>If a variable reference is used in a try clause, errors raised by binding a value to the variable are not caught unless the binding expression occurs within the try clause.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>let $x as xs:integer := "" return try { $x } catch err:XPTY0004 { 0 }</test>
     <result>
       <error code="XPTY0004"/>
@@ -1252,7 +1176,6 @@
     <description>If a variable reference is used in a try clause, errors raised by binding a value to the variable are not caught unless the binding expression occurs within the try clause.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>try { let $x as xs:integer := "" return $x } catch err:XPTY0004 { 0 }</test>
     <result>
       <any-of>
@@ -1266,7 +1189,6 @@
     <description>If a variable reference is used in a try clause, errors raised by binding a value to the variable are not caught unless the binding expression occurs within the try clause.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>for $x as xs:integer in (0, 1, "") return try { $x } catch err:XPTY0004 { 0 }</test>
     <result>
       <any-of>
@@ -1280,7 +1202,6 @@
     <description>If a variable reference is used in a try clause, errors raised by binding a value to the variable are not caught unless the binding expression occurs within the try clause.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>try { for $x as xs:integer in (0, 1, "") return $x } catch err:XPTY0004 { 0 }</test>
     <result>
       <assert-eq>0</assert-eq>
@@ -1291,7 +1212,6 @@
     <description>If a variable reference is used in a try clause, errors raised by binding a value to the variable are not caught unless the binding expression occurs within the try clause.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>for tumbling window $x as xs:string in (2, 4, 6, 8, 10)
       start $s at $spos previous $sprev next $snext when true() end $e at
       $epos previous $eprev next $enext when true() return try { $x } catch err:XPTY0004 { 0 }</test>
@@ -1304,7 +1224,6 @@
     <description>If a variable reference is used in a try clause, errors raised by binding a value to the variable are not caught unless the binding expression occurs within the try clause.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>try { for tumbling window $x as xs:string in (2, 4, 6, 8, 10)
       start $s at $spos previous $sprev next $snext when true() end $e at
       $epos previous $eprev next $enext when true() return $x } catch err:XPTY0004 { 0 }</test>
@@ -1320,7 +1239,6 @@
     <description>If the evaluation of an expression inside a try/catch is rewritten or deferred in this way, it must take its try/catch context with it.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>try { 1 div 0 } catch * { 0 }, try { 1 div 0 } catch err:FOAR0001 { 1}</test>
     <result>
       <assert-deep-eq>0, 1</assert-deep-eq>
@@ -1331,7 +1249,6 @@
     <description>If the evaluation of an expression inside a try/catch is rewritten or deferred in this way, it must take its try/catch context with it.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>try { fn:error() } catch * { 0 }, try { fn:error() } catch err:FOER0000 { 1}</test>
     <result>
       <assert-xml>0 1</assert-xml>
@@ -1367,7 +1284,6 @@
     <description>Example from the specification.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>let $x := "" return try {
       $x cast as xs:integer
       }
@@ -1383,7 +1299,6 @@
     <description>Example from the specification.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>let $x := "" return try {
       $x cast as xs:integer
       }
@@ -1399,7 +1314,6 @@
     <description>Example from the specification (must parse).</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>
       let $output := (try {
           fn:error(fn:QName('http://www.w3.org/2005/xqt-errors', 'err:FOER0000'))
@@ -1448,7 +1362,6 @@
     <description>XPDY0002 must be caught.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>try { . } catch err:XPDY0002 { "Context item not set." }</test>
     <result>
       <assert-string-value>Context item not set.</assert-string-value>
@@ -1459,7 +1372,6 @@
     <description>XPDY0050 must be caught.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>try { "" treat as element() } catch err:XPDY0050 { "Sequence type mismatch." }</test>
     <result>
       <assert-string-value>Sequence type mismatch.</assert-string-value>
@@ -1470,7 +1382,6 @@
     <description>XQDY0025 must be caught.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>try { element  element { attribute a {""}, attribute a {""} } } catch err:XQDY0025 { "Attribute name duplicate." }</test>
     <result>
       <assert-string-value>Attribute name duplicate.</assert-string-value>
@@ -1481,7 +1392,6 @@
     <description>XQDY0026 must be caught.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>try { processing-instruction name { "?>" } } catch err:XQDY0026 { "Invalid PI." }</test>
     <result>
       <assert-string-value>Invalid PI.</assert-string-value>
@@ -1492,7 +1402,6 @@
     <description>XQDY0041 must be caught.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>try { processing-instruction  { "prefix:name" } {} } catch err:XQDY0041 { "Invalid PI." }</test>
     <result>
       <assert-string-value>Invalid PI.</assert-string-value>
@@ -1503,7 +1412,6 @@
     <description>XQDY0044 must be caught.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>try { attribute xmlns {} } catch err:XQDY0044 { "Invalid attribute." }</test>
     <result>
       <assert-string-value>Invalid attribute.</assert-string-value>
@@ -1514,7 +1422,6 @@
     <description>XQDY0061 must be caught.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test><![CDATA[
       try { validate { document { <a/>, <b/> }} } catch err:XQDY0061 { "Invalid document." }
     ]]></test>
@@ -1530,7 +1437,6 @@
     <description>XQDY0064 must be caught.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>try { processing-instruction XML {} } catch err:XQDY0064 { "Invalid PI." }</test>
     <result>
       <assert-string-value>Invalid PI.</assert-string-value>
@@ -1541,7 +1447,6 @@
     <description>XQDY0072 must be caught.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>try { comment { "--" } } catch err:XQDY0072 { "Invalid comment." }</test>
     <result>
       <assert-string-value>Invalid comment.</assert-string-value>
@@ -1552,7 +1457,6 @@
     <description>XQDY0074 must be caught.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>try { element { "prefix:name" } {} } catch err:XQDY0074 { "Invalid element." }</test>
     <result>
       <assert-string-value>Invalid element.</assert-string-value>
@@ -1563,7 +1467,6 @@
     <description>XQDY0091 must be caught.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>(try { (attribute xml:id {""})/0 } catch err:XQDY0091 { "Invalid attribute ID." })</test>
     <result>
       <any-of>
@@ -1577,7 +1480,6 @@
     <description>XQDY0095 must be caught.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>try { let $x := (1,2)[position() &lt; 3] group by $x return $x } catch err:XPTY0004 { "More than a grouping item." }</test>
     <result>
       <any-of>
@@ -1590,9 +1492,20 @@
   <test-case name="try-catch-all-dynamic-errors-caught-13">
     <description>XQDY0096 must be caught.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
+    <changed by="Michael Kay" on="2012-12-20" 
+             change="catch XQDY0074 as well, which is a reasonable error to raise since 'xmlns' is not declared in the static context"/>
     <environment ref="err"/>
-    
-    <test>try { element { "xmlns:name" } {} } catch err:XQDY0096 { "Invalid element." }</test>
+    <test>try { element { "xmlns:name" } {} } catch err:XQDY0096 | err:XQDY0074 { "Invalid element." }</test>
+    <result>
+      <assert-string-value>Invalid element.</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="try-catch-all-dynamic-errors-caught-13b">
+    <description>XQDY0096 must be caught.</description>
+    <created by="Michael Kay" on="2012-12-20"/>
+    <environment ref="err"/>
+    <test>try { element { QName("http://www.w3.org/2000/xmlns/", "xmlns:name") } {} } catch err:XQDY0096 { "Invalid element." }</test>
     <result>
       <assert-string-value>Invalid element.</assert-string-value>
     </result>
@@ -1602,7 +1515,6 @@
     <description>XQDY0101 must be caught.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
     <environment ref="err"/>
-    
     <test>try { namespace xmlns { "http://www.example.com" } } catch err:XQDY0101 { "Invalid namespace node." }</test>
     <result>
       <assert-string-value>Invalid namespace node.</assert-string-value>
@@ -1684,7 +1596,6 @@
     <created by="Ghislain Fourny" on="2012-10-03"/>
     <modified by="Michael Kay" on="2012-10-05" change="comparator for QName result (bug 19282)"/>
     <environment ref="err"/>
-    
     <test>try { fn:error(fn:QName("http://www.example.com/", "example:EXER3141"), "Description") } catch Q{http://www.example.com/}EXER3141 { $err:code }</test>
     <result>
       <all-of>
@@ -1698,7 +1609,6 @@
     <description>Try-catch must match fn:error semantics.</description>
     <created by="Ghislain Fourny" on="2012-10-03"/>
     <environment ref="err"/>
-    
     <test>try { fn:error(fn:QName("http://www.example.com/", "example:EXER3141"), "Description") } catch Q{http://www.example.com/}EXER3141 { namespace-uri-from-QName($err:code) }</test>
     <result>
       <assert-eq>'http://www.example.com/'</assert-eq>
@@ -1709,7 +1619,6 @@
     <description>Try-catch must match fn:error semantics.</description>
     <created by="Ghislain Fourny" on="2012-10-03"/>
     <environment ref="err"/>
-    
     <test>try { fn:error(fn:QName("http://www.example.com/", "example:EXER3141"), "Description") } catch Q{http://www.example.com/}EXER3141 { prefix-from-QName($err:code) }</test>
     <result>
       <assert-eq>'example'</assert-eq>
@@ -1720,7 +1629,6 @@
     <description>Try-catch must match fn:error semantics.</description>
     <created by="Ghislain Fourny" on="2012-10-03"/>
     <environment ref="err"/>
-    
     <test>try { fn:error(fn:QName("http://www.example.com/", "example:EXER3141"), "Description") } catch Q{http://www.example.com/}EXER3141 { local-name-from-QName($err:code) }</test>
     <result>
       <assert-eq>'EXER3141'</assert-eq>
@@ -1731,7 +1639,6 @@
     <description>Try-catch must match fn:error semantics.</description>
     <created by="Ghislain Fourny" on="2012-10-03"/>
     <environment ref="err"/>
-    
     <test>try { fn:error(fn:QName("http://www.example.com/", "example:EXER3141"), "Description") } catch Q{http://www.example.com/}EXER3141 { $err:description }</test>
     <result>
       <assert-eq>'Description'</assert-eq>
@@ -1742,7 +1649,6 @@
     <description>Try-catch must match fn:error semantics.</description>
     <created by="Ghislain Fourny" on="2012-10-03"/>
     <environment ref="err"/>
-    
     <test>try { fn:error(fn:QName("http://www.example.com/", "example:EXER3141"), "Description", (1, 2)) } catch Q{http://www.example.com/}EXER3141 { $err:value[2] }</test>
     <result>
       <assert-eq>2</assert-eq>
@@ -1753,7 +1659,6 @@
     <description>Try-catch must match any error raised by fn:error.</description>
     <created by="Ghislain Fourny" on="2012-10-03"/>
     <environment ref="err"/>
-    
     <test>try { fn:error(xs:QName("err:XPTY0004")) } catch Q{http://www.w3.org/2005/xqt-errors}XPTY0004 { 0 }</test>
     <result>
       <assert-eq>0</assert-eq>
@@ -1764,7 +1669,6 @@
     <description>Try-catch must match any error raised by fn:error.</description>
     <created by="Ghislain Fourny" on="2012-10-03"/>
     <environment ref="err"/>
-    
     <test>try { fn:error(xs:QName("err:XPST0001")) } catch Q{http://www.w3.org/2005/xqt-errors}XPST0001 { 0 }</test>
     <result>
       <assert-eq>0</assert-eq>
@@ -1775,7 +1679,6 @@
     <description>Try-catch must match any error raised by fn:error.</description>
     <created by="Ghislain Fourny" on="2012-10-03"/>
     <environment ref="err"/>
-    
     <test>try { fn:error(xs:QName("err:XPDY0002")) } catch Q{http://www.w3.org/2005/xqt-errors}XPDY0002 { 0 }</test>
     <result>
       <assert-eq>0</assert-eq>
@@ -1786,7 +1689,6 @@
     <description>Try-catch must match any error raised by fn:error.</description>
     <created by="Ghislain Fourny" on="2012-10-03"/>
     <environment ref="err"/>
-    
     <test>try { fn:error(xs:QName("err:XQTY0105")) } catch Q{http://www.w3.org/2005/xqt-errors}XQTY0105 { 0 }</test>
     <result>
       <assert-eq>0</assert-eq>
@@ -1797,7 +1699,6 @@
     <description>Try-catch must match any error raised by fn:error.</description>
     <created by="Ghislain Fourny" on="2012-10-03"/>
     <environment ref="err"/>
-    
     <test>try { fn:error(xs:QName("err:XQST0089")) } catch Q{http://www.w3.org/2005/xqt-errors}XQST0089 { 0 }</test>
     <result>
       <assert-eq>0</assert-eq>
@@ -1808,7 +1709,6 @@
     <description>Try-catch must match any error raised by fn:error.</description>
     <created by="Ghislain Fourny" on="2012-10-03"/>
     <environment ref="err"/>
-    
     <test>try { fn:error(xs:QName("err:XQDY0061")) } catch Q{http://www.w3.org/2005/xqt-errors}XQDY0061 { 0 }</test>
     <result>
       <assert-eq>0</assert-eq>
@@ -1819,7 +1719,6 @@
     <description>Try-catch must match any error raised by fn:error.</description>
     <created by="Ghislain Fourny" on="2012-10-03"/>
     <environment ref="err"/>
-    
     <test>try { fn:error(xs:QName("err:FOTY0014")) } catch Q{http://www.w3.org/2005/xqt-errors}FOTY0014 { 0 }</test>
     <result>
       <assert-eq>0</assert-eq>
@@ -1830,7 +1729,6 @@
     <description>Try-catch must match any error raised by fn:error.</description>
     <created by="Ghislain Fourny" on="2012-10-03"/>
     <environment ref="err"/>
-    
     <test>try { fn:error(xs:QName("err:FORG0001")) } catch Q{http://www.w3.org/2005/xqt-errors}FORG0001 { 0 }</test>
     <result>
       <assert-eq>0</assert-eq>
@@ -1841,7 +1739,6 @@
     <description>Try-catch must match any error raised by fn:error.</description>
     <created by="Ghislain Fourny" on="2012-10-03"/>
     <environment ref="err"/>
-    
     <test>try { fn:error(xs:QName("err:FONS0004")) } catch Q{http://www.w3.org/2005/xqt-errors}FONS0004 { 0 }</test>
     <result>
       <assert-eq>0</assert-eq>
