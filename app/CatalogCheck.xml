@@ -110,9 +110,9 @@
             for $t in ($testsets|.)
             for $e in $t//fots:environment
             where exists($e/fots:namespace) 
-            return $e/@name/string()
+            return concat($t/*/@name, '~', $e/@name/string())
         let $xq-testcases := $testsets//fots:test-case [local:needs-xq(.)]
-        for $tc in $xq-testcases [fots:environment/@ref = $nsenvs or fots:environment[fots:namespace]]
+        for $tc in $xq-testcases [concat(/*/@name, '~', fots:environment/@ref) = $nsenvs or fots:environment[fots:namespace]]
         return $tc/@name/string()
       ]]></test>
       <result>
