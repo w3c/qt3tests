@@ -6,11 +6,14 @@
     
     <test-case name="parse-xml-fragment-001">
         <description>parse-xml-fragment test</description>
-        <created by="ONeil Delpratt, Saxonica" on="2010-10-04"/>        
+        <created by="ONeil Delpratt, Saxonica" on="2010-10-04"/>
+        <modified by="Michael Kay, Saxonica" on="2012-12-21" change="select the element node to avoid whitespace problems"/>        
         <environment name="empty"/>
-        <test><![CDATA[parse-xml-fragment(unparsed-text("../docs/atomic.xml"))]]></test>
+        <test><![CDATA[
+        	parse-xml-fragment(unparsed-text("../docs/atomic.xml"))/*
+        ]]></test>
         <result>
-            <assert-type>document-node(element(*,xs:untyped))</assert-type>
+            <assert-type>element(*,xs:untyped)</assert-type>
         </result>
     </test-case>
     <test-case name="parse-xml-fragment-002">
@@ -173,6 +176,26 @@
         <test><![CDATA[parse-xml-fragment("<p:a/>")]]></test>
         <result>
             <error code="FODC0006" />
+        </result>
+    </test-case>
+    <test-case name="parse-xml-fragment-020">
+        <description>parse-xml-fragment test - DOCTYPE is not allowed</description>
+        <created by="Michael Kay, Saxonica" on="2012-12-21"/>        
+        <environment name="empty"/>
+        <test><![CDATA[parse-xml-fragment("<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN'
+                                           'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'><html/>")
+        ]]></test>
+        <result>
+            <error code="FODC0006" />
+        </result>
+    </test-case>
+    <test-case name="parse-xml-fragment-021">
+        <description>parse-xml-fragment test - line endings are normalized</description>
+        <created by="Michael Kay, Saxonica" on="2012-12-21"/>        
+        <environment name="empty"/>
+        <test><![CDATA[string-to-codepoints(parse-xml-fragment("a"||codepoints-to-string((13, 10))||"b"))]]></test>
+        <result>
+            <assert-string-value>97 10 98</assert-string-value>
         </result>
     </test-case>
 </test-set>
