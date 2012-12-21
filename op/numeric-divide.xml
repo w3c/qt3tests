@@ -1401,22 +1401,23 @@
       <created by="Oliver Hallam" on="2008-05-30"/>      
       <test>10000000000000000000000000000.0 div 0.1 gt 0</test>
       <result>
-	<any-of>
-	  <error code="FOAR0002"/>
-	  <assert-true />
-	</any-of>
+	    <any-of>
+	      <error code="FOAR0002"/>
+	      <assert-true />
+	    </any-of>
       </result>
    </test-case>
 
    <test-case name="op-numeric-divide-big-01">
       <description> check that overflow occurs correctly when dividing values of type xs:decimal </description>
-      <created by="Andrew Eisenberg" on="2012-10-31"/>      
+      <created by="Andrew Eisenberg" on="2012-10-31"/>
+      <modified by="Michael Kay" on="2012-12-21" change="fix bug 20473"/>      
       <test>(10000000000000000000000000000.0 div 0.1) cast as xs:string</test>
       <result>
-	<any-of>
-	  <error code="FOAR0002"/>
-	  <assert-string-value>100000000000000000000000000000.0</assert-string-value>
-	</any-of>
+	    <any-of>
+	      <error code="FOAR0002"/>
+	      <assert-string-value>100000000000000000000000000000</assert-string-value>
+	    </any-of>
       </result>
    </test-case>
 </test-set>

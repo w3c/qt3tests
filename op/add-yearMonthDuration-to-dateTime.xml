@@ -242,8 +242,7 @@
       <result>
          <error code="XPTY0004"/>
       </result>
-   </test-case>
-   
+   </test-case>   
    
    <test-case name="cbcl-add-yearMonthDuration-to-dateTime-001">
       <description> test addition of zero duration to dateTime </description>
@@ -262,8 +261,7 @@
       <result>
          <assert-string-value>2008-05-12T12:59:00</assert-string-value>
       </result>
-   </test-case>
-   
+   </test-case>   
 
    <test-case name="cbcl-add-yearMonthDuration-to-dateTime-002">
       <description> test addition of zero duration to dateTime </description>
@@ -281,12 +279,12 @@
       <result>
          <assert-string-value>2008-05-12T12:59:00</assert-string-value>
       </result>
-   </test-case>
-   
+   </test-case>   
 
    <test-case name="cbcl-add-yearMonthDuration-to-dateTime-003">
       <description> test addition of large duration to dateTime </description>
       <created by="Tim Mills" on="2008-05-12"/>
+      <modified by="Michael Kay" on="2012-12-21" change="allow implementation to blow its limits"/>    
       <dependency type="spec" value="XQ10+"/>      
       <test>
          declare function local:two-digit($number as xs:integer) { 
@@ -298,7 +296,10 @@
          }; 
          local:dateTime(2008, 05, 12, 12, 59) + xs:yearMonthDuration("P4026720960Y")</test>
       <result>
-         <assert-string-value>4026722968-05-12T12:59:00</assert-string-value>
+        <any-of>
+          <assert-string-value>4026722968-05-12T12:59:00</assert-string-value>
+          <error code="FODT0002"/>
+        </any-of>
       </result>
    </test-case>
 </test-set>
