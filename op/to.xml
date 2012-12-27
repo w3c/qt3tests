@@ -252,48 +252,68 @@
    <test-case name="rangeExpr-28">
       <description> test op:to with large numbers </description>
       <created by="Tim Mills" on="2008-05-16"/>
+      <modified by="Michael Kay" on="2012-12-27" change="see bug 20519"/>
       <test>18446744073709551616 to 18446744073709551620</test>
       <result>
-         <assert-string-value>18446744073709551616 18446744073709551617 18446744073709551618 18446744073709551619 18446744073709551620</assert-string-value>
+         <any-of>
+            <assert-string-value>18446744073709551616 18446744073709551617 18446744073709551618 18446744073709551619 18446744073709551620</assert-string-value>
+            <error code="FOCA0003"/>
+         </any-of>
       </result>
    </test-case>
    
    <test-case name="rangeExpr-29">
       <description> test op:to with large numbers </description>
       <created by="Michael Kay" on="2012-12-15"/>
+      <modified by="Michael Kay" on="2012-12-27" change="see bug 20519"/>
       <test>count(18446744073709551616 to 18446744073709551620)</test>
       <result>
-         <assert-eq>5</assert-eq>
+         <any-of>
+            <assert-eq>5</assert-eq>
+            <error code="FOCA0003"/>
+         </any-of>         
       </result>
    </test-case>
    
    <test-case name="rangeExpr-30">
       <description> test op:to with large numbers </description>
       <created by="Michael Kay" on="2012-12-15"/>
+      <modified by="Michael Kay" on="2012-12-27" change="see bug 20519"/>
       <dependency type="spec" value="XP30+ XQ30+"/>
       <test>(28446744073709551616 to 28446744073709551620)!position()</test>
       <result>
-         <assert-string-value>1 2 3 4 5</assert-string-value>
+         <any-of>
+            <assert-string-value>1 2 3 4 5</assert-string-value>
+            <error code="FOCA0003"/>
+         </any-of>        
       </result>
    </test-case>
    
    <test-case name="rangeExpr-31">
       <description> test op:to with large numbers </description>
       <created by="Michael Kay" on="2012-12-15"/>
+      <modified by="Michael Kay" on="2012-12-27" change="see bug 20519"/>
       <dependency type="spec" value="XP30+ XQ30+"/>
       <test>((28446744073709551616 to 28446744073709551620)!last())[1]</test>
       <result>
-         <assert-eq>5</assert-eq>
+         <any-of>
+            <assert-eq>5</assert-eq>
+            <error code="FOCA0003"/>
+         </any-of>        
       </result>
    </test-case>
    
    <test-case name="rangeExpr-32">
       <description> test op:to with large numbers </description>
       <created by="Michael Kay" on="2012-12-15"/>
+      <modified by="Michael Kay" on="2012-12-27" change="see bug 20519"/>
       <dependency type="spec" value="XP30+ XQ30+"/>
       <test>reverse(28446744073709551616 to 28446744073709551620)</test>
       <result>
-         <assert-string-value>28446744073709551620 28446744073709551619 28446744073709551618 28446744073709551617 28446744073709551616</assert-string-value>
+         <any-of>
+            <assert-string-value>28446744073709551620 28446744073709551619 28446744073709551618 28446744073709551617 28446744073709551616</assert-string-value>
+            <error code="FOCA0003"/>
+         </any-of>
       </result>
    </test-case>
 
