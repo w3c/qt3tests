@@ -17,6 +17,7 @@
    </environment>
    
    <environment name="nillable-Q">
+      <!-- differs from 'nillable' by omission of the namespace declaration -->
       <schema uri="http://www.w3.org/XQueryTest/nillable" file="nilled/nillable.xsd">
          <description>A Schema with some nillable elements</description>
          <created by="Michael Kay" on="2012-10-02"/>
@@ -454,7 +455,7 @@
       <dependency type="feature" value="schemaImport"/>
       <test>
         import schema namespace ids="http://www.w3.org/XQueryTest/nillable";
-      	/root/branch/branch[1] instance of element(branch, ids:root?)
+      	/ids:root/ids:branch/ids:branch[1] instance of element(ids:branch, ids:root?)
       </test>
       <result>
          <assert-true/>
@@ -469,7 +470,7 @@
       <dependency type="feature" value="schemaImport"/>
       <test>
         import schema namespace ids="http://www.w3.org/XQueryTest/nillable";
-      	/root/branch/branch[1] instance of element(branch, ids:root)
+      	/ids:root/ids:branch/ids:branch[1] instance of element(ids:branch, ids:root)
       </test>
       <result>
          <assert-false/>
