@@ -2374,9 +2374,10 @@
    <test-case name="K2-OrderbyExprWithout-42">
       <description> Apply fn:string() on a for clause that only produces on item, and that cannot easily constant propagate. </description>
       <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="O'Neil Delpratt" on="2013-01-02" change="Change assertion type. Bug 20233."/>
       <test>string(for $i in current-date() order by $i return $i)</test>
       <result>
-         <assert>true()</assert>
+         <assert-count>1</assert-count>
       </result>
    </test-case>
 
