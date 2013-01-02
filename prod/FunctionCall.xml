@@ -1171,11 +1171,12 @@
    <test-case name="cbcl-promotion-003">
       <description> Test that type promotion occurs correctly for values returned from user-defined functions </description>
       <created by="Oliver Hallam" on="2008-06-12"/>
+      <modified by="O'Neil Delpratt" on="2013-01-02" change="Then branch changed to -1. Bug 20314."/>
       <dependency type="spec" value="XQ10+"/>
       <test>
         declare function local:index-of($seq as xs:integer*, $item as xs:integer?) as xs:float* { 
           if (empty($item)) 
-            then "item was empty" 
+            then -1
             else for $x at $p in $seq return if ($x eq $item) then $p else () 
         };
         local:index-of(1 to 10, 3)</test>
@@ -1187,10 +1188,11 @@
    <test-case name="cbcl-promotion-004">
       <description> Test that type promotion occurs correctly for sequence values returned from user-defined functions </description>
       <created by="Oliver Hallam" on="2008-06-12"/>
+      <modified by="O'Neil Delpratt" on="2013-01-02" change="else branch changed to -1. Bug 20314."/>
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[
         declare function local:f() as xs:double* { 
-          if (day-from-date(current-date()) < 32) then xs:integer(3) else "string" 
+          if (day-from-date(current-date()) < 32) then xs:integer(3) else -1
         };
         local:f() + 1]]></test>
       <result>
