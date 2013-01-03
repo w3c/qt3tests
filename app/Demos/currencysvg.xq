@@ -93,7 +93,7 @@ declare function local:label-observation($ob as element(frbny:Obs,xs:untyped),$l
         for $ob at $pos in $obs
         let $coord := local:coordinate($ob)
         return
-          concat(if($pos = 1) then "M" else "L",$coord[1],",",$coord[2])
+          concat(if($pos = 1) then "M" else "L",round-half-to-even($coord[1], 4),",",round-half-to-even($coord[2], 4))
       }
     }
   </path>
