@@ -51,18 +51,21 @@
       </resource>
       <resource file="unparsed-text/text-xml-utf-8.xml"
                 media-type="text/xml" 
+                encoding="utf-8"
                 uri="http://www.w3.org/fots/unparsed-text/text-xml-utf-8.xml">
          <description>UTF-8 encoded XML.</description>
          <created by="Tim Mills" on="2012-01-05"/>
       </resource>
       <resource file="unparsed-text/text-xml-utf-16.xml"
                 media-type="text/xml" 
+                encoding="utf-16"
                 uri="http://www.w3.org/fots/unparsed-text/text-xml-utf-16.xml">
          <description>UTF-16 encoded XML.</description>
          <created by="Tim Mills" on="2012-01-05"/>
       </resource>
       <resource file="unparsed-text/text-xml-iso-8859-1.xml"
                 media-type="text/xml" 
+                encoding="iso-8859-1"
                 uri="http://www.w3.org/fots/unparsed-text/text-xml-iso-8859-1.xml">
          <description>ISO-8859-1 encoded XML.</description>
          <created by="Tim Mills" on="2012-01-05"/>
@@ -120,7 +123,7 @@
       </resource>
       <resource file="unparsed-text/text-plain-utf-16be-bom-lines.txt"
                 media-type="text/plain" 
-                encoding="utf-8"
+                encoding="utf-16"
                 uri="http://www.w3.org/fots/unparsed-text/text-plain-utf-16be-bom-lines.txt">
          <description>Multi-line UTF-16 encoded plain text.</description>
          <created by="Tim Mills" on="2012-01-05"/>
@@ -580,12 +583,16 @@
    </test-case>
 
    <test-case name="fn-unparsed-text-lines-040">
-      <description>Evaluates the "unparsed-text-lines" function with the argument set as follows: $href refers to a file which does not contain well-formed XML.</description>
+      <description>Evaluates the "unparsed-text-lines" function with the argument set as follows: $href refers to a file which does not contain well-formed XML.  A processor is not required to support utf-16.</description>
       <created by="Tim Mills" on="2011-11-28"/>
+      <modified by="Tim Mills" on="2013-01-04" change="See Bug 20547"/>
       <environment ref="unparsed-text-lines" />
       <test>fn:unparsed-text-lines("http://www.w3.org/fots/unparsed-text/invalid-xml.xml")</test>
       <result>
-	<assert-deep-eq>'&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;text&gt;hello&#160;world'</assert-deep-eq>
+	<any-of>
+	  <assert-deep-eq>'&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;text&gt;hello&#160;world'</assert-deep-eq>
+	  <error code="FOUT1200" />
+	</any-of>
       </result>
    </test-case>
 
@@ -655,12 +662,16 @@
    <test-case name="fn-unparsed-text-lines-047">
       <description>
          Evaluates the "unparsed-text-lines" function with the argument set as follows: 
-         $href refers to a file whose encoding is valid utf-16.</description>
+         $href refers to a file whose encoding is valid utf-16.  A processor is not required to support utf-16.</description>
       <created by="Tim Mills" on="2011-11-28"/>
+      <modified by="Tim Mills" on="2013-01-04" change="See Bug 20547"/>
       <environment ref="unparsed-text-lines" />
       <test>fn:unparsed-text-lines("http://www.w3.org/fots/unparsed-text/text-xml-utf-16.xml")</test>
       <result>
-	<assert-string-value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;text&gt;hello&#160;world&lt;/text&gt;</assert-string-value>
+	<any-of>
+	  <assert-string-value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;text&gt;hello&#160;world&lt;/text&gt;</assert-string-value>
+	  <error code="FOUT1200" />
+	</any-of>
       </result>
    </test-case>
 
@@ -707,26 +718,34 @@
    <test-case name="fn-unparsed-text-lines-051">
       <description>
          Evaluates the "unparsed-text-lines" function with the argument set as follows: 
-         $href refers to a file containing various line endings of the form 0A, x0D, and x0Dx0A.
+         $href refers to a file containing various line endings of the form 0A, x0D, and x0Dx0A.  A processor is not required to support utf-16.
       </description>
       <created by="Tim Mills" on="2011-11-28"/>
+      <modified by="Tim Mills" on="2013-01-04" change="See Bug 20547"/>
       <environment ref="unparsed-text-lines" />
       <test>fn:unparsed-text-lines("http://www.w3.org/fots/unparsed-text/text-plain-utf-16le-bom-lines.txt") ! string-length(.)</test>
       <result>
-	     <assert-deep-eq>(53, 54, 179, 77, 32)</assert-deep-eq>
+	<any-of>
+	  <assert-deep-eq>(53, 54, 179, 77, 32)</assert-deep-eq>
+	  <error code="FOUT1200" />
+	</any-of>
       </result>
    </test-case>
 
    <test-case name="fn-unparsed-text-lines-052">
       <description>
          Evaluates the "unparsed-text-lines" function with the argument set as follows: 
-         $href refers to a file containing various line endings of the form 0A, x0D, and x0Dx0A.
+         $href refers to a file containing various line endings of the form 0A, x0D, and x0Dx0A.  A processor is not required to support utf-16.
       </description>
       <created by="Tim Mills" on="2011-11-28"/>
+      <modified by="Tim Mills" on="2013-01-04" change="See Bug 20547"/>
       <environment ref="unparsed-text-lines" />
       <test>fn:unparsed-text-lines("http://www.w3.org/fots/unparsed-text/text-plain-utf-16be-bom-lines.txt") ! string-length(.)</test>
       <result>
-	     <assert-deep-eq>(53, 54, 179, 77, 32)</assert-deep-eq>
+	<any-of>
+	  <assert-deep-eq>(53, 54, 179, 77, 32)</assert-deep-eq>
+	  <error code="FOUT1200" />
+	</any-of>
       </result>
    </test-case>
 
