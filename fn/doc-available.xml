@@ -116,10 +116,14 @@
 
    <test-case name="cbcl-doc-available-002">
       <description> test fn:doc-available on invalid input </description>
-      <created by="Tim Mills" on="2008-04-10"/>      
+      <created by="Tim Mills" on="2008-04-10"/>
+      <modified by="Michael Kay" on="2012-12-31" change="implementations are not required to report invalid URI"/>      
       <test>fn:doc-available( '%gg' )</test>
       <result>
-         <error code="FODC0005"/>
+         <any-of>
+            <error code="FODC0005"/>
+            <assert-false/>
+         </any-of>
       </result>
    </test-case>
    
@@ -137,9 +141,13 @@
    <test-case name="cbcl-doc-available-004">
       <description> Test doc-available with a URL </description>
       <created by="Nick Jones" on="2008-06-12"/>      
+      <modified by="Michael Kay" on="2012-12-31" change="implementations are not required to report invalid URI"/>      
       <test>doc-available("%gg")</test>
       <result>
-         <error code="FODC0005"/>
+         <any-of>
+            <error code="FODC0005"/>
+            <assert-false/>
+         </any-of>
       </result>
    </test-case>
    
