@@ -242,6 +242,56 @@
          <error code="XPST0017"/>
       </result>
    </test-case>
+   
+   <test-case name="fn-node-name-25" covers="fn-node-name">
+      <description> Evaluation of node-name function with no arguments on element node. </description>
+      <created by="Michael Kay" on="2013-01-07"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[<node xmlns="http://example.com/ns"/>/node-name()]]></test>
+      <result>
+         <assert-eq>QName("http://example.com/ns", "node")</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-node-name-26" covers="fn-node-name">
+      <description> Evaluation of node-name function with no arguments on attribute node. </description>
+      <created by="Michael Kay" on="2013-01-07"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[<node xml:space="collapse" xmlns="http://example.com/ns"/>/@xml:space/node-name()]]></test>
+      <result>
+         <assert-eq>QName("http://www.w3.org/XML/1998/namespace", "space")</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-node-name-27" covers="fn-node-name">
+      <description> Evaluation of node-name function with no arguments on processing instruction node. </description>
+      <created by="Michael Kay" on="2013-01-07"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[<?test data?>/node-name()]]></test>
+      <result>
+         <assert-eq>QName("", "test")</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-node-name-28" covers="fn-node-name">
+      <description> Evaluation of node-name function with no arguments on namespace node. </description>
+      <created by="Michael Kay" on="2013-01-07"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[namespace{"foo"}{"http://example.com/foo"}/node-name()]]></test>
+      <result>
+         <assert-eq>QName("", "foo")</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-node-name-29" covers="fn-node-name">
+      <description> Evaluation of node-name function with no arguments on text node. </description>
+      <created by="Michael Kay" on="2013-01-07"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[<a>abc</a>/text()/node-name()]]></test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
 
    <test-case name="K-NodeNameFunc-1">
       <description> node-name() must be passed one argument, it doesn't use the context item by default in XPath 2.0. </description>
