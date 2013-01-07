@@ -292,6 +292,37 @@
          <assert-empty/>
       </result>
    </test-case>
+   
+   <test-case name="fn-node-name-30" covers="fn-node-name">
+      <description> Evaluation of node-name function with no arguments on atomic value. </description>
+      <created by="Michael Kay" on="2013-01-07"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>79[node-name()]</test>
+      <result>
+         <error code="XPTY004"/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-node-name-31" covers="fn-node-name">
+      <description> Evaluation of node-name function with no arguments on function item. </description>
+      <created by="Michael Kay" on="2013-01-07"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>node-name#0!node-name()</test>
+      <result>
+         <error code="XPTY004"/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-node-name-32" covers="fn-node-name">
+      <description> Evaluation of node-name function with no arguments with absent context. </description>
+      <created by="Michael Kay" on="2013-01-07"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <environment ref="empty"/>
+      <test>node-name()</test>
+      <result>
+         <error code="XPDY0002"/>
+      </result>
+   </test-case>
 
    <test-case name="K-NodeNameFunc-1">
       <description> node-name() must be passed one argument, it doesn't use the context item by default in XPath 2.0. </description>
