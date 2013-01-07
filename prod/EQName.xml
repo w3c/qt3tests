@@ -178,6 +178,62 @@
          <assert-string-value>2 3 4 5 6 7 8 9 10 11</assert-string-value>
       </result>
    </test-case>
+   
+   <test-case name="eqname-016" covers="wildcard-uri-literals">
+      <description> Use EQName-style wildcard (no namespace) to select attribute nodes </description>
+      <created by="Michael Kay" on="2010-03-16"/>
+      <modified by="Michael Kay" on="2012-03-02" change="Revised syntax as per bug 15399"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[string-join(<a foo="3" bar="5" xml:space="collapse"/> / @Q{}*, '.')]]></test>
+      <result>
+         <any-of>
+           <assert-eq>"3.5"</assert-eq>
+           <assert-eq>"5.3"</assert-eq>
+         </any-of>  
+      </result>
+   </test-case>
+   
+   <test-case name="eqname-017" covers="wildcard-uri-literals">
+      <description> Use EQName-style wildcard (XML namespace) to select attribute nodes </description>
+      <created by="Michael Kay" on="2010-03-16"/>
+      <modified by="Michael Kay" on="2012-03-02" change="Revised syntax as per bug 15399"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[string-join(<a foo="3" bar="5" xml:space="collapse"/> / @Q{http://www.w3.org/XML/1998/namespace}*, '.')]]></test>
+      <result>
+         <assert-eq>"collapse"</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="eqname-018" covers="wildcard-uri-literals">
+      <description> Use EQName-style wildcard (no namespace URI) to select namespace nodes </description>
+      <created by="Michael Kay" on="2010-03-16"/>
+      <modified by="Michael Kay" on="2012-03-02" change="Revised syntax as per bug 15399"/>
+      <dependency type="spec" value="XP30+"/>
+      <dependency type="feature" value="namespace-axis"/>
+      <environment ref="auction"/>
+      <test>(//Q{http://www.example.com/AuctionWatch}Start)[1]/namespace::Q{}*/string()</test>
+      <result>
+         <assert-permutation>
+            "http://www.example.com/AuctionWatch",
+            "http://www.w3.org/1999/xlink",
+            "http://www.example.com/auctioneers#anyzone",
+            "http://www.example.com/auctioneers#eachbay",
+            "http://www.example.com/auctioneers#yabadoo",
+            "http://www.w3.org/XML/1998/namespace"
+         </assert-permutation>
+      </result>
+   </test-case>
+   
+   <test-case name="eqname-019" covers="wildcard-uri-literals">
+      <description> Use EQName-style wildcard (no namespace URI) to select PI nodes: not allowed </description>
+      <created by="Michael Kay" on="2010-03-16"/>
+      <modified by="Michael Kay" on="2012-03-02" change="Revised syntax as per bug 15399"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test><![CDATA[(<?alpha?>, <?beta?>, <?gamma?>)/processing-instruction(Q{}alpha)]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
 
    <test-case name="eqname-901">
       <description> Invalid EQName - superfluous colon </description>
