@@ -248,7 +248,7 @@
         let $relevant-testsets := $testsets[tokenize(@covers, ' ') = $token]
         let $relevant-testcases := $testsets/fots:test-case[tokenize(@covers, ' ') = $token]
         let $count := count($relevant-testsets/fots:test-case) + count($relevant-testcases)
-        where $count le 5
+        where $count lt 5
         return <out change="{$token}" tests="{$count}"/>
       ]]></test>
     <result>
