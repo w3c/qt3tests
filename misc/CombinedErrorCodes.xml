@@ -2608,7 +2608,7 @@
    </test-case>
    
 
-   <test-case name="XQST0054">
+   <test-case name="XQST0054" covers="module-cycles">
       <description> check that cyclic variable definitions are reported correctly </description>
       <created by="Tim Mills" on="2008-05-16"/>
       <dependency type="spec" value="XQ10"/>
@@ -2620,7 +2620,7 @@
    </test-case>
    
 
-   <test-case name="XQST0055">
+   <test-case name="XQST0055" covers="module-cycles">
       <description> check that cyclic variable definitions are reported correctly </description>
       <created by="Tim Mills" on="2008-05-16"/>
       
@@ -2954,14 +2954,31 @@
    </test-case>
    
 
-   <test-case name="XQST0093">
+   <test-case name="XQST0093" covers="module-cycles">
       <description> Test generating XQST0093 </description>
       <created by="Tim Mills" on="2008-05-16"/>
       <module uri="http://www.example.org/foo" file="CombinedErrorCodes/XQST0093_lib1.xq"/>
       <module uri="http://www.example.org/foo" file="CombinedErrorCodes/XQST0093_lib2.xq"/>
+      <dependency type="spec" value="XQ10"/>
       <test>import module namespace foo="http://www.example.org/foo"; $foo:variable2</test>
       <result>
          <error code="XQST0093"/>
+      </result>
+   </test-case>
+   
+   <test-case name="XQST0093a" covers="module-cycles">
+      <description> Test generating XQST0093 (no longer an error in XQuery 3.0)</description>
+      <created by="Tim Mills" on="2008-05-16"/>
+      <modified by="Michael Kay" on="2013-01-07" change="no longer an error in XQuery 3.0"/>
+      <module uri="http://www.example.org/foo" file="CombinedErrorCodes/XQST0093_lib1.xq"/>
+      <module uri="http://www.example.org/foo" file="CombinedErrorCodes/XQST0093_lib2.xq"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>
+      	import module namespace foo="http://www.example.org/foo"; 
+      	$foo:variable2
+      </test>
+      <result>
+         <assert-eq>1</assert-eq>
       </result>
    </test-case>
    

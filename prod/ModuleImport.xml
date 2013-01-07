@@ -944,11 +944,12 @@
       </result>
    </test-case>
 
-   <test-case name="modules-28">
+   <test-case name="modules-28" covers="module-cycles">
       <description> Cyclic module imports </description>
       <created by="Nicolae Brinza" on="2009-04-01"/>
       <module uri="http://www.w3.org/TestModules/defs1" file="ModuleImport/modules-recursive1.xq"/>
       <module uri="http://www.w3.org/TestModules/defs2" file="ModuleImport/modules-recursive2.xq"/>
+      <dependency type="spec" value="XQ10"/>
       <test><![CDATA[
         import module namespace defs1 = "http://www.w3.org/TestModules/defs1"; 
         $defs1:var
@@ -958,6 +959,21 @@
           <error code="XQST0093"/>
           <error code="XQST0054"/>
         </any-of>
+      </result>
+   </test-case>
+   
+   <test-case name="modules-28a" covers="module-cycles">
+      <description> Cyclic module imports </description>
+      <created by="Nicolae Brinza" on="2009-04-01"/>
+      <module uri="http://www.w3.org/TestModules/defs1" file="ModuleImport/modules-recursive1.xq"/>
+      <module uri="http://www.w3.org/TestModules/defs2" file="ModuleImport/modules-recursive2.xq"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        import module namespace defs1 = "http://www.w3.org/TestModules/defs1"; 
+        $defs1:var
+      ]]></test>
+      <result>
+        <error code="XQST0054"/>
       </result>
    </test-case>
 
@@ -1141,11 +1157,12 @@
       </result>
    </test-case>
 
-   <test-case name="errata8-001">
+   <test-case name="errata8-001" covers="module-cycles">
       <description> Test XQST0093 by importing a module with a circular dependency </description>
       <created by="John Snelson" on="2009-10-01"/>
       <module uri="http://www.w3.org/TestModules/errata8_1a" file="ModuleImport/errata8-module1a.xq"/>
       <module uri="http://www.w3.org/TestModules/errata8_1b" file="ModuleImport/errata8-module1b.xq"/>
+      <dependency type="spec" value="XQ10"/>
       <test><![CDATA[
         import module namespace errata8_1a="http://www.w3.org/TestModules/errata8_1a"; 
         errata8_1a:fun()
@@ -1157,12 +1174,28 @@
          </any-of>
       </result>
    </test-case>
+   
+   <test-case name="errata8-001a" covers="module-cycles">
+      <description> Test XQST0093 by importing a module with a circular dependency </description>
+      <created by="John Snelson" on="2009-10-01"/>
+      <module uri="http://www.w3.org/TestModules/errata8_1a" file="ModuleImport/errata8-module1a.xq"/>
+      <module uri="http://www.w3.org/TestModules/errata8_1b" file="ModuleImport/errata8-module1b.xq"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        import module namespace errata8_1a="http://www.w3.org/TestModules/errata8_1a"; 
+        errata8_1a:fun()
+      ]]></test>
+      <result>
+         <error code="XQST0054"/><!-- XQuery 3.0 -->
+      </result>
+   </test-case>
 
-   <test-case name="errata8-002">
+   <test-case name="errata8-002" covers="module-cycles">
       <description> Test XQST0093 by importing a module with a circular dependency </description>
       <created by="John Snelson" on="2009-10-01"/>
       <module uri="http://www.w3.org/TestModules/errata8_2a" file="ModuleImport/errata8-module2a.xq"/>
       <module uri="http://www.w3.org/TestModules/errata8_2b" file="ModuleImport/errata8-module2b.xq"/>
+      <dependency type="spec" value="XQ10"/>
       <test><![CDATA[
         import module namespace errata8_2a="http://www.w3.org/TestModules/errata8_2a"; 
         errata8_2a:fun()]]></test>
@@ -1170,8 +1203,23 @@
          <error code="XQST0093"/>
       </result>
    </test-case>
+   
+   <test-case name="errata8-002a" covers="module-cycles">
+      <description> Test XQST0093 by importing a module with a circular dependency </description>
+      <created by="John Snelson" on="2009-10-01"/>
+      <modified by="Michael Kay" on="2013-01-07" change="no longer an error in XQuery 3.0"/>
+      <module uri="http://www.w3.org/TestModules/errata8_2a" file="ModuleImport/errata8-module2a.xq"/>
+      <module uri="http://www.w3.org/TestModules/errata8_2b" file="ModuleImport/errata8-module2b.xq"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        import module namespace errata8_2a="http://www.w3.org/TestModules/errata8_2a"; 
+        errata8_2a:fun()]]></test>
+      <result>
+         <assert-eq>10</assert-eq>
+      </result>
+   </test-case>
 
-   <test-case name="errata8-003">
+   <test-case name="errata8-003" covers="module-cycles">
       <description> Test lack of XQST0093 by importing a module without a circular dependency </description>
       <created by="John Snelson" on="2009-10-01"/>
       <module uri="http://www.w3.org/TestModules/errata8_3a" file="ModuleImport/errata8-module3a.xq"/>
