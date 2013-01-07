@@ -688,6 +688,34 @@
       <result>
          <error code="XQDY0027"/>
       </result>
+   </test-case>
+   
+   <test-case name="validateexpr-41" covers="validation-notation">
+      <description> Validation using xs:NOTATION </description>
+      <created by="Michael Kay" on="2013-01-06"/>
+      <environment ref="user-defined-types"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        import schema namespace udt = "http://www.w3.org/XQueryTest/userDefinedTypes";
+        string( validate strict { <notatio xmlns="http://www.w3.org/XQueryTest/userDefinedTypes">value1</notatio> } )
+      ]]></test>
+      <result>
+         <assert-eq>"value1"</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="validateexpr-42" covers="validation-notation">
+      <description> Validation using xs:NOTATION </description>
+      <created by="Michael Kay" on="2013-01-06"/>
+      <environment ref="user-defined-types"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        import schema namespace udt = "http://www.w3.org/XQueryTest/userDefinedTypes";
+        string( validate strict { <notatio xmlns="http://www.w3.org/XQueryTest/userDefinedTypes">value3</notatio> } )
+      ]]></test>
+      <result>
+         <error code="XQDY0027"/>
+      </result>
    </test-case>   
 
    <test-case name="K2-ValidateExpression-1">
