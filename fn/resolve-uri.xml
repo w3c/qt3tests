@@ -25,18 +25,18 @@
    </test-case>
 
    <test-case name="fn-resolve-uri-3">
-      <description> Evaluation of resolve-uri function with an invalid URI value for first argument. Use the fn-string function </description>
+      <description> Evaluation of resolve-uri function with an invalid URI value for first argument. </description>
       <created by="Carmelo Montanez" on="2005-11-21"/>
-      <test>fn:string(fn:resolve-uri(":","http://www.example.com/"))</test>
+      <test>fn:resolve-uri(":","http://www.example.com/")</test>
       <result>
          <error code="FORG0002"/>
       </result>
    </test-case>
 
    <test-case name="fn-resolve-uri-4">
-      <description> Evaluation of resolve-uri function with an invalid URI value for second argument. Use the fn-string function </description>
+      <description> Evaluation of resolve-uri function with an invalid URI value for second argument. </description>
       <created by="Carmelo Montanez" on="2005-11-21"/>
-      <test>fn:string(fn:resolve-uri("examples","http:%%"))</test>
+      <test>fn:resolve-uri("examples","http:%%")</test>
       <result>
          <error code="FORG0002"/>
       </result>
@@ -52,7 +52,7 @@
    </test-case>
 
    <test-case name="fn-resolve-uri-6">
-      <description> Evaluation of resolve-uri function with relative argument set to an absolute URI (Two argument version of function). Use the fn-string function. </description>
+      <description> Evaluation of resolve-uri function with base argument set to an absolute URI (Two argument version of function). Use the fn-string function. </description>
       <created by="Carmelo Montanez" on="2005-11-21"/>
       <test>fn:string(fn:resolve-uri("examples","http://www.examples.com/"))</test>
       <result>
@@ -61,7 +61,10 @@
    </test-case>
 
    <test-case name="fn-resolve-uri-7">
-      <description> Evaluation of resolve-uri function with relative argument set to an absolute URI and given as a an argument to xs:string function (Two argument version of function). Use the fn-string function. </description>
+      <description> 
+      	 Evaluation of resolve-uri function with base argument set to an absolute URI and given as 
+      	 a an argument to xs:string function (Two argument version of function). Use the fn-string function. 
+      </description>
       <created by="Carmelo Montanez" on="2005-11-21"/>
       <test>fn:string(fn:resolve-uri("examples",xs:string("http://www.examples.com/")))</test>
       <result>
@@ -213,7 +216,7 @@
       </result>
    </test-case>
 
-   <test-case name="fn-resolve-uri-24">
+   <test-case name="fn-resolve-uri-24" covers="fn-resolve-uri">
       <description> Evaluation of resolve-uri function with a relative URI reference for second argument. Expects error FORG0002: see erratum FO.E1 </description>
       <created by="Michael Kay" on="2010-01-04"/>
       <test>fn:string(fn:resolve-uri("a.html","b.html"))</test>
@@ -222,14 +225,92 @@
       </result>
    </test-case>
 
-   <test-case name="fn-resolve-uri-25">
+   <test-case name="fn-resolve-uri-25" covers="fn-resolve-uri">
       <description> Evaluation of resolve-uri function with an absolute URI for the first argument and a relative URI reference for second argument. Should return first argument unchanged </description>
-      <created by="Michael Kay" on="2010-01-04"/>
-      <test>(: Description: Evaluation of resolve-uri function with an absolute URI for the first argument and a relative URI reference for second argument.:) string(resolve-uri("http://www.example.com/a.html","b.html"))</test>
+      <created by="Michael Kay" on="2013-01-07"/>
+      <test>string(resolve-uri("http://www.example.com/a.html","b.html"))</test>
       <result>
          <assert-string-value>http://www.example.com/a.html</assert-string-value>
       </result>
    </test-case>
+   
+   <test-case name="fn-resolve-uri-26" covers="fn-resolve-uri">
+      <description> Evaluation of resolve-uri function with a fragment as part of the base URI </description>
+      <created by="Michael Kay" on="2013-01-07"/>
+      <test>resolve-uri("b.html", "http://www.example.com/a.html#fragment")</test>
+      <result>
+         <error code="FORG0002"/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-resolve-uri-27" covers="fn-resolve-uri">
+      <description> Evaluation of resolve-uri function with a query as part of the base URI </description>
+      <created by="Michael Kay" on="2013-01-07"/>
+      <test>string(resolve-uri("b.html", "http://www.example.com/a.html?foo=bar"))</test>
+      <result>
+         <assert-string-value>http://www.example.com/b.html</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-resolve-uri-28" covers="fn-resolve-uri">
+      <description> Evaluation of resolve-uri function with a non-hierarchic base URI </description>
+      <created by="Michael Kay" on="2013-01-07"/>
+      <test>resolve-uri("b.html", "urn:isbn:01234567890X")</test>
+      <result>
+         <error code="FORG0002"/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-resolve-uri-29" covers="fn-resolve-uri">
+      <description> Evaluation of resolve-uri function with a non-hierarchic relative URI </description>
+      <created by="Michael Kay" on="2013-01-07"/>
+      <test>string(resolve-uri("urn:isbn:01234567890X", "http://www.example.com/"))</test>
+      <result>
+         <assert-string-value>urn:isbn:01234567890X</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-resolve-uri-30" covers="fn-resolve-uri">
+      <description> Both the absolute URI and relative URI reference are valid IRIs but not valid URIs </description>
+      <created by="Michael Kay" on="2013-01-07"/>
+      <test>
+         resolve-uri(codepoints-to-string(231)||".html", "http://www.example.com/"||codepoints-to-string(224)||".html")
+         = ("http://www.example.com/"||codepoints-to-string(231)||".html")
+      </test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-resolve-uri-31" covers="fn-resolve-uri">
+      <description> Both the absolute URI and relative URI reference contain %-encoded characters </description>
+      <created by="Michael Kay" on="2013-01-07"/>
+      <test>
+         resolve-uri("%C3%A0.html", "http://www.example.com/%C3%A7.html")
+         = "http://www.example.com/%C3%A0.html"
+      </test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-resolve-uri-32" covers="fn-resolve-uri">
+      <description> 
+      	Both the absolute URI and relative URI reference contain spaces. This makes them
+      	valid LEIRIs but not valid IRIs. It is therefore implementation-defined whether they
+      	are accepted. The LEIRI spec says that the spaces SHOULD NOT be percent-encoded,
+      	but one could argue that an implementation that does so is conformant.
+       </description>
+      <created by="Michael Kay" on="2013-01-07"/>
+      <test>resolve-uri("this doc.html", "http://www.example.com/that doc.html")</test>
+      <result>
+         <any-of>
+           <assert-string-value>http://www.example.com/this doc.html</assert-string-value>
+           <error code="FORG0002"/>
+         </any-of>
+      </result>
+   </test-case>
+
 
    <test-case name="K-ResolveURIFunc-1">
       <description> A test whose essence is: `resolve-uri()`. </description>
