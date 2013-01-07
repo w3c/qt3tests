@@ -81,6 +81,13 @@
       <!--<namespace prefix="" uri="http://www.w3.org/XQueryTest/testcases"/>-->
    </environment>
    
+   <environment name="user-defined-types">
+      <schema uri="http://www.w3.org/XQueryTest/userDefinedTypes" file="../docs/userdefined.xsd">
+         <description>A schema user defined types and constructor tests</description>
+         <created by="Anonymous" on="2006-04-03"/>
+      </schema>   
+   </environment>
+   
    <dependency type="spec" value="XQ10+"/>
    <dependency type="feature" value="schemaImport"/>
    <dependency type="feature" value="schemaValidation"/>
@@ -608,6 +615,78 @@
          <assert-xml><![CDATA[<a xsi:type='xs:integer' 
            xmlns:xs="http://www.w3.org/2001/XMLSchema"
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">42</a>]]></assert-xml>
+      </result>
+   </test-case> 
+   
+   <test-case name="validateexpr-36" covers="validation-notation">
+      <description> Validation using xs:NOTATION </description>
+      <created by="Michael Kay" on="2013-01-06"/>
+      <environment ref="user-defined-types"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        import schema namespace udt = "http://www.w3.org/XQueryTest/userDefinedTypes";
+        string( validate lax { <a xsi:type='udt:NOTATIONBased'
+                                xmlns:udt="http://www.w3.org/XQueryTest/userDefinedTypes">udt:value1</a> } )
+      ]]></test>
+      <result>
+         <assert-eq>"udt:value1"</assert-eq>
+      </result>
+   </test-case> 
+   
+   <test-case name="validateexpr-37" covers="validation-notation">
+      <description> Validation using xs:NOTATION </description>
+      <created by="Michael Kay" on="2013-01-06"/>
+      <environment ref="user-defined-types"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        import schema namespace udt = "http://www.w3.org/XQueryTest/userDefinedTypes";
+        string( validate lax { <a xsi:type='udt:NOTATIONBased' 
+                                  xmlns:udt="http://www.w3.org/XQueryTest/userDefinedTypes">udt:value3</a> } )
+      ]]></test>
+      <result>
+         <error code="XQDY0027"/>
+      </result>
+   </test-case>
+   
+   <test-case name="validateexpr-38" covers="validation-notation">
+      <description> Validation using xs:NOTATION </description>
+      <created by="Michael Kay" on="2013-01-06"/>
+      <environment ref="user-defined-types"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        import schema namespace udt = "http://www.w3.org/XQueryTest/userDefinedTypes";
+        string( validate type udt:NOTATIONBased { <a xmlns:udt="http://www.w3.org/XQueryTest/userDefinedTypes">udt:value1</a> } )
+      ]]></test>
+      <result>
+         <assert-eq>"udt:value1"</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="validateexpr-39" covers="validation-notation">
+      <description> Validation using xs:NOTATION </description>
+      <created by="Michael Kay" on="2013-01-06"/>
+      <environment ref="user-defined-types"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        import schema namespace udt = "http://www.w3.org/XQueryTest/userDefinedTypes";
+        string( validate type udt:NOTATIONBased { <a xmlns:udt="http://www.w3.org/XQueryTest/userDefinedTypes">udt:value3</a> } )
+      ]]></test>
+      <result>
+         <error code="XQDY0027"/>
+      </result>
+   </test-case>
+   
+   <test-case name="validateexpr-40" covers="validation-notation">
+      <description> Validation using xs:NOTATION </description>
+      <created by="Michael Kay" on="2013-01-06"/>
+      <environment ref="user-defined-types"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        import schema namespace udt = "http://www.w3.org/XQueryTest/userDefinedTypes";
+        string( validate type udt:NOTATIONBased { <a>value1</a> } )
+      ]]></test>
+      <result>
+         <error code="XQDY0027"/>
       </result>
    </test-case>   
 
