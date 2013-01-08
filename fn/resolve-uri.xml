@@ -273,6 +273,7 @@
    <test-case name="fn-resolve-uri-30" covers="fn-resolve-uri">
       <description> Both the absolute URI and relative URI reference are valid IRIs but not valid URIs </description>
       <created by="Michael Kay" on="2013-01-07"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
       <test>
          resolve-uri(codepoints-to-string(231)||".html", "http://www.example.com/"||codepoints-to-string(224)||".html")
          = ("http://www.example.com/"||codepoints-to-string(231)||".html")
@@ -299,13 +300,15 @@
       	Both the absolute URI and relative URI reference contain spaces. This makes them
       	valid LEIRIs but not valid IRIs. It is therefore implementation-defined whether they
       	are accepted. The LEIRI spec says that the spaces SHOULD NOT be percent-encoded,
-      	but one could argue that an implementation that does so is conformant.
+      	but it doesn't say MUST NOT so we accept that an implementation that does so is conformant.
        </description>
       <created by="Michael Kay" on="2013-01-07"/>
+      <modified by="Michael Kay" on="2013-01-08" change="allow %20 in result, see bug 20602"/>
       <test>resolve-uri("this doc.html", "http://www.example.com/that doc.html")</test>
       <result>
          <any-of>
            <assert-string-value>http://www.example.com/this doc.html</assert-string-value>
+           <assert-string-value>http://www.example.com/this%20doc.html</assert-string-value>
            <error code="FORG0002"/>
          </any-of>
       </result>
