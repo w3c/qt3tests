@@ -60,8 +60,8 @@ declare function local:label-changes($days as xs:positiveInteger) as element(tex
 declare function local:label-observation($ob as element(frbny:Obs,xs:untyped),$label as xs:string) as element(text,xs:anyType) {
       let $coord := local:coordinate($ob)
       return
-        <text x="{$coord[1]}"
-                  y="{$coord[2]}"
+        <text x="{round-half-to-even($coord[1], 4)}"
+                  y="{round-half-to-even($coord[2], 4)}"
                   text-anchor="end"
                   title="{concat($ob/frbny:TIME_PERIOD,' - ',$ob/frbny:OBS_VALUE)}">
           {$label}
@@ -99,8 +99,8 @@ declare function local:label-observation($ob as element(frbny:Obs,xs:untyped),$l
   </path>
 
   <!-- Average -->
-  <path stroke="blue" fill="none" stroke-with="2" d="M0,{($maxValue - $avgValue) div ($maxValue - $minValue) * 1000}l1000,0"/>
-  <text x="0" y="{($maxValue - $avgValue) div ($maxValue - $minValue) * 1000}" text-anchor="end">Average</text>
+  <path stroke="blue" fill="none" stroke-with="2" d="M0,{round-half-to-even(($maxValue - $avgValue) div ($maxValue - $minValue) * 1000, 4)}l1000,0"/>
+  <text x="0" y="{round-half-to-even(($maxValue - $avgValue) div ($maxValue - $minValue) * 1000, 4)}" text-anchor="end">Average</text>
 
   {
     (: Label largest changes over 1,5,90,365 days :)
