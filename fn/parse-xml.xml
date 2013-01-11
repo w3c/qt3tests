@@ -89,9 +89,12 @@
     </test-case>
     <test-case name="parse-xml-010">
         <description>parse-xml test - with external entity</description>
-        <created by="Michael Kay" on="2013-01-07"/>        
+        <created by="Michael Kay" on="2013-01-07"/>
+        <modified by="Michael Kay" on="2013-01-11" change="See bug 20645; changed test to work on both XPath and XQuery"/>        
         <environment name="empty"/>
-        <test><![CDATA[parse-xml("<!DOCTYPE a [<!ELEMENT a (#PCDATA)><!ENTITY foo SYSTEM 'parse-xml/foo.entity'>]><a>&amp;foo;</a>")]]></test>
+        <test><![CDATA[parse-xml("<!DOCTYPE a [<!ELEMENT a (#PCDATA)><!ENTITY foo SYSTEM 'parse-xml/foo.entity'>]><a>" ||
+            codepoints-to-string(38) || "foo;</a>")
+        ]]></test>
         <result>
             <assert-xml><![CDATA[<a><bar>baz</bar></a>]]></assert-xml>
         </result>
