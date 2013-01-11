@@ -101,7 +101,7 @@ declare function local:label-artists() as element()* {
                       let $artistYears := local:years-by-artist($artist)
                       let $minYear := min($artistYears)
                       let $maxYear := max($artistYears)
-                      order by $minYear
+                      stable order by $minYear
                       return ($artist,$minYear,$maxYear),
       $orderedArtists := $orderedInfo[position() mod 3 = 1] treat as xs:string+,
       $orderedMinYears := $orderedInfo[position() mod 3 = 2] treat as xs:integer+,
