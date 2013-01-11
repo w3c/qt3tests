@@ -161,6 +161,7 @@
       <created by="Frans Englich" on="2007-11-26"/>
       <modified by="O'Neil Delpratt" on="2011-09-08" change="Corrected expected result"/>
       <modified by="Michael Kay" on="2012-05-23" change="use new serialization assertion"/>
+      <modified by="Michael Kay" on="2013-01-11" change="allow \r\n in serialized result - see bug 20647"/>
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA["a&#xD;aa&#xD;&#xA;a&#xD;&#xA;"]]></test>
       <result>
@@ -169,7 +170,8 @@
               <serialization-matches flags="i"><![CDATA[a&#xD;aa&#xD;]]></serialization-matches>
               <serialization-matches><![CDATA[a&#13;aa&#13;]]></serialization-matches>
             </any-of>
-            <serialization-matches>\n.*\n</serialization-matches>  
+            <serialization-matches>\r?\n.*\r?\n</serialization-matches>
+            <!-- the serializer is allowed to serialize a newline as \r\n -->
          </all-of>
       </result>
    </test-case>
