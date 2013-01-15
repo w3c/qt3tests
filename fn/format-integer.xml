@@ -128,8 +128,7 @@
         <test-case name="format-integer-016">
         <description>format-integer with title case words</description>
         <created by="O'Neil Delpratt, Saxonica" on="2010-09-28"/>
-        <dependency type="default-language" value="en"/>
-        
+        <dependency type="default-language" value="en"/>        
         <test>string-join(for $i in 1 to 10 return format-integer($i, 'Ww'), '|')</test>
         <result>
             <assert-eq>'One|Two|Three|Four|Five|Six|Seven|Eight|Nine|Ten'</assert-eq>
@@ -586,10 +585,12 @@
     <test-case name="format-integer-063">
         <description>Third argument as a string not in the form of a language code</description>
         <created by="Michael Kay, Saxonica" on="2012-12-07"/>
+        <modified by="Michael Kay, Saxonica" on="2013-01-15" change="Not an error. See bug 20663"/>
         <environment ref="empty"/>
+        <dependency type="default-language" value="en"/>
         <test>format-integer(11, 'Ww', '@*!+%')</test>
         <result>
-            <error code="FODF1310"/>
+            <assert-eq>'Eleven'</assert-eq>
         </result>    
     </test-case>
 </test-set>
