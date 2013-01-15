@@ -28,28 +28,28 @@ href="http://www.w3.org/XML/Query/">XML Query</a></p>
 
 <h1 style="text-align: center;">XQuery/XPath/XSLT 3.* Test Suite</h1>
 
-<p style="text-align: center;"></p>
 
-<h1>Overview</h1>
-
-<p>The XQuery/XPath/XSLT 3.* Test Suite (QT3TS) provides a set of metrics for determining
-  whether the <a href="http://www.w3.org/TR/xquery-30/">W3C XML Query Language, version 3.0</a>, 
-  <a href="http://www.w3.org/TR/xpath-30/">W3C XML Path Language, version 3.*</a>, 
-  and <a href="http://www.w3.org/TR/xslt-30/">W3C XSL Transformation Language, 
-  version 3.*</a> can be implemented interoperably as published.</p>
+<p>The XQuery/XPath 3.* Test Suite (QT3TS) provides a set of tests designed to demonstrate
+  the interoperability of <a href="http://www.w3.org/TR/xquery-30/">W3C XML Query Language, version 3.0</a> 
+  and <a href="http://www.w3.org/TR/xpath-30/">W3C XML Path Language</a> implementations.</p>
   
-  <p>QT3TS will help implementers
-  identify possible problems both with the Specifications and with their
-  implementations of those Specifications. The test suite is occasionally updated to reflect the current work
-  of the <a href="http://www.w3.org/XML/Query">W3C XML Query Working Group</a>
-  and the <a href="http://www.w3.org/Style/XSL/">W3C XSLT Working Group</a>; all
-  releases of the QT3TS will be available from this page.</p>
+<p>The test suite currently contains over 26,000 test cases.</p>
 
-<p>XQuery 3.0 is (for most purposes) a superset of XPath 3.0, with the exception of the namespace
-axis. As such, this test suite tests all of XPath 3.0. These XPath
-3.0 test cases are identified as such in the test suite catalog.</p>
+<p>The tests are published as a set of files, mostly in XML format. W3C does not supply a test
+  driver for executing the tests; you will have to write your own. Some implementors, however,
+  have made their test drivers available as part of the download, and you are welcome to 
+  use these as a baseline for developing your own drivers.</p>
+  
+<p>The metadata for each test indicates its dependencies. These include the specification(s)
+  exercised by the test (some subset of XPath 2.0, XPath 3.0, XQuery 1.0, and XQuery 3.0), as well as
+  dependencies on optional features which implementations may or may not support (such as
+  formatting of dates using English-language month names). The idea is that if your implementation
+  does not support an optional feature, you should not run the tests that require that feature.</p>
 
-<p>Very many of the tests were converted automatically from tests in the older XQuery Test Suite.
+<h2>History</h2>
+  
+  <p>Very many of the QT3 tests were converted automatically from tests in the older 
+    <a href="http://dev.w3.org/cvsweb/2006/xquery-test-suite/">XML Query 1.0 test suite</a>.
 There are several changes in approach:</p>
 
 <ol>
@@ -72,18 +72,46 @@ which tests it is approprriate to run. When reported test results are tabulated,
 will be tabulated separately for each optional feature, so a processor that implements only
 XQuery 3.0 and not XQuery 1.0 will not be listed in the tabulation for XQuery 1.0.</li>
 </ol>
+  
+  <p>To enable tracking of test history, including controversies that may have arisen in the past
+    about the correctness of test results, all test names of XQuery 1.0 tests have been
+    retained unchanged.</p>
 
+<h2>Current Status</h2>
+  
 <p>Currently the test suite is work in progress. There are no versioned releases, instead
 the tests are continuously updated in the CVS repository. This will change as the specifications
 themselves stabilize, at which point snapshots of this test suite will be frozen and given
 version numbers.</p>
+  
+  
+  <p>Users of the test suite are strongly encouraged to provide feedback via the Bugzilla
+    bug database. A goal of the test suite is to discover areas where the language
+    specification is unclear, and where implementations can therefore produce results
+    that are different from those published; where this occurs, the Working Group will
+    examine the issue, and decide whether to make the specification more prescriptive,
+    or to change the test case to allow alternative results.</p>
+  
 
-<p>At the time of writing, QT3TS contains over 22,000 test cases. It contains a catalog that
+<p>At the time of writing (January 2013), QT3TS contains over 25,000 test cases, and
+  these are believed to cover most areas of the specification; the area where coverage
+  is weakest is serialization. Working Group members and others are continually adding
+  new tests.</p>
+    
+    <p>Change control is currently informal. Anyone with CVS write access is able to submit new tests without
+ formality, and these become part of the test suite unless challenged by means of a bug report.
+ Existing tests should not be changed until there has been discussion of the change among
+ interested parties (typically including the test author), but individuals are responsible 
+ for deciding whether changes are sufficiently controversial to merit discussion by the full Working Group.
+ However, any user of the tests has the right to challenge new or changed tests and ask the relevant Working
+ Group(s) to make a formal decision.</p>
+  
+ <h2>Organization of the Test Suite</h2> 
+  
+  <p>The test suite contains a catalog that
 contains general information on the test suite as well as test descriptions for
 each of the test cases included in this release. Test queries and assertions about the expected
-results are contained in the catalog, or in some cases in files referenced from the catalog. All interpretations of these
-Recommendations are subject to confirmation by the XML Query Working Group and
-the XSLT Working Group.</p>
+results are contained in the catalog, or in some cases in files referenced from the catalog. </p>
 
 <p>The tests are organised into a number of groups, each with its own naming conventions.</p>
 
@@ -113,28 +141,22 @@ catalogs, one per test area, organized in directories as above. There are some a
 for writing new test drivers</li>
 </ul>
 
+<h2>Using the Test Suite</h2>
+  
+  <p>Implementors are encouraged 1) to write a harness for this test suite and to
+    test their implementations and 2) to report their results to the XML Query
+    Working Group. All of these areas are discussed in greater detail in the documents referenced below.</p>
+  
+  <p>See the following documents:</p>
+  
+  <ol>
+    <li><p><a href="guide/submitting.html">Writing and submitting tests</a></p></li>
+    <li><p><a href="guide/running.html">Running tests</a></p></li>
+    <li><p><a href="guide/reporting.html">Reporting results</a></p></li>
+  </ol>
 
-<p>Implementors are encouraged 1) to write a harness for this test suite and to
-test their implementations and 2) to report their results to the XML Query
-Working Group. All of these areas are discussed in greater detail below.</p>
 
-<p>This document serves as a first point of information for all interested
-parties. A general account of current activities, finalized work, and pointers
-to further information is given. In the sections below, you will be able to get
-a good view of the status of the QT3TS, and if you are interested in something
-in particular you are invited to follow the appropriate link given below.</p>
-
-<h1>Status</h1>
-
-<p>The XQuery/XPath/XSLT 3.0 Test Suite has not yet been fully developed. 
-It already incorporates all tests (or functional replacements) from the 
-<a href="http://dev.w3.org/cvsweb/2006/xquery-test-suite/">XML Query 1.0 test suite</a>, 
-as well as many new tests designed to test new features of XQuery 3.0, XPath 3.0, and XSLT 3.0. 
-To enable tracking of test history, including controversies that may have arisen in the past
-about the correctness of test results, all test names of XQuery 1.0 tests have been
-retained unchanged.</p>
-
-<h1>Releases</h1>
+<h2>Releases</h2>
 
 <table style="border: solid 1px">
   <tbody>
@@ -151,79 +173,8 @@ retained unchanged.</p>
   </tbody>
 </table>
 
-<h2>Accessing our Source Files</h2>
-
-<p>Our source files are available at <a
-href="http://dev.w3.org/cvsweb/2011/QT3-test-suite/">http://dev.w3.org/cvsweb/2011/QT3-test-suite/</a>.
-This page provides the ability to view individual files.</p>
-
-<p>If you want to get the latest version of the test suite, but don't intend to make any contributions,
-you can use anonymous CVS to check the whole suite out into your local filestore. Use the
-CVS repository name <code>:pserver:anonymous@dev.w3.org:/sources/public</code>, password <code>anonymous</code>,
-and the module name <code>2011/QT3-test-suite</code>.</p>
-
-<p>To work on the test suite you will need to get read-write access to the W3C CVS repository. Official
-information on how to do this is at <a href="https://www.w3.org/Project/CVSdoc/">https://www.w3.org/Project/CVSdoc/</a>;
-unofficial information from people who have been through the experience and emerged from it triumphant is 
-<a href="http://wiki.csswg.org/spec/cvs">here</a> (Tantek Çelik) and 
-<a href="https://lists.w3.org/Archives/Member/w3c-xml-query-wg/2006Sep/0032.html">here</a> (Andrew Eisenberg).
-Briefly the steps are:</p>
-
-<ol>
-<li>Get a W3C username (ask your staff contact)</li>
-<li>Create a private/public key pair and lodge the public half with W3C; wait until you get confirmation
-that it has been installed.</li>
-<li>Install a CVS client and configure it to be aware of your private/public key</li>
-<li>Checkout the repository at <code>:ext:user@dev.w3.org:/sources/public</code> (where 'user' is your username), 
-module (or directory) <code>2011/QT3-test-suite</code>. Note that many CVS clients invite you to ask the server for
-a list of available modules, but the W3C server does not respond to this request: you need to
-know the name of the module you are looking for.</li>
-</ol>
-
-<p>Two graphical CVS clients I (Michael Kay) have found useful are: for Windows, <b>TortoiseCVS</b>, and for Mac, <b>SmartCVS</b>.
-Use the command line if you're feeling macho; use Emacs if you are one of the faithful. Other tools that you have on your desktop
-may also have a CVS client built in, though the number is declining as CVS is now considered obsolescent.</p>
-
-<p>Other guides you may find useful are Andrew Eisenberg's at <a href="https://lists.w3.org/Archives/Member/w3c-xml-query-wg/2006Sep/0032.html">https://lists.w3.org/Archives/Member/w3c-xml-query-wg/2006Sep/0032.html</a>
-</p>
-
-<p>If you are new to CVS, here are some explanations of key terms:</p>
-
-<ul>
-<li>checkout: checking out a repository is something you only do once, when you first access that repository on a new client machine.
-It makes a copy of the repository in your local filestore. It doesn't give you any kind of lock.</li>
-<li>update: refresh your local filestore copy of the data with updated information from the server</li>
-<li>commit: send your changes back to the server</li>
-<li>add: mark a local file or directory for inclusion in the repository next time you commit (an operation that is very easy to forget)</li>
-<li>conflict: two people have been working on the same file, and the system can't work out how to merge the changes. If you get a conflict
-on commit, try an update, and the system will give you a chance to merge the changes. Better, avoid conflicts
-by updating and committing frequently, and by talking to your colleagues about what you are doing.</li>
-</ul>
-
-<h2>Development Process</h2>
 
 
-<p>At the current stage of development, the change control process for tests is
-lightweight. New tests can be submitted by anyone who has CVS access, without formality.
-If you modify existing tests, you are expected to use your discretion. For something that
-is clearly 'editorial', for example expanding the description of what a test
-does or formatting the query to make it more readable, feel free to fix it silently. 
-If you are fixing something more substantive, for example
-changing the test to conform to a recent decision of the working group, or fine-tuning the test assertions, then add metadata to
-record your change (with an element of the form <code>&lt;modified by="my name" on="2011-12-25" change="what I did"/&gt;</code>).
-If you think the test is substantively wrong but if there is any possibility that others might disagree with
-you, then raise a bug report against the test before changing it. If you are convinced that the
-test is substantively wrong and you are convinced no-one will disagree (for example, because you are the world's expert
-on this area of the spec, or because it is your test), then raise a bug report, and close it immediately
-to record the fact that you have fixed it. The bug report should include the test name for ease
-of searching.</p>
-
-<p>If at all possible, test your tests against at least one implementation before committing them. 
-Experience shows that untested tests have a 50% chance of being wrong.</p>
-
-<p>Where possible, make your CVS commits fine-grained, and mention bug numbers and/or test names in the commit message.</p>
-
-<p>This process will become more formal as the tests and the spec approach completion.</p>
 
 <h2>Documentation</h2>
 
@@ -259,78 +210,8 @@ Query Working Group. You may find a document that we prepared, <a
 href="Guidelines%20for%20Test%20Submission.html">Guidelines for XML Query Test
 Suite Submissions</a>, useful.</p>
 
-<h2>Reporting a Problem</h2>
 
-<p>If you believe that some of the queries or their expected results are
-incorrect, then we encourage you to enter bug reports in the public instance of
-Bugzilla at W3C, <a
-href="http://www.w3.org/Bugs/Public/">http://www.w3.org/Bugs/Public/</a>. To
-enter a bug report you will need a Bugzilla signon (email address and
-password). You can create this singon by following the <a
-href="http://www.w3.org/Bugs/Public/createaccount.cgi">Open a new Bugzilla
-account</a> link on the Bugzilla Main Page.</p>
 
-<p>General information on Bugzilla, an open-source bug tracking system, is
-available at <a href="http://www.bugzilla.org/">http://www.bugzilla.org/</a>.
-The standard documentation for the version currently being run on the W3C
-server is available at <a
-href="http://www.bugzilla.org/docs/2.20/html/">http://www.bugzilla.org/docs/2.20/html/</a>.</p>
-
-<p>To enter a bug report in Bugzilla you will need to log in, choose the action
-"New", and then choose the "XML Query Test Suite" product. Please be specific
-about the problem that you are reporting. Clearly identify the test case or
-test cases that are problematic. If you believe that the expected result is
-wrong, then tell us what result you believe is correct. If you believe that
-another result for a test case is justified, then please tell us what it is. In
-both cases, please cite portions of one or more of the XQuery specifications
-that support your position.</p>
-
-<h1>Submission of Test Suite Results</h1>
-
-<p>When you are ready to submit your results to us, we ask that you follow the
-guidelines provided in <a
-href="Guidelines for Submitting XQTS Test Results.html">Guidelines for
-Submitting XML Query Test Suite Results</a>. These guidelines will tell you how
-to generate an XML result document that we can use to generate our reports.
-They will also tell you how to generate your own report from the XML result
-file.</p>
-
-<p>If you have indicated that you wish your results to be displayed as
-&ldquo;Anonymous&rdquo;, then please send them to the XML Query WG Team
-Contact, <a href="mailto:liam@w3.org">Liam Quin</a>, cc'ing <a
-href="mailto:w3t-archive@w3.org">w3t-archive@w3.org</a>. Otherwise, please send
-them to the XML Query WG co-chair, <a
-href="mailto:andrew.eisenberg@us.ibm.com">Andrew Eisenberg</a>, cc'ing <a
-href="mailto:www-archive@w3.org">www-archive@w3.org</a>.</p>
-
-<p>We encourage you to send us results early, and then to send us updates as
-the XQTS progresses and as your implementation progresses.</p>
--->
-
-<!--
-<h1>Submission of Test Cases</h1>
-
-<p>We welcome submissions of test cases from individuals and organizations
-that are not already participating in the XML Query Working Group. We
-encourage you to look at <a
-href="Guidelines%20for%20Test%20Submission.html">Guidelines for XML Query
-Test Suite Submissions</a> so that the test cases that you submit can be
-added easily to our test suite.</p>
-
-<p>If you would like to submit test cases, then you must:</p>
-<ul>
-  <li>Register for a W3C account. You can request one through the <a
-    href="http://cgi.w3.org/MemberAccess/Public">Public Access Request
-    Form</a>.</li>
-  <li>Submit your test cases using <a>Grant II: Grant of License for
-    Contributed Test Cases Published Outside a W3C Recommendation</a>. This
-    license grant, for non-Participant test case Contributors, is described
-    in <a href="http://www.w3.org/2004/10/27-testcases.html">Policies for
-    Contribution of Test Cases to W3C</a>.</li>
-</ul>
-
-<p>The XML Query Working Group and XSL Working Group will, at their sole
-discretion, determine what tests are incorporated in the test suite.</p>
 -->
 
 <!--
@@ -404,12 +285,12 @@ XML Query Working Group by:</p>
 <hr />
 <address>
   <a href="http://www.w3.org/Help/Webmaster">Webmaster</a> · Last modified:
-  $Date: 2012/09/17 09:47:41 $ by $Author: mkay $ 
+  $Date: 2013/01/15 10:39:40 $ by $Author: mkay $ 
 </address>
 
 <p><a rel="Copyright"
 href="http://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> ©
-1994-2006 <a href="http://www.w3.org/"><acronym
+1994-2013 <a href="http://www.w3.org/"><acronym
 title="World Wide Web Consortium">W3C</acronym></a><sup>®</sup> (<a
 href="http://www.csail.mit.edu/"><acronym
 title="Massachusetts Institute of Technology">MIT</acronym></a>, <a
