@@ -183,8 +183,9 @@
       <description> Use EQName-style wildcard (no namespace) to select attribute nodes </description>
       <created by="Michael Kay" on="2010-03-16"/>
       <modified by="Michael Kay" on="2012-03-02" change="Revised syntax as per bug 15399"/>
+      <modified by="Michael Kay" on="2013-01-15" change="Avoid unintended error as per bug 20661"/>
       <dependency type="spec" value="XQ30+"/>
-      <test><![CDATA[string-join(<a foo="3" bar="5" xml:space="collapse"/> / @Q{}*, '.')]]></test>
+      <test><![CDATA[string-join(<a foo="3" bar="5" xml:space="preserve"/> / @Q{}*, '.')]]></test>
       <result>
          <any-of>
            <assert-eq>"3.5"</assert-eq>
@@ -197,8 +198,9 @@
       <description> Use EQName-style wildcard (XML namespace) to select attribute nodes </description>
       <created by="Michael Kay" on="2010-03-16"/>
       <modified by="Michael Kay" on="2012-03-02" change="Revised syntax as per bug 15399"/>
+      <modified by="Michael Kay" on="2013-01-15" change="Avoid unintended error as per bug 20661"/>
       <dependency type="spec" value="XQ30+"/>
-      <test><![CDATA[string-join(<a foo="3" bar="5" xml:space="collapse"/> / @Q{http://www.w3.org/XML/1998/namespace}*, '.')]]></test>
+      <test><![CDATA[string-join(<a foo="3" bar="5" xml:space="preserve"/> / @Q{http://www.w3.org/XML/1998/namespace}*, '.')]]></test>
       <result>
          <assert-eq>"collapse"</assert-eq>
       </result>
