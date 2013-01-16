@@ -732,34 +732,49 @@
       <created by="Oliver Hallam" on="2008-05-01"/>
       <test>1.7976931348623157E+308 cast as xs:decimal</test>
       <result>
-         <error code="FOCA0001"/>
+         <any-of>
+            <error code="FOCA0001"/>
+            <assert>string-length(string($result)) gt 300</assert>
+         </any-of>
       </result>
    </test-case>
 
    <test-case name="cbcl-cast-decimal-002">
       <description> test cast to xs:decimal of large negative double value </description>
       <created by="Oliver Hallam" on="2008-05-01"/>
+      <modified by="Michael Kay" on="2013-01-15" change="allow success result"/>
       <test>-1.7976931348623157E+308 cast as xs:decimal</test>
       <result>
-         <error code="FOCA0001"/>
+         <any-of>
+            <error code="FOCA0001"/>
+            <assert>string-length(string($result)) gt 300</assert>
+         </any-of>
       </result>
    </test-case>
 
    <test-case name="cbcl-cast-decimal-003">
       <description> test cast to xs:decimal of large float value </description>
       <created by="Oliver Hallam" on="2008-05-01"/>
+      <modified by="Michael Kay" on="2013-01-15" change="allow success result"/>
       <test>xs:float('3.402823e38') cast as xs:decimal</test>
       <result>
-         <error code="FOCA0001"/>
+         <any-of>
+            <error code="FOCA0001"/>
+            <assert>string-length(string($result)) gt 36</assert>
+         </any-of>
       </result>
    </test-case>
 
    <test-case name="cbcl-cast-decimal-004">
       <description> test cast to xs:decimal of large negative float value </description>
       <created by="Oliver Hallam" on="2008-05-01"/>
+      <modified by="Michael Kay" on="2013-01-15" change="allow success result"/>
       <test>xs:float('-3.402823e38') cast as xs:decimal</test>
       <result>
-         <error code="FOCA0001"/>
+         <any-of>
+            <error code="FOCA0001"/>
+            <assert>string-length(string($result)) gt 36</assert>
+         </any-of>
       </result>
    </test-case>
 
@@ -874,36 +889,52 @@
    <test-case name="cbcl-cast-integer-001">
       <description> test cast to xs:integer of large double value </description>
       <created by="Tim Mills" on="2008-04-30"/>
+      <modified by="Michael Kay" on="2013-01-15" change="allow success result"/>
       <test>1.7976931348623157E+308 cast as xs:integer</test>
       <result>
-         <error code="FOCA0003"/>
+         <any-of>
+            <error code="FOCA0003"/>
+            <assert>string-length(string($result)) gt 300</assert>
+         </any-of>
       </result>
    </test-case>
 
    <test-case name="cbcl-cast-integer-002">
       <description> test cast to xs:integer of large negative double value </description>
       <created by="Tim Mills" on="2008-04-30"/>
+      <modified by="Michael Kay" on="2013-01-15" change="allow success result"/>
       <test>-1.7976931348623157E+308 cast as xs:integer</test>
       <result>
-         <error code="FOCA0003"/>
+         <any-of>
+            <error code="FOCA0003"/>
+            <assert>string-length(string($result)) gt 300</assert>
+         </any-of>
       </result>
    </test-case>
 
    <test-case name="cbcl-cast-integer-003">
       <description> test cast to xs:integer of large float value </description>
       <created by="Tim Mills" on="2008-04-30"/>
+      <modified by="Michael Kay" on="2013-01-15" change="allow success result"/>
       <test>xs:float('3.402823e38') cast as xs:integer</test>
       <result>
-         <error code="FOCA0003"/>
+         <any-of>
+            <error code="FOCA0003"/>
+            <assert>string-length(string($result)) gt 36</assert>
+         </any-of>
       </result>
    </test-case>
 
    <test-case name="cbcl-cast-integer-004">
       <description> test cast to xs:integer of large negative float value </description>
       <created by="Tim Mills" on="2008-04-30"/>
+      <modified by="Michael Kay" on="2013-01-15" change="allow success result"/>
       <test>xs:float('-3.402823e38') cast as xs:integer</test>
       <result>
-         <error code="FOCA0003"/>
+         <any-of>
+            <error code="FOCA0003"/>
+            <assert>string-length(string($result)) gt 36</assert>
+         </any-of>
       </result>
    </test-case>
 
