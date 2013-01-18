@@ -251,6 +251,203 @@
       </result>
    </test-case>
 
+   <test-case name="fn-document-uri-22" covers="fn-document-uri">
+      <description> Evaluation of fn:document-uri#0 with context item set to a computed attribute node. </description>
+      <created by="Tim Mills" on="2013-01-19"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>(attribute anAttribute {"an attribute node"})/document-uri()</test>
+      <result>
+         <assert-empty />
+      </result>
+   </test-case>
+
+   <test-case name="fn-document-uri-23" covers="fn-document-uri">
+      <description> Evaluation of fn:document-uri#0 with context item set to a computed PI node. </description>
+      <created by="Tim Mills" on="2013-01-19"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>(processing-instruction {"PITarget"} {"PIContent"})/document-uri()</test>
+      <result>
+         <assert-empty />
+      </result>
+   </test-case>
+
+   <test-case name="fn-document-uri-24" covers="fn-document-uri">
+      <description> Evaluation of fn:document-uri#0 with context item set to a directly constructed PI node. </description>
+      <created by="Tim Mills" on="2013-01-19"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[(<?audio-output beep?>)/document-uri()]]></test>
+      <result>
+         <assert-empty />
+      </result>
+   </test-case>
+
+   <test-case name="fn-document-uri-25" covers="fn-document-uri">
+      <description> Evaluation of fn:document-uri#0 with context item set to a directly constructed comment node. </description>
+      <created by="Tim Mills" on="2013-01-19"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[(<!-- A comment node -->)/document-uri()]]></test>
+      <result>
+         <assert-empty />
+      </result>
+   </test-case>
+
+   <test-case name="fn-document-uri-26" covers="fn-document-uri">
+      <description> Evaluation of fn:document-uri#0 with context item set to a directly constructed element node. </description>
+      <created by="Tim Mills" on="2013-01-19"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[(<anElement>element content</anElement>)/document-uri()]]></test>
+      <result>
+         <assert-empty />
+      </result>
+   </test-case>
+
+   <test-case name="fn-document-uri-27" covers="fn-document-uri">
+      <description> Evaluation of fn:document-uri#0 with context item set to a directly constructed document node. </description>
+      <created by="Tim Mills" on="2013-01-19"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[(document {<anElement>element content</anElement>})/document-uri()]]></test>
+      <result>
+         <assert-empty />
+      </result>
+   </test-case>
+
+   <test-case name="fn-document-uri-28" covers="fn-document-uri">
+      <description> Evaluation of fn:document-uri#0 with context item set to document node from xml file. </description>
+      <created by="Tim Mills" on="2013-01-19"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <environment ref="works-mod-uri"/>
+      <test>fn:contains((fn:doc($uri))/document-uri(),$uri) or ((fn:doc($uri))/document-uri() = "")</test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <assert-false/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="fn-document-uri-29" covers="fn-document-uri">
+      <description> Evaluation of fn:document-uri#0 with context item set to element node from xml file. Use fn:count to avoid empty file. </description>
+      <created by="Tim Mills" on="2013-01-19"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <environment ref="works-mod"/>
+      <test>fn:count((/works[1]/employee[1])/document-uri())</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-document-uri-30" covers="fn-document-uri">
+      <description> Evaluation of fn:document-uri#0 with context item set to an attribute node from xml file. Use fn:count to avoid empty file. </description>
+      <created by="Tim Mills" on="2013-01-19"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <environment ref="works-mod"/>
+      <test>fn:count((/works[1]/employee[1]/@name)/document-uri())</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-document-uri-31" covers="fn-document-uri">
+      <description> Evaluation of fn:document-uri#0 used as argument to an fn:string-length function. </description>
+      <created by="Tim Mills" on="2013-01-19"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <environment ref="works-mod-uri"/>
+      <test>fn:string-length(fn:string(fn:contains((fn:doc($uri))/document-uri(),$uri)))</test>
+      <result>
+         <any-of>
+            <assert-eq>4</assert-eq>
+            <assert-eq>5</assert-eq>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="fn-document-uri-32" covers="fn-document-uri">
+      <description> Evaluation of fn:document-uri#0 used as argument to an fn:upper-case function. </description>
+      <created by="Tim Mills" on="2013-01-19"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <environment ref="works-mod-uri"/>
+      <test>fn:upper-case(fn:string(fn:contains((fn:doc($uri))/document-uri(),$uri)))</test>
+      <result>
+         <any-of>
+            <assert-string-value>TRUE</assert-string-value>
+            <assert-string-value>FALSE</assert-string-value>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="fn-document-uri-33" covers="fn-document-uri">
+      <description> Evaluation of fn:document-uri#0 used as argument to an fn:lower-case function. </description>
+      <created by="Tim Mills" on="2013-01-19"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <environment ref="works-mod-uri"/>
+      <test>fn:lower-case(fn:string(fn:contains((fn:doc($uri))/document-uri(),$uri)))</test>
+      <result>
+         <any-of>
+            <assert-string-value>true</assert-string-value>
+            <assert-string-value>false</assert-string-value>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="fn-document-uri-34" covers="fn-document-uri">
+      <description> Evaluation of fn:document-uri#0 used as argument to an fn:concat function. </description>
+      <created by="Tim Mills" on="2013-01-19"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <environment ref="works-mod-uri"/>
+      <test>fn:concat(fn:string(fn:contains((fn:doc($uri))/document-uri(),$uri))," A String")</test>
+      <result>
+         <any-of>
+            <assert-string-value>true A String</assert-string-value>
+            <assert-string-value>false A String</assert-string-value>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="fn-document-uri-35" covers="fn-document-uri">
+      <description>Evaluation of fn:document-uri#0 used as argument to an fn:string-join function.</description>
+      <created by="Tim Mills" on="2013-01-19"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <environment ref="works-mod-uri"/>
+      <test>fn:string-join((fn:string(fn:contains((fn:doc($uri))/document-uri(),$uri))," A String"),"")</test>
+      <result>
+         <any-of>
+            <assert-string-value>true A String</assert-string-value>
+            <assert-string-value>false A String</assert-string-value>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="fn-document-uri-36" covers="fn-document-uri">
+      <description> Evaluation of fn:document-uri#0 used as argument to an fn:substring-before function. </description>
+      <created by="Tim Mills" on="2013-01-19"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <environment ref="works-mod"/>
+      <test>fn:substring-before(fn:string(fn:contains((/)/document-uri(),"works-mod")),"e")</test>
+      <result>
+         <assert-string-value>tru</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-document-uri-37" covers="fn-document-uri">
+      <description> Evaluation of fn:document-uri#0 used as argument to an fn:substring-after function. Use string. </description>
+      <created by="Tim Mills" on="2013-01-19"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <environment ref="works-mod"/>
+      <test>fn:substring-after(fn:string(fn:contains((/)/document-uri(),"works-mod")),"t")</test>
+      <result>
+         <assert-string-value>rue</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="K-DocumentURIFunc-1">
+      <description> A test whose essence is: `document-uri((), "wrong param")`. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <test>document-uri((), "wrong param")</test>
+      <result>
+         <error code="XPST0017"/>
+      </result>
+   </test-case>
+
    <test-case name="K-DocumentURIFunc-1">
       <description> A test whose essence is: `document-uri((), "wrong param")`. </description>
       <created by="Frans Englich" on="2007-11-26"/>
