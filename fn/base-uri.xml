@@ -260,6 +260,227 @@
       </result>
    </test-case>
 
+   <test-case name="fn-base-uri-24" covers="fn-base-uri">
+      <description> Evaluation of base-uri#0 function with context item set to a directly constructed comment </description>
+      <created by="Tim Mills" on="2013-01-18"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[(<!-- A comment -->)/base-uri()]]></test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-base-uri-25" covers="fn-base-uri">
+      <description> Evaluation of base-uri#0 function with context item set to a computed constructed comment </description>
+      <created by="Tim Mills" on="2013-01-18"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>(comment {"A Comment Node "})/fn:base-uri()</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-base-uri-26" covers="fn-base-uri">
+      <description> Evaluation of base-uri#0 function with context item set to a computed constructed Text node. </description>
+      <created by="Tim Mills" on="2013-01-18"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>(text {"A Text Node"})/fn:base-uri()</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-base-uri-27" covers="fn-base-uri">
+      <description> Evaluation of base-uri#0 function with context item set to a computed constructed Element node with not base-xml argument. </description>
+      <created by="Tim Mills" on="2013-01-18"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>fn:count((element anElement {"An Element Node"})/base-uri())</test>
+      <result>
+         <any-of>
+            <assert-eq>1</assert-eq>
+            <assert-eq>0</assert-eq>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="fn-base-uri-28" covers="fn-base-uri">
+      <description> Evaluation of base-uri#0 function with context item set to a directly constructed Element node with not base-xml argument. Use fn:count to avoid empty file. </description>
+      <created by="Tim Mills" on="2013-01-18"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[fn:count((<anElement>Element content</anElement>)/fn:base-uri())]]></test>
+      <result>
+         <any-of>
+            <assert-eq>1</assert-eq>
+            <assert-eq>0</assert-eq>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="fn-base-uri-29" covers="fn-base-uri">
+      <description> Evaluation of base-uri#0 function with context item set to a directly constructed Element node with base-xml argument. Use fn:string </description>
+      <created by="Tim Mills" on="2013-01-18"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[fn:string((<anElement xml:base="http://example.com/examples">Element content</anElement>)/fn:base-uri())]]></test>
+      <result>
+         <assert-string-value>http://example.com/examples</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-base-uri-30" covers="fn-base-uri">
+      <description> Evaluation of base-uri#0 function with context item set to a directly constructed Element node with base-xml argument (no escaping). Use fn:string </description>
+      <created by="Tim Mills" on="2013-01-18"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[fn:string((<anElement xml:base="http://www.example.com">Element content</anElement>)/base-uri())]]></test>
+      <result>
+         <assert-string-value>http://www.example.com</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-base-uri-31" covers="fn-base-uri">
+      <description> Evaluation of base-uri#0 function with context item set to a computed constructed Document node with no base-xml argument. Use fn:count </description>
+      <created by="Tim Mills" on="2013-01-18"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[fn:count((document {<aDocument>some content</aDocument>})/base-uri())]]></test>
+      <result>
+         <any-of>
+            <assert-eq>0</assert-eq>
+            <assert-eq>1</assert-eq>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="fn-base-uri-32" covers="fn-base-uri">
+      <description> Evaluation of base-uri#0 function with context item set to a computed constructed Document node argument. Uses declared base uri property Use fn:string </description>
+      <created by="Tim Mills" on="2013-01-18"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[declare base-uri "http://example.org"; 
+            fn:string((document {<aDocument>some content</aDocument>})/base-uri())]]></test>
+      <result>
+         <assert-string-value>http://example.org</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-base-uri-33" covers="fn-base-uri">
+      <description> Evaluation of base-uri#0 function with context item set to a directly constructed element node argument. Should not declared base uri property Use fn:string </description>
+      <created by="Tim Mills" on="2013-01-18"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[declare base-uri "http://example.org"; fn:string((<anElement>some content</anElement>)/fn:base-uri())]]></test>
+      <result>
+         <assert-string-value>http://example.org</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-base-uri-34" covers="fn-base-uri">
+      <description> Evaluation of base-uri#0 function with context item set to a computed constructed attribute node argument. </description>
+      <created by="Tim Mills" on="2013-01-18"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>(attribute anAttribute{"attribute value"})/fn:base-uri()</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-base-uri-35" covers="fn-base-uri">
+      <description> Evaluation of base-uri#0 function with context item set to a directly constructed PI node argument. </description>
+      <created by="Tim Mills" on="2013-01-18"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[(<?format role="output" ?>)/fn:base-uri()]]></test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-base-uri-36" covers="fn-base-uri">
+      <description> Evaluation of base-uri#0 function with context item set to a computed constructed PI node argument. Use fn:count to avoid empty file </description>
+      <created by="Tim Mills" on="2013-01-18"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>(processing-instruction {"PItarget"} {"PIcontent"})/base-uri()</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-base-uri-37" covers="fn-base-uri">
+      <description> Evaluation of base-uri#0 function with context item set to a computed constructed PI node argument. Use fn:count to avoid empty file. Should not use the declare base-uri </description>
+      <created by="Tim Mills" on="2013-01-18"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>
+         declare base-uri "http://example.org"; 
+         (processing-instruction {"PItarget"} {"PIcontent"})/base-uri()</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-base-uri-38" covers="fn-base-uri">
+      <description> Evaluation of base-uri#0 function with context item set to a directly constructed element node (via FLOWR expr). Use the declare base-uri </description>
+      <created by="Tim Mills" on="2013-01-18"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[declare base-uri "http://example.org"; 
+        let $var := <anElement>With some contexnt</anElement> 
+        return fn:string(($var)/base-uri())]]></test>
+      <result>
+         <assert-string-value>http://example.org</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-base-uri-39" covers="fn-base-uri">
+      <description> Evaluation of base-uri#0 function with context item set to a directly constructed element node (via FLOWR expr). Use the xml-base attribute </description>
+      <created by="Tim Mills" on="2013-01-18"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[let $var := <anElement xml:base="http://www.examples.com">With some content</anElement> 
+        return fn:string(($var)/base-uri())]]></test>
+      <result>
+         <assert-string-value>http://www.examples.com</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-base-uri-40" covers="fn-base-uri">
+      <description> Evaluation of base-uri#0 function with context item set to a directly constructed element node (via FLOWR expr). Use the xml-base attribute and should ignore declared base uri property. </description>
+      <created by="Tim Mills" on="2013-01-18"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[declare base-uri "http://example.org"; 
+        let $var := <anElement xml:base="http://www.examples.com">With some content</anElement> 
+        return fn:string(($var)/base-uri())]]></test>
+      <result>
+         <assert-string-value>http://www.examples.com</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="fn-base-uri-41" covers="fn-base-uri">
+      <description> Evaluation of base-uri#0 function with context item set to a directly constructed comment node (via FLOWR expr). Should ignore declared base uri property. </description>
+      <created by="Tim Mills" on="2013-01-18"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[declare base-uri "http://example.org"; 
+        let $var := <!-- A Comment --> return ($var)/base-uri()]]></test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-base-uri-42" covers="fn-base-uri">
+      <description> Evaluation of base-uri#0 function using undefined context item. </description>
+      <created by="Tim Mills" on="2013-01-18"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>declare namespace eg = "http://example.org"; 
+        declare function eg:noContextFunction() { fn:base-uri() }; 
+        eg:noContextFunction()</test>
+      <result>
+         <error code="XPDY0002"/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-base-uri-43" covers="fn-base-uri">
+      <description> Evaluation of base-uri#0 function with context item set to a directly constructed Element node with base-xml argument that needs escaping. Uses fn:string. </description>
+      <created by="Tim Mills" on="2013-01-18"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[fn:string((<anElement xml:base="http://example.com/examples">Element content</anElement>)/fn:base-uri())]]></test>
+      <result>
+         <assert-string-value>http://example.com/examples</assert-string-value>
+      </result>
+   </test-case>
+
+
    <test-case name="K-BaseURIFunc-1">
       <description> A test whose essence is: `base-uri((), "wrong param")`. </description>
       <created by="Frans Englich" on="2007-11-26"/>
