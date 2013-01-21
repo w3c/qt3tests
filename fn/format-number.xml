@@ -832,23 +832,52 @@
    </test-case>
    <test-case name="numberformat81">
       <description>
-        PURPOSE: test format-number() with three arguments
+        PURPOSE: test format-number() with three arguments; also tests use of whitespace in name
       </description> 
       <created by="Michael Kay, Saxonica" on="2010-12-13"/>
-      <!--SOURCE: numberformat/numberformat81.xml-->
       <environment>
          <namespace prefix="a" uri="http://a.ns/"/>
          <namespace prefix="b" uri="http://a.ns/"/>
          <decimal-format xmlns:a="http://a.ns/" name="a:test" decimal-separator="," grouping-separator="."/>
       </environment>
-      <test>format-number(12.34, '0.000,00', 'b:test')</test>
+      <test>format-number(12.34, '0.000,00', ' b:test ')</test>
       <result>
          <assert-string-value>0.012,34</assert-string-value>
       </result>
    </test-case>
-   <!-- numberformat82 is XSLT-specific -->
-   <!-- numberformat83 is XSLT-specific -->
-
+   
+   <test-case name="numberformat82">
+      <description>
+        PURPOSE: test format-number() where third argument is not known statically
+      </description> 
+      <created by="Michael Kay, Saxonica" on="2013-01-21"/>
+      <environment>
+         <decimal-format name="one" decimal-separator="." grouping-separator=","/>
+         <decimal-format name="two" decimal-separator="," grouping-separator="."/>
+      </environment>
+      <test>format-number(12.34, '0.000,00', if (current-date() gt xs:date('1900-01-01')) then 'two' else 'one')</test>
+      <result>
+         <assert-string-value>0.012,34</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="numberformat83">
+      <description>
+        PURPOSE: test format-number() where third argument is not known statically and depends on namespace context; 
+        also tests use of whitespace in name
+      </description> 
+      <created by="Michael Kay, Saxonica" on="2013-01-21"/>
+      <environment>
+         <namespace prefix="a" uri="http://a.ns/"/>
+         <namespace prefix="b" uri="http://b.ns/"/>
+         <decimal-format xmlns:x="http://a.ns/" name="x:one" decimal-separator="." grouping-separator=","/>
+         <decimal-format xmlns:y="http://b.ns/" name="y:one" decimal-separator="," grouping-separator="."/>
+      </environment>
+      <test>format-number(12.34, '0.000,00', concat(if (current-date() lt xs:date('1900-01-01')) then ' a' else ' b', ':one '))</test>
+      <result>
+         <assert-string-value>0.012,34</assert-string-value>
+      </result>
+   </test-case>
 
    <test-case name="numberformat84">
       <description>
@@ -862,6 +891,7 @@
          <assert-string-value>123,456,789.34</assert-string-value>
       </result>
    </test-case>
+   
    <test-case name="numberformat85">
       <description>
         PURPOSE: test special case of format-number() imposing minWholePartSize = 1 with different data types
@@ -880,6 +910,7 @@
          <assert-string-value>0|0|0|0</assert-string-value>
       </result>
    </test-case>
+   
    <test-case name="numberformat86">
       <description>In 3.0, () allowed as third argument (bug 14931)</description>
       <created by="Michael Kay, Saxonica" on="2011-12-06"/>
@@ -889,6 +920,35 @@
          <assert-string-value>48.57%</assert-string-value>
       </result>
    </test-case>
+   
+   <test-case name="numberformat87">
+      <description>
+        PURPOSE: test format-number() with EQName for third argument, known statically; also tests use of whitespace in name
+      </description> 
+      <created by="Michael Kay, Saxonica" on="2013-01-21"/>
+      <environment>
+         <decimal-format xmlns:a="http://a.ns/" name="a:test" decimal-separator="," grouping-separator="."/>
+      </environment>
+      <test>format-number(12.34, '0.000,00', 'Q{http://a.ns/}test ')</test>
+      <result>
+         <assert-string-value>0.012,34</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="numberformat88">
+      <description>
+        PURPOSE: test format-number() with EQName for third argument, not known statically; also tests use of whitespace in name
+      </description> 
+      <created by="Michael Kay, Saxonica" on="2013-01-21"/>
+      <environment>
+         <decimal-format xmlns:a="http://a.ns/" name="a:test" decimal-separator="," grouping-separator="."/>
+      </environment>
+      <test>format-number(12.34, '0.000,00', if (current-date() lt xs:date('1900-01-01')) then () else ' Q{http://a.ns/}test')</test>
+      <result>
+         <assert-string-value>0.012,34</assert-string-value>
+      </result>
+   </test-case>
+   
    <test-case name="numberformat901err">
       <description>
         Creator: David Marston 
