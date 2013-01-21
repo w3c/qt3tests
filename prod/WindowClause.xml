@@ -1055,7 +1055,8 @@ return
    <test-case name="WindowingUseCase19S">
       <description> use case 19: At the moment of the shipping notification, calculate if an open request exists that can be shipped to the same address. </description>
       <created by="Matthias Brantner" on="2011-07-28"/>
-      <modified by="O'Neil Delpratt, Saxonica" on="2012-09-26" change="Added whitespace in expected result"/>
+      <modified by="O'Neil Delpratt" on="2012-09-26" change="Added whitespace in expected result - see bug 18991"/>
+      <modified by="Michael Kay" on="2013-01-21" change="Avoid assert-xml to get rid of whitespace issues - see bug 20662"/>
       <environment ref="WindowingUseCases07S"/>
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
@@ -1081,9 +1082,14 @@ return
 }</result>
       ]]></test>
       <result>
-        <assert-xml><![CDATA[<result><bundleWith orderId="OID01"><OrderRequest billTo="ACME1" date="2006-01-02T14:00:00-00:00" orderID="OID03" shipTo="ACME1" total="10000" type="new">
+        <all-of>
+          <assert>$result[self::result/bundleWith[1]/@orderId="OID01"]</assert>
+          <assert>$result[self::result/bundleWith[2]/@orderId="OID03"]</assert>
+          <assert>empty($result[self::result/bundleWith[3]])</assert>
+        </all-of>  
+     <!--   <assert-xml><![CDATA[<result><bundleWith orderId="OID01"><OrderRequest billTo="ACME1" date="2006-01-02T14:00:00-00:00" orderID="OID03" shipTo="ACME1" total="10000" type="new">
     <Item partID="ID3" quantity="100" unitPrice="100"/>
-  </OrderRequest></bundleWith><bundleWith orderId="OID03"/></result>]]></assert-xml>
+  </OrderRequest></bundleWith><bundleWith orderId="OID03"/></result>]]></assert-xml> -->
       </result>
    </test-case>
 	
