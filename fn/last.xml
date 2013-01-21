@@ -536,9 +536,11 @@
       <test-case name="cbcl-last-in-sequence-001">
       <description> test fn:first-in-sequence on sub-expression where quant = 1 </description>
       <created by="Tim Mills" on="2008-04-15"/>
-      <dependency type="spec" value="XQ10+"/>
-      
-      <test>declare function local:generate($arg as xs:integer?) { if ($arg = 0) then (1, 2, 3) else () }; ( local:generate(0), 1, local:generate(0) )[last()]</test>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>
+      	declare function local:generate($arg as xs:integer?) { if ($arg = 0) then (1, 2, 3) else () }; 
+      	( local:generate(0), 1, local:generate(0) )[last()]
+      </test>
       <result>
          <assert-string-value>3</assert-string-value>
       </result>
@@ -548,9 +550,11 @@
    <test-case name="cbcl-last-in-sequence-002">
       <description> test fn:first-in-sequence on a for expression </description>
       <created by="Tim Mills" on="2008-04-15"/>
-      <dependency type="spec" value="XQ10+"/>
-      
-      <test>declare function local:generate($arg as xs:integer?) as xs:integer* { if ($arg = 0) then (1, 2, 3) else $arg }; ( local:generate(()), for $x in local:generate(0) return $x + 2 )[last()]</test>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>
+      	declare function local:generate($arg as xs:integer?) as xs:integer* { if ($arg = 0) then (1, 2, 3) else $arg }; 
+      	( local:generate(()), for $x in local:generate(0) return $x + 2 )[last()]
+      </test>
       <result>
          <assert-string-value>5</assert-string-value>
       </result>
@@ -560,9 +564,11 @@
    <test-case name="cbcl-last-in-sequence-003">
       <description> test fn:first-in-sequence on a for expression </description>
       <created by="Tim Mills" on="2008-04-15"/>
-      <dependency type="spec" value="XQ10+"/>
-      
-      <test>declare function local:generate($arg as xs:integer?) as xs:integer? { if ($arg = 0) then 0 else () }; ( local:generate(()), for $x in local:generate(0) return $x + 2 )[last()]</test>
+      <dependency type="spec" value="XQ10+"/>     
+      <test>
+      	declare function local:generate($arg as xs:integer?) as xs:integer? { if ($arg = 0) then 0 else () }; 
+      	( local:generate(()), for $x in local:generate(0) return $x + 2 )[last()]
+      </test>
       <result>
          <assert-string-value>2</assert-string-value>
       </result>
@@ -572,9 +578,11 @@
    <test-case name="cbcl-last-in-sequence-004">
       <description> test fn:first-in-sequence on a for-at expression </description>
       <created by="Tim Mills" on="2008-04-15"/>
-      <dependency type="spec" value="XQ10+"/>
-      
-      <test>declare function local:generate($arg as xs:integer?) as xs:integer* { if ($arg = 0) then ( 1, 2, 3 ) else ( $arg ) }; ( local:generate(()), for $x at $p in local:generate(0) return $p + $x)[last()]</test>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>
+      	declare function local:generate($arg as xs:integer?) as xs:integer* { if ($arg = 0) then ( 1, 2, 3 ) else ( $arg ) }; 
+      	( local:generate(()), for $x at $p in local:generate(0) return $p + $x)[last()]
+      </test>
       <result>
          <assert-string-value>6</assert-string-value>
       </result>
@@ -584,9 +592,11 @@
    <test-case name="cbcl-last-in-sequence-005">
       <description> test fn:first-in-sequence on a for-at expression </description>
       <created by="Tim Mills" on="2008-04-15"/>
-      <dependency type="spec" value="XQ10+"/>
-      
-      <test>declare function local:generate($arg as xs:integer?) as xs:integer? { if ($arg = 0) then 1 else $arg }; ( local:generate(()), for $x at $p in local:generate(0) return $p + $x)[last()]</test>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>
+      	declare function local:generate($arg as xs:integer?) as xs:integer? { if ($arg = 0) then 1 else $arg }; 
+      	( local:generate(()), for $x at $p in local:generate(0) return $p + $x)[last()]
+      </test>
       <result>
          <assert-string-value>2</assert-string-value>
       </result>
@@ -596,9 +606,11 @@
    <test-case name="cbcl-last-in-sequence-006">
       <description> test fn:first-in-sequence on a map expression </description>
       <created by="Tim Mills" on="2008-04-15"/>
-      <dependency type="spec" value="XQ10+"/>
-      
-      <test>declare function local:generate($arg as xs:integer?) as xs:string* { if ($arg = 0) then ('a', 'b', 'c') else ('d' ) }; ( if (local:generate(1) = 'd') then () else 1, for $x in local:generate(0) return fn:lower-case($x))[last()]</test>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>
+      	declare function local:generate($arg as xs:integer?) as xs:string* { if ($arg = 0) then ('a', 'b', 'c') else ('d' ) }; 
+      	( if (local:generate(1) = 'd') then () else 1, for $x in local:generate(0) return fn:lower-case($x))[last()]
+      </test>
       <result>
          <assert-string-value>c</assert-string-value>
       </result>
@@ -608,9 +620,11 @@
    <test-case name="cbcl-last-in-sequence-007">
       <description> test fn:first-in-sequence on a map expression </description>
       <created by="Tim Mills" on="2008-04-15"/>
-      <dependency type="spec" value="XQ10+"/>
-      
-      <test>declare function local:generate($arg as xs:integer?) as xs:integer? { $arg }; ( if (local:generate(0) = 0) then () else 1, for $x in local:generate(0) return -$x)[last()]</test>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>
+      	declare function local:generate($arg as xs:integer?) as xs:integer? { $arg }; 
+      	( if (local:generate(0) = 0) then () else 1, for $x in local:generate(0) return -$x)[last()]
+      </test>
       <result>
          <assert-string-value>0</assert-string-value>
       </result>
@@ -619,8 +633,7 @@
 
    <test-case name="cbcl-last-in-sequence-008">
       <description> test fn:first-in-sequence on a distinct-doc-order </description>
-      <created by="Tim Mills" on="2008-04-15"/>
-      
+      <created by="Tim Mills" on="2008-04-15"/>      
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[( (<a><b>cheese</b></a>)/b )[last()]]]></test>
       <result>
@@ -632,9 +645,11 @@
    <test-case name="cbcl-last-in-sequence-009">
       <description> test fn:first-in-sequence on a for-each expression Author: Tim Mills </description>
       <created by="Oliver Hallam" on="2008-04-15"/>
-      <dependency type="spec" value="XQ10+"/>
-      
-      <test>declare function local:generate($arg as xs:integer?) as xs:string* { if ($arg = 0) then ('a', 'b', 'c') else () }; ( local:generate(()), for $x in local:generate(0) return 3)[last()]</test>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>
+      	declare function local:generate($arg as xs:integer?) as xs:string* { if ($arg = 0) then ('a', 'b', 'c') else () }; 
+      	( local:generate(()), for $x in local:generate(0) return 3)[last()]
+      </test>
       <result>
          <assert-string-value>3</assert-string-value>
       </result>
@@ -644,9 +659,11 @@
    <test-case name="cbcl-last-in-sequence-010">
       <description> test fn:boolean on fn:first-in-sequence </description>
       <created by="Oliver Hallam" on="2008-04-22"/>
-      <dependency type="spec" value="XQ10+"/>
-      
-      <test>declare function local:generate($arg as xs:integer?) as xs:string* { if ($arg = 0) then ('a', 'b', 'c') else () }; boolean(local:generate(0)[last()])</test>
+      <dependency type="spec" value="XQ10+"/>      
+      <test>
+      	declare function local:generate($arg as xs:integer?) as xs:string* { if ($arg = 0) then ('a', 'b', 'c') else () }; 
+      	boolean(local:generate(0)[last()])
+      </test>
       <result>
          <assert-true/>
       </result>
