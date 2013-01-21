@@ -38,11 +38,13 @@
       <description> test all tests containing certain constructs require an XQuery processor </description>
       <created by="Michael Kay" on="2011-07-10"/>
       <modified by="Michael Kay" on="2011-08-30" change="put validate expression in parens"/>
+      <modified by="Michael Kay" on="2013-01-21" change="add schema import declaration, see bug 20706"/>
       <environment ref="catalog"/>
       <dependency type="spec" value="XQ10+"/>
       <dependency type="feature" value="schemaValidation"/>
+      <dependency type="feature" value="schemaImport"/>
       <test>
-        declare namespace fots = "http://www.w3.org/2010/09/qt-fots-catalog";
+        import schema namespace fots = "http://www.w3.org/2010/09/qt-fots-catalog";
         let $testsets := //fots:test-set/@file/(validate{doc(resolve-uri(., base-uri(..)))})
         for $test in $testsets//fots:test-case[not(fots:result/fots:error)][
                 contains(test, "declare variable") or
