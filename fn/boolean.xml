@@ -1185,7 +1185,17 @@
       <description>test fn:boolean on a count-preserving function </description>
       <created by="Tim Mills" on="2008-04-11"/>
       <dependency type="spec" value="XQ10+"/>
-      <test>declare function local:generate($count as xs:integer) { if ($count &lt; 0) then "string" else for $x in 1 to $count return if ($x mod 3 = 0) then &lt;a /&gt; else if ($x mod 3 = 1) then &lt;b /&gt; else &lt;c /&gt; }; fn:boolean(fn:reverse( local:generate(5) ))</test>
+      <test><![CDATA[
+      	declare function local:generate($count as xs:integer) {
+      		if ($count < 0) then "string" 
+      		else for $x in 1 to $count 
+      			 return 
+      			 	if ($x mod 3 = 0) then <a /> 
+      			 	else if ($x mod 3 = 1) then <b /> 
+      			 	else <c /> 
+      	}; 
+      	fn:boolean(fn:reverse( local:generate(5) ))
+      ]]></test>
       <result>
          <assert-true/>
       </result>
@@ -1195,7 +1205,16 @@
       <description> test fn:boolean on fn:count function</description>
       <created by="Tim Mills" on="2008-04-11"/>
       <dependency type="spec" value="XQ10+"/>
-      <test>declare function local:generate($count as xs:integer) { for $x in 1 to $count return if ($x mod 3 = 0) then &lt;a /&gt; else if ($x mod 3 = 1) then &lt;b /&gt; else &lt;c /&gt; }; fn:boolean(fn:count( local:generate(5) ))</test>
+      <test><![CDATA[
+      	declare function local:generate($count as xs:integer) {
+      		for $x in 1 to $count 
+      		return 
+      			if ($x mod 3 = 0) then <a /> 
+      			else if ($x mod 3 = 1) then <b /> 
+      			else <c /> 
+      	}; 
+      	fn:boolean(fn:count( local:generate(5) ))
+      ]]></test>
       <result>
          <assert-true/>
       </result>
@@ -1241,7 +1260,7 @@
       declare function local:repeat($count as xs:integer, $arg as xs:string) as item()* { 
       	if ($count lt 0) then '$count must not be negative' 
       	else text { for $x in 1 to $count return $arg }
-       }; 
+      }; 
       fn:boolean( local:repeat(0, "string") )</test>
       <result>
          <assert-false/>
