@@ -213,18 +213,20 @@
         <description>format-integer - picture grouping error</description>
         <created by="O'Neil Delpratt, Saxonica" on="2010-09-28"/>
         <modified by="Michael Kay, Saxonica" on="2011-05-29" change="change error code"/>
+        <modified by="Michael Kay, Saxonica" on="2013-01-22" change="no longer an error: see bug 19004"/>
         <test>format-integer(1500000, '#')</test>
         <result>
-            <error code="FODF1310"/>
+            <assert-eq>'1500000'</assert-eq>
         </result>    
     </test-case>
        <test-case name="format-integer-026">
         <description>format-integer - picture grouping error</description>
         <created by="O'Neil Delpratt, Saxonica" on="2010-09-28"/>
         <modified by="Michael Kay, Saxonica" on="2011-05-29" change="change error code"/>
+        <modified by="Michael Kay, Saxonica" on="2013-01-22" change="no longer an error: see bug 19004"/>
         <test>format-integer(1500000, '#a')</test>
         <result>
-            <error code="FODF1310"/>
+            <assert-eq>'1500000'</assert-eq>
         </result>    
     </test-case>
        <test-case name="format-integer-027">
@@ -567,10 +569,11 @@
                      (unrecognized format token, defaults to "1")</description>
         <created by="Michael Kay, Saxonica" on="2012-02-28"/>
         <modified by="Michael Kay, Saxonica" on="2012-05-18" change="see bug 16202"/>
+        <modified by="Michael Kay, Saxonica" on="2013-01-22" change="now an error: see bug 19004"/>
         <environment ref="empty"/>
         <test>format-integer(1, ';')</test>
         <result>
-            <assert-eq>'1'</assert-eq>
+            <error code="FODF1310"/>
         </result>    
     </test-case>
     <test-case name="format-integer-062">
