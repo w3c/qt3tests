@@ -94,7 +94,7 @@
       <description> Evaluation of fn:document-uri with argument set to a directly constructed PI node. Use the fn:count to avoid the empty file. </description>
       <created by="Carmelo Montanez" on="2005-11-28"/>
       <dependency type="spec" value="XQ10+"/>
-      <test><![CDATA[fn:count(fn:document-uri(<?audio-output beep?>))]]></test>
+      <test><![CDATA[fn:count(fn:document-uri<?audio-output beep?>))]]></test>
       <result>
          <assert-eq>0</assert-eq>
       </result>
@@ -314,8 +314,8 @@
    <test-case name="fn-document-uri-28" covers="fn-document-uri">
       <description> Evaluation of fn:document-uri#0 with context item set to document node from xml file. </description>
       <created by="Tim Mills" on="2013-01-19"/>
-      <dependency type="spec" value="XP30+ XQ30+"/>
       <environment ref="works-mod-uri"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
       <test>fn:contains((fn:doc($uri))/document-uri(),$uri) or ((fn:doc($uri))/document-uri() = "")</test>
       <result>
          <any-of>
@@ -328,8 +328,8 @@
    <test-case name="fn-document-uri-29" covers="fn-document-uri">
       <description> Evaluation of fn:document-uri#0 with context item set to element node from xml file. Use fn:count to avoid empty file. </description>
       <created by="Tim Mills" on="2013-01-19"/>
-      <dependency type="spec" value="XP30+ XQ30+"/>
       <environment ref="works-mod"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
       <test>fn:count((/works[1]/employee[1])/document-uri())</test>
       <result>
          <assert-eq>0</assert-eq>
@@ -339,8 +339,8 @@
    <test-case name="fn-document-uri-30" covers="fn-document-uri">
       <description> Evaluation of fn:document-uri#0 with context item set to an attribute node from xml file. Use fn:count to avoid empty file. </description>
       <created by="Tim Mills" on="2013-01-19"/>
-      <dependency type="spec" value="XP30+ XQ30+"/>
       <environment ref="works-mod"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
       <test>fn:count((/works[1]/employee[1]/@name)/document-uri())</test>
       <result>
          <assert-eq>0</assert-eq>
@@ -350,8 +350,8 @@
    <test-case name="fn-document-uri-31" covers="fn-document-uri">
       <description> Evaluation of fn:document-uri#0 used as argument to an fn:string-length function. </description>
       <created by="Tim Mills" on="2013-01-19"/>
-      <dependency type="spec" value="XP30+ XQ30+"/>
       <environment ref="works-mod-uri"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
       <test>fn:string-length(fn:string(fn:contains((fn:doc($uri))/document-uri(),$uri)))</test>
       <result>
          <any-of>
@@ -364,8 +364,8 @@
    <test-case name="fn-document-uri-32" covers="fn-document-uri">
       <description> Evaluation of fn:document-uri#0 used as argument to an fn:upper-case function. </description>
       <created by="Tim Mills" on="2013-01-19"/>
-      <dependency type="spec" value="XP30+ XQ30+"/>
       <environment ref="works-mod-uri"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
       <test>fn:upper-case(fn:string(fn:contains((fn:doc($uri))/document-uri(),$uri)))</test>
       <result>
          <any-of>
@@ -378,8 +378,8 @@
    <test-case name="fn-document-uri-33" covers="fn-document-uri">
       <description> Evaluation of fn:document-uri#0 used as argument to an fn:lower-case function. </description>
       <created by="Tim Mills" on="2013-01-19"/>
-      <dependency type="spec" value="XP30+ XQ30+"/>
       <environment ref="works-mod-uri"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
       <test>fn:lower-case(fn:string(fn:contains((fn:doc($uri))/document-uri(),$uri)))</test>
       <result>
          <any-of>
@@ -392,8 +392,8 @@
    <test-case name="fn-document-uri-34" covers="fn-document-uri">
       <description> Evaluation of fn:document-uri#0 used as argument to an fn:concat function. </description>
       <created by="Tim Mills" on="2013-01-19"/>
-      <dependency type="spec" value="XP30+ XQ30+"/>
       <environment ref="works-mod-uri"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
       <test>fn:concat(fn:string(fn:contains((fn:doc($uri))/document-uri(),$uri))," A String")</test>
       <result>
          <any-of>
@@ -406,8 +406,8 @@
    <test-case name="fn-document-uri-35" covers="fn-document-uri">
       <description>Evaluation of fn:document-uri#0 used as argument to an fn:string-join function.</description>
       <created by="Tim Mills" on="2013-01-19"/>
-      <dependency type="spec" value="XP30+ XQ30+"/>
       <environment ref="works-mod-uri"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
       <test>fn:string-join((fn:string(fn:contains((fn:doc($uri))/document-uri(),$uri))," A String"),"")</test>
       <result>
          <any-of>
@@ -420,8 +420,8 @@
    <test-case name="fn-document-uri-36" covers="fn-document-uri">
       <description> Evaluation of fn:document-uri#0 used as argument to an fn:substring-before function. </description>
       <created by="Tim Mills" on="2013-01-19"/>
-      <dependency type="spec" value="XP30+ XQ30+"/>
       <environment ref="works-mod"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
       <test>fn:substring-before(fn:string(fn:contains((/)/document-uri(),"works-mod")),"e")</test>
       <result>
          <assert-string-value>tru</assert-string-value>
@@ -431,8 +431,8 @@
    <test-case name="fn-document-uri-37" covers="fn-document-uri">
       <description> Evaluation of fn:document-uri#0 used as argument to an fn:substring-after function. Use string. </description>
       <created by="Tim Mills" on="2013-01-19"/>
-      <dependency type="spec" value="XP30+ XQ30+"/>
       <environment ref="works-mod"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
       <test>fn:substring-after(fn:string(fn:contains((/)/document-uri(),"works-mod")),"t")</test>
       <result>
          <assert-string-value>rue</assert-string-value>
