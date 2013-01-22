@@ -3376,6 +3376,52 @@
          <assert-eq>1</assert-eq>
       </result>
    </test-case>
+   
+   <test-case name="Axes112">
+      <description> The namespace axis is not recognized in XQuery.</description>
+      <created by="Michael Kay" on="2013-01-22"/>
+      <environment ref="TreeTrunc"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>/*/namespace-node()</test>
+      <result>
+         <error code="XPST0003"/><!-- unclear, see bug 20736 -->
+      </result>
+   </test-case>
+   
+   <test-case name="Axes113">
+      <description> Use kind-test namespace-node() in an axis step</description>
+      <created by="Michael Kay" on="2013-01-22"/>
+      <environment ref="TreeTrunc"/>
+      <dependency type="spec" value="XP30+"/>
+      <test>/*/namespace-node()</test>
+      <result>
+         <assert-count>1</assert-count>
+         <assert-string-value>http://www.w3.org/XML/1998/namespace</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="Axes114">
+      <description> Use kind-test namespace-node() in an axis step</description>
+      <created by="Michael Kay" on="2013-01-22"/>
+      <environment ref="TreeTrunc"/>
+      <dependency type="spec" value="XP30+"/>
+      <test>/*/namespace::namespace-node()</test>
+      <result>
+         <assert-count>1</assert-count>
+         <assert-string-value>http://www.w3.org/XML/1998/namespace</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="Axes115">
+      <description> Use kind-test namespace-node() in an axis step</description>
+      <created by="Michael Kay" on="2013-01-22"/>
+      <environment ref="TreeTrunc"/>
+      <dependency type="spec" value="XP30+"/>
+      <test>/*/attribute::namespace-node()</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
 
    <test-case name="axis-err-1">
       <description> Evaluation of a step axis, which operates on a non node context item.</description>
