@@ -3395,8 +3395,10 @@
       <dependency type="spec" value="XP30+"/>
       <test>/*/namespace-node()</test>
       <result>
-         <assert-count>1</assert-count>
-         <assert-string-value>http://www.w3.org/XML/1998/namespace</assert-string-value>
+         <all-of>
+            <assert-count>1</assert-count>
+            <assert-string-value>http://www.w3.org/XML/1998/namespace</assert-string-value>
+         </all-of>   
       </result>
    </test-case>
    
@@ -3407,21 +3409,49 @@
       <dependency type="spec" value="XP30+"/>
       <test>/*/namespace::namespace-node()</test>
       <result>
-         <assert-count>1</assert-count>
-         <assert-string-value>http://www.w3.org/XML/1998/namespace</assert-string-value>
+         <all-of>
+           <assert-count>1</assert-count>
+           <assert-string-value>http://www.w3.org/XML/1998/namespace</assert-string-value>
+         </all-of>  
       </result>
    </test-case>
    
    <test-case name="Axes115">
-      <description> Use kind-test namespace-node() in an axis step</description>
+      <description> Use kind-test namespace-node() in an axis step for the attribute axis. Note: applies to both XPath and XQuery.</description>
       <created by="Michael Kay" on="2013-01-22"/>
       <environment ref="TreeTrunc"/>
-      <dependency type="spec" value="XP30+"/>
       <test>/*/attribute::namespace-node()</test>
       <result>
          <assert-empty/>
       </result>
    </test-case>
+   
+   <test-case name="Axes116">
+      <description> Use kind-test namespace-node() with the self axis</description>
+      <created by="Michael Kay" on="2013-01-22"/>
+      <environment ref="TreeTrunc"/>
+      <dependency type="spec" value="XP30+"/>
+      <test>/*/namespace::*[self::namespace-node()]</test>
+      <result>
+         <assert-count>1</assert-count>
+      </result>
+   </test-case>
+   
+   <test-case name="Axes117">
+      <description> Use kind-test namespace-node() with the self axis</description>
+      <created by="Michael Kay" on="2013-01-22"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>namespace {"xsl"}{"http://www.w3.org/1999/XSL/Transform"} / self::namespace-node()</test>
+      <result>
+         <all-of>
+           <assert-count>1</assert-count>
+           <assert-type>namespace-node()</assert-type>
+           <assert-string-value>http://www.w3.org/1999/XSL/Transform</assert-string-value>
+           <assert>name($result) = "xsl"</assert>
+         </all-of>  
+      </result>
+   </test-case>
+
 
    <test-case name="axis-err-1">
       <description> Evaluation of a step axis, which operates on a non node context item.</description>
