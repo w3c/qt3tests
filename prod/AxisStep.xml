@@ -67,6 +67,13 @@
      </source>
    </environment>
    
+   <environment name="TreeNS">      
+     <source role="." file="AxisStep/TreeNS.xml">
+       <description>A "compass" tree that has some namespaces.</description>
+       <created by="Michael Kay" on="2013-10-22"/> 
+     </source>
+   </environment>
+   
    <environment name="CPPGlobals">
       <source role="." file="AxisStep/CPPGlobals.xml">
          <description>The declarations of a C++ file described in XML.</description>
@@ -93,9 +100,8 @@
          <description>Data that fits later examples in XQuery 3.11.</description>
          <created by="David Marston" on="2003-03-25"/>
       </source>
-   </environment>     
-   
- 
+   </environment>
+     
    <test-case name="Axes001-1">
       <description> Path 'child::*' from an element.</description>
       <created by="David Marston" on="2003-02-25"/>
@@ -3393,6 +3399,7 @@
       <created by="Michael Kay" on="2013-01-22"/>
       <environment ref="TreeTrunc"/>
       <dependency type="spec" value="XP30+"/>
+      <dependency type="feature" value="namespace-axis"/>
       <test>/*/namespace-node()</test>
       <result>
          <all-of>
@@ -3407,6 +3414,7 @@
       <created by="Michael Kay" on="2013-01-22"/>
       <environment ref="TreeTrunc"/>
       <dependency type="spec" value="XP30+"/>
+      <dependency type="feature" value="namespace-axis"/>
       <test>/*/namespace::namespace-node()</test>
       <result>
          <all-of>
@@ -3431,6 +3439,7 @@
       <created by="Michael Kay" on="2013-01-22"/>
       <environment ref="TreeTrunc"/>
       <dependency type="spec" value="XP30+"/>
+      <dependency type="feature" value="namespace-axis"/>
       <test>/*/namespace::*[self::namespace-node()]</test>
       <result>
          <assert-count>1</assert-count>
@@ -3449,6 +3458,121 @@
            <assert-string-value>http://www.w3.org/1999/XSL/Transform</assert-string-value>
            <assert>name($result) = "xsl"</assert>
          </all-of>  
+      </result>
+   </test-case>
+
+   <test-case name="Axes118">
+      <description> Multiple namespace nodes</description>
+      <created by="Michael Kay" on="2013-01-22"/>
+      <environment ref="auction"/>
+      <dependency type="spec" value="XP20+"/>
+      <dependency type="feature" value="namespace-axis"/>
+      <test>/*/namespace::*</test>
+      <result>
+         <assert-count>6</assert-count>
+         <!-- the five declared namespaces, plus the XML namespace -->
+      </result>
+   </test-case>
+   
+   <test-case name="Axes119">
+      <description> Parent of a namespace node</description>
+      <created by="Michael Kay" on="2013-01-22"/>
+      <environment ref="auction"/>
+      <dependency type="spec" value="XP20+"/>
+      <dependency type="feature" value="namespace-axis"/>
+      <test>/*/namespace::*/..</test>
+      <result>
+         <all-of>
+           <assert-count>1</assert-count>
+           <assert>local-name($result) = 'AuctionWatchList'</assert>
+         </all-of>  
+      </result>
+   </test-case>
+   
+   <test-case name="Axes120">
+      <description> Name of a namespace node</description>
+      <created by="Michael Kay" on="2013-01-22"/>
+      <environment ref="auction"/>
+      <dependency type="spec" value="XP20+"/>
+      <dependency type="feature" value="namespace-axis"/>
+      <test>/*/namespace::*/name()</test>
+      <result>
+         <assert-permutation>('xml', 'ma', 'xlink', 'yabadoo', 'anyzone', 'eachbay')</assert-permutation>
+      </result>
+   </test-case>
+   
+   <test-case name="Axes121">
+      <description> String value of a namespace node</description>
+      <created by="Michael Kay" on="2013-01-22"/>
+      <environment ref="auction"/>
+      <dependency type="spec" value="XP20+"/>
+      <dependency type="feature" value="namespace-axis"/>
+      <test>string(/*/namespace::xlink)</test>
+      <result>
+         <assert-eq>'http://www.w3.org/1999/xlink'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="Axes122">
+      <description> Identity of a namespace node</description>
+      <created by="Michael Kay" on="2013-01-22"/>
+      <environment ref="auction"/>
+      <dependency type="spec" value="XP20+"/>
+      <dependency type="feature" value="namespace-axis"/>
+      <test>/*/namespace::xlink is /*/*[1]/namespace::xlink</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="Axes123">
+      <description> Identity of a namespace node</description>
+      <created by="Michael Kay" on="2013-01-22"/>
+      <environment ref="auction"/>
+      <dependency type="spec" value="XP20+"/>
+      <dependency type="feature" value="namespace-axis"/>
+      <test>/*/namespace::xlink is /*/namespace::*[. = 'http://www.w3.org/1999/xlink']</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="Axes124">
+      <description> Namespace node for default namespace</description>
+      <created by="Michael Kay" on="2013-01-22"/>
+      <environment ref="TreeNS"/>
+      <dependency type="spec" value="XP20+"/>
+      <dependency type="feature" value="namespace-axis"/>
+      <test>/*/namespace::*[not(name())]</test>
+      <result>
+         <all-of>
+           <assert-count>1</assert-count>
+           <assert-eq>'http://example.com/default-ns'</assert-eq>
+         </all-of>  
+      </result>
+   </test-case>
+   
+   <test-case name="Axes125">
+      <description> Namespace node for default namespace</description>
+      <created by="Michael Kay" on="2013-01-22"/>
+      <environment ref="TreeNS"/>
+      <dependency type="spec" value="XP20+"/>
+      <dependency type="feature" value="namespace-axis"/>
+      <test>/*/*/namespace::*[not(name())]</test>
+      <result>
+         <assert-count>1</assert-count>
+      </result>
+   </test-case>
+   
+   <test-case name="Axes126">
+      <description> Namespace node for default namespace</description>
+      <created by="Michael Kay" on="2013-01-22"/>
+      <environment ref="TreeNS"/>
+      <dependency type="spec" value="XP20+"/>
+      <dependency type="feature" value="namespace-axis"/>
+      <test>/*/*/*/namespace::*[not(name())]</test>
+      <result>
+         <assert-empty/>
       </result>
    </test-case>
 
