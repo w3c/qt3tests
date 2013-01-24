@@ -1418,7 +1418,39 @@
          <assert-true/>
        </result>
    </test-case>
-   
+
+   <test-case name="instanceof140" covers="sequence-type-relationships type-derivation-with-unions">
+       <description>Instance of with function types and union types. See Bug 20632.</description>
+       <created by="Tim Mills" on="2013-01-24"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="higherOrderFunctions"/>
+       <test><![CDATA[
+         import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+         declare function local:f($a as xs:integer) as xs:boolean { true() };
+         local:f#1 instance of function(s:integer-union) as xs:boolean
+       ]]></test>
+       <result>
+         <assert-true/>
+       </result>
+   </test-case>
+ 
+   <test-case name="instanceof141" covers="sequence-type-relationships type-derivation-with-unions">
+       <description>Instance of with function types and union types. See Bug 20632.</description>
+       <created by="Tim Mills" on="2013-01-24"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="higherOrderFunctions"/>
+       <test><![CDATA[
+         import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+         declare function local:f($a as xs:integer) as xs:boolean { true() };
+         local:f#1 instance of function(s:decimal-or-string) as xs:boolean
+       ]]></test>
+       <result>
+         <assert-true/>
+       </result>
+   </test-case>
+ 
    <test-case name="K-SeqExprInstanceOf-1">
       <description> A test whose essence is: `1 instance of item()`. </description>
       <created by="Frans Englich" on="2007-11-26"/>
