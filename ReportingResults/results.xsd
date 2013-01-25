@@ -367,9 +367,69 @@
         </xs:annotation>
         <xs:simpleType>
           <xs:restriction base="xs:string">
-            <xs:enumeration value="pass"/>
-            <xs:enumeration value="fail"/>
-            <xs:enumeration value="not-run"/>
+            <xs:enumeration value="pass">
+              <xs:annotation>
+                <xs:documentation>
+                  <p>Indicates that the test was run and the assertion was satisfied</p>
+                </xs:documentation>
+              </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="fail">
+              <xs:annotation>
+                <xs:documentation>
+                  <p>Indicates that the test was run and the assertion was NOT satisfied</p>
+                </xs:documentation>
+              </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="wrongError">
+              <xs:annotation>
+                <xs:documentation>
+                  <p>Indicates that the test was run and reported an error, and the expected result was an error, but the error code was
+                  not the error code expected. This is treated for the purpose of headline statistics as a pass, but should be reported
+                  in this way so the Working Group can assess the interoperability of error codes. Because an incorrect error code may
+                  indicate that a processor is not handling the query correctly, implementors are advised to check each case carefully.</p>
+                </xs:documentation>
+              </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="n/a">
+              <xs:annotation>
+                <xs:documentation>
+                  <p>Indicates that the test was not run because it is not applicable to this implementation (for example, because 
+                    it depends on optional features, or because it is an XQuery test and the product under test is an XPath implementation).</p>
+                </xs:documentation>
+              </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="disputed">
+              <xs:annotation>
+                <xs:documentation>
+                  <p>Indicates that the test was not run because the results are disputed, by virtue of an unresolved bug report in the W3C
+                    Bugzilla system (which should be cited in the comment field). The dispute may relate to the test or to a statement in the
+                    specification that it relies upon. For statistical purposes this outcome is treated in the same way as "n/a".</p>
+                </xs:documentation>
+              </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="tooBig">
+              <xs:annotation>
+                <xs:documentation>
+                  <p>Indicates that the test was not run because it exceeds limits imposed by the system under test, or consumes excess resources.
+                  Where the limits in question are explicitly identified as implementation-defined limits in the specification, it is preferable
+                  to handle this situation by having an explicit dependency in the test case, or by allowing an alternative error outcome for the test.
+                  However there are other cases such as long strings or sequences, or large integer
+                  values in the occurrence count of a regular expression, that are not explicitly discussed in the specification; 
+                  or it may be a "soft" limit, where the processor could in theory execute the test
+                  successfully if given sufficient time and memory. For statistical purposes this outcome is treated in the same way as "n/a".</p>
+                </xs:documentation>
+              </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="notRun">
+              <xs:annotation>
+                <xs:documentation>
+                  <p>Indicates that the test was not run for unspecified reasons, perhaps because the test uses a feature that is not yet implemented
+                  in the product under test. For statistical purposes this outcome is treated in the same way as "fail". This is the default outcome
+                  assumed for tests that are present in the test catalog on the date of the test run, but which are not present in the results submission.</p>
+                </xs:documentation>
+              </xs:annotation>
+            </xs:enumeration>
           </xs:restriction>
         </xs:simpleType>
       </xs:attribute>
