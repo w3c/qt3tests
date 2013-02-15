@@ -5,7 +5,7 @@
    <test-case name="cbcl-anyURI-001">
       <description>Test xs:anyURI on empty sequence</description>
       <created by="Tim Mills" on="2013-02-15"/>      
-      <test>xs:anyURI(()))</test>
+      <test>xs:anyURI(())</test>
       <result>
          <assert-empty />
       </result>
@@ -32,11 +32,23 @@
    <test-case name="cbcl-anyURI-004">
       <description>Test parsing of subdelim characters in reg-name</description>
       <created by="Tim Mills" on="2013-02-15"/>      
+      <dependency type="spec" value="XQ10+" />
+      <test><![CDATA[xs:anyURI("http://!$&amp;'()*+,;=/")]]></test>
+      <result>
+         <assert-string-value>http://!$&amp;'()*+,;=/</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-anyURI-004b">
+      <description>Test parsing of subdelim characters in reg-name</description>
+      <created by="Tim Mills" on="2013-02-15"/>      
+      <dependency type="spec" value="XP20+" />
       <test>xs:anyURI("http://!$&amp;'()*+,;=/")</test>
       <result>
          <assert-string-value>http://!$&amp;'()*+,;=/</assert-string-value>
       </result>
    </test-case>
+
 
    <test-case name="cbcl-anyURI-005">
       <description>Test parsing of pct-encoded characters in segment</description>
@@ -50,6 +62,17 @@
    <test-case name="cbcl-anyURI-006">
       <description>Test parsing of subdelim characters in seqment</description>
       <created by="Tim Mills" on="2013-02-15"/>      
+      <dependency type="spec" value="XQ10+" />
+      <test><![CDATA[xs:anyURI("http://www.example.org/!/$/&amp;/'/(/)/*/+/,/;/=/")]]></test>
+      <result>
+         <assert-string-value>http://www.example.org/!/$/&amp;/'/(/)/*/+/,/;/=/</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-anyURI-006b">
+      <description>Test parsing of subdelim characters in seqment</description>
+      <created by="Tim Mills" on="2013-02-15"/>      
+      <dependency type="spec" value="XP20+" />
       <test>xs:anyURI("http://www.example.org/!/$/&amp;/'/(/)/*/+/,/;/=/")</test>
       <result>
          <assert-string-value>http://www.example.org/!/$/&amp;/'/(/)/*/+/,/;/=/</assert-string-value>
@@ -77,6 +100,17 @@
    <test-case name="cbcl-anyURI-009">
       <description>Test parsing of subdelim characters in query</description>
       <created by="Tim Mills" on="2013-02-15"/>      
+      <dependency type="spec" value="XQ10+" />
+      <test><![CDATA[xs:anyURI("http://www.example.org/?!$&amp;'*+,;=")]]></test>
+      <result>
+         <assert-string-value>http://www.example.org/?!$&amp;'()*+,;=</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-anyURI-009b">
+      <description>Test parsing of subdelim characters in query</description>
+      <created by="Tim Mills" on="2013-02-15"/>      
+      <dependency type="spec" value="XP20+" />
       <test>xs:anyURI("http://www.example.org/?!$&amp;'*+,;=")</test>
       <result>
          <assert-string-value>http://www.example.org/?!$&amp;'()*+,;=</assert-string-value>
@@ -104,6 +138,17 @@
    <test-case name="cbcl-anyURI-012">
       <description>Test parsing of subdelim characters in fragment</description>
       <created by="Tim Mills" on="2013-02-15"/>      
+      <dependency type="spec" value="XQ10+" />
+      <test><![CDATA[xs:anyURI("http://www.example.org/#!$&amp;'*+,;=")]]></test>
+      <result>
+         <assert-string-value>http://www.example.org/#!$&amp;'()*+,;=</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-anyURI-012b">
+      <description>Test parsing of subdelim characters in fragment</description>
+      <created by="Tim Mills" on="2013-02-15"/>      
+      <dependency type="spec" value="XP20+" />
       <test>xs:anyURI("http://www.example.org/#!$&amp;'*+,;=")</test>
       <result>
          <assert-string-value>http://www.example.org/#!$&amp;'()*+,;=</assert-string-value>
