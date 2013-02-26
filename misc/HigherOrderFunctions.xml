@@ -724,6 +724,28 @@
       </result>
    </test-case>
 
+   <test-case name="hof-053" covers="named-function-ref">
+      <description> instance-of tests on user-defined function, varying the result types  </description>
+      <created by="Tim Mills" on="2013-02-26"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+      	declare function local:f($x as xs:long, $y as xs:NCName) as element(e, xs:anyAtomicType) { <e x="{$x}" y="{$y}"/> }; 
+      	local:f#2 instance of function(xs:long, xs:NCName) as element(), 
+      	local:f#2 instance of function(xs:long, xs:NCName) as element()+, 
+      	local:f#2 instance of function(xs:long, xs:NCName) as element()?, 
+      	local:f#2 instance of function(xs:long, xs:NCName) as element()*, 
+      	local:f#2 instance of function(xs:long, xs:NCName) as element(e)*, 
+      	local:f#2 instance of function(xs:long, xs:NCName) as element(e, xs:anyType?)*, 
+      	local:f#2 instance of function(xs:long, xs:NCName) as element(*, xs:anyType?)?, 
+      	local:f#2 instance of function(xs:long, xs:NCName) as element(e, xs:anyType)*, 
+      	local:f#2 instance of function(xs:long, xs:NCName) as element(*, xs:anyType)?, 
+      	local:f#2 instance of function(xs:long, xs:NCName) as element(*, xs:untyped)?
+      ]]></test>
+      <result>
+         <assert-string-value>true true true true true true true true true false</assert-string-value>
+      </result>
+   </test-case>
+
    <test-case name="hof-901" covers="named-function-ref dynamic-function-call">
       <description> inline function literal, unknown user-defined function  </description>
       <created by="Michael Kay" on="2009-03-01"/>
