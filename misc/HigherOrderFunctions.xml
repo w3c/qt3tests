@@ -515,6 +515,7 @@
       <created by="Michael Kay" on="2009-03-01"/>
       <modified by="O'Neil Delpratt" on="2012-10-01" change="Related to bug issue #15999" />
       <modified by="Tim Mills" on="2013-02-26" change="Reflect resolution of bug #15999" />
+      <modified by="Michael Kay" on="2013-03-05" change="There are now six results for the six sub-tests (was: 8 results for 6 tests)" />
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
       	declare function local:f($x as xs:long, $y as xs:NCName) as element(e)? { <e x="{$x}" y="{$y}"/> }; 
@@ -526,7 +527,7 @@
       	local:f#2 instance of function(xs:long, xs:NCName) as element(*, xs:untyped)?
       ]]></test>
       <result>
-         <assert-string-value>true true true true true false false false</assert-string-value>
+         <assert-string-value>true true true true true false</assert-string-value>
       </result>
    </test-case>
 
@@ -1311,7 +1312,8 @@
    <test-case name="inline-function-13" covers="inline-function">
       <description>It is a static error [err:XQST0039] for a function declaration to have more than one parameter with the same name.</description>
       <created by="John Snelson" on="2011-07-28"/>
-      <dependency type="spec" value="XP30+ XQ30+"/>
+      <modified by="Michael Kay" on="2013-04-05" change="Invalid as an XPath 3.0 test (prefix undeclared). Replaced with -15"/>
+      <dependency type="spec" value="XQ30+"/>
       <test>function($local:foo, $local:bar, $local:foo) { "lala", $local:foo, $local:bar }("gibbon", "monkey", "ape")</test>
       <result>
         <error code="XQST0039"/>
@@ -1321,12 +1323,36 @@
    <test-case name="inline-function-14" covers="inline-function">
       <description>It is a static error [err:XQST0039] for a function declaration to have more than one parameter with the same name.</description>
       <created by="John Snelson" on="2011-07-28"/>
-      <dependency type="spec" value="XP30+ XQ30+"/>
+      <modified by="Michael Kay" on="2013-04-05" change="Invalid as an XPath 3.0 test (prefix undeclared). Replaced with -16"/>
+      <dependency type="spec" value="XQ30+"/>
       <test>function($local:foo, $local:bar, $fn:foo) { "lala", $local:foo, $local:bar }("gibbon", "monkey", "ape")</test>
       <result>
         <assert-deep-eq>"lala", "gibbon", "monkey"</assert-deep-eq>
       </result>
    </test-case>
+   
+   <test-case name="inline-function-15" covers="inline-function">
+      <description>It is a static error [err:XQST0039] for a function declaration to have more than one parameter with the same name.</description>
+      <created by="Michael Kay" on="2013-04-05"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>function($Q{http://local/}foo, $Q{http://local/}bar, $Q{http://local/}foo) { 
+              "lala", $Q{http://local/}foo, $Q{http://local/}bar }("gibbon", "monkey", "ape")</test>
+      <result>
+        <error code="XQST0039"/>
+      </result>
+   </test-case>
+
+   <test-case name="inline-function-16" covers="inline-function">
+      <description>It is a static error [err:XQST0039] for a function declaration to have more than one parameter with the same name.</description>
+      <created by="Michael Kay" on="2013-04-05"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>function($Q{http://local/}foo, $Q{http://local/}bar, $fn:foo) { 
+               "lala", $Q{http://local/}foo, $Q{http://local/}bar }("gibbon", "monkey", "ape")</test>
+      <result>
+        <assert-deep-eq>"lala", "gibbon", "monkey"</assert-deep-eq>
+      </result>
+   </test-case>
+   
 
 <!--The static context for the function body is inherited from the location of the inline function expression, with the exception of the static type of the context item which is initially undefined.-->
 
@@ -1448,10 +1474,10 @@ key: z, value: (zebra)"</assert-eq>
       <module uri="http://snelson.org.uk/functions/functional" file="HigherOrderFunctions/functional.xq"/>
       <dependency type="spec" value="XQ30+"/>
       <test>
-import module namespace func = "http://snelson.org.uk/functions/functional";
-
-let $f := func:curry(concat#5)
-return $f("foo")(" bar")(" baz")(" what's")(" next?")
+         import module namespace func = "http://snelson.org.uk/functions/functional";
+         
+         let $f := func:curry(concat#5)
+         return $f("foo")(" bar")(" baz")(" what's")(" next?")
       </test>
       <result>
          <assert-eq>"foo bar baz what's next?"</assert-eq>
@@ -1598,11 +1624,11 @@ return string($a)
       <created by="John Snelson" on="2011-07-28"/>
       <dependency type="spec" value="XQ30+"/>
       <test>
-declare function local:hof($s, $f as function(*)) {
-  $f($s[1], $s[2])
-};
-
-local:hof(('1', '2'), concat#2)
+         declare function local:hof($s, $f as function(*)) {
+           $f($s[1], $s[2])
+         };
+         
+         local:hof(('1', '2'), concat#2)
       </test>
       <result>
          <assert-eq>"12"</assert-eq>
@@ -1614,8 +1640,8 @@ local:hof(('1', '2'), concat#2)
       <created by="John Snelson" on="2011-07-28"/>
       <dependency type="spec" value="XP30+ XQ30+"/>
       <test>
-let $a := string-join(?, "")
-return $a(("foo", "bar", "baz"))
+         let $a := string-join(?, "")
+         return $a(("foo", "bar", "baz"))
       </test>
       <result>
          <assert-eq>"foobarbaz"</assert-eq>
@@ -1627,12 +1653,12 @@ return $a(("foo", "bar", "baz"))
       <created by="John Snelson" on="2011-07-28"/>
       <dependency type="spec" value="XQ30+"/>
       <test>
-declare function local:curry($f as function(item()*, item()*) as item()*) as function(item()*) as function(item()*) as item()*
-{
-  function($a) { $f($a, ?) }
-};
-
-local:curry(substring-after#2)("foobar")("foo")
+         declare function local:curry($f as function(item()*, item()*) as item()*) as function(item()*) as function(item()*) as item()*
+         {
+           function($a) { $f($a, ?) }
+         };
+         
+         local:curry(substring-after#2)("foobar")("foo")
       </test>
       <result>
          <assert-eq>"bar"</assert-eq>
@@ -1674,8 +1700,8 @@ local:curry(substring-after#2)("foobar")("foo")
       <created by="John Snelson" on="2011-07-28"/>
       <dependency type="spec" value="XP30+ XQ30+"/>
       <test>
-for $f in (concat("one ", ?, " three"), substring-before("one two three", ?), matches(?, "t.*o"), xs:NCName(?))
-return $f("two")
+         for $f in (concat("one ", ?, " three"), substring-before("one two three", ?), matches(?, "t.*o"), xs:NCName(?))
+         return $f("two")
       </test>
       <result>
         <assert-deep-eq>"one two three", "one ", true(), xs:NCName("two")</assert-deep-eq>
@@ -1707,8 +1733,8 @@ return $f("two")
       <created by="John Snelson" on="2011-07-28"/>
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
-let $f := function($a) { node-name(.), $a }
-return <a/>/$f(5)
+         let $f := function($a) { node-name(.), $a }
+         return <a/>/$f(5)
       ]]>
       </test>
       <result>
@@ -1721,8 +1747,8 @@ return <a/>/$f(5)
       <created by="John Snelson" on="2011-07-28"/>
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
-let $f := name#0
-return <a/>/$f()
+         let $f := name#0
+         return <a/>/$f()
       ]]>
       </test>
       <result>
@@ -1735,8 +1761,8 @@ return <a/>/$f()
       <created by="John Snelson" on="2012-05-23"/>
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
-let $f := <b/>/name#0
-return <a/>/$f()
+         let $f := <b/>/name#0
+         return <a/>/$f()
       ]]>
       </test>
       <result>
@@ -1751,12 +1777,12 @@ return <a/>/$f()
       <module uri="lib" file="HigherOrderFunctions/module-xqhof16.xq"/>
       <dependency type="spec" value="XQ30+"/>
       <test>
-declare base-uri "main";
-import module namespace lib = "lib";
-
-lib:getfun()(),
-fn:static-base-uri#0(),
-fn:static-base-uri()
+         declare base-uri "main";
+         import module namespace lib = "lib";
+         
+         lib:getfun()(),
+         fn:static-base-uri#0(),
+         fn:static-base-uri()
       </test>
       <result>
          <all-of>
@@ -1772,13 +1798,13 @@ fn:static-base-uri()
       <created by="John Snelson" on="2012-05-23"/>
       <module uri="lib" file="HigherOrderFunctions/module-xqhof16.xq"/>
       <dependency type="spec" value="XQ30+"/>
-      <test>
-import module namespace lib = "lib";
-
-&lt;main/>/lib:getfun2()(),
-&lt;main/>/name#0(),
-&lt;main/>/name()
-      </test>
+      <test><![CDATA[
+         import module namespace lib = "lib";
+         
+         <main/>/lib:getfun2()(),
+         <main/>/name#0(),
+         <main/>/name()
+      ]]></test>
       <result>
          <assert-deep-eq>"lib", "main", "main"</assert-deep-eq>
       </result>
@@ -1791,12 +1817,12 @@ import module namespace lib = "lib";
       <module uri="lib" file="HigherOrderFunctions/module-xqhof16.xq"/>
       <dependency type="spec" value="XQ30+"/>
       <test>
-declare base-uri "main";
-import module namespace lib = "lib";
-
-lib:getfun3()(xs:QName("fn:static-base-uri"),0)(),
-function-lookup#2(xs:QName("fn:static-base-uri"),0)(),
-function-lookup(xs:QName("fn:static-base-uri"),0)()
+         declare base-uri "main";
+         import module namespace lib = "lib";
+         
+         lib:getfun3()(xs:QName("fn:static-base-uri"),0)(),
+         function-lookup#2(xs:QName("fn:static-base-uri"),0)(),
+         function-lookup(xs:QName("fn:static-base-uri"),0)()
       </test>
       <result>
          <all-of>
@@ -1812,13 +1838,13 @@ function-lookup(xs:QName("fn:static-base-uri"),0)()
       <created by="John Snelson" on="2012-05-23"/>
       <module uri="lib" file="HigherOrderFunctions/module-xqhof16.xq"/>
       <dependency type="spec" value="XQ30+"/>
-      <test>
-import module namespace lib = "lib";
-
-&lt;main/>/lib:getfun3()(xs:QName("fn:name"),0)(),
-&lt;main/>/function-lookup#2(xs:QName("fn:name"),0)(),
-&lt;main/>/function-lookup(xs:QName("fn:name"),0)()
-      </test>
+      <test><![CDATA[
+         import module namespace lib = "lib";
+         
+         <main/>/lib:getfun3()(xs:QName("fn:name"),0)(),
+         <main/>/function-lookup#2(xs:QName("fn:name"),0)(),
+         <main/>/function-lookup(xs:QName("fn:name"),0)()
+      ]]></test>
       <result>
          <assert-deep-eq>"lib", "main", "main"</assert-deep-eq>
       </result>
