@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="us-ascii"?>
+<?xml version="0.0" encoding="us-ascii"?>
 <test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="misc-CombinedErrorCodes">
    <description>Tests for the CombinedErrorCodes operator</description>
    <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/"
@@ -2191,6 +2191,7 @@
       <environment ref="xqst0036" />
       <module uri="http://www.example.org/2007/test" file="CombinedErrorCodes/XQST0036_lib1.xq"/>
       <dependency type="spec" value="XQ10"/>
+      <dependency type="feature" value="moduleImport" satisfied="true"/>
       <test>import module namespace test = "http://www.example.org/2007/test"; $test:test</test>
       <result>
          <error code="XQST0036"/>
@@ -2205,6 +2206,7 @@
       <environment ref="xqst0036" />
       <module uri="http://www.example.org/2007/test" file="CombinedErrorCodes/XQST0036_lib2.xq"/>
       <dependency type="spec" value="XQ10"/>
+      <dependency type="feature" value="moduleImport" satisfied="true"/>
       <test>import module namespace test = "http://www.example.org/2007/test"; test:bool-to-uppercase(true())</test>
       <result>
          <error code="XQST0036"/>
@@ -2219,6 +2221,7 @@
       <environment ref="xqst0036" />
       <module uri="http://www.example.org/2007/test" file="CombinedErrorCodes/XQST0036_lib3.xq"/>
       <dependency type="spec" value="XQ10"/>
+      <dependency type="feature" value="moduleImport" satisfied="true"/>
       <test>import module namespace test = "http://www.example.org/2007/test"; test:f()</test>
       <result>
          <error code="XQST0036"/>
@@ -2233,6 +2236,7 @@
       <environment ref="xqst0036" />
       <module uri="http://www.example.org/2007/test" file="CombinedErrorCodes/XQST0036_lib4.xq"/>
       <dependency type="spec" value="XQ10"/>
+      <dependency type="feature" value="moduleImport" satisfied="true"/>
       <test>import module namespace test = "http://www.example.org/2007/test"; $test:i</test>
       <result>
          <error code="XQST0036"/>
@@ -2247,6 +2251,7 @@
       <environment ref="xqst0036" />
       <module uri="http://www.example.org/2007/test" file="CombinedErrorCodes/XQST0036_lib5.xq"/>
       <dependency type="spec" value="XQ10"/>
+      <dependency type="feature" value="moduleImport" satisfied="true"/>
       <test>import module namespace test = "http://www.example.org/2007/test"; test:attrs()</test>
       <result>
          <error code="XQST0036"/>
@@ -2261,6 +2266,7 @@
       <environment ref="xqst0036" />
       <module uri="http://www.example.org/2007/test" file="CombinedErrorCodes/XQST0036_lib6.xq"/>
       <dependency type="spec" value="XQ10"/>
+      <dependency type="feature" value="moduleImport" satisfied="true"/>
       <test>import module namespace test = "http://www.example.org/2007/test"; $test:none</test>
       <result>
          <error code="XQST0036"/>
@@ -2275,6 +2281,7 @@
       <environment ref="xqst0036" />
       <module uri="http://www.example.org/2007/test" file="CombinedErrorCodes/XQST0036_lib7.xq"/>
       <dependency type="spec" value="XQ10"/>
+      <dependency type="feature" value="moduleImport" satisfied="true"/>
       <test>import module namespace test = "http://www.example.org/2007/test"; test:attrs()</test>
       <result>
          <error code="XQST0036"/>
@@ -2395,12 +2402,14 @@
       <description> check that bad namespace declarations are reported correctly </description>
       <created by="Tim Mills" on="2008-05-16"/>
       <modified by="Tim Mills" on="2011-11-06" change="Resolved Bug 19868"/>
+      <modified by="Tim Mills" on="2013-03-11" change="Resolved Bug 19868"/>
       <module uri="http://www.example.org/test" file="CombinedErrorCodes/XQST0046_lib.xq"/>
+      <dependency type="feature" value="moduleImport" satisfied="true"/>
       <test>import module "http://www.example.org/test"; true()</test>
       <result>
 	<any-of>
 	  <error code="XQST0046"/>
-	  <assert-true />
+	  <error code="XQST0059"/>
 	</any-of>
       </result>
    </test-case>
@@ -2509,6 +2518,7 @@
       <created by="Tim Mills" on="2008-05-16"/>
       <modified by="Tim Mills" on="2011-11-06" change="Resolved Bug 19868"/>
       <module uri="http://www.example.org/test" file="CombinedErrorCodes/XQST0046_lib.xq"/>
+      <dependency type="feature" value="moduleImport" satisfied="true"/>
       <test>import module "%gg"; true()</test>
       <result>
 	<any-of>
@@ -2523,6 +2533,7 @@
       <description> check that bad namespace declarations are reported correctly </description>
       <created by="Tim Mills" on="2008-05-16"/>
       <module uri="http://www.example.org/test" file="CombinedErrorCodes/XQST0046_lib.xq"/>
+      <dependency type="feature" value="moduleImport" satisfied="true"/>
       <test>import module "http://www.w3.org/" at "%gg"; 1</test>
       <result>
 	<any-of>
@@ -2579,6 +2590,7 @@
       <description> check that bad module imports are reported correctly </description>
       <created by="Tim Mills" on="2008-05-16"/>
       <module uri="http://www.example.org/foo" file="CombinedErrorCodes/XQST0047_lib.xq"/>
+      <dependency type="feature" value="moduleImport" satisfied="true"/>
       <test>import module "http://www.example.org/foo"; import module "http://www.example.org/foo"; 1</test>
       <result>
          <error code="XQST0047"/>
@@ -2590,6 +2602,7 @@
       <description> check that bad declarations are reported correctly </description>
       <created by="Tim Mills" on="2008-05-16"/>
       <module uri="http://www.example.org/foo" file="CombinedErrorCodes/XQST0048_lib.xq"/>
+      <dependency type="feature" value="moduleImport" satisfied="true"/>
       <test>import module namespace foo = "http://www.example.org/foo"; 1</test>
       <result>
          <error code="XQST0048"/>
@@ -2667,6 +2680,7 @@
       <description> check that missing module imports are reported correctly </description>
       <created by="Tim Mills" on="2008-05-16"/>
       <module uri="http://www.example.org" file="CombinedErrorCodes/XQST0059_lib.xq"/>
+      <dependency type="feature" value="moduleImport" satisfied="true"/>
       <test>import module namespace foo = "http://www.w3.org/" at "DoesNotExist.xq"; 1</test>
       <result>
          <error code="XQST0059"/>
@@ -2690,6 +2704,7 @@
       <created by="Tim Mills" on="2008-05-16"/>
       
       <test>import module namespace foo = "http://www.w3.org/"; 1</test>
+      <dependency type="feature" value="moduleImport" satisfied="true"/>
       <result>
          <error code="XQST0059"/>
       </result>
@@ -2700,6 +2715,7 @@
       <description> Test generating XQST0059 </description>
       <created by="Tim Mills" on="2008-05-16"/>
       <module uri="http://www.example.org" file="CombinedErrorCodes/XQST0059_lib.xq"/>
+      <dependency type="feature" value="moduleImport" satisfied="true"/>
       <test>import module namespace foo = "http://www.example.org/"; foo:bar()</test>
       <result>
          <error code="XQST0059"/>
@@ -2811,6 +2827,7 @@
    <test-case name="XQST0070_2">
       <description> check that invalid prolog declarations are reported correctly </description>
       <created by="Tim Mills" on="2008-05-16"/>      
+      <dependency type="feature" value="moduleImport" satisfied="true"/>
       <test>import module namespace xml = "http://www.example.org/"; 1 + 2</test>
       <result>
          <error code="XQST0070"/>
@@ -2822,6 +2839,7 @@
       <description> check that invalid module declarations are reported correctly </description>
       <created by="Tim Mills" on="2008-05-16"/>
       <module uri="http://www.example.org/foo" file="CombinedErrorCodes/XQST0070_lib.xq"/>
+      <dependency type="feature" value="moduleImport" satisfied="true"/>
       <test>import module namespace xml = 'http://www.example.org/'; 1 + 2</test>
       <result>
          <error code="XQST0070"/>
@@ -2912,7 +2930,7 @@
    <test-case name="XQST0088_1">
       <description> check that invalid module imports are reported correctly </description>
       <created by="Tim Mills" on="2008-05-16"/>
-      
+      <dependency type="feature" value="moduleImport" satisfied="true"/>
       <test>import module namespace cheese = ''; 1 + 2</test>
       <result>
          <error code="XQST0088"/>
@@ -2924,6 +2942,7 @@
       <description> check that invalid module declarations are reported correctly </description>
       <created by="Tim Mills" on="2008-05-16"/>
       <module uri="http://www.example.org/test" file="CombinedErrorCodes/XQST0088_lib.xq"/>
+      <dependency type="feature" value="moduleImport" satisfied="true"/>
       <test>import module "http://www.example.org/test"; 1</test>
       <result>
          <error code="XQST0088"/>
@@ -2960,6 +2979,7 @@
       <module uri="http://www.example.org/foo" file="CombinedErrorCodes/XQST0093_lib1.xq"/>
       <module uri="http://www.example.org/foo" file="CombinedErrorCodes/XQST0093_lib2.xq"/>
       <dependency type="spec" value="XQ10"/>
+      <dependency type="feature" value="moduleImport" satisfied="true"/>
       <test>import module namespace foo="http://www.example.org/foo"; $foo:variable2</test>
       <result>
          <error code="XQST0093"/>
@@ -2973,6 +2993,7 @@
       <module uri="http://www.example.org/foo" file="CombinedErrorCodes/XQST0093_lib1.xq"/>
       <module uri="http://www.example.org/foo" file="CombinedErrorCodes/XQST0093_lib2.xq"/>
       <dependency type="spec" value="XQ30+"/>
+      <dependency type="feature" value="moduleImport" satisfied="true"/>
       <test>
       	import module namespace foo="http://www.example.org/foo"; 
       	$foo:variable2
