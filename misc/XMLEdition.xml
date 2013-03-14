@@ -33,11 +33,15 @@
       <description> The character #x037F is allowed at the start of a Name in XML 1.0 5th edition and later </description>
       <created by="Nicolae Brinza" on="2009-04-01"/>
       <modified by="Michael Kay" on="2011-11-24" change="clarify dependency, split into two tests"/>
+      <modified by="Tim Mills" on="2013-03-14" change="Resolve Bug 20705"/>
       <dependency type="xml-version" value="1.0:5+ 1.1"/>
       <dependency type="spec" value="XQ10+"/>
       <test>xquery version "1.0" encoding "utf-8"; &lt;&#x037F;node/&gt;</test>
       <result>
-        <assert-xml>&lt;&#x037F;node/&gt;</assert-xml>
+	<any-of>
+	  <assert-xml>&lt;&#x037F;node/&gt;</assert-xml>
+	  <serialization-matches>&lt;&#x037F;node/&gt;</serialization-matches>
+	</any-of>
       </result>
    </test-case>
    
@@ -100,11 +104,15 @@
       <description>Written by: Tim Kraska  Has a "long s" in a name, legal in XML 1.1, illegal in XML 1.0 ed 4 and earlier</description>
       <created by="Nicolae Brinza" on="2009-04-01"/>
       <modified by="Michael Kay" on="2011-11-24" change="clarify dependency, split into two tests"/>
+      <modified by="Tim Mills" on="2013-03-14" change="Resolve Bug 20705"/>
       <dependency type="xml-version" value="1.0:5+ 1.1"/>
       <dependency type="spec" value="XQ10+"/>
       <test>&lt;egg&#383;/></test>
       <result>
+	<any-of>
             <assert-xml>&lt;egg&#383;/></assert-xml>
+            <serialization-matches>&lt;egg&#383;/></serialization-matches>
+	</any-of>
       </result>
    </test-case>
    
