@@ -493,4 +493,110 @@
       </result>
    </test-case>
 
+
+   <test-case name="fn-map-pairs-031">
+      <description>Tests the typ checking of the $f argument.</description>
+      <created by="Tim Mills" on="2013-03-14"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>( fn:map-pairs( if ( fn:current-dateTime() eq
+                                 fn:dateTime( fn:current-date(),
+                                              fn:current-time() ))
+                            then fn:concat#2 
+                            else (),
+                            ("a"), ("b") ),
+              fn:map-pairs( if ( fn:current-dateTime() eq
+                                fn:dateTime( fn:current-date(),
+                                             fn:current-time() ))
+                            then () 
+                            else fn:concat#2,
+                            "a", "b" ) )</test>
+      <result>
+	<error code="XPTY0004" />
+      </result>
+   </test-case>
+
+   <test-case name="fn-map-pairs-032">
+      <description>Tests the type checking of the $f argument.</description>
+      <created by="Tim Mills" on="2013-03-14"/>
+      <dependency type="feature" value="staticTyping"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:map-pairs( if ( fn:current-dateTime() eq
+                          fn:dateTime( fn:current-date(),
+                                       fn:current-time() ))
+                          then fn:concat#2 
+                          else (),
+                          "a", "b" )</test>
+      <result>
+	<error code="XPTY0004" />
+      </result>
+   </test-case>
+
+   <test-case name="fn-map-pairs-033">
+      <description>Tests the type checking of the $f argument.</description>
+      <created by="Tim Mills" on="2013-03-14"/>
+      <modified by="Michael Kay" on="2012-12-21" change="allow empty sequence as result, see bug 20476"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:map-pairs( (fn:concat#2, fn:concat#2), "a", "b" )</test>
+      <result>
+	<error code="XPTY0004" />
+      </result>
+   </test-case>
+
+   <test-case name="fn-map-pairs-034">
+      <description>Tests the type checking of the $f argument.</description>
+      <created by="Tim Mills" on="2013-03-14"/>
+      <modified by="Michael Kay" on="2012-12-21" change="allow empty sequence as result, see bug 20476"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:map-pairs( fn:true(), "a", "b" )</test>
+      <result>
+	<error code="XPTY0004" />
+      </result>
+   </test-case>
+
+   <test-case name="fn-map-pairs-035">
+      <description>Tests the type checking of the $f argument.</description>
+      <created by="Tim Mills" on="2013-03-14"/>
+      <environment>
+         <source role="." file="map-pairs/fn-map-pairs-013.xml">
+            <description/>
+            <created by="Tim Mills" on="2012-05-01"/>
+         </source>
+      </environment>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test> fn:map-pairs( /root, "a", "b" )</test>
+      <result>
+	<error code="XPTY0004" />
+      </result>
+   </test-case>
+
+   <test-case name="fn-map-pairs-036">
+      <description>Tests the type checking of the $f argument.</description>
+      <created by="Tim Mills" on="2013-03-14"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:map-pairs( fn:boolean#1, "a", "b" )</test>
+      <result>
+	<error code="XPTY0004" />
+      </result>
+   </test-case>
+
+   <test-case name="fn-map-pairs-037">
+      <description>Tests the type checking of the $f argument.</description>
+      <created by="Tim Mills" on="2013-03-14"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:map-pairs( fn:concat#3, "a", "b" )</test>
+      <result>
+	<error code="XPTY0004" />
+      </result>
+   </test-case>
+
+   <test-case name="fn-map-pairs-038">
+      <description>Tests the type checking of the $f argument.</description>
+      <created by="Tim Mills" on="2013-03-14"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:map-pairs( function($a as item(), $b as item()) as item()* { fn:boolean($a), fn:boolean($b) }, "a", "b" )</test>
+      <result>
+	<error code="XPTY0004" />
+      </result>
+   </test-case>
+
 </test-set>
