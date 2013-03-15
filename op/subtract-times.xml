@@ -475,10 +475,11 @@ together with the numeric-equal operator "ge".
       </result>
    </test-case>
    
-      <test-case name="cbcl-subtract-times-001">
+   <test-case name="cbcl-subtract-times-001">
       <description> test subtraction of times </description>
       <created by="Tim Mills" on="2008-05-15"/>
-      <test>xs:time("12:00:00+01:00") - xs:time("12:00:00")</test>
+      <modified by="Tim Mills" on="2013-03-15" change="Bug 21222" />
+      <test>xs:time("12:00:00+01:00") - xs:time("12:00:00") - implicit-timezone()</test>
       <result>
          <assert-string-value>-PT1H</assert-string-value>
       </result>
@@ -487,7 +488,8 @@ together with the numeric-equal operator "ge".
    <test-case name="cbcl-subtract-times-002">
       <description> test subtraction of times </description>
       <created by="Tim Mills" on="2008-05-15"/>
-      <test>xs:time("12:00:00") - xs:time("12:00:00+01:00")</test>
+      <modified by="Tim Mills" on="2013-03-15" change="Bug 21222" />
+      <test>xs:time("12:00:00") - xs:time("12:00:00+01:00") + implicit-timezone()</test>
       <result>
          <assert-string-value>PT1H</assert-string-value>
       </result>
@@ -496,8 +498,9 @@ together with the numeric-equal operator "ge".
    <test-case name="cbcl-subtract-times-003">
       <description> test subtraction of times </description>
       <created by="Tim Mills" on="2008-05-15"/>
+      <modified by="Tim Mills" on="2013-03-15" change="Bug 21222" />
       <test>
-      fn:adjust-time-to-timezone(xs:time("12:00:00")) - fn:adjust-time-to-timezone(xs:time("08:00:00+05:00"), xs:dayTimeDuration("PT1H"))
+      fn:adjust-time-to-timezone(xs:time("12:00:00")) - fn:adjust-time-to-timezone(xs:time("08:00:00+05:00"), xs:dayTimeDuration("PT1H")) + implicit-timezone()
    </test>
       <result>
          <assert-string-value>PT9H</assert-string-value>
@@ -507,8 +510,9 @@ together with the numeric-equal operator "ge".
    <test-case name="cbcl-subtract-times-004">
       <description> test subtraction of times </description>
       <created by="Tim Mills" on="2008-05-15"/>
+      <modified by="Tim Mills" on="2013-03-15" change="Bug 21222" />
       <test>
-      fn:adjust-time-to-timezone(xs:time("08:00:00+05:00"), xs:dayTimeDuration("PT1H")) - fn:adjust-time-to-timezone(xs:time("12:00:00"))
+      fn:adjust-time-to-timezone(xs:time("08:00:00+05:00"), xs:dayTimeDuration("PT1H")) - fn:adjust-time-to-timezone(xs:time("12:00:00")) - implicit-timezone()
    </test>
       <result>
          <assert-string-value>-PT9H</assert-string-value>

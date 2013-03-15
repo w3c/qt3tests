@@ -527,8 +527,10 @@ together with "fn:false"/or expression (ne operator).
    <test-case name="cbcl-gMonthDay-equal-002">
       <description> test comparison of gMonthDay </description>
       <created by="Tim Mills" on="2008-05-16"/>
-      
-      <test>xs:gMonthDay("--12-30") eq xs:gMonthDay("--12-31+09:00")</test>
+      <modified by="Tim Mills" on="2013-03-15" change="Bug 21222" />
+      <test>if (implicit-timezone() eq xs:dayTimeDuration('PT9M'))
+            then xs:gMonthDay("--12-30") eq xs:gMonthDay("--12-31+09:01")
+            else xs:gMonthDay("--12-30") eq xs:gMonthDay("--12-31+09:00")</test>
       <result>
          <assert-false/>
       </result>
@@ -538,8 +540,10 @@ together with "fn:false"/or expression (ne operator).
    <test-case name="cbcl-gMonthDay-equal-003">
       <description> test comparison of gMonthDay </description>
       <created by="Tim Mills" on="2008-05-16"/>
-      
-      <test>xs:gMonthDay("--12-31+09:00") eq xs:gMonthDay("--12-30")</test>
+      <modified by="Tim Mills" on="2013-03-15" change="Bug 21222" />
+      <test>if (implicit-timezone() eq xs:dayTimeDuration('PT9M'))
+            then xs:gMonthDay("--12-31+09:01") eq xs:gMonthDay("--12-30")
+            else xs:gMonthDay("--12-31+09:00") eq xs:gMonthDay("--12-30")</test>
       <result>
          <assert-false/>
       </result>
@@ -549,8 +553,10 @@ together with "fn:false"/or expression (ne operator).
    <test-case name="cbcl-gMonthDay-equal-004">
       <description> test comparison of gMonthDay </description>
       <created by="Tim Mills" on="2008-05-16"/>
-      
-      <test>xs:gMonthDay("--12-30") eq xs:gMonthDay("--12-31+09:00")</test>
+      <modified by="Tim Mills" on="2013-03-15" change="Bug 21222" />
+      <test>if (implicit-timezone() eq xs:dayTimeDuration('-PT9M'))
+            then xs:gMonthDay("--12-30") eq xs:gMonthDay("--12-31-09:01")
+            else xs:gMonthDay("--12-30") eq xs:gMonthDay("--12-31-09:00")</test>
       <result>
          <assert-false/>
       </result>
@@ -560,8 +566,10 @@ together with "fn:false"/or expression (ne operator).
    <test-case name="cbcl-gMonthDay-equal-005">
       <description> test comparison of gMonthDay </description>
       <created by="Tim Mills" on="2008-05-16"/>
-      
-      <test>xs:gMonthDay("--12-31+09:00") eq xs:gMonthDay("--12-30")</test>
+      <modified by="Tim Mills" on="2013-03-15" change="Bug 21222" />
+      <test>if (implicit-timezone() eq xs:dayTimeDuration('-PT9M'))
+            then xs:gMonthDay("--12-31-09:01") eq xs:gMonthDay("--12-30")
+            else xs:gMonthDay("--12-31-09:00") eq xs:gMonthDay("--12-30")</test>
       <result>
          <assert-false/>
       </result>
@@ -583,8 +591,10 @@ together with "fn:false"/or expression (ne operator).
    <test-case name="cbcl-gMonthDay-equal-007">
       <description> test comparison of gMonthDay </description>
       <created by="Tim Mills" on="2008-05-16"/>
-      
-      <test>xs:gMonthDay("--12-30") ne xs:gMonthDay("--12-31+09:00")</test>
+      <modified by="Tim Mills" on="2013-03-15" change="Bug 21222" />
+      <test>if (implicit-timezone() eq xs:dayTimeDuration('PT9M'))
+            then xs:gMonthDay("--12-30") ne xs:gMonthDay("--12-31+09:01")
+            else xs:gMonthDay("--12-30") ne xs:gMonthDay("--12-31+09:00")</test>
       <result>
          <assert-true/>
       </result>
@@ -594,8 +604,10 @@ together with "fn:false"/or expression (ne operator).
    <test-case name="cbcl-gMonthDay-equal-008">
       <description> test comparison of gMonthDay </description>
       <created by="Tim Mills" on="2008-05-16"/>
-      
-      <test>xs:gMonthDay("--12-31+09:00") ne xs:gMonthDay("--12-30")</test>
+      <modified by="Tim Mills" on="2013-03-15" change="Bug 21222" />
+      <test>if (implicit-timezone() eq xs:dayTimeDuration('PT9M'))
+            then xs:gMonthDay("--12-31+09:01") ne xs:gMonthDay("--12-30")
+            else xs:gMonthDay("--12-31+09:00") ne xs:gMonthDay("--12-30")</test>
       <result>
          <assert-true/>
       </result>
@@ -605,8 +617,10 @@ together with "fn:false"/or expression (ne operator).
    <test-case name="cbcl-gMonthDay-equal-009">
       <description> test comparison of gMonthDay </description>
       <created by="Tim Mills" on="2008-05-16"/>
-      
-      <test>xs:gMonthDay("--12-30") ne xs:gMonthDay("--12-31+09:00")</test>
+      <modified by="Tim Mills" on="2013-03-15" change="Bug 21222" />
+      <test>if (implicit-timezone() eq xs:dayTimeDuration('-PT9M'))
+            then xs:gMonthDay("--12-30") ne xs:gMonthDay("--12-31-09:01")
+            else xs:gMonthDay("--12-30") ne xs:gMonthDay("--12-31-09:00")</test>
       <result>
          <assert-true/>
       </result>
@@ -616,8 +630,10 @@ together with "fn:false"/or expression (ne operator).
    <test-case name="cbcl-gMonthDay-equal-010">
       <description> test comparison of gMonthDay </description>
       <created by="Tim Mills" on="2008-05-16"/>
-      
-      <test>xs:gMonthDay("--12-31+09:00") ne xs:gMonthDay("--12-30")</test>
+      <modified by="Tim Mills" on="2013-03-15" change="Bug 21222" />
+      <test>if (implicit-timezone() eq xs:dayTimeDuration('-PT9M'))
+            then xs:gMonthDay("--12-31-09:01") ne xs:gMonthDay("--12-30")
+            else xs:gMonthDay("--12-31-09:00") ne xs:gMonthDay("--12-30")</test>
       <result>
          <assert-true/>
       </result>
@@ -719,8 +735,10 @@ together with "fn:false"/or expression (ne operator).
    <test-case name="cbcl-gMonthDay-equal-019">
       <description> test comparison of gMonthDay </description>
       <created by="Tim Mills" on="2008-05-23"/>
-      
-      <test>xs:gMonthDay("--12-31") eq xs:gMonthDay("--12-31+01:00")</test>
+      <modified by="Tim Mills" on="2013-03-15" change="Bug 21222" />
+      <test>if (implicit-timezone() eq xs:dayTimeDuration('PT1M'))
+            then xs:gMonthDay("--12-30") eq xs:gMonthDay("--12-31+01:01")
+            else xs:gMonthDay("--12-30") eq xs:gMonthDay("--12-31+01:00")</test>
       <result>
          <assert-false/>
       </result>
@@ -730,8 +748,10 @@ together with "fn:false"/or expression (ne operator).
    <test-case name="cbcl-gMonthDay-equal-020">
       <description> test comparison of gMonthDay </description>
       <created by="Tim Mills" on="2008-05-23"/>
-      
-      <test>xs:gMonthDay("--12-31+01:00") eq xs:gMonthDay("--12-31")</test>
+      <modified by="Tim Mills" on="2013-03-15" change="Bug 21222" />
+      <test>if (implicit-timezone() eq xs:dayTimeDuration('PT1M'))
+            then xs:gMonthDay("--12-31+01:01") eq xs:gMonthDay("--12-30")
+            else xs:gMonthDay("--12-31+01:00") eq xs:gMonthDay("--12-30")</test>
       <result>
          <assert-false/>
       </result>

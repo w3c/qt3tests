@@ -526,7 +526,10 @@ together with "fn:false"/or expression (ne operator).
    <test-case name="cbcl-gDay-equal-002">
       <description> test comparison of gDay </description>
       <created by="Tim Mills" on="2008-05-16"/>      
-      <test>xs:gDay("---30") eq xs:gDay("---31+09:00")</test>
+      <modified by="Tim Mills" on="2013-03-15" change="Bug 21222" />
+      <test>if (implicit-timezone() eq xs:dayTimeDuration('PT9M'))
+            then xs:gDay("---30") eq xs:gDay("---31+09:01")
+            else xs:gDay("---30") eq xs:gDay("---31+09:00")</test>
       <result>
          <assert-false/>
       </result>
@@ -536,7 +539,10 @@ together with "fn:false"/or expression (ne operator).
    <test-case name="cbcl-gDay-equal-003">
       <description> test comparison of gDay </description>
       <created by="Tim Mills" on="2008-05-16"/>      
-      <test>xs:gDay("---31+09:00") eq xs:gDay("---30")</test>
+      <modified by="Tim Mills" on="2013-03-15" change="Bug 21222" />
+      <test>if (implicit-timezone() eq xs:dayTimeDuration('PT9M'))
+            then xs:gDay("---31+09:01") eq xs:gDay("---30")
+            else xs:gDay("---31+09:00") eq xs:gDay("---30")</test>
       <result>
          <assert-false/>
       </result>
@@ -546,7 +552,10 @@ together with "fn:false"/or expression (ne operator).
    <test-case name="cbcl-gDay-equal-004">
       <description> test comparison of gDay </description>
       <created by="Tim Mills" on="2008-05-16"/>      
-      <test>xs:gDay("---30") eq xs:gDay("---31+09:00")</test>
+      <modified by="Tim Mills" on="2013-03-15" change="Bug 21222" />
+      <test>if (implicit-timezone() eq xs:dayTimeDuration('-PT9M'))
+            then xs:gDay("---30") eq xs:gDay("---31-09:01")
+            else xs:gDay("---30") eq xs:gDay("---31-09:00")</test>
       <result>
          <assert-false/>
       </result>
@@ -556,7 +565,10 @@ together with "fn:false"/or expression (ne operator).
    <test-case name="cbcl-gDay-equal-005">
       <description> test comparison of gDay </description>
       <created by="Tim Mills" on="2008-05-16"/>      
-      <test>xs:gDay("---31+09:00") eq xs:gDay("---30")</test>
+      <modified by="Tim Mills" on="2013-03-15" change="Bug 21222" />
+      <test>if (implicit-timezone() eq xs:dayTimeDuration('-PT9M'))
+            then xs:gDay("---31-09:01") eq xs:gDay("---30")
+            else xs:gDay("---31-09:00") eq xs:gDay("---30")</test>
       <result>
          <assert-false/>
       </result>
@@ -577,7 +589,10 @@ together with "fn:false"/or expression (ne operator).
    <test-case name="cbcl-gDay-equal-007">
       <description> test comparison of gDay </description>
       <created by="Tim Mills" on="2008-05-16"/>
-      <test>xs:gDay("---30") ne xs:gDay("---31+09:00")</test>
+      <modified by="Tim Mills" on="2013-03-15" change="Bug 21222" />
+      <test>if (implicit-timezone() eq xs:dayTimeDuration('PT9M'))
+            then xs:gDay("---30") ne xs:gDay("---31+09:01")
+            else xs:gDay("---30") ne xs:gDay("---31+09:00")</test>
       <result>
          <assert-true/>
       </result>
@@ -587,7 +602,10 @@ together with "fn:false"/or expression (ne operator).
    <test-case name="cbcl-gDay-equal-008">
       <description> test comparison of gDay </description>
       <created by="Tim Mills" on="2008-05-16"/>      
-      <test>xs:gDay("---31+09:00") ne xs:gDay("---30")</test>
+      <modified by="Tim Mills" on="2013-03-15" change="Bug 21222" />
+      <test>if (implicit-timezone() eq xs:dayTimeDuration('PT9M'))
+            then xs:gDay("---31+09:01") ne xs:gDay("---30")
+            else xs:gDay("---31+09:00") ne xs:gDay("---30")</test>
       <result>
          <assert-true/>
       </result>
@@ -597,7 +615,10 @@ together with "fn:false"/or expression (ne operator).
    <test-case name="cbcl-gDay-equal-009">
       <description> test comparison of gDay </description>
       <created by="Tim Mills" on="2008-05-16"/>      
-      <test>xs:gDay("---30") ne xs:gDay("---31+09:00")</test>
+      <modified by="Tim Mills" on="2013-03-15" change="Bug 21222" />
+      <test>if (implicit-timezone() eq xs:dayTimeDuration('-PT9M'))
+            then xs:gDay("---30") ne xs:gDay("---31-09:01")
+            else xs:gDay("---30") ne xs:gDay("---31-09:00")</test>
       <result>
          <assert-true/>
       </result>
@@ -607,7 +628,10 @@ together with "fn:false"/or expression (ne operator).
    <test-case name="cbcl-gDay-equal-010">
       <description> test comparison of gDay </description>
       <created by="Tim Mills" on="2008-05-16"/>      
-      <test>xs:gDay("---31+09:00") ne xs:gDay("---30")</test>
+      <modified by="Tim Mills" on="2013-03-15" change="Bug 21222" />
+      <test>if (implicit-timezone() eq xs:dayTimeDuration('-PT9M'))
+            then xs:gDay("---31-09:01") ne xs:gDay("---30")
+            else xs:gDay("---31-09:00") ne xs:gDay("---30")</test>
       <result>
          <assert-true/>
       </result>
@@ -701,7 +725,10 @@ together with "fn:false"/or expression (ne operator).
    <test-case name="cbcl-gDay-equal-019">
       <description> test comparison of gDay </description>
       <created by="Tim Mills" on="2008-05-23"/>      
-      <test>xs:gDay("---31+01:00") eq xs:gDay("---31")</test>
+      <modified by="Tim Mills" on="2013-03-15" change="Bug 21222" />
+      <test>if (implicit-timezone() eq xs:dayTimeDuration('PT1M'))
+            then xs:gDay("---31+01:01") eq xs:gDay("---31")
+            else xs:gDay("---31+01:00") eq xs:gDay("---31")</test>
       <result>
          <assert-false/>
       </result>
@@ -711,7 +738,10 @@ together with "fn:false"/or expression (ne operator).
    <test-case name="cbcl-gDay-equal-020">
       <description> test comparison of gDay </description>
       <created by="Tim Mills" on="2008-05-23"/>      
-      <test>xs:gDay("---31") eq xs:gDay("---31+01:00")</test>
+      <modified by="Tim Mills" on="2013-03-15" change="Bug 21222" />
+      <test>if (implicit-timezone() eq xs:dayTimeDuration('PT1M'))
+            then xs:gDay("---31") eq xs:gDay("---31+01:01")
+            else xs:gDay("---31") eq xs:gDay("---31+01:00")</test>
       <result>
          <assert-false/>
       </result>
