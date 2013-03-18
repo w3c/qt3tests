@@ -534,7 +534,10 @@ together with "fn:false"/or expression (ge operator).
    <test-case name="cbcl-time-greater-than-004">
       <description> test comparison of time </description>
       <created by="Tim Mills" on="2008-05-16"/>
-      <test>xs:time("00:00:01+01:00") gt xs:time("00:00:00")</test>
+      <modified by="Tim Mills" on="2013-03-18" change="Bug 21222" />
+      <test>if (implicit-timezone() gt xs:dayTimeDuration('PT1H'))
+            then xs:time("00:00:00") gt xs:time("00:00:00+01:00")
+            else xs:time("00:00:00+01:01") gt xs:time("00:00:00")</test>
       <result>
          <assert-false/>
       </result>
@@ -543,7 +546,10 @@ together with "fn:false"/or expression (ge operator).
    <test-case name="cbcl-time-greater-than-005">
       <description> test comparison of time </description>
       <created by="Tim Mills" on="2008-05-16"/>
-      <test>xs:time("00:00:00") gt xs:time("00:00:01+01:00")</test>
+      <modified by="Tim Mills" on="2013-03-18" change="Bug 21222" />
+      <test>if (implicit-timezone() gt xs:dayTimeDuration('PT1H'))
+            then xs:time("00:00:01+01:00") gt xs:time("00:00:00")
+            else xs:time("00:00:00") gt xs:time("00:00:00+01:01")</test>
       <result>
          <assert-true/>
       </result>
@@ -583,7 +589,10 @@ together with "fn:false"/or expression (ge operator).
    <test-case name="cbcl-time-greater-than-009">
       <description> test comparison of time </description>
       <created by="Tim Mills" on="2008-05-16"/>
-      <test>xs:time("00:00:01+01:00") le xs:time("00:00:00")</test>
+      <modified by="Tim Mills" on="2013-03-15" change="Bug 21222" />
+      <test>if (implicit-timezone() gt xs:dayTimeDuration('PT1H'))
+            then xs:time("00:00:01+01:00") le xs:time("00:00:00")
+            else xs:time("00:00:00") le xs:time("00:00:00+01:01")</test>
       <result>
          <assert-true/>
       </result>
@@ -592,7 +601,10 @@ together with "fn:false"/or expression (ge operator).
    <test-case name="cbcl-time-greater-than-010">
       <description> test comparison of time </description>
       <created by="Tim Mills" on="2008-05-16"/>
-      <test>xs:time("00:00:00") le xs:time("00:00:01+01:00")</test>
+      <modified by="Tim Mills" on="2013-03-15" change="Bug 21222" />
+      <test>if (implicit-timezone() gt xs:dayTimeDuration('PT1H'))
+            then xs:time("00:00:00") le xs:time("00:00:00+01:00")
+            else xs:time("00:00:00+01:01") le xs:time("00:00:00")</test>
       <result>
          <assert-false/>
       </result>
