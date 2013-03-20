@@ -1775,6 +1775,7 @@
     <modified by="Ghislain Fourny" on="2012-11-01" change="Duplicating tests depending on feature support." />
     <modified by="Tim Mills" on="2012-11-06" change="Fixed name of module." />
     <module uri="http://www.w3.org/XQueryTest/RequireProhibitFeature" file="RequireProhibitFeature/requires.xquery"/>
+    <modified by="Ghislain Fourny" on="2013-03-19" change="Allowing reactivation of feature." />
     <dependency type="spec" value="XQ30+"/>
     <dependency type="feature" value="higherOrderFunctions" satisfied="false"/>
     <dependency type="feature" value="moduleImport" satisfied="true"/>
@@ -1785,6 +1786,7 @@
     </test>
     <result>
       <any-of>
+        <assert-eq>1</assert-eq>
         <!-- not supported -->
         <error code="XQST0120"/>
         <!-- cannot deactivate -->
@@ -2000,13 +2002,14 @@
     <created by="Ghislain Fourny" on="2012-10-18"/>
     <modified by="Ghislain Fourny" on="2012-11-01" change="Duplicating tests depending on feature support." />
     <modified by="O'Neil Delpratt, Saxonica" on="2012-10-23" change="assert-eq changed to assert-empty" />
+    <modified by="Ghislain Fourny" on="2013-03-20" change="Fixed value of $f." />
     <module uri="http://www.w3.org/XQueryTest/RequireProhibitFeature" file="RequireProhibitFeature/prohibits.xquery"/>
     <dependency type="spec" value="XQ30+"/>
     <dependency type="feature" value="moduleImport" satisfied="true"/>
     <dependency type="feature" value="higherOrderFunctions" satisfied="true"/>
     <test>
       import module namespace module = "http://www.w3.org/XQueryTest/RequireProhibitFeature";
-      let $f := () return $f()
+      let $f := function() { () } return $f()
     </test>
     <result>
       <!-- The test must be reported to fail if a different error is returned -->
@@ -2023,17 +2026,18 @@
     <created by="Ghislain Fourny" on="2012-10-18"/>
     <modified by="Ghislain Fourny" on="2012-11-01" change="Duplicating tests depending on feature support." />
     <modified by="O'Neil Delpratt, Saxonica" on="2012-10-23" change="assert-eq changed to assert-empty" />
+    <modified by="Ghislain Fourny" on="2013-03-20" change="Fixed value of $f." />
     <module uri="http://www.w3.org/XQueryTest/RequireProhibitFeature" file="RequireProhibitFeature/prohibits.xquery"/>
     <dependency type="spec" value="XQ30+"/>
     <dependency type="feature" value="moduleImport" satisfied="true"/>
     <dependency type="feature" value="higherOrderFunctions" satisfied="false"/>
     <test>
       import module namespace module = "http://www.w3.org/XQueryTest/RequireProhibitFeature";
-      let $f := () return $f()
+      let $f := function() { () } return $f()
     </test>
     <result>
       <!-- The test must be reported to fail if a different error is returned -->
-      <assert-empty />
+      <error code="XQST0129"/>
     </result>
   </test-case>
   
@@ -2041,6 +2045,7 @@
     <description>Prohibiting or requiring a feature only affects the module.</description>
     <created by="Ghislain Fourny" on="2012-10-18"/>
     <modified by="Ghislain Fourny" on="2012-11-01" change="Duplicating tests depending on feature support." />
+    <modified by="Ghislain Fourny" on="2013-03-20" change="Fixed value of $f." />
     <module uri="http://www.w3.org/XQueryTest/RequireProhibitFeature" file="RequireProhibitFeature/prohibits.xquery"/>
     <dependency type="spec" value="XQ30+"/>
     <dependency type="feature" value="moduleImport" satisfied="true"/>
@@ -2048,12 +2053,12 @@
     <test>
       import module namespace module = "http://www.w3.org/XQueryTest/RequireProhibitFeature";
       declare option require-feature "higher-order-function";
-      let $f := () return $f()
+      let $f := function() { () } return $f()
     </test>
     <result>
       <!-- The test must be reported to fail if a different error is returned -->
       <any-of>
-        <assert-eq>1</assert-eq>
+        <assert-empty />
         <!-- cannot deactivate -->
         <error code="XQST0128"/>
       </any-of>
@@ -2065,6 +2070,7 @@
     <created by="Ghislain Fourny" on="2012-10-18"/>
     <modified by="Ghislain Fourny" on="2012-11-01" change="Duplicating tests depending on feature support." />
     <modified by="Ghislain Fourny" on="2013-03-19" change="Allowing reactivation of feature." />
+    <modified by="Ghislain Fourny" on="2013-03-20" change="Fixed value of $f." />
     <module uri="http://www.w3.org/XQueryTest/RequireProhibitFeature" file="RequireProhibitFeature/prohibits.xquery"/>
     <dependency type="spec" value="XQ30+"/>
     <dependency type="feature" value="moduleImport" satisfied="true"/>
@@ -2072,13 +2078,15 @@
     <test>
       import module namespace module = "http://www.w3.org/XQueryTest/RequireProhibitFeature";
       declare option require-feature "higher-order-function";
-      let $f := () return $f()
+      let $f := function() { () } return $f()
     </test>
     <result>
       <any-of>
-        <assert-eq>1</assert-eq>
+        <assert-empty />
         <!-- The test must be reported to fail if a different error is returned -->
         <error code="XQST0120"/>
+        <!-- cannot deactivate -->
+        <error code="XQST0128"/>
       </any-of>
     </result>
   </test-case>
