@@ -1841,6 +1841,7 @@
     <created by="Ghislain Fourny" on="2012-10-18"/>
     <modified by="Ghislain Fourny" on="2012-11-01" change="Duplicating tests depending on feature support." />
     <modified by="Ghislain Fourny" on="2013-03-19" change="Allowing reactivation of feature." />
+    <modified by="Tim Mills" on="2013-03-21" change="Corrected error code.  See bug 19858." />
     <module uri="http://www.w3.org/XQueryTest/RequireProhibitFeature" file="RequireProhibitFeature/requires.xquery"/>
     <dependency type="spec" value="XQ30+"/>
     <dependency type="feature" value="moduleImport" satisfied="true"/>
@@ -1851,9 +1852,10 @@
     </test>
     <result>
       <any-of>
-        <assert-eq>1</assert-eq>
-        <!-- The test must be reported to fail if a different error is returned -->
+	<!-- XQST0120 raised when the implementation can enable the higher order feature in the imported module -->
         <error code="XQST0120"/>
+	<!-- XQST0129 raised when the implementation cannot enable the higher order feature in the imported module -->
+        <error code="XQST0129"/>
       </any-of>
     </result>
   </test-case>
