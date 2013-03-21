@@ -326,7 +326,8 @@
             <!-- Generate a column head for each result report -->
 
             <xsl:for-each select="$resultsDocsGrouped">
-               <xsl:sort select="./r:test-suite-result/r:implementation/@name"/>
+               <xsl:sort select="./r:test-suite-result/r:product/@name"/>
+               <xsl:sort select="./r:test-suite-result/r:product/@version"/>
                <xsl:variable name="resultsFilename" select="r:productLink(.)"/>
                <xsl:variable name="productLabel" select="r:productLabel(.)"/>
                <th valign="top">
@@ -698,7 +699,7 @@
                               </xsl:choose>
                            </xsl:variable>
                            <xsl:if
-                              test="$total = count($results/r:test-case[@result=('pass', 'wrongError')]) and $total != 0">
+                              test="$total = count($results/r:test-case[@result=('pass', 'wrongError', 'n/a', 'tooBig', 'disputed')]) and $total != 0">
                               <xsl:value-of select="1"/>
                            </xsl:if>
                         </xsl:for-each>
