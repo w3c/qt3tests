@@ -1001,9 +1001,13 @@
    <test-case name="cbcl-distinct-values-003">
       <description> Test with static context dependant values </description>
       <created by="Nick Jones" on="2008-06-13"/>      
-      <test>distinct-values((xs:dateTime("2008-01-01T13:00:00"),xs:dateTime("2008-01-01T13:00:00+00:00")))</test>
+      <modified by="Tim Mills" on="2013-03-15" change="Bug 21222" />
+      <test>distinct-values(
+              (xs:dateTime("2008-01-01T13:00:00"),
+               adjust-dateTime-to-timezone(xs:dateTime("2008-01-01T13:00:00"))))
+      </test>
       <result>
-         <assert-string-value>2008-01-01T13:00:00</assert-string-value>
+         <assert-count>1</assert-count>
       </result>
    </test-case>
    
