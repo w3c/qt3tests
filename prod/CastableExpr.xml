@@ -18,7 +18,15 @@
          <description>Source document for Function Declaration tests</description>
          <created by="Ravindranath Chennoju" on="2000-01-01"/>
       </source>
-   </environment>      
+   </environment>
+   
+   <environment name="derived">
+     <schema uri="http://www.w3.org/XQueryTest/derivedTypes" file="CastExpr/derived.xsd">
+       <description>Some restrictions of built-in derived types</description> 
+       <created by="Tim Mills" on="2008-01-01"/>
+     </schema>
+   </environment>  
+         
 
    <test-case name="CastableAs001">
       <description>Try xs:untypedAtomic(INF) castable as xs:untypedAtomic </description>
@@ -5882,6 +5890,187 @@
          <assert-eq>3</assert-eq>
       </result>
    </test-case>
+   
+   <test-case name="CastableAs651">
+      <description>Pattern must match canonical representation (not the result of string())</description>
+      <created by="Michael Kay" on="2013-04-08"/>
+      <environment ref="derived"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>
+        import schema namespace d="http://www.w3.org/XQueryTest/derivedTypes";
+        93.7 castable as d:canonicalDecimal
+      </test>
+      <result>
+        <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="CastableAs652">
+      <description>Pattern must match canonical representation (not the result of string())</description>
+      <created by="Michael Kay" on="2013-04-08"/>
+      <environment ref="derived"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>
+        import schema namespace d="http://www.w3.org/XQueryTest/derivedTypes";
+        -93.7 castable as d:canonicalDecimal
+      </test>
+      <result>
+        <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="CastableAs653">
+      <description>Pattern must match canonical representation (not the result of string())</description>
+      <created by="Michael Kay" on="2013-04-08"/>
+      <environment ref="derived"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>
+        import schema namespace d="http://www.w3.org/XQueryTest/derivedTypes";
+        12 castable as d:canonicalDecimal
+      </test>
+      <result>
+        <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="CastableAs654">
+      <description>Pattern must match canonical representation (not the result of string())</description>
+      <created by="Michael Kay" on="2013-04-08"/>
+      <environment ref="derived"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>
+        import schema namespace d="http://www.w3.org/XQueryTest/derivedTypes";
+        -12 castable as d:canonicalDecimal
+      </test>
+      <result>
+        <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="CastableAs655">
+      <description>Pattern must match canonical representation (not the result of string())</description>
+      <created by="Michael Kay" on="2013-04-08"/>
+      <environment ref="derived"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>
+        import schema namespace d="http://www.w3.org/XQueryTest/derivedTypes";
+        93.7 castable as d:canonicalDouble
+      </test>
+      <result>
+        <assert-true/>
+      </result>
+   </test-case> 
+   
+   <test-case name="CastableAs656">
+      <description>Pattern must match canonical representation (not the result of string())</description>
+      <created by="Michael Kay" on="2013-04-08"/>
+      <environment ref="derived"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>
+        import schema namespace d="http://www.w3.org/XQueryTest/derivedTypes";
+        -93.7 castable as d:canonicalDouble
+      </test>
+      <result>
+        <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="CastableAs657">
+      <description>Pattern must match canonical representation (not the result of string())</description>
+      <created by="Michael Kay" on="2013-04-08"/>
+      <environment ref="derived"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>
+        import schema namespace d="http://www.w3.org/XQueryTest/derivedTypes";
+        0.0e0 castable as d:canonicalDouble
+      </test>
+      <result>
+        <assert-true/>
+      </result>
+   </test-case> 
+   
+   <test-case name="CastableAs658">
+      <description>Pattern must match canonical representation (not the result of string())</description>
+      <created by="Michael Kay" on="2013-04-08"/>
+      <environment ref="derived"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>
+        import schema namespace d="http://www.w3.org/XQueryTest/derivedTypes";
+        -0.0e0 castable as d:canonicalDouble
+      </test>
+      <result>
+        <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="CastableAs659">
+      <description>Pattern must match canonical representation (not the result of string())</description>
+      <created by="Michael Kay" on="2013-04-08"/>
+      <environment ref="derived"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>
+        import schema namespace d="http://www.w3.org/XQueryTest/derivedTypes";
+        1e7 castable as d:canonicalDouble
+      </test>
+      <result>
+        <assert-true/>
+      </result>
+   </test-case> 
+   
+   <test-case name="CastableAs660">
+      <description>Pattern must match canonical representation (not the result of string())</description>
+      <created by="Michael Kay" on="2013-04-08"/>
+      <environment ref="derived"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>
+        import schema namespace d="http://www.w3.org/XQueryTest/derivedTypes";
+        -1e7 castable as d:canonicalDouble
+      </test>
+      <result>
+        <assert-true/>
+      </result>
+   </test-case> 
+   
+   <test-case name="CastableAs661">
+      <description>Pattern must match canonical representation (not the result of string())</description>
+      <created by="Michael Kay" on="2013-04-08"/>
+      <environment ref="derived"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>
+        import schema namespace d="http://www.w3.org/XQueryTest/derivedTypes";
+        1e-7 castable as d:canonicalDouble
+      </test>
+      <result>
+        <assert-true/>
+      </result>
+   </test-case> 
+   
+   <test-case name="CastableAs662">
+      <description>Pattern must match canonical representation (not the result of string())</description>
+      <created by="Michael Kay" on="2013-04-08"/>
+      <environment ref="derived"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>
+        import schema namespace d="http://www.w3.org/XQueryTest/derivedTypes";
+        -1e-7 castable as d:canonicalDouble
+      </test>
+      <result>
+        <assert-true/>
+      </result>
+   </test-case>     
+        
 
    <test-case name="K-SeqExprCastable-1">
       <description> '+' nor '?' is allowed as a cardinality specifier in 'castable as'. </description>
