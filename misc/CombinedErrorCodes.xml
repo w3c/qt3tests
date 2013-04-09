@@ -735,8 +735,7 @@
    
    <test-case name="FODC0001_1">
       <description> check that fn:id throws FOAR0001 </description>
-      <created by="Tim Mills" on="2008-05-16"/>
-      
+      <created by="Tim Mills" on="2008-05-16"/>      
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[fn:id('id', <a />)]]></test>
       <result>
@@ -747,8 +746,7 @@
 
    <test-case name="FODC0001_2">
       <description> check that fn:idref throws FOAR0001 </description>
-      <created by="Tim Mills" on="2008-05-16"/>
-      
+      <created by="Tim Mills" on="2008-05-16"/>      
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[<a />/fn:idref('id')]]></test>
       <result>
@@ -1084,8 +1082,7 @@
    
    <test-case name="FONS0004-1">
       <description> check that missing prefix throws FONS0004 </description>
-      <created by="Tim Mills" on="2008-05-16"/>
-      
+      <created by="Tim Mills" on="2008-05-16"/>      
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[resolve-QName('prefix:localName', <element />)]]></test>
       <result>
@@ -1096,8 +1093,7 @@
 
    <test-case name="FONS0004-2">
       <description> check that missing prefix throws FONS0004 </description>
-      <created by="Tim Mills" on="2008-05-16"/>
-      
+      <created by="Tim Mills" on="2008-05-16"/>      
       <test>xs:QName('prefix:localName')</test>
       <result>
          <error code="FONS0004"/>
@@ -1298,8 +1294,7 @@
 
    <test-case name="XPTY0018">
       <description> check that last step of path expressions are reported correctly </description>
-      <created by="Tim Mills" on="2008-05-16"/>
-      
+      <created by="Tim Mills" on="2008-05-16"/>      
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[(<a/>, <b/>)/(if (position() mod 2 = 1) then position() else .)]]></test>
       <result>
@@ -1310,20 +1305,17 @@
 
    <test-case name="XPTY0019_1">
       <description> check that bad steps are reported correctly </description>
-      <created by="Tim Mills" on="2008-05-16"/>
-      
+      <created by="Tim Mills" on="2008-05-16"/>      
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[<a/>/1/node()]]></test>
       <result>
          <error code="XPTY0019"/>
       </result>
-   </test-case>
-   
+   </test-case>   
 
    <test-case name="XPTY0019_2">
       <description> test bad run-time conversions </description>
-      <created by="Tim Mills" on="2008-05-16"/>
-      
+      <created by="Tim Mills" on="2008-05-16"/>     
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[declare namespace foo = "http://www.example.org"; declare function foo:something() { (<a />, 1, <b/>, 2) }; foo:something()/a]]></test>
       <result>
@@ -1334,8 +1326,7 @@
 
    <test-case name="XPTY0019_3">
       <description> test bad run-time conversions </description>
-      <created by="Tim Mills" on="2008-05-16"/>
-      
+      <created by="Tim Mills" on="2008-05-16"/>      
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[declare namespace foo = "http://www.example.org"; declare function foo:something($pos as xs:integer) { if ($pos eq 1) then 1 else <a /> }; let $x := <a><b><c/></b><b><c/></b></a> return $x/b/(foo:something(position()))/a]]></test>
       <result>
@@ -1412,8 +1403,7 @@
 
    <test-case name="XPTY0004_08">
       <description> test bad document constructions </description>
-      <created by="Tim Mills" on="2008-05-16"/>
-      
+      <created by="Tim Mills" on="2008-05-16"/>      
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[declare namespace foo = "http://www.example.org"; declare function foo:content($type as xs:integer) { if ($type eq 1) then attribute {'foo'} {} else <foo /> }; document { foo:content(1) }]]></test>
       <result>
@@ -1424,8 +1414,7 @@
 
    <test-case name="XPTY0004_09">
       <description> test bad order-by comparisons </description>
-      <created by="Tim Mills" on="2008-05-16"/>
-      
+      <created by="Tim Mills" on="2008-05-16"/>      
       <test>for $x in (1, 'hello', xs:date('2007-11-28')) order by $x return $x</test>
       <result>
          <error code="XPTY0004"/>
@@ -1534,8 +1523,7 @@
 
    <test-case name="XPTY0004_19">
       <description> test type checking of binary operators </description>
-      <created by="Tim Mills" on="2008-05-16"/>
-      
+      <created by="Tim Mills" on="2008-05-16"/>      
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA["string" << 1]]></test>
       <result>
@@ -1546,8 +1534,7 @@
 
    <test-case name="XPTY0004_20">
       <description> test type checking of binary operators </description>
-      <created by="Tim Mills" on="2008-05-16"/>
-      
+      <created by="Tim Mills" on="2008-05-16"/>      
       <test>"string" &gt;&gt; 1</test>
       <result>
          <error code="XPTY0004"/>
@@ -1635,8 +1622,7 @@
    <test-case name="XPTY0004_28">
       <description> test bad run-time conversions </description>
       <created by="Tim Mills" on="2008-05-16"/>
-      <dependency type="spec" value="XQ10+"/>
-      
+      <dependency type="spec" value="XQ10+"/>      
       <test>declare namespace foo = "http://www.example.org"; declare function foo:something($type as xs:integer) { if ($type eq 1) then xs:date('2007-11-28') else 1.0 }; abs(foo:something(1))</test>
       <result>
          <error code="XPTY0004"/>
@@ -1647,8 +1633,7 @@
    <test-case name="XPTY0004_29">
       <description> test bad run-time conversions </description>
       <created by="Tim Mills" on="2008-05-16"/>
-      <dependency type="spec" value="XQ10+"/>
-      
+      <dependency type="spec" value="XQ10+"/>     
       <test>declare namespace foo = "http://www.example.org"; declare function foo:something($type as xs:integer) { if ($type eq 1) then xs:date('2007-11-28') else 'foo' }; element { foo:something(1) } { }</test>
       <result>
          <error code="XPTY0004"/>
@@ -1659,8 +1644,7 @@
    <test-case name="XPTY0004_30">
       <description> test bad run-time conversions </description>
       <created by="Tim Mills" on="2008-05-16"/>
-      <dependency type="spec" value="XQ10+"/>
-      
+      <dependency type="spec" value="XQ10+"/>     
       <test>declare namespace foo = "http://www.example.org"; declare function foo:something($type as xs:integer) { if ($type eq 1) then xs:date('2007-11-28') else 'foo' }; processing-instruction { foo:something(1) } { }</test>
       <result>
          <error code="XPTY0004"/>
@@ -1670,8 +1654,7 @@
 
    <test-case name="XPTY0004_31">
       <description> test bad run-time conversions </description>
-      <created by="Tim Mills" on="2008-05-16"/>
-      
+      <created by="Tim Mills" on="2008-05-16"/>     
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[declare namespace foo = "http://www.example.org"; declare function foo:something($type as xs:integer) { if ($type eq 1) then xs:date('2007-11-28') else 'foo' }; <e> { attribute { foo:something(1) } { } } </e>]]></test>
       <result>
@@ -1683,8 +1666,7 @@
    <test-case name="XPTY0004_32">
       <description> test bad run-time conversions </description>
       <created by="Tim Mills" on="2008-05-16"/>
-      <dependency type="spec" value="XQ10+"/>
-      
+      <dependency type="spec" value="XQ10+"/>     
       <test>declare namespace foo = "http://www.example.org"; declare function foo:something($type as xs:integer) { if ($type eq 1) then ('foo', xs:date('2007-11-28'), 'foo') else 'foo' }; let $x as xs:string* := foo:something(1) return $x</test>
       <result>
          <error code="XPTY0004"/>
@@ -1695,8 +1677,7 @@
    <test-case name="XPTY0004_33">
       <description> test bad run-time conversions </description>
       <created by="Tim Mills" on="2008-05-16"/>
-      <dependency type="spec" value="XQ10+"/>
-      
+      <dependency type="spec" value="XQ10+"/>      
       <test>declare namespace foo = "http://www.example.org"; declare function foo:something($type as xs:integer) { if ($type eq 1) then xs:date('2007-11-28') else 'foo' }; for $x as xs:string in foo:something(1) return $x</test>
       <result>
          <error code="XPTY0004"/>
@@ -1707,8 +1688,7 @@
    <test-case name="XPTY0004_34">
       <description> test bad run-time conversions </description>
       <created by="Tim Mills" on="2008-05-16"/>
-      <dependency type="spec" value="XQ10+"/>
-      
+      <dependency type="spec" value="XQ10+"/>      
       <test>declare namespace foo = "http://www.example.org"; declare function foo:something($type) as xs:integer { $type }; foo:something('foo')</test>
       <result>
          <error code="XPTY0004"/>
@@ -1719,8 +1699,7 @@
    <test-case name="XPTY0004_35">
       <description> test bad run-time conversions </description>
       <created by="Tim Mills" on="2008-05-16"/>
-      <dependency type="spec" value="XQ10+"/>
-      
+      <dependency type="spec" value="XQ10+"/>      
       <test>declare namespace foo = "http://www.example.org"; declare function foo:something($type as xs:integer) as xs:integer { if ($type eq 1) then xs:date('2007-11-28') else $type }; foo:something(1)</test>
       <result>
          <error code="XPTY0004"/>
@@ -1742,8 +1721,7 @@
    <test-case name="XPTY0004_38">
       <description> test bad unary functions </description>
       <created by="Tim Mills" on="2008-05-16"/>
-      <dependency type="spec" value="XQ10+"/>
-      
+      <dependency type="spec" value="XQ10+"/>      
       <test>declare namespace foo = "http://www.example.org"; declare function foo:something($pos as xs:integer) { if ($pos eq 1) then 1 else xs:date('2007-11-29') }; -foo:something(2)</test>
       <result>
          <error code="XPTY0004"/>
@@ -1754,8 +1732,7 @@
    <test-case name="XPTY0004_39">
       <description> test bad unary functions </description>
       <created by="Tim Mills" on="2008-05-16"/>
-      <dependency type="spec" value="XQ10+"/>
-      
+      <dependency type="spec" value="XQ10+"/>      
       <test>declare namespace foo = "http://www.example.org"; declare function foo:something($pos as xs:integer) { if ($pos eq 1) then 1 else xs:date('2007-11-29') }; +foo:something(2)</test>
       <result>
          <error code="XPTY0004"/>
@@ -1834,8 +1811,7 @@
 
    <test-case name="XPTY0004_46">
       <description> test runtime cardinality checks </description>
-      <created by="Tim Mills" on="2008-05-16"/>
-      
+      <created by="Tim Mills" on="2008-05-16"/>      
       <test>(1, 2) + 1</test>
       <result>
          <error code="XPTY0004"/>
@@ -1845,8 +1821,7 @@
 
    <test-case name="XPTY0004_47">
       <description> test runtime cardinality checks </description>
-      <created by="Tim Mills" on="2008-05-16"/>
-      
+      <created by="Tim Mills" on="2008-05-16"/>      
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[declare variable $a := <e><a/><b/><a/></e>; <a>{$a/a eq 1}</a>]]></test>
       <result>
@@ -1857,8 +1832,7 @@
 
    <test-case name="XPTY0004_48">
       <description> test runtime cardinality checks </description>
-      <created by="Tim Mills" on="2008-05-16"/>
-      
+      <created by="Tim Mills" on="2008-05-16"/>     
       <test>let $i := (1, 3, 2) order by $i return $i</test>
       <result>
          <any-of>
@@ -1871,8 +1845,7 @@
 
    <test-case name="XPTY0020">
       <description> check that bad context item types are reported correctly </description>
-      <created by="Tim Mills" on="2008-05-16"/>
-      
+      <created by="Tim Mills" on="2008-05-16"/>     
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[<a/>/20[text()]]]></test>
       <result>
@@ -1883,8 +1856,7 @@
    
    <test-case name="XQDY0025_1">
       <description> check that attributes clashes are reported correctly </description>
-      <created by="Tim Mills" on="2008-05-16"/>
-      
+      <created by="Tim Mills" on="2008-05-16"/>     
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[let $attr1 := attribute attr { 'foo' } return let $attr2 := attribute attr { 'bar' } return <a>{$attr1, $attr2 }</a>]]></test>
       <result>
@@ -1895,8 +1867,7 @@
 
    <test-case name="XQDY0025_2">
       <description> check that attributes clashes are reported correctly </description>
-      <created by="Tim Mills" on="2008-05-16"/>
-      
+      <created by="Tim Mills" on="2008-05-16"/>      
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[declare namespace prefix = "http://www/w3.org/"; let $attr1 := attribute prefix:attr { 'foo' } return let $attr2 := attribute prefix:attr { 'bar' } return <a>{$attr1, $attr2 }</a>]]></test>
       <result>
@@ -1907,8 +1878,7 @@
 
    <test-case name="XQDY0025_3">
       <description> check that attributes clashes are reported correctly </description>
-      <created by="Tim Mills" on="2008-05-16"/>
-      
+      <created by="Tim Mills" on="2008-05-16"/>      
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[declare namespace prefix = "http://www/w3.org/"; let $attr1 := attribute attr { 'foo' } return let $attr2 := attribute attr { 'bar' } return <prefix:a>{$attr1, $attr2 }</prefix:a>]]></test>
       <result>
@@ -1919,8 +1889,7 @@
 
    <test-case name="XQDY0025_4">
       <description> check that attributes clashes are reported correctly </description>
-      <created by="Tim Mills" on="2008-05-16"/>
-      
+      <created by="Tim Mills" on="2008-05-16"/>      
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[declare namespace prefix = "http://www/w3.org/"; let $attr1 := attribute prefix:attr { 'foo' } return let $attr2 := attribute prefix:attr { 'bar' } return <prefix:a>{$attr1, $attr2 }</prefix:a>]]></test>
       <result>
@@ -1931,8 +1900,7 @@
 
    <test-case name="XQDY0026">
       <description> check that bad processing instruction content is reported correctly </description>
-      <created by="Tim Mills" on="2008-05-16"/>
-      
+      <created by="Tim Mills" on="2008-05-16"/>     
       <test>processing-instruction target { '?&gt;' }</test>
       <result>
          <error code="XQDY0026"/>
@@ -1954,8 +1922,7 @@
 
    <test-case name="XQDY0041">
       <description> check that bad processing instruction targets reported correctly </description>
-      <created by="Tim Mills" on="2008-05-16"/>
-      
+      <created by="Tim Mills" on="2008-05-16"/>     
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[<a> { processing-instruction { '1BadName' } { 'content' } } </a>]]></test>
       <result>
@@ -1966,8 +1933,7 @@
 
    <test-case name="XQDY0044_1">
       <description> check that bad attribute names are reported correctly </description>
-      <created by="Tim Mills" on="2008-05-16"/>
-      
+      <created by="Tim Mills" on="2008-05-16"/>     
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[<a> { attribute { 'xmlns' } { 'http://www.w3.org/' } } </a>]]></test>
       <result>
@@ -1990,8 +1956,7 @@
 
    <test-case name="XQDY0064">
       <description> check that bad processing instructions are reported correctly </description>
-      <created by="Tim Mills" on="2008-05-16"/>
-      
+      <created by="Tim Mills" on="2008-05-16"/>      
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[<a> { processing-instruction { 'xml' } { 'content' } } </a>]]></test>
       <result>
@@ -2002,8 +1967,7 @@
 
    <test-case name="XQDY0072">
       <description> check that bad comments are reported correctly </description>
-      <created by="Tim Mills" on="2008-05-16"/>
-      
+      <created by="Tim Mills" on="2008-05-16"/>     
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[<a> { comment { ' -- ' } } </a>]]></test>
       <result>
@@ -2014,8 +1978,7 @@
 
    <test-case name="XQDY0074_1">
       <description> check that bad qualified names are reported correctly </description>
-      <created by="Tim Mills" on="2008-05-16"/>
-      
+      <created by="Tim Mills" on="2008-05-16"/>      
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[<a> { element { 'prefix:localName' } { } } </a>]]></test>
       <result>
@@ -2026,8 +1989,7 @@
 
    <test-case name="XQDY0074_2">
       <description> check that bad qualified names are reported correctly </description>
-      <created by="Tim Mills" on="2008-05-16"/>
-      
+      <created by="Tim Mills" on="2008-05-16"/>      
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[<a> { attribute { 'prefix:localName' } { } } </a>]]></test>
       <result>
@@ -2038,8 +2000,7 @@
 
    <test-case name="XQDY0074_3">
       <description> check that bad qualified names are reported correctly </description>
-      <created by="Tim Mills" on="2008-05-16"/>
-      
+      <created by="Tim Mills" on="2008-05-16"/>      
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[<a> { element { '1localName' } { } } </a>]]></test>
       <result>
@@ -2050,8 +2011,7 @@
 
    <test-case name="XQDY0074_4">
       <description> check that bad qualified names are reported correctly </description>
-      <created by="Tim Mills" on="2008-05-16"/>
-      
+      <created by="Tim Mills" on="2008-05-16"/>    
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[<a> { attribute { '1localName' } { } } </a>]]></test>
       <result>
@@ -2089,8 +2049,7 @@
 
    <test-case name="XQDY0092">
       <description> check construction of xml:space attribute with a value other than preserve or default. </description>
-      <created by="Tim Mills" on="2008-05-16"/>
-      
+      <created by="Tim Mills" on="2008-05-16"/>     
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[<a xml:space="space"/>]]></test>
       <result>
@@ -2117,8 +2076,7 @@
 
    <test-case name="XQST0022_1">
       <description> check that bad context item types are reported correctly </description>
-      <created by="Tim Mills" on="2008-05-16"/>
-      
+      <created by="Tim Mills" on="2008-05-16"/>      
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[<a xmlns="{1}" />]]></test>
       <result>
@@ -2129,8 +2087,7 @@
 
    <test-case name="XQST0022_2">
       <description> check that bad context item types are reported correctly </description>
-      <created by="Tim Mills" on="2008-05-16"/>
-      
+      <created by="Tim Mills" on="2008-05-16"/>      
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[<a xmlns:prefix="{1}" />]]></test>
       <result>
@@ -2175,8 +2132,7 @@
    <test-case name="XQST0034">
       <description> check that function name clashes are reported correctly </description>
       <created by="Tim Mills" on="2008-05-16"/>
-      <dependency type="spec" value="XQ10+"/>
-      
+      <dependency type="spec" value="XQ10+"/>     
       <test>declare namespace prefix = "http://www.example.org/"; declare function prefix:foo() { 1 }; declare function prefix:foo() { 1 }; 1</test>
       <result>
          <error code="XQST0034"/>
@@ -2313,8 +2269,7 @@
    <test-case name="XQST0039">
       <description> check that bad function parameter declarations are reported correctly </description>
       <created by="Tim Mills" on="2008-05-16"/>
-      <dependency type="spec" value="XQ10+"/>
-      
+      <dependency type="spec" value="XQ10+"/>      
       <test>declare namespace prefix = "http://www.w3.org/"; declare function prefix:foo($arg, $arg) { 1 }; 1 + 2</test>
       <result>
          <error code="XQST0039"/>
@@ -2324,8 +2279,7 @@
 
    <test-case name="XQST0040">
       <description> check that duplicate attributes are reported correctly </description>
-      <created by="Tim Mills" on="2008-05-16"/>
-      
+      <created by="Tim Mills" on="2008-05-16"/>      
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[<a attr="a" attr="a" />]]></test>
       <result>
@@ -2337,8 +2291,7 @@
    <test-case name="XQST0045-1">
       <description> check that bad function declarations are reported correctly </description>
       <created by="Tim Mills" on="2008-05-16"/>
-      <dependency type="spec" value="XQ10+"/>
-      
+      <dependency type="spec" value="XQ10+"/>      
       <test>declare function foo() { 1 }; foo()</test>
       <result>
          <error code="XQST0045"/>
@@ -2349,8 +2302,7 @@
    <test-case name="XQST0045-2">
       <description> check that bad function declarations are reported correctly </description>
       <created by="Tim Mills" on="2008-05-16"/>
-      <dependency type="spec" value="XQ10+"/>
-      
+      <dependency type="spec" value="XQ10+"/>      
       <test>declare function xml:foo() { 1 }; xml:foo()</test>
       <result>
          <error code="XQST0045"/>
@@ -2361,8 +2313,7 @@
    <test-case name="XQST0045-3">
       <description> check that bad function declarations are reported correctly </description>
       <created by="Tim Mills" on="2008-05-16"/>
-      <dependency type="spec" value="XQ10+"/>
-      
+      <dependency type="spec" value="XQ10+"/>     
       <test>declare function xs:foo() { 1 }; xs:foo()</test>
       <result>
          <error code="XQST0045"/>
@@ -2373,8 +2324,7 @@
    <test-case name="XQST0045-4">
       <description> check that bad function declarations are reported correctly </description>
       <created by="Tim Mills" on="2008-05-16"/>
-      <dependency type="spec" value="XQ10+"/>
-      
+      <dependency type="spec" value="XQ10+"/>     
       <test>declare function xsi:foo() { 1 }; xsi:foo()</test>
       <result>
          <error code="XQST0045"/>
@@ -2564,8 +2514,7 @@
 
    <test-case name="XQST0046_13">
       <description> check that bad namespace declarations are reported correctly </description>
-      <created by="Tim Mills" on="2008-05-16"/>
-      
+      <created by="Tim Mills" on="2008-05-16"/>     
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[<a xmlns="%gg" />]]></test>
       <result>
@@ -2576,8 +2525,7 @@
 
    <test-case name="XQST0046_14">
       <description> check that bad namespace declarations are reported correctly </description>
-      <created by="Tim Mills" on="2008-05-16"/>
-      
+      <created by="Tim Mills" on="2008-05-16"/>     
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[<a xmlns:foo="%gg" />]]></test>
       <result>
@@ -2624,8 +2572,7 @@
    <test-case name="XQST0054" covers="module-cycles">
       <description> check that cyclic variable definitions are reported correctly </description>
       <created by="Tim Mills" on="2008-05-16"/>
-      <dependency type="spec" value="XQ10"/>
-      
+      <dependency type="spec" value="XQ10"/>     
       <test>declare namespace foo = "http://www.example.org/"; declare variable $a := foo:bar(); declare function foo:bar() { $a + 1 }; $a</test>
       <result>
          <error code="XQST0054"/>
@@ -2635,8 +2582,7 @@
 
    <test-case name="XQST0055" covers="module-cycles">
       <description> check that cyclic variable definitions are reported correctly </description>
-      <created by="Tim Mills" on="2008-05-16"/>
-      
+      <created by="Tim Mills" on="2008-05-16"/>    
       <test>declare copy-namespaces preserve,inherit; declare copy-namespaces preserve,no-inherit; 1</test>
       <result>
          <error code="XQST0055"/>
@@ -2690,8 +2636,7 @@
 
    <test-case name="XQST0059_3">
       <description> check that missing schema imports are reported correctly </description>
-      <created by="Tim Mills" on="2008-05-16"/>
-      
+      <created by="Tim Mills" on="2008-05-16"/>     
       <test>import schema namespace foo = "http://www.w3.org/"; 1</test>
       <result>
          <error code="XQST0059"/>
@@ -2701,10 +2646,9 @@
 
    <test-case name="XQST0059_4">
       <description> check that missing module imports are reported correctly </description>
-      <created by="Tim Mills" on="2008-05-16"/>
-      
-      <test>import module namespace foo = "http://www.w3.org/"; 1</test>
+      <created by="Tim Mills" on="2008-05-16"/>      
       <dependency type="feature" value="moduleImport" satisfied="true"/>
+      <test>import module namespace foo = "http://www.w3.org/"; 1</test>
       <result>
          <error code="XQST0059"/>
       </result>
