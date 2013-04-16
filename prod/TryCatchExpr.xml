@@ -170,6 +170,61 @@
       <assert-type>xs:integer*</assert-type>
     </result>
   </test-case>
+  
+  <test-case name="try-014">
+    <description>Integer literal out of range is a dynamic error</description>
+    <created by="Michael Kay" on="2013-04-16"/>
+    <environment ref="err"/>
+    <test>try { 9999999999999999999999999999999999999999999999999999999999999999999999
+                idiv
+                9999999999999999999999999999999999999999999999999999999999999999999999 }
+        catch err:FOAR0002 {1}
+    </test>
+    <result>
+      <assert-eq>1</assert-eq>
+    </result>
+  </test-case>
+  
+  <test-case name="try-015">
+    <description>Bad date is a dynamic error</description>
+    <created by="Michael Kay" on="2013-04-16"/>
+    <environment ref="err"/>
+    <test>try { xs:date('2013-02-29') }
+          catch err:FORG0001 {true()}
+    </test>
+    <result>
+      <assert-true/>
+    </result>
+  </test-case>
+  
+  <test-case name="try-016">
+    <description>No context item is a dynamic error</description>
+    <created by="Michael Kay" on="2013-04-16"/>
+    <environment ref="err"/>
+    <test>
+      declare function local:f() { .+3 };
+      try {local:f()} catch err:XPDY0002 {true()}
+    </test>
+    <result>
+      <assert-true/>
+    </result>
+  </test-case>
+  
+  <test-case name="try-017">
+    <description>No context item is a dynamic error (but no context node is a type error...)</description>
+    <created by="Michael Kay" on="2013-04-16"/>
+    <environment ref="err"/>
+    <test>
+      declare function local:f() { a };
+      try {local:f()} catch err:XPDY0002 {true()}
+    </test>
+    <result>
+      <any-of>
+      	<assert-true/>
+      	<error code="XPTY0004"/>
+      </any-of>
+    </result>
+  </test-case>
 
   <test-case name="no-try-catch-1">
     <description>Without try catch a division by 0 raises a dynamic error.</description>
