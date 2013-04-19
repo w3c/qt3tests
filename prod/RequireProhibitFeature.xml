@@ -1123,20 +1123,6 @@
     </result>
   </test-case>
   
-  <test-case name="require-prohibit-3">
-    <description>A feature cannot be both required and prohibited.</description>
-    <created by="Ghislain Fourny" on="2012-10-15"/>
-    <dependency type="spec" value="XQ30+"/>
-    <test>
-      declare option require-feature "serialization";
-      declare option prohibit-feature "serialization";
-      ()
-    </test>
-    <result>
-      <error code="XQST0127"/>
-    </result>
-  </test-case>
-  
   <test-case name="require-prohibit-4">
     <description>A feature cannot be both required and prohibited.</description>
     <created by="Ghislain Fourny" on="2012-10-15"/>
@@ -1619,6 +1605,7 @@
     <description>Test should succeed if feature is supported by implementation, otherwise error. </description>
     <created by="O'Neil Delpratt, Saxonica" on="2012-10-24"/>
     <modified by="Ghislain Fourny" on="2012-11-01" change="Duplicating tests depending on feature support." />
+    <modified by="Ghislain Fourny" on="2013-04-19" change="Allowing error if cannot prohibit." />
     <dependency type="spec" value="XQ30+"/>
     <dependency type="feature" value="higherOrderFunctions" satisfied="true"/>
     <test>
@@ -1627,7 +1614,11 @@
       1 instance of function(*)
     </test>
     <result>
-      <assert-false />
+      <any-of>
+        <assert-false />
+        <!-- The test must be reported to fail if a different error is returned -->
+        <error code="XQST0128"/>
+      </any-of>
     </result>
   </test-case>
   
@@ -2093,4 +2084,163 @@
     </result>
   </test-case>
   
+  <test-case name="require-feature-list-1-s">
+    <description>The require-feature and prohibit-feature options may be lists of QNames.</description>
+    <created by="Ghislain Fourny" on="2013-04-19"/>
+    <dependency type="spec" value="XQ30+"/>
+    <dependency type="feature" value="moduleImport" satisfied="true"/>
+    <dependency type="feature" value="higherOrderFunctions" satisfied="true"/>
+    <test>
+      import module namespace module = "http://www.w3.org/XQueryTest/RequireProhibitFeature";
+      declare option require-feature "module higher-order-function";
+      let $f := function() { () } return $f()
+    </test>
+    <result>
+      <any-of>
+        <assert-empty />
+      </any-of>
+    </result>
+  </test-case>
+  
+  <test-case name="require-feature-list-1-ns-1">
+    <description>The require-feature and prohibit-feature options may be lists of QNames.</description>
+    <created by="Ghislain Fourny" on="2013-04-19"/>
+    <dependency type="spec" value="XQ30+"/>
+    <dependency type="feature" value="higherOrderFunctions" satisfied="false"/>
+    <test>
+      import module namespace module = "http://www.w3.org/XQueryTest/RequireProhibitFeature";
+      declare option require-feature "module higher-order-function";
+      let $f := function() { () } return $f()
+    </test>
+    <result>
+      <any-of>
+        <assert-empty />
+        <!-- The test must be reported to fail if a different error is returned -->
+        <error code="XQST0120"/>
+      </any-of>
+    </result>
+  </test-case>
+  
+  <test-case name="require-feature-list-1-ns-2">
+    <description>The require-feature and prohibit-feature options may be lists of QNames.</description>
+    <created by="Ghislain Fourny" on="2013-04-19"/>
+    <dependency type="spec" value="XQ30+"/>
+    <dependency type="feature" value="moduleImport" satisfied="false"/>
+    <test>
+      import module namespace module = "http://www.w3.org/XQueryTest/RequireProhibitFeature";
+      declare option require-feature "module higher-order-function";
+      let $f := function() { () } return $f()
+    </test>
+    <result>
+      <any-of>
+        <assert-empty />
+        <!-- The test must be reported to fail if a different error is returned -->
+        <error code="XQST0120"/>
+      </any-of>
+    </result>
+  </test-case>
+  
+  <test-case name="require-feature-list-2-s">
+    <description>The require-feature and prohibit-feature options may be lists of QNames.</description>
+    <created by="Ghislain Fourny" on="2013-04-19"/>
+    <dependency type="spec" value="XQ30+"/>
+    <dependency type="feature" value="higherOrderFunctions" satisfied="true"/>
+    <test>
+      declare option require-feature "unknown higher-order-function";
+      let $f := function() { () } return $f()
+    </test>
+    <result>
+      <any-of>
+        <!-- The test must be reported to fail if a different error is returned -->
+        <error code="XQST0123"/>
+      </any-of>
+    </result>
+  </test-case>
+  
+  <test-case name="require-feature-list-2-ns">
+    <description>The require-feature and prohibit-feature options may be lists of QNames.</description>
+    <created by="Ghislain Fourny" on="2013-04-19"/>
+    <dependency type="spec" value="XQ30+"/>
+    <dependency type="feature" value="higherOrderFunctions" satisfied="false"/>
+    <test>
+      declare option require-feature "unknown higher-order-function";
+      let $f := function() { () } return $f()
+    </test>
+    <result>
+      <any-of>
+        <!-- The test must be reported to fail if a different error is returned -->
+        <error code="XQST0123"/>
+        <error code="XQST0120"/>
+      </any-of>
+    </result>
+  </test-case>
+  
+  <test-case name="require-feature-list-3-s">
+    <description>The require-feature and prohibit-feature options may be lists of QNames.</description>
+    <created by="Ghislain Fourny" on="2013-04-19"/>
+    <dependency type="spec" value="XQ30+"/>
+    <dependency type="feature" value="higherOrderFunctions" satisfied="true"/>
+    <test>
+      declare option require-feature "unknown higher-order-function";
+      let $f := function() { () } return $f()
+    </test>
+    <result>
+      <any-of>
+        <!-- The test must be reported to fail if a different error is returned -->
+        <error code="XQST0123"/>
+      </any-of>
+    </result>
+  </test-case>
+  
+  <test-case name="require-feature-list-3-ns">
+    <description>The require-feature and prohibit-feature options may be lists of QNames.</description>
+    <created by="Ghislain Fourny" on="2013-04-19"/>
+    <dependency type="spec" value="XQ30+"/>
+    <dependency type="feature" value="higherOrderFunctions" satisfied="false"/>
+    <test>
+      declare option require-feature "higher-order-function unknown";
+      let $f := function() { () } return $f()
+    </test>
+    <result>
+      <any-of>
+        <!-- The test must be reported to fail if a different error is returned -->
+        <error code="XQST0123"/>
+      </any-of>
+    </result>
+  </test-case>
+  
+  <test-case name="prohibit-feature-list-1">
+    <description>The require-feature and prohibit-feature options may be lists of QNames.</description>
+    <created by="Ghislain Fourny" on="2013-04-19"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test>
+      declare option prohibit-feature "all-extensions static-typing";
+      ()
+    </test>
+    <result>
+      <any-of>
+        <assert-empty/>
+        <!-- The test must be reported to fail if a different error is returned -->
+        <error code="XQST0128"/>
+      </any-of>
+    </result>
+  </test-case>
+  
+  <test-case name="prohibit-feature-list-2">
+    <description>The require-feature and prohibit-feature options may be lists of QNames.</description>
+    <created by="Ghislain Fourny" on="2013-04-19"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test>
+      declare option prohibit-feature "static-typing all-extensions";
+      ()
+    </test>
+    <result>
+      <any-of>
+        <assert-empty/>
+        <!-- The test must be reported to fail if a different error is returned -->
+        <error code="XQST0128"/>
+      </any-of>
+    </result>
+  </test-case>
+
 </test-set>
