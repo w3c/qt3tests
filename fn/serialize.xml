@@ -201,4 +201,47 @@
             <error code="SEPM0017"/>
         </result>
     </test-case>
+    
+    <test-case name="serialize-xml-010">
+        <description>Serialize a function item</description>
+        <created by="Michael Kay, Saxonica" on="2013-04-23"/>
+        <dependency type="spec" value="XP30+ XQ30+"/>
+        <test>serialize(name#1)</test>
+        <result>
+            <error code="SENR0001"/>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-011">
+        <description>Serialize an attribute node</description>
+        <created by="Michael Kay, Saxonica" on="2013-04-23"/>
+        <environment ref="atomic"/>
+        <dependency type="spec" value="XP30+ XQ30+"/>
+        <test>serialize((//@*:attr)[1])</test>
+        <result>
+            <error code="SENR0001"/>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-012">
+        <description>Serialize a namespace node</description>
+        <created by="Michael Kay, Saxonica" on="2013-04-23"/>
+        <environment ref="atomic"/>
+        <dependency type="spec" value="XP30+"/>
+        <test>serialize((//namespace::*)[1])</test>
+        <result>
+            <error code="SENR0001"/>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-013">
+        <description>Serialize a namespace node</description>
+        <created by="Michael Kay, Saxonica" on="2013-04-23"/>
+        <environment ref="atomic"/>
+        <dependency type="spec" value="XQ30+"/>
+        <test>serialize(namespace a {"http://www.example.com"})</test>
+        <result>
+            <error code="SENR0001"/>
+        </result>
+    </test-case>
 </test-set>
