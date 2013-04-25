@@ -154,6 +154,7 @@
       <description>external variable with a default value that depends on other vars </description>
       <created by="Michael Kay" on="2008-12-01"/>
       <modified by="Michael Kay" on="2011-09-05" change="define expected error code"/>
+      <modified by="Michael Kay" on="2013-04-26" change="allow success result, see bug 21832"/>
       <environment>
          <param name="ext" select="862" declared="true"/>
       </environment>
@@ -163,7 +164,10 @@
         <out>{$ext}</out>
       ]]></test>
       <result>
-         <error code="XPTY0004"/>
+         <any-of>
+            <error code="XPTY0004"/>
+            <assert-xml><![CDATA[<out>862</out>]]></assert-xml>
+         </any-of>
       </result>
    </test-case>
 
