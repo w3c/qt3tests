@@ -1058,13 +1058,17 @@
   <test-case name="well-formed-feature-2">
     <description>Features must be lexical QNames.</description>
     <created by="Ghislain Fourny" on="2012-10-15"/>
+    <modified by="O'Neil Delpratt" on="2013-05-01" change="bug fix added error code relating to bug issue #21719"/>
     <dependency type="spec" value="XQ30+"/>
     <test>
       declare option require-feature "qname not:a:qname";
       ()
     </test>
     <result>
-      <error code="XQST0122"/>
+        <any-of>
+            <error code="XQST0122"/>
+            <error code="XQST0123"/>
+        </any-of>
     </result>
   </test-case>
   
