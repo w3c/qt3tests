@@ -6828,10 +6828,11 @@
       <description> casting an xs:decimal with a value to big for that type.</description>
       <created by="Carmelo Montanez" on="2005-10-03"/>
       <modified by="O'Neil Delpratt" on="2012-11-08" change="Bug #19782 - change expected result" />
+      <modified by="Michael Kay" on="2013-05-01" change="Bug #21890 - change assertion" />
       <test>xs:decimal(99e100)</test>
       <result>
          <any-of>
-            <assert>abs($result - 989999999999999971062477677470550235220096190889648004812994130017827049653182301025734968880029237248) lt 9e99</assert>
+            <assert>$result lt 100e100 and $result gt 98e100</assert>
             <error code="FOCA0001"/>
          </any-of>
       </result>
@@ -6841,10 +6842,11 @@
       <description> casting an xs:integer with a value to big for that type.</description>
       <created by="Carmelo Montanez" on="2005-10-03"/>
       <modified by="O'Neil Delpratt" on="2012-11-08" change="Bug #19782 - change expected result" />
+      <modified by="Michael Kay" on="2013-05-01" change="Bug #21890 - change assertion" />
       <test>xs:integer(99e100)</test>
       <result>
          <any-of>
-            <assert>abs($result - 989999999999999971062477677470550235220096190889648004812994130017827049653182301025734968880029237248) lt 9e99</assert>
+            <assert>$result lt 100e100 and $result gt 98e100</assert>
             <error code="FOCA0003"/>
          </any-of>
       </result>
