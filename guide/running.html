@@ -177,6 +177,86 @@ of dependency are handled in the same way. Elements within the <code>&lt;depende
 section of the test metadata list features or properties that must be present for the test to work
 (or in a few cases, features/properties that must be absent for it to work).</p>
 
+<p>The current list of features and their intended meaning is as follows:</p>
+
+<table>
+<thead>
+<tr>
+<th>Feature name</th>
+<th>Approx number of tests</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>schemaValidation</td>
+  <td>140</td>
+  <td>Requires a query to support the validate expression, and/or to be able to accept source
+  documents that have been validated.</td>
+</tr>  
+<tr>
+  <td>schemaImport</td>
+  <td>500</td>
+  <td>Requires the query to support an import schema declaration.</td>
+</tr>
+<tr>
+  <td>schemaAware</td>
+  <td>50</td>
+  <td>Combination of schemaValidation and schemaImport</td>
+</tr>
+<tr>
+  <td>higherOrderFunctions</td>
+  <td>1580</td>
+  <td>Requires support for higher order functions (XPath or XQuery)</td>
+</tr>
+<tr>
+  <td>staticTyping</td>
+  <td>85</td>
+  <td>Requires "pessimistic" static typing</td>
+</tr> 
+<tr>
+  <td>infoset-dtd</td>
+  <td>35</td>
+  <td>Requires source documents to be constructed according to the rules for construction from an Infoset,
+  in particular recognizing ID/IDREF attributes identified as such in a DTD</td>
+</tr> 
+<tr>
+  <td>xpath-1.0-compatibility</td>
+  <td>5</td>
+  <td>For XPath tests, requires the expression to be evaluated in XPath 1.0 compatibility mode.
+  (In general, if this dependency is not present then the test must NOT be run in 1.0 compatibility mode.)</td>
+</tr> 
+<tr>
+  <td>namespace-axis</td>
+  <td>35</td>
+  <td>For XPath tests, requires support for the namespace axis</td>
+</tr> 
+<tr>
+  <td>moduleImport</td>
+  <td>50</td>
+  <td>For XQuery, requires support for import module declaration</td>
+</tr> 
+<tr>
+  <td>schema-location-hint</td>
+  <td>3</td>
+  <td>Requires the "at URI" location hint in import schema to be interpreted as a relative URL.</td>
+</tr>
+<tr>
+  <td>collection-stability</td>
+  <td>2</td>
+  <td>Requires collections to be stable (implementations are allowed to support non-stable collections)</td>
+</tr>
+<tr>
+  <td>directory-as-collation-uri</td>
+  <td>1</td>
+  <td>Requires an implementation to recognize a file:/// URL identifying a directory as a collection URI</td>
+</tr>  
+</tbody>
+</table>
+  
+<p>A complete list of dependencies used in the test suite can be obtained by running the query
+<code>dependencies.xq</code> contained in the tools directory.</p>
+
 <p>A test driver can adopt two possible strategies when it finds a test with such dependencies.
 It can decide whether or not to run the test: if a product does not support an optional feature
 that the test requires, then the test can be skipped. Alternatively, it can configure the product
