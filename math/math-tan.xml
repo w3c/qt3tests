@@ -53,20 +53,22 @@
         <description>Evaluate the function math:tan() with the argument math:pi() div 4</description>
         <created by="O'Neil Delpratt, Saxonica" on="2010-12-10"/>
         <modified by="Michael Kay, Saxonica" on="2012-05-29" change="avoid function singularity, see bug 15233"/>
+        <modified by="Michael Kay, Saxonica" on="2013-05-01" change="allow imprecision, see bug 18478"/>
         <environment ref="math"/>
-        <test>math:tan(math:pi() div 4)</test>
+        <test>math:tan(math:pi() div 4) - 1</test>
         <result>
-            <assert-eq>0.9999999999999999</assert-eq>
+            <assert>abs($result) le 1e-12</assert>
         </result>
     </test-case>
     <test-case name="math-tan-007">
         <description>Evaluate the function math:tan() with the argument math:pi() div 4</description>
         <created by="O'Neil Delpratt, Saxonica" on="2010-12-10"/>
         <modified by="Michael Kay, Saxonica" on="2012-05-29" change="avoid function singularity, see bug 15233"/>
+        <modified by="Michael Kay, Saxonica" on="2013-05-01" change="allow imprecision, see bug 18478"/>
         <environment ref="math"/>
-        <test>math:tan(-math:pi() div 4)</test>
+        <test>math:tan(-math:pi() div 4) + 1</test>
         <result>
-            <assert-eq>-0.9999999999999999</assert-eq>
+            <assert>abs($result) le 1e-12</assert>
         </result>
     </test-case>
     <test-case name="math-tan-008">
@@ -75,7 +77,7 @@
         <environment ref="math"/>
         <test>math:tan(math:pi())</test>
         <result>
-            <assert>abs($result) &lt; 1e12</assert>
+            <assert>abs($result) &lt; 1e-12</assert>
         </result>
     </test-case>
     <test-case name="math-tan-009">
