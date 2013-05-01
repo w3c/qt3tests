@@ -1241,6 +1241,7 @@
       <created by="Tim Mills" on="2008-05-16"/>
       <environment ref="foty0012" />
       <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaImport"/>
       <test><![CDATA[import schema namespace foo = "http://www.example.org/2007/schema/FOTY0012"; data(validate strict { <foo:element /> } )]]></test>
       <result>
          <error code="FOTY0012"/>
@@ -1913,6 +1914,7 @@
       <created by="Tim Mills" on="2008-05-16"/>
       <environment ref="xqdy0027" />
       <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaImport"/>
       <test><![CDATA[declare construction preserve; declare copy-namespaces no-preserve,inherit; import schema namespace foo = "http://www.example.org/2007/schema/XQDY0027"; let $x := validate strict { <foo:element attr="foo:notation">foo:qname</foo:element> } return <a>{$x}</a>]]></test>
       <result>
          <error code="XQDY0027"/>
@@ -2025,6 +2027,7 @@
       <created by="Tim Mills" on="2008-05-16"/>
       <environment ref="xqdy0084" />
       <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaImport"/>
       <test><![CDATA[import schema namespace foo = "http://www.example.org/2007/schema/XQDY0084"; validate strict { <foo:a /> }]]></test>
       <result>
          <error code="XQDY0084"/>
@@ -2148,6 +2151,7 @@
       <module uri="http://www.example.org/2007/test" file="CombinedErrorCodes/XQST0036_lib1.xq"/>
       <dependency type="spec" value="XQ10"/>
       <dependency type="feature" value="moduleImport" satisfied="true"/>
+      <dependency type="feature" value="schemaImport"/>
       <test>import module namespace test = "http://www.example.org/2007/test"; $test:test</test>
       <result>
          <error code="XQST0036"/>
@@ -2163,6 +2167,7 @@
       <module uri="http://www.example.org/2007/test" file="CombinedErrorCodes/XQST0036_lib2.xq"/>
       <dependency type="spec" value="XQ10"/>
       <dependency type="feature" value="moduleImport" satisfied="true"/>
+      <dependency type="feature" value="schemaImport"/>
       <test>import module namespace test = "http://www.example.org/2007/test"; test:bool-to-uppercase(true())</test>
       <result>
          <error code="XQST0036"/>
@@ -2178,6 +2183,7 @@
       <module uri="http://www.example.org/2007/test" file="CombinedErrorCodes/XQST0036_lib3.xq"/>
       <dependency type="spec" value="XQ10"/>
       <dependency type="feature" value="moduleImport" satisfied="true"/>
+      <dependency type="feature" value="schemaImport"/>
       <test>import module namespace test = "http://www.example.org/2007/test"; test:f()</test>
       <result>
          <error code="XQST0036"/>
@@ -2193,6 +2199,7 @@
       <module uri="http://www.example.org/2007/test" file="CombinedErrorCodes/XQST0036_lib4.xq"/>
       <dependency type="spec" value="XQ10"/>
       <dependency type="feature" value="moduleImport" satisfied="true"/>
+      <dependency type="feature" value="schemaImport"/>
       <test>import module namespace test = "http://www.example.org/2007/test"; $test:i</test>
       <result>
          <error code="XQST0036"/>
@@ -2208,6 +2215,7 @@
       <module uri="http://www.example.org/2007/test" file="CombinedErrorCodes/XQST0036_lib5.xq"/>
       <dependency type="spec" value="XQ10"/>
       <dependency type="feature" value="moduleImport" satisfied="true"/>
+      <dependency type="feature" value="schemaImport"/>
       <test>import module namespace test = "http://www.example.org/2007/test"; test:attrs()</test>
       <result>
          <error code="XQST0036"/>
@@ -2223,6 +2231,7 @@
       <module uri="http://www.example.org/2007/test" file="CombinedErrorCodes/XQST0036_lib6.xq"/>
       <dependency type="spec" value="XQ10"/>
       <dependency type="feature" value="moduleImport" satisfied="true"/>
+      <dependency type="feature" value="schemaImport"/>
       <test>import module namespace test = "http://www.example.org/2007/test"; $test:none</test>
       <result>
          <error code="XQST0036"/>
@@ -2238,6 +2247,7 @@
       <module uri="http://www.example.org/2007/test" file="CombinedErrorCodes/XQST0036_lib7.xq"/>
       <dependency type="spec" value="XQ10"/>
       <dependency type="feature" value="moduleImport" satisfied="true"/>
+      <dependency type="feature" value="schemaImport"/>
       <test>import module namespace test = "http://www.example.org/2007/test"; test:attrs()</test>
       <result>
          <error code="XQST0036"/>
@@ -2604,7 +2614,8 @@
    <test-case name="XQST0058">
       <description> check that bad schema imports are reported correctly </description>
       <created by="Tim Mills" on="2008-05-16"/>
-      
+      <dependency type="feature" value="schemaImport"/>
+     
       <test>import schema namespace foo = "http://www.w3.org/XQueryTest/testcases"; import schema namespace bar = "http://www.w3.org/XQueryTest/testcases"; 1</test>
       <result>
          <error code="XQST0058"/>
@@ -2615,7 +2626,8 @@
    <test-case name="XQST0059_1">
       <description> check that missing schema imports are reported correctly </description>
       <created by="Tim Mills" on="2008-05-16"/>      
-      <test>import schema namespace foo = "http://www.w3.org/" at "DoesNotExist.xsd"; 1</test>
+      <dependency type="feature" value="schemaImport"/>
+     <test>import schema namespace foo = "http://www.w3.org/" at "DoesNotExist.xsd"; 1</test>
       <result>
          <error code="XQST0059"/>
       </result>
@@ -2637,6 +2649,7 @@
    <test-case name="XQST0059_3">
       <description> check that missing schema imports are reported correctly </description>
       <created by="Tim Mills" on="2008-05-16"/>     
+      <dependency type="feature" value="schemaImport"/>
       <test>import schema namespace foo = "http://www.w3.org/"; 1</test>
       <result>
          <error code="XQST0059"/>
@@ -2670,6 +2683,7 @@
    <test-case name="XQST0059_6">
       <description> Test generating XQST0059 </description>
       <created by="Tim Mills" on="2008-05-16"/>
+      <dependency type="feature" value="schemaImport"/>
       
       <test>import schema namespace foo = "http://www.example.org/" at "XQST0059.xsd"; 1</test>
       <result>
