@@ -3429,11 +3429,15 @@
       <description> Use kind-test namespace-node() in an axis step for the attribute axis. Note: applies to both XPath and XQuery.</description>
       <created by="Michael Kay" on="2013-01-22"/>
       <modified by="Michael Kay" on="2013-03-11" change="requires 3.0"/>
+      <modified by="Michael Kay" on="2013-05-01" change="allow static typing error (bug 21620)"/>
       <environment ref="TreeTrunc"/>
       <dependency type="spec" value="XP30+ XQ30+"/>
       <test>/*/attribute::namespace-node()</test>
       <result>
-         <assert-empty/>
+         <any-of>
+           <assert-empty/>
+           <error code="XPST0005"/>
+         </any-of>
       </result>
    </test-case>
    
@@ -4852,10 +4856,14 @@
    <test-case name="cbcl-childAxis-001">
       <description> Tests to child::attribute(b) </description>
       <created by="Nick Jones" on="2008-06-26"/>
+      <modified by="Michael Kay" on="2013-05-01" change="allow static typing error as per bug 21620"/>
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[count(<a b="blah"/>/child::attribute(b))]]></test>
       <result>
-         <assert-string-value>0</assert-string-value>
+         <any-of>
+           <assert-eq>0</assert-eq>
+           <error code="XPST0005"/>
+         </any-of>
       </result>
    </test-case>
 
