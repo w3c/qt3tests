@@ -1097,52 +1097,57 @@
    <test-case name="format-date-en126">
       <description>English cardinal words 1990-2020 upper case</description>
       <created by="Michael Kay, Saxonica" on="2011-07-01"/>
+      <modified by="Michael Kay" on="2013-05-01" change="make 'AND' optional, see bug 21423"/>
       <environment>
          <param name="d" as="xs:date" select="xs:date('1990-12-01')"/>
       </environment>
       <dependency type="language" value="en"/>
-      <test> string-join( for $i in 0 to 30 return let $d2 := $d + xs:yearMonthDuration('P1Y')*$i
-         return format-date($d2, '[YW]', 'en', (), ()), '; ') </test>
+      <test> 
+         string-join( 
+            for $i in 0 to 30 return let $d2 := $d + xs:yearMonthDuration('P1Y')*$i
+              return replace(format-date($d2, '[YW]', 'en', (), ()), ' AND ', ' '),
+            '; ') </test>
       <result>
          <assert-string-value normalize-space="true">
-            ONE THOUSAND NINE HUNDRED AND NINETY; ONE THOUSAND NINE HUNDRED AND
-            NINETY ONE; ONE THOUSAND NINE HUNDRED AND NINETY TWO; ONE THOUSAND NINE HUNDRED AND
-            NINETY THREE; ONE THOUSAND NINE HUNDRED AND NINETY FOUR; ONE THOUSAND NINE HUNDRED AND
-            NINETY FIVE; ONE THOUSAND NINE HUNDRED AND NINETY SIX; ONE THOUSAND NINE HUNDRED AND
-            NINETY SEVEN; ONE THOUSAND NINE HUNDRED AND NINETY EIGHT; ONE THOUSAND NINE HUNDRED AND
-            NINETY NINE; TWO THOUSAND; TWO THOUSAND AND ONE; TWO THOUSAND AND TWO; TWO THOUSAND AND
-            THREE; TWO THOUSAND AND FOUR; TWO THOUSAND AND FIVE; TWO THOUSAND AND SIX; TWO THOUSAND
-            AND SEVEN; TWO THOUSAND AND EIGHT; TWO THOUSAND AND NINE; TWO THOUSAND AND TEN; TWO
-            THOUSAND AND ELEVEN; TWO THOUSAND AND TWELVE; TWO THOUSAND AND THIRTEEN; TWO THOUSAND
-            AND FOURTEEN; TWO THOUSAND AND FIFTEEN; TWO THOUSAND AND SIXTEEN; TWO THOUSAND AND
-            SEVENTEEN; TWO THOUSAND AND EIGHTEEN; TWO THOUSAND AND NINETEEN; TWO THOUSAND AND
+            ONE THOUSAND NINE HUNDRED NINETY; ONE THOUSAND NINE HUNDRED
+            NINETY ONE; ONE THOUSAND NINE HUNDRED NINETY TWO; ONE THOUSAND NINE HUNDRED
+            NINETY THREE; ONE THOUSAND NINE HUNDRED NINETY FOUR; ONE THOUSAND NINE HUNDRED
+            NINETY FIVE; ONE THOUSAND NINE HUNDRED NINETY SIX; ONE THOUSAND NINE HUNDRED
+            NINETY SEVEN; ONE THOUSAND NINE HUNDRED NINETY EIGHT; ONE THOUSAND NINE HUNDRED
+            NINETY NINE; TWO THOUSAND; TWO THOUSAND ONE; TWO THOUSAND TWO; TWO THOUSAND
+            THREE; TWO THOUSAND FOUR; TWO THOUSAND FIVE; TWO THOUSAND SIX; TWO THOUSAND
+            SEVEN; TWO THOUSAND EIGHT; TWO THOUSAND NINE; TWO THOUSAND TEN; TWO
+            THOUSAND ELEVEN; TWO THOUSAND TWELVE; TWO THOUSAND THIRTEEN; TWO THOUSAND
+            FOURTEEN; TWO THOUSAND FIFTEEN; TWO THOUSAND SIXTEEN; TWO THOUSAND
+            SEVENTEEN; TWO THOUSAND EIGHTEEN; TWO THOUSAND NINETEEN; TWO THOUSAND
             TWENTY
          </assert-string-value>
       </result>
    </test-case>
 
    <test-case name="format-date-en127">
-      <description>English cardinal words 1990-2020 lowerr case</description>
+      <description>English cardinal words 1990-2020 lower case</description>
       <created by="Michael Kay, Saxonica" on="2011-07-01"/>
+      <modified by="Michael Kay" on="2013-05-01" change="make 'and' optional, see bug 21423"/>
       <environment>
          <param name="d" as="xs:date" select="xs:date('1990-12-01')"/>
       </environment>
       <dependency type="language" value="en"/>
       <test> string-join( for $i in 0 to 30 return let $d2 := $d + xs:yearMonthDuration('P1Y')*$i
-         return format-date($d2, '[Yw]', 'en', (), ()), '; ') </test>
+         return replace(format-date($d2, '[Yw]', 'en', (), ()), ' and ', ' '), '; ') </test>
       <result>
          <assert-string-value normalize-space="true">
-            one thousand nine hundred and ninety; one thousand nine hundred and
-            ninety one; one thousand nine hundred and ninety two; one thousand nine hundred and
-            ninety three; one thousand nine hundred and ninety four; one thousand nine hundred and
-            ninety five; one thousand nine hundred and ninety six; one thousand nine hundred and
-            ninety seven; one thousand nine hundred and ninety eight; one thousand nine hundred and
-            ninety nine; two thousand; two thousand and one; two thousand and two; two thousand and
-            three; two thousand and four; two thousand and five; two thousand and six; two thousand
-            and seven; two thousand and eight; two thousand and nine; two thousand and ten; two
-            thousand and eleven; two thousand and twelve; two thousand and thirteen; two thousand
-            and fourteen; two thousand and fifteen; two thousand and sixteen; two thousand and
-            seventeen; two thousand and eighteen; two thousand and nineteen; two thousand and
+            one thousand nine hundred ninety; one thousand nine hundred 
+            ninety one; one thousand nine hundred ninety two; one thousand nine hundred 
+            ninety three; one thousand nine hundred ninety four; one thousand nine hundred 
+            ninety five; one thousand nine hundred ninety six; one thousand nine hundred 
+            ninety seven; one thousand nine hundred ninety eight; one thousand nine hundred 
+            ninety nine; two thousand; two thousand one; two thousand two; two thousand 
+            three; two thousand four; two thousand five; two thousand six; two thousand
+            seven; two thousand eight; two thousand nine; two thousand ten; two
+            thousand eleven; two thousand twelve; two thousand thirteen; two thousand
+            fourteen; two thousand fifteen; two thousand sixteen; two thousand 
+            seventeen; two thousand eighteen; two thousand nineteen; two thousand 
             twenty
          </assert-string-value>
       </result>
@@ -1151,26 +1156,27 @@
    <test-case name="format-date-en128">
       <description>English cardinal words 1990-2020 title case</description>
       <created by="Michael Kay, Saxonica" on="2011-07-01"/>
+      <modified by="Michael Kay" on="2013-05-01" change="make 'and' optional, see bug 21423"/>
       <environment>
          <param name="d" as="xs:date" select="xs:date('1990-12-01')"/>
       </environment>
       <dependency type="language" value="en"/>
       <test> string-join( for $i in 0 to 30 return let $d2 := $d + xs:yearMonthDuration('P1Y')*$i
-         return format-date($d2, '[YWw]', 'en', (), ()), '; ') </test>
+         return replace(format-date($d2, '[YWw]', 'en', (), ()), ' [Aa]nd ', ' '), '; ') </test>
       <result>
          <assert-string-value normalize-space="true">
-            One Thousand Nine Hundred and Ninety; One Thousand Nine Hundred and
-            Ninety One; One Thousand Nine Hundred and Ninety Two; One Thousand Nine Hundred and
-            Ninety Three; One Thousand Nine Hundred and Ninety Four; One Thousand Nine Hundred and
-            Ninety Five; One Thousand Nine Hundred and Ninety Six; One Thousand Nine Hundred and
-            Ninety Seven; One Thousand Nine Hundred and Ninety Eight; One Thousand Nine Hundred and
-            Ninety Nine; Two Thousand; Two Thousand and One; Two Thousand and Two; Two Thousand and
-            Three; Two Thousand and Four; Two Thousand and Five; Two Thousand and Six; Two Thousand
-            and Seven; Two Thousand and Eight; Two Thousand and Nine; Two Thousand and Ten; Two
-            Thousand and Eleven; Two Thousand and Twelve; Two Thousand and Thirteen; Two Thousand
-            and Fourteen; Two Thousand and Fifteen; Two Thousand and Sixteen; Two Thousand and
-            Seventeen; Two Thousand and Eighteen; Two Thousand and Nineteen; Two Thousand and
-            Twenty
+            One Thousand Nine Hundred Ninety; One Thousand Nine Hundred 
+            Ninety One; One Thousand Nine Hundred Ninety Two; One Thousand Nine Hundred 
+            Ninety Three; One Thousand Nine Hundred Ninety Four; One Thousand Nine Hundred 
+            Ninety Five; One Thousand Nine Hundred Ninety Six; One Thousand Nine Hundred 
+            Ninety Seven; One Thousand Nine Hundred Ninety Eight; One Thousand Nine Hundred 
+            Ninety Nine; Two Thousand; Two Thousand One; Two Thousand Two; Two Thousand 
+            Three; Two Thousand Four; Two Thousand Five; Two Thousand Six; Two Thousand
+            Seven; Two Thousand Eight; Two Thousand Nine; Two Thousand Ten; Two
+            Thousand Eleven; Two Thousand Twelve; Two Thousand Thirteen; Two Thousand
+            Fourteen; Two Thousand Fifteen; Two Thousand Sixteen; Two Thousand 
+            Seventeen; Two Thousand Eighteen; Two Thousand Nineteen; Two Thousand 
+            Twenty         
          </assert-string-value>
       </result>
    </test-case>
@@ -1238,75 +1244,78 @@
    <test-case name="format-date-en132">
       <description>English ordinal words 1990-2020 upper case</description>
       <created by="Michael Kay, Saxonica" on="2011-07-01"/>
+      <modified by="Michael Kay" on="2013-05-01" change="make 'and' optional, see bug 21423"/>
       <environment>
          <param name="d" as="xs:date" select="xs:date('1990-12-01')"/>
       </environment>
       <dependency type="language" value="en"/>
       <test> string-join( for $i in 0 to 30 return let $d2 := $d + xs:yearMonthDuration('P1Y')*$i
-         return translate(format-date($d2, '[YWo]', 'en', (), ()), '- ', ''), '; ') </test>
+         return translate(replace(format-date($d2, '[YWo]', 'en', (), ()), ' AND ', ' '), '- ', ''), '; ') </test>
       <result>
-         <assert-string-value normalize-space="true">ONETHOUSANDNINEHUNDREDANDNINETIETH;
-            ONETHOUSANDNINEHUNDREDANDNINETYFIRST; ONETHOUSANDNINEHUNDREDANDNINETYSECOND;
-            ONETHOUSANDNINEHUNDREDANDNINETYTHIRD; ONETHOUSANDNINEHUNDREDANDNINETYFOURTH;
-            ONETHOUSANDNINEHUNDREDANDNINETYFIFTH; ONETHOUSANDNINEHUNDREDANDNINETYSIXTH;
-            ONETHOUSANDNINEHUNDREDANDNINETYSEVENTH; ONETHOUSANDNINEHUNDREDANDNINETYEIGHTH;
-            ONETHOUSANDNINEHUNDREDANDNINETYNINTH; TWOTHOUSANDTH; TWOTHOUSANDANDFIRST;
-            TWOTHOUSANDANDSECOND; TWOTHOUSANDANDTHIRD; TWOTHOUSANDANDFOURTH; TWOTHOUSANDANDFIFTH;
-            TWOTHOUSANDANDSIXTH; TWOTHOUSANDANDSEVENTH; TWOTHOUSANDANDEIGHTH; TWOTHOUSANDANDNINTH;
-            TWOTHOUSANDANDTENTH; TWOTHOUSANDANDELEVENTH; TWOTHOUSANDANDTWELFTH;
-            TWOTHOUSANDANDTHIRTEENTH; TWOTHOUSANDANDFOURTEENTH; TWOTHOUSANDANDFIFTEENTH;
-            TWOTHOUSANDANDSIXTEENTH; TWOTHOUSANDANDSEVENTEENTH; TWOTHOUSANDANDEIGHTEENTH;
-            TWOTHOUSANDANDNINETEENTH; TWOTHOUSANDANDTWENTIETH</assert-string-value>
+         <assert-string-value normalize-space="true">ONETHOUSANDNINEHUNDREDNINETIETH;
+            ONETHOUSANDNINEHUNDREDNINETYFIRST; ONETHOUSANDNINEHUNDREDNINETYSECOND;
+            ONETHOUSANDNINEHUNDREDNINETYTHIRD; ONETHOUSANDNINEHUNDREDNINETYFOURTH;
+            ONETHOUSANDNINEHUNDREDNINETYFIFTH; ONETHOUSANDNINEHUNDREDNINETYSIXTH;
+            ONETHOUSANDNINEHUNDREDNINETYSEVENTH; ONETHOUSANDNINEHUNDREDNINETYEIGHTH;
+            ONETHOUSANDNINEHUNDREDNINETYNINTH; TWOTHOUSANDTH; TWOTHOUSANDFIRST;
+            TWOTHOUSANDSECOND; TWOTHOUSANDTHIRD; TWOTHOUSANDFOURTH; TWOTHOUSANDFIFTH;
+            TWOTHOUSANDSIXTH; TWOTHOUSANDSEVENTH; TWOTHOUSANDEIGHTH; TWOTHOUSANDNINTH;
+            TWOTHOUSANDTENTH; TWOTHOUSANDELEVENTH; TWOTHOUSANDTWELFTH;
+            TWOTHOUSANDTHIRTEENTH; TWOTHOUSANDFOURTEENTH; TWOTHOUSANDFIFTEENTH;
+            TWOTHOUSANDSIXTEENTH; TWOTHOUSANDSEVENTEENTH; TWOTHOUSANDEIGHTEENTH;
+            TWOTHOUSANDNINETEENTH; TWOTHOUSANDTWENTIETH</assert-string-value>
       </result>
    </test-case>
 
    <test-case name="format-date-en133">
       <description>English ordinal words 1990-2020 lower case</description>
       <created by="Michael Kay, Saxonica" on="2011-07-01"/>
+      <modified by="Michael Kay" on="2013-05-01" change="make 'and' optional, see bug 21423"/>
       <environment>
          <param name="d" as="xs:date" select="xs:date('1990-12-01')"/>
       </environment>
       <dependency type="language" value="en"/>
       <test> string-join( for $i in 0 to 30 return let $d2 := $d + xs:yearMonthDuration('P1Y')*$i
-         return translate(format-date($d2, '[Ywo]', 'en', (), ()), '- ', ''), '; ') </test>
+         return translate(replace(format-date($d2, '[Ywo]', 'en', (), ()), ' and ', ' '), '- ', ''), '; ') </test>
       <result>
-         <assert-string-value normalize-space="true">onethousandninehundredandninetieth;
-            onethousandninehundredandninetyfirst; onethousandninehundredandninetysecond;
-            onethousandninehundredandninetythird; onethousandninehundredandninetyfourth;
-            onethousandninehundredandninetyfifth; onethousandninehundredandninetysixth;
-            onethousandninehundredandninetyseventh; onethousandninehundredandninetyeighth;
-            onethousandninehundredandninetyninth; twothousandth; twothousandandfirst;
-            twothousandandsecond; twothousandandthird; twothousandandfourth; twothousandandfifth;
-            twothousandandsixth; twothousandandseventh; twothousandandeighth; twothousandandninth;
-            twothousandandtenth; twothousandandeleventh; twothousandandtwelfth;
-            twothousandandthirteenth; twothousandandfourteenth; twothousandandfifteenth;
-            twothousandandsixteenth; twothousandandseventeenth; twothousandandeighteenth;
-            twothousandandnineteenth; twothousandandtwentieth</assert-string-value>
+         <assert-string-value normalize-space="true">onethousandninehundredninetieth;
+            onethousandninehundredninetyfirst; onethousandninehundredninetysecond;
+            onethousandninehundredninetythird; onethousandninehundredninetyfourth;
+            onethousandninehundredninetyfifth; onethousandninehundredninetysixth;
+            onethousandninehundredninetyseventh; onethousandninehundredninetyeighth;
+            onethousandninehundredninetyninth; twothousandth; twothousandfirst;
+            twothousandsecond; twothousandthird; twothousandfourth; twothousandfifth;
+            twothousandsixth; twothousandseventh; twothousandeighth; twothousandninth;
+            twothousandtenth; twothousandeleventh; twothousandtwelfth;
+            twothousandthirteenth; twothousandfourteenth; twothousandfifteenth;
+            twothousandsixteenth; twothousandseventeenth; twothousandeighteenth;
+            twothousandnineteenth; twothousandtwentieth</assert-string-value>
       </result>
    </test-case>
 
    <test-case name="format-date-en134">
       <description>English ordinal words 1990-2020 title case</description>
       <created by="Michael Kay, Saxonica" on="2011-07-01"/>
+      <modified by="Michael Kay" on="2013-05-01" change="make 'and' optional, see bug 21423"/>
       <environment>
          <param name="d" as="xs:date" select="xs:date('1990-12-01')"/>
       </environment>
       <dependency type="language" value="en"/>
       <test> string-join( for $i in 0 to 30 return let $d2 := $d + xs:yearMonthDuration('P1Y')*$i
-         return translate(format-date($d2, '[YWwo]', 'en', (), ()), '- ', ''), '; ') </test>
+         return translate(replace(format-date($d2, '[YWwo]', 'en', (), ()), ' [Aa]nd ', ' '), '- ', ''), '; ') </test>
       <result>
-         <assert-string-value normalize-space="true">OneThousandNineHundredandNinetieth;
-            OneThousandNineHundredandNinetyFirst; OneThousandNineHundredandNinetySecond;
-            OneThousandNineHundredandNinetyThird; OneThousandNineHundredandNinetyFourth;
-            OneThousandNineHundredandNinetyFifth; OneThousandNineHundredandNinetySixth;
-            OneThousandNineHundredandNinetySeventh; OneThousandNineHundredandNinetyEighth;
-            OneThousandNineHundredandNinetyNinth; TwoThousandth; TwoThousandandFirst;
-            TwoThousandandSecond; TwoThousandandThird; TwoThousandandFourth; TwoThousandandFifth;
-            TwoThousandandSixth; TwoThousandandSeventh; TwoThousandandEighth; TwoThousandandNinth;
-            TwoThousandandTenth; TwoThousandandEleventh; TwoThousandandTwelfth;
-            TwoThousandandThirteenth; TwoThousandandFourteenth; TwoThousandandFifteenth;
-            TwoThousandandSixteenth; TwoThousandandSeventeenth; TwoThousandandEighteenth;
-            TwoThousandandNineteenth; TwoThousandandTwentieth</assert-string-value>
+         <assert-string-value normalize-space="true">OneThousandNineHundredNinetieth;
+            OneThousandNineHundredNinetyFirst; OneThousandNineHundredNinetySecond;
+            OneThousandNineHundredNinetyThird; OneThousandNineHundredNinetyFourth;
+            OneThousandNineHundredNinetyFifth; OneThousandNineHundredNinetySixth;
+            OneThousandNineHundredNinetySeventh; OneThousandNineHundredNinetyEighth;
+            OneThousandNineHundredNinetyNinth; TwoThousandth; TwoThousandFirst;
+            TwoThousandSecond; TwoThousandThird; TwoThousandFourth; TwoThousandFifth;
+            TwoThousandSixth; TwoThousandSeventh; TwoThousandEighth; TwoThousandNinth;
+            TwoThousandTenth; TwoThousandEleventh; TwoThousandTwelfth;
+            TwoThousandThirteenth; TwoThousandFourteenth; TwoThousandFifteenth;
+            TwoThousandSixteenth; TwoThousandSeventeenth; TwoThousandEighteenth;
+            TwoThousandNineteenth; TwoThousandTwentieth</assert-string-value>
       </result>
    </test-case>
 
