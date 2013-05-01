@@ -536,10 +536,14 @@
    <test-case name="fn-unparsed-text-037">
       <description>Evaluates the "unparsed-text" function with the argument set as follows: $href refers to a file whose encoding cannot be determined.</description>
       <created by="Tim Mills" on="2011-11-28"/>
+      <modified by="Michael Kay" on="2013-05-01" change="added alternative error code as per bug 21885"/>
       <environment ref="unparsed-text" />
       <test>fn:unparsed-text("http://www.w3.org/fots/unparsed-text/unknown-encoding.txt")</test>
       <result>
-	     <error code="FOUT1200" />
+        <any-of>
+	      <error code="FOUT1200" />
+	      <error code="FOUT1190" />
+	    </any-of>  
       </result>
    </test-case>
 
