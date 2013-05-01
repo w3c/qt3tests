@@ -401,12 +401,16 @@
       <description> Evaluation of "order by" clause with the "order by" clause of a FLWR expression set to
          "xs:decimal($x) ", where $x is a set of negative numbers and the ordering mode set to descending </description>
       <created by="Carmelo Montanez (Automatic Generation)" on="2005-06-01"/>
+       <modified by="O'Neil Delpratt" on="2013-05-01" change="Added alternative result. See bug issue #21619" />
       <environment ref="orderdata"/>
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[declare default element namespace "http://www.w3.org/XQueryTestOrderBy"; 
         <results> { for $x in /DataValues/NegativeNumbers/orderData order by xs:decimal($x) descending return xs:decimal($x) } </results>]]></test>
       <result>
-         <assert-xml><![CDATA[<results xmlns="http://www.w3.org/XQueryTestOrderBy">0 -1 -10 -100 -1000 -10000 -100000 -1000000 -10000000 -100000000 -1000000000 -10000000000 -100000000000 -1000000000000 -10000000000000 -100000000000000 -1000000000000000 -10000000000000000 -100000000000000000</results>]]></assert-xml>
+          <any-of>
+            <assert-xml><![CDATA[<results xmlns="http://www.w3.org/XQueryTestOrderBy">0 -1 -10 -100 -1000 -10000 -100000 -1000000 -10000000 -100000000 -1000000000 -10000000000 -100000000000 -1000000000000 -10000000000000 -100000000000000 -1000000000000000 -10000000000000000 -100000000000000000</results>]]></assert-xml>
+            <assert-xml><![CDATA[<results xmlns="http://www.w3.org/XQueryTestOrderBy">-0 -1 -10 -100 -1000 -10000 -100000 -1000000 -10000000 -100000000 -1000000000 -10000000000 -100000000000 -1000000000000 -10000000000000 -100000000000000 -1000000000000000 -10000000000000000 -100000000000000000</results>]]></assert-xml>
+          </any-of>
       </result>
    </test-case>
 

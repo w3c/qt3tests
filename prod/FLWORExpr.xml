@@ -44,6 +44,7 @@
    <test-case name="ForExprType010">
       <description> FLWOR with type expression matching a type from the schema </description>
       <created by="Mike Rorke" on="2005-06-27"/>
+      <modified by="O'Neil Delpratt" on="2013-05-01" change="Added alternative result. See bug issue #21619" />
       <environment ref="orderData"/>
       <test>
         import schema namespace xqt="http://www.w3.org/XQueryTestOrderBy"; 
@@ -51,7 +52,10 @@
         return $num
       </test>
       <result>
-         <assert-string-value>-100000000000000000 -10000000000000000 -1000000000000000 -100000000000000 -10000000000000 -1000000000000 -100000000000 -10000000000 -1000000000 -100000000 -10000000 -1000000 -100000 -10000 -1000 -100 -10 -1 0</assert-string-value>
+          <any-of>
+            <assert-string-value>-100000000000000000 -10000000000000000 -1000000000000000 -100000000000000 -10000000000000 -1000000000000 -100000000000 -10000000000 -1000000000 -100000000 -10000000 -1000000 -100000 -10000 -1000 -100 -10 -1 0</assert-string-value>
+            <assert-string-value>-100000000000000000 -10000000000000000 -1000000000000000 -100000000000000 -10000000000000 -1000000000000 -100000000000 -10000000000 -1000000000 -100000000 -10000000 -1000000 -100000 -10000 -1000 -100 -10 -1 -0</assert-string-value>
+          </any-of>
       </result>
    </test-case>
 
