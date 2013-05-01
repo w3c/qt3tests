@@ -456,6 +456,18 @@
    <test-case name="re00056">
       <description>Test regex syntax</description>
       <created by="Michael Kay" on="2011-07-04"/>
+      <modified by="Michael Kay" on="2013-05-01" change="split into XSD 1.0 and XSD 1.1 tests as per bug 21425"/>
+      <dependency type="xsd-version" value="1.0"/> 
+      <test>(every $s in tokenize('', ',') satisfies matches($s, '^(?:[^a-d-b-c])$')) and (every $s in tokenize('a-b,c-c,ab,cc', ',') satisfies not(matches($s, '^(?:[^a-d-b-c])$')))</test>
+      <result>
+         <error code="FORX0002"/>
+      </result>
+   </test-case>
+   <test-case name="re00056a">
+      <description>Test regex syntax</description>
+      <created by="Michael Kay" on="2011-07-04"/>
+      <modified by="Michael Kay" on="2013-05-01" change="split into XSD 1.0 and XSD 1.1 tests as per bug 21425"/>
+      <dependency type="xsd-version" value="1.1"/>
       <test>(every $s in tokenize('', ',') satisfies matches($s, '^(?:[^a-d-b-c])$')) and (every $s in tokenize('a-b,c-c,ab,cc', ',') satisfies not(matches($s, '^(?:[^a-d-b-c])$')))</test>
       <result>
          <assert-true/>
@@ -698,6 +710,18 @@ c,a	r', ',') satisfies not(matches($s, '^(?:\c[^\s]\c)$')))</test>
    <test-case name="re00086">
       <description>Test regex syntax</description>
       <created by="Michael Kay" on="2011-07-04"/>
+      <modified by="Michael Kay" on="2013-05-01" change="split into XSD 1.0 and XSD 1.1 tests as per bug 21425"/>
+      <dependency type="xsd-version" value="1.0"/>
+      <test>(every $s in tokenize(',a-1x-7,c-4z-9,a-1z-8a-1z-9,a1z-9,a-1z8,a-1,z-9', ',') satisfies matches($s, '^(?:[a-c-1-4x-z-7-9]*)$')) and (every $s in tokenize('', ',') satisfies not(matches($s, '^(?:[a-c-1-4x-z-7-9]*)$')))</test>
+      <result>
+         <error code="FORX0002"/>
+      </result>
+   </test-case>
+   <test-case name="re00086a">
+      <description>Test regex syntax</description>
+      <created by="Michael Kay" on="2011-07-04"/>
+      <modified by="Michael Kay" on="2013-05-01" change="split into XSD 1.0 and XSD 1.1 tests as per bug 21425"/>
+      <dependency type="xsd-version" value="1.1"/>
       <test>(every $s in tokenize(',a-1x-7,c-4z-9,a-1z-8a-1z-9,a1z-9,a-1z8,a-1,z-9', ',') satisfies matches($s, '^(?:[a-c-1-4x-z-7-9]*)$')) and (every $s in tokenize('', ',') satisfies not(matches($s, '^(?:[a-c-1-4x-z-7-9]*)$')))</test>
       <result>
          <assert-true/>
