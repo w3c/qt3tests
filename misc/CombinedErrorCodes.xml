@@ -433,10 +433,13 @@
    <test-case name="FOAR0002-5">
       <description> check that duration functions throw FOAR0002 </description>
       <created by="Tim Mills" on="2008-05-16"/>
-      
+      <modified by="O'Neil Delpratt" on="2013-05-02" change="Added error code FODT0002. See bug issue #21900" />
       <test>xs:dayTimeDuration('P5999999999999999999DT00H00M01S') div xs:dayTimeDuration('P0DT00H00M0.000001S')</test>
       <result>
-         <error code="FOAR0002"/>
+         <any-of>
+            <error code="FOAR0002"/>
+            <error code="FODT0002"/>
+         </any-of>
       </result>
    </test-case>
    
