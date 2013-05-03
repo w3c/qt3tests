@@ -310,7 +310,7 @@ abracadabra", "\n")</test>
       <created by="Tim Mills" on="2012-09-25"/>
       <test>fn:tokenize(concat('Mary', codepoints-to-string(13), 'Jones'), 'y.J')</test>
       <result>
-	<assert-eq>concat('Mary', codepoints-to-string(13), 'Jones')</assert-eq>
+	    <assert-eq>concat('Mary', codepoints-to-string(13), 'Jones')</assert-eq>
       </result>
    </test-case>
    
@@ -319,7 +319,34 @@ abracadabra", "\n")</test>
       <created by="Tim Mills" on="2012-09-25"/>
       <test>fn:tokenize(concat('Mary', codepoints-to-string(13), 'Jones'), 'y.J', 's')</test>
       <result>
-	<assert-deep-eq>"Mar", "ones"</assert-deep-eq>
+	    <assert-deep-eq>"Mar", "ones"</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-tokenize-36">
+      <description> Regex must be one that does not match a zero-length string </description>
+      <created by="Michael Kay" on="2013-05-03"/>
+      <test>fn:tokenize(concat('Mary', codepoints-to-string(10), 'Jones'), '^', 'm')</test>
+      <result>
+	    <error code="FORX0003"/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-tokenize-37">
+      <description> Regex must be one that does not match a zero-length string </description>
+      <created by="Michael Kay" on="2013-05-03"/>
+      <test>fn:tokenize(concat('Mary', codepoints-to-string(10), 'Jones'), '$', 'm')</test>
+      <result>
+	    <error code="FORX0003"/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-tokenize-38">
+      <description> Regex must be one that does not match a zero-length string </description>
+      <created by="Michael Kay" on="2013-05-03"/>
+      <test>fn:tokenize(concat('Mary', codepoints-to-string(10), 'Jones'), '^[\s]*$', 'm')</test>
+      <result>
+	    <error code="FORX0003"/>
       </result>
    </test-case>
 
