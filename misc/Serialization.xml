@@ -187,4 +187,743 @@
          <assert-xml><![CDATA[<e><a:a xmlns:a="http://www.example.com/A" a:a="value"/><b:a xmlns:b="http://www.example.com/A" b:a="value"/></e>]]></assert-xml>
       </result>
    </test-case>
+
+   <test-case name="Serialization-html-1" covers="html-output">
+      <description>Test that HTML 4.0 elements with empty content model are serialized using only a start tag</description>
+      <created by="Henry Zongaro" on="2012-10-26"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+declare output:method = "html";
+declare output:indent = "no";
+declare output:version = "4.0";
+declare boundary-whitespace-ignore = "yes";
+
+<html><body><area/><base/><br/><col/><embed/><frame/><hr/><img/><input/><isindex/><link/><meta/><param/></body></html>
+]]></test>
+      <result>
+         <serialization-matches><![CDATA[<html><body><area><base><br><col><embed><frame><hr><img><input><isindex><link><meta><param></body></html>]]></serialization-matches>
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-html-2" covers="html-output">
+      <description>Test that HTML 5.0 elements with empty content model are serialized using only a start tag</description>
+      <created by="Henry Zongaro" on="2012-10-26"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+declare output:method = "html";
+declare output:indent = "no";
+declare output:version = "5.0";
+declare boundary-whitespace-ignore = "yes";
+
+<html><body><area/><base/><br/><col/><command/><embed/><hr/><img/><input/><keygen/><link/><meta/><param/><source/><track/><wbr/></body></html>
+]]></test>
+      <result>
+         <all-of>
+           <serialization-matches><![CDATA[<!....... *html *><html><body><area><base><br><col><command><embed><hr><img><input><keygen><link><meta><param><source><track><wbr></body></html>]]></serialization-matches>
+           <serialization-matches flags="i"><![CDATA[<!DOCTYPE .*]]></serialization-matches>
+         </all-of>
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-html-3" covers="html-output">
+      <description>Test that elements in the XHTML namespace whose local names match those of HTML 4.0 elements with empty content model are serialized as XML</description>
+      <created by="Henry Zongaro" on="2012-10-26"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+declare output:method = "html";
+declare output:indent = "no";
+declare output:version = "4.0";
+declare boundary-whitespace-ignore = "yes";
+
+<html xmlns="http://www.w3.org/1999/xhtml"><body><area/><base/><br/><col/><embed/><frame/><hr/><img/><input/><isindex/><link/><meta/><param/></body></html>
+]]></test>
+      <result>
+         <serialization-matches><![CDATA[<html xmlns="http://www.w3.org/1999/xhtml"><body/><area/><base/><br/><col/><embed/><frame/><hr/><img/><input/><isindex/><link/><meta/><param/></body/></html>]]></serialization-matches>
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-html-4" covers="html-output">
+      <description>Test that elements in the XHTML namespace whose local names match those of HTML 5.0 elements with empty content model are serialized using only a start tag</description>
+      <created by="Henry Zongaro" on="2012-10-26"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+declare output:method = "html";
+declare output:indent = "no";
+declare output:version = "5.0";
+declare boundary-whitespace-ignore = "yes";
+
+<html xmlns="http://www.w3.org/1999/xhtml"><body><area/><base/><br/><col/><embed
+/><frame/><hr/><img/><input/><isindex/><link/><meta/><param/></body></html>
+]]></test>
+      <result>
+         <all-of>
+           <serialization-matches><![CDATA[<!....... *html *><html xmlns="http://www.w3.org/1999/xhtml"><body><area><base><br><col><embed><frame><hr><img><input><isindex><link><meta><param></body></html>]]></serialization-matches>
+           <serialization-matches flags="i"><![CDATA[<!DOCTYPE .*]]></serialization-matches>
+         </all-of>
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-html-5" covers="html-output">
+      <description>Test serialization of XML islands for HTML 4.0</description>
+      <created by="Henry Zongaro" on="2012-10-26"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[  ]]></test>
+      <result>
+        <assert-empty />
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-html-6" covers="html-output">
+      <description>Test serialization of XML islands for HTML 5.0</description>
+      <created by="Henry Zongaro" on="2012-10-26"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[  ]]></test>
+      <result>
+        <assert-empty />
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-html-7" covers="html-output">
+      <description>Test serialization of unknown elements in no namespace for HTML 5.0</description>
+      <created by="Henry Zongaro" on="2012-10-26"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[  ]]></test>
+      <result>
+        <assert-empty />
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-html-8" covers="html-output">
+      <description>Test serialization of unknown elements in no namespace or in the XHTML namespace for HTML 5.0</description>
+      <created by="Henry Zongaro" on="2012-10-26"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[  ]]></test>
+      <result>
+        <assert-empty />
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-html-9" covers="html-output">
+      <description>Test that no escaping is performed for text node descendants or attributes of same in the script and style elements</description>
+      <created by="Henry Zongaro" on="2012-10-26"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[  ]]></test>
+      <result>
+        <assert-empty />
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-html-10" covers="html-output">
+      <description>Verify HTML elements are recognized regardless of case</description>
+      <created by="Henry Zongaro" on="2012-10-26"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[  ]]></test>
+      <result>
+        <assert-empty />
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-html-11" covers="html-output">
+      <description>Verify that an ampersand in an attribute value is not escaped if it is immediately followed by a left brace</description>
+      <created by="Henry Zongaro" on="2012-10-26"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[  ]]></test>
+      <result>
+        <assert-empty />
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-html-12" covers="html-output">
+      <description>Verify boolean attributes in HTML 4.0 are serialized in minimized form only if the name and value match, without regard to case</description>
+      <created by="Henry Zongaro" on="2012-10-26"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[  ]]></test>
+      <result>
+        <assert-empty />
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-html-13" covers="html-output">
+      <description>Verify boolean attributes in HTML 5.0 are serialized in minimized form only if the name and value match, without regard to case</description>
+      <created by="Henry Zongaro" on="2012-10-26"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[  ]]></test>
+      <result>
+        <assert-empty />
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-html-14" covers="html-output">
+      <description>Test the effect of the indent serialization parameter with value yes</description>
+      <created by="Henry Zongaro" on="2012-10-26"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[  ]]></test>
+      <result>
+        <assert-empty />
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-html-15" covers="html-output">
+      <description>Test the effect of the indent serialization parameter with value no</description>
+      <created by="Henry Zongaro" on="2012-10-26"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[  ]]></test>
+      <result>
+        <assert-empty />
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-html-16" covers="html-output">
+      <description>Test the effect of the suppress-indentation serialization parameter if the indent parameter has value yes</description>
+      <created by="Henry Zongaro" on="2012-10-26"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[  ]]></test>
+      <result>
+        <assert-empty />
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-html-17" covers="html-output">
+      <description>Test the effect of the suppress-indentation serialization parameter if the indent parameter has value no</description>
+      <created by="Henry Zongaro" on="2012-10-26"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[  ]]></test>
+      <result>
+        <assert-empty />
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-html-18" covers="html-output">
+      <description>Test with cdata-section-elements for HTML 4.0</description>
+      <created by="Henry Zongaro" on="2012-10-26"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+declare namespace ex = "http://www.example.org";
+declare output:method = "html";
+declare output:indent = "no";
+declare output:version = "4.0";
+declare output:cdata-section-elements = "p em ex:isle1";
+
+<html><body><p>No CDATA<em>No CDATA</em>No CDATA<ex:isle1>Some CDATA<ex:isle2>No CDATA</ex:isle2>More CDATA</ex:isle1></p></body></html>]]></test>
+      <result>
+        <serialization-matches><![CDATA[<html *xmlns:ex=(['"])http://www.example.org\1><body><p>No CDATA<em>No CDATA</em>No CDATA<ex:isle1><![CDATA[Some CDATA]]&gt;<ex:isle2>No CDATA</ex:isle2><![CDATA[Some CDATA]]&gt;</ex:isle1></p></body></html>]]></serialization-matches>
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-html-19" covers="html-output">
+      <description>Test with cdata-section-elements for HTML 5.0</description>
+      <created by="Henry Zongaro" on="2012-10-26"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+declare namespace ex = "http://www.example.org";
+declare output:method = "html";
+declare output:indent = "no";
+declare output:version = "5.0";
+declare output:cdata-section-elements = "p em ex:isle1";
+
+<html><body><p>No CDATA<em>No CDATA</em>No CDATA<ex:isle1>Some CDATA<ex:isle2>No CDATA</ex:isle2>More CDATA</ex:isle1></p></body></html>]]></test>
+      <result>
+        <serialization-matches><![CDATA[<html *xmlns:ex=(['"])http://www.example.org\1><body><p>No CDATA<em>No CDATA</em>No CDATA<ex:isle1><![CDATA[Some CDATA]]&gt;<ex:isle2>No CDATA</ex:isle2><![CDATA[Some CDATA]]&gt;</ex:isle1></p></body></html>]]></serialization-matches>
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-html-18" covers="html-output">
+      <description>Test with cdata-section-elements for HTML 4.0</description>
+      <created by="Henry Zongaro" on="2012-10-26"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+declare namespace html = "http://www.w3.org/1999/xhtml";
+declare output:method = "html";
+declare output:indent = "no";
+declare output:version = "4.0";
+declare output:cdata-section-elements = "b html:em";
+
+<html><body><p><b>No CDATA</b><em>No CDATA</em><html:b>No CDATA</html:b><html:em>Some CDATA</html:em></p></body></html>]]></test>
+      <result>
+        <serialization-matches><![CDATA[<html *xmlns:html=(['"])http://www.w3.org/1999/xhtml\1><body><b>No CDATA<b><em>No CDATA</em><html:b>No CDATA</html:b><html:em><![CDATA[Some CDATA]]&gt;<html:em></p></body></html>]]></serialization-matches>
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-html-19" covers="html-output">
+      <description>Test with cdata-section-elements for HTML 5.0</description>
+      <created by="Henry Zongaro" on="2012-10-26"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+declare namespace ex = "http://www.example.org";
+declare output:method = "html";
+declare output:indent = "no";
+declare output:version = "5.0";
+declare output:cdata-section-elements = "b html:em";
+
+<html><body><p><b>No CDATA</b><em>No CDATA</em><html:b>No CDATA</html:b><html:em>No CDATA</html:em></p></body></html>]]></test>
+      <result>
+        <serialization-matches><![CDATA[<html *xmlns:html=(['"])http://www.w3.org/1999/xhtml\1><body><b>No CDATA<b><em>No CDATA</em><b>No CDATA</b><em>No CDATA<em></p></body></html>]]></serialization-matches>
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-html-20" covers="html-output">
+      <description>Test with doctype-public and doctype-system absent for HTML 4.0</description>
+      <created by="Henry Zongaro" on="2012-10-26"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+declare output:method = "html";
+declare output:indent = "no";
+declare output:version = "4.0";
+
+<html/>
+]]></test>
+      <result>
+        <serialization-matches><![CDATA[<html/>]]></serialization-matches>
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-html-21" covers="html-output">
+      <description>Test with doctype-public and doctype-system absent for HTML 4
+.0 and first child is HTML</description>
+      <created by="Henry Zongaro" on="2012-10-26"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+declare output:method = "html";
+declare output:indent = "no";
+declare output:version = "5.0";
+
+<html/>
+]]></test>
+      <result>
+        <serialization-matches><![CDATA[<html/>]]></serialization-matches>
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-html-22" covers="html-output">
+      <description>Test with doctype-public and doctype-system absent for HTML 5.0 and first child is HTML</description>
+      <created by="Henry Zongaro" on="2012-10-26"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+declare output:method = "html";
+declare output:indent = "no";
+declare output:version = "5.0";
+
+<html/>
+]]></test>
+      <result>
+        <all-of>
+          <serialization-matches><![CDATA[<!....... +html *><html/>]]></serialization-matches>
+          <serialization-matches flags="i"><![CDATA[<!DOCTYPE .*]]></serialization-matches>
+        </all-of>
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-html-23" covers="html-output">
+      <description>Test with doctype-public and doctype-system absent for HTML 4
+.0 and first child is not HTML</description>
+      <created by="Henry Zongaro" on="2012-10-26"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+declare output:method = "html";
+declare output:indent = "no";
+declare output:version = "4.0";
+
+<foo/>
+]]></test>
+      <result>
+        <serialization-matches><![CDATA[<foo/>]]></serialization-matches>
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-html-24" covers="html-output">
+      <description>Test with doctype-public and doctype-system absent for HTML 5.0 and first child is not HTML</description>
+      <created by="Henry Zongaro" on="2012-10-26"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+declare output:method = "html";
+declare output:indent = "no";
+declare output:version = "5.0";
+
+<foo/>
+]]></test>
+      <result>
+        <serialization-matches><![CDATA[<foo/>]]></serialization-matches>
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-html-25" covers="html-output">
+      <description>Test with doctype-public present and doctype-system absent for HTML 4.0</description>
+      <created by="Henry Zongaro" on="2012-10-26"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+declare output:method = "html";
+declare output:indent = "no";
+declare output:version = "4.0";
+declare output:doctype-public = "-//W3C//DTD HTML 4.0//EN";
+
+<html/>
+]]></test>
+      <result>
+        <all-of>
+          <serialization-matches><![CDATA[<!....... +html +...... +(['"])-//W3C//DTD HTML 4.0//EN\1 *><html/>]]></serialization-matches>
+          <serialization-matches flags="i"><![CDATA[<!DOCTYPE *.... PUBLIC.*]]></serialization-matches>
+        </all-of>
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-html-26" covers="html-output">
+      <description>Test with doctype-system present and doctype-public absent for HTML 4.0</description>
+      <created by="Henry Zongaro" on="2012-10-26"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+declare output:method = "html";
+declare output:indent = "no";
+declare output:version = "4.0";
+declare output:doctype-system = "http://www.w3.org/TR/REC-html40/strict.dtd";
+
+<html/>
+]]></test>
+      <result>
+        <all-of>
+          <serialization-matches><![CDATA[<!....... *html *...... *(['"])http://www.w3.org/TR/REC-html40/strict.dtd\1 *><html/>]]></serialization-matches>
+          <serialization-matches flags="i"><![CDATA[<!DOCTYPE *.... SYSTEM.*]]></serialization-matches>
+        </all-of>
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-html-27" covers="html-output">
+      <description>Test with doctype-public present and doctype-system absent for HTML 5</description>
+      <created by="Henry Zongaro" on="2012-10-26"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+declare output:method = "html";
+declare output:indent = "no";
+declare output:version = "5.0";
+declare output:doctype-public = "-//W3C//DTD HTML 4.0//EN";
+
+<html/>
+]]></test>
+      <result>
+        <all-of>
+          <serialization-matches><![CDATA[<!....... +html +...... +(['"])-//W3C//DTD HTML 4.0//EN\1 *><html/>]]></serialization-matches>
+          <serialization-matches flags="i"><![CDATA[<!DOCTYPE +.... +PUBLIC.*]]></serialization-matches>
+        </all-of>
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-html-28" covers="html-output">
+      <description>Test with doctype-system present and doctype-public absent for HTML 5</description>
+      <created by="Henry Zongaro" on="2012-10-26"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+declare output:method = "html";
+declare output:indent = "no";
+declare output:version = "5.0";
+declare output:doctype-system = "about:legacy-compat";
+
+<html/>
+]]></test>
+      <result>
+        <all-of>
+          <serialization-matches><![CDATA[<!....... +html +...... +(['"])about:legacy-compat\1 *><html/>]]></serialization-matches>
+          <serialization-matches flags="i"><![CDATA[<!DOCTYPE +.... +SYSTEM.*]]></serialization-matches>
+        </all-of>
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-html-29" covers="html-output">
+      <description>Test with doctype-system and doctype-public present for HTML 4.0</description>
+      <created by="Henry Zongaro" on="2012-10-26"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+declare output:method = "html";
+declare output:indent = "no";
+declare output:version = "4.0";
+declare output:doctype-system = "http://www.w3.org/TR/REC-html40/strict.dtd";
+declare output:doctype-public = "-//W3C//DTD HTML 4.0//EN";
+
+<html/>
+]]></test>
+      <result>
+        <all-of>
+          <serialization-matches><![CDATA[<!....... +html +...... +(['"])\-//W3C//DTD HTML 4.0//EN\1 *(['"])http://www.w3.org/TR/REC\-html40/strict.dtd\2 *><html/>]]></serialization-matches>
+          <serialization-matches flags="i"><![CDATA[<!DOCTYPE +.... +PUBLIC.*]]></serialization-matches>
+        </all-of>
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-html-30" covers="html-output">
+      <description>Test with doctype-system and doctype-public present for HTML 5.0</description>
+      <created by="Henry Zongaro" on="2012-10-26"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+declare output:method = "html";
+declare output:indent = "no";
+declare output:version = "5.0";
+declare output:doctype-system = "http://www.w3.org/TR/REC-html40/strict.dtd";
+declare output:doctype-public = "-//W3C//DTD HTML 4.0//EN";
+
+<html/>
+]]></test>
+      <result>
+        <all-of>
+          <serialization-matches><![CDATA[<!....... +html +...... +(['"])\-//W3C//DTD HTML 4.0//EN\1 *(['"])http://www.w3.org/TR/REC\-html40/strict.dtd\2 *><html/>]]></serialization-matches>
+          <serialization-matches flags="i"><![CDATA[<!DOCTYPE +.... +PUBLIC.*]]></serialization-matches>
+        </all-of>
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-html-31" covers="html-output">
+      <description>Test with normalization-form serialization parameter for HTML 4.0</description>
+      <created by="Henry Zongaro" on="2012-10-26"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[  ]]></test>
+      <result>
+        <assert-empty />
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-html-32" covers="html-output">
+      <description>Test with normalization-form serialization parameter for HTML 5.0</description>
+      <created by="Henry Zongaro" on="2012-10-26"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[  ]]></test>
+      <result>
+        <assert-empty />
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-html-33" covers="html-output">
+      <description>Test media-type and include-content-type parameters for HTML 4.0, where input had a head element</description>
+      <created by="Henry Zongaro" on="2012-10-26"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+declare output:method = "html";
+declare output:indent = "no";
+declare output:include-content-type = "yes";
+declare output:media-type = "text/html";
+declare output:encoding = "UTF-8";
+declare output:version = "4.0";
+
+<html><head/></html>
+]]></test>
+      <result>
+        <all-of>
+          <serialization-matches flags="i"><![CDATA[<html><head><meta +(?:(?:http-equiv=(['"])content-type\1 +content=(['"])text/html; *charset=UTF-8\2)|(?:content=(['"])text/html; *charset=UTF-8\3 +http-equiv=(['"])content-type\4)) *></head></html>]]></serialization-matches>
+          <serialization-matches><![CDATA[<html><head><[^>]*/></head></html>]]></serialization-matches>
+        </all-of>
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-html-34" covers="html-output">
+      <description>Test media-type and include-content-type parameters for HTML 4.0, where input had a head element already containing a meta element</description>
+      <created by="Henry Zongaro" on="2012-10-26"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+declare output:method = "html";
+declare output:indent = "no";
+declare output:include-content-type = "yes";
+declare output:media-type = "text/html";
+declare output:encoding = "UTF-8";
+declare output:version = "4.0";
+
+<html><head><meta http-equiv="Content-Type" content="text/html;version='3.0'"/></head></html>
+]]></test>
+      <result>
+        <all-of>
+          <serialization-matches flags="i"><![CDATA[<html><head><meta +(?:(?:http-equiv=(['"])content-type\1 +content=(['"])text/html; *charset=UTF-8\2)|(?:content=(['"])text/html; *charset=UTF-8\3 +http-equiv=(['"])content-type\4)) *></head></html>]]></serialization-matches>
+          <serialization-matches><![CDATA[<html><head><[^>]*/></head></html>]]></serialization-matches>
+        </all-of>
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-html-35" covers="html-output">
+      <description>Test media-type and include-content-type parameters for HTML 4.0, where input had no head element</description>
+      <created by="Henry Zongaro" on="2012-10-26"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+declare output:method = "html";
+declare output:indent = "no";
+declare output:include-content-type = "yes";
+declare output:media-type = "text/html";
+declare output:encoding = "UTF-8";
+declare output:version = "4.0";
+
+<html/>
+]]></test>
+      <result>
+        <all-of>
+          <serialization-matches><![CDATA[<html></html>]]></serialization-matches>
+        </all-of>
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-html-36" covers="html-output">
+      <description>Test media-type and include-content-type parameters for HTML 5.0, where input had a head element</description>
+      <created by="Henry Zongaro" on="2012-10-26"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+declare output:method = "html";
+declare output:indent = "no";
+declare output:include-content-type = "yes";
+declare output:media-type = "text/html";
+declare output:encoding = "UTF-8";
+declare output:version = "5.0";
+
+<html><head/></html>
+]]></test>
+      <result>
+        <all-of>
+          <serialization-matches flags="i"><![CDATA[<!DOCTYPE +html *><html><head><meta +(?:(?:http-equiv=(['"])content-type\1 +content=(['"])text/html; *charset=UTF-8\2)|(?:content=(['"])text/html; *charset=UTF-8\3 +http-equiv=(['"])content-type\4)) *></head></html>]]></serialization-matches>
+          <serialization-matches><![CDATA[<!....... +html *><html><head><[^>]*/></head></html>]]></serialization-matches>
+        </all-of>
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-html-37" covers="html-output">
+      <description>Test media-type and include-content-type parameters for HTML 5.0, where input had a head element already containing a meta element</description>
+      <created by="Henry Zongaro" on="2012-10-26"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+declare output:method = "html";
+declare output:indent = "no";
+declare output:include-content-type = "yes";
+declare output:media-type = "text/html";
+declare output:encoding = "UTF-8";
+declare output:version = "5.0";
+
+<html><head><meta http-equiv="Content-Type" content="text/html;version='3.0'"/></head></html>
+]]></test>
+      <result>
+        <all-of>
+          <serialization-matches flags="i"><![CDATA[<!DOCTYPE +html *><html><head><meta +(?:(?:http-equiv=(['"])content-type\1 +content=(['"])text/html; *charset=UTF-8\2)|(?:content=(['"])text/html; *charset=UTF-8\3 +http-equiv=(['"])content-type\4)) *></head></html>]]></serialization-matches>
+          <serialization-matches><![CDATA[<!....... +html *><html><head><[^>]*/></head></html>]]></serialization-matches>
+        </all-of>
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-html-38" covers="html-output">
+      <description>Test media-type and include-content-type parameters for HTML 5.0, where input had no head element</description>
+      <created by="Henry Zongaro" on="2012-10-26"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+declare output:method = "html";
+declare output:indent = "no";
+declare output:include-content-type = "yes";
+declare output:media-type = "text/html";
+declare output:encoding = "UTF-8";
+declare output:version = "5.0";
+
+<html/>
+]]></test>
+      <result>
+        <all-of>
+          <serialization-matches flags="i"><![CDATA[<!DOCTYPE +html *><html></html>]]></serialization-matches>
+          <serialization-matches><![CDATA[<!....... +html *><html></html>]]></serialization-matches>
+        </all-of>
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-html-39" covers="html-output">
+      <description>Test include-content-type parameter with a value of no for HTML 4.0</description>
+      <created by="Henry Zongaro" on="2012-10-26"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+declare output:method = "html";
+declare output:indent = "no";
+declare output:include-content-type = "no";
+declare output:media-type = "text/html";
+declare output:encoding = "UTF-8";
+declare output:version = "4.0";
+
+<html><head/></html>
+]]></test>
+      <result>
+        <serialization-matches><![CDATA[<html><head></head></html>]]></serialization-matches>
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-html-40" covers="html-output">
+      <description>Test include-content-type parameter with a value of no for HTML 5.0</description>
+      <created by="Henry Zongaro" on="2012-10-26"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+declare output:method = "html";
+declare output:indent = "no";
+declare output:include-content-type = "no";
+declare output:media-type = "text/html";
+declare output:encoding = "UTF-8";
+declare output:version = "5.0";
+
+<html><head/></html>
+]]></test>
+      <result>
+        <all-of>
+          <serialization-matches><![CDATA[<!....... +html *><html><head></head></html>]]></serialization-matches>
+          <serialization-matches flags="i"><![CDATA[<!DOCTYPE .*]]></serialization-matches>
+        </all-of>
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-html-41" covers="html-output">
+      <description>Test byte-order-mark parameter for HTML 4.0</description>
+      <created by="Henry Zongaro" on="2012-10-26"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[  ]]></test>
+      <result>
+        <assert-empty />
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-html-42" covers="html-output">
+      <description>Test byte-order-mark parameter for HTML 5.0</description>
+      <created by="Henry Zongaro" on="2012-10-26"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[  ]]></test>
+      <result>
+        <assert-empty />
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-html-43" covers="html-output">
+      <description>Test escape-uri-attributes parameter for HTML 4.0</description>
+      <created by="Henry Zongaro" on="2012-10-26"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[  ]]></test>
+      <result>
+        <assert-empty />
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-html-44" covers="html-output">
+      <description>Test escape-uri-attributes parameter for HTML 5.0</description>
+      <created by="Henry Zongaro" on="2012-10-26"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[  ]]></test>
+      <result>
+        <assert-empty />
+      </result>
+   </test-case>
 </test-set>
