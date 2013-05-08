@@ -261,7 +261,7 @@ declare option output:version  "5.0";
 ]]></test>
       <result>
          <all-of>
-           <serialization-matches><![CDATA[<!....... *html *><html xmlns="http://www.w3.org/1999/xhtml"><body><area><base><br><col><embed><frame><hr><img><input><isindex><link><meta><param></body></html>]]></serialization-matches>
+           <serialization-matches><![CDATA[<html xmlns="http://www.w3.org/1999/xhtml"><body><area><base><br><col><embed><frame><hr><img><input><isindex><link><meta><param></body></html>]]></serialization-matches>
            <serialization-matches flags="i"><![CDATA[<!DOCTYPE .*]]></serialization-matches>
          </all-of>
       </result>
@@ -472,6 +472,7 @@ declare option output:cdata-section-elements  "b html:em";
    <test-case name="Serialization-html-20" covers="html-output">
       <description>Test with doctype-public and doctype-system absent for HTML 4.0</description>
       <created by="Henry Zongaro" on="2012-10-26"/>
+      <modified by="O'Neil Delpratt" on="2013-05-08" change="Added alternate result" />
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
@@ -482,7 +483,10 @@ declare option output:version  "4.0";
 <html/>
 ]]></test>
       <result>
-        <serialization-matches><![CDATA[<html/>]]></serialization-matches>
+        <any-of>
+          <serialization-matches><![CDATA[<html/>]]></serialization-matches>
+          <serialization-matches><![CDATA[<html></html>]]></serialization-matches>
+        </any-of>
       </result>
    </test-case>
 
@@ -490,6 +494,7 @@ declare option output:version  "4.0";
       <description>Test with doctype-public and doctype-system absent for HTML 4
 .0 and first child is HTML</description>
       <created by="Henry Zongaro" on="2012-10-26"/>
+      <modified by="O'Neil Delpratt" on="2013-05-08" change="Added alternate result" />
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
@@ -500,13 +505,17 @@ declare option output:version  "5.0";
 <html/>
 ]]></test>
       <result>
-        <serialization-matches><![CDATA[<html/>]]></serialization-matches>
+        <any-of>
+          <serialization-matches><![CDATA[<html/>]]></serialization-matches>
+          <serialization-matches><![CDATA[<html></html>]]></serialization-matches>
+        </any-of>
       </result>
    </test-case>
 
    <test-case name="Serialization-html-22" covers="html-output">
       <description>Test with doctype-public and doctype-system absent for HTML 5.0 and first child is HTML</description>
       <created by="Henry Zongaro" on="2012-10-26"/>
+      <modified by="O'Neil Delpratt" on="2013-05-08" change="Added alternate result" /> 
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
@@ -518,7 +527,10 @@ declare option output:version  "5.0";
 ]]></test>
       <result>
         <all-of>
-          <serialization-matches><![CDATA[<!....... +html *><html/>]]></serialization-matches>
+          <any-of>
+            <serialization-matches><![CDATA[<html/>]]></serialization-matches>
+            <serialization-matches><![CDATA[<html></html>]]></serialization-matches>
+          </any-of>
           <serialization-matches flags="i"><![CDATA[<!DOCTYPE .*]]></serialization-matches>
         </all-of>
       </result>
