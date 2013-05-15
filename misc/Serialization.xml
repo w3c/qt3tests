@@ -230,6 +230,7 @@ declare option output:version  "5.0";
    <test-case name="Serialization-html-3" covers="html-output">
       <description>Test that elements in the XHTML namespace whose local names match those of HTML 4.0 elements with empty content model are serialized as XML</description>
       <created by="Henry Zongaro" on="2012-10-26"/>
+       <modified by="O'Neil Delpratt" on="2013-05-15" change="Added alternative result. See bug issue #21968" />
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
 declare boundary-space strip;        
@@ -241,7 +242,10 @@ declare option output:version  "4.0";
 <html xmlns="http://www.w3.org/1999/xhtml"><body><area/><base/><br/><col/><embed/><frame/><hr/><img/><input/><isindex/><link/><meta/><param/></body></html>
 ]]></test>
       <result>
-         <serialization-matches><![CDATA[<html xmlns="http://www.w3.org/1999/xhtml"><body/><area/><base/><br/><col/><embed/><frame/><hr/><img/><input/><isindex/><link/><meta/><param/></body/></html>]]></serialization-matches>
+         <any-of>
+            <serialization-matches><![CDATA[<html xmlns="http://www.w3.org/1999/xhtml"><body><area/><base/><br/><col/><embed/><frame/><hr/><img/><input/><isindex/><link/><meta/><param/></body></html>]]></serialization-matches>
+            <serialization-matches><![CDATA[<html xmlns="http://www.w3.org/1999/xhtml"><body><area></area><base></base><br></br><col></col><embed></embed><frame></frame><hr></hr><img></img><input></input><isindex></isindex><link></link><meta></meta><param></param></body></html>]]></serialization-matches>
+         </any-of>
       </result>
    </test-case>
 
