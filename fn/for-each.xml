@@ -51,7 +51,7 @@
         <created by="Michael Kay" on="2010-02-10"/>
         <environment ref="names"/>
         <test>
-            for-each(for-each(("john", "mary", "jane", "anne", "peter", "ian"), function($n as xs:string){upper-case($n)}))
+            for-each(for-each(("john", "mary", "jane", "anne", "peter", "ian"), function($n as xs:string){upper-case($n)}), function($e as xs:string) as xs:string { lower-case($e) })
         </test>
         <result>
                 <assert-deep-eq>"john", "mary", "jane", "anne", "peter", "ian"</assert-deep-eq>
@@ -87,7 +87,7 @@
         <description>for-each function - input is an empty sequence</description>
         <created by="Michael Kay" on="2010-02-10"/>
 
-        <test>for-each(round#1, ())</test>
+        <test>for-each((), round#1)</test>
         <result>
             <assert-empty />
         </result>
