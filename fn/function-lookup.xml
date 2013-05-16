@@ -3567,7 +3567,7 @@
   <test-case name="fn-function-lookup-426" covers="dynamic-function-call">
     <description>Attempts to invoke function fn:filter.</description>
     <created by="Tim Mills" on="2011-11-28"/>
-    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'filter'), 2)(function($a) {$a mod 2 = 0}, 1 to 10)</test>
+    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'filter'), 2)(1 to 10, function($a) {$a mod 2 = 0})</test>
     <result>
       <assert-deep-eq>(2, 4, 6, 8, 10)</assert-deep-eq>
     </result>
@@ -3583,7 +3583,7 @@
   <test-case name="fn-function-lookup-428" covers="dynamic-function-call">
     <description>Attempts to invoke function fn:fold-left.</description>
     <created by="Tim Mills" on="2011-11-28"/>
-    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'fold-left'), 3)(fn:concat(?, ".", ?), "", 1 to 5)</test>
+    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'fold-left'), 3)(1 to 5, "", fn:concat(?, ".", ?))</test>
     <result>
       <assert-string-value>.1.2.3.4.5</assert-string-value>
     </result>
@@ -3599,7 +3599,7 @@
   <test-case name="fn-function-lookup-430" covers="dynamic-function-call">
     <description>Attempts to invoke function fn:fold-right.</description>
     <created by="Tim Mills" on="2011-11-28"/>
-    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'fold-right'), 3)(fn:concat(?, ".", ?), "", 1 to 5)</test>
+    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'fold-right'), 3)(1 to 5, "", fn:concat(?, ".", ?))</test>
     <result>
       <assert-string-value>1.2.3.4.5.</assert-string-value>
     </result>
@@ -3607,7 +3607,7 @@
   <test-case name="fn-function-lookup-431">
     <description>Attempts to look up function fn:for-each-pairs.</description>
     <created by="Tim Mills" on="2011-11-28"/>
-    <test>exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'for-each-pairs'), 3))</test>
+    <test>exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'for-each-pair'), 3))</test>
     <result>
       <assert-true/>
     </result>
@@ -3615,7 +3615,7 @@
   <test-case name="fn-function-lookup-432" covers="dynamic-function-call">
     <description>Attempts to invoke function fn:for-each-pairs.</description>
     <created by="Tim Mills" on="2011-11-28"/>
-    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'for-each-pairs'), 3)(concat#2, ("a", "b", "c"), ("x", "y", "z"))</test>
+    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'for-each-pair'), 3)(("a", "b", "c"), ("x", "y", "z"), concat#2)</test>
     <result>
       <assert-deep-eq>("ax", "by", "cz")</assert-deep-eq>
     </result>

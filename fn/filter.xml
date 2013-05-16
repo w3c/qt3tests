@@ -10,7 +10,7 @@
     <test-case name="filter-001" covers="partial-function-application">
         <description>Basic test using starts-with()</description>
         <created by="Michael Kay" on="2010-02-10"/>
-        <test>filter(starts-with(?, "a"), ("apple", "pear", "apricot", "advocado", "orange"))</test>
+        <test>filter(("apple", "pear", "apricot", "advocado", "orange"),starts-with(?, "a"))</test>
         <result>
             <assert-deep-eq>"apple", "apricot", "advocado"</assert-deep-eq>
         </result>
@@ -18,7 +18,7 @@
     <test-case name="filter-002">
         <description>Test using an inline user-defined function</description>
         <created by="Michael Kay" on="2010-02-10"/>
-        <test>filter(function($x){$x gt 10}, (12, 4, 46, 23, -8))</test>
+        <test>filter((12, 4, 46, 23, -8), function($x){$x gt 10})</test>
         <result>
             <assert-deep-eq>12, 46, 23</assert-deep-eq>
         </result>
@@ -34,7 +34,7 @@
         </environment>
         <dependency type="spec" value="XQ30+"/>
         <test>let $data := (/employees)
-              return filter(function($x as element(emp)){xs:int($x/@salary) lt 300}, $data/emp)</test>
+              return filter($data/emp, function($x as element(emp)){xs:int($x/@salary) lt 300})</test>
         <result>
                 <all-of>
                     <assert-count>3</assert-count>
@@ -48,7 +48,7 @@
     <test-case name="filter-004">
         <description>Test using an inline user-defined function</description>
         <created by="Michael Kay" on="2010-02-10"/>
-        <test>(1 to 20)[. = filter(function($x){$x idiv 2 * 2 = $x}, 1 to position())]</test>
+        <test>(1 to 20)[. = filter(1 to position(), function($x){$x idiv 2 * 2 = $x})]</test>
         <result>
                 <assert-deep-eq>2, 4, 6, 8, 10, 12, 14, 16, 18, 20</assert-deep-eq>
         </result>
@@ -63,8 +63,8 @@
             </source>
         </environment>
         <test>let $index-of-node := function($seqParam as node()*, $srchParam as node()) as xs:integer* 
-                                    { filter( function($this as xs:integer) as xs:boolean 
-                                              {$seqParam[$this] is $srchParam}, 1 to count($seqParam) ) },
+                                    { filter( 1 to count($seqParam), function($this as xs:integer) as xs:boolean
+                                              {$seqParam[$this] is $srchParam} ) },
             $nodes := /*/*,
             $perm := ($nodes[1], $nodes[2], $nodes[3], $nodes[1], $nodes[2], $nodes[4], $nodes[2], $nodes[1]) 
             return $index-of-node($perm, $nodes[2]) </test>
@@ -75,7 +75,7 @@
     <test-case name="filter-901">
         <description>filter function - not a boolean</description>
         <created by="Michael Kay" on="2010-02-10"/>
-        <test>filter(normalize-space#1, ("apple", "pear", "apricot", "advocado", "orange"))</test>
+        <test>filter(("apple", "pear", "apricot", "advocado", "orange"), normalize-space#1)</test>
         <result>
                 <error code="XPTY0004"/>
         </result>
@@ -83,7 +83,7 @@
     <test-case name="filter-902">
         <description>filter function - returns empty sequence </description>
         <created by="Michael Kay" on="2010-02-10"/>
-        <test>filter(function($x){if(starts-with($x,'a')) then true() else ()}, ("apple", "pear", "apricot", "advocado", "orange"))</test>
+        <test>filter(("apple", "pear", "apricot", "advocado", "orange"), function($x){if(starts-with($x,'a')) then true() else ()})</test>
         <result>
                 <error code="XPTY0004"/>
         </result>
@@ -91,7 +91,7 @@
     <test-case name="filter-903">
         <description>filter function - returns non-singleton sequence</description>
         <created by="Michael Kay" on="2010-02-10"/>
-        <test>filter(function($x){if(starts-with($x,'a')) then (true(), true()) else false()}, ("apple", "pear", "apricot", "advocado", "orange"))</test>
+        <test>filter( ("apple", "pear", "apricot", "advocado", "orange"), function($x){if(starts-with($x,'a')) then (true(), true()) else false()})</test>
         <result>
                 <error code="XPTY0004"/>
         </result>
@@ -99,7 +99,7 @@
     <test-case name="filter-904" covers="partial-function-application">
         <description>filter function - item in sequence is of wrong type</description>
         <created by="Michael Kay" on="2010-02-10"/>
-        <test>filter(ends-with(?, 'e'), ("apple", "pear", "apricot", "advocado", "orange", current-date()))</test>
+        <test>filter(("apple", "pear", "apricot", "advocado", "orange", current-date()), ends-with(?, 'e'))</test>
         <result>
                 <error code="XPTY0004"/>
         </result>
@@ -160,18 +160,16 @@
       <created by="Tim Mills" on="2012-05-01"/>
       <dependency type="feature" value="staticTyping"/>
       <dependency type="spec" value="XP30+ XQ30+"/>
-      <test>( fn:filter( if ( fn:current-dateTime() eq
+      <test>( fn:filter( (), if ( fn:current-dateTime() eq
                             fn:dateTime( fn:current-date(),
                                          fn:current-time() ))
                          then fn:exists#1
-                         else 1,
-                         () ),
-              fn:filter( if ( fn:current-dateTime() eq
+                         else 1 ),
+              fn:filter( (), if ( fn:current-dateTime() eq
                             fn:dateTime( fn:current-date(),
                                          fn:current-time() ))
                          then 1
-                         else fn:exists#1,
-                         () ) )</test>
+                         else fn:exists#1 ) )</test>
       <result>
          <error code="XPTY0004" />
       </result>
@@ -182,12 +180,11 @@
       <created by="Tim Mills" on="2012-05-01"/>
       <dependency type="feature" value="staticTyping"/>
       <dependency type="spec" value="XP30+ XQ30+"/>
-      <test>fn:filter( if ( fn:current-dateTime() eq
+      <test>fn:filter( (), if ( fn:current-dateTime() eq
                           fn:dateTime( fn:current-date(),
                                        fn:current-time() ))
                        then fn:exists#1
-                       else 1,
-                       () )</test>
+                       else 1 )</test>
       <result>
          <error code="XPTY0004" />
       </result>
@@ -198,7 +195,7 @@
       <created by="Tim Mills" on="2012-05-01"/>
       <dependency type="spec" value="XP30+ XQ30+"/>
       <dependency type="feature" value="staticTyping"/>
-      <test>fn:filter( fn:true(), () )</test>
+      <test>fn:filter( (), fn:true() )</test>
       <result>
          <error code="XPTY0004" />
       </result>
@@ -209,7 +206,7 @@
       <created by="Tim Mills" on="2012-05-01"/>
       <dependency type="spec" value="XP30+ XQ30+"/>
       <dependency type="feature" value="staticTyping"/>
-      <test>fn:filter( fn:true(), () )</test>
+      <test>fn:filter( (), fn:true() )</test>
       <result>
          <error code="XPTY0004" />
       </result>
@@ -219,7 +216,7 @@
       <description>Tests the type checking of the $f argument.</description>
       <created by="Tim Mills" on="2012-05-01"/>
       <dependency type="spec" value="XP30+ XQ30+"/>
-      <test>fn:filter( function($a as item()) as xs:boolean* { fn:boolean($a), fn:boolean($a) }, () )</test>
+      <test>fn:filter( (), function($a as item()) as xs:boolean* { fn:boolean($a), fn:boolean($a) } )</test>
       <result>
 	<any-of>
 	  <error code="XPST0005" />
@@ -232,7 +229,7 @@
       <description>Tests the type checking of the $f argument.</description>
       <created by="Tim Mills" on="2012-05-01"/>
       <dependency type="spec" value="XP30+ XQ30+"/>
-      <test>fn:filter( function($a as item()) as xs:boolean? { () }, () )</test>
+      <test>fn:filter( (), function($a as item()) as xs:boolean? { () } )</test>
       <result>
 	<any-of>
 	  <error code="XPST0005" />
@@ -246,7 +243,7 @@
       <created by="Tim Mills" on="2012-05-01"/>
       <modified by="Tim Mills" on="2012-05-31" change="See bug 17250"/>
       <dependency type="spec" value="XP30+ XQ30+"/>
-      <test>fn:filter( fn:string#1, () )</test>
+      <test>fn:filter( (), fn:string#1 )</test>
       <result>
 	<any-of>
 	  <error code="XPTY0004" />
@@ -266,7 +263,7 @@
          </source>
       </environment>
       <dependency type="spec" value="XP30+ XQ30+"/>
-      <test>fn:filter( function($arg) { $arg instance of function(*) }, (//node(), 1, "string", 3.14, 2.7e0, fn:exists#1) )</test>
+      <test>fn:filter( (//node(), 1, "string", 3.14, 2.7e0, fn:exists#1), function($arg) { $arg instance of function(*) } )</test>
       <result>
 	     <assert-count>1</assert-count>
       </result>
@@ -276,7 +273,7 @@
       <description>Evaluates the "filter" function with $f set to a function which _could_ (but doesn't) return a non-boolean value </description>
       <created by="Tim Mills" on="2012-05-01"/>
       <dependency type="spec" value="XP30+ XQ30+"/>
-      <test>fn:filter( function($arg) { if ($arg eq 100) then () else fn:true()}, 1 to 10)</test>
+      <test>fn:filter( 1 to 10, function($arg) { if ($arg eq 100) then () else fn:true()})</test>
       <result>
 	<assert-count>10</assert-count>
       </result>
@@ -286,7 +283,7 @@
       <description>Evaluates the "filter" function with $f set to a function which _could_ (and does) return a non-boolean value </description>
       <created by="Tim Mills" on="2012-05-01"/>
       <dependency type="spec" value="XP30+ XQ30+"/>
-      <test>fn:filter( function($arg) { if ($arg eq 10) then () else fn:true()}, 1 to 10)</test>
+      <test>fn:filter( 1 to 10, function($arg) { if ($arg eq 10) then () else fn:true()})</test>
       <result>
          <error code="XPTY0004" />
       </result>
@@ -297,7 +294,7 @@
       <created by="Tim Mills" on="2012-05-01"/>
       <dependency type="feature" value="staticTyping"/>
       <dependency type="spec" value="XP30+ XQ30+"/>
-      <test>fn:filter( function($arg) { if ($arg eq 100) then () else fn:true()}, 1 to 10)</test>
+      <test>fn:filter( 1 to 10, function($arg) { if ($arg eq 100) then () else fn:true()})</test>
       <result>
          <error code="XPTY0004" />
       </result>
@@ -307,7 +304,7 @@
       <description>Evaluates the "filter" function with $f set to a function which _could_ (but doesn't) return a non-boolean value </description>
       <created by="Tim Mills" on="2012-05-01"/>
       <dependency type="spec" value="XP30+ XQ30+"/>
-      <test>fn:filter( function($arg) { if ($arg eq 100) then 0 else fn:true()}, 1 to 10)</test>
+      <test>fn:filter( 1 to 10, function($arg) { if ($arg eq 100) then 0 else fn:true()})</test>
       <result>
 	<assert-count>10</assert-count>
       </result>
@@ -317,7 +314,7 @@
       <description>Evaluates the "filter" function with $f set to a function which _could_ (and does) return a non-boolean value </description>
       <created by="Tim Mills" on="2012-05-01"/>
       <dependency type="spec" value="XP30+ XQ30+"/>
-      <test>fn:filter( function($arg) { if ($arg eq 10) then 0 else fn:true()}, 1 to 10)</test>
+      <test>fn:filter( 1 to 10, function($arg) { if ($arg eq 10) then 0 else fn:true()})</test>
       <result>
          <error code="XPTY0004" />
       </result>
@@ -328,7 +325,7 @@
       <created by="Tim Mills" on="2012-05-01"/>
       <dependency type="feature" value="staticTyping"/>
       <dependency type="spec" value="XP30+ XQ30+"/>
-      <test>fn:filter( function($arg) { if ($arg eq 100) then 0 else fn:true()}, 1 to 10)</test>
+      <test>fn:filter( 1 to 10, function($arg) { if ($arg eq 100) then 0 else fn:true()})</test>
       <result>
          <error code="XPTY0004" />
       </result>
@@ -338,7 +335,7 @@
       <description>Evaluates the "filter" function with $f set to a function which _could_ (but doesn't) return a non-boolean value </description>
       <created by="Tim Mills" on="2012-05-01"/>
       <dependency type="spec" value="XP30+ XQ30+"/>
-      <test>fn:filter( function($arg) { if ($arg eq 100) then (fn:true(), fn:false()) else fn:true()}, 1 to 10)</test>
+      <test>fn:filter( 1 to 10, function($arg) { if ($arg eq 100) then (fn:true(), fn:false()) else fn:true()})</test>
       <result>
 	<assert-count>10</assert-count>
       </result>
@@ -348,7 +345,7 @@
       <description>Evaluates the "filter" function with $f set to a function which _could_ (and does) return a non-boolean value </description>
       <created by="Tim Mills" on="2012-05-01"/>
       <dependency type="spec" value="XP30+ XQ30+"/>
-      <test>fn:filter( function($arg) { if ($arg eq 10) then (fn:true(), fn:false()) else fn:true()}, 1 to 10)</test>
+      <test>fn:filter( 1 to 10, function($arg) { if ($arg eq 10) then (fn:true(), fn:false()) else fn:true()})</test>
       <result>
          <error code="XPTY0004" />
       </result>
@@ -359,7 +356,7 @@
       <created by="Tim Mills" on="2012-05-01"/>
       <dependency type="feature" value="staticTyping"/>
       <dependency type="spec" value="XP30+ XQ30+"/>
-      <test>fn:filter( function($arg) { if ($arg eq 100) then (fn:true(), fn:false()) else fn:true()}, 1 to 10)</test>
+      <test>fn:filter( 1 to 10, function($arg) { if ($arg eq 100) then (fn:true(), fn:false()) else fn:true()})</test>
       <result>
          <error code="XPTY0004" />
       </result>
@@ -370,7 +367,7 @@
       <created by="Tim Mills" on="2012-05-01"/>
       <dependency type="feature" value="staticTyping"/>
       <dependency type="spec" value="XP30+ XQ30+"/>
-      <test>fn:filter( function($arg as xs:integer) as xs:boolean { $arg eq 100 }, ("1", "2", "3") )</test>
+      <test>fn:filter( ("1", "2", "3"), function($arg as xs:integer) as xs:boolean { $arg eq 100 } )</test>
       <result>
          <error code="XPTY0004" />
       </result>

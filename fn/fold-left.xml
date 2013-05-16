@@ -11,7 +11,7 @@
       <created by="Michael Kay" on="2010-02-10"/>
 
       <environment ref="empty"/>
-      <test>fold-left(function($a, $b) { $a + $b }, 0, 1 to 5)</test>
+      <test>fold-left(1 to 5, 0, function($a, $b) { $a + $b })</test>
       <result>
          <assert-eq>15</assert-eq>
       </result>
@@ -22,7 +22,7 @@
       <created by="Michael Kay" on="2010-02-10"/>
 
       <environment ref="empty"/>
-      <test>fold-left(function($a, $b) { $a * $b }, 1, (2,3,5,7))</test>
+      <test>fold-left((2,3,5,7), 1, function($a, $b) { $a * $b })</test>
       <result>
          <assert-eq>210</assert-eq>
       </result>
@@ -33,7 +33,7 @@
       <created by="Michael Kay" on="2010-02-10"/>
 
       <environment ref="empty"/>
-      <test>fold-left(function($a, $b) { $a or $b }, false(), (true(), false(), false()))</test>
+      <test>fold-left((true(), false(), false()), false(), function($a, $b) { $a or $b })</test>
       <result>
          <assert-true/>
       </result>
@@ -44,7 +44,7 @@
       <created by="Michael Kay" on="2010-02-10"/>
 
       <environment ref="empty"/>
-      <test>fold-left(function($a, $b) { $a and $b }, false(), (true(), false(), false()))</test>
+      <test>fold-left((true(), false(), false()), false(), function($a, $b) { $a and $b })</test>
       <result>
          <assert-false/>
       </result>
@@ -55,7 +55,7 @@
       <created by="Michael Kay" on="2010-02-10"/>
 
       <environment ref="empty"/>
-      <test>fold-left(function($a, $b) {($b, $a)}, (), 1 to 5)</test>
+      <test>fold-left(1 to 5, (), function($a, $b) {($b, $a)})</test>
       <result>
          <assert-deep-eq>5, 4, 3, 2, 1</assert-deep-eq>
       </result>
@@ -66,7 +66,7 @@
       <created by="Michael Kay" on="2010-02-10"/>
 
       <environment ref="empty"/>
-      <test>fold-left(fn:concat(?, ".", ?), "", 1 to 5)</test>
+      <test>fold-left(1 to 5, "", fn:concat(?, ".", ?))</test>
       <result>
          <assert-eq>'.1.2.3.4.5'</assert-eq>
       </result>
@@ -77,7 +77,7 @@
       <created by="Michael Kay" on="2010-02-10"/>
 
       <environment ref="empty"/>
-      <test>fold-left(fn:concat("$f(", ?, ", ", ?, ")"), "$zero", 1 to 5)</test>
+      <test>fold-left(1 to 5, "$zero", fn:concat("$f(", ?, ", ", ?, ")"))</test>
       <result>
          <assert-string-value>$f($f($f($f($f($zero, 1), 2), 3), 4), 5)</assert-string-value>
       </result>
@@ -91,8 +91,7 @@
       <test>
             let $hours := function ($emp as element(employee)) as xs:integer { sum($emp/hours/xs:integer(.)) },
                 $highest := function ($f as function(item()) as xs:anyAtomicType, $seq as item()*)  {           
-                    fold-left(
-                       function($highestSoFar as item()*, $this as item()*) as item()* {
+                    fold-left($seq, (), function($highestSoFar as item()*, $this as item()*) as item()* {
                           if (empty($highestSoFar))
                           then $this
                           else let $thisValue := $f($this),
@@ -102,7 +101,7 @@
                                       else if ($thisValue eq $highestValue)
                                            then ($highestSoFar, $this)
                                            else $highestSoFar
-                       }, (), $seq)
+                       })
             }
             
             return $highest($hours, /works/employee) 
@@ -122,10 +121,10 @@
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
             declare function local:distinct-nodes-stable($seq as node()*) { 
-                fold-left( function($foundSoFar as node()*, $this as node()) as node()* { 
-                if ($foundSoFar intersect $this) 
-                then $foundSoFar 
-                else ($foundSoFar, $this) }, (), $seq) 
+                fold-left( $seq, (), function($foundSoFar as node()*, $this as node()) as node()* {
+                if ($foundSoFar intersect $this)
+                then $foundSoFar
+                else ($foundSoFar, $this) })
             }; 
             let $nodes := (<a/>, <b/>, <c/>, <d/>, <e/>, <f/>) 
             let $perm := ($nodes[1], $nodes[2], $nodes[4], $nodes[1], $nodes[2], $nodes[3], $nodes[2], $nodes[1]) 
@@ -140,7 +139,7 @@
         <description>Higher Order Functions fold-left function: supplied function has wrong arity</description>
         <created by="William Candillon" on="2011-11-27"/>
         <environment ref="empty"/>
-        <test>fold-left(function($a, $b, $c){ $a + $b + $c }, 1, 1 to 5)</test>
+        <test>fold-left(1 to 5, 1, function($a, $b, $c){ $a + $b + $c })</test>
         <result>
             <error code="XPTY0004"/>
         </result>
@@ -150,7 +149,7 @@
         <description>Higher Order Functions fold-left function: supplied function delivers result of wrong type</description>
         <created by="William Candillon" on="2011-11-27"/>
         <environment ref="empty"/>
-        <test>fold-left(function($a, $b) as element(foo) { $a + $b }, 1, 1 to 5)</test>
+        <test>fold-left(1 to 5, 1, function($a, $b) as element(foo) { $a + $b })</test>
         <result>
             <error code="XPTY0004"/>
         </result>
@@ -161,7 +160,7 @@
         <description>Higher Order Functions fold-left function: 'zero' value is of wrong type</description>
         <created by="William Candillon" on="2011-11-27"/>
         <environment ref="empty"/>
-        <test>fold-left(function($a, $b) { $a + $b }, "", 1 to 5)</test>
+        <test>fold-left(1 to 5, "", function($a, $b) { $a + $b })</test>
         <result>
             <error code="XPTY0004"/>
         </result>
@@ -171,7 +170,7 @@
         <description>Higher Order Functions fold-left function: second argument is of wrong type</description>
         <created by="William Candillon" on="2011-11-27"/>
         <environment ref="empty"/>
-        <test>fold-left(function($a, $b as element(foo)) { $a + $b }, 1, 1 to 5)</test>
+        <test>fold-left(1 to 5, 1, function($a, $b as element(foo)) { $a + $b })</test>
         <result>
             <error code="XPTY0004"/>
         </result>
@@ -181,7 +180,7 @@
         <description>Higher Order Functions fold-left function: first argument is of wrong type</description>
         <created by="William Candillon" on="2011-11-27"/>
         <environment ref="empty"/>
-        <test>fold-left(function($a as element(bar), $b) { $a + $b }, 1, 1 to 5)</test>
+        <test>fold-left(1 to 5, 1, function($a as element(bar), $b) { $a + $b })</test>
         <result>
             <error code="XPTY0004"/>
         </result>
@@ -191,7 +190,7 @@
         <description>Higher Order Functions fold-left function</description>
         <created by="William Candillon" on="2011-11-27"/>
         <environment ref="empty"/>
-        <test>fold-left(function($a, $b){ ($a, $b) }, 1, 1 to 2)</test>
+        <test>fold-left(1 to 2, 1, function($a, $b){ ($a, $b) })</test>
         <result>
             <assert-deep-eq>1, 1, 2</assert-deep-eq>
         </result>
@@ -222,7 +221,7 @@ let $interpreter  := function($ctx, $selector){
     case $a as element(class) return $ctx//*[@class = $a/text()]
   default return ()
 }
-let $result := fold-left($interpreter, $html, $css-selectors)
+let $result := fold-left($css-selectors, $html, $interpreter)
 return
   $result/text()
 	 ]]></test>
@@ -235,7 +234,7 @@ return
         <description>Higher Order Functions fold-left function. Display fold-left structural transformation.</description>
         <created by="William Candillon" on="2011-11-27"/>
         <environment ref="empty"/>
-        <test>fold-left(concat("(", ?, "+", ?, ")"), 0, 1 to 13)</test>
+        <test>fold-left(1 to 13, 0, concat("(", ?, "+", ?, ")"))</test>
         <result>
             <assert-string-value>(((((((((((((0+1)+2)+3)+4)+5)+6)+7)+8)+9)+10)+11)+12)+13)</assert-string-value>
         </result>
@@ -261,7 +260,7 @@ let $counter := function($result, $word){
       <word value="{$word-count/@value}" count="{number($word-count/@count) + 1}" />
     )
 }
-let $words := fold-left($counter, (), $tokens)
+let $words := fold-left($tokens, (), $counter)
 return (
   number($words[@value="Peter"]/@count),
   number($words[@value="Piper"]/@count),
@@ -277,7 +276,7 @@ return (
         <description>Higher Order Functions fold-left function. Returns the average of the sequence values.</description>
         <created by="William Candillon" on="2011-11-27"/>
         <environment ref="empty"/>
-        <test>fold-left(function($a, $b){ if(empty($a)) then $b else ($a + $b) div 2 }, (), (13, 14, 9, 6))</test>
+        <test>fold-left((13, 14, 9, 6), (), function($a, $b){ if(empty($a)) then $b else ($a + $b) div 2 })</test>
         <result>
             <assert-string-value>8.625</assert-string-value>
         </result>
@@ -287,7 +286,7 @@ return (
         <description>Higher Order Functions fold-left function. Count the number of items in a sequence.</description>
         <created by="William Candillon" on="2011-11-27"/>
         <environment ref="empty"/>
-        <test>fold-left(function($a, $b){ $a + 1}, 0, 1 to 1000000)</test>
+        <test>fold-left(1 to 1000000, 0, function($a, $b){ $a + 1})</test>
         <result>
             <assert-string-value>1000000</assert-string-value>
         </result>

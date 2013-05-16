@@ -14,7 +14,7 @@
         </description>
         <created by="Michael Kay" on="2010-02-10"/>
         <environment ref="empty"/>
-        <test>fold-right(function($a, $b) { $a + $b }, 0, 1 to 5)</test>
+        <test>fold-right(1 to 5, 0,function($a, $b) { $a + $b })</test>
         <result>
                 <assert-eq>15</assert-eq>
         </result>
@@ -27,7 +27,7 @@
         </description>
         <created by="Michael Kay" on="2010-02-10"/>
         <environment ref="empty"/>
-        <test>fold-right(function($a, $b) { $a * $b }, 1, (2,3,5,7))</test>
+        <test>fold-right((2,3,5,7), 1,function($a, $b) { $a * $b })</test>
         <result>
                 <assert-eq>210</assert-eq>
         </result>
@@ -40,7 +40,7 @@
         </description>
         <created by="Michael Kay" on="2010-02-10"/>
         <environment ref="empty"/>
-        <test>fold-right(function($a, $b) { $a or $b }, false(), (true(), false(), false()))</test>
+        <test>fold-right((true(), false(), false()), false(),function($a, $b) { $a or $b })</test>
         <result>
                 <assert-true/>
         </result>
@@ -53,7 +53,7 @@
         </description>
         <created by="Michael Kay" on="2010-02-10"/>
         <environment ref="empty"/>
-        <test>fold-right(function($a, $b) { $a and $b }, false(), (true(), false(), false()))</test>
+        <test>fold-right((true(), false(), false()), false(),function($a, $b) { $a and $b })</test>
         <result>
                 <assert-false/>
         </result>
@@ -66,7 +66,7 @@
         </description>
         <created by="Michael Kay" on="2010-02-10"/>
         <environment ref="empty"/>
-        <test>let $f := function($a, $b){($b, $a)} return fold-right($f, (), 1 to 5)</test>
+        <test>let $f := function($a, $b){($b, $a)} return fold-right(1 to 5, (), $f)</test>
         <result>
                 <assert-deep-eq>5,4,3,2,1</assert-deep-eq>
         </result>
@@ -79,7 +79,7 @@
         </description>
         <created by="Michael Kay" on="2010-02-10"/>
         <environment ref="empty"/>
-        <test>fold-right(fn:concat(?, ".", ?), "", 1 to 5)</test>
+        <test>fold-right(1 to 5, "", fn:concat(?, ".", ?))</test>
         <result>
                 <assert-eq>'1.2.3.4.5.'</assert-eq>
         </result>
@@ -92,7 +92,7 @@
         </description>
         <created by="Michael Kay" on="2010-02-10"/>
         <environment ref="empty"/>
-        <test>fold-right(fn:concat("$f(", ?, ", ", ?, ")"), "$zero", 1 to 5)</test>
+        <test>fold-right(1 to 5, "$zero", fn:concat("$f(", ?, ", ", ?, ")"))</test>
         <result>
                 <assert-string-value>$f(1, $f(2, $f(3, $f(4, $f(5, $zero)))))</assert-string-value>
         </result>
@@ -104,7 +104,7 @@
         </description>
         <created by="William Candillon" on="2011-11-27"/>
         <environment ref="empty"/>
-        <test>fold-right(function($a, $b, $c){ $a + $b + $c }, 0, 1 to 5)</test>
+        <test>fold-right(1 to 5, 0, function($a, $b, $c){ $a + $b + $c })</test>
         <result>
             <error code="XPTY0004"/>
         </result>
@@ -116,7 +116,7 @@
         </description>
         <created by="William Candillon" on="2011-11-27"/>
         <environment ref="empty"/>
-        <test>fold-right(function($a, $b){ $a + $b }, "", 1 to 5)</test>
+        <test>fold-right(1 to 5, "", function($a, $b){ $a + $b })</test>
         <result>
             <error code="XPTY0004"/>
         </result>
@@ -128,7 +128,7 @@
         </description>
         <created by="William Candillon" on="2011-11-27"/>
         <environment ref="empty"/>
-        <test>fold-right(function($a as xs:string, $b){ $a + $b }, 0, 1 to 5)</test>
+        <test>fold-right(1 to 5, 0, function($a as xs:string, $b){ $a + $b })</test>
         <result>
             <error code="XPTY0004"/>
         </result>
@@ -140,7 +140,7 @@
         </description>
         <created by="William Candillon" on="2011-11-27"/>
         <environment ref="empty"/>
-        <test>fold-right(function($a, $b as xs:string){ $a + $b }, 0, 1 to 5)</test>
+        <test>fold-right(1 to 5, 0, function($a, $b as xs:string){ $a + $b })</test>
         <result>
             <error code="XPTY0004"/>
         </result>
@@ -152,7 +152,7 @@
         </description>
         <created by="William Candillon" on="2011-11-27"/>
         <environment ref="empty"/>
-        <test>fold-right(function($a, $b) as xs:string { $a + $b }, 0, 1 to 5)</test>
+        <test>fold-right(1 to 5, 0, function($a, $b) as xs:string { $a + $b })</test>
         <result>
             <error code="XPTY0004"/>
         </result>
@@ -165,7 +165,7 @@
         </description>
         <created by="William Candillon" on="2011-11-27"/>
         <environment ref="empty"/>
-        <test>fold-right(function($a, $b){ $b + 1 }, 0, 1 to 1000000)</test>
+        <test>fold-right(1 to 1000000, 0, function($a, $b){ $b + 1 })</test>
         <result>
             <assert-string-value>1000000</assert-string-value>
         </result>
@@ -178,7 +178,7 @@
         </description>
         <created by="William Candillon" on="2011-11-27"/>
         <environment ref="empty"/>
-        <test>fold-right(function($a , $b){ ($b, $a) }, (), (1 to 5))</test>
+        <test>fold-right((1 to 5), (), function($a , $b){ ($b, $a) })</test>
         <result>
             <assert-deep-eq>5, 4, 3, 2, 1</assert-deep-eq>
         </result>
@@ -191,7 +191,7 @@
         </description>
         <created by="William Candillon" on="2011-11-27"/>
         <environment ref="empty"/>
-        <test>fold-right(function($a, $b){ if(exists($b[. eq $a])) then $b else ($a, $b) }, (), (1, 2, 2, 3, 3, 3, 4, 5, 5))</test>
+        <test>fold-right((1, 2, 2, 3, 3, 3, 4, 5, 5), (), function($a, $b){ if(exists($b[. eq $a])) then $b else ($a, $b) })</test>
         <result>
             <assert-deep-eq>1, 2, 3, 4, 5</assert-deep-eq>
         </result>
@@ -204,7 +204,7 @@
         </description>
         <created by="William Candillon" on="2011-11-27"/>
         <environment ref="empty"/>
-        <test>fold-right(function($a, $b){ ($a, $a, $b) }, (), (1 to 5))</test>
+        <test>fold-right((1 to 5), (), function($a, $b){ ($a, $a, $b) })</test>
         <result>
             <assert-deep-eq>1, 1, 2, 2, 3, 3, 4, 4, 5, 5</assert-deep-eq>
         </result>
@@ -217,7 +217,7 @@
         </description>
         <created by="William Candillon" on="2011-11-27"/>
         <environment ref="empty"/>
-        <test>fold-right(concat("(", ?, "+", ?, ")"), 0, (1 to 13))</test>
+        <test>fold-right((1 to 13), 0, concat("(", ?, "+", ?, ")"))</test>
         <result>
             <assert-string-value>(1+(2+(3+(4+(5+(6+(7+(8+(9+(10+(11+(12+(13+0)))))))))))))</assert-string-value>
         </result>
@@ -230,7 +230,7 @@
         </description>
         <created by="William Candillon" on="2011-11-27"/>
         <environment ref="empty"/>
-        <test>fold-right(function($a, $b){ string-length($a) + $b }, 0, ("Hello", "World"))</test>
+        <test>fold-right(("Hello", "World"), 0, function($a, $b){ string-length($a) + $b })</test>
         <result>
             <assert-string-value>10</assert-string-value>
         </result>
@@ -243,7 +243,7 @@
         </description>
         <created by="William Candillon" on="2011-11-27"/>
         <environment ref="empty"/>
-        <test>fold-right(function($a, $b){ if(empty($b)) then $a else if($a lt $b) then $b else $a }, (), 1 to 10)</test>
+        <test>fold-right( 1 to 10, (), function($a, $b){ if(empty($b)) then $a else if($a lt $b) then $b else $a })</test>
         <result>
             <assert-string-value>10</assert-string-value>
         </result>
@@ -256,7 +256,7 @@
         </description>
         <created by="William Candillon" on="2011-11-27"/>
         <environment ref="empty"/>
-        <test>fold-right(function($a, $b){ if(empty($b)) then $a else if($a gt $b) then $b else $a }, (), 1 to 10)</test>
+        <test>fold-right(1 to 10, (), function($a, $b){ if(empty($b)) then $a else if($a gt $b) then $b else $a })</test>
         <result>
             <assert-string-value>1</assert-string-value>
         </result>
