@@ -3566,7 +3566,7 @@
   <test-case name="function-literal-426" covers="dynamic-function-call">
     <description>Attempts to invoke function fn:filter.</description>
     <created by="Michael Kay" on="2012-05-24"/>
-    <test>Q{http://www.w3.org/2005/xpath-functions}filter#2(function($a) {$a mod 2 = 0}, 1 to 10)</test>
+    <test>Q{http://www.w3.org/2005/xpath-functions}filter#2(1 to 10, function($a) {$a mod 2 = 0})</test>
     <result>
       <assert-deep-eq>(2, 4, 6, 8, 10)</assert-deep-eq>
     </result>
@@ -3582,7 +3582,7 @@
   <test-case name="function-literal-428" covers="dynamic-function-call partial-function-application">
     <description>Attempts to invoke function fn:fold-left.</description>
     <created by="Michael Kay" on="2012-05-24"/>
-    <test>Q{http://www.w3.org/2005/xpath-functions}fold-left#3(fn:concat(?, ".", ?), "", 1 to 5)</test>
+    <test>Q{http://www.w3.org/2005/xpath-functions}fold-left#3(1 to 5, "", fn:concat(?, ".", ?))</test>
     <result>
       <assert-string-value>.1.2.3.4.5</assert-string-value>
     </result>
@@ -3606,7 +3606,7 @@
   <test-case name="function-literal-431">
     <description>Attempts to look up function fn:for-each-pairs.</description>
     <created by="Michael Kay" on="2012-05-24"/>
-    <test>exists(Q{http://www.w3.org/2005/xpath-functions}for-each-pairs#3)</test>
+    <test>exists(Q{http://www.w3.org/2005/xpath-functions}for-each-pair#3)</test>
     <result>
       <assert-true/>
     </result>
@@ -3614,7 +3614,7 @@
   <test-case name="function-literal-432" covers="dynamic-function-call">
     <description>Attempts to invoke function fn:for-each-pairs.</description>
     <created by="Michael Kay" on="2012-05-24"/>
-    <test>Q{http://www.w3.org/2005/xpath-functions}for-each-pairs#3(("a", "b", "c"), ("x", "y", "z"), concat#2)</test>
+    <test>Q{http://www.w3.org/2005/xpath-functions}for-each-pair#3(("a", "b", "c"), ("x", "y", "z"), concat#2)</test>
     <result>
       <assert-deep-eq>("ax", "by", "cz")</assert-deep-eq>
     </result>

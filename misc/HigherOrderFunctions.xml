@@ -1487,6 +1487,7 @@ key: z, value: (zebra)"</assert-eq>
    <test-case name="xqhof3" covers="dynamic-function-call">
       <description></description>
       <created by="John Snelson" on="2011-07-28"/>
+      <modified by="John Snelson" on="2013-05-20" change="Spec change to map-pairs arguments. See Action item A-538-06" />
       <module uri="http://snelson.org.uk/functions/functional" file="HigherOrderFunctions/functional.xq"/>
       <dependency type="spec" value="XQ30+"/>
       <test>
@@ -1503,10 +1504,15 @@ declare function local:fib2($n) as xs:integer*
   local:fib2_aux(0, 1, $n)
 };
 
+declare function local:map-pairs($f,$a,$b)
+{
+  for-each-pair($a,$b,$f)
+};
+
 string-join(
 for $a in subsequence(
 
-let $interleave := func:curry(map-pairs#3)(function($a, $b) { $a, $b })
+let $interleave := func:curry(local:map-pairs#3)(function($a, $b) { $a, $b })
 let $enumerate := $interleave(0 to 49)
 return
 $enumerate(local:fib2(50))
