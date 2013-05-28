@@ -34,7 +34,7 @@
     <dependency type="feature" value="schemaAware" satisfied="true"/>
     <test>
       import schema namespace s = "http://www.w3.org/XQueryTest/RequireProhibitFeature";
-      declare option require-feature "typed-data-schema-aware";
+      declare option require-feature "type-data-schemas";
       ()
     </test>
     <result>
@@ -54,7 +54,7 @@
     <dependency type="feature" value="schemaAware" satisfied="false"/>
     <test>
       import schema namespace s = "http://www.w3.org/XQueryTest/RequireProhibitFeature";
-      declare option require-feature "typed-data-schema-aware";
+      declare option require-feature "type-data-schemas";
       ()
     </test>
     <result>
@@ -75,7 +75,7 @@
     <dependency type="spec" value="XQ30+"/>
     <dependency type="feature" value="schemaAware" satisfied="true"/>
     <test><![CDATA[
-      declare option require-feature "typed-data-schema-aware";
+      declare option require-feature "type-data-schemas";
       (validate lax { <element
                          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                          xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -97,7 +97,7 @@
     <dependency type="spec" value="XQ30+"/>
     <dependency type="feature" value="schemaAware" satisfied="false"/>
     <test><![CDATA[
-      declare option require-feature "typed-data-schema-aware";
+      declare option require-feature "type-data-schemas";
       (validate lax { <element
                          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                          xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -685,7 +685,7 @@
     <dependency type="feature" value="schemaAware" satisfied="true"/>
     <test>
       import schema namespace s = "http://www.w3.org/XQueryTest/RequireProhibitFeature";
-      declare option prohibit-feature "typed-data-schema-aware";
+      declare option prohibit-feature "type-data-schemas";
       ()
     </test>
     <result>
@@ -709,7 +709,7 @@
     <dependency type="feature" value="schemaAware" satisfied="false"/>
     <test>
       import schema namespace s = "http://www.w3.org/XQueryTest/RequireProhibitFeature";
-      declare option prohibit-feature "typed-data-schema-aware";
+      declare option prohibit-feature "type-data-schemas";
       ()
     </test>
     <result>
@@ -726,7 +726,7 @@
     <dependency type="spec" value="XQ30+"/>
     <dependency type="feature" value="schemaAware" satisfied="true"/>
     <test><![CDATA[
-    declare option prohibit-feature "typed-data-schema-aware";
+    declare option prohibit-feature "type-data-schemas";
     (validate lax { <element
                          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                          xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -753,7 +753,7 @@
     <dependency type="spec" value="XQ30+"/>
     <dependency type="feature" value="schemaAware" satisfied="false"/>
     <test><![CDATA[
-    declare option prohibit-feature "typed-data-schema-aware";
+    declare option prohibit-feature "type-data-schemas";
     (validate lax { <element
                          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                          xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -1113,8 +1113,8 @@
     <modified by="Ghislain Fourny" on="2013-05-28" change="Changing feature name." />
     <dependency type="spec" value="XQ30+"/>
     <test>
-      declare option require-feature "typed-data-schema-aware";
-      declare option prohibit-feature "typed-data-schema-aware";
+      declare option require-feature "type-data-schemas";
+      declare option prohibit-feature "type-data-schemas";
       ()
     </test>
     <result>
@@ -1522,7 +1522,7 @@
     <test>
       import schema namespace s = "http://www.w3.org/XQueryTest/RequireProhibitFeature";
       declare option prohibit-feature "all-optional-features";
-      declare option require-feature "typed-data-schema-aware";
+      declare option require-feature "type-data-schemas";
       ()
     </test>
     <result>
@@ -1548,7 +1548,7 @@
     <test>
       import schema namespace s = "http://www.w3.org/XQueryTest/RequireProhibitFeature";
       declare option prohibit-feature "all-optional-features";
-      declare option require-feature "typed-data-schema-aware";
+      declare option require-feature "type-data-schemas";
       ()
     </test>
     <result>
@@ -1575,7 +1575,7 @@
     <dependency type="feature" value="schemaAware" satisfied="true"/>
     <test>
       import schema namespace s = "http://www.w3.org/XQueryTest/RequireProhibitFeature";
-      declare option require-feature "typed-data-schema-aware";
+      declare option require-feature "type-data-schemas";
       declare option prohibit-feature "all-optional-features";
       ()
     </test>
@@ -1603,7 +1603,7 @@
     <dependency type="feature" value="schemaAware" satisfied="false"/>
     <test>
       import schema namespace s = "http://www.w3.org/XQueryTest/RequireProhibitFeature";
-      declare option require-feature "typed-data-schema-aware";
+      declare option require-feature "type-data-schemas";
       declare option prohibit-feature "all-optional-features";
       ()
     </test>
@@ -2265,5 +2265,299 @@
       </any-of>
     </result>
   </test-case>
-
+  
+  <test-case name="require-typed-data-1-s">
+    <description>An error must be thrown if the feature is required but not supported.</description>
+    <created by="Ghislain Fourny" on="2013-05-28"/>
+    <module uri="http://www.w3.org/XQueryTest/ProducesTypedData" file="RequireProhibitFeature/produces-typed-data.xquery"/>
+    <dependency type="spec" value="XQ30+"/>
+    <dependency type="feature" value="typedData" satisfied="true"/>
+    <test>
+      import module namespace module = "http://www.w3.org/XQueryTest/ProducesTypedData";
+      declare option require-feature "typed-data";
+      ()
+    </test>
+    <result>
+      <assert-empty/>
+    </result>
+  </test-case>
+  
+  <test-case name="require-typed-data-1-ns">
+    <description>An error must be thrown if the feature is required but not supported.</description>
+    <created by="Ghislain Fourny" on="2013-05-28"/>
+    <module uri="http://www.w3.org/XQueryTest/ProducesTypedData" file="RequireProhibitFeature/produces-typed-data.xquery"/>
+    <dependency type="spec" value="XQ30+"/>
+    <dependency type="feature" value="typedData" satisfied="false"/>
+    <test>
+      import module namespace module = "http://www.w3.org/XQueryTest/ProducesTypedData";
+      declare option require-feature "typed-data";
+      ()
+    </test>
+    <result>
+      <any-of>
+        <assert-empty />
+        <!-- The test must be reported to fail if a different error is returned -->
+        <error code="XQST0120"/>
+      </any-of>
+    </result>
+  </test-case>
+  
+  <test-case name="require-typed-data-2-s">
+    <description>An error must be thrown if the feature is required but not supported.</description>
+    <created by="Ghislain Fourny" on="2013-05-28"/>
+    <module uri="http://www.w3.org/XQueryTest/ProducesTypedData" file="RequireProhibitFeature/produces-typed-data.xquery"/>
+    <dependency type="spec" value="XQ30+"/>
+    <dependency type="feature" value="typedData" satisfied="true"/>
+    <test>
+      import module namespace module = "http://www.w3.org/XQueryTest/ProducesTypedData";
+      declare option require-feature "typed-data";
+      module:nine() le module:ten()
+    </test>
+    <result>
+      <assert-true/>
+    </result>
+  </test-case>
+  
+  <test-case name="require-typed-data-2-ns">
+    <description>An error must be thrown if the feature is required but not supported.</description>
+    <created by="Ghislain Fourny" on="2013-05-28"/>
+    <module uri="http://www.w3.org/XQueryTest/ProducesTypedData" file="RequireProhibitFeature/produces-typed-data.xquery"/>
+    <dependency type="spec" value="XQ30+"/>
+    <dependency type="feature" value="typedData" satisfied="false"/>
+    <test>
+      import module namespace module = "http://www.w3.org/XQueryTest/ProducesTypedData";
+      declare option require-feature "typed-data";
+      module:nine() le module:ten()
+    </test>
+    <result>
+      <any-of>
+        <assert-true/>
+        <!-- The test must be reported to fail if a different error is returned -->
+        <error code="XQST0120"/>
+      </any-of>
+    </result>
+  </test-case>
+  
+  <test-case name="require-typed-data-3-s">
+    <description>Data must be typed if the typed-data feature is supported.</description>
+    <created by="Ghislain Fourny" on="2013-05-28"/>
+    <module uri="http://www.w3.org/XQueryTest/ProducesTypedData" file="RequireProhibitFeature/produces-typed-data.xquery"/>
+    <dependency type="spec" value="XQ30+"/>
+    <dependency type="feature" value="typedData" satisfied="true"/>
+    <test>
+      import module namespace module = "http://www.w3.org/XQueryTest/ProducesTypedData";
+      module:nine() le module:ten()
+    </test>
+    <result>
+      <assert-true/>
+    </result>
+  </test-case>
+  
+  <test-case name="require-typed-data-3-ns">
+    <description>Data must be untyped if the typed-data feature is not supported.</description>
+    <created by="Ghislain Fourny" on="2013-05-28"/>
+    <module uri="http://www.w3.org/XQueryTest/ProducesTypedData" file="RequireProhibitFeature/produces-typed-data.xquery"/>
+    <dependency type="spec" value="XQ30+"/>
+    <dependency type="feature" value="typedData" satisfied="false"/>
+    <test>
+      import module namespace module = "http://www.w3.org/XQueryTest/ProducesTypedData";
+      module:nine() le module:ten()
+    </test>
+    <result>
+      <any-of>
+        <assert-false/>
+      </any-of>
+    </result>
+  </test-case>
+  
+  <test-case name="prohibit-typed-data-1-s">
+    <description>An error must be thrown if the typed data feature cannot be prohibited.</description>
+    <created by="Ghislain Fourny" on="2013-05-28"/>
+    <module uri="http://www.w3.org/XQueryTest/ProducesTypedData" file="RequireProhibitFeature/produces-typed-data.xquery"/>
+    <dependency type="spec" value="XQ30+"/>
+    <dependency type="feature" value="typedData" satisfied="true"/>
+    <test>
+      import module namespace module = "http://www.w3.org/XQueryTest/ProducesTypedData";
+      declare option prohibit-feature "typed-data";
+      ()
+    </test>
+    <result>
+      <any-of>
+        <assert-empty/>
+        <!-- cannot deactivate -->
+        <error code="XQST0128"/>
+      </any-of>
+    </result>
+  </test-case>
+  
+  <test-case name="prohibit-typed-data-1-ns">
+    <description>Prohibiting typed-data must work if it is not supported.</description>
+    <created by="Ghislain Fourny" on="2013-05-28"/>
+    <module uri="http://www.w3.org/XQueryTest/ProducesTypedData" file="RequireProhibitFeature/produces-typed-data.xquery"/>
+    <dependency type="spec" value="XQ30+"/>
+    <dependency type="feature" value="typedData" satisfied="false"/>
+    <test>
+      import module namespace module = "http://www.w3.org/XQueryTest/ProducesTypedData";
+      declare option prohibit-feature "typed-data";
+      ()
+    </test>
+    <result>
+      <assert-empty/>
+    </result>
+  </test-case>
+  
+  <test-case name="prohibit-typed-data-2-s">
+    <description>Data must be untyped if the feature is deactivated.</description>
+    <created by="Ghislain Fourny" on="2013-05-28"/>
+    <module uri="http://www.w3.org/XQueryTest/ProducesTypedData" file="RequireProhibitFeature/produces-typed-data.xquery"/>
+    <dependency type="spec" value="XQ30+"/>
+    <dependency type="feature" value="typedData" satisfied="true"/>
+    <test>
+      import module namespace module = "http://www.w3.org/XQueryTest/ProducesTypedData";
+      declare option prohibit-feature "typed-data";
+      module:nine() le module:ten()
+    </test>
+    <result>
+      <any-of>
+        <assert-false/>
+        <!-- cannot deactivate -->
+        <error code="XQST0128"/>
+      </any-of>
+    </result>
+  </test-case>
+  
+  <test-case name="prohibit-typed-data-2-ns">
+    <description>Data must be untyped if the feature is not supported.</description>
+    <created by="Ghislain Fourny" on="2013-05-28"/>
+    <module uri="http://www.w3.org/XQueryTest/ProducesTypedData" file="RequireProhibitFeature/produces-typed-data.xquery"/>
+    <dependency type="spec" value="XQ30+"/>
+    <dependency type="feature" value="typedData" satisfied="false"/>
+    <test>
+      import module namespace module = "http://www.w3.org/XQueryTest/ProducesTypedData";
+      declare option prohibit-feature "typed-data";
+      module:nine() le module:ten()
+    </test>
+    <result>
+      <assert-false/>
+    </result>
+  </test-case>
+  
+  <test-case name="prohibit-typed-data-3-s">
+    <description>Prohibiting typed data must trigger prohibiting schema awareness.</description>
+    <created by="Ghislain Fourny" on="2013-05-28"/>
+    <module uri="http://www.w3.org/XQueryTest/ProducesTypedData" file="RequireProhibitFeature/produces-typed-data.xquery"/>
+    <environment ref="dummy-schema"/>
+    <dependency type="spec" value="XQ30+"/>
+    <dependency type="feature" value="typedData" satisfied="true"/>
+    <test>
+      import module namespace module = "http://www.w3.org/XQueryTest/ProducesTypedData";
+      import schema namespace s = "http://www.w3.org/XQueryTest/RequireProhibitFeature";
+      declare option prohibit-feature "typed-data";
+      ()
+    </test>
+    <result>
+      <any-of>
+        <error code="XQST0009"/>
+        <!-- cannot deactivate -->
+        <error code="XQST0128"/>
+      </any-of>
+    </result>
+  </test-case>
+  
+  <test-case name="prohibit-typed-data-3-ns">
+    <description>Prohibiting typed data must trigger prohibiting schema awareness.</description>
+    <created by="Ghislain Fourny" on="2013-05-28"/>
+    <module uri="http://www.w3.org/XQueryTest/ProducesTypedData" file="RequireProhibitFeature/produces-typed-data.xquery"/>
+    <environment ref="dummy-schema"/>
+    <dependency type="spec" value="XQ30+"/>
+    <dependency type="feature" value="typedData" satisfied="false"/>
+    <test>
+      import module namespace module = "http://www.w3.org/XQueryTest/ProducesTypedData";
+      import schema namespace s = "http://www.w3.org/XQueryTest/RequireProhibitFeature";
+      declare option prohibit-feature "typed-data";
+      ()
+    </test>
+    <result>
+      <error code="XQST0009"/>
+    </result>
+  </test-case>
+  
+  <test-case name="prohibit-typed-data-4-s">
+    <description>Prohibiting typed data must trigger prohibiting schema awareness.</description>
+    <created by="Ghislain Fourny" on="2013-05-28"/>
+    <module uri="http://www.w3.org/XQueryTest/ProducesTypedData" file="RequireProhibitFeature/produces-typed-data.xquery"/>
+    <dependency type="spec" value="XQ30+"/>
+    <dependency type="feature" value="typedData" satisfied="true"/>
+    <test><![CDATA[
+    declare option prohibit-feature "typed-data";
+    (validate lax { <element
+                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                         xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                         xsi:type="xs:integer">42</element> }) instance of element(*, xs:integer)
+      ]]>
+    </test>
+    <result>
+      <any-of>
+        <error code="XQST0075"/>
+        <!-- cannot deactivate -->
+        <error code="XQST0128"/>
+      </any-of>
+    </result>
+  </test-case>
+  
+  <test-case name="prohibit-typed-data-4-ns">
+    <description>Prohibiting typed data must trigger prohibiting schema awareness.</description>
+    <created by="Ghislain Fourny" on="2013-05-28"/>
+    <module uri="http://www.w3.org/XQueryTest/ProducesTypedData" file="RequireProhibitFeature/produces-typed-data.xquery"/>
+    <dependency type="spec" value="XQ30+"/>
+    <dependency type="feature" value="typedData" satisfied="false"/>
+    <test><![CDATA[
+    declare option prohibit-feature "typed-data";
+    (validate lax { <element
+                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                         xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                         xsi:type="xs:integer">42</element> }) instance of element(*, xs:integer)
+      ]]>
+    </test>
+    <result>
+      <error code="XQST0075"/>
+    </result>
+  </test-case>
+  
+  <test-case name="require-typed-data-4-s">
+    <description>Requiring schema awareness must trigger requiring typed data.</description>
+    <created by="Ghislain Fourny" on="2013-05-28"/>
+    <module uri="http://www.w3.org/XQueryTest/ProducesTypedData" file="RequireProhibitFeature/produces-typed-data.xquery"/>
+    <dependency type="spec" value="XQ30+"/>
+    <dependency type="feature" value="typedData" satisfied="true"/>
+    <test>
+      import module namespace module = "http://www.w3.org/XQueryTest/ProducesTypedData";
+      declare option require-feature "typed-data-schemas";
+      module:nine() le module:ten()
+    </test>
+    <result>
+      <assert-true/>
+    </result>
+  </test-case>
+  
+  <test-case name="require-typed-data-4-ns">
+    <description>Requiring schema awareness must trigger requiring typed data.</description>
+    <created by="Ghislain Fourny" on="2013-05-28"/>
+    <module uri="http://www.w3.org/XQueryTest/ProducesTypedData" file="RequireProhibitFeature/produces-typed-data.xquery"/>
+    <dependency type="spec" value="XQ30+"/>
+    <dependency type="feature" value="typedData" satisfied="false"/>
+    <test>
+      import module namespace module = "http://www.w3.org/XQueryTest/ProducesTypedData";
+      declare option require-feature "typed-data-schemas";
+      module:nine() le module:ten()
+    </test>
+    <result>
+      <any-of>
+        <assert-true/>
+        <!-- The test must be reported to fail if a different error is returned -->
+        <error code="XQST0120"/>
+      </any-of>
+    </result>
+  </test-case>
+  
 </test-set>
