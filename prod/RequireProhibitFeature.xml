@@ -71,7 +71,7 @@
     <created by="Ghislain Fourny" on="2012-10-15"/>
     <modified by="Ghislain Fourny" on="2012-11-01" change="Duplicating tests depending on feature support." />
     <modified by="Ghislain Fourny" on="2013-05-28" change="Changing feature name." />
-    <environment ref="dummy-schema"/>
+    <modified by="Ghislain Fourny" on="2013-05-28" change="Removed dummy schema environment." />
     <dependency type="spec" value="XQ30+"/>
     <dependency type="feature" value="schemaAware" satisfied="true"/>
     <test><![CDATA[
@@ -93,7 +93,7 @@
     <modified by="Ghislain Fourny" on="2012-11-01" change="Duplicating tests depending on feature support." />
     <modified by="Ghislain Fourny" on="2013-03-19" change="Allowing reactivation of feature." />
     <modified by="Ghislain Fourny" on="2013-05-28" change="Changing feature name." />
-    <!--<environment ref="dummy-schema"/>-->
+    <modified by="Ghislain Fourny" on="2013-05-28" change="Removed dummy schema environment." />
     <dependency type="spec" value="XQ30+"/>
     <dependency type="feature" value="schemaAware" satisfied="false"/>
     <test><![CDATA[
@@ -153,7 +153,7 @@
     <modified by="O'Neil Delpratt, Saxonica" on="2012-10-23" change="declaration of require-feature option missing" />
     <modified by="Ghislain Fourny" on="2012-11-01" change="Duplicating tests depending on feature support." />
     <modified by="Ghislain Fourny" on="2012-03-19" change="Removed option." />
-    <environment ref="dummy-schema"/>
+    <modified by="Ghislain Fourny" on="2013-05-28" change="Removed dummy schema environment." />
     <dependency type="spec" value="XQ30+"/>
     <dependency type="feature" value="schemaAware" satisfied="true"/>
     <test><![CDATA[
@@ -174,7 +174,7 @@
     <modified by="O'Neil Delpratt, Saxonica" on="2012-10-23" change="declaration of require-feature option missing" />
     <modified by="Ghislain Fourny" on="2012-11-01" change="Duplicating tests depending on feature support." />
     <modified by="Ghislain Fourny" on="2012-03-19" change="Removed option." />
-    <environment ref="dummy-schema"/>
+    <modified by="Ghislain Fourny" on="2013-05-28" change="Removed dummy schema environment." />
     <dependency type="spec" value="XQ30+"/>
     <dependency type="feature" value="schemaAware" satisfied="false"/>
     <test><![CDATA[
@@ -2365,9 +2365,8 @@
     </test>
     <result>
       <any-of>
-        <!-- if the implementation is able to enable schema validation in the imported module -->
         <assert-false/>
-        <!-- if the implementation is not able to enable schema validation in the imported module -->
+        <!-- Cannot activate schema in imported module while deactivating it in the main module -->
         <error code="XQST0120"/>
       </any-of>
     </result>
@@ -2389,6 +2388,8 @@
         <assert-empty/>
         <!-- cannot deactivate -->
         <error code="XQST0128"/>
+        <!-- Cannot activate schema in imported module while deactivating it in the main module -->
+        <error code="XQST0120"/>
       </any-of>
     </result>
   </test-case>
@@ -2405,7 +2406,11 @@
       ()
     </test>
     <result>
-      <assert-empty/>
+      <any-of>
+        <assert-empty/>
+        <!-- Cannot activate schema in imported module while deactivating it in the main module -->
+        <error code="XQST0120"/>
+      </any-of>
     </result>
   </test-case>
   
@@ -2422,11 +2427,10 @@
     </test>
     <result>
       <any-of>
-        <!-- if the implementation is able to enable schema validation in the imported module -->
         <assert-false/>
         <!-- cannot deactivate -->
         <error code="XQST0128"/>
-        <!-- if the implementation is not able to enable schema validation in the imported module -->
+        <!-- Cannot activate schema in imported module while deactivating it in the main module -->
         <error code="XQST0120"/>
       </any-of>
     </result>
@@ -2445,9 +2449,8 @@
     </test>
     <result>
       <any-of>
-        <!-- if the implementation is able to enable schema validation in the imported module -->
         <assert-false/>
-        <!-- if the implementation is not able to enable schema validation in the imported module -->
+        <!-- Cannot activate schema in imported module while deactivating it in the main module -->
         <error code="XQST0120"/>
       </any-of>
     </result>
@@ -2456,7 +2459,6 @@
   <test-case name="prohibit-typed-data-3-s">
     <description>Prohibiting typed data must trigger prohibiting schema awareness.</description>
     <created by="Ghislain Fourny" on="2013-05-28"/>
-    <environment ref="dummy-schema"/>
     <module uri="http://www.w3.org/XQueryTest/ProducesTypedData" file="RequireProhibitFeature/produces-typed-data.xquery"/>
     <dependency type="spec" value="XQ30+"/>
     <dependency type="feature" value="typedData" satisfied="true"/>
@@ -2471,6 +2473,8 @@
         <error code="XQST0009"/>
         <!-- cannot deactivate -->
         <error code="XQST0128"/>
+        <!-- Cannot activate schema in imported module while deactivating it in the main module -->
+        <error code="XQST0120"/>
       </any-of>
     </result>
   </test-case>
@@ -2478,7 +2482,6 @@
   <test-case name="prohibit-typed-data-3-ns">
     <description>Prohibiting typed data must trigger prohibiting schema awareness.</description>
     <created by="Ghislain Fourny" on="2013-05-28"/>
-    <environment ref="dummy-schema"/>
     <module uri="http://www.w3.org/XQueryTest/ProducesTypedData" file="RequireProhibitFeature/produces-typed-data.xquery"/>
     <dependency type="spec" value="XQ30+"/>
     <dependency type="feature" value="typedData" satisfied="false"/>
@@ -2489,14 +2492,17 @@
       ()
     </test>
     <result>
-      <error code="XQST0009"/>
+      <any-of>
+        <error code="XQST0009"/>
+        <!-- Cannot activate schema in imported module while deactivating it in the main module -->
+        <error code="XQST0120"/>
+      </any-of>
     </result>
   </test-case>
   
   <test-case name="prohibit-typed-data-4-s">
     <description>Prohibiting typed data must trigger prohibiting schema awareness.</description>
     <created by="Ghislain Fourny" on="2013-05-28"/>
-    <module uri="http://www.w3.org/XQueryTest/ProducesTypedData" file="RequireProhibitFeature/produces-typed-data.xquery"/>
     <dependency type="spec" value="XQ30+"/>
     <dependency type="feature" value="typedData" satisfied="true"/>
     <test><![CDATA[
@@ -2519,7 +2525,6 @@
   <test-case name="prohibit-typed-data-4-ns">
     <description>Prohibiting typed data must trigger prohibiting schema awareness.</description>
     <created by="Ghislain Fourny" on="2013-05-28"/>
-    <module uri="http://www.w3.org/XQueryTest/ProducesTypedData" file="RequireProhibitFeature/produces-typed-data.xquery"/>
     <dependency type="spec" value="XQ30+"/>
     <dependency type="feature" value="typedData" satisfied="false"/>
     <test><![CDATA[
@@ -2588,6 +2593,8 @@
         <assert-true/>
         <!-- cannot deactivate -->
         <error code="XQST0128"/>
+        <!-- Cannot activate schema in imported module while deactivating it in the main module -->
+        <error code="XQST0120"/>
       </any-of>
     </result>
   </test-case>
@@ -2606,7 +2613,11 @@
       module:nine() le module:ten()
     </test>
     <result>
-      <assert-true/>
+      <any-of>
+        <assert-true/>
+        <!-- Cannot activate schema in imported module while deactivating it in the main module -->
+        <error code="XQST0120"/>
+      </any-of>
     </result>
   </test-case>
   
@@ -2634,7 +2645,6 @@
   <test-case name="require-schema-aware-5-s">
     <description>An error must be thrown if the feature is not supported.</description>
     <created by="Ghislain Fourny" on="2013-05-28"/>
-    <environment ref="dummy-schema"/>
     <dependency type="spec" value="XQ30+"/>
     <dependency type="feature" value="schemaAware" satisfied="true"/>
     <test><![CDATA[
@@ -2653,7 +2663,6 @@
   <test-case name="require-schema-aware-5-ns">
     <description>An error must be thrown if the feature is not supported.</description>
     <created by="Ghislain Fourny" on="2013-05-28"/>
-    <!--<environment ref="dummy-schema"/>-->
     <dependency type="spec" value="XQ30+"/>
     <dependency type="feature" value="schemaAware" satisfied="false"/>
     <test><![CDATA[
