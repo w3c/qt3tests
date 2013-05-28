@@ -2445,8 +2445,8 @@
   <test-case name="prohibit-typed-data-3-s">
     <description>Prohibiting typed data must trigger prohibiting schema awareness.</description>
     <created by="Ghislain Fourny" on="2013-05-28"/>
-    <module uri="http://www.w3.org/XQueryTest/ProducesTypedData" file="RequireProhibitFeature/produces-typed-data.xquery"/>
     <environment ref="dummy-schema"/>
+    <module uri="http://www.w3.org/XQueryTest/ProducesTypedData" file="RequireProhibitFeature/produces-typed-data.xquery"/>
     <dependency type="spec" value="XQ30+"/>
     <dependency type="feature" value="typedData" satisfied="true"/>
     <test>
@@ -2467,8 +2467,8 @@
   <test-case name="prohibit-typed-data-3-ns">
     <description>Prohibiting typed data must trigger prohibiting schema awareness.</description>
     <created by="Ghislain Fourny" on="2013-05-28"/>
-    <module uri="http://www.w3.org/XQueryTest/ProducesTypedData" file="RequireProhibitFeature/produces-typed-data.xquery"/>
     <environment ref="dummy-schema"/>
+    <module uri="http://www.w3.org/XQueryTest/ProducesTypedData" file="RequireProhibitFeature/produces-typed-data.xquery"/>
     <dependency type="spec" value="XQ30+"/>
     <dependency type="feature" value="typedData" satisfied="false"/>
     <test>
@@ -2573,9 +2573,11 @@
       module:nine() le module:ten()
     </test>
     <result>
-      <assert-true/>
-      <!-- cannot deactivate -->
-      <error code="XQST0128"/>
+      <any-of>
+        <assert-true/>
+        <!-- cannot deactivate -->
+        <error code="XQST0128"/>
+      </any-of>
     </result>
   </test-case>
   
