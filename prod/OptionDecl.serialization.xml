@@ -555,7 +555,9 @@
          XML method: it's an error to use standalone=yes if the document is not well-formed   
       </description>
       <created by="Michael Kay" on="2012-05-01"/>
+      <modified by="O'Neil Delpratt" on="2013-05-30" change="added dependency inline with bug issue #21868"/>
       <dependency type="spec" value="XQ30+"/>
+      <dependency type="feature" value="serialization" satisfied="true"/>
       <test><![CDATA[
          declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
          declare option output:method "xml";
@@ -571,6 +573,24 @@
          </any-of>
       </result>
    </test-case>
+
+   <test-case name="Serialization-026a">
+      <description>
+         This test is a variant of Serialization-26. Here we assume the serialization feature is not supported. See bug issue #21868
+      </description>
+      <created by="O'Neil Delpratt" on="2013-05-30"/>
+      <dependency type="spec" value="XQ30+"/>
+      <dependency type="feature" value="serialization" satisfied="false"/>
+      <test><![CDATA[
+         declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+         declare option output:method "xml";
+         declare option output:standalone "yes";
+		 (<a/>,<b/>)
+      ]]></test>
+      <result>
+           <assert-string-value><![CDATA[<a/> <b/>]]></assert-string-value>
+      </result>
+   </test-case>
    
    <test-case name="Serialization-027">
       <description> 
@@ -578,7 +598,9 @@
       </description>
       <created by="Michael Kay" on="2012-05-01"/>
       <modified by="O'Neil Delpratt" on="2012-07-12" change="asert-xml changed to serialization-matches"/>
+      <modified by="O'Neil Delpratt" on="2013-05-30" change="added dependency inline with bug issue #21868"/>
       <dependency type="spec" value="XQ30+"/>
+      <dependency type="feature" value="serialization" satisfied="true"/>
       <test><![CDATA[
          declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
          declare option output:method "xml";
@@ -593,13 +615,33 @@
          </any-of>
       </result>
    </test-case>
+
+   <test-case name="Serialization-027a">
+      <description>
+         This test is a variant of Serialization-27. Here we assume the serialization feature is not supported. See bug issue #21868
+      </description>
+      <created by="O'Neil Delpratt, Saxonica" on="2013-05-30"/>
+      <dependency type="spec" value="XQ30+"/>
+      <dependency type="feature" value="serialization" satisfied="false"/>
+      <test><![CDATA[
+         declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+         declare option output:method "xml";
+         declare option output:standalone "yes";
+		 "banana"
+      ]]></test>
+      <result>
+           <assert-xml>banana</assert-xml>
+      </result>
+   </test-case>
    
    <test-case name="Serialization-028">
       <description> 
          XML method: it's an error to use doctype-system if the document is not well-formed   
       </description>
       <created by="Michael Kay" on="2012-05-01"/>
+      <modified by="O'Neil Delpratt" on="2013-05-30" change="added dependency inline with bug issue #21868"/>
       <dependency type="spec" value="XQ30+"/>
+      <dependency type="feature" value="serialization" satisfied="true"/>
       <test><![CDATA[
          declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
          declare option output:method "xml";
@@ -621,7 +663,9 @@
       </description>
       <created by="Michael Kay" on="2012-05-01"/>
       <modified by="O'Neil Delpratt" on="2012-07-12" change="asert-xml changed to serialization-matches"/>
+      <modified by="O'Neil Delpratt" on="2013-05-30" change="added dependency inline with bug issue #21868"/>
       <dependency type="spec" value="XQ30+"/>
+      <dependency type="feature" value="serialization" satisfied="true"/>
       <test><![CDATA[
          declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
          declare option output:method "xml";
@@ -643,7 +687,9 @@
       </description>
       <created by="Michael Kay" on="2012-05-01"/>
       <modified by="O'Neil Delpratt" on="2012-07-12" change="asert-xml changed to serialization-matches"/>
+      <modified by="O'Neil Delpratt" on="2013-05-30" change="added dependency inline with bug issue #21868"/>
       <dependency type="spec" value="XQ30+"/>
+      <dependency type="feature" value="serialization" satisfied="true"/>
       <test><![CDATA[
          declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
          declare option output:method "xml";
