@@ -583,16 +583,17 @@
          This test is a variant of Serialization-26. Here we assume the serialization feature is not supported. See bug issue #21868
       </description>
       <created by="O'Neil Delpratt" on="2013-05-30"/>
+      <modified by="O'Neil Delpratt" on="2013-06-04" change="Related to bug issue #19597 - output and expect result is now a well-formed document" />
       <dependency type="spec" value="XQ30+"/>
       <dependency type="feature" value="serialization" satisfied="false"/>
       <test><![CDATA[
          declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
          declare option output:method "xml";
          declare option output:standalone "yes";
-		 (<a/>,<b/>)
+		 <out>{(<a/>,<b/>)}</out>
       ]]></test>
       <result>
-           <assert-string-value><![CDATA[<a/><b/>]]></assert-string-value>
+           <assert-xml><![CDATA[<out><a/><b/></out>]]></assert-xml>
       </result>
    </test-case>
    
