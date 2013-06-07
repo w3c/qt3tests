@@ -2092,21 +2092,7 @@
          <assert-false/>
       </result>
    </test-case>
-   
-   <test-case name="empty-union-001" covers="xsd11">
-      <description>XSD 1.1: empty union type</description>
-      <created by="Michael Kay" on="2013-05-21"/>
-      <environment ref="emptyUnion11"/>
-      <dependency type="spec" value="XQ30+"/>
-      <dependency type="xsd-version" value="1.1"/>
-      <test><![CDATA[
-        import schema namespace s="http://www.w3.org/XQueryTest/emptyUnion11"; 
-        3 castable as s:void
-      ]]></test>
-      <result>
-         <assert-false/>
-      </result>
-   </test-case>
+
    
       <test-case name="empty-union-002">
       <description>Attempts to reference the "s:void" function with arity zero.</description>
@@ -2147,50 +2133,6 @@
       </result>
    </test-case>
 
-   <test-case name="empty-union-005">
-      <description>Attempts to reference the "s:void" function with arity one.</description>
-      <created by="Michael Kay" on="2013-05-21"/>
-      <environment ref="emptyUnion11"/>
-      <dependency type="feature" value="higherOrderFunctions"/>
-      <dependency type="spec" value="XQ30+"/>
-      <dependency type="xsd-version" value="1.1"/>
-      <test>import schema namespace s="http://www.w3.org/XQueryTest/emptyUnion11";fn:exists( s:void#1 )</test>
-      <result>
-         <assert-true />
-      </result>
-   </test-case>
-
-   <test-case name="empty-union-006">
-      <description>Attempts to reference the "s:void" function with arity one.</description>
-      <created by="Michael Kay" on="2013-05-21"/>
-      <environment ref="emptyUnion11"/>
-      <dependency type="feature" value="higherOrderFunctions"/>
-      <dependency type="spec" value="XQ30+"/>
-      <dependency type="xsd-version" value="1.1"/>
-      <test>
-      	import schema namespace s="http://www.w3.org/XQueryTest/emptyUnion11";
-      	s:void#1 instance of function(xs:anyAtomicType?) as s:void?
-      </test>
-      <result>
-         <assert-true />
-      </result>
-   </test-case>
-
-   <test-case name="empty-union-007">
-      <description>Attempts to reference the "s:void" function with arity one.</description>
-      <created by="Michael Kay" on="2013-05-21"/>
-      <environment ref="emptyUnion11"/>
-      <dependency type="feature" value="higherOrderFunctions"/>
-      <dependency type="spec" value="XQ30+"/>
-      <dependency type="xsd-version" value="1.1"/>
-      <test>
-      	import schema namespace s="http://www.w3.org/XQueryTest/emptyUnion11";
-      	s:void#1 instance of function(xs:anyAtomicType?) as empty-sequence()
-      </test>
-      <result>
-         <assert-true />
-      </result>
-   </test-case>
 
    <test-case name="empty-union-008">
       <description>Attempts to invoke the "s:void" function with $arg as the empty sequence.</description>
@@ -2281,32 +2223,6 @@
 	</any-of>
       </result>
    </test-case>
-
-   <test-case name="empty-union-015">
-      <description>s:void? is identical to empty-sequence().</description>
-      <created by="Michael Kay" on="2013-05-21"/>
-      <dependency type="feature" value="higherOrderFunctions"/>
-      <environment ref="emptyUnion11"/>
-      <dependency type="spec" value="XQ30+"/>
-      <dependency type="xsd-version" value="1.1"/>
-      <test>import schema namespace s="http://www.w3.org/XQueryTest/emptyUnion11";function() as empty-sequence() { () } instance of function() as s:void?</test>
-      <result>
-         <assert-true />
-      </result>
-   </test-case>
-
-   <test-case name="empty-union-016">
-      <description>s:void* is identical to empty-sequence().</description>
-      <created by="Michael Kay" on="2013-05-21"/>
-      <dependency type="feature" value="higherOrderFunctions"/>
-      <environment ref="emptyUnion11"/>
-      <dependency type="spec" value="XQ30+"/>
-      <dependency type="xsd-version" value="1.1"/>
-      <test>import schema namespace s="http://www.w3.org/XQueryTest/emptyUnion11";function() as empty-sequence() { () } instance of function() as s:void*</test>
-      <result>
-         <assert-true />
-      </result>
-   </test-case>
    
    <test-case name="empty-union-017">
       <description>s:void in the signature of a function.</description>
@@ -2360,22 +2276,6 @@
 	  <error code="XPTY0004"/>
 	  <error code="FOER0000"/>
 	</any-of>
-      </result>
-   </test-case>
-
-   <test-case name="empty-union-020">
-      <description>s:void in the signature of a function.</description>
-      <created by="Michael Kay" on="2013-05-21"/>
-      <environment ref="emptyUnion11"/>
-      <dependency type="spec" value="XQ30+"/>
-      <dependency type="xsd-version" value="1.1"/><test>import schema namespace s="http://www.w3.org/XQueryTest/emptyUnion11";declare function local:identity($arg as s:void?)
-            {
-              $arg
-            };
-       local:identity(())
-      </test>
-      <result>
-         <assert-empty />
       </result>
    </test-case>
 
@@ -2482,17 +2382,6 @@
       </result>
    </test-case>
 
-   <test-case name="empty-union-028">
-      <description>s:void in a variable type declaration.</description>
-      <created by="Michael Kay" on="2013-05-21"/>
-      <environment ref="emptyUnion11"/>
-      <dependency type="spec" value="XQ30+"/>
-      <dependency type="xsd-version" value="1.1"/>
-      <test>import schema namespace s="http://www.w3.org/XQueryTest/emptyUnion11";for $x as s:void in () return fn:true()</test>
-      <result>
-	 <assert-empty />
-      </result>
-   </test-case>
 
    <test-case name="empty-union-029">
       <description>s:void in a variable type declaration.</description>
@@ -2562,29 +2451,7 @@
       </result>
    </test-case>
 
-   <test-case name="empty-union-034">
-      <description>Castablility of s:void.</description>
-      <created by="Michael Kay" on="2013-05-21"/>
-      <environment ref="emptyUnion11"/>
-      <dependency type="spec" value="XQ30+"/>
-      <dependency type="xsd-version" value="1.1"/>
-      <test>import schema namespace s="http://www.w3.org/XQueryTest/emptyUnion11";s:void(()) castable as s:void</test>
-      <result>
-	<assert-false />
-      </result>
-   </test-case>
 
-   <test-case name="empty-union-035">
-      <description>Castablility of s:void.</description>
-      <created by="Michael Kay" on="2013-05-21"/>
-      <environment ref="emptyUnion11"/>
-      <dependency type="spec" value="XQ30+"/>
-      <dependency type="xsd-version" value="1.1"/>
-      <test>import schema namespace s="http://www.w3.org/XQueryTest/emptyUnion11";s:void(()) castable as s:void?</test>
-      <result>
-	<assert-true />
-      </result>
-   </test-case>
 
    <test-case name="empty-union-036">
       <description>Castablility of s:void.</description>
@@ -2595,18 +2462,6 @@
       <test>import schema namespace s="http://www.w3.org/XQueryTest/emptyUnion11";fn:error() castable as s:void</test>
       <result>
 	<error code="FOER0000" />
-      </result>
-   </test-case>
-
-   <test-case name="empty-union-037">
-      <description>Castablility of s:void.</description>
-      <created by="Michael Kay" on="2013-05-21"/>
-      <environment ref="emptyUnion11"/>
-      <dependency type="spec" value="XQ30+"/>
-      <dependency type="xsd-version" value="1.1"/>
-      <test>import schema namespace s="http://www.w3.org/XQueryTest/emptyUnion11";() castable as s:void?</test>
-      <result>
-	<assert-true />
       </result>
    </test-case>
 
@@ -2646,29 +2501,7 @@
       </result>
    </test-case>
 
-   <test-case name="empty-union-041">
-      <description>Cast to s:void.</description>
-      <created by="Michael Kay" on="2013-05-21"/>
-      <environment ref="emptyUnion11"/>
-      <dependency type="spec" value="XQ30+"/>
-      <dependency type="xsd-version" value="1.1"/>
-      <test>import schema namespace s="http://www.w3.org/XQueryTest/emptyUnion11";s:void(()) cast as s:void?</test>
-      <result>
-	<assert-empty />
-      </result>
-   </test-case>
 
-   <test-case name="empty-union-042">
-      <description>Cast to s:void.</description>
-      <created by="Michael Kay" on="2013-05-21"/>
-      <environment ref="emptyUnion11"/>
-      <dependency type="spec" value="XQ30+"/>
-      <dependency type="xsd-version" value="1.1"/>
-      <test>import schema namespace s="http://www.w3.org/XQueryTest/emptyUnion11";() cast as s:void?</test>
-      <result>
-	<assert-empty />
-      </result>
-   </test-case>
 
    <test-case name="empty-union-043">
       <description>instance of s:void.</description>
@@ -2758,17 +2591,6 @@
       </result>
    </test-case>
 
-   <test-case name="empty-union-049">
-      <description>treat as s:void.</description>
-      <created by="Michael Kay" on="2013-05-21"/>
-      <environment ref="emptyUnion11"/>
-      <dependency type="spec" value="XQ30+"/>
-      <dependency type="xsd-version" value="1.1"/>
-      <test>import schema namespace s="http://www.w3.org/XQueryTest/emptyUnion11";() treat as s:void?</test>
-      <result>
-	<assert-empty />
-      </result>
-   </test-case>
    
    <test-case name="cbcl-schema-element-1">
       <description> Test schema element </description>
