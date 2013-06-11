@@ -10,7 +10,7 @@ import schema namespace simple="http://www.w3.org/XQueryTest/simple";
 
 
 declare variable $mod3:var1 as simple:myType := 1 cast as simple:myType;
-declare variable $mod3:var2 := <simple:integer>1</simple:integer>;
+declare variable $mod3:var2 as schema-element(simple:integer) := validate { <simple:integer>1</simple:integer> };
 
 
 declare function mod3:function1() as simple:myType
