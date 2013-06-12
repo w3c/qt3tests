@@ -234,11 +234,12 @@
    <test-case name="format-date-010">
       <description>test format-date: ISO day within week Specifically, in the ISO calendar the days of the week are numbered from 1 (Monday) to 7 (Sunday), and week 1 in any calendar year is the week (from Monday to Sunday) that includes the first Thursday of that year.</description>
       <created by="Michael Kay, Saxonica" on="2011-07-01"/>
+      <modified by="Michael Kay, Saxonica" on="2013-06-12" change="Use an EQName for the calendar argument"/>
       <environment>
          <param name="t" as="xs:date" select="xs:date('2003-12-01')"/>
       </environment>
       <test>for $i in 1 to 48, $d in $t + xs:yearMonthDuration('P1M')*$i 
-            return concat("[", $d, ":", format-date($d, '[F01]', (), 'ISO', ()), ']')
+            return concat("[", $d, ":", format-date($d, '[F01]', (), 'Q{}ISO', ()), ']')
       </test>
       <result>
          <assert-string-value normalize-space="true">
@@ -1364,6 +1365,90 @@
          <assert-string-value>[Calendar: AD]03</assert-string-value>
       </result>
    </test-case>
+   
+   <test-case name="format-date-en153">
+      <description>Use an unknown calendar in a namespace, specified by means of an EQName</description>
+      <created by="Michael Kay, Saxonica" on="2013-06-12"/>
+      <environment>
+         <param name="b" as="xs:date" select="xs:date('2006-03-01')"/>
+      </environment>
+      <test>
+      	format-date($b, '[M01]', 'en', 'Q{http://calendar.example.com/non-existent-calendar}CB', ())
+      </test>
+      <result>
+         <assert-string-value>[Calendar: AD]03</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="format-date-en154">
+      <description>Use an unknown calendar in a namespace, specified by means of a lexical QName</description>
+      <created by="Michael Kay, Saxonica" on="2013-06-12"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>
+      	declare namespace cal = "http://calendar.example.com/non-existent-calendar"; 
+      	format-date(xs:date('2006-03-01'), '[M01]', 'en', 'cal:CB', ())
+      </test>
+      <result>
+         <assert-string-value>[Calendar: AD]03</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="format-date-en155">
+      <description>Use an unknown calendar in no namespace, specified by means of an EQName</description>
+      <created by="Michael Kay, Saxonica" on="2013-06-12"/>
+      <environment>
+         <param name="b" as="xs:date" select="xs:date('2006-03-01')"/>
+      </environment>
+      <test>
+      	format-date($b, '[M01]', 'en', 'Q{}ZODIAC', ())
+      </test>
+      <result>
+         <error code="FOFD1340"/>
+      </result>
+   </test-case>
+   
+   <test-case name="format-date-en156">
+      <description>Use an unknown calendar in no namespace, specified by means of a lexical QName</description>
+      <created by="Michael Kay, Saxonica" on="2013-06-12"/>
+      <environment>
+         <param name="b" as="xs:date" select="xs:date('2006-03-01')"/>
+      </environment>
+      <test>
+      	format-date($b, '[M01]', 'en', 'ZODIAC', ())
+      </test>
+      <result>
+         <error code="FOFD1340"/>
+      </result>
+   </test-case>
+   
+   <test-case name="format-date-en157">
+      <description>Use a badly-formed calendar name</description>
+      <created by="Michael Kay, Saxonica" on="2013-06-12"/>
+      <environment>
+         <param name="b" as="xs:date" select="xs:date('2006-03-01')"/>
+      </environment>
+      <test>
+      	format-date($b, '[M01]', 'en', ':w', ())
+      </test>
+      <result>
+         <error code="FOFD1340"/>
+      </result>
+   </test-case>
+   
+   <test-case name="format-date-en158">
+      <description>Use a badly-formed calendar name</description>
+      <created by="Michael Kay, Saxonica" on="2013-06-12"/>
+      <environment>
+         <param name="b" as="xs:date" select="xs:date('2006-03-01')"/>
+      </environment>
+      <test>
+      	format-date($b, '[M01]', 'en', 'Q{}1', ())
+      </test>
+      <result>
+         <error code="FOFD1340"/>
+      </result>
+   </test-case>
+
 
 
   <test-case name="format-date-inpt-er1">
