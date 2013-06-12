@@ -10,6 +10,7 @@
 <!--                                                                         -->
 <!--   2012-08-08    Initial release (OND)                                   -->
 <!--   2013-01-13    Revision (MHK)                                          -->
+<!--   2013-06-12    Revision - Changes relating to bug issue #21568 (OND)   -->
 <!--                                                                         -->
 
 
@@ -621,11 +622,15 @@
 
                <!-- summary for each group -->
 
-               <xsl:for-each select="$resultsDocsGrouped">
+               <xsl:for-each select="$resultsDocsGrouped" >
                   <!--<xsl:sort select="./r:FOTS-test-suite-result/r:syntax"/>-->
                   <xsl:sort select="./r:test-suite-result/r:product/@name"/>
                   <xsl:sort select="./r:test-suite-result/r:product/@version"/>
+                  <xsl:variable name="spec" select="r:test-suite-result/r:product/@language"/>
                   <xsl:variable name="syntax" select="./r:test-suite-result/r:syntax"/>
+                  
+                  <xsl:variable name="rawtotali" select="count($tests[r:testCaseAppliesToSpec(., $spec)])" />
+                  
                   <td align="center">
 
                      <xsl:variable name="results" select="key('testSetByName', $testSetName)"
@@ -636,9 +641,9 @@
                      <xsl:variable name="failed"
                         select="count($results/r:test-case[@result=('fail', 'notRun')])"/>
                      <xsl:variable name="total">
-                        <xsl:value-of select="$rawtotal - count($results/r:test-case[@result = ('n/a', 'tooBig', 'disputed')])"/>
+                        <xsl:value-of select="$rawtotali - count($results/r:test-case[@result = ('tooBig', 'disputed')])"/>
                      </xsl:variable>
-
+                     <xsl:message>spec: <xsl:value-of select="$spec" />, Test-set: <xsl:value-of select="$testSetName" />: <xsl:value-of select="$rawtotal" />. notrun: <xsl:value-of select="count($results/r:test-case[@result = ('n/a', 'tooBig', 'disputed')])" /></xsl:message>
                      <xsl:attribute name="bgcolor">
                         <xsl:choose>
                            <xsl:when test="$passed=$total and $passed != 0">
@@ -684,6 +689,8 @@
                      <xsl:variable name="totalresults" select="count($resultsDocsGrouped)"/>
                      <xsl:variable name="passresults">
                         <xsl:for-each select="$resultsDocsGrouped">
+                           <xsl:variable name="spec" select="r:test-suite-result/r:product/@language"/>
+                           <xsl:variable name="rawtotali" select="count($tests[r:testCaseAppliesToSpec(., $spec)])" />
                            <xsl:variable name="results" select="key('testSetByName', $testSetName)"
                               as="element(r:test-set)?"/>
                            <xsl:variable name="syntax"
@@ -691,10 +698,10 @@
                            <xsl:variable name="total">
                               <xsl:choose>
                                  <xsl:when test="$syntax='XQueryX'">
-                                    <xsl:value-of select="$rawtotal - $totalNotPE"/>
+                                    <xsl:value-of select="$rawtotali - $totalNotPE"/>
                                  </xsl:when>
                                  <xsl:otherwise>
-                                    <xsl:value-of select="$rawtotal"/>
+                                    <xsl:value-of select="$rawtotali"/>
                                  </xsl:otherwise>
                               </xsl:choose>
                            </xsl:variable>
