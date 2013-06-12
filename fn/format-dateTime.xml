@@ -446,19 +446,33 @@
    </test-case>
 
    <test-case name="format-dateTime-006">
-      <description>Test format-dateTime: lower-case roman numerals for year (width specifier ignored)</description>
+      <description>Test format-dateTime: lower-case roman numerals for year (with the width specifier padded)</description>
       <created by="Michael Kay, Saxonica" on="2011-07-01"/>
+      <modified by="O'Neil Delpratt" on="2013-06-12" change="Bug fix relating to issue #22282" />
       <environment>
          <param name="t" as="xs:dateTime" select="xs:dateTime('0800-01-01T12:00:00')"/>
       </environment>
       <test>
         string-join(
           for $i in 1 to 100 return
-          format-dateTime($t + xs:yearMonthDuration('P17Y')*$i, '[Yi,4-4]'), '; ')</test>
+          format-dateTime($t + xs:yearMonthDuration('P17Y')*$i, '[Yi,3-3]'), '; ')</test>
       <result>
          <assert-string-value normalize-space="true">
             dcccxvii; dcccxxxiv; dcccli; dccclxviii; dccclxxxv; cmii; cmxix; cmxxxvi; cmliii;             cmlxx; cmlxxxvii; miv; mxxi; mxxxviii; mlv; mlxxii; mlxxxix; mcvi; mcxxiii; mcxl; mclvii;             mclxxiv; mcxci; mccviii; mccxxv; mccxlii; mcclix; mcclxxvi; mccxciii; mcccx; mcccxxvii; mcccxliv;             mccclxi; mccclxxviii; mcccxcv; mcdxii; mcdxxix; mcdxlvi; mcdlxiii; mcdlxxx; mcdxcvii; mdxiv;             mdxxxi; mdxlviii; mdlxv; mdlxxxii; mdxcix; mdcxvi; mdcxxxiii; mdcl; mdclxvii; mdclxxxiv; mdcci;             mdccxviii; mdccxxxv; mdcclii; mdcclxix; mdcclxxxvi; mdccciii; mdcccxx; mdcccxxxvii; mdcccliv;             mdccclxxi; mdccclxxxviii; mcmv; mcmxxii; mcmxxxix; mcmlvi; mcmlxxiii; mcmxc; mmvii; mmxxiv;             mmxli; mmlviii; mmlxxv; mmxcii; mmcix; mmcxxvi; mmcxliii; mmclx; mmclxxvii; mmcxciv; mmccxi;             mmccxxviii; mmccxlv; mmcclxii; mmcclxxix; mmccxcvi; mmcccxiii; mmcccxxx; mmcccxlvii; mmccclxiv;             mmccclxxxi; mmcccxcviii; mmcdxv; mmcdxxxii; mmcdxlix; mmcdlxvi; mmcdlxxxiii; mmd
         </assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="format-dateTime-006a">
+      <description>Test format-dateTime: lower-case roman numerals for year (with the width specifier padded). Variant of test-case format-dateTime-006</description>
+      <created by="O'Neil Delpratt, Saxonica" on="2013-06-12"/>
+      <environment>
+         <param name="t" as="xs:dateTime" select="xs:dateTime('1004-01-01T12:00:00')"/>
+      </environment>
+      <test>
+        format-dateTime($t, '[Yi,4-4]')</test>
+      <result>
+         <assert-string-value>miv </assert-string-value>
       </result>
    </test-case>
 
