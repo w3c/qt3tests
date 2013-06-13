@@ -213,11 +213,12 @@
    </test-case>
    
    <test-case name="line-ending-P002">
-      <description>Normalization of line endings in XPath. Result depends on resolution of bug 14917.
-        Supplied result assumes line endings are normalized, as per the published XPath 2.0 spec.</description>
+      <description>Normalization of line endings in XPath. See bug 14917.
+        Supplied result assumes line endings are not normalized.</description>
       <created by="Michael Kay" on="2011-11-24"/>
+      <modified by="Michael Kay" on="2013-06-13" change="reflect resolution of bug 14917"/>
       <dependency type="spec" value="XP20+"/>
-      <test>deep-equal(string-to-codepoints('&#xd;&#xa;'), (10))</test>
+      <test>deep-equal(string-to-codepoints('&#xd;&#xa;'), (13, 10))</test>
       <result>
          <assert-true/>
       </result>
