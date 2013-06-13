@@ -854,9 +854,20 @@ c,a	r', ',') satisfies not(matches($s, '^(?:\c[^\s]\c)$')))</test>
    <test-case name="re00102">
       <description>Test regex syntax</description>
       <created by="Michael Kay" on="2011-07-04"/>
+      <modified by="Michael Kay" on="2013-06-13" change="add XSD 1.1 dependency as per bug 21425"/>
+      <dependency type="xsd-version" value="1.1"/>
       <test>(every $s in tokenize('a-x', ',') satisfies matches($s, '^(?:[a-a-x-x]+)$')) and (every $s in tokenize('j,a-b', ',') satisfies not(matches($s, '^(?:[a-a-x-x]+)$')))</test>
       <result>
          <assert-true/>
+      </result>
+   </test-case>
+   <test-case name="re00102a">
+      <description>Test regex syntax</description>
+      <created by="Michael Kay" on="2013-06-13"/>
+      <dependency type="xsd-version" value="1.0"/>
+      <test>(every $s in tokenize('a-x', ',') satisfies matches($s, '^(?:[a-a-x-x]+)$')) and (every $s in tokenize('j,a-b', ',') satisfies not(matches($s, '^(?:[a-a-x-x]+)$')))</test>
+      <result>
+         <error code="FORX0002"/>
       </result>
    </test-case>
    <test-case name="re00103">
