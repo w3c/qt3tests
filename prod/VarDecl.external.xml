@@ -1181,10 +1181,25 @@
       <description> A complex type declaration. </description>
       <created by="Frans Englich" on="2009-01-08"/>
       <modified by="O'Neil Delpratt" on="2013-06-07" change="Expected result now an error. Relates to bug issue #21960" />
+      <modified by="Michael Kay" on="2013-06-07" change="Split test into two. Relates to bug issue #21960" />      
       <dependency type="spec" value="XQ10+"/>
-      <test><![CDATA[declare variable $v as element(*, xs:untyped?)+ := <e/>; 1]]></test>
+      <dependency type="feature" value="typedData" satisfied="true"/>
+      <test><![CDATA[declare variable $v as element(*, xs:untyped?)+ := <e/>; exists($v/*)]]></test>
       <result>
          <error code="XPTY0004" />
+      </result>
+   </test-case>
+   
+   <test-case name="K2-ExternalVariablesWith-22a">
+      <description> A complex type declaration. </description>
+      <created by="Frans Englich" on="2009-01-08"/>
+      <modified by="O'Neil Delpratt" on="2013-06-07" change="Expected result now an error. Relates to bug issue #21960" />
+      <modified by="Michael Kay" on="2013-06-07" change="Split test into two. Relates to bug issue #21960" />      
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="typedData" satisfied="false"/>
+      <test><![CDATA[declare variable $v as element(*, xs:untyped?)+ := <e/>; exists($v/*)]]></test>
+      <result>
+         <assert-false/>
       </result>
    </test-case>
 
