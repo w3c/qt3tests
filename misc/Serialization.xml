@@ -413,6 +413,7 @@ declare option output:version  "5.0";
       <description>Test with cdata-section-elements for HTML 4.0</description>
       <created by="Henry Zongaro" on="2012-10-26"/>
       <modified by="O'Neil Delpratt" on="2013-05-30" change="added dependency inline with bug issue #21868"/>
+      <modified by="Michael Kay" on="2013-06-13" change="correct expected result"/>
       <dependency type="feature" value="serialization" satisfied="true"/>
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
@@ -425,7 +426,7 @@ declare option output:cdata-section-elements  "p em ex:isle1";
 
 <html><body><p>No CDATA<em>No CDATA</em>No CDATA<ex:isle1>Some CDATA<ex:isle2>No CDATA</ex:isle2>More CDATA</ex:isle1></p></body></html>]]></test>
       <result>
-        <serialization-matches><![CDATA[<html><body><p>No CDATA<em>No CDATA</em>No CDATA<ex:isle1 *xmlns:ex=(['"])http://www.example.org\1><!\[CDATA\[Some CDATA\]\]&gt;<ex:isle2>No CDATA</ex:isle2><!\[CDATA\[Some CDATA\]\]&gt;</ex:isle1></p></body></html>]]></serialization-matches>
+        <serialization-matches><![CDATA[<html><body><p>No CDATA<em>No CDATA</em>No CDATA<ex:isle1 *xmlns:ex=(['"])http://www.example.org\1><!\[CDATA\[Some CDATA\]\]><ex:isle2>No CDATA</ex:isle2><!\[CDATA\[More CDATA\]\]></ex:isle1></p></body></html>]]></serialization-matches>
       </result>
    </test-case>
 
@@ -433,6 +434,7 @@ declare option output:cdata-section-elements  "p em ex:isle1";
       <description>Test with cdata-section-elements for HTML 5.0</description>
       <created by="Henry Zongaro" on="2012-10-26"/>
       <modified by="O'Neil Delpratt" on="2013-05-30" change="added dependency inline with bug issue #21868"/>
+      <modified by="Michael Kay" on="2013-06-13" change="correct expected result"/>
       <dependency type="feature" value="serialization" satisfied="true"/>
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
@@ -445,7 +447,7 @@ declare option output:cdata-section-elements  "p em ex:isle1";
 
 <html><body><p>No CDATA<em>No CDATA</em>No CDATA<ex:isle1>Some CDATA<ex:isle2>No CDATA</ex:isle2>More CDATA</ex:isle1></p></body></html>]]></test>
       <result>
-        <serialization-matches><![CDATA[<html><body><p>No CDATA<em>No CDATA</em>No CDATA<ex:isle1 *xmlns:ex=(['"])http://www.example.org\1><!\[CDATA\[Some CDATA\]\]&gt;<ex:isle2>No CDATA</ex:isle2><!\[CDATA\[Some CDATA\]\]&gt;</ex:isle1></p></body></html>]]></serialization-matches>
+        <serialization-matches><![CDATA[<html><body><p>No CDATA<em>No CDATA</em>No CDATA<ex:isle1 *xmlns:ex=(['"])http://www.example.org\1><!\[CDATA\[Some CDATA\]\]><ex:isle2>No CDATA</ex:isle2><!\[CDATA\[More CDATA\]\]></ex:isle1></p></body></html>]]></serialization-matches>
       </result>
    </test-case>
 
@@ -453,6 +455,7 @@ declare option output:cdata-section-elements  "p em ex:isle1";
       <description>Test with cdata-section-elements for HTML 4.0</description>
       <created by="Henry Zongaro" on="2012-10-26"/>
       <modified by="O'Neil Delpratt" on="2013-05-30" change="added dependency inline with bug issue #21868"/>
+      <modified by="Michael Kay" on="2013-06-13" change="correct expected result"/>
       <dependency type="feature" value="serialization" satisfied="true"/>
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
@@ -465,7 +468,7 @@ declare option output:cdata-section-elements  "b html:em";
 
 <html><body><p><b>No CDATA</b><em>No CDATA</em><html:b>No CDATA</html:b><html:em>Some CDATA</html:em></p></body></html>]]></test>
       <result>
-        <serialization-matches><![CDATA[<html><body><b>No CDATA<b><em>No CDATA</em><html:b *xmlns:html=(['"])http://www.w3.org/1999/xhtml\1>No CDATA</html:b><html:em Serialization-html-19b><!\[CDATA\[Some CDATA\]\]&gt;<html:em></p></body></html>]]></serialization-matches>
+        <serialization-matches><![CDATA[<html><body><p><b>No CDATA</b><em>No CDATA</em><html:b *xmlns:html=(['"])http://www.w3.org/1999/xhtml\1>No CDATA</html:b><html:em *xmlns:html=(['"])http://www.w3.org/1999/xhtml\2><!\[CDATA\[Some CDATA\]\]></html:em></p></body></html>]]></serialization-matches>
       </result>
    </test-case>
 
@@ -473,6 +476,7 @@ declare option output:cdata-section-elements  "b html:em";
       <description>Test with cdata-section-elements for HTML 5.0</description>
       <created by="Henry Zongaro" on="2012-10-26"/>
       <modified by="O'Neil Delpratt" on="2013-05-30" change="added dependency inline with bug issue #21868"/>
+      <modified by="Michael Kay" on="2013-06-13" change="correct expected result"/>
       <dependency type="feature" value="serialization" satisfied="true"/>
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
@@ -485,7 +489,7 @@ declare option output:cdata-section-elements  "b html:em";
 
 <html><body><p><b>No CDATA</b><em>No CDATA</em><html:b>No CDATA</html:b><html:em>No CDATA</html:em></p></body></html>]]></test>
       <result>
-        <serialization-matches><![CDATA[<html><body><b>No CDATA<b><em>No CDATA</em><html:b *xmlns:html=(['"])http://www.w3.org/1999/xhtml\1>No CDATA</html:b><html:em *xmlns:html=(['"])http://www.w3.org/1999/xhtml\1>No CDATA<html:em></p></body></html>]]></serialization-matches>
+        <serialization-matches><![CDATA[<html><body><p><b>No CDATA</b><em>No CDATA</em><html:b *xmlns:html=(['"])http://www.w3.org/1999/xhtml\1>No CDATA</html:b><html:em *xmlns:html=(['"])http://www.w3.org/1999/xhtml\2>No CDATA</html:em></p></body></html>]]></serialization-matches>
       </result>
    </test-case>
 
