@@ -244,7 +244,8 @@
     <environment ref="catalog"/>
     <dependency type="spec" value="XQ10+"/>
     <test><![CDATA[
-        declare namespace fots = "http://www.w3.org/2010/09/qt-fots-catalog";
+    declare namespace fots = "http://www.w3.org/2010/09/qt-fots-catalog";
+    <r>{        
         let $changes := doc('../changes.xml')//change/@id/string()
         let $testfiles := //fots:test-set/@file/doc(resolve-uri(., base-uri(..)))
         let $testsets := $testfiles/fots:test-set
@@ -254,10 +255,11 @@
         let $count := count($relevant-testsets/fots:test-case) + count($relevant-testcases)
         where $count lt 5
         return <out change="{$token}" tests="{$count}"/>
+     }</r>   
       ]]></test>
     <result>
       <!-- serialization tests are still awaited... -->
-      <assert-xml><![CDATA[<out change="fn-collection" tests="2"/><out change="html-output" tests="0"/>]]></assert-xml>
+      <assert-xml><![CDATA[<r><out change="fn-collection" tests="2"/><out change="xml-xhtml-output" tests="0"/></r>]]></assert-xml>
     </result>
   </test-case>
   
