@@ -165,6 +165,20 @@ of the test suite should assume that the product under test only supports one la
 attempt to execute the tests applicable to that language/version. Each test result submission
 is therefore concerned only with one of these specifications; products that implement more
 than one specification are encouraged to submit separate results for each one.</p>
+
+<p>The semantics of XPath in some cases depend on the host language. The test suite makes the
+following assumptions about the host language:</p>
+
+<ol>
+<li><p>The host language does not prohibit use of features such as the namespace axis or
+XPath 1.0 backwards compatibility (if it does so, then tests with such dependencies cannot be run)</p></li>
+<li><p>The default values for components of the static and dynamic context are as described
+in Appendix C of the XPath specification.</p></li>
+<li><p>The host language does not normalize line breaks on input (since the XPath expression
+is contained in an XML document, the XML parser will have already normalized line breaks, and
+to do so again would drop characters such as CR which need to be retained for the test to work
+correctly.)</p></li>
+</ol>
   
   <h3>Optional Features</h3>
   
