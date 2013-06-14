@@ -603,6 +603,7 @@ declare option output:version  "5.0";
       <description>Test with doctype-public present and doctype-system absent for HTML 4.0</description>
       <created by="Henry Zongaro" on="2012-10-26"/>
       <modified by="O'Neil Delpratt" on="2013-05-30" change="added dependency inline with bug issue #21868"/>
+      <modified by="Michael Kay" on="2013-06-14" change="relax the result patterns"/>
       <dependency type="feature" value="serialization" satisfied="true"/>
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
@@ -616,8 +617,8 @@ declare option output:doctype-public  "-//W3C//DTD HTML 4.0//EN";
 ]]></test>
       <result>
         <all-of>
-          <serialization-matches><![CDATA[<!....... +html +...... +(['"])-//W3C//DTD HTML 4.0//EN\1 *><html/>]]></serialization-matches>
-          <serialization-matches flags="i"><![CDATA[<!DOCTYPE *.... PUBLIC.*]]></serialization-matches>
+          <serialization-matches flags="i"><![CDATA[<!DOCTYPE\s+html\s+PUBLIC\s+(['"])-//W3C//DTD HTML 4.0//EN\1\s*>\s*<html]]></serialization-matches>
+          <serialization-matches flags="s"><![CDATA[html.+<html]]></serialization-matches>
         </all-of>
       </result>
    </test-case>
@@ -626,6 +627,7 @@ declare option output:doctype-public  "-//W3C//DTD HTML 4.0//EN";
       <description>Test with doctype-system present and doctype-public absent for HTML 4.0</description>
       <created by="Henry Zongaro" on="2012-10-26"/>
       <modified by="O'Neil Delpratt" on="2013-05-30" change="added dependency inline with bug issue #21868"/>
+      <modified by="Michael Kay" on="2013-06-14" change="relax the result patterns"/>
       <dependency type="feature" value="serialization" satisfied="true"/>
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
@@ -639,8 +641,8 @@ declare option output:doctype-system  "http://www.w3.org/TR/REC-html40/strict.dt
 ]]></test>
       <result>
         <all-of>
-          <serialization-matches><![CDATA[<!....... *html *...... *(['"])http://www.w3.org/TR/REC-html40/strict.dtd\1 *><html/>]]></serialization-matches>
-          <serialization-matches flags="i"><![CDATA[<!DOCTYPE *.... SYSTEM.*]]></serialization-matches>
+          <serialization-matches flags="i"><![CDATA[<!DOCTYPE\s+html\s+SYSTEM\s+(['"])http://www.w3.org/TR/REC-html40/strict.dtd\1\s*>\s*<html]]></serialization-matches>
+          <serialization-matches flags="s"><![CDATA[html.+<html]]></serialization-matches>
         </all-of>
       </result>
    </test-case>
@@ -649,6 +651,7 @@ declare option output:doctype-system  "http://www.w3.org/TR/REC-html40/strict.dt
       <description>Test with doctype-public present and doctype-system absent for HTML 5</description>
       <created by="Henry Zongaro" on="2012-10-26"/>
       <modified by="O'Neil Delpratt" on="2013-05-30" change="added dependency inline with bug issue #21868"/>
+      <modified by="Michael Kay" on="2013-06-14" change="relax the result patterns"/>
       <dependency type="feature" value="serialization" satisfied="true"/>
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
@@ -662,8 +665,8 @@ declare option output:doctype-public  "-//W3C//DTD HTML 4.0//EN";
 ]]></test>
       <result>
         <all-of>
-          <serialization-matches><![CDATA[<!....... +html +...... +(['"])-//W3C//DTD HTML 4.0//EN\1 *><html/>]]></serialization-matches>
-          <serialization-matches flags="i"><![CDATA[<!DOCTYPE +.... +PUBLIC.*]]></serialization-matches>
+          <serialization-matches flags="i"><![CDATA[<!DOCTYPE\s+html\s+PUBLIC\s+(['"])-//W3C//DTD HTML 4.0//EN\1\s*>\s*<html]]></serialization-matches>
+          <serialization-matches flags="s"><![CDATA[html.+<html]]></serialization-matches>
         </all-of>
       </result>
    </test-case>
@@ -672,6 +675,7 @@ declare option output:doctype-public  "-//W3C//DTD HTML 4.0//EN";
       <description>Test with doctype-system present and doctype-public absent for HTML 5</description>
       <created by="Henry Zongaro" on="2012-10-26"/>
       <modified by="O'Neil Delpratt" on="2013-05-30" change="added dependency inline with bug issue #21868"/>
+      <modified by="Michael Kay" on="2013-06-14" change="relax the result patterns"/>
       <dependency type="feature" value="serialization" satisfied="true"/>
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
@@ -685,8 +689,8 @@ declare option output:doctype-system  "about:legacy-compat";
 ]]></test>
       <result>
         <all-of>
-          <serialization-matches><![CDATA[<!....... +html +...... +(['"])about:legacy-compat\1 *><html/>]]></serialization-matches>
-          <serialization-matches flags="i"><![CDATA[<!DOCTYPE +.... +SYSTEM.*]]></serialization-matches>
+          <serialization-matches><![CDATA[<!.......\s+html\s+......\s+(['"])about:legacy-compat\1\s*>\s*<html]]></serialization-matches>
+          <serialization-matches flags="i"><![CDATA[<!DOCTYPE\s+....\s+SYSTEM]]></serialization-matches>
         </all-of>
       </result>
    </test-case>
@@ -695,6 +699,7 @@ declare option output:doctype-system  "about:legacy-compat";
       <description>Test with doctype-system and doctype-public present for HTML 4.0</description>
       <created by="Henry Zongaro" on="2012-10-26"/>
       <modified by="O'Neil Delpratt" on="2013-05-30" change="added dependency inline with bug issue #21868"/>
+      <modified by="Michael Kay" on="2013-06-14" change="relax the result patterns"/>
       <dependency type="feature" value="serialization" satisfied="true"/>
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
@@ -709,8 +714,8 @@ declare option output:doctype-public  "-//W3C//DTD HTML 4.0//EN";
 ]]></test>
       <result>
         <all-of>
-          <serialization-matches><![CDATA[<!....... +html +...... +(['"])\-//W3C//DTD HTML 4.0//EN\1 *(['"])http://www.w3.org/TR/REC\-html40/strict.dtd\2 *><html/>]]></serialization-matches>
-          <serialization-matches flags="i"><![CDATA[<!DOCTYPE +.... +PUBLIC.*]]></serialization-matches>
+          <serialization-matches><![CDATA[<!.......\s+html\s+......\s+(['"])\-//W3C//DTD HTML 4.0//EN\1\s*(['"])http://www.w3.org/TR/REC\-html40/strict.dtd\2\s*>\s*<html]]></serialization-matches>
+          <serialization-matches flags="i"><![CDATA[<!DOCTYPE\s+....\s+PUBLIC]]></serialization-matches>
         </all-of>
       </result>
    </test-case>
@@ -719,6 +724,7 @@ declare option output:doctype-public  "-//W3C//DTD HTML 4.0//EN";
       <description>Test with doctype-system and doctype-public present for HTML 5.0</description>
       <created by="Henry Zongaro" on="2012-10-26"/>
       <modified by="O'Neil Delpratt" on="2013-05-30" change="added dependency inline with bug issue #21868"/>
+      <modified by="Michael Kay" on="2013-06-14" change="relax the result patterns"/>
       <dependency type="feature" value="serialization" satisfied="true"/>
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
@@ -733,8 +739,8 @@ declare option output:doctype-public  "-//W3C//DTD HTML 4.0//EN";
 ]]></test>
       <result>
         <all-of>
-          <serialization-matches><![CDATA[<!....... +html +...... +(['"])\-//W3C//DTD HTML 4.0//EN\1 *(['"])http://www.w3.org/TR/REC\-html40/strict.dtd\2 *><html/>]]></serialization-matches>
-          <serialization-matches flags="i"><![CDATA[<!DOCTYPE +.... +PUBLIC.*]]></serialization-matches>
+          <serialization-matches><![CDATA[<!.......\s+html\s+......\s+(['"])\-//W3C//DTD HTML 4.0//EN\1\s*(['"])http://www.w3.org/TR/REC\-html40/strict.dtd\2\s*>\s*<html]]></serialization-matches>
+          <serialization-matches flags="i"><![CDATA[<!DOCTYPE\s+....\s+PUBLIC]]></serialization-matches>
         </all-of>
       </result>
    </test-case>
@@ -763,6 +769,7 @@ declare option output:doctype-public  "-//W3C//DTD HTML 4.0//EN";
       <description>Test media-type and include-content-type parameters for HTML 4.0, where input had a head element</description>
       <created by="Henry Zongaro" on="2012-10-26"/>
       <modified by="O'Neil Delpratt" on="2013-05-30" change="added dependency inline with bug issue #21868"/>
+      <modified by="Michael Kay" on="2013-06-14" change="remove expectation that the generated meta element will end with />"/>
       <dependency type="feature" value="serialization" satisfied="true"/>
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
@@ -779,7 +786,7 @@ declare option output:version  "4.0";
       <result>
         <all-of>
           <serialization-matches flags="i"><![CDATA[<html><head><meta +(?:(?:http-equiv=(['"])content-type\1 +content=(['"])text/html; *charset=UTF-8\2)|(?:content=(['"])text/html; *charset=UTF-8\3 +http-equiv=(['"])content-type\4)) *></head></html>]]></serialization-matches>
-          <serialization-matches><![CDATA[<html><head><[^>]*/></head></html>]]></serialization-matches>
+          <serialization-matches><![CDATA[<html><head><[^>]*></head></html>]]></serialization-matches>
         </all-of>
       </result>
    </test-case>
@@ -788,6 +795,7 @@ declare option output:version  "4.0";
       <description>Test media-type and include-content-type parameters for HTML 4.0, where input had a head element already containing a meta element</description>
       <created by="Henry Zongaro" on="2012-10-26"/>
       <modified by="O'Neil Delpratt" on="2013-05-30" change="added dependency inline with bug issue #21868"/>
+      <modified by="Michael Kay" on="2013-06-14" change="remove expectation that the generated meta element will end with />"/>
       <dependency type="feature" value="serialization" satisfied="true"/>
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
@@ -804,7 +812,7 @@ declare option output:version  "4.0";
       <result>
         <all-of>
           <serialization-matches flags="i"><![CDATA[<html><head><meta +(?:(?:http-equiv=(['"])content-type\1 +content=(['"])text/html; *charset=UTF-8\2)|(?:content=(['"])text/html; *charset=UTF-8\3 +http-equiv=(['"])content-type\4)) *></head></html>]]></serialization-matches>
-          <serialization-matches><![CDATA[<html><head><[^>]*/></head></html>]]></serialization-matches>
+          <serialization-matches><![CDATA[<html><head><[^>]*></head></html>]]></serialization-matches>
         </all-of>
       </result>
    </test-case>
@@ -837,6 +845,7 @@ declare option output:version  "4.0";
       <description>Test media-type and include-content-type parameters for HTML 5.0, where input had a head element</description>
       <created by="Henry Zongaro" on="2012-10-26"/>
       <modified by="O'Neil Delpratt" on="2013-05-30" change="added dependency inline with bug issue #21868"/>
+      <modified by="Michael Kay" on="2013-06-14" change="relax the expected result pattern"/>
       <dependency type="feature" value="serialization" satisfied="true"/>
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
@@ -852,8 +861,8 @@ declare option output:version  "5.0";
 ]]></test>
       <result>
         <all-of>
-          <serialization-matches flags="i"><![CDATA[<!DOCTYPE +html *><html><head><meta +(?:(?:http-equiv=(['"])content-type\1 +content=(['"])text/html; *charset=UTF-8\2)|(?:content=(['"])text/html; *charset=UTF-8\3 +http-equiv=(['"])content-type\4)) *></head></html>]]></serialization-matches>
-          <serialization-matches><![CDATA[<!....... +html *><html><head><[^>]*/></head></html>]]></serialization-matches>
+          <serialization-matches flags="i"><![CDATA[<!DOCTYPE\s+html\s*>\s*<html><head><meta +(?:(?:http-equiv=(['"])content-type\1 +content=(['"])text/html; *charset=UTF-8\2)|(?:content=(['"])text/html; *charset=UTF-8\3 +http-equiv=(['"])content-type\4)) *></head></html>]]></serialization-matches>
+          <serialization-matches><![CDATA[<!.......\s+(html|HTML)\s*>\s*<html><head><[^>]*></head></html>]]></serialization-matches>
         </all-of>
       </result>
    </test-case>
@@ -862,6 +871,7 @@ declare option output:version  "5.0";
       <description>Test media-type and include-content-type parameters for HTML 5.0, where input had a head element already containing a meta element</description>
       <created by="Henry Zongaro" on="2012-10-26"/>
       <modified by="O'Neil Delpratt" on="2013-05-30" change="added dependency inline with bug issue #21868"/>
+      <modified by="Michael Kay" on="2013-06-14" change="relax the expected result pattern"/>
       <dependency type="feature" value="serialization" satisfied="true"/>
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
@@ -877,8 +887,8 @@ declare option output:version  "5.0";
 ]]></test>
       <result>
         <all-of>
-          <serialization-matches flags="i"><![CDATA[<!DOCTYPE +html *><html><head><meta +(?:(?:http-equiv=(['"])content-type\1 +content=(['"])text/html; *charset=UTF-8\2)|(?:content=(['"])text/html; *charset=UTF-8\3 +http-equiv=(['"])content-type\4)) *></head></html>]]></serialization-matches>
-          <serialization-matches><![CDATA[<!....... +html *><html><head><[^>]*/></head></html>]]></serialization-matches>
+          <serialization-matches flags="i"><![CDATA[<!DOCTYPE +html *>\s*<html><head><meta +(?:(?:http-equiv=(['"])content-type\1 +content=(['"])text/html; *charset=UTF-8\2)|(?:content=(['"])text/html; *charset=UTF-8\3 +http-equiv=(['"])content-type\4)) *></head></html>]]></serialization-matches>
+          <serialization-matches><![CDATA[<!....... +(html|HTML) *>\s*<html><head><[^>]*></head></html>]]></serialization-matches>
         </all-of>
       </result>
    </test-case>
@@ -887,6 +897,7 @@ declare option output:version  "5.0";
       <description>Test media-type and include-content-type parameters for HTML 5.0, where input had no head element</description>
       <created by="Henry Zongaro" on="2012-10-26"/>
       <modified by="O'Neil Delpratt" on="2013-05-30" change="added dependency inline with bug issue #21868"/>
+      <modified by="Michael Kay" on="2013-06-14" change="relax the expected result pattern"/>
       <dependency type="feature" value="serialization" satisfied="true"/>
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
@@ -902,8 +913,8 @@ declare option output:version  "5.0";
 ]]></test>
       <result>
         <all-of>
-          <serialization-matches flags="i"><![CDATA[<!DOCTYPE +html *><html></html>]]></serialization-matches>
-          <serialization-matches><![CDATA[<!....... +html *><html></html>]]></serialization-matches>
+          <serialization-matches flags="i"><![CDATA[<!DOCTYPE +html *>\s*<html></html>]]></serialization-matches>
+          <serialization-matches><![CDATA[<!....... +(html|HTML) *>\s*<html></html>]]></serialization-matches>
         </all-of>
       </result>
    </test-case>
@@ -934,6 +945,7 @@ declare option output:version  "4.0";
       <description>Test include-content-type parameter with a value of no for HTML 5.0</description>
       <created by="Henry Zongaro" on="2012-10-26"/>
       <modified by="O'Neil Delpratt" on="2013-05-30" change="added dependency inline with bug issue #21868"/>
+      <modified by="Michael Kay" on="2013-06-14" change="relax the expected result pattern"/>
       <dependency type="feature" value="serialization" satisfied="true"/>
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
@@ -949,7 +961,7 @@ declare option output:version  "5.0";
 ]]></test>
       <result>
         <all-of>
-          <serialization-matches><![CDATA[<!....... +html *><html><head></head></html>]]></serialization-matches>
+          <serialization-matches><![CDATA[<!....... +(html|HTML) *>\s*<html><head></head></html>]]></serialization-matches>
           <serialization-matches flags="i"><![CDATA[<!DOCTYPE .*]]></serialization-matches>
         </all-of>
       </result>
