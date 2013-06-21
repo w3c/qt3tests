@@ -46,9 +46,12 @@
    </test-case>
    
    <test-case name="XML10-4ed-Excluded-char-2">
-      <description>The character #x0100 is excluded from the start of a Name in XML 1.0 4th edition and older.
-        Note: the query is in a separate file because it cannot be represented in an XML document.</description>
+      <description>The characters x01 x00 cannot appear at the start of a Name in XML (all editions).
+        Note: the query is in a separate file because it cannot be represented in an XML document.
+        Note: see bug 13869. The name was intended to start with the single character 0x0100, but 
+        actually starts with the two characters 0x00 0x01.</description>
       <created by="Nicolae Brinza" on="2009-04-01"/>
+      <modified by="Michael Kay" on="2013-06-21" change="Changed description only. See bug 13869./>
       <dependency type="spec" value="XQ10+"/>
       <test file="XMLEdition/XML10-4ed-Excluded-char-2.xq"/>
       <result>
