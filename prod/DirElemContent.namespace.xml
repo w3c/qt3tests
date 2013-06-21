@@ -911,13 +911,13 @@
    <test-case name="K2-DirectConElemNamespace-59">
       <description> Use the {}-escape mechanism. </description>
       <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="Michael Kay" on="2013-06-21" change="remove error XQST0022, as per bug 22335 (and bbug 13966)"/>
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[namespace-uri(<p:e xmlns:p="http://example.com/{{{{{{}}}}}}asd"/>)]]></test>
       <result>
          <any-of>
             <assert-string-value>http://example.com/{{{}}}asd</assert-string-value>
             <error code="XQST0046"/>
-            <error code="XQST0022"/>
          </any-of>
       </result>
    </test-case>
@@ -971,13 +971,13 @@
    <test-case name="K2-DirectConElemNamespace-65">
       <description> Extract an escaped namespace with fn:namespace-for-prefix(). </description>
       <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="Michael Kay" on="2013-06-21" change="remove error XQST0022, as per bug 22335 (and bbug 13966)"/>
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[namespace-uri-for-prefix("p", <e xmlns:p="http://example.com/{{}}{{{{}}}}"/>)]]></test>
       <result>
          <any-of>
             <assert-string-value>http://example.com/{}{{}}</assert-string-value>
             <error code="XQST0046"/>
-            <error code="XQST0022"/>
          </any-of>
       </result>
    </test-case>
@@ -1071,13 +1071,13 @@
    <test-case name="K2-DirectConElemNamespace-75">
       <description> Serialize a namespace that has braces. Changed by MHK to avoid problems canonicalizing an invalid namespace URI </description>
       <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="Michael Kay" on="2013-06-21" change="remove error XQST0022, as per bug 22335 (and bbug 13966)"/>
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[namespace-uri(<e xmlns="http://example.com/{{1}}"/>)]]></test>
       <result>
          <any-of>
             <assert-string-value>http://example.com/{1}</assert-string-value>
             <error code="XQST0046"/>
-            <error code="XQST0022"/>
          </any-of>
       </result>
    </test-case>
@@ -1085,13 +1085,13 @@
    <test-case name="K2-DirectConElemNamespace-76">
       <description> Serialize a prefixed namespace that has braces. </description>
       <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="Michael Kay" on="2013-06-21" change="remove error XQST0022, as per bug 22335 (and bbug 13966)"/>
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[<e xmlns:p="http://example.com/{{1}}"/>]]></test>
       <result>
          <any-of>
             <assert-xml><![CDATA[<e xmlns:p="http://example.com/{1}"/>]]></assert-xml>
             <error code="XQST0046"/>
-            <error code="XQST0022"/>
          </any-of>
       </result>
    </test-case>
@@ -1129,13 +1129,13 @@
    <test-case name="DirectConElemNamespace-3">
       <description> Use the ""-escape mechanism. Modified by MHK to avoid generating output that won't canonicalize - bug 6868 </description>
       <created by="Sorin Nasoi" on="2009-04-01"/>
+      <modified by="Michael Kay" on="2013-06-21" change="remove error XQST0022, as per bug 22335 (and bbug 13966)"/>
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[namespace-uri(<p:e xmlns:p="http://ns.example.com/ns?val=""""""asd"/>)]]></test>
       <result>
          <any-of>
             <assert-string-value>http://ns.example.com/ns?val="""asd</assert-string-value>
             <error code="XQST0046"/>
-            <error code="XQST0022"/>
          </any-of>
       </result>
    </test-case>
@@ -1143,13 +1143,13 @@
    <test-case name="DirectConElemNamespace-4">
       <description> Use the ""-escape mechanism. Modified by MHK to avoid generating output that won't canonicalize - bug 6868 </description>
       <created by="Sorin Nasoi" on="2009-04-01"/>
+      <modified by="Michael Kay" on="2013-06-21" change="remove error XQST0022, as per bug 22335 (and bbug 13966)"/>
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[namespace-uri(<p:e xmlns:p="http://ns.example.com/ns?val=""asd"/>)]]></test>
       <result>
          <any-of>
             <assert-string-value>http://ns.example.com/ns?val="asd</assert-string-value>
             <error code="XQST0046"/>
-            <error code="XQST0022"/>
          </any-of>
       </result>
    </test-case>

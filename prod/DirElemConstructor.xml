@@ -608,13 +608,13 @@
    <test-case name="K2-DirectConElem-47">
       <description> Use content that needs to be escaped, inside namespace declaration attributes. </description>
       <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="Michael Kay" on="2013-06-21" change="remove error XQST0022, as per bug 22335 (and bbug 13966)"/>
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[let $in := <r> <e xmlns="http://example.com/&lt;&gt;&quot;&apos;"""/> <e xmlns='http://example.com/&lt;&gt;&quot;&apos;'''/> <p:e xmlns:p="http://example.com/&lt;&gt;&quot;&apos;"""/> <p:e xmlns:p='http://example.com/&lt;&gt;&quot;&apos;'''/> </r> return <r>{for $n in $in/*/namespace-uri(.) return <e ns="{$n}"/>}</r>]]></test>
       <result>
          <any-of>
             <assert-xml><![CDATA[<r><e ns="http://example.com/&lt;&gt;&quot;'&quot;"/><e ns="http://example.com/&lt;&gt;&quot;''"/><e ns="http://example.com/&lt;&gt;&quot;'&quot;"/><e ns="http://example.com/&lt;&gt;&quot;''"/></r>]]></assert-xml>
             <error code="XQST0046"/>
-            <error code="XQST0022"/>
          </any-of>
       </result>
    </test-case>
