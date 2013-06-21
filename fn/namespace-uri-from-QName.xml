@@ -218,6 +218,8 @@
         branch does NOT result in a QName value </description>
       <created by="Mike Rorke" on="2005-09-28"/>
       <modified by="O'Neil Delpratt" on="2013-06-05" change="Added schemeImport dependency. See bug issue #21238" />
+      <modified by="Michael Kay" on="2013-06-21" change="Recombined the 1.0 and 3.0 tests as the error code is the same
+        in both cases; see bug 22416. They were previously split as a result of bug 21723."/>
       <environment ref="qname"/>
       <dependency type="spec" value="XP20 XQ10"/>
       <dependency type="feature" value="schemaImport"/>
@@ -227,24 +229,6 @@
       </result>
    </test-case>
    
-   <test-case name="NamespaceURIFromQNameFunc021a">
-      <description> Test function fn:namespace-uri-from-QName. Conditional expression as parameter where one 
-        branch does NOT result in a QName value </description>
-      <created by="Mike Rorke" on="2005-09-28"/>
-      <modified by="Michael Kay" on="2013-05-01" change="Error code for 3.0. See bug 21723"/>
-      <modified by="O'Neil Delpratt" on="2013-06-07" change="Added schemeImport dependency. See bug issue #21238" />
-      <environment ref="qname"/>
-      <dependency type="spec" value="XP30+ XQ30+"/>
-      <dependency type="feature" value="schemaImport"/>
-      <test>fn:namespace-uri-from-QName( if( true() ) then (/root/elemStr)[1] else (/root/elemQN)[1] )</test>
-      <result>
-         <error code="FONS0004"/>
-      </result>
-   </test-case>
-   
-   
-      
-
    <test-case name="K-NamespaceURIFromQNameFunc-1">
       <description> A test whose essence is: `namespace-uri-from-QName()`. </description>
       <created by="Frans Englich" on="2007-11-26"/>
