@@ -44,10 +44,15 @@
       <created by="Tim Mills" on="2012-11-05"/>
       <modified by="Michael Kay" on="2013-01-29" 
                 change="See bug 20450. Option declarations in the XQuery namespace must only use the recognized names"/>
+      <modified by="Michael Kay" on="2013-06-19"
+                change="Following the removal of require/prohibit, the spec says it the effect of this declaration is impl-defined"/>
       <dependency type="spec" value="XQ30+"/>      
       <test>declare option myopt "option value"; true()</test>
       <result>
-         <error code="XQST0123"/> <!-- error code TBA -->
+         <any-of>
+           <error code="XQST0123"/> <!-- error code TBA -->
+           <assert-true/>
+         </any-of>  
       </result>
    </test-case>
 
