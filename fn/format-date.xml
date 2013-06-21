@@ -1374,6 +1374,7 @@
    <test-case name="format-date-en153">
       <description>Use an unknown calendar in a namespace, specified by means of an EQName</description>
       <created by="Michael Kay, Saxonica" on="2013-06-12"/>
+      <modified by="O'Neil Delpratt" on="2013-06-21" change="Bug fix #22418 - changed assertion to assert-type" />
       <environment>
          <param name="b" as="xs:date" select="xs:date('2006-03-01')"/>
       </environment>
@@ -1381,20 +1382,21 @@
       	format-date($b, '[M01]', 'en', 'Q{http://calendar.example.com/non-existent-calendar}CB', ())
       </test>
       <result>
-         <assert-string-value>[Calendar: AD]03</assert-string-value>
+         <assert-type>xs:string</assert-type>
       </result>
    </test-case>
    
    <test-case name="format-date-en154">
       <description>Use an unknown calendar in a namespace, specified by means of a lexical QName</description>
       <created by="Michael Kay, Saxonica" on="2013-06-12"/>
+      <modified by="O'Neil Delpratt" on="2013-06-21" change="Bug fix #22418 - changed assertion to assert-type" />
       <dependency type="spec" value="XQ30+"/>
       <test>
       	declare namespace cal = "http://calendar.example.com/non-existent-calendar"; 
       	format-date(xs:date('2006-03-01'), '[M01]', 'en', 'cal:CB', ())
       </test>
       <result>
-         <assert-string-value>[Calendar: AD]03</assert-string-value>
+         <assert-type>xs:string</assert-type>
       </result>
    </test-case>
    
