@@ -617,23 +617,59 @@
    </test-case>
 
    <test-case name="K2-NameTest-30">
-      <description> A element name cannot be a string literal, inside element(). </description>
+      <description>Namespaces are not inherited.</description>
       <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="Michael Kay" on="2013-07-02" change="See bugs 22334 and 11443"/>
       <dependency type="spec" value="XQ10+"/>
-      <test><![CDATA[declare namespace a = "http://example.com/1"; declare namespace b = "http://example.com/2"; let $e := <e a:n1="content" b:n1="content"> <a:n1/> <b:n1/> <?n1 ?> <n1/> </e> return $e/*:n1]]></test>
+      <test><![CDATA[
+      	declare namespace a = "http://example.com/1"; 
+      	declare namespace b = "http://example.com/2"; 
+      	let $e := <e a:n1="content" b:n1="content"> 
+      	            <a:n1/> 
+      	            <b:n1/> 
+      	            <?n1 ?> 
+      	            <n1/> 
+      	          </e> 
+      	return $e/*:n1]]></test>
       <result>
-         <assert-xml><![CDATA[<a:n1 xmlns:b="http://example.com/2" xmlns:a="http://example.com/1"/><b:n1 xmlns:b="http://example.com/2" xmlns:a="http://example.com/1"/><n1 xmlns:b="http://example.com/2" xmlns:a="http://example.com/1"/>]]></assert-xml>
+        <all-of>
+          <assert>count($result) = 3</assert>
+          <assert>namespace-uri($result[1]) = "http://example.com/1"</assert>
+          <assert>namespace-uri-for-prefix("a", $result[1]) = "http://example.com/1"</assert>
+          <assert>empty(namespace-uri-for-prefix("b", $result[1]))</assert>
+          <assert>namespace-uri($result[2]) = "http://example.com/2"</assert>
+          <assert>namespace-uri-for-prefix("b", $result[2]) = "http://example.com/2"</assert>
+          <assert>empty(namespace-uri-for-prefix("a", $result[2]))</assert>
+          <assert>namespace-uri($result[3]) = ""</assert>
+          <assert>empty(namespace-uri-for-prefix("a", $result[3]))</assert>
+          <assert>empty(namespace-uri-for-prefix("b", $result[3]))</assert>
+        </all-of>
       </result>
    </test-case>
 
    <test-case name="K2-NameTest-31">
-      <description> A element name cannot be a string literal, inside element(). </description>
+      <description>Namespaces are not inherited.</description>
       <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="Michael Kay" on="2013-07-02" change="See bugs 22334 and 11443"/>
       <dependency type="spec" value="XQ10+"/>
-      <test><![CDATA[declare namespace a = "http://example.com/1"; declare namespace b = "http://example.com/2"; let $e := <e a:n1="content" b:n1="content"> <a:n1/> <b:n1/> <?n1 ?> <n1/> </e> return $e/a:*]]></test>
+      <test><![CDATA[
+      	declare namespace a = "http://example.com/1"; 
+      	declare namespace b = "http://example.com/2"; 
+      	let $e := <e a:n1="content" b:n1="content"> 
+      				<a:n1/> 
+      				<b:n1/> 
+      				<?n1 ?> 
+      				<n1/> 
+      			  </e> 
+      	return $e/a:*]]></test>
       <result>
-         <assert-xml><![CDATA[<a:n1 xmlns:b="http://example.com/2" xmlns:a="http://example.com/1"/>]]></assert-xml>
-      </result>
+        <all-of>
+          <assert>count($result) = 1</assert>
+          <assert>namespace-uri($result[1]) = "http://example.com/1"</assert>
+          <assert>namespace-uri-for-prefix("a", $result[1]) = "http://example.com/1"</assert>
+          <assert>empty(namespace-uri-for-prefix("b", $result[1]))</assert>
+        </all-of>
+      </result>  
    </test-case>
 
    <test-case name="K2-NameTest-32">

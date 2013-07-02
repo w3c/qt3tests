@@ -926,12 +926,13 @@
    <test-case name="qischema064">
       <description>validate element against a type derived by extension </description>
       <created by="Michael Kay" on="2006-11-14"/>
+      <modified by="Michael Kay" on="2013-07-02" change="See bug 22334"/>
       <environment ref="addresses"/>
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[
         import schema namespace z = "http://www.w3.org/XQueryTest/addresses"; 
         validate strict { 
-            <z:person xsi:type="z:titled-person" > 
+            <z:person xsi:type="z:titled-person" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"> 
                 <z:first>Anthony</z:first> 
                 <z:middle>W</z:middle> 
                 <z:last>Benn</z:last> 
@@ -948,9 +949,22 @@
    <test-case name="qischema065">
       <description>validate document node against a type derived by extension </description>
       <created by="Michael Kay" on="2006-11-14"/>
+      <modified by="Michael Kay" on="2013-07-02" change="See bug 22334"/>
       <environment ref="addresses"/>
       <dependency type="spec" value="XQ10+"/>
-      <test><![CDATA[import schema namespace z = "http://www.w3.org/XQueryTest/addresses" at "qischema064.xsd"; validate strict { document { <z:person xsi:type="z:titled-person" xmlns:z="http://www.w3.org/XQueryTest/addresses"> <z:first>Anthony</z:first> <z:middle>W</z:middle> <z:last>Benn</z:last> <z:title>Viscount Stansgate</z:title> </z:person> } }]]></test>
+      <test><![CDATA[
+      	import schema namespace z = "http://www.w3.org/XQueryTest/addresses" at "qischema064.xsd"; 
+      	validate strict { 
+      		document { 
+      			<z:person xsi:type="z:titled-person" 
+      			          xmlns:z="http://www.w3.org/XQueryTest/addresses"
+      			          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"> 
+      				<z:first>Anthony</z:first> 
+      				<z:middle>W</z:middle> 
+      				<z:last>Benn</z:last> 
+      				<z:title>Viscount Stansgate</z:title> 
+      			</z:person> } }
+      ]]></test>
       <result>
          <assert-xml><![CDATA[<z:person xmlns:z="http://www.w3.org/XQueryTest/addresses"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -961,6 +975,7 @@
    <test-case name="qischema070">
       <description>validation relying on xsi:type </description>
       <created by="Michael Kay" on="2006-11-14"/>
+      <modified by="Michael Kay" on="2013-07-02" change="See bug 22334"/>
       <environment ref="mini-fpml"/>
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[
@@ -968,8 +983,15 @@
         declare variable $v := "4.2"; 
         declare function local:write() as schema-element(fpml:FpML) { 
             validate strict { 
-            <FpML xmlns="http://www.fpml.org/2005/FpML-4-2" fpml-version="{$v}" xsi:type="ValuationDocument"> 
-                <header> <from>me</from> <to>you</to> <date>2005-10-25</date> </header> <market>cattle</market> <value>0.02</value> 
+            <FpML xmlns="http://www.fpml.org/2005/FpML-4-2" fpml-version="{$v}" xsi:type="ValuationDocument"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"> 
+                <header> 
+                	<from>me</from> 
+                	<to>you</to> 
+                	<date>2005-10-25</date> 
+                </header> 
+                <market>cattle</market> 
+                <value>0.02</value> 
             </FpML> }
         }; 
         local:write()
@@ -1145,17 +1167,30 @@
    <test-case name="qischema083">
       <description>Test where one imported schema imports the other. Saxon 9.1 bug. </description>
       <created by="Michael Kay" on="2008-08-26"/>
+      <modified by="Michael Kay" on="2013-07-02" change="See bug 22334"/>
       <dependency type="spec" value="XQ10+"/>
       <dependency type="feature" value="schema-location-hint"/>
       <test><![CDATA[
         import schema namespace one = "http://www.w3.org/XQueryTest/q083one" at "SchemaImport/qischema083-1.xsd"; 
         import schema namespace two = "http://www.w3.org/XQueryTest/q083two" at "SchemaImport/qischema083-2.xsd"; 
-        validate strict { <one:one> <two:two> <two:three/> <two:three/> <two:three/> </two:two> </one:one> }
+        validate strict { 
+        	<one:one> 
+        		<two:two> 
+        			<two:three/> 
+        			<two:three/> 
+        			<two:three/> 
+        		</two:two> 
+        	</one:one> }
       ]]></test>
       <result>
-         <assert-xml><![CDATA[<one:one xmlns:one="http://www.w3.org/XQueryTest/q083one"
-            ><two:two xmlns:two="http://www.w3.org/XQueryTest/q083two"
-            ><two:three/><two:three/><two:three/></two:two></one:one>]]></assert-xml>
+         <all-of>
+           <assert>$result/self::*:one[namespace-uri(.)="http://www.w3.org/XQueryTest/q083one"]</assert>
+           <assert>$result/*:two[namespace-uri(.)="http://www.w3.org/XQueryTest/q083two"]</assert>
+           <assert>$result/*:two/(3 = count(*:three[namespace-uri(.)="http://www.w3.org/XQueryTest/q083two"]))</assert>
+           <assert>not(in-scope-prefixes($result) = "two")</assert>
+           <assert>not(in-scope-prefixes($result/*) = "one")</assert>
+           <assert>not(in-scope-prefixes($result/*/*[1]) = "one")</assert>
+         </all-of>
       </result>
    </test-case>
    
