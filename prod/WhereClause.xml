@@ -719,9 +719,10 @@
    
 
    <test-case name="cbcl-hash-join-3">
-      <description> A query that can be optimized down to a hash join - with date types of varying timezones, assumes context timezone Z </description>
+      <description> A query that can be optimized down to a hash join - with date types of varying timezones</description>
       <created by="Oliver Hallam" on="2008-01-04"/>      
-      <test>for $x in (xs:date("2010-10-10"), xs:date("1997-01-01+12:00"), xs:date("1997-01-02+12:00")) for $y in (xs:date("2010-10-10Z"), xs:date("2010-10-10+01:00"), xs:date("1997-01-01-12:00")) where $x = $y return $x</test>
+      <modified by="Tim Mills" on="2013-07-04" change="Made timezone-independent.  See Bug 21222." />
+      <test>for $x in (xs:date("2010-10-10"), xs:date("1997-01-01+12:00"), xs:date("1997-01-02+12:00")) for $y in (adjust-date-to-timezone(xs:date("2010-10-10"), implicit-timezone()), xs:date("1997-01-01-12:00")) where $x = $y return $x</test>
       <result>
          <assert-string-value>2010-10-10 1997-01-02+12:00</assert-string-value>
       </result>
