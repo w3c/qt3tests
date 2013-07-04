@@ -700,4 +700,75 @@
          <error code="XPST0003"/>
       </result>
    </test-case>
+
+   <test-case name="cbcl-directconelem-001">
+      <description>Checks the in-scope namespaces of directly constructed element. </description>
+      <created by="Tim Mills" on="2013-07-04"/>
+      <test>
+<![CDATA[
+declare default element namespace "http://example.com/0"; 
+declare namespace a = "http://example.com/1"; 
+declare namespace b = "http://example.com/2"; 
+declare copy-namespaces preserve,no-inherit;
+
+declare function local:in-scope-namespace-bindings($arg)
+{
+  for $i in in-scope-prefixes($arg) 
+  order by $i 
+  return 
+  concat("xmlns",
+         if (string-length($i) = 0)
+         then ""
+         else ":",
+         $i,
+         '="', namespace-uri-for-prefix($i, $arg), '"')
+};
+
+<a:outer b:outer="attr" xmlns:c="http://example.com/3" c:outer="attr">
+  <inner a="a:attr" b="b:attr" />
+</a:outer>/(local:in-scope-namespace-bindings(.),
+            '|', 
+            local:in-scope-namespace-bindings((./*)[1]))
+]]>
+      </test>
+      <result>
+         <assert-string-value>xmlns:a="http://example.com/1" xmlns:b="http://example.com/2" xmlns:c="http://example.com/3" xmlns:xml="http://www.w3.org/XML/1998/namespace" | xmlns="http://example.com/0" xmlns:c="http://example.com/3" xmlns:xml="http://www.w3.org/XML/1998/namespace"</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-directconelem-002">
+      <description>Checks the in-scope namespaces of directly constructed element. </description>
+      <created by="Tim Mills" on="2013-07-04"/>
+      <test>
+<![CDATA[
+declare default element namespace "http://example.com/0"; 
+declare namespace a = "http://example.com/1"; 
+declare namespace b = "http://example.com/2"; 
+declare copy-namespaces preserve,inherit;
+
+declare function local:in-scope-namespace-bindings($arg)
+{
+  for $i in in-scope-prefixes($arg) 
+  order by $i 
+  return 
+  concat("xmlns",
+         if (string-length($i) = 0)
+         then ""
+         else ":",
+         $i,
+         '="', namespace-uri-for-prefix($i, $arg), '"')
+};
+
+<a:outer b:outer="attr" xmlns:c="http://example.com/3" c:outer="attr">
+  <inner a="a:attr" b="b:attr" />
+</a:outer>/(local:in-scope-namespace-bindings(.),
+            '|', 
+            local:in-scope-namespace-bindings((./*)[1]))
+]]>
+      </test>
+      <result>
+         <assert-string-value>xmlns:a="http://example.com/1" xmlns:b="http://example.com/2" xmlns:c="http://example.com/3" xmlns:xml="http://www.w3.org/XML/1998/namespace" | xmlns="http://example.com/0" xmlns:c="http://example.com/3" xmlns:xml="http://www.w3.org/XML/1998/namespace"</assert-string-value>
+      </result>
+   </test-case>
+
 </test-set>
