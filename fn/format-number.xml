@@ -1073,4 +1073,115 @@
       </result>
    </test-case>
 
+  <test-case name="cbcl-fn-format-number-001">
+      <description>If the input number is NaN (not a number), the result is the specified NaN-symbol (with no prefix or suffix).</description>
+      <created by="Tim Mills" on="2013-07-08"/>
+      <environment/>
+      <test>format-number(number("abc"),'PREFIX#SUFFIX')</test>
+      <result>
+         <assert-string-value>NaN</assert-string-value>
+      </result>
+   </test-case>
+
+  <test-case name="cbcl-fn-format-number-002">
+      <description>Negative zero is taken as negative, positive zero as positive..</description>
+      <created by="Tim Mills" on="2013-07-08"/>
+      <environment/>
+      <test>format-number(0 div xs:double("INF"), '#')</test>
+      <result>
+         <assert-string-value>0</assert-string-value>
+      </result>
+   </test-case>
+
+  <test-case name="cbcl-fn-format-number-003">
+      <description>Negative zero is taken as negative, positive zero as positive..</description>
+      <created by="Tim Mills" on="2013-07-08"/>
+      <environment/>
+      <test>format-number(0 div xs:double("-INF"), '#')</test>
+      <result>
+         <assert-string-value>-0</assert-string-value>
+      </result>
+   </test-case>
+
+  <test-case name="cbcl-fn-format-number-004">
+      <description>If the input number is positive or negative infinity, the result is the concatenation of the appropriate prefix, the infinity-symbol, and the appropriate suffix.</description>
+      <created by="Tim Mills" on="2013-07-08"/>
+      <environment>
+         <decimal-format infinity="INF"/>
+      </environment>
+      <test>format-number(1 div 0e0,'PREFIX#SUFFIX')</test>
+      <result>
+         <assert-string-value>PREFIXINFSUFFIX</assert-string-value>
+      </result>
+   </test-case>
+
+  <test-case name="cbcl-fn-format-number-005">
+      <description>If the input number is positive or negative infinity, the result is the concatenation of the appropriate prefix, the infinity-symbol, and the appropriate suffix.   If the picture string contains only one sub-picture, the prefix for the negative sub-picture is set by concatenating the minus-sign character and the prefix for the positive sub-picture (if any), in that order.</description>
+      <created by="Tim Mills" on="2013-07-08"/>
+      <environment>
+         <decimal-format infinity="INF"/>
+      </environment>
+      <test>format-number(-1 div 0e0,'PREFIX#SUFFIX')</test>
+      <result>
+         <assert-string-value>-PREFIXINFSUFFIX</assert-string-value>
+      </result>
+   </test-case>
+
+  <test-case name="cbcl-fn-format-number-006">
+      <description>If the input number is positive or negative infinity, the result is the concatenation of the appropriate prefix, the infinity-symbol, and the appropriate suffix.   If the picture string contains only one sub-picture, the prefix for the negative sub-picture is set by concatenating the minus-sign character and the prefix for the positive sub-picture (if any), in that order.</description>
+      <created by="Tim Mills" on="2013-07-08"/>
+      <environment>
+         <decimal-format infinity="INF"/>
+      </environment>
+      <test>format-number(-1 div 0e0,'PREFIX#SUFFIX;prefix#suffix')</test>
+      <result>
+         <assert-string-value>prefixINFsuffix</assert-string-value>
+      </result>
+   </test-case>
+
+  <test-case name="cbcl-fn-format-number-007">
+      <description>If the input number is positive or negative infinity, the result is the concatenation of the appropriate prefix, the infinity-symbol, and the appropriate suffix.</description>
+      <created by="Tim Mills" on="2013-07-08"/>
+      <environment>
+         <decimal-format infinity="INF"/>
+      </environment>
+      <test>format-number(-1 div 0e0,'PREFIX#SUFFIX;prefix#suffix')</test>
+      <result>
+         <assert-string-value>prefixINFsuffix</assert-string-value>
+      </result>
+   </test-case>
+
+  <test-case name="cbcl-fn-format-number-008">
+      <description>Check that the result doesn't start with a grouping separator.</description>
+      <created by="Tim Mills" on="2013-07-08"/>
+      <environment>
+         <decimal-format infinity="INF"/>
+      </environment>
+      <test>format-number(1e2,'#,000')</test>
+      <result>
+         <assert-string-value>100</assert-string-value>
+      </result>
+   </test-case>
+
+  <test-case name="cbcl-fn-format-number-009">
+      <description>Check that the result doesn't start with a grouping separator.</description>
+      <created by="Tim Mills" on="2013-07-08"/>
+      <environment>
+         <decimal-format infinity="INF"/>
+      </environment>
+      <test>format-number(100,'#,000')</test>
+      <result>
+         <assert-string-value>100</assert-string-value>
+      </result>
+   </test-case>
+
+  <test-case name="cbcl-fn-format-number-010">
+      <description>Check rounding in format-number.</description>
+      <created by="Tim Mills" on="2013-07-08"/>
+      <test>format-number(xs:double('0.9952832031249997'), '###,##0.00')</test>
+      <result>
+         <assert-string-value>1.00</assert-string-value>
+      </result>
+   </test-case>
+
 </test-set>
