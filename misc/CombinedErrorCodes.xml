@@ -3122,5 +3122,20 @@
       </result>
    </test-case>
 
+   <test-case name="typeswitch-in-xpath">
+	 <description>Typeswitch disallowed in XPath</description>
+	 <created by="Michael Kay" on="2011-07-28"/>
+     <modified by="O'Neil Delpratt" on="2013-07-19" change="Test moved from TypeswitchExpr. See bug issue #22736" />
+	 <dependency type="spec" value="XP20+"/>
+	 <test><![CDATA[
+	 typeswitch (10)
+	 case $i as xs:integer return 1
+	 default $v return 0
+	 ]]></test>
+	 <result>
+	   <error code="XPST0003"/>
+	 </result>
+   </test-case>
+
 </test-set>
 
