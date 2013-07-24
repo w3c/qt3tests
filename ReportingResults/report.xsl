@@ -641,7 +641,7 @@
                      <xsl:variable name="failed"
                         select="count($results/r:test-case[@result=('fail', 'notRun')])"/>
                      <xsl:variable name="total">
-                        <xsl:value-of select="$rawtotali - count($results/r:test-case[@result = ('tooBig', 'disputed')])"/>
+                        <xsl:value-of select="$rawtotali - count($results/r:test-case[@result = ('n/a', 'tooBig', 'disputed')])"/>
                      </xsl:variable>
                      <xsl:message>spec: <xsl:value-of select="$spec" />, Test-set: <xsl:value-of select="$testSetName" />: <xsl:value-of select="$rawtotal" />. notrun: <xsl:value-of select="count($results/r:test-case[@result = ('n/a', 'tooBig', 'disputed')])" /></xsl:message>
                      <xsl:attribute name="bgcolor">
