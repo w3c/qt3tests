@@ -135,7 +135,9 @@
    <test-case name="generate-id-012">
       <description>Uniqueness of generated IDs for document nodes across multiple documents</description>
       <created by="Michael Kay" on="2010-12-20"/>
+      <modified by="O'Neil Delpratt" on="2013-08-02" change="Added feature dependency - Fix to bug issue #22423" />
       <environment ref="collection"/>
+      <dependency type="feature" value="non_empty_sequence_collection"/>
       <test>let $nodes := collection()
             return count($nodes) eq count(distinct-values($nodes/generate-id()))</test>
       <result>
@@ -145,7 +147,9 @@
    <test-case name="generate-id-013">
       <description>Uniqueness of generated IDs for element nodes across multiple documents</description>
       <created by="Michael Kay" on="2010-12-20"/>
+      <modified by="O'Neil Delpratt" on="2013-08-02" change="Added feature dependency - Fix to bug issue #22423" />
       <environment ref="collection"/>
+      <dependency type="feature" value="non_empty_sequence_collection"/>
       <test>let $nodes := collection()//*
             return count($nodes) eq count(distinct-values($nodes/generate-id()))</test>
       <result>
