@@ -44,6 +44,16 @@
          <error code="XPST0081"/>
       </result>
    </test-case>
+   
+   <test-case name="Constr-compattr-name-4">
+      <description> Expanded QName with braced URI literal for computed attribute constructor
+        (Bug report from Christian Gruen) </description>
+      <created by="Michael Kay" on="2013-09-19"/>
+      <test>element x { attribute Q{http://example.com/x}y { } }</test>
+      <result>
+         <assert>self::x/@*[local-name()='y' and namespace-uri()='http://example.com/x']</assert>
+      </result>
+   </test-case>
 
    <test-case name="Constr-compattr-compname-1">
       <description> empty computed name </description>
