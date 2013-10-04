@@ -187,6 +187,70 @@
          <assert-xml><![CDATA[<e><a:a xmlns:a="http://www.example.com/A" a:a="value"/><b:a xmlns:b="http://www.example.com/A" b:a="value"/></e>]]></assert-xml>
       </result>
    </test-case>
+   
+   <test-case name="K2-Serialization-13">
+      <description>Test item-separator property</description>
+      <created by="Michael Kay" on="2013-10-04"/>
+      <dependency type="feature" value="serialization" satisfied="true"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+      	declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "xml";
+        declare option output:item-separator "|";
+        1 to 10
+      ]]></test>
+      <result>
+         <serialization-matches><![CDATA[1|2|3|4|5|6|7|8|9|10]]></serialization-matches>
+      </result>
+   </test-case>
+   
+   <test-case name="K2-Serialization-14">
+      <description>Test item-separator property</description>
+      <created by="Michael Kay" on="2013-10-04"/>
+      <dependency type="feature" value="serialization" satisfied="true"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+      	declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "xml";
+        declare option output:item-separator "|";
+        <a>{1,2,3}</a>,<b>{4,5,6}</b>
+      ]]></test>
+      <result>
+         <serialization-matches><![CDATA[<a>1 2 3</a>|<b>4 5 6</b>]]></serialization-matches>
+      </result>
+   </test-case>
+   
+   <test-case name="K2-Serialization-15">
+      <description>Test item-separator property</description>
+      <created by="Michael Kay" on="2013-10-04"/>
+      <dependency type="feature" value="serialization" satisfied="true"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+      	declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "xml";
+        declare option output:item-separator "|";
+        document { 1 to 5 }
+      ]]></test>
+      <result>
+         <serialization-matches><![CDATA[1 2 3 4 5]]></serialization-matches>
+      </result>
+   </test-case>
+   
+   <test-case name="K2-Serialization-16">
+      <description>Test item-separator property</description>
+      <created by="Michael Kay" on="2013-10-04"/>
+      <dependency type="feature" value="serialization" satisfied="true"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+      	declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "xml";
+        declare option output:item-separator "==";
+        (1 to 4)!text{.}
+      ]]></test>
+      <result>
+         <serialization-matches><![CDATA[1==2==3==4]]></serialization-matches>
+      </result>
+   </test-case>
 
    <test-case name="Serialization-html-1" covers="html-output">
       <description>Test that HTML 4.0 elements with empty content model are serialized using only a start tag</description>
