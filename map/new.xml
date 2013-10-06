@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="map-new"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <description>Tests for the map:new function introduced in XPath 3.0</description>
+    <description>Tests for the map:new function introduced in XSLT 3.0</description>
     <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/" idref="func-map-new"/>
     <dependency type="spec" value="XT30+"/>
 
@@ -183,25 +183,6 @@
             </all-of>
         </result>
     </test-case>
-    <test-case name="map-new-014">
-        <description>map:new() with absolute collation URI</description>
-        <created by="Michael Kay, Saxonica" on="2011-03-23"/>
-        <test>map:new(map{"abc":=1,"xyz":=2}, "http://www.w3.org/2005/xpath-functions/collation/codepoint")</test>
-        <result>
-            <assert>map:collation($result) eq "http://www.w3.org/2005/xpath-functions/collation/codepoint"</assert>
-        </result>
-    </test-case>
-    <test-case name="map-new-015">
-        <description>map:new() with relative collation URI</description>
-        <created by="Michael Kay, Saxonica" on="2011-03-23"/>
-        <environment>
-            <static-base-uri uri="http://www.w3.org/2005/xpath-functions/"/>
-        </environment>
-        <test>map:new(map{"abc":=1,"xyz":=2}, "collation/codepoint")</test>
-        <result>
-            <assert>map:collation($result) eq "http://www.w3.org/2005/xpath-functions/collation/codepoint"</assert>
-        </result>
-    </test-case>
     <test-case name="map-new-016">
         <description>Deep equal of empty maps</description>
         <created by="Michael Kay, Saxonica" on="2011-03-27"/>
@@ -270,76 +251,6 @@
             <assert-false/>
         </result>
     </test-case>
-    <test-case name="map-new-024">
-        <description>Deep equal: maps whose collations differ</description>
-        <created by="Michael Kay, Saxonica" on="2011-03-27"/>
-        <environment>
-            <collation uri="http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind"/>
-        </environment>
-        <test>deep-equal(map:new(for $i in 1 to 1000 return map:entry($i, $i+1)),
-                         map:new(for $i in 1 to 1000 return map:entry($i, $i+1),
-                         "http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind"))</test>
-        <result>
-            <assert-false/>
-        </result>
-    </test-case>
-    <test-case name="map-new-025">
-        <description>Deep equal: maps whose collations are the same</description>
-        <created by="Michael Kay, Saxonica" on="2011-03-27"/>
-        <environment>
-            <collation uri="http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind"/>
-        </environment>
-        <test>deep-equal(map:new(for $i in 1 to 1000 return map:entry($i, $i+1),
-                            "http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind"),
-                         map:new(for $i in 1 to 1000 return map:entry($i, $i+1),
-                            "http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind"))</test>
-        <result>
-            <assert-true/>
-        </result>
-    </test-case>
-    <test-case name="map-new-026">
-        <description>Deep equal: maps are the same when compared using the collation of the map</description>
-        <created by="Michael Kay, Saxonica" on="2011-03-27"/>
-        <environment>
-            <collation uri="http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind"/>
-        </environment>
-        <test>deep-equal(map:new(map{"abc":=1,"def":=2},
-                            "http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind"),
-                         map:new(map{"ABC":=1,"DEF":=2},
-                            "http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind"),
-                         "http://www.w3.org/2005/xpath-functions/collation/codepoint")</test>
-        <result>
-            <assert-true/>
-        </result>
-    </test-case>
-    <test-case name="map-new-027">
-        <description>Deep equal: values are NOT compared using the collation of the map
-            (TODO: check the spec on this one)</description>
-        <created by="Michael Kay, Saxonica" on="2011-03-27"/>
-        <environment>
-            <collation uri="http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind"/>
-        </environment>
-        <test>deep-equal(map:new(map{"abc":="x","def":="y"},
-                            "http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind"),
-                         map:new(map{"abc":="X","def":="Y"},
-                            "http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind"),
-                         "http://www.w3.org/2005/xpath-functions/collation/codepoint")</test>
-        <result>
-            <assert-false/>
-        </result>
-    </test-case>
-    <test-case name="map-new-028">
-        <description>Duplicate elimination is collation-sensitive</description>
-        <created by="Michael Kay, Saxonica" on="2011-03-27"/>
-        <environment>
-            <collation uri="http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind" default="true"/>
-        </environment>
-        <test>map:size(map{"abc":=123, "ABC":=456}) = 1</test>
-        <result>
-            <assert-true/>
-        </result>
-    </test-case>
-
 
     
 </test-set>
