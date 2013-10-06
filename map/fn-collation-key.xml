@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="fn-collation-key"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <description>Tests for the fn:collation-key function introduced in XSLT 3.0</description>
+    <link type="spec" document="http://www.w3.org/TR/xslt-30/" idref="func-collation-key"/>
+    <dependency type="spec" value="XT30+"/>
+
+    <test-case name="collation-key-001">
+        <description>Simple comparison using default collation</description>
+        <created by="Michael Kay, Saxonica" on="2013-10-04"/>
+        <test>collation-key("abc") eq collation-key("abc")</test>
+        <result>
+            <assert-true/>
+        </result>
+    </test-case>
+    
+    <test-case name="collation-key-002">
+        <description>Simple comparison using default collation</description>
+        <created by="Michael Kay, Saxonica" on="2013-10-04"/>
+        <test>collation-key("abc") eq collation-key("XYZ")</test>
+        <result>
+            <assert-false/>
+        </result>
+    </test-case>
+    
+    <test-case name="collation-key-003">
+        <description>Simple comparison using codepoint collation explicitly</description>
+        <created by="Michael Kay, Saxonica" on="2013-10-04"/>
+        <test>collation-key("abc", "http://www.w3.org/2005/xpath-functions/collation/codepoint") 
+               eq collation-key("abc", "http://www.w3.org/2005/xpath-functions/collation/codepoint")
+        </test>
+        <result>
+            <assert-true/>
+        </result>
+    </test-case>
+    
+    <test-case name="collation-key-004">
+        <description>URI promotion works</description>
+        <created by="Michael Kay, Saxonica" on="2013-10-04"/>
+        <test>collation-key("http://www.w3.org/") eq collation-key(xs:anyURI("http://www.w3.org/"))</test>
+        <result>
+            <assert-true/>
+        </result>
+    </test-case>
+    
+    <test-case name="collation-key-005">
+        <description>Simple comparison using default collation explicitly</description>
+        <created by="Michael Kay, Saxonica" on="2013-10-04"/>
+        <test>collation-key("abc") 
+               eq collation-key("abc", default-collation())
+        </test>
+        <result>
+            <assert-true/>
+        </result>
+    </test-case>
+    
+    
+    
+    
+    <test-case name="collation-key-901">
+        <description>Argument must be a string</description>
+        <created by="Michael Kay, Saxonica" on="2013-10-04"/>
+        <test>collation-key("abc") eq collation-key(123)</test>
+        <result>
+            <error code="XPTY0004"/>
+        </result>
+    </test-case>
+    
+    
+
+</test-set>
