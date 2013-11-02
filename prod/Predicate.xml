@@ -1572,6 +1572,20 @@
          <assert-string-value>E1 P1 E1 P3 E1 P5 E2 P1</assert-string-value>
       </result>
    </test-case>
+   
+   <test-case name="predicates-32">
+      <description> Numeric predicate computed by subscripting </description>
+      <created by="Michael Kay" on="2013-11-02"/>
+      <dependency spec="XQ10+"/>
+      <test>
+        declare variable $i := ("x", 1);
+        declare variable $j := $i[position() ne 1];
+        $i[$j]      
+      </test>
+      <result>
+         <assert-eq>"x"</assert-eq>
+      </result>
+   </test-case>
 
    <test-case name="predicatesns-1">
       <description> Evaluation of a simple predicate with a "true" value (uses "fn:true"). Use of fn:count to avoid empty file. Not Schema dependent. </description>
