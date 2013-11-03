@@ -313,4 +313,96 @@
          <assert-string-value/>
       </result>
    </test-case>
+   
+   <test-case name="fn-unordered-101">
+      <description> unordered() on preceding-sibling axis </description>
+      <created by="Michael Kay" on="2013-11-03"/>
+      <environment ref="works-mod"/>
+      <test>count(/works/employee[last()]/unordered(preceding-sibling::*))</test>
+      <result>
+         <assert-eq>12</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-unordered-102">
+      <description> unordered() on preceding axis </description>
+      <created by="Michael Kay" on="2013-11-03"/>
+      <environment ref="works-mod"/>
+      <test>count(/works/employee[last()]/unordered(preceding::*))</test>
+      <result>
+         <assert-eq>54</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-unordered-103">
+      <description> unordered() on ancestor-or-self axis </description>
+      <created by="Michael Kay" on="2013-11-03"/>
+      <environment ref="works-mod"/>
+      <test>count((/works//day)[last()]/unordered(ancestor-or-self::*))</test>
+      <result>
+         <assert-eq>4</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-unordered-104">
+      <description> unordered() does not eliminate duplicates </description>
+      <created by="Michael Kay" on="2013-11-03"/>
+      <environment ref="works-mod"/>
+      <test>count(unordered(reverse(for $i in (1,2,1) return /works/employee)))</test>
+      <result>
+         <assert-eq>39</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-unordered-105">
+      <description> unordered() does not prevent duplicate elimination </description>
+      <created by="Michael Kay" on="2013-11-03"/>
+      <environment ref="works-mod"/>
+      <test>count(unordered(reverse(/works/employee[@name] | /works/employee[@gender])))</test>
+      <result>
+         <assert-eq>13</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-unordered-106">
+      <description> unordered() applied to selection in FLWOR expression </description>
+      <created by="Michael Kay" on="2013-11-03"/>
+      <environment ref="works-mod"/>
+      <test>count(unordered(for $e in reverse(/works/employee) return $e/@gender))</test>
+      <result>
+         <assert-eq>13</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-unordered-107">
+      <description> unordered() applied to selection in FLWOR expression </description>
+      <created by="Michael Kay" on="2013-11-03"/>
+      <environment ref="works-mod"/>
+      <test>count(for $e in unordered(reverse(/works/employee)) return $e/@gender)</test>
+      <result>
+         <assert-eq>13</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-unordered-108">
+      <description> unordered() applied to result of FLWOR expression </description>
+      <created by="Michael Kay" on="2013-11-03"/>
+      <environment ref="works-mod"/>
+      <test>unordered(for $e at $i in /works/employee return $e/hours[1]*$i)</test>
+      <result>
+         <!--<assert-permutation>40, 70, 80, 20, 20, 12, 40, 80, 20, 20, 20, 40, 80</assert-permutation>-->
+         <assert-permutation>40, 140, 240, 80, 100, 72, 280, 640, 180, 200, 220, 480, 1040</assert-permutation>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-unordered-109">
+      <description> unordered() applied to result of FLWOR expression </description>
+      <created by="Michael Kay" on="2013-11-03"/>
+      <environment ref="works-mod"/>
+      <test>unordered(for $e at $i in reverse(/works/employee) return $e/hours[1]*$i)</test>
+      <result>
+         <!--<assert-permutation>40, 70, 80, 20, 20, 12, 40, 80, 20, 20, 20, 40, 80</assert-permutation>-->
+         <assert-permutation>520, 840, 880, 200, 180, 96, 280, 480, 100, 80, 60, 80, 80</assert-permutation>
+      </result>
+   </test-case>
 </test-set>
