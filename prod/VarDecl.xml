@@ -603,12 +603,12 @@
       <description> Test circularity on variable/function declaration . </description>
       <created by="Carmelo Montanez" on="2006-02-06"/>
       <modified by="O'Neil Delpratt" on="2012-10-08" change="bug fix 19331: add dependency" />
+      <modified by="Michael Kay" on="2013-11-07" change="fix bug 23745"/>
       <dependency type="spec" value="XQ10" />
       <test>
       declare namespace foo = "http://www..oracle.com/xquery/test"; 
       declare variable $var1 as xs:integer := foo:price(xs:integer(2)); 
       declare function foo:price ($b as xs:integer) as xs:integer { $var1 + 1 }; 
-      declare variable $input-context1 external; 
       $var1</test>
       <result>
          <error code="XQST0054"/>
@@ -619,12 +619,12 @@
       <description> Test circularity on variable/function declaration . </description>
       <created by="Carmelo Montanez" on="2006-02-06"/>
       <modified by="O'Neil Delpratt" on="2012-10-08" change="Variant of vardeclerr. Bug fix 19331: add dependency" />
+      <modified by="Michael Kay" on="2013-11-07" change="fix bug 23745"/>
       <dependency type="spec" value="XQ30+" />
       <test>
       declare namespace foo = "http://www..oracle.com/xquery/test"; 
       declare variable $var1 as xs:integer := foo:price(xs:integer(2)); 
       declare function foo:price ($b as xs:integer) as xs:integer { $var1 + 1 }; 
-      declare variable $input-context1 external; 
       $var1</test>
       <result>
          <error code="XQDY0054"/>
@@ -897,7 +897,8 @@
    <test-case name="vardeclwithtype-1">
       <description> Evaluates an internal variable declaration with type Use type xs:string. </description>
       <created by="Carmelo Montanez" on="2005-11-23"/>
-      <test>declare variable $var as xs:string := "abc"; declare variable $input-context1 external; $var</test>
+      <modified by="Michael Kay" on="2013-11-07" change="fix bug 23745"/>
+      <test>declare variable $var as xs:string := "abc"; $var</test>
       <result>
          <assert-string-value>abc</assert-string-value>
       </result>
@@ -906,7 +907,8 @@
    <test-case name="vardeclwithtype-2">
       <description> Evaluates an internal variable declaration with type Use type xs:integer. </description>
       <created by="Carmelo Montanez" on="2005-11-23"/>
-      <test>declare variable $var as xs:integer := 100; declare variable $input-context1 external; $var</test>
+      <modified by="Michael Kay" on="2013-11-07" change="fix bug 23745"/>
+      <test>declare variable $var as xs:integer := 100; $var</test>
       <result>
          <assert-eq>100</assert-eq>
       </result>
@@ -915,7 +917,8 @@
    <test-case name="vardeclwithtype-3">
       <description> Evaluates an internal variable declaration with type Use type xs:decimal. </description>
       <created by="Carmelo Montanez" on="2005-11-23"/>
-      <test>declare variable $var as xs:decimal := 100; declare variable $input-context1 external; $var</test>
+      <modified by="Michael Kay" on="2013-11-07" change="fix bug 23745"/>
+      <test>declare variable $var as xs:decimal := 100; $var</test>
       <result>
          <assert-eq>100</assert-eq>
       </result>
@@ -924,7 +927,8 @@
    <test-case name="vardeclwithtype-4">
       <description> Evaluates an internal variable declaration with type Use type xs:boolean (true value). </description>
       <created by="Carmelo Montanez" on="2005-11-23"/>
-      <test>declare variable $var as xs:boolean := fn:true(); declare variable $input-context1 external; $var</test>
+      <modified by="Michael Kay" on="2013-11-07" change="fix bug 23745"/>
+      <test>declare variable $var as xs:boolean := fn:true(); $var</test>
       <result>
          <assert-true/>
       </result>
@@ -933,7 +937,8 @@
    <test-case name="vardeclwithtype-5">
       <description> Evaluates an internal variable declaration with type Use type xs:boolean (false value). </description>
       <created by="Carmelo Montanez" on="2005-11-23"/>
-      <test>declare variable $var as xs:boolean := fn:false(); declare variable $input-context1 external; $var</test>
+      <modified by="Michael Kay" on="2013-11-07" change="fix bug 23745"/>
+      <test>declare variable $var as xs:boolean := fn:false(); $var</test>
       <result>
          <assert-false/>
       </result>
@@ -942,7 +947,9 @@
    <test-case name="vardeclwithtype-6">
       <description> Evaluates an internal variable declaration with type Use type xs:float </description>
       <created by="Carmelo Montanez" on="2005-11-23"/>
-      <test>declare variable $var as xs:float := xs:float(12.5E10); declare variable $input-context1 external; $var</test>
+      <modified by="Michael Kay" on="2013-11-07" change="fix bug 23745"/>
+      <test>declare variable $var as xs:float := xs:float(12.5E10); 
+      <modified by="Michael Kay" on="2013-11-07" change="fix bug 23745"/>$var</test>
       <result>
          <assert-string-value>1.25E11</assert-string-value>
       </result>
@@ -951,7 +958,8 @@
    <test-case name="vardeclwithtype-7">
       <description> Evaluates an internal variable declaration with type Use type xs:double </description>
       <created by="Carmelo Montanez" on="2005-11-23"/>
-      <test>declare variable $var as xs:double := xs:double(1267.43233E12); declare variable $input-context1 external; $var</test>
+      <modified by="Michael Kay" on="2013-11-07" change="fix bug 23745"/>
+      <test>declare variable $var as xs:double := xs:double(1267.43233E12); $var</test>
       <result>
          <assert-string-value>1.26743233E15</assert-string-value>
       </result>
@@ -960,7 +968,8 @@
    <test-case name="vardeclwithtype-8">
       <description> Evaluates an internal variable declaration with type Use type xs:anyURI </description>
       <created by="Carmelo Montanez" on="2005-11-23"/>
-      <test>declare variable $var as xs:anyURI := xs:anyURI("http://example.com"); declare variable $input-context1 external; $var</test>
+      <modified by="Michael Kay" on="2013-11-07" change="fix bug 23745"/>
+      <test>declare variable $var as xs:anyURI := xs:anyURI("http://example.com"); $var</test>
       <result>
          <assert-string-value>http://example.com</assert-string-value>
       </result>
@@ -969,7 +978,8 @@
    <test-case name="vardeclwithtype-9">
       <description> Evaluates an internal variable declaration with type Use type xs:dateTime </description>
       <created by="Carmelo Montanez" on="2005-11-23"/>
-      <test>declare variable $var as xs:dateTime := xs:dateTime("1999-11-28T09:00:00Z"); declare variable $input-context1 external; $var</test>
+      <modified by="Michael Kay" on="2013-11-07" change="fix bug 23745"/>
+      <test>declare variable $var as xs:dateTime := xs:dateTime("1999-11-28T09:00:00Z"); $var</test>
       <result>
          <assert-string-value>1999-11-28T09:00:00Z</assert-string-value>
       </result>
@@ -978,7 +988,8 @@
    <test-case name="vardeclwithtype-10">
       <description> Evaluates an internal variable declaration with type Use type xs:time </description>
       <created by="Carmelo Montanez" on="2005-11-23"/>
-      <test>declare variable $var as xs:time := xs:time("11:12:00Z"); declare variable $input-context1 external; $var</test>
+      <modified by="Michael Kay" on="2013-11-07" change="fix bug 23745"/>
+      <test>declare variable $var as xs:time := xs:time("11:12:00Z"); $var</test>
       <result>
          <assert-string-value>11:12:00Z</assert-string-value>
       </result>
@@ -987,7 +998,8 @@
    <test-case name="vardeclwithtype-11">
       <description> Evaluates an internal variable declaration with type Use type xs:date </description>
       <created by="Carmelo Montanez" on="2005-11-23"/>
-      <test>declare variable $var as xs:date := xs:date("1999-11-28Z"); declare variable $input-context1 external; $var</test>
+      <modified by="Michael Kay" on="2013-11-07" change="fix bug 23745"/>
+      <test>declare variable $var as xs:date := xs:date("1999-11-28Z"); $var</test>
       <result>
          <assert-string-value>1999-11-28Z</assert-string-value>
       </result>
@@ -996,7 +1008,12 @@
    <test-case name="vardeclwithtype-12">
       <description> Evaluates an internal variable declaration with type that is declared twice </description>
       <created by="Carmelo Montanez" on="2005-11-23"/>
-      <test>declare variable $var as xs:date := xs:date("1999-11-28Z"); declare variable $var as xs:date := xs:date("1999-11-28Z"); declare variable $input-context1 external; $var</test>
+      <modified by="Michael Kay" on="2013-11-07" change="fix bug 23745"/>
+      <test>
+      	declare variable $var as xs:date := xs:date("1999-11-28Z"); 
+      	declare variable $var as xs:date := xs:date("1999-11-28Z"); 
+      	$var
+      </test>
       <result>
          <error code="XQST0049"/>
       </result>
@@ -1005,7 +1022,8 @@
    <test-case name="vardeclwithtype-13">
       <description> Evaluates an internal variable declaration with type and expression. Expression result does not match given type. </description>
       <created by="Carmelo Montanez" on="2005-11-23"/>
-      <test>declare variable $var as xs:date := fn:true() and fn:true(); declare variable $input-context1 external; $var</test>
+      <modified by="Michael Kay" on="2013-11-07" change="fix bug 23745"/>
+      <test>declare variable $var as xs:date := fn:true() and fn:true(); $var</test>
       <result>
          <error code="XPTY0004"/>
       </result>
@@ -1014,7 +1032,8 @@
    <test-case name="vardeclwithtype-14">
       <description> Evaluates an internal variable declaration with type and expression. Expression uses a previously defined variable. </description>
       <created by="Carmelo Montanez" on="2005-11-23"/>
-      <test>declare variable $x as xs:integer := 10; declare variable $var as xs:integer := $x +1; declare variable $input-context1 external; $var</test>
+      <modified by="Michael Kay" on="2013-11-07" change="fix bug 23745"/>
+      <test>declare variable $x as xs:integer := 10; declare variable $var as xs:integer := $x +1; $var</test>
       <result>
          <assert-eq>11</assert-eq>
       </result>
@@ -1027,9 +1046,10 @@
       <modified by="Michael Kay" on="2012-05-18" change="see bug 15790"/>
       <dependency type="spec" value="XQ10"/>
       <test>
-      declare variable $var as xs:integer := $e +1; 
-      declare variable $e as xs:integer := 10;  
-      $var</test>
+        declare variable $var as xs:integer := $e +1; 
+        declare variable $e as xs:integer := 10;  
+        $var
+      </test>
       <result>
          <error code="XPST0008"/>
       </result>
@@ -1053,7 +1073,12 @@
    <test-case name="vardeclwithtype-16">
       <description> Evaluates an internal variable declaration with type that uses a declared namesapce. </description>
       <created by="Carmelo Montanez" on="2005-11-23"/>
-      <test>declare namespace p1 = "http://www.example.com"; declare variable $p1:var as xs:integer := 10; declare variable $input-context1 external; $p1:var</test>
+      <modified by="Michael Kay" on="2013-11-07" change="fix bug 23745"/>
+      <test>
+      	declare namespace p1 = "http://www.example.com"; 
+      	declare variable $p1:var as xs:integer := 10; 
+      	$p1:var
+      </test>
       <result>
          <assert-eq>10</assert-eq>
       </result>
@@ -1062,7 +1087,14 @@
    <test-case name="vardeclwithtype-17">
       <description> Evaluates an internal variable declaration with type that uses a declared namespace. Two variable with same name declared in two deferent namespaces. </description>
       <created by="Carmelo Montanez" on="2005-11-23"/>
-      <test>declare namespace p1 = "http://www.example.com"; declare namespace p2 = "http://www.example.com/examples"; declare variable $p1:var as xs:integer := 10; declare variable $p2:var as xs:integer := 20; declare variable $input-context1 external; $p2:var</test>
+      <modified by="Michael Kay" on="2013-11-07" change="fix bug 23745"/>
+      <test>
+      	declare namespace p1 = "http://www.example.com"; 
+      	declare namespace p2 = "http://www.example.com/examples"; 
+      	declare variable $p1:var as xs:integer := 10; 
+      	declare variable $p2:var as xs:integer := 20; 
+      	$p2:var
+      </test>
       <result>
          <assert-eq>20</assert-eq>
       </result>
@@ -1071,7 +1103,14 @@
    <test-case name="vardeclwithtype-18">
       <description> Evaluates an internal variable declaration with type that uses a declared namespace. Two variable with same name declared in namespaces with same namespace uri. </description>
       <created by="Carmelo Montanez" on="2005-11-23"/>
-      <test>declare namespace p1 = "http://www.example.com"; declare namespace p2 = "http://www.example.com"; declare variable $p1:var as xs:integer := 10; declare variable $p2:var as xs:integer := 20; declare variable $input-context1 external; $p2:var</test>
+      <modified by="Michael Kay" on="2013-11-07" change="fix bug 23745"/>
+      <test>
+      	declare namespace p1 = "http://www.example.com"; 
+      	declare namespace p2 = "http://www.example.com"; 
+      	declare variable $p1:var as xs:integer := 10; 
+      	declare variable $p2:var as xs:integer := 20; 
+      	$p2:var
+      </test>
       <result>
          <error code="XQST0049"/>
       </result>
@@ -1080,7 +1119,8 @@
    <test-case name="vardeclwithtype-19">
       <description> Evaluates an internal variable declaration with type that uses the fn:count function . </description>
       <created by="Carmelo Montanez" on="2005-11-23"/>
-      <test>declare variable $var as xs:integer := fn:count((10,2)); declare variable $input-context1 external; $var</test>
+      <modified by="Michael Kay" on="2013-11-07" change="fix bug 23745"/>
+      <test>declare variable $var as xs:integer := fn:count((10,2)); $var</test>
       <result>
          <assert-eq>2</assert-eq>
       </result>
@@ -1089,7 +1129,8 @@
    <test-case name="vardeclwithtype-20">
       <description> Evaluates an internal variable declaration with type that uses the fn:string-length function . </description>
       <created by="Carmelo Montanez" on="2005-11-23"/>
-      <test>declare variable $var as xs:integer := fn:string-length("ABC"); declare variable $input-context1 external; $var</test>
+      <modified by="Michael Kay" on="2013-11-07" change="fix bug 23745"/>
+      <test>declare variable $var as xs:integer := fn:string-length("ABC"); $var</test>
       <result>
          <assert-eq>3</assert-eq>
       </result>
@@ -1098,7 +1139,8 @@
    <test-case name="vardeclwithtype-21">
       <description> Evaluates an internal variable declaration with type that uses the fn:not function . </description>
       <created by="Carmelo Montanez" on="2005-11-23"/>
-      <test>declare variable $var as xs:boolean := fn:not(fn:true()); declare variable $input-context1 external; $var</test>
+      <modified by="Michael Kay" on="2013-11-07" change="fix bug 23745"/>
+      <test>declare variable $var as xs:boolean := fn:not(fn:true()); $var</test>
       <result>
          <assert-false/>
       </result>
@@ -1107,7 +1149,8 @@
    <test-case name="vardeclwithtype-22">
       <description> Evaluates an internal variable declaration with type that uses the fn:empty function . </description>
       <created by="Carmelo Montanez" on="2005-11-23"/>
-      <test>declare variable $var as xs:boolean := fn:empty((1,2,3)); declare variable $input-context1 external; $var</test>
+      <modified by="Michael Kay" on="2013-11-07" change="fix bug 23745"/>
+      <test>declare variable $var as xs:boolean := fn:empty((1,2,3)); $var</test>
       <result>
          <assert-false/>
       </result>
