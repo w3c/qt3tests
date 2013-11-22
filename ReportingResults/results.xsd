@@ -34,6 +34,7 @@
     </xs:annotation>
     <xs:complexType>
       <xs:sequence>
+        <xs:element ref="qtr:syntax" minOccurs="0" maxOccurs="1" />      
         <xs:element ref="qtr:submission"/>
         <xs:element ref="qtr:product"/>
         <xs:element maxOccurs="unbounded" minOccurs="1" ref="qtr:test-set"/>
@@ -46,6 +47,20 @@
       <xs:field xpath="@name"/>
     </xs:unique>
 
+  </xs:element>
+  
+  <xs:element name="syntax" type="xs:string">
+    <xs:annotation>
+      <xs:documentation>
+        <div>
+          <h3>syntax</h3>             
+          <p>Provides information on the language syntax of the tests to product the test results. 
+            For example, one may be running tests with XQueryX syntax. We assume that if the syntax element is not present that 
+          the tests reported are of XQuery syntax.</p>
+        </div>
+      </xs:documentation>
+    </xs:annotation>
+    
   </xs:element>
 
   <xs:element name="submission">

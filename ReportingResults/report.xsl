@@ -166,6 +166,7 @@
             <!-- Generate a list of implementations in this report -->
 
             <xsl:for-each select="$resultsDocs">
+               <xsl:sort select="./r:FOTS-test-suite-result/r:syntax"/>
                <xsl:variable name="resultsFilename" select="r:productLink(.)"/>
                <xsl:result-document href="{$resultsFilename}">
                   <html>
@@ -176,7 +177,6 @@
                         <button type="button" onclick="window.location='report.html'">Main Report</button>
                         <h1>Test submission for <xsl:value-of select="r:productLabel(.)"/></h1>
                         <hr/>
-                        <!-- <xsl:sort select="./r:FOTS-test-suite-result/r:syntax"/>-->
                         <!-- <xsl:sort select="./r:FOTS-test-suite-result/r:implementation/@name"/>-->
                         <xsl:variable name="product"
                            select="./r:test-suite-result/r:product"/>
@@ -624,7 +624,7 @@
                <!-- summary for each group -->
 
                <xsl:for-each select="$resultsDocsGrouped" >
-                  <!--<xsl:sort select="./r:FOTS-test-suite-result/r:syntax"/>-->
+                  <xsl:sort select="./r:FOTS-test-suite-result/r:syntax"/>
                   <xsl:sort select="./r:test-suite-result/r:product/@name"/>
                   <xsl:sort select="./r:test-suite-result/r:product/@version"/>
                   <xsl:variable name="spec" select="r:test-suite-result/r:product/@language"/>
@@ -1129,10 +1129,17 @@
                <xsl:value-of select="r:test-suite/@version"/>
             </td>
          </tr>
-         <!--  <tr>
+         <tr>
                <td valign="top">Syntax:</td>
-               <td valign="top"><xsl:value-of select="../r:syntax"/></td>
-            </tr>-->
+               <td valign="top">
+                  <xsl:choose>
+                     <xsl:when test="exists(../r:syntax)">
+                        <xsl:value-of select="../r:syntax"/>       
+                     </xsl:when>
+                     <xsl:otherwise>XQuery</xsl:otherwise>
+                  </xsl:choose>
+                 </td>
+            </tr>
 
          <!-- <xsl:if test='r:transformation'>
                <tr>
