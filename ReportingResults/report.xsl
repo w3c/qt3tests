@@ -12,8 +12,8 @@
 <!--   2013-01-13    Revision (MHK)                                          -->
 <!--   2013-06-12    Revision - Changes relating to bug issue #21568 (OND)   -->
 <!--   2013-06-24    Revision - Changes relating to bug issue #22796 (OND)   -->
+<!--   2013-11-22    Revision - Updates relating to XQueryX reporting OND)   -->
 <!--                                                                         -->
-
 
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0"
@@ -191,6 +191,7 @@
                               <xsl:value-of select="$product/@name"/> version <xsl:value-of select="$product/@version"/>
                            </h3>
                            <blockquote>
+                              <xsl:apply-templates select="$test-run"/>
                               <xsl:apply-templates select="$product"/>
                            </blockquote>
                         </xsl:if>
@@ -336,7 +337,7 @@
                <th valign="top">
                   <a href="../{$resultsFilename}"><xsl:value-of select="$productLabel"/></a>
                   <br/>
-                  <xsl:value-of select="r:test-suite-result/r:product/@language"/>
+                  <xsl:value-of select="if(r:test-suite-result/r:syntax='XQueryX') then concat('XQX', substring(r:test-suite-result/r:product/@language, 3)) else r:test-suite-result/r:product/@language"/>
                   <xsl:variable name="testRunVersion" select="string(r:test-suite-result/r:submission/r:test-run/@test-suite-version)"/>
                   <xsl:if test="$testRunVersion != $FOTSversion">
                      <br/>
@@ -438,8 +439,9 @@
                      <xsl:variable name="run" select="count(.//r:test-case[not(@result=('n/a', 'disputed', 'tooBig'))])"/>
                      <xsl:variable name="passes" select="count(.//r:test-case[@result=('pass', 'wrongError')])"/>
                      <xsl:variable name="fails" select="$run - $passes"/>
+                     <xsl:variable name="syntax" select="if(*/r:syntax/text()='XQueryX') then '*' else ''"></xsl:variable>
                      <tr>
-                        <td bgcolor="{$groupcolor}"><xsl:value-of select="if (*/r:submission/@anonymous='true') then 'Anonymous' else */r:product/@name"/></td>
+                        <td bgcolor="{$groupcolor}"><xsl:value-of select="if (*/r:submission/@anonymous='true') then 'Anonymous' else */r:product/@name"/><xsl:value-of select="$syntax"/></td>
                         <td bgcolor="{$groupcolor}"><xsl:value-of select="*/r:product/@version"/></td>
                         <td><xsl:value-of select="$passes"/></td>
                         <td><xsl:value-of select="$fails"/></td>
@@ -449,6 +451,11 @@
                   </xsl:for-each>
                </tbody>
             </table>
+            <xsl:value-of>
+               <xsl:if test="$resultsDocs[*/r:product/@language = current-grouping-key()]/*/r:syntax/text()='XQueryX'">
+                  <b>*Implementation results on XQueryX Syntax.</b>
+               </xsl:if>
+            </xsl:value-of>
          </blockquote>
          
          <xsl:result-document href="spec/{current-grouping-key()}.html">           
@@ -457,7 +464,7 @@
                   <title>Summary of results for <xsl:value-of select="$specName"/></title>
                </head>
                <body>
-                  <button type="button" onclick="window.location='../report.html'">Main Report</button>
+                  <button type="button" onclick="window.location='../index.html'">Main Report</button>
                   
                   <h1>Summary of results for <xsl:value-of select="$specName"/></h1>
                   
@@ -1121,21 +1128,21 @@
          <tr>
             <td width="25%" valign="top">Date:</td>
             <td width="75%" valign="top">
-               <xsl:value-of select="@dateRun"/>
+               <xsl:value-of select="@date-run"/>
             </td>
          </tr>
          <tr>
             <td width="25%" valign="top">Test Suite Version:</td>
             <td width="75%" valign="top">
-               <xsl:value-of select="r:test-suite/@version"/>
+               <xsl:value-of select="@test-suite-version"/>
             </td>
          </tr>
          <tr>
                <td valign="top">Syntax:</td>
                <td valign="top">
                   <xsl:choose>
-                     <xsl:when test="exists(../r:syntax)">
-                        <xsl:value-of select="../r:syntax"/>       
+                     <xsl:when test="exists(../../r:syntax)">
+                        <xsl:value-of select="../../r:syntax"/>       
                      </xsl:when>
                      <xsl:otherwise>XQuery</xsl:otherwise>
                   </xsl:choose>
