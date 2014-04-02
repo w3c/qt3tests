@@ -376,6 +376,25 @@
      <result><assert-eq>2</assert-eq></result>
    </test-case>
    
+   <test-case name="group-017">
+      <description>Use case-blind collation, if supported</description>
+      <created by="Michael Kay" on="2014-03-24"/>
+      <environment>
+         <collation uri="http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind"/>
+      </environment>
+      <dependency type="feature" value="non_unicode_codepoint_collation"/>
+      <test><![CDATA[
+      count(
+         for $y in ("ax", "bx", "cx", "Ay", "By", "Cy")
+         group by $k := substring($y, 1, 1) collation "http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind"
+         return <group>{$y}</group>
+       )
+       ]]></test>
+      <result>
+         <assert-eq>3</assert-eq>
+      </result>
+   </test-case>
+   
    <test-case name="use-case-groupby-Q1">
       <description>Use Case "Group By" - Q1</description>
       <created by="Andrew Eisenberg" on="2012-03-14"/>
