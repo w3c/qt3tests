@@ -3,7 +3,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <description>Tests for the map:keys function introduced in XPath 3.0</description>
     <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/" idref="func-map-keys"/>
-    <dependency type="spec" value="XT30+"/>
+    <dependency type="spec" value="XP31+ XQ31+ XT30+"/>
 
     <test-case name="map-keys-001">
         <description>Keys in empty map</description>
@@ -124,13 +124,10 @@
     <test-case name="map-keys-012">
         <description>Keys after adding a NaN entry</description>
         <created by="Michael Kay, Saxonica" on="2011-03-27"/>
+        <modified by="Michael Kay, Saxonica" on="2014-03-28" change="NaN is now allowed as a key value"/>
         <test>map:keys(map{number('NaN'):=1,"b":=2})</test>
         <result>
-            <all-of>
-                <assert-count>1</assert-count>
-                <assert-type>xs:string</assert-type>
-                <assert-eq>"b"</assert-eq>
-            </all-of>
+            <assert-count>2</assert-count>
         </result>
     </test-case>
     <test-case name="map-keys-013">

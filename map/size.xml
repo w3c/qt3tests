@@ -3,7 +3,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <description>Tests for the map:size function introduced in XPath 3.0</description>
     <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/" idref="func-map-size"/>
-    <dependency type="spec" value="XT30+"/>
+    <dependency type="spec" value="XP31+ XQ31+ XT30+"/>
 
     <test-case name="map-size-001">
         <description>Size of empty map</description>
@@ -129,10 +129,11 @@
     <test-case name="map-size-012">
         <description>Size after adding a NaN entry</description>
         <created by="Michael Kay, Saxonica" on="2011-03-27"/>
+        <modified by="Michael Kay, Saxonica" on="2014-03-28" change="NaN is now allowed as a key value"/>
         <test>map:size(map{number('NaN'):=1,"b":=2})</test>
         <result>
             <all-of>
-                <assert-eq>1</assert-eq>
+                <assert-eq>2</assert-eq>
                 <assert-type>xs:integer</assert-type>
             </all-of>
         </result>
