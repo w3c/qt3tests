@@ -6601,6 +6601,55 @@
        </test>
        <result><assert-true /></result>
    </test-case>
+   
+   <test-case name="Castable-UnionType-36" covers="type-derivation-with-unions">
+       <description>Castable from a union type to string</description>
+       <created by="Michael Kay" on="2014-05-04"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+         import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+         declare function local:f($a as s:dateOrDateTime) as xs:boolean { $a castable as xs:string };
+         local:f(xs:date('2001-01-01'))
+       ]]></test>
+       <result>
+         <assert-true/>
+       </result>
+   </test-case>
+   
+   <test-case name="Castable-UnionType-37" covers="type-derivation-with-unions">
+       <description>Castable from a union type to one of the member types</description>
+       <created by="Michael Kay" on="2014-05-04"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+         import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+         declare function local:f($a as s:dateOrDateTime) as xs:boolean { $a castable as xs:dateTime };
+         local:f(xs:date('2001-01-01'))
+       ]]></test>
+       <result>
+         <assert-true/>
+       </result>
+   </test-case>
+   
+   <test-case name="Castable-UnionType-38" covers="type-derivation-with-unions">
+       <description>Castable from a union type to one of the member types</description>
+       <created by="Michael Kay" on="2014-05-04"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+         import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+         declare function local:f($a as s:dateOrDateTime) as xs:boolean { $a castable as xs:date };
+         local:f(xs:date('2001-01-01'))
+       ]]></test>
+       <result>
+         <assert-true/>
+       </result>
+   </test-case>   
+
 
    <test-case name="Castable-ListType-2" covers="cast-to-list">
        <description>Cast the expression to the defined list type. The test should fail as the base type for the list is decimal</description>

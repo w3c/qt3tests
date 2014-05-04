@@ -3,6 +3,14 @@
    <description>Tests for the dateTime-equal() function</description>
    <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/"
          idref="func-dateTime-equal"/>
+         
+   <environment name="union-List-defined-Types" >
+     <schema uri="http://www.w3.org/XQueryTest/unionListDefined" file="../prod/SchemaImport/unionListDefined.xsd">
+       <description>A Schema of union and list defined types</description>
+       <created by="O'Neil Delpratt" on="2011-10-27"/>
+     </schema>
+   </environment>      
+         
    <test-case name="op-dateTime-equal2args-1">
       <description>
 *******************************************************
@@ -1063,5 +1071,37 @@ $arg2 = xs:dateTime(upper bound)
       <result>
          <assert-true/>
       </result>
+   </test-case>
+   
+   <test-case name="UnionType-equal-01">
+       <description>Compare a union type to a dateTime</description>
+       <created by="Michael Kay" on="2014-05-04"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+         import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+         declare function local:f($a as s:dateOrDateTime) as xs:boolean { $a = current-dateTime() };
+         local:f(xs:dateTime('2001-01-01T13:00:00Z'))
+       ]]></test>
+       <result>
+         <assert-false/>
+       </result>
+   </test-case>
+   
+   <test-case name="UnionType-equal-02">
+       <description>Compare a union type to a dateTime</description>
+       <created by="Michael Kay" on="2014-05-04"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+         import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+         declare function local:f($a as s:dateOrDateTime) as xs:boolean { current-dateTime() eq $a };
+         local:f(xs:dateTime('2001-01-01T13:00:00Z'))
+       ]]></test>
+       <result>
+         <assert-false/>
+       </result>
    </test-case>
 </test-set>

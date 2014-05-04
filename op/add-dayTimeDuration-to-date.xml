@@ -4,6 +4,14 @@
    <description>Tests for the add-dayTimeDuration-to-date() function</description>
    <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/"
          idref="func-add-dayTimeDuration-to-date"/>
+         
+   <environment name="union-List-defined-Types" >
+     <schema uri="http://www.w3.org/XQueryTest/unionListDefined" file="../prod/SchemaImport/unionListDefined.xsd">
+       <description>A Schema of union and list defined types</description>
+       <created by="O'Neil Delpratt" on="2011-10-27"/>
+     </schema>
+   </environment>      
+         
    <test-case name="op-add-dayTimeDuration-to-date2args-1">
       <description>
 *******************************************************
@@ -422,5 +430,38 @@ together with the numeric-equal operator "ge".
       <result>
          <error code="FODT0001"/>
       </result>
-   </test-case>   
+   </test-case>
+   
+   <test-case name="Add-UnionType-36">
+       <description>Add a union type to a duration</description>
+       <created by="Michael Kay" on="2014-05-04"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+         import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+         declare function local:f($a as s:dateOrDateTime) as s:dateOrDateTime { $a + xs:dayTimeDuration('P1D') };
+         local:f(xs:date('2001-01-01'))
+       ]]></test>
+       <result>
+         <assert-eq>xs:date('2001-01-02')</assert-eq>
+       </result>
+   </test-case>
+   
+   <test-case name="Add-UnionType-37">
+       <description>Add a union type to a duration</description>
+       <created by="Michael Kay" on="2014-05-04"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+         import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+         declare function local:f($a as s:dateOrDateTime) as s:dateOrDateTime { xs:dayTimeDuration('P1D') + $a };
+         local:f(xs:dateTime('2001-01-01T13:00:00Z'))
+       ]]></test>
+       <result>
+         <assert-eq>xs:dateTime('2001-01-02T13:00:00Z')</assert-eq>
+       </result>
+   </test-case>
+      
 </test-set>

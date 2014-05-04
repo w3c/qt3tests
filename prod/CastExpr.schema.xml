@@ -1294,6 +1294,54 @@
          <error code="FORG0001"/>
        </result>
    </test-case>
+   
+   <test-case name="CastAs-UnionType-36" covers="type-derivation-with-unions">
+       <description>Cast from a union type to string</description>
+       <created by="Michael Kay" on="2014-05-04"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+         import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+         declare function local:f($a as s:dateOrDateTime) as xs:string { $a cast as xs:string };
+         local:f(xs:date('2001-01-01'))
+       ]]></test>
+       <result>
+         <assert-eq>"2001-01-01"</assert-eq>
+       </result>
+   </test-case>
+   
+   <test-case name="CastAs-UnionType-37" covers="type-derivation-with-unions">
+       <description>Cast from a union type to one of the member types</description>
+       <created by="Michael Kay" on="2014-05-04"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+         import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+         declare function local:f($a as s:dateOrDateTime) as xs:dateTime { $a cast as xs:dateTime };
+         local:f(xs:date('2001-01-01'))
+       ]]></test>
+       <result>
+         <assert-eq>xs:dateTime("2001-01-01T00:00:00")</assert-eq>
+       </result>
+   </test-case>
+   
+   <test-case name="CastAs-UnionType-38" covers="type-derivation-with-unions">
+       <description>Cast from a union type to one of the member types</description>
+       <created by="Michael Kay" on="2014-05-04"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+         import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+         declare function local:f($a as s:dateOrDateTime) as xs:date { $a cast as xs:date };
+         local:f(xs:date('2001-01-01'))
+       ]]></test>
+       <result>
+         <assert-eq>xs:date("2001-01-01")</assert-eq>
+       </result>
+   </test-case>   
 
 
    <test-case name="CastAs-ListType-1" covers="cast-to-list">
