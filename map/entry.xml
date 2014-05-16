@@ -60,12 +60,13 @@
     <test-case name="map-entry-004">
         <description>Untyped atomic key, map as value</description>
         <created by="Michael Kay, Saxonica" on="2011-03-27"/>
+        <modified by="Michael Kay, Saxonica" on="2014-05-16" change="xs:untypedAtomics no longer converted to xs:string"/>
         <test>map:entry(xs:untypedAtomic("foo"), map{})</test>
         <result>
             <all-of>
                 <assert-count>1</assert-count>
                 <assert-type>map(*)</assert-type>
-                <assert-type>map(xs:string, map(*))</assert-type>
+                <assert-type>map(xs:untypedAtomic, map(*))</assert-type>
                 <assert>empty($result("bar"))</assert>
                 <assert>count($result("foo")) eq 1</assert>
                 <assert>empty($result("foo")("bar"))</assert>
@@ -74,27 +75,30 @@
         </result>
     </test-case>
     <test-case name="map-entry-005">
-        <description>NaN as key</description>
+        <description>Double NaN as key</description>
         <created by="Michael Kay, Saxonica" on="2011-03-27"/>
+        <modified by="Michael Kay, Saxonica" on="2014-05-16" change="NaN can now be stored in the map"/>
         <test>map:entry(number('NaN'), 'NaN')</test>
         <result>
             <all-of>
                 <assert-count>1</assert-count>
                 <assert-type>map(*)</assert-type>
-                <assert>map:size($result) eq 0</assert>
-                <assert>empty($result(number('NaN')))</assert>
+                <assert>map:size($result) eq 1</assert>
+                <assert>exists($result(number('NaN')))</assert>
             </all-of>
         </result>
     </test-case>
     <test-case name="map-entry-006">
-        <description>float NaN as key</description>
+        <description>Float NaN as key</description>
         <created by="Michael Kay, Saxonica" on="2011-03-27"/>
+        <modified by="Michael Kay, Saxonica" on="2014-05-16" change="NaN can now be stored in the map"/>
         <test>map:entry(xs:float('NaN'), 'NaN')</test>
         <result>
             <all-of>
                 <assert-count>1</assert-count>
                 <assert-type>map(*)</assert-type>
-                <assert>map:size($result) eq 0</assert>
+                <assert>map:size($result) eq 1</assert>
+                <assert>exists($result(number('NaN')))</assert>
             </all-of>
         </result>
     </test-case>
