@@ -305,7 +305,7 @@
       <description>Reorder reorder=currency,digit</description>
       <created by="John Lumley" on="2014-05-02"/>
       <environment ref="UCA-collation.en.primary"/>
-      <test>compare('¬£123','123',concat($collation,'reorder=currency,digit'))</test>
+      <test>compare('£123','123',concat($collation,'reorder=currency,digit'))</test>
       <result>
          <assert-eq>-1</assert-eq>
       </result>
@@ -314,7 +314,7 @@
       <description>Reorder reorder=digit,currency</description>
       <created by="John Lumley" on="2014-05-02"/>
       <environment ref="UCA-collation.en.primary"/>
-      <test>compare('¬£123','123',concat($collation,'reorder=digit,currency'))</test>
+      <test>compare('£123','123',concat($collation,'reorder=digit,currency'))</test>
       <result>
          <assert-eq>1</assert-eq>
       </result>
@@ -477,7 +477,7 @@
       <description>Check not backwards - primary</description>
       <created by="John Lumley" on="2014-05-02"/>
       <environment ref="UCA-collation.en"/>
-      <test>compare('p√™che','p√©ch√©',concat($collation,'strength=primary'))</test>
+      <test>compare('pêche','péché',concat($collation,'strength=primary'))</test>
       <result>
          <assert-eq>0</assert-eq>
       </result>
@@ -486,7 +486,7 @@
       <description>Check not backwards - secondary</description>
       <created by="John Lumley" on="2014-05-02"/>
       <environment ref="UCA-collation.en"/>
-      <test>compare('p√™che','p√©ch√©',concat($collation,'strength=secondary'))</test>
+      <test>compare('pêche','péché',concat($collation,'strength=secondary'))</test>
       <result>
          <assert-eq>1</assert-eq>
       </result>
@@ -495,7 +495,7 @@
       <description>Check backwards - primary</description>
       <created by="John Lumley" on="2014-05-02"/>
       <environment ref="UCA-collation.en"/>
-      <test>compare('p√™che','p√©ch√©',concat($collation,'strength=secondary;backwards=yes'))</test>
+      <test>compare('pêche','péché',concat($collation,'strength=secondary;backwards=yes'))</test>
       <result>
          <assert-eq>-1</assert-eq>
       </result>
@@ -504,7 +504,7 @@
       <description>Check backwards - secondary</description>
       <created by="John Lumley" on="2014-05-02"/>
       <environment ref="UCA-collation.en"/>
-      <test>compare('p√™che','p√©ch√©',concat($collation,'strength=secondary;backwards=no'))</test>
+      <test>compare('pêche','péché',concat($collation,'strength=secondary;backwards=no'))</test>
       <result>
          <assert-eq>1</assert-eq>
       </result>
@@ -513,7 +513,7 @@
       <description>Check normalization - no</description>
       <created by="John Lumley" on="2014-05-02"/>
       <environment ref="UCA-collation.en"/>
-      <test>compare('p√™che','p√©ch√©',concat($collation,'strength=secondary;normalization=no'))</test>
+      <test>compare('pêche','péché',concat($collation,'strength=secondary;normalization=no'))</test>
       <result>
          <assert-eq>1</assert-eq>
       </result>
@@ -522,7 +522,7 @@
       <description>Check normalization - yes</description>
       <created by="John Lumley" on="2014-05-02"/>
       <environment ref="UCA-collation.en"/>
-      <test>compare('p√™che','p√©ch√©',concat($collation,'strength=secondary;normalization=yes'))</test>
+      <test>compare('pêche','péché',concat($collation,'strength=secondary;normalization=yes'))</test>
       <result>
          <assert-eq>1</assert-eq>
       </result>
@@ -531,7 +531,7 @@
       <description>Check caseLevel - primary</description>
       <created by="John Lumley" on="2014-05-02"/>
       <environment ref="UCA-collation.en"/>
-      <test>compare('Epee','√©pee',concat($collation,'strength=primary;caseLevel=yes'))</test>
+      <test>compare('Epee','épee',concat($collation,'strength=primary;caseLevel=yes'))</test>
       <result>
          <assert-eq>1</assert-eq>
       </result>
@@ -540,7 +540,7 @@
       <description>Check caseLevel - primary</description>
       <created by="John Lumley" on="2014-05-02"/>
       <environment ref="UCA-collation.en"/>
-      <test>compare('Epee','√©pee',concat($collation,'strength=primary;caseLevel=no'))</test>
+      <test>compare('Epee','épee',concat($collation,'strength=primary;caseLevel=no'))</test>
       <result>
          <assert-eq>0</assert-eq>
       </result>
@@ -549,7 +549,7 @@
       <description>Check caseLevel - primary</description>
       <created by="John Lumley" on="2014-05-02"/>
       <environment ref="UCA-collation.en"/>
-      <test>compare('Epee','√âpee',concat($collation,'strength=primary;caseLevel=yes'))</test>
+      <test>compare('Epee','Épee',concat($collation,'strength=primary;caseLevel=yes'))</test>
       <result>
          <assert-eq>0</assert-eq>
       </result>
@@ -558,7 +558,7 @@
       <description>Check caseLevel - primary</description>
       <created by="John Lumley" on="2014-05-02"/>
       <environment ref="UCA-collation.en"/>
-      <test>compare('Epee','√âpee',concat($collation,'strength=primary;caseLevel=no'))</test>
+      <test>compare('Epee','Épee',concat($collation,'strength=primary;caseLevel=no'))</test>
       <result>
          <assert-eq>0</assert-eq>
       </result>
@@ -567,7 +567,7 @@
       <description>Check caseLevel - secondary - no effect</description>
       <created by="John Lumley" on="2014-05-02"/>
       <environment ref="UCA-collation.en"/>
-      <test>compare('Epee','√©pee',concat($collation,'strength=secondary;caseLevel=yes'))</test>
+      <test>compare('Epee','épee',concat($collation,'strength=secondary;caseLevel=yes'))</test>
       <result>
          <assert-eq>-1</assert-eq>
       </result>
@@ -576,7 +576,7 @@
       <description>Check caseLevel - secondary - no effect</description>
       <created by="John Lumley" on="2014-05-02"/>
       <environment ref="UCA-collation.en"/>
-      <test>compare('Epee','√©pee',concat($collation,'strength=secondary;caseLevel=no'))</test>
+      <test>compare('Epee','épee',concat($collation,'strength=secondary;caseLevel=no'))</test>
       <result>
          <assert-eq>-1</assert-eq>
       </result>
@@ -585,7 +585,7 @@
       <description>Check caseLevel - secondary - no effect</description>
       <created by="John Lumley" on="2014-05-02"/>
       <environment ref="UCA-collation.en"/>
-      <test>compare('Epee','√âpee',concat($collation,'strength=secondary;caseLevel=yes'))</test>
+      <test>compare('Epee','Épee',concat($collation,'strength=secondary;caseLevel=yes'))</test>
       <result>
          <assert-eq>-1</assert-eq>
       </result>
@@ -594,7 +594,7 @@
       <description>Check caseLevel - secondary - no effect</description>
       <created by="John Lumley" on="2014-05-02"/>
       <environment ref="UCA-collation.en"/>
-      <test>compare('Epee','√âpee',concat($collation,'strength=secondary;caseLevel=no'))</test>
+      <test>compare('Epee','Épee',concat($collation,'strength=secondary;caseLevel=no'))</test>
       <result>
          <assert-eq>-1</assert-eq>
       </result>
@@ -640,7 +640,7 @@
       <description>Check fr accent - primary</description>
       <created by="John Lumley" on="2014-05-02"/>
       <environment ref="UCA-collation"/>
-      <test>compare('p√™che','p√©ch√©',concat($collation,'strength=primary;lang=fr'))</test>
+      <test>compare('pêche','péché',concat($collation,'strength=primary;lang=fr'))</test>
       <result>
          <assert-eq>0</assert-eq>
       </result>
@@ -649,7 +649,7 @@
       <description>Check fr accent - secondary</description>
       <created by="John Lumley" on="2014-05-02"/>
       <environment ref="UCA-collation"/>
-      <test>compare('p√™che','p√©ch√©',concat($collation,'strength=secondary;lang=fr'))</test>
+      <test>compare('pêche','péché',concat($collation,'strength=secondary;lang=fr'))</test>
       <result>
          <assert-eq>1</assert-eq>
       </result>
@@ -658,7 +658,7 @@
       <description>Check fr-CA accent - secondary</description>
       <created by="John Lumley" on="2014-05-02"/>
       <environment ref="UCA-collation"/>
-      <test>compare('p√™che','p√©ch√©',concat($collation,'strength=secondary;lang=fr-CA'))</test>
+      <test>compare('pêche','péché',concat($collation,'strength=secondary;lang=fr-CA'))</test>
       <result>
          <assert-eq>-1</assert-eq>
       </result>
@@ -667,7 +667,7 @@
       <description>Check en-US accent - primary</description>
       <created by="John Lumley" on="2014-05-02"/>
       <environment ref="UCA-collation"/>
-      <test>compare('p√™che','p√©ch√©',concat($collation,'strength=primary;lang=en-US'))</test>
+      <test>compare('pêche','péché',concat($collation,'strength=primary;lang=en-US'))</test>
       <result>
          <assert-eq>0</assert-eq>
       </result>
