@@ -556,6 +556,37 @@ defg
          <assert-true/>
       </result>
    </test-case>
+   
+   <test-case name="fn-matches-50">
+      <description>Composite test executing regular expressions from Perl-derived test file </description>
+      <created by="Michael Kay" on="2015-05-20"/>
+      <environment>
+        <source role="." file="matches/perl-tests.xml"/>
+      </environment>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        declare namespace err="http://www.w3.org/2005/xqt-errors";
+      	<results>{
+      		for $t in /tests/test
+      		return try {
+      		    let $matches := matches($t/@input, $t/@regex, string($t/@flags))
+      		    return
+      		       if ($matches (:trace($matches, $t/@id):) and $t/@result ne 'y')
+      		         then <fail>{$t}</fail>
+      		       else if (not($matches) and $t/@result ne 'n') 
+      		         then <fail>{$t}</fail>
+      		       else ()
+      	    } catch * {
+      	        if ($t/@result = ('y', 'n'))
+      	        then <fail error="$err:code">{$t}</fail>
+      	        else ()
+      	    }   
+      	}</results>
+      ]]></test>
+      <result>
+         <assert>empty($result//fail)</assert>
+      </result>
+   </test-case>
 
    <test-case name="caselessmatch01">
       <description> Simple call of matches() with "i" flag </description>
