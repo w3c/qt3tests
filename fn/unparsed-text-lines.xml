@@ -404,24 +404,32 @@
    <test-case name="fn-unparsed-text-lines-023">
       <description>Evaluates the "unparsed-text-lines" function with the argument set as follows: $href is a relative URI, static base URI undefined.</description>
       <created by="Tim Mills" on="2011-11-28"/>
+      <modified by="Josh Spiegel" on="2014-05-30" change="added alternative error code as per bug 25919"/>
       <environment>
 	<static-base-uri uri="#UNDEFINED" />
       </environment>
       <test>fn:unparsed-text-lines("unparsed-text/text-plain-utf-8.txt")</test>
       <result>
-	<error code="XPST0001"/>
+         <any-of>
+            <error code="XPST0001"/>
+            <error code="FOUT1170"/>
+         </any-of>
       </result>
    </test-case>
 
    <test-case name="fn-unparsed-text-lines-024">
       <description>Evaluates the "unparsed-text-lines" function with the argument set as follows: $href is a relative URI, static base URI undefined.</description>
       <created by="Tim Mills" on="2011-11-28"/>
+      <modified by="Josh Spiegel" on="2014-05-30" change="added alternative error code as per bug 25919"/>
       <environment>
 	<static-base-uri uri="#UNDEFINED" />
       </environment>
       <test>fn:unparsed-text-lines("unparsed-text/text-plain-utf-8.txt", "utf-8")</test>
       <result>
-	<error code="XPST0001"/>
+         <any-of>
+            <error code="XPST0001"/>
+            <error code="FOUT1170"/>
+         </any-of>
       </result>
    </test-case>
 
@@ -780,6 +788,20 @@
       <test>fn:unparsed-text-lines("http://www.w3.org/fots/unparsed-text/text-plain-utf-8-bom-lines-3.txt") ! string-length(.)</test>
       <result>
 	     <assert-deep-eq>(46, 0, 20)</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-unparsed-text-lines-055">
+      <description>Evaluates the "unparsed-text-lines" function with the argument set as follows: $href is a relative URI, static base URI undefined. Like fn-unparsed-text-lines-023 but $href will not be known during static analysis.
+      </description>
+      <created by="Josh Spiegel" on="2014-05-30"/>
+      <environment>
+         <static-base-uri uri="#UNDEFINED" />
+         <param name="href" as="xs:string" select="'unparsed-text/text-plain-utf-8.txt'"/>
+      </environment>
+      <test>fn:unparsed-text-lines($href)</test>
+      <result>
+         <error code="FOUT1170"/>
       </result>
    </test-case>
 

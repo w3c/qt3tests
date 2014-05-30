@@ -393,24 +393,32 @@
    <test-case name="fn-unparsed-text-available-023">
       <description>Evaluates the "unparsed-text-available" function with the argument set as follows: $href is a relative URI, static base URI undefined.</description>
       <created by="Tim Mills" on="2011-11-28"/>
+      <modified by="Josh Spiegel" on="2014-05-30" change="added alternative result as per bug 25919"/>
       <environment>
 	<static-base-uri uri="#UNDEFINED" />
       </environment>
       <test>fn:unparsed-text-available("unparsed-text/text-plain-utf-8.txt")</test>
       <result>
-	<error code="XPST0001"/>
+         <any-of>
+            <error code="XPST0001"/>
+            <assert-false/>
+         </any-of>
       </result>
    </test-case>
 
    <test-case name="fn-unparsed-text-available-024">
       <description>Evaluates the "unparsed-text-available" function with the argument set as follows: $href is a relative URI, static base URI undefined.</description>
       <created by="Tim Mills" on="2011-11-28"/>
+      <modified by="Josh Spiegel" on="2014-05-30" change="added alternative result as per bug 25919"/>
       <environment>
 	<static-base-uri uri="#UNDEFINED" />
       </environment>
       <test>fn:unparsed-text-available("unparsed-text/text-plain-utf-8.txt", "utf-8")</test>
       <result>
-	<error code="XPST0001"/>
+         <any-of>
+            <error code="XPST0001"/>
+            <assert-false/>
+         </any-of>
       </result>
    </test-case>
 
@@ -698,5 +706,18 @@
       </result>
    </test-case>
 
-
+   <test-case name="fn-unparsed-text-available-052">
+      <description>Evaluates the "unparsed-text-available" function with the argument set as follows: $href is a relative URI, static base URI undefined. Like fn-unparsed-text-available-023 but $href will not be known during static analysis.
+      </description>
+      <created by="Josh Spiegel" on="2014-05-30"/>
+      <environment>
+         <static-base-uri uri="#UNDEFINED" />
+         <param name="href" as="xs:string" select="'unparsed-text/text-plain-utf-8.txt'"/>
+      </environment>
+      <test>fn:unparsed-text-available($href)</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
 </test-set>
