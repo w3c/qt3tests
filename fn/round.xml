@@ -2411,10 +2411,14 @@
       <description>Tests the two-argument form of round()</description>
       <created by="Norman Walsh" on="2011-07-28"/>
       <modified by="Michael Kay" on="2011-07-29" change="add dependency"/>
+      <modified by="Michael Kay" on="2014-08-14" change="assert type of result"/>
       <dependency type="spec" value="XP30+ XQ30+"/>
       <test>fn:round(8452, -2)</test>
       <result>
-        <assert-eq>8500</assert-eq>
+         <all-of>
+            <assert-eq>8500</assert-eq>
+            <assert-type>xs:decimal</assert-type>
+         </all-of>
       </result>
    </test-case>
 
@@ -2422,10 +2426,14 @@
       <description>Tests the two-argument form of round()</description>
       <created by="Norman Walsh" on="2011-07-28"/>
       <modified by="Michael Kay" on="2011-07-29" change="add dependency"/>
+      <modified by="Michael Kay" on="2014-08-14" change="assert type of result"/>
       <dependency type="spec" value="XP30+ XQ30+"/>
       <test>fn:round(3.1415e0, 2)</test>
       <result>
-        <assert-eq>3.14e0</assert-eq>
+         <all-of>
+            <assert-eq>3.14e0</assert-eq>
+            <assert-type>xs:double</assert-type>
+         </all-of>
       </result>
    </test-case>
 
@@ -2433,10 +2441,98 @@
       <description>Tests the two-argument form of round()</description>
       <created by="Norman Walsh" on="2011-07-28"/>
       <modified by="Michael Kay" on="2011-07-29" change="add dependency, make test name unique, change expected result"/>
+      <modified by="Michael Kay" on="2014-08-14" change="assert type of result"/>
       <dependency type="spec" value="XP30+ XQ30+"/>
       <test>fn:round(35.425, 2)</test>
       <result>
-        <assert-eq>35.43</assert-eq>
+        <all-of>
+            <assert-eq>35.43</assert-eq>
+            <assert-type>xs:decimal</assert-type>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-round2args-5" covers="fn-round">
+      <description>
+        Tests the two-argument form of round() in the special range -0.5..0
+        From a Saxon bug report submitted by Christian Gruen
+      </description>
+      <created by="Michael Kay" on="2014-08-14"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:round(-0.43e0, 1)</test>
+      <result>
+         <all-of>
+            <assert-eq>-0.4e0</assert-eq>
+            <assert-type>xs:double</assert-type>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-round2args-1f" covers="fn-round">
+      <description>Tests the two-argument form of round() - float version</description>
+      <created by="Michael Kay" on="2014-08-14"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:round(xs:float(1.125), 2)</test>
+      <result>
+         <all-of>
+            <assert-eq>1.13</assert-eq>
+            <assert-type>xs:float</assert-type>
+         </all-of>
+      </result>
+   </test-case>
+
+   <test-case name="fn-round2args-2f" covers="fn-round">
+      <description>Tests the two-argument form of round() - float version</description>
+      <created by="Michael Kay" on="2014-08-14"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:round(xs:float(8452), -2)</test>
+      <result>
+         <all-of>
+            <assert-eq>xs:float(8500)</assert-eq>
+            <assert-type>xs:float</assert-type>
+         </all-of>
+      </result>
+   </test-case>
+
+   <test-case name="fn-round2args-3f" covers="fn-round">
+      <description>Tests the two-argument form of round() - float version</description>
+      <created by="Michael Kay" on="2014-08-14"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:round(xs:float(3.1415e0), 2)</test>
+      <result>
+         <all-of>
+            <assert-eq>xs:float(3.14e0)</assert-eq>
+            <assert-type>xs:float</assert-type>
+         </all-of>
+      </result>
+   </test-case>
+
+   <test-case name="fn-round2args-4f" covers="fn-round">
+      <description>Tests the two-argument form of round() - float version</description>
+      <created by="Michael Kay" on="2014-08-14"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:round(xs:float(0.125), 2)</test>
+      <result>
+        <all-of>
+            <assert-eq>xs:float(0.13)</assert-eq>
+            <assert-type>xs:float</assert-type>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-round2args-5f" covers="fn-round">
+      <description>
+        Tests the two-argument form of round() in the special range -0.5..0 - float version
+        From a Saxon bug report submitted by Christian Gruen
+      </description>
+      <created by="Michael Kay" on="2014-08-14"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:round(xs:float(-0.43e0), 1)</test>
+      <result>
+         <all-of>
+            <assert-eq>xs:float(-0.4e0)</assert-eq>
+            <assert-type>xs:float</assert-type>
+         </all-of>
       </result>
    </test-case>
 
