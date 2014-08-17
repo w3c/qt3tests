@@ -664,6 +664,34 @@
          <error code="XQDY0102"/>
       </result>
    </test-case>
+   
+   <test-case name="nscons-043">
+      <description>nscons-043 - dynamic namespace constructor - prefix expression is not string/untypedAtomic</description>
+      <created by="Michael Kay" on="2014-08-17"/>
+      <test><![CDATA[
+        let $pre := xs:anyURI('ns'),
+            $uri := "http://www.zorba-xquery.com/"
+        return
+          <e>{ namespace { $pre } { $uri } }</e>
+      ]]></test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+   <test-case name="nscons-044">
+      <description>nscons-044 - dynamic namespace constructor - prefix expression is not string/untypedAtomic</description>
+      <created by="Michael Kay" on="2014-08-17"/>
+      <test><![CDATA[
+        let $pre := xs:duration('P1D'),
+            $uri := "http://www.zorba-xquery.com/"
+        return
+          <e>{ namespace { $pre } { $uri } }</e>
+      ]]></test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
 
    
 </test-set>

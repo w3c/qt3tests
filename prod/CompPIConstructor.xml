@@ -194,6 +194,33 @@
          <error code="XQDY0041"/>
       </result>
    </test-case>
+   
+   <test-case name="Constr-comppi-compname-20">
+      <description> xs:anyURI as name </description>
+      <created by="Michael Kay" on="2014-08-17"/>
+      <test>processing-instruction {('pi'[current-date() lt xs:date('1900-01-01')], xs:anyURI('pi'))} {'text'}</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+   <test-case name="Constr-comppi-compname-21">
+      <description> xs:duration as name </description>
+      <created by="Michael Kay" on="2014-08-17"/>
+      <test>processing-instruction {('pi'[current-date() lt xs:date('1900-01-01')], xs:duration('P1D'))} {'text'}</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+   <test-case name="Constr-comppi-compname-22">
+      <description> empty sequence as name </description>
+      <created by="Michael Kay" on="2014-08-17"/>
+      <test>processing-instruction {'pi'[current-date() lt xs:date('1900-01-01')]} {'text'}</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
 
    <test-case name="Constr-comppi-doc-1">
       <description> strip document nodes </description>
