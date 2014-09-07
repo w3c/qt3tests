@@ -261,5 +261,101 @@
             <assert-string-value>1</assert-string-value>
         </result>
     </test-case>
+    
+    <test-case name="fold-right-101">
+        <description>As fold-right-001: test equivalent function given in spec</description>
+        <created by="Michael Kay" on="2014-09-07"/>
+        <environment ref="empty"/>
+        <dependency type="spec" value="XQ30+"/>
+        <test>declare function local:fold-right(
+          $seq as item()*, 
+          $zero as item()*, 
+          $f as function(item(), item()*) as item()*) 
+          as item()* {
+            if (fn:empty($seq))
+            then $zero
+            else $f(fn:head($seq), fn:fold-right(fn:tail($seq), $zero, $f))
+          };
+          local:fold-right(1 to 5, 0,function($a, $b) { $a + $b })</test>
+        <result>
+                <assert-eq>15</assert-eq>
+        </result>
+    </test-case>
+    <test-case name="fold-right-102">
+        <description>As fold-right-002: test equivalent function given in spec</description>
+        <created by="Michael Kay" on="2014-09-07"/>
+        <environment ref="empty"/>
+        <dependency type="spec" value="XQ30+"/>
+        <test>declare function local:fold-right(
+          $seq as item()*, 
+          $zero as item()*, 
+          $f as function(item(), item()*) as item()*) 
+          as item()* {
+            if (fn:empty($seq))
+            then $zero
+            else $f(fn:head($seq), fn:fold-right(fn:tail($seq), $zero, $f))
+          };
+          local:fold-right((2,3,5,7), 1,function($a, $b) { $a * $b })</test>
+        <result>
+                <assert-eq>210</assert-eq>
+        </result>
+    </test-case>
+    <test-case name="fold-right-103">
+        <description>As fold-right-003: test equivalent function given in spec</description>
+        <created by="Michael Kay" on="2014-09-07"/>
+        <environment ref="empty"/>
+        <dependency type="spec" value="XQ30+"/>
+        <test>declare function local:fold-right(
+          $seq as item()*, 
+          $zero as item()*, 
+          $f as function(item(), item()*) as item()*) 
+          as item()* {
+            if (fn:empty($seq))
+            then $zero
+            else $f(fn:head($seq), fn:fold-right(fn:tail($seq), $zero, $f))
+          };
+          local:fold-right((true(), false(), false()), false(),function($a, $b) { $a or $b })</test>
+        <result>
+                <assert-true/>
+        </result>
+    </test-case>
+    <test-case name="fold-right-104">
+        <description>As fold-right-004: test equivalent function given in spec</description>
+        <created by="Michael Kay" on="2014-09-07"/>
+        <environment ref="empty"/>
+        <test>declare function local:fold-right(
+          $seq as item()*, 
+          $zero as item()*, 
+          $f as function(item(), item()*) as item()*) 
+          as item()* {
+            if (fn:empty($seq))
+            then $zero
+            else $f(fn:head($seq), fn:fold-right(fn:tail($seq), $zero, $f))
+          };
+          local:fold-right((true(), false(), false()), false(),function($a, $b) { $a and $b })</test>
+        <result>
+                <assert-false/>
+        </result>
+    </test-case>
+    <test-case name="fold-right-105">
+        <description>As fold-right-005: test equivalent function given in spec</description>
+        <created by="Michael Kay" on="2014-09-07"/>
+        <environment ref="empty"/>
+        <dependency type="spec" value="XQ30+"/>
+        <test>declare function local:fold-right(
+          $seq as item()*, 
+          $zero as item()*, 
+          $f as function(item(), item()*) as item()*) 
+          as item()* {
+            if (fn:empty($seq))
+            then $zero
+            else $f(fn:head($seq), fn:fold-right(fn:tail($seq), $zero, $f))
+          };
+          let $f := function($a, $b){($b, $a)} return local:fold-right(1 to 5, (), $f)</test>
+        <result>
+                <assert-deep-eq>5,4,3,2,1</assert-deep-eq>
+        </result>
+    </test-case>
+
     	
 </test-set>
