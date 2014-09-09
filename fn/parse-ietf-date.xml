@@ -1,0 +1,701 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="fn-parse-ietf-date"  covers="fn-parse-ietf-date">
+   <description>Tests for the parse-ietf-date() function</description>
+   <link type="spec" document="http://www.w3.org/TR/xpath-functions-31/"
+         idref="func-parse-ietf-date"/>
+   <dependency type="spec" value="XP31+ XQ31+"/>
+
+   <test-case name="parse-ietf-date-0">
+      <description>test parse-ietf-date is present</description>
+      <created by="Liam R E Quin" on="2014-08-21"/>
+      <environment>
+         <param name="d" as="xs:dateTime" select="xs:dateTime('2014-08-20T19:36:01Z')"/>
+      </environment>
+      <test>if (parse-ietf-date("Wed, 20 Aug 2014 19:36:01 GMT") = $d)
+	  then "pass"
+	  else "fail"</test>
+      <result>
+         <assert-string-value>pass</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="parse-ietf-date-1">
+      <description>leading-spaces</description>
+      <created by="Liam R E Quin" on="2014-08-22"/>
+      <environment>
+         <param name="d" as="xs:dateTime" select="xs:dateTime('2014-08-20T19:36:01Z')"/>
+      </environment>
+      <test>if (parse-ietf-date("  Wed, 20 Aug 2014 19:36:01 GMT") = $d)
+	  then "pass"
+	  else "fail"</test>
+      <result>
+         <assert-string-value>pass</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="parse-ietf-date-2">
+      <description>trailing spaces</description>
+      <created by="Liam R E Quin" on="2014-08-22"/>
+      <environment>
+         <param name="d" as="xs:dateTime" select="xs:dateTime('2014-08-20T19:36:01Z')"/>
+      </environment>
+      <test>if (parse-ietf-date("Wed, 20 Aug 2014 19:36:01 GMT    ") = $d)
+	  then "pass"
+	  else "fail"</test>
+      <result>
+         <assert-string-value>pass</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="parse-ietf-date-3">
+      <description>no comma</description>
+      <created by="Liam R E Quin" on="2014-08-22"/>
+      <environment>
+         <param name="d" as="xs:dateTime" select="xs:dateTime('2014-08-20T19:36:01Z')"/>
+      </environment>
+      <test>if (parse-ietf-date("Wed 20 Aug 2014 19:36:01 GMT") = $d)
+	  then "pass"
+	  else "fail"</test>
+      <result>
+         <assert-string-value>pass</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="parse-ietf-date-4">
+      <description>full day name</description>
+      <created by="Liam R E Quin" on="2014-08-22"/>
+      <environment>
+         <param name="d" as="xs:dateTime" select="xs:dateTime('2014-08-20T19:36:01Z')"/>
+      </environment>
+      <test>if (parse-ietf-date("Wednesday 20 Aug 2014 19:36:01 GMT") = $d)
+	  then "pass"
+	  else "fail"</test>
+      <result>
+         <assert-string-value>pass</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="parse-ietf-date-5">
+      <description>fractional seconds</description>
+      <created by="Liam R E Quin" on="2014-08-22"/>
+      <environment>
+         <param name="d" as="xs:dateTime" select="xs:dateTime('2014-08-20T19:36:01.25Z')"/>
+      </environment>
+      <test>if (parse-ietf-date("Wed, 20 Aug 2014 19:36:01.25 GMT") = $d)
+	  then "pass"
+	  else "fail"</test>
+      <result>
+         <assert-string-value>pass</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="parse-ietf-date-6">
+      <description>long fractional seconds</description>
+      <created by="Liam R E Quin" on="2014-08-22"/>
+      <!--* XSD implementations must support milliseconds in dateTime objects.
+          * We don't specify whether parse-ietf-date() must do the same, but
+	  * since it returns a dateTime object that seems a resonable
+	  * interpretation.  Greater precisions is permitted. Hwere all we care
+	  * about is that it's not an error and that the rounding is the same
+	  * in both cases.
+	  *-->
+      <environment>
+         <param name="d" as="xs:dateTime" select="xs:dateTime('2014-08-20T19:36:01.2999999999999999999999999999999Z')"/>
+      </environment>
+      <test>if (parse-ietf-date("Wed, 20 Aug 2014 19:36:01.2999999999999999999999999999999 GMT") = $d)
+	  then "pass"
+	  else "fail"</test>
+      <result>
+         <assert-string-value>pass</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="parse-ietf-date-7">
+      <description>all lower</description>
+      <created by="Liam R E Quin" on="2014-08-22"/>
+      <environment>
+         <param name="d" as="xs:dateTime" select="xs:dateTime('2014-08-20T19:36:01Z')"/>
+      </environment>
+      <test>if (parse-ietf-date("wed, 20 aug 2014 19:36:01 gmt") = $d)
+	  then "pass"
+	  else "fail"</test>
+      <result>
+         <assert-string-value>pass</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="parse-ietf-date-8">
+      <description>all upper</description>
+      <created by="Liam R E Quin" on="2014-08-22"/>
+      <environment>
+         <param name="d" as="xs:dateTime" select="xs:dateTime('2014-08-20T19:36:01Z')"/>
+      </environment>
+      <test>if (parse-ietf-date("WED, 20 AUG 2014 19:36:01 GMT") = $d)
+	  then "pass"
+	  else "fail"</test>
+      <result>
+         <assert-string-value>pass</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="parse-ietf-date-9">
+      <description>no seconds</description>
+      <created by="Liam R E Quin" on="2014-08-22"/>
+      <environment>
+         <param name="d" as="xs:dateTime" select="xs:dateTime('2014-08-20T19:36:00Z')"/>
+      </environment>
+      <test>if (parse-ietf-date("Wed, 20 Aug 2014 19:36 GMT") = $d)
+	  then "pass"
+	  else "fail"</test>
+      <result>
+         <assert-string-value>pass</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="parse-ietf-date-10">
+      <description>no timezone</description>
+      <created by="Liam R E Quin" on="2014-08-22"/>
+      <environment>
+         <param name="d" as="xs:dateTime" select="xs:dateTime('2014-08-20T19:36:01Z')"/>
+      </environment>
+      <test>if (parse-ietf-date("WED, 20 AUG 2014 19:36:01") = $d)
+	  then "pass"
+	  else "fail"</test>
+      <result>
+         <assert-string-value>pass</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="parse-ietf-date-11">
+      <description>no seconds, no timezone</description>
+      <created by="Liam R E Quin" on="2014-08-22"/>
+      <!--* no timezone is the same as GMT for this function, by definition *-->
+      <environment>
+         <param name="d" as="xs:dateTime" select="xs:dateTime('2014-08-20T19:36:00Z')"/>
+      </environment>
+      <test>if (parse-ietf-date("Wed, 20 Aug 2014 19:36") = $d)
+	  then "pass"
+	  else "fail"</test>
+      <result>
+         <assert-string-value>pass</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="parse-ietf-date-12">
+      <description>no space before timezone name</description>
+      <created by="Liam R E Quin" on="2014-08-22"/>
+      <environment>
+         <param name="d" as="xs:dateTime" select="xs:dateTime('2014-08-20T19:36:01Z')"/>
+      </environment>
+      <test>if (parse-ietf-date("Wed, 20 Aug 2014 19:36:01GMT") = $d)
+	  then "pass"
+	  else "fail"</test>
+      <result>
+         <assert-string-value>pass</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="parse-ietf-date-13">
+      <description>no seconds and space before timezone name</description>
+      <created by="Liam R E Quin" on="2014-08-22"/>
+      <environment>
+         <param name="d" as="xs:dateTime" select="xs:dateTime('2014-08-20T19:36:00Z')"/>
+      </environment>
+      <test>if (parse-ietf-date("Wed, 20 Aug 2014 19:36GMT") = $d)
+	  then "pass"
+	  else "fail"</test>
+      <result>
+         <assert-string-value>pass</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="parse-ietf-date-14">
+      <description>no day name (leaing space is required, I think a bug)</description>
+      <created by="Liam R E Quin" on="2014-08-22"/>
+      <environment>
+         <param name="d" as="xs:dateTime" select="xs:dateTime('2014-08-20T19:36:01Z')"/>
+      </environment>
+      <test>if (parse-ietf-date(" 20 Aug 2014 19:36:01 GMT") = $d)
+	  then "pass"
+	  else "fail"</test>
+      <result>
+         <assert-string-value>pass</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="parse-ietf-date-15">
+      <description>single digit day</description>
+      <created by="Liam R E Quin" on="2014-08-22"/>
+      <environment>
+         <param name="d" as="xs:dateTime" select="xs:dateTime('2014-08-20T19:36:01Z')"/>
+      </environment>
+      <test>if (parse-ietf-date("Tue, 9 Sep 2014 19:36:01 GMT") = $d)
+	  then "pass"
+	  else "fail"</test>
+      <result>
+         <assert-string-value>pass</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="parse-ietf-date-16">
+      <description>single digit day with space</description>
+      <created by="Liam R E Quin" on="2014-08-22"/>
+      <environment>
+         <param name="d" as="xs:dateTime" select="xs:dateTime('2014-08-20T19:36:01Z')"/>
+      </environment>
+      <test>if (parse-ietf-date("Tue,  9 Sep 2014 19:36:01 GMT") = $d)
+	  then "pass"
+	  else "fail"</test>
+      <result>
+         <assert-string-value>pass</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="parse-ietf-date-17">
+      <description>leading zero on day</description>
+      <created by="Liam R E Quin" on="2014-08-22"/>
+      <environment>
+         <param name="d" as="xs:dateTime" select="xs:dateTime('2014-09-09T19:36:01Z')"/>
+      </environment>
+      <test>if (parse-ietf-date("Tue, 09 Sep 2014 19:36:01 GMT") = $d)
+	  then "pass"
+	  else "fail"</test>
+      <result>
+         <assert-string-value>pass</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="parse-ietf-date-18">
+      <description>no comma, single digit day</description>
+      <created by="Liam R E Quin" on="2014-08-22"/>
+      <environment>
+         <param name="d" as="xs:dateTime" select="xs:dateTime('2014-09-08T19:36:01Z')"/>
+      </environment>
+      <test>if (parse-ietf-date("Mon 8 Sep 2014 19:36:01 GMT") = $d)
+	  then "pass"
+	  else "fail"</test>
+      <result>
+         <assert-string-value>pass</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="parse-ietf-date-19">
+      <description>dsep hyphen, no day name</description>
+      <created by="Liam R E Quin" on="2014-08-22"/>
+      <environment>
+         <param name="d" as="xs:dateTime" select="xs:dateTime('2014-08-20T19:36:00Z')"/>
+      </environment>
+      <test>if (parse-ietf-date("Aug-20-2014 19:36") = $d)
+	  then "pass"
+	  else "fail"</test>
+      <result>
+         <assert-string-value>pass</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="parse-ietf-date-20">
+      <description>dsep S only, no day name</description>
+      <created by="Liam R E Quin" on="2014-08-22"/>
+      <environment>
+         <param name="d" as="xs:dateTime" select="xs:dateTime('2014-08-20T19:36:00Z')"/>
+      </environment>
+      <test>if (parse-ietf-date("Aug 20 2014 19:36") = $d)
+	  then "pass"
+	  else "fail"</test>
+      <result>
+         <assert-string-value>pass</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="parse-ietf-date-21">
+      <description>dsep hyphen with spaces</description>
+      <created by="Liam R E Quin" on="2014-08-22"/>
+      <environment>
+         <param name="d" as="xs:dateTime" select="xs:dateTime('2014-08-20T19:36:00Z')"/>
+      </environment>
+      <test>if (parse-ietf-date("Wed, Aug - 20  -  2014 19:36") = $d)
+	  then "pass"
+	  else "fail"</test>
+      <result>
+         <assert-string-value>pass</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="parse-ietf-date-22">
+      <description>dsep hyphen with space</description>
+      <created by="Liam R E Quin" on="2014-08-22"/>
+      <environment>
+         <param name="d" as="xs:dateTime" select="xs:dateTime('2014-08-20T19:36:00Z')"/>
+      </environment>
+      <test>if (parse-ietf-date("Wed, Aug- 20- 2014 19:36") = $d)
+	  then "pass"
+	  else "fail"</test>
+      <result>
+         <assert-string-value>pass</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="parse-ietf-date-23">
+      <description>dsep hyphen with space</description>
+      <created by="Liam R E Quin" on="2014-08-22"/>
+      <environment>
+         <param name="d" as="xs:dateTime" select="xs:dateTime('2014-08-20T19:36:00Z')"/>
+      </environment>
+      <test>if (parse-ietf-date("Wed, Aug -20 -2014 19:36") = $d)
+	  then "pass"
+	  else "fail"</test>
+      <result>
+         <assert-string-value>pass</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="parse-ietf-date-24">
+      <description>dayname is ignored even if wrong</description>
+      <created by="Liam R E Quin" on="2014-08-22"/>
+      <environment>
+         <param name="d" as="xs:dateTime" select="xs:dateTime('2014-08-20T19:36:01Z')"/>
+      </environment>
+      <test>if (parse-ietf-date("Sun, 20 Aug 2014 19:36:01 GMT") = $d)
+	  then "pass"
+	  else "fail"</test>
+      <result>
+         <assert-string-value>pass</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="parse-ietf-date-25">
+      <description>dayname is ignored even if wrong</description>
+      <created by="Liam R E Quin" on="2014-08-22"/>
+      <environment>
+         <param name="d" as="xs:dateTime" select="xs:dateTime('2014-08-20T19:36:01Z')"/>
+      </environment>
+      <test>if (parse-ietf-date("Mon, 20 Aug 2014 19:36:01 GMT") = $d)
+	  then "pass"
+	  else "fail"</test>
+      <result>
+         <assert-string-value>pass</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="parse-ietf-date-26">
+      <description>dayname is ignored even if wrong</description>
+      <created by="Liam R E Quin" on="2014-08-22"/>
+      <environment>
+         <param name="d" as="xs:dateTime" select="xs:dateTime('2014-08-20T19:36:01Z')"/>
+      </environment>
+      <test>if (parse-ietf-date("Tuesday, 20 Aug 2014 19:36:01 GMT") = $d)
+	  then "pass"
+	  else "fail"</test>
+      <result>
+         <assert-string-value>pass</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="parse-ietf-date-27">
+      <description>dayname is ignored even if wrong</description>
+      <created by="Liam R E Quin" on="2014-08-22"/>
+      <environment>
+         <param name="d" as="xs:dateTime" select="xs:dateTime('2014-08-20T19:36:01Z')"/>
+      </environment>
+      <test>if (parse-ietf-date("Thursday, 20 Aug 2014 19:36:01 GMT") = $d)
+	  then "pass"
+	  else "fail"</test>
+      <result>
+         <assert-string-value>pass</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="parse-ietf-date-28">
+      <description>dayname is ignored even if wrong</description>
+      <created by="Liam R E Quin" on="2014-08-22"/>
+      <environment>
+         <param name="d" as="xs:dateTime" select="xs:dateTime('2014-08-20T19:36:01Z')"/>
+      </environment>
+      <test>if (parse-ietf-date("FRI, 20 Aug 2014 19:36:01 GMT") = $d)
+	  then "pass"
+	  else "fail"</test>
+      <result>
+         <assert-string-value>pass</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="parse-ietf-date-29">
+      <description>dayname is ignored even if wrong</description>
+      <created by="Liam R E Quin" on="2014-08-22"/>
+      <environment>
+         <param name="d" as="xs:dateTime" select="xs:dateTime('2014-08-20T19:36:01Z')"/>
+      </environment>
+      <test>if (parse-ietf-date("SAT, 20 Aug 2014 19:36:01 GMT") = $d)
+	  then "pass"
+	  else "fail"</test>
+      <result>
+         <assert-string-value>pass</assert-string-value>
+      </result>
+   </test-case>
+
+   <!--* test the various timezones *-->
+
+   <!--* We could also test bad timezones, e.g. BST, or gibberish ones,
+       * but it's a plausible extension for an implementation to accept
+       * more timezone names, if perhaps not desired.  Better to make a
+       * new function, lax-parse-date() or something, that's built on
+       * something like the Usenet getdate() function or other heuristics,
+       * and e.g. copes with different locales too. The parse-ietf-date()
+       * function is for computer-generated dates e.g. in network protocols.
+       *
+       * Liam
+       *-->
+
+   <test-case name="parse-ietf-date-30">
+      <description>timezone name (UT)</description>
+      <created by="Liam R E Quin" on="2014-09-08"/>
+      <environment>
+         <param name="d" as="xs:dateTime" select="xs:dateTime('2014-08-20T19:36:01Z')"/>
+      </environment>
+      <test>if (parse-ietf-date("Wed, 20 Aug 2014 19:36:01 UT") = $d)
+	  then "pass"
+	  else "fail"</test>
+      <result>
+         <assert-string-value>pass</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="parse-ietf-date-31">
+      <description>timezone name (UTC)</description>
+      <created by="Liam R E Quin" on="2014-09-08"/>
+      <environment>
+         <param name="d" as="xs:dateTime" select="xs:dateTime('2014-08-20T19:36:01Z')"/>
+      </environment>
+      <test>if (parse-ietf-date("Wed, 20 Aug 2014 19:36:01 UTC") = $d)
+	  then "pass"
+	  else "fail"</test>
+      <result>
+         <assert-string-value>pass</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="parse-ietf-date-32">
+      <description>timezone name (EST)</description>
+      <created by="Liam R E Quin" on="2014-09-08"/>
+      <environment>
+         <param name="d" as="xs:dateTime" select="xs:dateTime('2014-08-20T19:36:01Z')"/>
+      </environment>
+      <test>if (parse-ietf-date("Wed, 20 Aug 2014 14:36:01 EST") = $d)
+	  then "pass"
+	  else "fail"</test>
+      <result>
+         <assert-string-value>pass</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="parse-ietf-date-33">
+      <description>timezone name (EDT)</description>
+      <created by="Liam R E Quin" on="2014-09-08"/>
+      <environment>
+         <param name="d" as="xs:dateTime" select="xs:dateTime('2014-08-20T19:36:01Z')"/>
+      </environment>
+      <test>if (parse-ietf-date("Wed, 20 Aug 2014 15:36:01 EDT") = $d)
+	  then "pass"
+	  else "fail"</test>
+      <result>
+         <assert-string-value>pass</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="parse-ietf-date-34">
+      <description>timezone name (CST)</description>
+      <created by="Liam R E Quin" on="2014-09-08"/>
+      <environment>
+         <param name="d" as="xs:dateTime" select="xs:dateTime('2014-08-20T19:36:01Z')"/>
+      </environment>
+      <test>if (parse-ietf-date("Wed, 20 Aug 2014 13:36:01 CST") = $d)
+	  then "pass"
+	  else "fail"</test>
+      <result>
+         <assert-string-value>pass</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="parse-ietf-date-35">
+      <description>timezone name (CDT)</description>
+      <created by="Liam R E Quin" on="2014-09-08"/>
+      <environment>
+         <param name="d" as="xs:dateTime" select="xs:dateTime('2014-08-20T19:36:01Z')"/>
+      </environment>
+      <test>if (parse-ietf-date("Wed, 20 Aug 2014 14:36:01 CDT") = $d)
+	  then "pass"
+	  else "fail"</test>
+      <result>
+         <assert-string-value>pass</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="parse-ietf-date-36">
+      <description>timezone name (MST)</description>
+      <created by="Liam R E Quin" on="2014-09-08"/>
+      <environment>
+         <param name="d" as="xs:dateTime" select="xs:dateTime('2014-08-20T19:36:01Z')"/>
+      </environment>
+      <test>if (parse-ietf-date("Wed, 20 Aug 2014 12:36:01 MST") = $d)
+	  then "pass"
+	  else "fail"</test>
+      <result>
+         <assert-string-value>pass</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="parse-ietf-date-37">
+      <description>timezone name (MDT)</description>
+      <created by="Liam R E Quin" on="2014-09-08"/>
+      <environment>
+         <param name="d" as="xs:dateTime" select="xs:dateTime('2014-08-20T19:36:01Z')"/>
+      </environment>
+      <test>if (parse-ietf-date("Wed, 20 Aug 2014 13:36:01 MDT") = $d)
+	  then "pass"
+	  else "fail"</test>
+      <result>
+         <assert-string-value>pass</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="parse-ietf-date-38">
+      <description>timezone name (PST)</description>
+      <created by="Liam R E Quin" on="2014-09-08"/>
+      <environment>
+         <param name="d" as="xs:dateTime" select="xs:dateTime('2014-08-20T19:36:01Z')"/>
+      </environment>
+      <test>if (parse-ietf-date("Wed, 20 Aug 2014 11:36:01 PST") = $d)
+	  then "pass"
+	  else "fail"</test>
+      <result>
+         <assert-string-value>pass</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="parse-ietf-date-39">
+      <description>timezone name (PDT)</description>
+      <created by="Liam R E Quin" on="2014-09-08"/>
+      <environment>
+         <param name="d" as="xs:dateTime" select="xs:dateTime('2014-08-20T19:36:01Z')"/>
+      </environment>
+      <test>if (parse-ietf-date("Wed, 20 Aug 2014 12:36:01 PDT") = $d)
+	  then "pass"
+	  else "fail"</test>
+      <result>
+         <assert-string-value>pass</assert-string-value>
+      </result>
+   </test-case>
+
+
+   <!--* error conditions *-->
+
+   <test-case name="parse-ietf-date-errs-0">
+      <description>Error FORG0010 syntax of date is incorrect</description>
+      <created by="Liam Quin" on="2014-08-22"/>
+      <test>parse-ietf-date("2014-08-20T19:36:01Z")</test>
+      <result>
+         <error code="FORG0010"/>
+      </result>
+   </test-case>
+
+   <test-case name="parse-ietf-date-errs2">
+      <description>Error FORG0010 day must be 1 or 2 digits, not three</description>
+      <created by="Liam Quin" on="2014-08-22"/>
+      <test>parse-ietf-date("Wed, 020 Aug 2014 19:36:01 GMT")</test>
+      <result>
+         <error code="FORG0010"/>
+      </result>
+   </test-case>
+
+   <test-case name="parse-ietf-date-errs3">
+      <description>Error FORG0010 month must be abbreviated</description>
+      <created by="Liam Quin" on="2014-08-22"/>
+      <test>parse-ietf-date("Wed, 20 August 2014 19:36:01 GMT")</test>
+      <result>
+         <error code="FORG0010"/>
+      </result>
+   </test-case>
+
+   <test-case name="parse-ietf-date-errs4">
+      <description>Error FORG0010 year must be two or four digits</description>
+      <created by="Liam Quin" on="2014-08-22"/>
+      <test>parse-ietf-date("Wed, 20 Aug 114 19:36:01 GMT")</test>
+      <result>
+         <error code="FORG0010"/>
+      </result>
+   </test-case>
+
+   <test-case name="parse-ietf-date-errs5">
+      <description>Error FORG0010 hours must be 2 digits, only 1 supplied</description>
+      <created by="Liam Quin" on="2014-08-22"/>
+      <test>parse-ietf-date("Wed, 20 Aug 2014 9:36:01 GMT")</test>
+      <result>
+         <error code="FORG0010"/>
+      </result>
+   </test-case>
+
+   <test-case name="parse-ietf-date-errs6">
+      <description>Error FORG0010 illegal timzezone name</description>
+      <created by="Liam Quin" on="2014-08-22"/>
+      <test>parse-ietf-date("Wed, 20 Aug 2014 19:36:01 CET")</test>
+      <result>
+         <error code="FORG0010"/>
+      </result>
+   </test-case>
+
+   <test-case name="parse-ietf-date-errs7">
+      <description>Error FORG0010 32nd of the month impossible</description>
+      <created by="Liam Quin" on="2014-08-22"/>
+      <test>parse-ietf-date("Mon, 32 Aug 2014 19:36:01 GMT")</test>
+      <result>
+         <error code="FORG0010"/>
+      </result>
+   </test-case>
+
+   <test-case name="parse-ietf-date-errs8">
+      <description>Error FORG0010 2014 was not a leap year</description>
+      <created by="Liam Quin" on="2014-08-22"/>
+      <test>parse-ietf-date("Sat, 29 Feb 2014 19:36:01 GMT")</test>
+      <result>
+         <error code="FORG0010"/>
+      </result>
+   </test-case>
+
+   <test-case name="parse-ietf-date-errs9">
+      <description>Error FORG0010 negative years not allowed</description>
+      <created by="Liam Quin" on="2014-08-22"/>
+      <test>parse-ietf-date("Fri, 28 Feb -2000 19:36:01 GMT")</test>
+      <result>
+         <error code="FORG0010"/>
+      </result>
+   </test-case>
+
+   <test-case name="parse-ietf-date-errs10">
+      <description>Error FORG0010 days start at 1</description>
+      <created by="Liam Quin" on="2014-08-22"/>
+      <test>parse-ietf-date("Wed, 00 Aug 2014 19:36:01 GMT")</test>
+      <result>
+         <error code="FORG0010"/>
+      </result>
+   </test-case>
+
+   <test-case name="parse-ietf-date-errs11">
+      <description>Error FORG0010 Invalid day name</description>
+      <created by="Liam Quin" on="2014-08-22"/>
+      <test>parse-ietf-date("Boy 20 Aug 2014 19:36:01 GMT")</test>
+      <result>
+         <error code="FORG0010"/>
+      </result>
+   </test-case>
+
+   <test-case name="parse-ietf-date-errs12">
+      <description>Error FORG0010 Invalid day name</description>
+      <created by="Liam Quin" on="2014-08-22"/>
+      <test>parse-ietf-date("Manchester, 20 Aug 2014 19:36:01 GMT")</test>
+      <result>
+         <error code="FORG0010"/>
+      </result>
+   </test-case>
+
+
+</test-set>
