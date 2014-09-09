@@ -390,4 +390,40 @@
          <assert-string-value>1</assert-string-value>
       </result>
    </test-case>
+   
+   <test-case name="liam-contains-001">
+      <description>Check for presence of HTML ascii case-insensitive collation</description>
+      <created by="Liam Quin" on="2009-09-08"/>      
+      <test>if fn:contains('iNPut', 'pu', 'http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive') then 'pass' else 'huh'</test>
+      <result>
+         <assert-string-value>pass</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="liam-contains-002">
+      <description>Check for presence of HTML ascii case-insensitive collation</description>
+      <created by="Liam Quin" on="2009-09-08"/>      
+      <test>if fn:contains('iNPut', 'PU', 'http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive') then 'pass' else 'huh'</test>
+      <result>
+         <assert-string-value>pass</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="liam-contains-003">
+      <description>Check HTML ascii case-insensitive collation with non-ascii value</description>
+      <created by="Liam Quin" on="2009-09-08"/>      
+      <test>if fn:contains('h&#244;tel', 'h&#244;t', 'http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive') then 'pass' else 'huh'</test>
+      <result>
+         <assert-string-value>pass</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="liam-contains-001">
+      <description>Check HTML ascii case-insensitive collation with non-ascii value differing in case; should fail to match</description>
+      <created by="Liam Quin" on="2009-09-08"/>      
+      <test>if fn:contains('h&#244;tel', 'H&#212;T', 'http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive') then 'fail' else 'pass'</test>
+      <result>
+         <assert-string-value>pass</assert-string-value>
+      </result>
+   </test-case>
 </test-set>
