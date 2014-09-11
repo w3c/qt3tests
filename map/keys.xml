@@ -24,7 +24,8 @@
     <test-case name="map-keys-003">
         <description>Keys in singleton map</description>
         <created by="Michael Kay, Saxonica" on="2011-03-27"/>
-        <test>map:keys(map{"a":=1})</test>
+        <modified by="Michael Kay, Saxonica" on="2014-09-11" change="bug 26747"/>
+        <test>map:keys(map{"a":1})</test>
         <result>
             <all-of>
                 <assert-count>1</assert-count>
@@ -60,7 +61,8 @@
     <test-case name="map-keys-006">
         <description>Size of two-entry map</description>
         <created by="Michael Kay, Saxonica" on="2011-03-27"/>
-        <test>map:keys(map{"a":=1, "b":=2})</test>
+        <modified by="Michael Kay, Saxonica" on="2014-09-11" change="bug 26747"/>
+        <test>map:keys(map{"a":1, "b":2})</test>
         <result>
             <all-of>
                 <assert>$result = "a"</assert>
@@ -72,7 +74,8 @@
     <test-case name="map-keys-007">
         <description>Elimination of duplicates</description>
         <created by="Michael Kay, Saxonica" on="2011-03-27"/>
-        <test>map:keys(map{"a":=1, "a":=2})</test>
+        <modified by="Michael Kay, Saxonica" on="2014-09-11" change="bug 26747"/>
+        <test>map:keys(map{"a":1, "a":2})</test>
         <result>
             <all-of>
                 <assert-count>1</assert-count>
@@ -96,7 +99,8 @@
     <test-case name="map-keys-009">
         <description>Keys after removing an entry</description>
         <created by="Michael Kay, Saxonica" on="2011-03-27"/>
-        <test>map:keys(map:remove(map{"a":=1,"b":=2}, "b"))</test>
+        <modified by="Michael Kay, Saxonica" on="2014-09-11" change="bug 26747"/>
+        <test>map:keys(map:remove(map{"a":1,"b":2}, "b"))</test>
         <result>
             <all-of>
                 <assert-count>1</assert-count>
@@ -116,7 +120,8 @@
     <test-case name="map-keys-011">
         <description>Keys after removing the only two entries</description>
         <created by="Michael Kay, Saxonica" on="2011-03-27"/>
-        <test>map:keys(map:remove(map:remove(map{"a":=1,"b":=2},"b"),"a"))</test>
+        <modified by="Michael Kay, Saxonica" on="2014-09-11" change="bug 26747"/>
+        <test>map:keys(map:remove(map:remove(map{"a":1,"b":2},"b"),"a"))</test>
         <result>
             <assert-empty/>
         </result>
@@ -125,7 +130,8 @@
         <description>Keys after adding a NaN entry</description>
         <created by="Michael Kay, Saxonica" on="2011-03-27"/>
         <modified by="Michael Kay, Saxonica" on="2014-03-28" change="NaN is now allowed as a key value"/>
-        <test>map:keys(map{number('NaN'):=1,"b":=2})</test>
+        <modified by="Michael Kay, Saxonica" on="2014-09-11" change="bug 26747"/>
+        <test>map:keys(map{number('NaN'):1,"b":2})</test>
         <result>
             <assert-count>2</assert-count>
         </result>
@@ -133,7 +139,8 @@
     <test-case name="map-keys-013">
         <description>Size after a null remove operation</description>
         <created by="Michael Kay, Saxonica" on="2011-03-27"/>
-        <test>map:keys(map:remove(map{"a":=1,"b":=2}, "c"))</test>
+        <modified by="Michael Kay, Saxonica" on="2014-09-11" change="bug 26747"/>
+        <test>map:keys(map:remove(map{"a":1,"b":2}, "c"))</test>
         <result>
             <all-of>
                 <assert>$result = "a"</assert>

@@ -24,7 +24,8 @@
     <test-case name="map-remove-003">
         <description>Remove from singleton map</description>
         <created by="Michael Kay, Saxonica" on="2011-03-27"/>
-        <test>map:remove(map{"a":=1}, "a")</test>
+        <modified by="Michael Kay, Saxonica" on="2014-09-11" change="bug 26747"/>
+        <test>map:remove(map{"a":1}, "a")</test>
         <result>
             <assert>map:size($result) eq 0</assert>
         </result>
@@ -90,7 +91,8 @@
     <test-case name="map-remove-010">
         <description>Type after removing an entry</description>
         <created by="Michael Kay, Saxonica" on="2011-03-27"/>
-        <test>map:remove(map{"a":=1,"b":="xyz"}, "b")</test>
+        <modified by="Michael Kay, Saxonica" on="2014-09-11" change="bug 26747"/>
+        <test>map:remove(map{"a":1,"b":"xyz"}, "b")</test>
         <result>
             <assert-type>map(xs:string, xs:integer)</assert-type>
         </result>
@@ -98,7 +100,8 @@
     <test-case name="map-remove-011">
         <description>Type after removing an entry</description>
         <created by="Michael Kay, Saxonica" on="2011-03-27"/>
-        <test>map:remove(map{"a":=1,12:="xyz"}, 12)</test>
+        <modified by="Michael Kay, Saxonica" on="2014-09-11" change="bug 26747"/>
+        <test>map:remove(map{"a":1,12:"xyz"}, 12)</test>
         <result>
             <assert-type>map(xs:string, xs:integer)</assert-type>
         </result>
@@ -119,7 +122,8 @@
     <test-case name="map-remove-013">
         <description>Deep equal after removing an entry</description>
         <created by="Michael Kay, Saxonica" on="2011-03-27"/>
-        <test>deep-equal(map:remove(map{"a":=1,"b":=(2,3)}, "a"), map:entry("b", (2,3)))</test>
+        <modified by="Michael Kay, Saxonica" on="2014-09-11" change="bug 26747"/>
+        <test>deep-equal(map:remove(map{"a":1,"b":(2,3)}, "a"), map:entry("b", (2,3)))</test>
         <result>
             <assert-true/>
         </result>

@@ -183,7 +183,8 @@
         <description>map:merge() with maps as values</description>
         <created by="Michael Kay, Saxonica" on="2011-03-23"/>
         <modified by="Michael Kay, Saxonica" on="2014-05-13" change="spec change and function renaming"/>
-        <test>map:merge(for $n in 1 to 20 return map:entry($n, map{$n:=string($n), $n+1:=string($n+1), $n+2:=string($n+2)}))</test>
+        <modified by="Michael Kay, Saxonica" on="2014-09-11" change="bug 26747"/>
+        <test>map:merge(for $n in 1 to 20 return map:entry($n, map{$n:string($n), $n+1:string($n+1), $n+2:string($n+2)}))</test>
         <result>
             <all-of>
                 <assert-type>map(xs:integer, map(xs:integer, xs:string))</assert-type>
@@ -204,7 +205,8 @@
         <description>Deep equal of singleton maps</description>
         <created by="Michael Kay, Saxonica" on="2011-03-27"/>
         <modified by="Michael Kay, Saxonica" on="2014-05-13" change="spec change and function renaming"/>
-        <test>deep-equal(map{"a":=1}, map:entry("a", 1))</test>
+        <modified by="Michael Kay, Saxonica" on="2014-09-11" change="bug 26747"/>
+        <test>deep-equal(map{"a":1}, map:entry("a", 1))</test>
         <result>
             <assert-true/>
         </result>
