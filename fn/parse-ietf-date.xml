@@ -92,6 +92,7 @@
    <test-case name="parse-ietf-date-6">
       <description>long fractional seconds</description>
       <created by="Liam R E Quin" on="2014-08-22"/>
+      <modified by="Michael Kay" on="2014-09-16" change="see bug 26825"/>
       <!--* XSD implementations must support milliseconds in dateTime objects.
           * We don't specify whether parse-ietf-date() must do the same, but
 	  * since it returns a dateTime object that seems a resonable
@@ -100,9 +101,9 @@
 	  * in both cases.
 	  *-->
       <environment>
-         <param name="d" as="xs:dateTime" select="xs:dateTime('2014-08-20T19:36:01.2999999999999999999999999999999Z')"/>
+         <param name="d" as="xs:string" select="'2014-08-20T19:36:01.2999999999999999999999999999999Z'"/>
       </environment>
-      <test>if (parse-ietf-date("Wed, 20 Aug 2014 19:36:01.2999999999999999999999999999999 GMT") = $d)
+      <test>if (parse-ietf-date("Wed, 20 Aug 2014 19:36:01.2999999999999999999999999999999 GMT") = xs:dateTime($d))
 	  then "pass"
 	  else "fail"</test>
       <result>
