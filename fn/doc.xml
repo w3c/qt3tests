@@ -205,14 +205,15 @@
    </test-case>
 
    <test-case name="K2-SeqDocFunc-4">
-      <description> Invoke fn:doc with a relative, Unix-like URI. Since it's relative, and the base-uri may be undefined, XPST0001 is allowed. </description>
+      <description> Invoke fn:doc with a relative, Unix-like URI. Since it's relative, and the base-uri is undefined, FODC0002 is expected. </description>
       <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="Josh Spiegel" on="2014-06-03" change="Changed result per bug 25919"/>
+      <environment>
+         <static-base-uri uri="#UNDEFINED"/>
+      </environment>
       <test>doc("/example.com/example.org/does/not/exist/doesNotExist/works-mod.xml")</test>
       <result>
-         <any-of>
-            <error code="FODC0002"/>
-            <error code="XPST0001"/>
-         </any-of>
+         <error code="FODC0002"/>
       </result>
    </test-case>
 
