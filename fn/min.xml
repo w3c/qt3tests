@@ -1653,7 +1653,79 @@
       </result>
    </test-case>
    
+   <test-case name="fn-min-13">
+      <description>Test result type for a mix of string types. Strings are not converted to lowest common type.</description>
+      <created by="Michael Kay" on="2014-09-23"/>
+      <test>min((xs:NCName('a'), xs:ID('b'), xs:token('c')))</test>
+      <result>
+         <all-of>
+           <assert-eq>"a"</assert-eq>
+           <assert-type>xs:NCName</assert-type>
+         </all-of>
+      </result>
+   </test-case>
    
+   <test-case name="fn-min-14">
+      <description>Test result type for a mix of integer types. Integers are converted to lowest common type.</description>
+      <created by="Michael Kay" on="2014-09-23"/>
+      <test>min((xs:positiveInteger(123), xs:unsignedShort(124)))</test>
+      <result>
+         <all-of>
+           <assert-eq>123</assert-eq>
+           <assert-type>xs:nonNegativeInteger</assert-type>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-min-15">
+      <description>Test result type for a mix of integer types. In 3.1, the original type is retained.</description>
+      <created by="Michael Kay" on="2014-09-23"/>
+      <dependency type="spec" value="XP31+"/>
+      <test>min((xs:positiveInteger(123), xs:unsignedShort(124)))</test>
+      <result>
+         <all-of>
+           <assert-eq>123</assert-eq>
+           <assert-type>xs:positiveInteger</assert-type>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-min-16">
+      <description>Test result type for a mix of string/URI types. xs:anyURI values are converted to string.</description>
+      <created by="Michael Kay" on="2014-09-23"/>
+      <test>min((xs:anyURI("http://a.com"), "http://b.com"))</test>
+      <result>
+         <all-of>
+           <assert-eq>"http://a.com"</assert-eq>
+           <assert-type>xs:string</assert-type>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-min-17">
+      <description>Test result type for URI types. xs:anyURI values are not converted if no string is present.</description>
+      <created by="Michael Kay" on="2014-09-23"/>
+      <test>min((xs:anyURI("http://a.com"), xs:anyURI("http://b.com")))</test>
+      <result>
+         <all-of>
+           <assert-eq>"http://a.com"</assert-eq>
+           <assert-type>xs:anyURI</assert-type>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-min-18">
+      <description>Test result type for a mix of string/URI types. Strings are not converted.</description>
+      <created by="Michael Kay" on="2014-09-23"/>
+      <test>min((xs:token("http"), xs:anyURI("http://b.com")))</test>
+      <result>
+         <all-of>
+           <assert-eq>"http"</assert-eq>
+           <assert-type>xs:token</assert-type>
+         </all-of>
+      </result>
+   </test-case>
+      
    <test-case name="cbcl-min-001">
       <description> test fn:min on xs:boolean arguments </description>
       <created by="Oliver Hallam" on="2008-04-16"/>

@@ -1651,7 +1651,81 @@
       <result>
          <assert-string-value>2011-06-29</assert-string-value>
       </result>
-   </test-case>   
+   </test-case> 
+   
+   <test-case name="fn-max-13">
+      <description>Test result type for a mix of string types. Strings are not converted to lowest common type.</description>
+      <created by="Michael Kay" on="2014-09-23"/>
+      <test>max((xs:NCName('c'), xs:ID('b'), xs:token('a')))</test>
+      <result>
+         <all-of>
+           <assert-eq>"c"</assert-eq>
+           <assert-type>xs:NCName</assert-type>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-max-14">
+      <description>Test result type for a mix of integer types. Integers are converted to lowest common type.</description>
+      <created by="Michael Kay" on="2014-09-23"/>
+      <test>max((xs:positiveInteger(123), xs:unsignedShort(124)))</test>
+      <result>
+         <all-of>
+           <assert-eq>124</assert-eq>
+           <assert-type>xs:nonNegativeInteger</assert-type>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-max-15">
+      <description>Test result type for a mix of integer types. In 3.1, the original type is retained.</description>
+      <created by="Michael Kay" on="2014-09-23"/>
+      <dependency type="spec" value="XP31+"/>
+      <test>max((xs:positiveInteger(123), xs:unsignedShort(124)))</test>
+      <result>
+         <all-of>
+           <assert-eq>124</assert-eq>
+           <assert-type>xs:unsignedShort</assert-type>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-max-16">
+      <description>Test result type for a mix of string/URI types. xs:anyURI values are converted to string.</description>
+      <created by="Michael Kay" on="2014-09-23"/>
+      <test>max((xs:anyURI("http://c.com"), "http://b.com"))</test>
+      <result>
+         <all-of>
+           <assert-eq>"http://c.com"</assert-eq>
+           <assert-type>xs:string</assert-type>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-max-17">
+      <description>Test result type for URI types. xs:anyURI values are not converted if no string is present.</description>
+      <created by="Michael Kay" on="2014-09-23"/>
+      <test>max((xs:anyURI("http://a.com"), xs:anyURI("http://b.com")))</test>
+      <result>
+         <all-of>
+           <assert-eq>"http://b.com"</assert-eq>
+           <assert-type>xs:anyURI</assert-type>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-max-18">
+      <description>Test result type for a mix of string/URI types. Strings are not converted.</description>
+      <created by="Michael Kay" on="2014-09-23"/>
+      <test>max((xs:token("zither"), xs:anyURI("http://b.com")))</test>
+      <result>
+         <all-of>
+           <assert-eq>"zither"</assert-eq>
+           <assert-type>xs:token</assert-type>
+         </all-of>
+      </result>
+   </test-case>
+           
    
    <test-case name="cbcl-max-001">
       <description> test fn:max on xs:boolean arguments </description>
