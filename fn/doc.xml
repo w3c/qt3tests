@@ -539,16 +539,17 @@
    <test-case name="fn-doc-37">
       <description> Use an xml:id attribute that has whitespace, whitespace normalization is performed. </description>
       <created by="Frans Englich" on="2008-05-27"/>
+      <modified by="Michael Kay" on="2014-09-24" change="use of assert-xml is incorrect here"/>
       <environment>
          <source file="id/XMLIdWhitespace.xml" uri="id/XMLIdWhitespace.xml"/>
          <param name="uri" as="xs:string" select="'id/XMLIdWhitespace.xml'"/>
       </environment>
       <dependency type="spec" value="XP30+ XQ10+"/>
-      <test>let $result := id("idABC", doc($uri)) return (empty($result), $result)</test>
+      <test>let $result := id("idABC", doc($uri)) return $result</test>
       <result>
          <any-of>
-            <assert-true/>
-            <assert-xml><![CDATA[false<xs:attribute xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:atomic="http://www.w3.org/XQueryTest" name="attr" type="xs:IDREFS" use="required" xml:id="idABC"/>]]></assert-xml>
+            <assert-empty/>
+            <assert-xml><![CDATA[<xs:attribute xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:atomic="http://www.w3.org/XQueryTest" name="attr" type="xs:IDREFS" use="required" xml:id="idABC"/>]]></assert-xml>
          </any-of>
       </result>
    </test-case>
