@@ -481,7 +481,7 @@ abracadabra", "\n","with")</test>
       <created by="Tim Mills" on="2012-09-25"/>
       <test>fn:replace(concat('Mary', codepoints-to-string(13), 'Jones'), 'Mary.Jones', 'Jacob Jones')</test>
       <result>
-	<assert-eq>concat('Mary', codepoints-to-string(13), 'Jones')</assert-eq>
+	     <assert-eq>concat('Mary', codepoints-to-string(13), 'Jones')</assert-eq>
       </result>
    </test-case>
    
@@ -490,7 +490,7 @@ abracadabra", "\n","with")</test>
       <created by="Tim Mills" on="2012-09-25"/>
       <test>fn:replace(concat('Mary', codepoints-to-string(13), 'Jones'), 'Mary.Jones', 'Jacob Jones', 's')</test>
       <result>
-	<assert-eq>'Jacob Jones'</assert-eq>
+	     <assert-eq>'Jacob Jones'</assert-eq>
       </result>
    </test-case>
 
@@ -499,9 +499,19 @@ abracadabra", "\n","with")</test>
       <created by="Andrew Eisenberg" on="2013-05-24"/>
       <test>replace("Now, let's SEND OUT for QUICHE!!", "[A-Z][A-Z]+", "$0$0")</test>
       <result>
-	<assert-eq>"Now, let's SENDSEND OUTOUT for QUICHEQUICHE!!"</assert-eq>
+	     <assert-eq>"Now, let's SENDSEND OUTOUT for QUICHEQUICHE!!"</assert-eq>
       </result>
    </test-case>
+   
+   <test-case name="fn-replace-45">
+      <description>fn:replace, Saxon bug 2166</description>
+      <created by="Michael Kay" on="2014-10-07"/>
+      <test>replace("12-34", "^\d+(-(\d+))?$", "$2")</test>
+      <result>
+	    <assert-eq>"34"</assert-eq>
+      </result>
+   </test-case>
+ 
 
    <test-case name="K-ReplaceFunc-1">
       <description> The flags argument cannot contain whitespace. </description>
