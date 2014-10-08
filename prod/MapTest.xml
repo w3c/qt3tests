@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="prod-VarDecl">
+   <description>Tests for the MapTest production: map types in XPath 3.1</description>
+
+         
+   <dependency type="spec" value="XP31+ XQ31+"/>      
+
+   <test-case name="MapTest-001">
+      <description>instance of generic map type</description>
+      <created by="Michael Kay" on="2014-10-08"/>
+      <test>map{} instance of map(*)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="MapTest-002">
+      <description>instance of generic map type</description>
+      <created by="Michael Kay" on="2014-10-08"/>
+      <test>map{1:"London"} instance of map(*)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="MapTest-003">
+      <description>instance of generic map type</description>
+      <created by="Michael Kay" on="2014-10-08"/>
+      <test>map{1:"London", "London":1} instance of map(*)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>   
+   
+   <test-case name="MapTest-004">
+      <description>instance of specific map type</description>
+      <created by="Michael Kay" on="2014-10-08"/>
+      <test>map{} instance of map(xs:integer, xs:string)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="MapTest-005">
+      <description>instance of generic map type</description>
+      <created by="Michael Kay" on="2014-10-08"/>
+      <test>map{1:"London"} instance of map(xs:integer, xs:string)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="MapTest-006">
+      <description>instance of generic map type</description>
+      <created by="Michael Kay" on="2014-10-08"/>
+      <test>map{1:"London", "London":1} instance of map(xs:integer, xs:string)</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>   
+   
+   <test-case name="MapTest-007">
+      <description>invalid map type</description>
+      <created by="Michael Kay" on="2014-10-08"/>
+      <test>map{1:"London"} instance of map(xs:integer)</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case> 
+   
+   <test-case name="MapTest-008">
+      <description>invalid map type</description>
+      <created by="Michael Kay" on="2014-10-08"/>
+      <test>map{1:"London"} instance of map(integer, string)</test>
+      <result>
+         <error code="XPST0051"/>
+      </result>
+   </test-case>
+   
+   <test-case name="MapTest-009">
+      <description>instance of map type after remove</description>
+      <created by="Michael Kay" on="2014-10-08"/>
+      <test>map:remove(map{1:"London", "London":1}, "London") instance of map(xs:integer, xs:string)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>  
+   
+   <test-case name="MapTest-010">
+      <description>instance of map type after addition</description>
+      <created by="Michael Kay" on="2014-10-08"/>
+      <test>map:put(map{1:"London", 2:"Paris"}, 3, current-date()) instance of map(xs:integer, xs:string)</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="MapTest-011">
+      <description>instance of a less specific map type</description>
+      <created by="Michael Kay" on="2014-10-08"/>
+      <test>map:put(map{1:"London", 2:"Paris"}, 3, "Berlin") instance of map(xs:decimal, xs:string+)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="MapTest-012">
+      <description>map test requiring empty sequence</description>
+      <created by="Michael Kay" on="2014-10-08"/>
+      <test>map{"London":(), "Paris":(), "Berlin":()} instance of map(xs:string, empty-sequence())</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="MapTest-013">
+      <description>map test requiring empty sequence</description>
+      <created by="Michael Kay" on="2014-10-08"/>
+      <test>map{"London":(), "Paris":(), "Berlin":(), "Rome":5} instance of map(xs:string, empty-sequence())</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="MapTest-014">
+      <description>map test with cardinality constraint</description>
+      <created by="Michael Kay" on="2014-10-08"/>
+      <test>map{"London":1, "Paris":2, "Berlin":3, "Rome":()} instance of map(xs:string, xs:integer?)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="MapTest-015">
+      <description>map test with cardinality constraint</description>
+      <created by="Michael Kay" on="2014-10-08"/>
+      <test>map{"London":1, "Paris":2, "Berlin":3, "Rome":()} instance of map(xs:string, xs:integer+)</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="MapTest-016">
+      <description>key type must be an item type</description>
+      <created by="Michael Kay" on="2014-10-08"/>
+      <test>map{"London":1, "Paris":2, "Berlin":3, "Rome":5} instance of map(xs:string+, xs:integer+)</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+   
+   <test-case name="MapTest-017">
+      <description>sequence of maps</description>
+      <created by="Michael Kay" on="2014-10-08"/>
+      <test>map{"London":1, "Paris":2, "Berlin":3, "Rome":5} instance of map(xs:string, xs:integer+)*</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="MapTest-018">
+      <description>sequence of maps</description>
+      <created by="Michael Kay" on="2014-10-08"/>
+      <test>(map{"London":1, "Paris":2, "Berlin":3, "Rome":5}, map{}) instance of map(xs:string, xs:integer+)*</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="MapTest-019">
+      <description>sequence of maps</description>
+      <created by="Michael Kay" on="2014-10-08"/>
+      <test>(map{"London":1, "Paris":2, "Berlin":3, "Rome":5}, map{}) instance of map(xs:string, xs:integer+)?</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="MapTest-020">
+      <description>no conversion on function call</description>
+      <created by="Michael Kay" on="2014-10-08"/>
+      <test>
+         let $f := function($m as map(xs:integer, xs:integer)) as xs:boolean {
+             map:contains($m, 17)
+         }
+         return $f(map{17, xs:untypedAtomic('234')})
+      </test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+   <test-case name="MapTest-040">
+      <description>map type subsumption</description>
+      <created by="Michael Kay" on="2014-10-08"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <test>
+         function($m as map(xs:integer, xs:string)) as xs:integer {map:size($m)} 
+         instance of function(map(*)) as xs:integer
+      </test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="MapTest-041">
+      <description>map type subsumption</description>
+      <created by="Michael Kay" on="2014-10-08"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <test>
+         function($m as map(xs:integer, xs:string)) as xs:integer {map:size($m)} 
+         instance of function(map(xs:decimal, xs:string+)) as xs:integer
+      </test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="MapTest-042">
+      <description>map type subsumption</description>
+      <created by="Michael Kay" on="2014-10-08"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <test>
+         function($m as map(*)) as xs:integer {map:size($m)} 
+         instance of function(function(*)) as xs:integer</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="MapTest-043">
+      <description>map type subsumption</description>
+      <created by="Michael Kay" on="2014-10-08"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <test>
+         function($m as map(xs:integer, xs:string)) as xs:integer {map:size($m)} 
+         instance of function(function(*)) as xs:integer
+      </test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="MapTest-044">
+      <description>map type subsumption</description>
+      <created by="Michael Kay" on="2014-10-08"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <test>
+         function($m as map(xs:integer, xs:string)) as xs:integer {map:size($m)} 
+         instance of function(function(xs:anyAtomicType) as item()*) as xs:integer
+      </test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="MapTest-045">
+      <description>map type subsumption</description>
+      <created by="Michael Kay" on="2014-10-08"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <test>
+         function($m as map(xs:integer, xs:string)) as xs:integer {map:size($m)} 
+         instance of function(function(xs:integer) as item()*) as xs:integer
+      </test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="MapTest-050">
+      <description>map type subsumption</description>
+      <created by="Michael Kay" on="2014-10-08"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <test>
+         function($m as map(*)) as xs:integer {map:size($m)} 
+         instance of function(map(xs:integer, xs:string)) as xs:integer
+      </test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="MapTest-051">
+      <description>map type subsumption</description>
+      <created by="Michael Kay" on="2014-10-08"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <test>
+         function($m as map(xs:decimal, xs:string+)) as xs:integer {map:size($m)} 
+         instance of function(map(xs:integer, xs:string)) as xs:integer
+      </test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="MapTest-052">
+      <description>map type subsumption</description>
+      <created by="Michael Kay" on="2014-10-08"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <test>
+         function($m as function(*)) as xs:integer {function-arity($m)} 
+         instance of function(map(*)) as xs:integer</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="MapTest-053">
+      <description>map type subsumption</description>
+      <created by="Michael Kay" on="2014-10-08"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <test>
+         function($m as function(*)) as xs:integer {function-arity($m)} 
+         instance of function(map(xs:integer, xs:string)) as xs:integer
+      </test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="MapTest-054">
+      <description>map type subsumption</description>
+      <created by="Michael Kay" on="2014-10-08"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <test>
+         function($m as function(xs:anyAtomicType) as item()*) as xs:integer {map:size($m)} 
+         instance of function(map(xs:integer, xs:string)) as xs:integer
+      </test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+
+</test-set>
