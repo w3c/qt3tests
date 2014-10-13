@@ -946,6 +946,35 @@
     </result>
   </test-case>
   
+  <test-case name="try-catch-err-code-variable-13">
+    <description>err:code used within an "AVT".</description>
+    <created by="Michael Kay" on="2014-11-13"/>
+    <environment ref="err"/>
+    <test><![CDATA[
+        try { 1 div 0 } catch * { <e code="{$e:code}" xmlns:e="http://www.w3.org/2005/xqt-errors"/> }
+    ]]></test>
+    <result>
+      <assert>ends-with($result[self::e]/@code, 'FOAR0001')</assert>
+    </result>
+  </test-case>
+  
+  <test-case name="try-catch-err-code-variable-14">
+    <description>
+        err:code used in a loop (test case from Gunther Rademacher).
+        See Saxon bug 2181: Saxon was loop-lifting the variable references out of the for loop.
+    </description>
+    <created by="Michael Kay" on="2014-11-13"/>
+    <environment ref="err"/>
+    <test><![CDATA[
+      for $p in ("p1", "p2") return
+         try {parse-xml($p)} catch * {$err:code}
+    ]]></test>
+    <result>
+      <assert-string-value>err:FODC0006 err:FODC0006</assert-string-value>
+    </result>
+  </test-case>
+  
+  
   <test-case name="try-catch-err-description-variable-1">
     <description>err:description returns a description string or the empty sequence.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
