@@ -1103,6 +1103,7 @@
          <assert-true/>
       </result>
    </test-case>
+   
    <test-case name="boolean-001">
       <description>boolean() applied to a node sequence</description>
       <created by="Michael Kay" on="2011-06-29"/>
@@ -1112,6 +1113,7 @@
          <assert-true/>
       </result>
    </test-case>
+   
    <test-case name="boolean-002">
       <description>boolean() applied to an empty node sequence</description>
       <created by="Michael Kay" on="2011-06-29"/>
@@ -1121,6 +1123,7 @@
          <assert-false/>
       </result>
    </test-case>
+   
    <test-case name="boolean-003">
       <description>boolean() applied to a sequence whose first item is a node</description>
       <created by="Michael Kay" on="2011-06-29"/>
@@ -1130,6 +1133,7 @@
          <assert-true/>
       </result>
    </test-case>
+   
    <test-case name="boolean-004">
       <description>boolean() applied to a sequence whose second item is a node</description>
       <created by="Michael Kay" on="2011-06-29"/>
@@ -1139,6 +1143,7 @@
          <error code="FORG0006"/>
       </result>
    </test-case>
+   
    <test-case name="boolean-005">
       <description>boolean() applied to a sequence of two booleans</description>
       <created by="Michael Kay" on="2011-06-29"/>
@@ -1147,6 +1152,7 @@
          <error code="FORG0006"/>
       </result>
    </test-case>
+   
    <test-case name="boolean-006">
       <description>boolean() applied to a sequence of two integers</description>
       <created by="Michael Kay" on="2011-06-29"/>
@@ -1155,6 +1161,7 @@
          <error code="FORG0006"/>
       </result>
    </test-case>
+   
    <test-case name="boolean-007">
       <description>boolean() applied to a sequence of two strings</description>
       <created by="Michael Kay" on="2011-06-29"/>
@@ -1163,6 +1170,7 @@
          <error code="FORG0006"/>
       </result>
    </test-case>
+   
    <test-case name="boolean-008">
       <description>boolean() applied to a sequence of of a boolean and then an empty
          node-set</description>
@@ -1173,6 +1181,7 @@
          <assert-true/>
       </result>
    </test-case>
+   
    <test-case name="boolean-009">
       <description>boolean() applied to the string "false"</description>
       <created by="Michael Kay" on="2011-06-29"/>
@@ -1180,6 +1189,36 @@
       <test>boolean(string(false()))</test>
       <result>
          <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="boolean-010">
+      <description>boolean() applied to an array</description>
+      <created by="Michael Kay" on="2014-10-14"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>boolean([true()])</test>
+      <result>
+         <error code="FORG0006"/>
+      </result>
+   </test-case>
+   
+   <test-case name="boolean-011">
+      <description>boolean() applied to a map</description>
+      <created by="Michael Kay" on="2014-10-14"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>boolean(map{})</test>
+      <result>
+         <error code="FORG0006"/>
+      </result>
+   </test-case>
+   
+   <test-case name="boolean-012">
+      <description>boolean() applied to a function item</description>
+      <created by="Michael Kay" on="2014-10-14"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>boolean(boolean#1)</test>
+      <result>
+         <error code="FORG0006"/>
       </result>
    </test-case>
    
