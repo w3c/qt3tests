@@ -2008,7 +2008,7 @@
    </test-case>
 
    <test-case name="fn-avg-6">
-      <description> Test fn:sum on a sequence of xs:yearMonthDuration arguments </description>
+      <description> Test fn:avg on a sequence of xs:yearMonthDuration arguments </description>
       <created by="Oliver Hallam" on="2010-03-15"/>
       <test>avg(for $x in 1 to 9 return xs:yearMonthDuration(concat("P",$x,"M")))</test>
       <result>
@@ -2017,7 +2017,7 @@
    </test-case>
 
    <test-case name="fn-avg-7">
-      <description> Test fn:sum on a sequence of xs:yearMonthDuration and xs:dayTimeDuration arguments </description>
+      <description> Test fn:avg on a sequence of xs:yearMonthDuration and xs:dayTimeDuration arguments </description>
       <created by="Oliver Hallam" on="2010-03-15"/>
       <test>avg((xs:yearMonthDuration("P1Y"), xs:dayTimeDuration("P1D")))</test>
       <result>
@@ -2029,7 +2029,7 @@
    </test-case>
 
    <test-case name="fn-avg-8">
-      <description> Test fn:sum on a sequence of xs:duration arguments </description>
+      <description> Test fn:avg on a sequence of xs:duration arguments </description>
       <created by="Oliver Hallam" on="2010-03-15"/>
       <test>avg(xs:duration("P1Y1M1D"))</test>
       <result>
@@ -2037,6 +2037,28 @@
             <error code="FORG0006"/>
             <error code="XPTY0004"/>
          </any-of>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-avg-9">
+      <description> Test fn:avg on a sequence of xs:duration arguments </description>
+      <created by="Oliver Hallam" on="2010-03-15"/>
+      <test>avg(xs:duration("P1Y1M1D"))</test>
+      <result>
+         <any-of>
+            <error code="FORG0006"/>
+            <error code="XPTY0004"/>
+         </any-of>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-avg-10">
+      <description> Test fn:avg on an array </description>
+      <created by="Michael Kay" on="2014-10-14"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>avg([1,2,3,4,5])</test>
+      <result>
+         <assert-eq>3</assert-eq>
       </result>
    </test-case>
    

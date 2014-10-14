@@ -557,6 +557,69 @@
          </any-of>
       </result>
    </test-case>
+   
+   <test-case name="fn-data-2">
+      <description>Atomize an array (empty)</description>
+      <created by="Michael Kay" on="2014-10-14"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>data([])</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-data-3">
+      <description>Atomize an array (all atomic)</description>
+      <created by="Michael Kay" on="2014-10-14"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>data([1,2,3])</test>
+      <result>
+         <assert-deep-eq>1,2,3</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-data-4">
+      <description>Atomize an array (contains untyped nodes)</description>
+      <created by="Michael Kay" on="2014-10-14"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[data([<a>1</a>, <a>2</a>, <a>3</a>])]]></test>
+      <result>
+         <all-of>
+            <assert-deep-eq>'1','2','3'</assert-deep-eq>
+            <assert-type>xs:untypedAtomic*</assert-type>
+         </all-of>   
+      </result>
+   </test-case>
+   
+   <test-case name="fn-data-5">
+      <description>Atomize an array (contains nested sequences)</description>
+      <created by="Michael Kay" on="2014-10-14"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>data([(1,2), (3,4), (5,6)])</test>
+      <result>
+         <assert-deep-eq>1,2,3,4,5,6</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-data-6">
+      <description>Atomize an array (contains nested arrays)</description>
+      <created by="Michael Kay" on="2014-10-14"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>data([[1,2], [3,4], [5,6], []])</test>
+      <result>
+         <assert-deep-eq>1,2,3,4,5,6</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-data-7">
+      <description>Atomize a map (not allowed)</description>
+      <created by="Michael Kay" on="2014-10-14"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>data([[1,2], [3,4], [5,6], [map{1:2}]])</test>
+      <result>
+         <error code="FOTY0012"/>
+      </result>
+   </test-case>
 
    <test-case name="cbcl-data-001">
       <description> test fn:data on fn:error Author: Tim Mills </description>
