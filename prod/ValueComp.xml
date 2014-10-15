@@ -495,7 +495,7 @@
       <result>
          <any-of>
             <assert-empty/>
-            <error code="XPTY0004"/>
+            <error code="FOTY0013"/>
          </any-of>   
       </result>
    </test-case>
@@ -506,7 +506,441 @@
       <dependency type="spec" value="XP31+ XQ31+"/>
       <test>map{1:1} eq 1</test>
       <result>
-         <error code="XPTY0004"/> 
+         <error code="FOTY0013"/> 
+      </result>
+   </test-case>
+   
+   <test-case name="value-comp-eq-string-1">
+      <description> Value comparison on strings. </description>
+      <created by="Michael Kay" on="2014-10-15"/>
+      <test>"abc" eq concat("a", "bc")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="value-comp-eq-string-2">
+      <description> Value comparison on strings. </description>
+      <created by="Michael Kay" on="2014-10-15"/>
+      <environment ref="works"/>
+      <test>"abc" eq /works/@id</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+   
+   <test-case name="value-comp-eq-string-3">
+      <description> Value comparison on strings. </description>
+      <created by="Michael Kay" on="2014-10-15"/>
+      <environment ref="works"/>
+      <test>"abc" eq string(/works/@id)</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="value-comp-eq-string-4">
+      <description> Value comparison on strings. </description>
+      <created by="Michael Kay" on="2014-10-15"/>
+      <environment ref="works"/>
+      <test>"abc" eq xs:string(/works/@id)</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+   
+   <test-case name="value-comp-eq-string-5">
+      <description> Value comparison on strings. </description>
+      <created by="Michael Kay" on="2014-10-15"/>
+      <environment ref="works"/>
+      <test>works/@id eq "abc"</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+   
+   <test-case name="value-comp-eq-string-6">
+      <description> Value comparison on strings. </description>
+      <created by="Michael Kay" on="2014-10-15"/>
+      <environment ref="works"/>
+      <test>string(/works/@id) eq "abc"</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="value-comp-eq-string-7">
+      <description> Value comparison on strings. </description>
+      <created by="Michael Kay" on="2014-10-15"/>
+      <environment ref="works"/>
+      <test>xs:string(/works/@id) eq "abc"</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+   
+   <test-case name="value-comp-eq-string-8">
+      <description> Value comparison on strings. </description>
+      <created by="Michael Kay" on="2014-10-15"/>
+      <test>not("abc" eq concat("a", "bc"))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="value-comp-eq-string-9">
+      <description> Value comparison on strings. </description>
+      <created by="Michael Kay" on="2014-10-15"/>
+      <environment ref="works"/>
+      <test>not("abc" eq /works/@id)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="value-comp-eq-string-10">
+      <description> Value comparison on strings. </description>
+      <created by="Michael Kay" on="2014-10-15"/>
+      <environment ref="works"/>
+      <test>not("abc" eq string(/works/@id))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="value-comp-eq-string-11">
+      <description> Value comparison on strings. </description>
+      <created by="Michael Kay" on="2014-10-15"/>
+      <environment ref="works"/>
+      <test>not("abc" eq xs:string(/works/@id))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="value-comp-eq-string-12">
+      <description> Value comparison on strings. </description>
+      <created by="Michael Kay" on="2014-10-15"/>
+      <environment ref="works"/>
+      <test>not(works/@id eq "abc")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="value-comp-eq-string-13">
+      <description> Value comparison on strings. </description>
+      <created by="Michael Kay" on="2014-10-15"/>
+      <environment ref="works"/>
+      <test>not(string(/works/@id) eq "abc")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="value-comp-eq-string-14">
+      <description> Value comparison on strings. </description>
+      <created by="Michael Kay" on="2014-10-15"/>
+      <environment ref="works"/>
+      <test>not(xs:string(/works/@id) eq "abc")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="value-comp-ne-string-1">
+      <description> Value comparison on strings. </description>
+      <created by="Michael Kay" on="2014-10-15"/>
+      <test>"abc" ne concat("a", "bc")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="value-comp-ne-string-2">
+      <description> Value comparison on strings. </description>
+      <created by="Michael Kay" on="2014-10-15"/>
+      <environment ref="works"/>
+      <test>"abc" ne /works/@id</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+   
+   <test-case name="value-comp-ne-string-3">
+      <description> Value comparison on strings. </description>
+      <created by="Michael Kay" on="2014-10-15"/>
+      <environment ref="works"/>
+      <test>"abc" ne string(/works/@id)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="value-comp-ne-string-4">
+      <description> Value comparison on strings. </description>
+      <created by="Michael Kay" on="2014-10-15"/>
+      <environment ref="works"/>
+      <test>"abc" ne xs:string(/works/@id)</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+   
+   <test-case name="value-comp-ne-string-5">
+      <description> Value comparison on strings. </description>
+      <created by="Michael Kay" on="2014-10-15"/>
+      <environment ref="works"/>
+      <test>works/@id ne "abc"</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+   
+   <test-case name="value-comp-ne-string-6">
+      <description> Value comparison on strings. </description>
+      <created by="Michael Kay" on="2014-10-15"/>
+      <environment ref="works"/>
+      <test>string(/works/@id) ne "abc"</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="value-comp-ne-string-7">
+      <description> Value comparison on strings. </description>
+      <created by="Michael Kay" on="2014-10-15"/>
+      <environment ref="works"/>
+      <test>xs:string(/works/@id) ne "abc"</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+   
+   <test-case name="value-comp-ne-string-8">
+      <description> Value comparison on strings. </description>
+      <created by="Michael Kay" on="2014-10-15"/>
+      <test>not("abc" ne concat("a", "bc"))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="value-comp-ne-string-9">
+      <description> Value comparison on strings. </description>
+      <created by="Michael Kay" on="2014-10-15"/>
+      <environment ref="works"/>
+      <test>not("abc" ne /works/@id)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="value-comp-ne-string-10">
+      <description> Value comparison on strings. </description>
+      <created by="Michael Kay" on="2014-10-15"/>
+      <environment ref="works"/>
+      <test>not("abc" ne string(/works/@id))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="value-comp-ne-string-11">
+      <description> Value comparison on strings. </description>
+      <created by="Michael Kay" on="2014-10-15"/>
+      <environment ref="works"/>
+      <test>not("abc" ne xs:string(/works/@id))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="value-comp-ne-string-12">
+      <description> Value comparison on strings. </description>
+      <created by="Michael Kay" on="2014-10-15"/>
+      <environment ref="works"/>
+      <test>not(works/@id ne "abc")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="value-comp-ne-string-13">
+      <description> Value comparison on strings. </description>
+      <created by="Michael Kay" on="2014-10-15"/>
+      <environment ref="works"/>
+      <test>not(string(/works/@id) ne "abc")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="value-comp-ne-string-14">
+      <description> Value comparison on strings. </description>
+      <created by="Michael Kay" on="2014-10-15"/>
+      <environment ref="works"/>
+      <test>not(xs:string(/works/@id) ne "abc")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="value-comp-eq-int-1">
+      <description> Value comparison on integers. </description>
+      <created by="Michael Kay" on="2014-10-15"/>
+      <test>13 eq 12+1</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="value-comp-eq-int-2">
+      <description> Value comparison on integers. </description>
+      <created by="Michael Kay" on="2014-10-15"/>
+      <environment ref="works"/>
+      <test>13 eq /works/@id</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+   
+   <test-case name="value-comp-eq-int-3">
+      <description> Value comparison on integers. </description>
+      <created by="Michael Kay" on="2014-10-15"/>
+      <environment ref="works"/>
+      <test>40 eq xs:integer(/works/employee[1]/hours)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="value-comp-eq-int-4">
+      <description> Value comparison on integers. </description>
+      <created by="Michael Kay" on="2014-10-15"/>
+      <environment ref="works"/>
+      <test>40 eq xs:integer(/works/employee[830]/hours)</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+   
+   <test-case name="value-comp-eq-int-5">
+      <description> Value comparison on integers. </description>
+      <created by="Michael Kay" on="2014-10-15"/>
+      <environment ref="works"/>
+      <test>xs:integer(/works/employee[830]/hours) eq 40</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+   
+   <test-case name="value-comp-eq-int-6">
+      <description> Value comparison on integers. </description>
+      <created by="Michael Kay" on="2014-10-15"/>
+      <environment ref="works"/>
+      <test>40 eq number(/works/employee[1]/hours)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="value-comp-eq-int-7">
+      <description> Value comparison on integers. </description>
+      <created by="Michael Kay" on="2014-10-15"/>
+      <environment ref="works"/>
+      <test>40 eq xs:double(/works/employee[1]/hours)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="value-comp-eq-int-8">
+      <description> Value comparison on integers. </description>
+      <created by="Michael Kay" on="2014-10-15"/>
+      <environment ref="works"/>
+      <test>40 eq xs:double(/works/employee[830]/hours)</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+   
+   <test-case name="value-comp-eq-double-1">
+      <description> Value comparison on doubles. </description>
+      <created by="Michael Kay" on="2014-10-15"/>
+      <test>13e0 eq 12e0+1</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="value-comp-eq-double-2">
+      <description> Value comparison on doubles. </description>
+      <created by="Michael Kay" on="2014-10-15"/>
+      <environment ref="works"/>
+      <test>13e0 eq /works/@id</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+   
+   <test-case name="value-comp-eq-double-3">
+      <description> Value comparison on doubles. </description>
+      <created by="Michael Kay" on="2014-10-15"/>
+      <environment ref="works"/>
+      <test>40e0 eq xs:double(/works/employee[1]/hours)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="value-comp-eq-double-4">
+      <description> Value comparison on doubles. </description>
+      <created by="Michael Kay" on="2014-10-15"/>
+      <environment ref="works"/>
+      <test>40e0 eq xs:integer(/works/employee[830]/hours)</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+   
+   <test-case name="value-comp-eq-double-5">
+      <description> Value comparison on doubles. </description>
+      <created by="Michael Kay" on="2014-10-15"/>
+      <environment ref="works"/>
+      <test>xs:integer(/works/employee[830]/hours) eq 40e0</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+   
+   <test-case name="value-comp-eq-double-6">
+      <description> Value comparison on doubles. </description>
+      <created by="Michael Kay" on="2014-10-15"/>
+      <environment ref="works"/>
+      <test>40e0 eq number(/works/employee[1]/hours)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="value-comp-eq-double-7">
+      <description> Value comparison on doubles. </description>
+      <created by="Michael Kay" on="2014-10-15"/>
+      <environment ref="works"/>
+      <test>40e0 eq xs:double(/works/employee[1]/hours)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="value-comp-eq-double-8">
+      <description> Value comparison on doubles. </description>
+      <created by="Michael Kay" on="2014-10-15"/>
+      <environment ref="works"/>
+      <test>40e0 eq xs:double(/works/employee[830]/hours)</test>
+      <result>
+         <assert-empty/>
       </result>
    </test-case>
    
