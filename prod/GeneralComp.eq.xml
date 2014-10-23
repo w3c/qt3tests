@@ -1745,4 +1745,124 @@
          <assert-false/>
       </result>
    </test-case>
+   
+   <test-case name="GenCompEq-10">
+      <description> General comparison that might be optimized. </description>
+      <created by="Michael Kay" on="2014-10-23"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>declare variable $p external := 276; $p = (1 to 1000)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="GenCompEq-11">
+      <description> General comparison that might be optimized. </description>
+      <created by="Michael Kay" on="2014-10-23"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>declare variable $p external := -276; (1 to 1000) = $p</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="GenCompEq-12">
+      <description> General comparison that might be optimized. </description>
+      <created by="Michael Kay" on="2014-10-23"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>declare variable $p external := xs:untypedAtomic('000504e0'); $p = (1 to 1000)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="GenCompEq-13">
+      <description> General comparison that might be optimized. </description>
+      <created by="Michael Kay" on="2014-10-23"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>declare variable $p external := xs:untypedAtomic('4.5'); (1 to 1000) = $p</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="GenCompEq-14">
+      <description> General comparison that might be optimized. </description>
+      <created by="Michael Kay" on="2014-10-23"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>declare variable $p external := 17; $p = (1, 8, 13, 14, 98, -22, 0, 17, 34, 87, 99, 54, 22, 33, 44, 55, 66, 77)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="GenCompEq-15">
+      <description> General comparison that might be optimized. </description>
+      <created by="Michael Kay" on="2014-10-23"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>declare variable $p external := -101; (1, 8, 13, 14, 98, -22, 0, 17, 34, 87, 99, 54, 22, 33, 44, 55, 66, 77) = $p</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="GenCompEq-16">
+      <description> General comparison that might be optimized. </description>
+      <created by="Michael Kay" on="2014-10-23"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>declare variable $p external := xs:untypedAtomic('-840'); $p = (1, 8, 13, 14, 98, -22, 0, 17, 34, 87, 99, 54, 22, 33, 44, 55, 66, 77)</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="GenCompEq-17">
+      <description> General comparison that might be optimized. </description>
+      <created by="Michael Kay" on="2014-10-23"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>declare variable $p external := xs:untypedAtomic('-022e0'); (1, 8, 13, 14, 98, -22, 0, 17, 34, 87, 99, 54, 22, 33, 44, 55, 66, 77) = $p</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="GenCompEq-18">
+      <description> General comparison that might be optimized. </description>
+      <created by="Michael Kay" on="2014-10-23"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>declare variable $p external := (105, 22e0); $p = (1, 8, 13, 14, 98, -22, 0, 17, 34, 87, 99, 54, 22, 33, 44, 55, 66, 77)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="GenCompEq-19">
+      <description> General comparison that might be optimized. </description>
+      <created by="Michael Kay" on="2014-10-23"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>declare variable $p external := (105, xs:untypedAtomic('22e0')); (1, 8, 13, 14, 98, -22, 0, 17, 34, 87, 99, 54, 22, 33, 44, 55, 66, 77) = $p</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="GenCompEq-20">
+      <description> General comparison that might be optimized. </description>
+      <created by="Michael Kay" on="2014-10-23"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>declare variable $p external := xs:untypedAtomic('000504e0'); $p = (1 to $p)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="GenCompEq-21">
+      <description> General comparison that might be optimized. </description>
+      <created by="Michael Kay" on="2014-10-23"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>declare variable $p external := xs:untypedAtomic('860302'); (1 to xs:integer($p)) = $p</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
 </test-set>
