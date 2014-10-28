@@ -1850,7 +1850,7 @@
       <description> General comparison that might be optimized. </description>
       <created by="Michael Kay" on="2014-10-23"/>
       <dependency type="spec" value="XQ30+"/>
-      <test>declare variable $p external := xs:untypedAtomic('000504e0'); $p = (1 to xs:integer($p))</test>
+      <test>declare variable $p external := xs:untypedAtomic('000504e0'); $p = (1 to xs:integer(xs:double($p)))</test>
       <result>
          <assert-true/>
       </result>
@@ -1875,6 +1875,18 @@
         declare variable $p external := xs:untypedAtomic('z:local'); 
         $p = (<xs:element/>, <z:local/>, <fn:function/>)!node-name(.)
        ]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="GenCompEq-23">
+      <description> General comparison with a mixture of types on both sides. </description>
+      <created by="Michael Kay" on="2014-10-23"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>
+        declare variable $p external := (1 to 10, xs:untypedAtomic('860302'), 83); 
+        $p = (35 to 65, xs:untypedAtomic('082'), xs:untypedAtomic('0010'))</test>
       <result>
          <assert-true/>
       </result>
