@@ -200,11 +200,24 @@
     </test-case>
     <test-case name="parse-xml-fragment-022">
         <description>parse-xml-fragment test - result is parentless</description>
-        <created by="Michael Kay, Saxonica" on="2013-01-07"/>        
+        <created by="Michael Kay, Saxonica" on="2013-01-07"/>
+        <modified by="Josh Spiegel" on="2014-11-18" change="Bug 28861"/>
+        <dependency type="feature" value="staticTyping" satisfied="false"/>
         <environment name="empty"/>
         <test><![CDATA[parse-xml-fragment("<a/>")/..]]></test>
         <result>
             <assert-empty/>
+        </result>
+    </test-case>
+    <test-case name="parse-xml-fragment-022-st">
+        <description>parse-xml-fragment test - result is parentless</description>
+        <created by="Michael Kay, Saxonica" on="2013-01-07"/>        
+        <modified by="Josh Spiegel" on="2014-11-18" change="Bug 28861"/>     
+        <dependency type="feature" value="staticTyping" satisfied="true"/>
+        <environment name="empty"/>
+        <test><![CDATA[parse-xml-fragment("<a/>")/..]]></test>
+        <result>
+            <error code="XPST0005" />
         </result>
     </test-case>
     <test-case name="parse-xml-fragment-023">
