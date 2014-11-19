@@ -24,6 +24,7 @@
    <test-case name="Serialization-001">
       <description> Test default values for serialization parameters </description>
       <created by="Dennis Knochenwefel" on="2011-12-05"/>
+      <modified by="Josh Spiegel" on="2014-11-18" change="Bug 26823" />
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
          declare option output:cdata-section-elements "";
@@ -33,7 +34,6 @@
          declare option output:method "xml";
          declare option output:suppress-indentation "";
          declare option output:undeclare-prefixes "no";
-         declare option output:use-character-maps "";
          <result>ok</result>
         ]]></test>
       <result>
@@ -484,24 +484,17 @@
 
    <test-case name="Serialization-023">
       <description> 
-         It is a serialization error [err:SEPM0016] if a parameter value is invalid for the given parameter. 
-         Wrong serialization parameter value for use-character-maps.
+         use-character-maps may not be set from the prolog.  
       </description>
       <created by="Dennis Knochenwefel" on="2011-12-05"/>
+      <modified by="Josh Spiegel" on="2014-11-18" change="Bug 26823" />
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
-         declare option output:use-character-maps "INVALID_VALUE";
+         declare option output:use-character-maps "...";
          <result>ok</result>
       ]]></test>
       <result>
-        <any-of>
-           <!-- the processor may use these parameters to control the way in which the serialization takes place.
-                It is the responsibility of the host language to specify how invalid values should be handled at the level of that language. -->
-           <assert-xml>&lt;result&gt;ok&lt;/result&gt;</assert-xml>     
-
-           <!-- It is a serialization error [err:SEPM0016] if a parameter value is invalid for the given parameter. -->
-           <assert-serialization-error code="SEPM0016" />
-         </any-of>
+        <error code="XQST0109"/>
       </result>
    </test-case>
 
