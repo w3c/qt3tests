@@ -971,20 +971,23 @@
    <test-case name="orderBy63">
       <description>Test that the context item for evaluating a sort key is NOT the item whose sort key is being computed</description>
       <created by="Michael Kay" on="2011-07-30"/>
+      <modified by="Josh Spiegel" on="2014-11-18" change="Bug 26859"/>
       <environment ref="orderdata"/>
       <dependency type="spec" value="XQ10+"/>
       <test>
         declare default element namespace "http://www.w3.org/XQueryTestOrderBy"; 
+
         /DataValues/(
-            for $x in NegativeNumbers/orderData
-            order by xs:decimal(.)
-            return $x)</test>
+         (
+           for $x in NegativeNumbers/*
+           order by (if (name(.) = 'orderData') then $x else -$x)
+           return $x
+         )[1]
+        )
+
+      </test>
       <result>
-         <any-of>
-            <error code="FOTY0004"/>
-            <error code="FOTY0012"/>
-            <error code="FORG0001"/>
-         </any-of>
+         <assert-xml><![CDATA[<orderData xmlns="http://www.w3.org/XQueryTestOrderBy">-0</orderData>]]></assert-xml>
       </result>
    </test-case>
    
