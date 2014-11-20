@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="array-remove"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <description>Tests for the array:remove function introduced in XPath 3.1</description>
+    <link type="spec" document="http://www.w3.org/TR/xpath-functions-31/" idref="func-array-remove"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+
+ 
+
+    <test-case name="array-remove-401">
+        <description>Remove member from array</description>
+        <created by="Debbie Lockett, Saxonica" on="2014-10-28"/>
+        <environment ref="array"/>
+        <test>array:remove(["a", "b", "c", "d"], 1)</test>
+        <result>
+            <all-of>
+                <assert-type>array(*)</assert-type>
+                <assert>array:size($result) eq 3</assert>
+                <assert-deep-eq>["b", "c", "d"]</assert-deep-eq>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="array-remove-402">
+        <description>Remove member from array</description>
+        <created by="Debbie Lockett, Saxonica" on="2014-10-28"/>
+        <environment ref="array"/>
+        <test>array:remove(["a", "b", "c", "d"], 2)</test>
+        <result>
+            <all-of>
+                <assert-type>array(*)</assert-type>
+                <assert>array:size($result) eq 3</assert>
+                <assert-deep-eq>["a", "c", "d"]</assert-deep-eq>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="array-remove-403">
+        <description>Remove member from array</description>
+        <created by="Debbie Lockett, Saxonica" on="2014-10-28"/>
+        <environment ref="array"/>
+        <test>array:remove(["a"], 1)</test>
+        <result>
+            <all-of>
+                <assert-type>array(*)</assert-type>
+                <assert>array:size($result) eq 0</assert>
+                <assert-deep-eq>[]</assert-deep-eq>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="array-remove-404">
+        <description>Remove member from array with various members</description>
+        <created by="Debbie Lockett, Saxonica" on="2014-10-28"/>
+        <environment ref="array"/>
+        <test>array:remove(["a", ["b", ()], ["d"]], 2)</test>
+        <result>
+            <all-of>
+                <assert-type>array(*)</assert-type>
+                <assert>array:size($result) eq 2</assert>
+                <assert-deep-eq>["a", ["d"]]</assert-deep-eq>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="array-remove-405">
+        <description>Remove member from array - error</description>
+        <created by="Debbie Lockett, Saxonica" on="2014-10-28"/>
+        <environment ref="array"/>
+        <test>array:remove([], 1)</test>
+        <result>
+            <error code="FOAY0001"/>
+        </result>
+    </test-case>
+    <test-case name="array-remove-406">
+        <description>Remove member from array - error</description>
+        <created by="Debbie Lockett, Saxonica" on="2014-10-28"/>
+        <environment ref="array"/>
+        <test>array:remove([4,5,6], 4)</test>
+        <result>
+            <error code="FOAY0001"/>
+        </result>
+    </test-case>
+    <test-case name="array-remove-407">
+        <description>Remove member from array - error</description>
+        <created by="Debbie Lockett, Saxonica" on="2014-10-28"/>
+        <environment ref="array"/>
+        <test>array:remove([4,5,6], 0)</test>
+        <result>
+            <error code="FOAY0001"/>
+        </result>
+    </test-case>
+    
+
+
+
+</test-set>

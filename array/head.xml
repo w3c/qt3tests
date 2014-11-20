@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="array-head"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <description>Tests for the array:head function introduced in XPath 3.1</description>
+    <link type="spec" document="http://www.w3.org/TR/xpath-functions-31/" idref="func-array-head"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+
+ 
+    
+    <test-case name="array-head-601">
+        <description>Return head of array with integer members</description>
+        <created by="Debbie Lockett, Saxonica" on="2014-10-28"/>
+        <environment ref="array"/>
+        <test>array:head([5,6,7,8])</test>
+        <result>
+            <all-of>
+                <assert-type>item()*</assert-type>
+                <assert-eq>5</assert-eq>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="array-head-602">
+        <description>Return head of array with array members</description>
+        <created by="Debbie Lockett, Saxonica" on="2014-10-28"/>
+        <environment ref="array"/>
+        <test>array:head([["a", "b"], ["c", "d"]])</test>
+        <result>
+            <all-of>                
+                <assert-type>array(*)</assert-type>
+                <assert-deep-eq>["a", "b"]</assert-deep-eq>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="array-head-603">
+        <description>Return head of array with sequence members</description>
+        <created by="Debbie Lockett, Saxonica" on="2014-10-28"/>
+        <environment ref="array"/>
+        <test>array:head([("a", "b"), ("c", "d")])</test>
+        <result>
+            <all-of>
+                <assert-type>item()*</assert-type>
+                <assert-deep-eq>"a", "b"</assert-deep-eq>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="array-head-604">
+        <description>Return head of array - error</description>
+        <created by="Debbie Lockett, Saxonica" on="2014-10-28"/>
+        <environment ref="array"/>
+        <test>array:head([])</test>
+        <result>
+            <error code="FOAY0001"/>
+        </result>
+    </test-case>
+    
+ 
+
+</test-set>

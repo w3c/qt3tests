@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="array-join"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <description>Tests for the array:join function introduced in XPath 3.1</description>
+    <link type="spec" document="http://www.w3.org/TR/xpath-functions-31/" idref="func-array-join"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+
+ 
+    
+    <test-case name="array-join-201">
+        <description>Join two arrays, integer members</description>
+        <created by="Debbie Lockett, Saxonica" on="2014-10-15"/>
+        <environment ref="array"/>
+        <test>array:join(([1,2],[3,4]))</test>
+        <result>
+            <all-of>
+                <assert-type>array(*)</assert-type>
+                <assert>array:size($result) eq 4</assert>
+                <assert-deep-eq>[1,2,3,4]</assert-deep-eq>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="array-join-202">
+        <description>Join two arrays, empty array</description>
+        <created by="Debbie Lockett, Saxonica" on="2014-10-15"/>
+        <environment ref="array"/>
+        <test>array:join(([],[1,2],[]))</test>
+        <result>
+            <all-of>
+                <assert-type>array(*)</assert-type>
+                <assert>array:size($result) eq 2</assert>
+                <assert-deep-eq>[1,2]</assert-deep-eq>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="array-join-203">
+        <description>Join arrays, only one array in sequence</description>
+        <created by="Debbie Lockett, Saxonica" on="2014-10-15"/>
+        <environment ref="array"/>
+        <test>array:join([1,2])</test>
+        <result>
+            <all-of>
+                <assert-type>array(*)</assert-type>
+                <assert>array:size($result) eq 2</assert>
+                <assert-deep-eq>[1,2]</assert-deep-eq>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="array-join-204">
+        <description>Join arrays, empty sequence of arrays</description>
+        <created by="Debbie Lockett, Saxonica" on="2014-10-15"/>
+        <environment ref="array"/>
+        <test>array:join(())</test>
+        <result>
+            <all-of>
+                <assert-type>array(*)</assert-type>
+                <assert>array:size($result) eq 0</assert>
+                <assert-deep-eq>[]</assert-deep-eq>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="array-join-205">
+        <description>Join arrays, string and array members</description>
+        <created by="Debbie Lockett, Saxonica" on="2014-10-15"/>
+        <environment ref="array"/>
+        <test>array:join((["a","b","c"], ["d"], [["e","f"]]))</test>
+        <result>
+            <all-of>
+                <assert-type>array(*)</assert-type>
+                <assert>array:size($result) eq 5</assert>
+                <assert-deep-eq>["a","b","c","d",["e","f"]]</assert-deep-eq>
+            </all-of>
+        </result>
+    </test-case>
+
+ 
+
+</test-set>
