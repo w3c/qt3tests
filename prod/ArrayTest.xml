@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="prod-ArrayTest">
    <description>Tests for the ArrayTest production: array types in XQuery 3.1</description>
-         
-   <dependency type="spec" value="XP31+ XQ31+"/>      
+             
 
    <test-case name="ArrayTest-001">
       <description>empty square array constructor</description>
       <created by="Carla Spruit" on="2014-10-28"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
       <test>[]</test>
       <result>
          <all-of>
@@ -20,6 +20,7 @@
    <test-case name="ArrayTest-002">
       <description>empty curly array constructor</description>
       <created by="Carla Spruit" on="2014-10-28"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
       <test>array{}</test>
       <result>
          <all-of>
@@ -33,6 +34,7 @@
    <test-case name="ArrayTest-003">
       <description>square array constructor, number of members </description>
       <created by="Carla Spruit" on="2014-10-28"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
       <test>array:size([(), ('A', 'B', 'C'), 'D'])</test>
       <result>
          <all-of>
@@ -45,6 +47,7 @@
    <test-case name="ArrayTest-004">
       <description>curly array constructor, number of members </description>
       <created by="Carla Spruit" on="2014-10-28"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
       <test>array:size(array{(), ('A', 'B', 'C'), 'D'})</test>
       <result>
          <all-of>
@@ -57,6 +60,7 @@
     <test-case name="ArrayTest-005">
       <description>square array constructor, number of members </description>
       <created by="Carla Spruit" on="2014-10-28"/>
+       <dependency type="spec" value="XQ31+"/>
       <test>declare function local:fun() {1 to 5}; array:size([local:fun()])</test>
       <result>
          <all-of>
@@ -69,6 +73,7 @@
     <test-case name="ArrayTest-006">
       <description>curly array constructor, number of members </description>
       <created by="Carla Spruit" on="2014-10-28"/>
+       <dependency type="spec" value="XQ31+"/>
       <test>declare function local:fun() {1 to 5}; array:size(array{local:fun()})</test>
       <result>
          <all-of>
@@ -81,6 +86,7 @@
    <test-case name="ArrayTest-007">
       <description>square array constructor, lookup </description>
       <created by="Carla Spruit" on="2014-10-28"/>
+      <dependency type="spec" value="XQ31+"/>
       <test>declare function local:fun() {1 to 5}; [local:fun()](1)</test>
       <result>
         <assert-eq>(1, 2, 3, 4, 5)</assert-eq>
@@ -90,6 +96,7 @@
     <test-case name="ArrayTest-008">
       <description>curly array constructor, lookup </description>
       <created by="Carla Spruit" on="2014-10-28"/>
+       <dependency type="spec" value="XQ31+"/>
       <test>declare function local:fun() {1 to 5}; array{local:fun()}(1)</test>
       <result>
          <all-of>
@@ -102,6 +109,7 @@
    <test-case name="ArrayTest-009">
       <description>square array constructor, lookup </description>
       <created by="Carla Spruit" on="2014-10-28"/>
+      <dependency type="spec" value="XQ31+"/>
       <test>declare function local:fun() {1 to 5}; [local:fun()]?1</test>
       <result>
         <assert-eq>(1, 2, 3, 4, 5)</assert-eq>
@@ -111,6 +119,7 @@
     <test-case name="ArrayTest-010">
       <description>curly array constructor, lookup </description>
       <created by="Carla Spruit" on="2014-10-28"/>
+       <dependency type="spec" value="XQ31+"/>
       <test>declare function local:fun() {1 to 5}; array{local:fun()}?1</test>
       <result>
          <assert-eq>1</assert-eq>
@@ -120,6 +129,7 @@
    <test-case name="ArrayTest-011">
       <description>key must be an integer value</description>
       <created by="Carla Spruit" on="2014-10-28"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
       <test>[1, 2, 3](1.1)</test>
       <result>
         <error code="XPTY0004"/>
@@ -129,6 +139,7 @@
    <test-case name="ArrayTest-012">
       <description>lookup outside of range</description>
       <created by="Carla Spruit" on="2014-10-28"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
       <test>[1, 2, 3]?0</test>
       <result>
         <error code="XPDY0138"/>
@@ -137,7 +148,8 @@
 
    <test-case name="ArrayTest-013">
       <description>lookup outside of range</description>
-      <created by="Carla Spruit" on="2014-10-28"/>
+      <created by="Carla Spruit" on="2014-10-28"/>      
+      <dependency type="spec" value="XP31+ XQ31+"/>
       <test>[1, 2, 3]?4</test>
       <result>
         <error code="XPDY0138"/>
@@ -147,6 +159,7 @@
    <test-case name="ArrayTest-014">
       <description>lookup key must be a positive integer</description>
       <created by="Carla Spruit" on="2014-10-28"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
       <test>[1, 2, 3](-1)</test>
       <result>
         <error code="XPTY0004"/>
@@ -156,6 +169,7 @@
    <test-case name="ArrayTest-015">
       <description>lookup by using a parenthized expression</description>
       <created by="Carla Spruit" on="2014-10-28"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
       <test>let $k := 2 to 3 return ['A', 'B', 'C']?($k)</test>
       <result>
         <assert-eq>('B', 'C')</assert-eq>
@@ -165,6 +179,7 @@
     <test-case name="ArrayTest-016">
       <description>lookup by using a parenthized expression</description>
       <created by="Carla Spruit" on="2014-10-28"/>
+       <dependency type="spec" value="XP31+ XQ31+"/>
       <test>['A', 'B', 'C']?(2 to 3)</test>
       <result>
         <assert-eq>('B', 'C')</assert-eq>
@@ -174,6 +189,7 @@
    <test-case name="ArrayTest-017">
       <description>lookup by using *</description>
       <created by="Carla Spruit" on="2014-10-28"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
       <test>['A', 'B', 'C']?*</test>
       <result>
         <assert-eq>('A', 'B', 'C')</assert-eq>
@@ -183,6 +199,7 @@
    <test-case name="ArrayTest-018">
       <description>lookup with nested arrays</description>
       <created by="Carla Spruit" on="2014-10-28"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
       <test>fn:data([['A', 'B', 'C'], ['D', 'E'], []]?2)</test>
       <result>
         <assert-eq>('D', 'E')</assert-eq>
@@ -192,6 +209,7 @@
    <test-case name="ArrayTest-019">
       <description>lookup with nested arrays</description>
       <created by="Carla Spruit" on="2014-10-28"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
       <test>fn:data([['A', 'B', 'C'], ['D', 'E'], []]?3)</test>
       <result>
         <assert-eq>()</assert-eq>
@@ -201,6 +219,7 @@
    <test-case name="ArrayTest-020">
       <description>multilevel lookup in nested arrays</description>
       <created by="Carla Spruit" on="2014-10-28"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
       <test>[['A', 'B', 'C'], ['D', 'E'], []]?1?2</test>
       <result>
         <assert-eq>'B'</assert-eq>
@@ -210,6 +229,7 @@
     <test-case name="ArrayTest-021">
       <description>multilevel wildcard lookup in nested arrays</description>
       <created by="Carla Spruit" on="2014-10-28"/>
+       <dependency type="spec" value="XP31+ XQ31+"/>
       <test>fn:data([['A', 'B', 'C'], ['D', 'E'], []]?*?*)</test>
       <result>
         <assert-eq>('A', 'B', 'C', 'D', 'E')</assert-eq>
@@ -219,6 +239,7 @@
    <test-case name="ArrayTest-022">
       <description>wildcard lookup in empty array</description>
       <created by="Carla Spruit" on="2014-10-28"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
       <test>[]?*</test>
       <result>
         <assert-eq>()</assert-eq>
@@ -228,6 +249,7 @@
    <test-case name="ArrayTest-023">
       <description>wildcard lookup in empty array</description>
       <created by="Carla Spruit" on="2014-10-28"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
       <test>[]?*?*</test>
       <result>
         <assert-eq>()</assert-eq>
@@ -237,6 +259,7 @@
    <test-case name="ArrayTest-024">
       <description>lookup in empty array</description>
       <created by="Carla Spruit" on="2014-10-28"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
       <test>[]?2</test>
       <result>
         <error code="XPDY0138"/>
@@ -247,6 +270,7 @@
    <test-case name="ArrayTest-025">
       <description>lookup in sequence of arrays</description>
       <created by="Carla Spruit" on="2014-10-28"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
       <test>(['A', 'B', 'C'], ['D', 'E'])?2</test>
       <result>
         <assert-eq>('B', 'E')</assert-eq>
@@ -256,6 +280,7 @@
    <test-case name="ArrayTest-026">
       <description>lookup in sequence of arrays with empty array</description>
       <created by="Carla Spruit" on="2014-10-28"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
       <test>(['A', 'B', 'C'], ['D', 'E'], [])?2</test>
       <result>
         <error code="XPDY0138"/>
@@ -265,6 +290,7 @@
    <test-case name="ArrayTest-027">
       <description>lookup in array with nested map</description>
       <created by="Carla Spruit" on="2014-10-28"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
       <test>[[1, 2, 3], map:entry(3, 5)]?*?3</test>
       <result>
         <assert-eq>(3, 5)</assert-eq>
@@ -274,6 +300,7 @@
    <test-case name="ArrayTest-028">
       <description>atomize array with nodes</description>
       <created by="Carla Spruit" on="2014-10-28"/>
+      <dependency type="spec" value="XQ31+"/>
       <test><![CDATA[let $x := <root><elem>1</elem><elem>2</elem></root> return [$x/elem[1]] + [$x/elem[2]]]]></test>
       <result>
         <assert-eq>3</assert-eq>
@@ -283,6 +310,7 @@
    <test-case name="ArrayTest-029">
       <description>atomize array with nodes</description>
       <created by="Carla Spruit" on="2014-10-28"/>
+      <dependency type="spec" value="XQ31+"/>
       <test><![CDATA[fn:data([<root><elem>1</elem><elem>2</elem></root> + 4])]]></test>
       <result>
         <assert-eq>16</assert-eq>
@@ -292,15 +320,18 @@
    <test-case name="ArrayTest-030">
       <description>atomize array with nested arrays</description>
       <created by="Carla Spruit" on="2014-10-28"/>
+      <modified by="Michael Kay" on="2014-11-20" change="assert-eq -> assert-deep-eq"/>    
+      <dependency type="spec" value="XP31+ XQ31+"/>
       <test>fn:data([[1, 2], [3, 4, [5, 6]]])</test>
       <result>
-        <assert-eq>(1, 2, 3, 4, 5, 6)</assert-eq>
+        <assert-deep-eq>(1, 2, 3, 4, 5, 6)</assert-deep-eq>
       </result>
    </test-case>            
    
     <test-case name="ArrayTest-031">
       <description>atomize array with nested map</description>
       <created by="Carla Spruit" on="2014-10-28"/>
+       <dependency type="spec" value="XP31+ XQ31+"/>
       <test>[map:entry('a', 'b')] + 1</test>
       <result>
         <error code="FOTY0013"/>
@@ -310,6 +341,7 @@
    <test-case name="ArrayTest-032">
       <description>atomize array with nested function item</description>
       <created by="Carla Spruit" on="2014-10-28"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
       <dependency type="feature" value="higherOrderFunctions"/>      
       <test>[data#1] + 1</test>
       <result>
@@ -320,6 +352,7 @@
    <test-case name="ArrayTest-033">
       <description>instance of</description>
       <created by="Carla Spruit" on="2014-10-28"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
       <test>["A", "B"]</test>
       <result>
          <all-of>
@@ -332,6 +365,7 @@
    <test-case name="ArrayTest-034">
       <description>instance of</description>
       <created by="Carla Spruit" on="2014-10-28"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
       <test>[("A", "B")]</test>
       <result>
          <all-of>
@@ -344,6 +378,7 @@
    <test-case name="ArrayTest-035">
       <description>instance of, wrong cardinality</description>
       <created by="Carla Spruit" on="2014-10-28"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
       <test>[("A", "B"), "C"] instance of array(xs:string)</test>
       <result>
          <assert-false/>
@@ -353,6 +388,7 @@
    <test-case name="ArrayTest-036">
       <description>instance of, wrong cardinality</description>
       <created by="Carla Spruit" on="2014-10-28"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
       <test>[(), "A"] instance of array(xs:string)</test>
       <result>
          <assert-false/>
@@ -362,6 +398,7 @@
    <test-case name="ArrayTest-037">
       <description>instance of, wrong type</description>
       <created by="Carla Spruit" on="2014-10-28"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
       <test>[(), "A"] instance of array(xs:integer*)</test>
       <result>
          <assert-false/>
@@ -371,6 +408,7 @@
    <test-case name="ArrayTest-038">
       <description>instance of nested array</description>
       <created by="Carla Spruit" on="2014-10-28"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
       <test>[["A"], ["B"]] instance of array(array(xs:string))</test>
       <result>
          <assert-true/>
@@ -380,6 +418,7 @@
    <test-case name="ArrayTest-039">
       <description>instance of array with items</description>
       <created by="Carla Spruit" on="2014-10-28"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
       <test>[["A"], ["B"]] instance of array(item())</test>
       <result>
          <assert-true/>
@@ -389,6 +428,7 @@
    <test-case name="ArrayTest-040">
       <description>instance of array, xs:integer is subtype of xs:decimal</description>
       <created by="Carla Spruit" on="2014-10-28"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
       <test>[xs:integer("10")] instance of array(xs:decimal)</test>
       <result>
          <assert-true/>
@@ -398,6 +438,7 @@
    <test-case name="ArrayTest-041">
       <description>instance of item</description>
       <created by="Carla Spruit" on="2014-10-28"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
       <test>[["A"], ["B"]] instance of item()</test>
       <result>
          <assert-true/>
@@ -407,6 +448,7 @@
    <test-case name="ArrayTest-042">
       <description>instance of function</description>
       <created by="Carla Spruit" on="2014-10-28"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
       <dependency type="feature" value="higherOrderFunctions"/>      
       <test>[["A"], ["B"]] instance of function(*)</test>
       <result>
@@ -417,6 +459,7 @@
    <test-case name="ArrayTest-043">
       <description>instance of function</description>
       <created by="Carla Spruit" on="2014-10-28"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
       <dependency type="feature" value="higherOrderFunctions"/>      
       <test>[["A"], ["B"]] instance of function(xs:integer) as item()*</test>
       <result>
@@ -427,6 +470,7 @@
    <test-case name="ArrayTest-044">
       <description>effective boolean value of array must throw an exception</description>
       <created by="Carla Spruit" on="2014-10-28"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
       <test>if ([1, 2]) then 1 else 2</test>
       <result>
          <error code="FORG0006"/>
@@ -436,6 +480,7 @@
     <test-case name="ArrayTest-045">
       <description>general comparison</description>
       <created by="Carla Spruit" on="2014-10-28"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
       <test>['A'] = 'A'</test>
       <result>
          <assert-true/>
@@ -445,6 +490,7 @@
    <test-case name="ArrayTest-046">
       <description>general comparison</description>
       <created by="Carla Spruit" on="2014-10-28"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
       <test>['A', 'B', 'C'] = 'A'</test>
       <result>
          <assert-true/>
@@ -454,33 +500,41 @@
    <test-case name="ArrayTest-047">
       <description>element content</description>
       <created by="Carla Spruit" on="2014-10-28"/>
+      <modified by="Michael Kay" on="2014-11-20" change="assert-xml in result, dependency on XQuery"/>
+      <dependency type="spec" value="XQ31+"/>
       <test><![CDATA[<a>{['a', ['b', 'c'], 'd']}</a>]]></test>
       <result>
-         <assert-eq><![CDATA[<a>a b c d</a>]]></assert-eq>
+         <assert-xml><![CDATA[<a>a b c d</a>]]></assert-xml>
       </result>
    </test-case>
 
    <test-case name="ArrayTest-048">
       <description>element content, whitespace in array</description>
       <created by="Carla Spruit" on="2014-10-28"/>
+      <modified by="Michael Kay" on="2014-11-20" change="assert-xml in result, dependency on XQuery"/>
+      <dependency type="spec" value="XQ31+"/>
       <test><![CDATA[<a>{[ 'a', ['b', 'c'], 'd']}</a>]]></test>
       <result>
-         <assert-eq><![CDATA[<a>a b c d</a>]]></assert-eq>
+         <assert-xml><![CDATA[<a>a b c d</a>]]></assert-xml>
       </result>
    </test-case>     
 
    <test-case name="ArrayTest-049">
       <description>element constructor</description>
       <created by="Carla Spruit" on="2014-10-28"/>
+      <modified by="Michael Kay" on="2014-11-20" change="assert-xml in result, dependency on XQuery"/>
+      <dependency type="spec" value="XQ31+"/>
       <test>element a {['a', ['b', 'c'], 'd']}</test>
       <result>
-         <assert-eq><![CDATA[<a>a b c d</a>]]></assert-eq>
+         <assert-xml><![CDATA[<a>a b c d</a>]]></assert-xml>
       </result>
    </test-case>
    
    <test-case name="ArrayTest-050">
       <description>attribute content</description>
       <created by="Carla Spruit" on="2014-10-28"/>
+      <modified by="Michael Kay" on="2014-11-20" change="dependency on XQuery"/>
+      <dependency type="spec" value="XQ31+"/>
       <test><![CDATA[<chapter ref="[{1, 5 to 7, 9}]"/>/@ref/string()]]></test>
       <result>
          <assert-eq>xs:string("[1 5 6 7 9]")</assert-eq>
