@@ -86,10 +86,11 @@
    <test-case name="ArrayTest-007">
       <description>square array constructor, lookup </description>
       <created by="Carla Spruit" on="2014-10-28"/>
+      <modified by="Michael Kay" on="2014-11-21" change="assert deep-eq rather than eq"/>
       <dependency type="spec" value="XQ31+"/>
       <test>declare function local:fun() {1 to 5}; [local:fun()](1)</test>
       <result>
-        <assert-eq>(1, 2, 3, 4, 5)</assert-eq>
+        <assert-deep-eq>(1, 2, 3, 4, 5)</assert-deep-eq>
       </result>
    </test-case>
 
@@ -109,10 +110,11 @@
    <test-case name="ArrayTest-009">
       <description>square array constructor, lookup </description>
       <created by="Carla Spruit" on="2014-10-28"/>
+      <modified by="Michael Kay" on="2014-11-21" change="assert deep-eq rather than eq"/>
       <dependency type="spec" value="XQ31+"/>
       <test>declare function local:fun() {1 to 5}; [local:fun()]?1</test>
       <result>
-        <assert-eq>(1, 2, 3, 4, 5)</assert-eq>
+        <assert-deep-eq>(1, 2, 3, 4, 5)</assert-deep-eq>
       </result>
    </test-case>
 
@@ -169,50 +171,55 @@
    <test-case name="ArrayTest-015">
       <description>lookup by using a parenthized expression</description>
       <created by="Carla Spruit" on="2014-10-28"/>
+      <modified by="Michael Kay" on="2014-11-21" change="assert deep-eq rather than eq"/>
       <dependency type="spec" value="XP31+ XQ31+"/>
       <test>let $k := 2 to 3 return ['A', 'B', 'C']?($k)</test>
       <result>
-        <assert-eq>('B', 'C')</assert-eq>
+        <assert-deep-eq>('B', 'C')</assert-deep-eq>
       </result>
    </test-case>
    
     <test-case name="ArrayTest-016">
       <description>lookup by using a parenthized expression</description>
       <created by="Carla Spruit" on="2014-10-28"/>
-       <dependency type="spec" value="XP31+ XQ31+"/>
+      <modified by="Michael Kay" on="2014-11-21" change="assert deep-eq rather than eq"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
       <test>['A', 'B', 'C']?(2 to 3)</test>
       <result>
-        <assert-eq>('B', 'C')</assert-eq>
+        <assert-deep-eq>('B', 'C')</assert-deep-eq>
       </result>
    </test-case>
    
    <test-case name="ArrayTest-017">
       <description>lookup by using *</description>
       <created by="Carla Spruit" on="2014-10-28"/>
+      <modified by="Michael Kay" on="2014-11-21" change="assert deep-eq rather than eq"/>
       <dependency type="spec" value="XP31+ XQ31+"/>
       <test>['A', 'B', 'C']?*</test>
       <result>
-        <assert-eq>('A', 'B', 'C')</assert-eq>
+        <assert-deep-eq>('A', 'B', 'C')</assert-deep-eq>
       </result>
    </test-case>   
    
    <test-case name="ArrayTest-018">
       <description>lookup with nested arrays</description>
       <created by="Carla Spruit" on="2014-10-28"/>
+      <modified by="Michael Kay" on="2014-11-21" change="assert deep-eq rather than eq"/>
       <dependency type="spec" value="XP31+ XQ31+"/>
       <test>fn:data([['A', 'B', 'C'], ['D', 'E'], []]?2)</test>
       <result>
-        <assert-eq>('D', 'E')</assert-eq>
+        <assert-deep-eq>('D', 'E')</assert-deep-eq>
       </result>
    </test-case>   
 
    <test-case name="ArrayTest-019">
       <description>lookup with nested arrays</description>
       <created by="Carla Spruit" on="2014-10-28"/>
+      <modified by="Michael Kay" on="2014-11-21" change="assert deep-eq rather than eq"/>
       <dependency type="spec" value="XP31+ XQ31+"/>
       <test>fn:data([['A', 'B', 'C'], ['D', 'E'], []]?3)</test>
       <result>
-        <assert-eq>()</assert-eq>
+        <assert-empty/>
       </result>
    </test-case>   
    
@@ -229,30 +236,33 @@
     <test-case name="ArrayTest-021">
       <description>multilevel wildcard lookup in nested arrays</description>
       <created by="Carla Spruit" on="2014-10-28"/>
-       <dependency type="spec" value="XP31+ XQ31+"/>
+      <modified by="Michael Kay" on="2014-11-21" change="assert deep-eq rather than eq"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
       <test>fn:data([['A', 'B', 'C'], ['D', 'E'], []]?*?*)</test>
       <result>
-        <assert-eq>('A', 'B', 'C', 'D', 'E')</assert-eq>
+        <assert-deep-eq>('A', 'B', 'C', 'D', 'E')</assert-deep-eq>
       </result>
    </test-case>  
    
    <test-case name="ArrayTest-022">
       <description>wildcard lookup in empty array</description>
       <created by="Carla Spruit" on="2014-10-28"/>
+      <modified by="Michael Kay" on="2014-11-21" change="assert deep-eq rather than eq"/>
       <dependency type="spec" value="XP31+ XQ31+"/>
       <test>[]?*</test>
       <result>
-        <assert-eq>()</assert-eq>
+        <assert-empty/>
       </result>
    </test-case>
    
    <test-case name="ArrayTest-023">
       <description>wildcard lookup in empty array</description>
       <created by="Carla Spruit" on="2014-10-28"/>
+      <modified by="Michael Kay" on="2014-11-21" change="assert deep-eq rather than eq"/>
       <dependency type="spec" value="XP31+ XQ31+"/>
       <test>[]?*?*</test>
       <result>
-        <assert-eq>()</assert-eq>
+        <assert-empty/>
       </result>
    </test-case>   
    
@@ -270,10 +280,11 @@
    <test-case name="ArrayTest-025">
       <description>lookup in sequence of arrays</description>
       <created by="Carla Spruit" on="2014-10-28"/>
+      <modified by="Michael Kay" on="2014-11-21" change="assert deep-eq rather than eq"/>
       <dependency type="spec" value="XP31+ XQ31+"/>
       <test>(['A', 'B', 'C'], ['D', 'E'])?2</test>
       <result>
-        <assert-eq>('B', 'E')</assert-eq>
+        <assert-deep-eq>('B', 'E')</assert-deep-eq>
       </result>
    </test-case>      
    
@@ -290,10 +301,11 @@
    <test-case name="ArrayTest-027">
       <description>lookup in array with nested map</description>
       <created by="Carla Spruit" on="2014-10-28"/>
+      <modified by="Michael Kay" on="2014-11-21" change="assert deep-eq rather than eq"/>
       <dependency type="spec" value="XP31+ XQ31+"/>
       <test>[[1, 2, 3], map:entry(3, 5)]?*?3</test>
       <result>
-        <assert-eq>(3, 5)</assert-eq>
+        <assert-deep-eq>(3, 5)</assert-deep-eq>
       </result>
    </test-case>            
    
@@ -537,7 +549,7 @@
       <dependency type="spec" value="XQ31+"/>
       <test><![CDATA[<chapter ref="[{1, 5 to 7, 9}]"/>/@ref/string()]]></test>
       <result>
-         <assert-eq>xs:string("[1 5 6 7 9]")</assert-eq>
+         <assert-eq>"[1 5 6 7 9]"</assert-eq>
       </result>
    </test-case>                                
 </test-set>
