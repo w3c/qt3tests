@@ -598,7 +598,22 @@
          <assert-eq>25</assert-eq>
       </result>
    </test-case>
-
+   
+   <test-case name="VarDecl064" covers="forwards-references">
+      <description>Purpose - two forwards references to a global variable (Saxon bug 2232) </description>
+      <created by="Michael Kay" on="2014-11-21"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>
+        declare function local:f1() {$a};
+        declare function local:f2() {$a};
+        declare variable $a := 19;      
+        local:f1() + local:f2()
+      </test>  
+      <result>
+         <assert-eq>38</assert-eq>
+      </result>
+   </test-case>
+   
    <test-case name="vardeclerr" covers="declaration-cycles">
       <description> Test circularity on variable/function declaration . </description>
       <created by="Carmelo Montanez" on="2006-02-06"/>
