@@ -20,6 +20,7 @@
             </all-of>
         </result>
     </test-case>
+    
     <test-case name="array-for-each-002">
         <description>Apply function to each member of array</description>
         <created by="Debbie Lockett, Saxonica" on="2014-10-29"/>
@@ -33,6 +34,7 @@
             </all-of>
         </result>
     </test-case>
+    
     <test-case name="array-for-each-003">
         <description>Apply function to each member of empty array</description>
         <created by="Debbie Lockett, Saxonica" on="2014-10-29"/>
@@ -46,6 +48,7 @@
             </all-of>
         </result>
     </test-case>
+    
     <test-case name="array-for-each-004">
         <description>Apply function to each member of array with array members</description>
         <created by="Debbie Lockett, Saxonica" on="2014-10-29"/>
@@ -59,6 +62,7 @@
             </all-of>
         </result>
     </test-case>
+    
     <test-case name="array-for-each-005">
         <description>Apply function to each member of array with array members</description>
         <created by="Debbie Lockett, Saxonica" on="2014-10-29"/>
@@ -70,6 +74,26 @@
                 <assert>array:size($result) eq 5</assert>
                 <assert-deep-eq>[[1,2,3],[1,4,5,6,7],[1,6,7],[1],[1,3]]</assert-deep-eq>
             </all-of>
+        </result>
+    </test-case>
+    
+    <test-case name="array-for-each-006">
+        <description>Error case - wrong arity function</description>
+        <created by="Michael Kay, Saxonica" on="2014-11-21"/>
+        <environment ref="array"/>
+        <test>array:for-each([10,20,30,40], remove#2)</test>
+        <result>
+            <error code="XPTY0004"/>
+        </result>
+    </test-case>
+    
+    <test-case name="array-for-each-007">
+        <description>Error case - function expects wrong type</description>
+        <created by="Michael Kay, Saxonica" on="2014-11-21"/>
+        <environment ref="array"/>
+        <test>array:for-each([10,20,30,40], upper-case#1)</test>
+        <result>
+            <error code="XPTY0004"/>
         </result>
     </test-case>
     
