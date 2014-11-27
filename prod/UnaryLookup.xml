@@ -252,6 +252,16 @@
       </result>
    </test-case>
    
+   <test-case name="UnaryLookup-023">
+      <description>Select nothing from an array</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>(['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b'])[exists(?())]</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+   
    <test-case name="UnaryLookup-040">
       <description>Lookup by name in a map</description>
       <created by="Michael Kay" on="2014-11-27"/>
@@ -309,6 +319,16 @@
       <test>(map{1:1, 2:2, 3:3},  map{1:2, 2:3, 3:4})[?* = 3]</test>
       <result>
          <assert-deep-eq>map{1:1, 2:2, 3:3},  map{1:2, 2:3, 3:4}</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="UnaryLookup-046">
+      <description>Select nothing from a map</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>(map{1:1, 2:2, 3:3},  map{1:2, 2:3, 3:4})[exists(?())]</test>
+      <result>
+         <assert-empty/>
       </result>
    </test-case>
 

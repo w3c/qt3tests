@@ -1,0 +1,722 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="prod-Lookup">
+   <description>Tests for the Binary Lookup operator on maps and arrays in XQuery 3.1</description>
+             
+
+   <test-case name="Lookup-001">
+      <description>Integer subscript into an array</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>(['a', 'b'], ['c', 'd'])[.?1 eq 'c']</test>
+      <result>
+         <assert-deep-eq>['c', 'd']</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-002">
+      <description>Variable subscript into an array</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>let $i := 1 return (['a', 'b'], ['c', 'd'])[.?($i) eq 'c']</test>
+      <result>
+         <assert-deep-eq>['c', 'd']</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-003">
+      <description>Integer subscript into an array: leading zeroes allowed</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>(['a', 'b'], ['c', 'd'])[ .? 001 eq 'c']</test>
+      <result>
+         <assert-deep-eq>['c', 'd']</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-004">
+      <description>Integer subscript into an array: minus sign not allowed</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>(['a', 'b'], ['c', 'd'])[ .? -1 eq 'c']</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-005">
+      <description>Integer subscript into an array: array index too low</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>(['a', 'b'], ['c', 'd'])[ .?0 eq 'c']</test>
+      <result>
+         <error code="FOAY0001"/>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-006">
+      <description>Integer subscript into an array: array index too high</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>(['a', 'b'], ['c', 'd'], ['e'])[ .?2 eq 'b']</test>
+      <result>
+         <error code="FOAY0001"/>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-007">
+      <description>Integer subscript into an array: range of subscripts</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>(['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b'])[ .?(1 to 2) = 'b']</test>
+      <result>
+         <assert-deep-eq>['a', 'b', 'c'], ['b', 'c', 'd']</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-008">
+      <description>Integer subscript into an array: variable range of subscripts</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>let $i := (1, 3) return (['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b'])[ .?($i) = 'b']</test>
+      <result>
+         <assert-deep-eq>['a', 'b', 'c'], ['e', 'f', 'b']]</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-009">
+      <description>Name lookup into an array: type error</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>(['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b'])[ .?first = 'b']</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-010">
+      <description>Variable lookup into an array: type error</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>let $d := current-date() return (['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b'])[ .?($d) = 'b']</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-011">
+      <description>Binary lookup with no context item</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>let $d := function($x) {$x + .?2} return $d(12)</test>
+      <result>
+         <error code="XPDY0002"/>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-012">
+      <description>Binary lookup when context item is not an array or map</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>(1 to 10)[.?1 = 3]</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-013">
+      <description>Binary lookup when context item is a function but not an array or map</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>(floor#1, ceiling#1, round#1, abs#1)[.?1 = 1]</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-014">
+      <description>Binary lookup selecting all items of an array</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>(['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b'])[ .?* = 'c']</test>
+      <result>
+         <assert-deep-eq>['a', 'b', 'c'], ['b', 'c', 'd']]</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-015">
+      <description>Result of Binary lookup is atomized</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>([1, [2], [3]], [[2], 2, [4]])[ .?1 = .?2 ]</test>
+      <result>
+         <assert-deep-eq>[[2], 2, [4]]</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-016">
+      <description>No syntactic confusion with place-markers</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>(['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b'])[contains(.?1, .?, 'http://www.w3.org/2005/xpath-functions/collation/codepoint')('a')]</test>
+      <result>
+         <assert-deep-eq>['a', 'b', 'c']</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-017">
+      <description>No syntactic confusion with place-markers</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>(['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b'])[contains(.?1, .?)('a')]</test>
+      <result>
+         <assert-deep-eq>['a', 'b', 'c']</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-018">
+      <description>Decimal literal not allowed</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>(['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b'])[.?1.0 = 'a']</test>
+      <result>
+         <error code="XPST0001"/>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-019">
+      <description>Decimal literal not allowed in parentheses</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>(['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b'])[.?(1.0) = 'a']</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-020">
+      <description>Subscript is atomized</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XQ31+"/>
+      <dependency type="feature" value="schemaValidation"/>
+      <test><![CDATA[
+        let $x := (validate type xs:integer {<x>1</x>}, validate type xs:integer {<y>2</y>}) return
+        (['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b'])[.?($x) = 'b']
+      ]]></test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-021">
+      <description>Subscript is atomized, and untypedAtomic is converted to xs:integer</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[
+        let $x := (<x>1</x>, <y>2</y>) return
+        (['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b'])[.?($x) = 'b']
+      ]]></test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-022">
+      <description>Filtering a sequence of arrays produced using .?*</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>[['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b']].?*[.?1 = 'a']</test>
+      <result>
+         <assert-deep-eq>['a', 'b', 'c']</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-023">
+      <description>Binary lookup on rhs of "!"</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>[['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b']]!.?*!.?1</test>
+      <result>
+         <assert-deep-eq>'a', 'b', 'e'</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-024">
+      <description>Binary lookup on rhs of "/". Must fail because context item can only be a node.</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[
+        let $x := (<x>1</x>, <y>2</y>) return $x / .?1
+      ]]></test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-023">
+      <description>Select nothing from an array</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>(['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b'])[exists(.?())]</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-040">
+      <description>Lookup by name in a map</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>(map{'a':1, 'b':2, 'c':3},  map{'a':2, 'b':3, 'c':4})[.?b eq 3]</test>
+      <result>
+         <assert-deep-eq>map{'a':2, 'b':3, 'c':4}</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-041">
+      <description>Lookup by number in a map</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>(map{1:1, 2:2, 3:3},  map{1:2, 2:3, 3:4})[.?2 eq 3]</test>
+      <result>
+         <assert-deep-eq>map{1:2, 2:3, 3:4}</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-042">
+      <description>Lookup by range of values in a map</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>(map{1:1, 1:2, 1:3},  map{1:2, 2:3, 3:4})[.?(1 to 2) eq 3]</test>
+      <result>
+         <assert-deep-eq>map{1:2, 2:3, 3:4}</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-043">
+      <description>Lookup by hyphenated name in a map</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>(map{'a-1':1, 'b-1':2, 'c-1':3},  map{'a-1':2, 'b-1':3, 'c-1':4})[.?b-1 eq 3]</test>
+      <result>
+         <assert-deep-eq>map{'a-1':2, 'b-1':3, 'c-1':4}</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-044">
+      <description>Comment appearing after ".?"</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>(map{'a-1':1, 'b-1':2, 'c-1':3},  map{'a-1':2, 'b-1':3, 'c-1':4})[.? (:confusing.?:) b-1 eq 3]</test>
+      <result>
+         <assert-deep-eq>map{'a-1':2, 'b-1':3, 'c-1':4}</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-045">
+      <description>Get all entries in a map</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>(map{1:1, 2:2, 3:3},  map{1:2, 2:3, 3:4})[.?* = 3]</test>
+      <result>
+         <assert-deep-eq>map{1:1, 2:2, 3:3},  map{1:2, 2:3, 3:4}</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-046">
+      <description>Select nothing from a map</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>(map{1:1, 2:2, 3:3},  map{1:2, 2:3, 3:4})[exists(.?())]</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+
+   <test-case name="Lookup-101">
+      <description>Integer subscript into an array</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>(['a', 'b'], ['c', 'd'])?1</test>
+      <result>
+         <assert-deep-eq>'a', 'c'</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-102">
+      <description>Variable subscript into an array</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>let $i := 1 return (['a', 'b'], ['c', 'd'])?($i)</test>
+      <result>
+         <assert-deep-eq>'a', 'c'</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-103">
+      <description>Integer subscript into an array: leading zeroes allowed</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>(['a', 'b'], ['c', 'd'])? 001</test>
+      <result>
+         <assert-deep-eq>'a', 'c'</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-104">
+      <description>Integer subscript into an array: minus sign not allowed</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>(['a', 'b'], ['c', 'd'])? -1</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-105">
+      <description>Integer subscript into an array: array index too low</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>(['a', 'b'], ['c', 'd'])?0</test>
+      <result>
+         <error code="FOAY0001"/>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-106">
+      <description>Integer subscript into an array: array index too high</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>(['a', 'b'], ['c', 'd'], ['e'])?2</test>
+      <result>
+         <error code="FOAY0001"/>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-107">
+      <description>Integer subscript into an array: range of subscripts</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>(['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b'])?(1 to 2)</test>
+      <result>
+         <assert-deep-eq>'a', 'b', 'b', 'c', 'e', 'f'</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-108">
+      <description>Integer subscript into an array: variable range of subscripts</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>let $i := (1, 3) return (['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b'])?($i)</test>
+      <result>
+         <assert-deep-eq>'a', 'c', 'b', 'd', 'e', 'b']]</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-109">
+      <description>Name lookup into an array: type error</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>(['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b']) ?first</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-110">
+      <description>Variable lookup into an array: type error</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>let $d := current-date() return (['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b'])?($d)</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-111">
+      <description>Binary lookup with no context item</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>let $d := function($x) {$x?2} return $d([12, 13])</test>
+      <result>
+         <assert-eq>13</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-112">
+      <description>Binary lookup when lhs is not an array or map</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>(1 to 10)?1</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-113">
+      <description>Binary lookup when lhs is a function but not an array or map</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>(floor#1, ceiling#1, round#1, abs#1)?1</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-114">
+      <description>Binary lookup selecting all items of an array</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>(['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b'])?*</test>
+      <result>
+         <assert-deep-eq>'a', 'b', 'c', 'b', 'c', 'd', 'e', 'f', 'b'</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-115">
+      <description>Result of Binary lookup is atomized</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>([1, [2], [3]], [[2], 2, [4]])?3 = 3</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-116">
+      <description>No syntactic confusion with occurrence indicators</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>['a', 'b', 'c'] treat as array(*)??1</test>
+      <result>
+         <assert-eq>'a'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-117">
+      <description>No syntactic confusion with occurrence indicators</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>['a', 'b', 'c'] treat as array(*) ? 1</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-118">
+      <description>Decimal literal not allowed</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>(['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b'])?1.0 </test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-119">
+      <description>Decimal literal not allowed in parentheses</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>(['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b'])?(1.0) </test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-120">
+      <description>Subscript is atomized</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XQ31+"/>
+      <dependency type="feature" value="schemaValidation"/>
+      <test><![CDATA[
+        let $x := (validate type xs:integer {<x>1</x>}, validate type xs:integer {<y>2</y>}) return
+        (['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b'])?($x)
+      ]]></test>
+      <result>
+         <assert-deep-eq>'a', 'b', 'b', 'c', 'e', 'f'</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-121">
+      <description>Subscript is atomized, and untypedAtomic is converted to xs:integer</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[
+        let $x := (<x>1</x>, <y>2</y>) return
+        (['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b'])?($x)
+      ]]></test>
+      <result>
+         <assert-deep-eq>'a', 'b', 'b', 'c', 'e', 'f'</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-122">
+      <description>Double-flattening a sequence of arrays using ?*?*</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>[['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b']]?*?*</test>
+      <result>
+         <assert-deep-eq>'a', 'b', 'c', 'b', 'c', 'd', 'e', 'f', 'b'</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-123">
+      <description>Select nothing from an array</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>(['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b'])?()</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-140">
+      <description>Lookup by name in a map</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>(map{'a':1, 'b':2, 'c':3},  map{'a':2, 'b':3, 'c':4})?b</test>
+      <result>
+         <assert-deep-eq>2, 3</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-141">
+      <description>Lookup by number in a map</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>(map{1:1, 2:2, 3:3},  map{1:2, 2:3, 3:4})?2</test>
+      <result>
+         <assert-deep-eq>2, 3</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-142">
+      <description>Lookup by range of values in a map</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>(map{1:1, 2:2, 3:3},  map{2:3, 3:4, 4:5})?(1 to 2)</test>
+      <result>
+         <assert-deep-eq>1, 2, 3</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-143">
+      <description>Lookup by hyphenated name in a map</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>(map{'a-1':1, 'b-1':2, 'c-1':3},  map{'a-1':2, 'b-1':3, 'c-1':4})?c-1</test>
+      <result>
+         <assert-deep-eq>3, 4</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-144">
+      <description>Comment appearing after "?"</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>(map{'a-1':1, 'b-1':2, 'c-1':3},  map{'a-1':2, 'b-1':3, 'c-1':4})? (:confusing.?:) b-1</test>
+      <result>
+         <assert-deep-eq>2, 3</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-145">
+      <description>Get all entries in a map</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>(map{1:1, 2:2, 3:3},  map{1:2, 2:3, 3:4})?*</test>
+      <result>
+         <assert-permutation>1, 2, 3, 2, 3, 4</assert-permutation>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-146">
+      <description>Select nothing from a map</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>(map{1:1, 2:2, 3:3},  map{1:2, 2:3, 3:4})?()</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-147">
+      <description>Select from empty sequence</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>()?banana</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-148">
+      <description>Select from empty sequence</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>()?12</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-149">
+      <description>Select from empty sequence</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>(())?(())</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-150">
+      <description>Numeric Lookup followed by function call</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>[floor#1, ceiling#1, round#1, abs#1]?2(1.3)</test>
+      <result>
+         <assert-eq>2.0</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-151">
+      <description>Name Lookup followed by function call</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>map{'f':floor#1, 'c':ceiling#1, 'r':round#1, 'a':abs#1}?c(1.3)</test>
+      <result>
+         <assert-eq>2.0</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-152">
+      <description>Parenthesized Lookup followed by function call</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>map{'f':floor#1, 'c':ceiling#1, 'r':round#1, 'a':abs#1}?("c")(1.3)</test>
+      <result>
+         <assert-eq>2.0</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-153">
+      <description>Parenthesized Lookup preceded by predicate</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>map{'f':floor#1, 'c':ceiling#1, 'r':round#1, 'a':abs#1}[1]?("c")(1.3)</test>
+      <result>
+         <assert-eq>2.0</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-154">
+      <description>Wildcard Lookup followed by (mapped) function call</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>map{'f':floor#1, 'c':ceiling#1, 'r':round#1, 'a':abs#1}?*!.(1.3)</test>
+      <result>
+         <assert-permutation>1.0, 2.0, 1.0, 1.3</assert-permutation>
+      </result>
+   </test-case>
+
+</test-set>
