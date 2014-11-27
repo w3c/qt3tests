@@ -718,5 +718,86 @@
          <assert-permutation>1.0, 2.0, 1.0, 1.3</assert-permutation>
       </result>
    </test-case>
+   
+   <test-case name="Lookup-155">
+      <description>Lookup by name in a map; name is a keyword</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>map{'or':true(), 'and':true(), 'but':false()} ? or or 2 = 3</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-156">
+      <description>Lookup by name in a map; name is a QName</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>map{'xs:decimal':true(), 'xs:integer':true(), 'xs:polygon':false()} ? xs:integer</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-157">
+      <description>Lookup by name in a map; name is an EQName</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>map{'decimal':true(), 'integer':true(), 'polygon':false()} ? Q{}integer</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-158">
+      <description>Double lookup into an array of maps</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>[map{'decimal':true(), 'integer':true(), 'polygon':false()}, map{}] ?1?decimal</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-159">
+      <description>Double lookup into a map of arrays</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>map{'decimal':true(), 'integer':true(), 'polygon':[11,22,33]}?polygon?2</test>
+      <result>
+         <assert-eq>22</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-160">
+      <description>Process all values in a map</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>some $x in map{'decimal':true(), 'integer':true(), 'polygon':false()}?* satisfies $x</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-161">
+      <description>Process all values in a map</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>count(map{'decimal':true(), 'integer':true(), 'polygon':false()}?*[.])</test>
+      <result>
+         <assert-eq>2</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-162">
+      <description>Process all values in a map</description>
+      <created by="Michael Kay" on="2014-11-27"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>max(map{'decimal':12, 'integer':18, 'polygon':-4}?*)</test>
+      <result>
+         <assert-eq>18</assert-eq>
+      </result>
+   </test-case>
+
 
 </test-set>
