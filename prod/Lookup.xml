@@ -79,7 +79,7 @@
       <dependency type="spec" value="XP31+ XQ31+"/>
       <test>let $i := (1, 3) return (['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b'])[ .?($i) = 'b']</test>
       <result>
-         <assert-deep-eq>['a', 'b', 'c'], ['e', 'f', 'b']]</assert-deep-eq>
+         <assert-deep-eq>['b', 'c', 'd'], ['e', 'f', 'b']</assert-deep-eq>
       </result>
    </test-case>
    
@@ -139,7 +139,7 @@
       <dependency type="spec" value="XP31+ XQ31+"/>
       <test>(['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b'])[ .?* = 'c']</test>
       <result>
-         <assert-deep-eq>['a', 'b', 'c'], ['b', 'c', 'd']]</assert-deep-eq>
+         <assert-deep-eq>['a', 'b', 'c'], ['b', 'c', 'd']</assert-deep-eq>
       </result>
    </test-case>
    
@@ -157,7 +157,7 @@
       <description>No syntactic confusion with place-markers</description>
       <created by="Michael Kay" on="2014-11-27"/>
       <dependency type="spec" value="XP31+ XQ31+"/>
-      <test>(['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b'])[contains(.?1, .?, 'http://www.w3.org/2005/xpath-functions/collation/codepoint')('a')]</test>
+      <test>(['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b'])[contains(.?1, ?, 'http://www.w3.org/2005/xpath-functions/collation/codepoint')('a')]</test>
       <result>
          <assert-deep-eq>['a', 'b', 'c']</assert-deep-eq>
       </result>
@@ -167,7 +167,7 @@
       <description>No syntactic confusion with place-markers</description>
       <created by="Michael Kay" on="2014-11-27"/>
       <dependency type="spec" value="XP31+ XQ31+"/>
-      <test>(['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b'])[contains(.?1, .?)('a')]</test>
+      <test>(['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b'])[contains(.?1, ?)('a')]</test>
       <result>
          <assert-deep-eq>['a', 'b', 'c']</assert-deep-eq>
       </result>
@@ -179,7 +179,7 @@
       <dependency type="spec" value="XP31+ XQ31+"/>
       <test>(['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b'])[.?1.0 = 'a']</test>
       <result>
-         <error code="XPST0001"/>
+         <error code="XPST0003"/>
       </result>
    </test-case>
    
@@ -203,7 +203,7 @@
         (['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b'])[.?($x) = 'b']
       ]]></test>
       <result>
-         <error code="XPTY0004"/>
+         <assert-deep-eq>(['a', 'b', 'c'], ['b', 'c', 'd'])</assert-deep-eq>
       </result>
    </test-case>
    
@@ -216,15 +216,15 @@
         (['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b'])[.?($x) = 'b']
       ]]></test>
       <result>
-         <error code="XPTY0004"/>
+         <assert-deep-eq>(['a', 'b', 'c'], ['b', 'c', 'd'])</assert-deep-eq>
       </result>
    </test-case>
    
    <test-case name="Lookup-022">
-      <description>Filtering a sequence of arrays produced using .?*</description>
+      <description>Filtering a sequence of arrays produced using ?*</description>
       <created by="Michael Kay" on="2014-11-27"/>
       <dependency type="spec" value="XP31+ XQ31+"/>
-      <test>[['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b']].?*[.?1 = 'a']</test>
+      <test>[['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b']]?*[.?1 = 'a']</test>
       <result>
          <assert-deep-eq>['a', 'b', 'c']</assert-deep-eq>
       </result>
@@ -252,7 +252,7 @@
       </result>
    </test-case>
    
-   <test-case name="Lookup-023">
+   <test-case name="Lookup-025">
       <description>Select nothing from an array</description>
       <created by="Michael Kay" on="2014-11-27"/>
       <dependency type="spec" value="XP31+ XQ31+"/>
@@ -286,7 +286,7 @@
       <description>Lookup by range of values in a map</description>
       <created by="Michael Kay" on="2014-11-27"/>
       <dependency type="spec" value="XP31+ XQ31+"/>
-      <test>(map{1:1, 1:2, 1:3},  map{1:2, 2:3, 3:4})[.?(1 to 2) eq 3]</test>
+      <test>(map{1:1, 2:2, 3:3},  map{1:2, 2:3, 3:4})[.?(1 to 2) = 3]</test>
       <result>
          <assert-deep-eq>map{1:2, 2:3, 3:4}</assert-deep-eq>
       </result>
@@ -408,7 +408,7 @@
       <dependency type="spec" value="XP31+ XQ31+"/>
       <test>let $i := (1, 3) return (['a', 'b', 'c'], ['b', 'c', 'd'], ['e', 'f', 'b'])?($i)</test>
       <result>
-         <assert-deep-eq>'a', 'c', 'b', 'd', 'e', 'b']]</assert-deep-eq>
+         <assert-deep-eq>'a', 'c', 'b', 'd', 'e', 'b'</assert-deep-eq>
       </result>
    </test-case>
    
@@ -483,12 +483,12 @@
    </test-case>
    
    <test-case name="Lookup-116">
-      <description>No syntactic confusion with occurrence indicators</description>
+      <description>No syntactic confusion with occurrence indicators (syntax error, treat as is not a primary)</description>
       <created by="Michael Kay" on="2014-11-27"/>
       <dependency type="spec" value="XP31+ XQ31+"/>
       <test>['a', 'b', 'c'] treat as array(*)??1</test>
       <result>
-         <assert-eq>'a'</assert-eq>
+         <error code="XPST0003"/>
       </result>
    </test-case>
    
