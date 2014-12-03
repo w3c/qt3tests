@@ -232,7 +232,7 @@
         <assert-eq>'B'</assert-eq>
       </result>
    </test-case>   
-   
+      
     <test-case name="ArrayTest-021">
       <description>multilevel wildcard lookup in nested arrays</description>
       <created by="Carla Spruit" on="2014-10-28"/>
@@ -547,9 +547,19 @@
       <created by="Carla Spruit" on="2014-10-28"/>
       <modified by="Michael Kay" on="2014-11-20" change="dependency on XQuery"/>
       <dependency type="spec" value="XQ31+"/>
-      <test><![CDATA[<chapter ref="[{1, 5 to 7, 9}]"/>/@ref/string()]]></test>
+      <test><![CDATA[<chapter ref="{[1, 5 to 7, 9]}"/>/@ref/string()]]></test>
       <result>
          <assert-eq>"[1 5 6 7 9]"</assert-eq>
       </result>
-   </test-case>                                
+   </test-case>
+   
+   <test-case name="ArrayTest-051">
+      <description>element constructor, contained arrays are flattened not atomized (bug 27463)</description>
+      <created by="Michael Kay" on="2014-12-03" change="assert-xml in result, dependency on XQuery"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test>element a {[<z x='3'/>/@x, <a>22</a>, [<b>33</b>, <c>44</c>], <d>55</d>]}</test>
+      <result>
+         <assert-xml><![CDATA[<a x='3'><a>22</a><b>33</b><c>44</c><d>55</d></a>]]></assert-xml>
+      </result>
+   </test-case>
 </test-set>
