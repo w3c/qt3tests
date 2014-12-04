@@ -509,6 +509,45 @@
          <assert-eq>0</assert-eq>
       </result>
    </test-case>
+   
+   <test-case name="compare-014">
+      <description>Use HTML case-blind collation</description>
+      <created by="Michael Kay" on="2014-12-04"/>
+      <environment>
+         <collation uri="http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive"/>
+      </environment>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>compare("a", "A", "http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive")</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="compare-015">
+      <description>Use HTML case-blind collation: test with non-letter characters</description>
+      <created by="Michael Kay" on="2014-12-04"/>
+      <environment>
+         <collation uri="http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive"/>
+      </environment>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>compare("123 - ; ^ a", "123 -  ; ^ a", "http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive") eq 0</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="compare-016">
+      <description>Use HTML case-blind collation: test with non-ASCII letters</description>
+      <created by="Michael Kay" on="2014-12-04"/>
+      <environment>
+         <collation uri="http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive"/>
+      </environment>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>compare("&#xc1;", "&#xe1;", "http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive") eq 0</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
 
    <test-case name="K2-CompareFunc-1">
       <description>Use a complex collation argument.</description>

@@ -1895,6 +1895,131 @@
       </result>
    </test-case>
    
+   <test-case name="K-SeqDeepEqualFunc-64">
+      <description>Use case-blind collation, if supported</description>
+      <created by="Michael Kay" on="2014-12-05"/>
+      <environment>
+         <collation uri="http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive"/>
+      </environment>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>deep-equal(("a", "A"), ("A", "a"), "http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="K-SeqDeepEqualFunc-65">
+      <description>Use case-blind collation, if supported</description>
+      <created by="Michael Kay" on="2014-12-05"/>
+      <environment>
+         <collation uri="http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive"/>
+      </environment>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>deep-equal(("a", "A"), ("A", "b"), "http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="K-SeqDeepEqualFunc-66">
+      <description>Use case-blind collation, if supported, within attribute nodes</description>
+      <created by="Michael Kay" on="2014-12-05"/>
+      <environment>
+         <collation uri="http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive"/>
+      </environment>
+      <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[
+         deep-equal(<a><b x="abc"/></a>, <a><b x="ABC"/></a>,
+             "http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive")
+      ]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="K-SeqDeepEqualFunc-67">
+      <description>Use case-blind collation, if supported, within element nodes</description>
+      <created by="Michael Kay" on="2014-12-05"/>
+      <environment>
+         <collation uri="http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive"/>
+      </environment>
+      <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[
+         deep-equal(<a><b>abc</b></a>, <a><b>ABC</b></a>,
+             "http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive")
+      ]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="K-SeqDeepEqualFunc-68">
+      <description>Use case-blind collation, if supported, doesn't apply to names</description>
+      <created by="Michael Kay" on="2014-12-05"/>
+      <environment>
+         <collation uri="http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive"/>
+      </environment>
+      <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[
+         deep-equal(<a><b>abc</b></a>, <a><B>abc</B></a>,
+             "http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive")
+      ]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="K-SeqDeepEqualFunc-69">
+      <description>Use case-blind collation, if supported, doesn't apply to attribute names</description>
+      <created by="Michael Kay" on="2014-12-05"/>
+      <environment>
+         <collation uri="http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive"/>
+      </environment>
+      <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[
+         deep-equal(<a><b x="abc"/></a>, <a><b X="abc"/></a>,
+             "http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive")
+      ]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="K-SeqDeepEqualFunc-70" covers="partial-function-application">
+      <description>Use case-blind collation, if supported, partially applied</description>
+      <created by="Michael Kay" on="2014-12-05"/>
+      <environment>
+         <collation uri="http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive"/>
+      </environment>
+      <dependency type="spec" value="XQ31+"/>
+      <dependency type="feature" value="non_unicode_codepoint_collation"/>
+      <test><![CDATA[
+         let $deep := deep-equal(?, ?, "http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive")
+         return $deep(<a><b>abc</b></a>, <a><b>ABC</b></a>)
+      ]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="K-SeqDeepEqualFunc-71" covers="named-function-ref">
+      <description>Use case-blind collation, if supported, in dynamic call</description>
+      <created by="Michael Kay" on="2014-12-05"/>
+      <environment>
+         <collation uri="http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive"/>
+      </environment>
+      <dependency type="spec" value="XQ31+"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+       <test><![CDATA[
+         let $deep := deep-equal#3 
+         return $deep(<a><b>abc</b></a>, <a><b>ABC</b></a>, 
+                      "http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive")
+      ]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
    <test-case name="K2-SeqDeepEqualFunc-1">
       <description> Two date/time values that never will compare equal. </description>
       <created by="Frans Englich" on="2007-11-26"/>

@@ -395,6 +395,25 @@
       </result>
    </test-case>
    
+   <test-case name="group-018">
+      <description>Use case-blind collation, if supported</description>
+      <created by="Michael Kay" on="2014-12-04"/>
+      <environment>
+         <collation uri="http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive"/>
+      </environment>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test><![CDATA[
+      count(
+         for $y in ("ax", "bx", "cx", "Ay", "By", "Cy")
+         group by $k := substring($y, 1, 1) collation "http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive"
+         return <group>{$y}</group>
+       )
+       ]]></test>
+      <result>
+         <assert-eq>3</assert-eq>
+      </result>
+   </test-case>
+   
    <test-case name="use-case-groupby-Q1">
       <description>Use Case "Group By" - Q1</description>
       <created by="Andrew Eisenberg" on="2012-03-14"/>
