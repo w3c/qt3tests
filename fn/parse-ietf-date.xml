@@ -93,6 +93,7 @@
       <description>long fractional seconds</description>
       <created by="Liam R E Quin" on="2014-08-22"/>
       <modified by="Michael Kay" on="2014-09-16" change="see bug 26825"/>
+      <modified by="Liam Quin" on="2014-12-03" change="Reduce precision, for bug 26825"/>
       <!--* XSD implementations must support milliseconds in dateTime objects.
           * We don't specify whether parse-ietf-date() must do the same, but
 	  * since it returns a dateTime object that seems a resonable
@@ -101,9 +102,9 @@
 	  * in both cases.
 	  *-->
       <environment>
-         <param name="d" as="xs:string" select="'2014-08-20T19:36:01.2999999999999999999999999999999Z'"/>
+         <param name="d" as="xs:string" select="'2014-08-20T19:36:01.299Z'"/>
       </environment>
-      <test>if (parse-ietf-date("Wed, 20 Aug 2014 19:36:01.2999999999999999999999999999999 GMT") = xs:dateTime($d))
+      <test>if (parse-ietf-date("Wed, 20 Aug 2014 19:36:01.299 GMT") = xs:dateTime($d))
 	  then "pass"
 	  else "fail"</test>
       <result>
@@ -227,8 +228,9 @@
    <test-case name="parse-ietf-date-15">
       <description>single digit day</description>
       <created by="Liam R E Quin" on="2014-08-22"/>
+      <modified by="Liam Quin" on="2014-12-03" change="see bug 27338"/>
       <environment>
-         <param name="d" as="xs:dateTime" select="xs:dateTime('2014-08-20T19:36:01Z')"/>
+         <param name="d" as="xs:dateTime" select="xs:dateTime('2014-09-09T19:36:01Z')"/>
       </environment>
       <test>if (parse-ietf-date("Tue, 9 Sep 2014 19:36:01 GMT") = $d)
 	  then "pass"
@@ -283,6 +285,7 @@
    <test-case name="parse-ietf-date-19">
       <description>dsep hyphen, no day name</description>
       <created by="Liam R E Quin" on="2014-08-22"/>
+      <modified by="Liam Quin" on="2014-12-03" change="see bug 27338"/>
       <environment>
          <param name="d" as="xs:dateTime" select="xs:dateTime('2014-08-20T19:36:00Z')"/>
       </environment>
@@ -297,10 +300,11 @@
    <test-case name="parse-ietf-date-20">
       <description>dsep S only, no day name</description>
       <created by="Liam R E Quin" on="2014-08-22"/>
+      <modified by="Liam Quin" on="2014-12-03" change="see bug 27338"/>
       <environment>
          <param name="d" as="xs:dateTime" select="xs:dateTime('2014-08-20T19:36:00Z')"/>
       </environment>
-      <test>if (parse-ietf-date("Aug 20 2014 19:36") = $d)
+      <test>if (parse-ietf-date("Aug 20 19:36 2014") = $d)
 	  then "pass"
 	  else "fail"</test>
       <result>
@@ -311,10 +315,11 @@
    <test-case name="parse-ietf-date-21">
       <description>dsep hyphen with spaces</description>
       <created by="Liam R E Quin" on="2014-08-22"/>
+      <modified by="Liam Quin" on="2014-12-03" change="see bug 27338"/>
       <environment>
          <param name="d" as="xs:dateTime" select="xs:dateTime('2014-08-20T19:36:00Z')"/>
       </environment>
-      <test>if (parse-ietf-date("Wed, Aug - 20  -  2014 19:36") = $d)
+      <test>if (parse-ietf-date("Wed, 20 - Aug - 2014 19:36") = $d)
 	  then "pass"
 	  else "fail"</test>
       <result>
@@ -325,10 +330,11 @@
    <test-case name="parse-ietf-date-22">
       <description>dsep hyphen with space</description>
       <created by="Liam R E Quin" on="2014-08-22"/>
+      <modified by="Liam Quin" on="2014-12-03" change="see bug 27338"/>
       <environment>
          <param name="d" as="xs:dateTime" select="xs:dateTime('2014-08-20T19:36:00Z')"/>
       </environment>
-      <test>if (parse-ietf-date("Wed, Aug- 20- 2014 19:36") = $d)
+      <test>if (parse-ietf-date("Wed, 20- Aug- 2014 19:36") = $d)
 	  then "pass"
 	  else "fail"</test>
       <result>
@@ -339,10 +345,11 @@
    <test-case name="parse-ietf-date-23">
       <description>dsep hyphen with space</description>
       <created by="Liam R E Quin" on="2014-08-22"/>
+      <modified by="Liam Quin" on="2014-12-03" change="see bug 27338"/>
       <environment>
          <param name="d" as="xs:dateTime" select="xs:dateTime('2014-08-20T19:36:00Z')"/>
       </environment>
-      <test>if (parse-ietf-date("Wed, Aug -20 -2014 19:36") = $d)
+      <test>if (parse-ietf-date("Wed, 20 -Aug -2014 19:36") = $d)
 	  then "pass"
 	  else "fail"</test>
       <result>
@@ -665,7 +672,8 @@
    <test-case name="parse-ietf-date-errs9">
       <description>Error FORG0010 negative years not allowed</description>
       <created by="Liam Quin" on="2014-08-22"/>
-      <test>parse-ietf-date("Fri, 28 Feb -2000 19:36:01 GMT")</test>
+      <modified by="Liam Quin" on="2014-12-03" change="see bug 27338"/>
+      <test>parse-ietf-date("Feb 28 19:36:01 GMT -2000")</test>
       <result>
          <error code="FORG0010"/>
       </result>
