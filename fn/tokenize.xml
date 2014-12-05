@@ -349,10 +349,154 @@ abracadabra", "\n")</test>
 	    <error code="FORX0003"/>
       </result>
    </test-case>
+   
+   <test-case name="fn-tokenize-39">
+      <description> tokenize#1, empty string </description>
+      <created by="Michael Kay" on="2014-12-05"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>tokenize("")</test>
+      <result>
+	    <assert-empty/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-tokenize-40">
+      <description> tokenize#1, empty sequence </description>
+      <created by="Michael Kay" on="2014-12-05"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>tokenize(())</test>
+      <result>
+	    <assert-empty/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-tokenize-41">
+      <description> tokenize#1, all-space string </description>
+      <created by="Michael Kay" on="2014-12-05"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>tokenize("   ")</test>
+      <result>
+	    <assert-empty/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-tokenize-42">
+      <description> tokenize#1, various whitespace chars </description>
+      <created by="Michael Kay" on="2014-12-05"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>tokenize(codepoints-to-string((9, 10, 13, 32, 13, 10, 9)))</test>
+      <result>
+	    <assert-empty/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-tokenize-43">
+      <description> tokenize#1, single token </description>
+      <created by="Michael Kay" on="2014-12-05"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>tokenize("abc")</test>
+      <result>
+	    <assert-eq>"abc"</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-tokenize-44">
+      <description> tokenize#1, single token with surrounding whitespace</description>
+      <created by="Michael Kay" on="2014-12-05"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>tokenize(" abc ")</test>
+      <result>
+	    <assert-eq>"abc"</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-tokenize-45">
+      <description> tokenize#1, single token with surrounding whitespace</description>
+      <created by="Michael Kay" on="2014-12-05"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>tokenize(codepoints-to-string((9, 10, 97, 98, 99, 13, 32)))</test>
+      <result>
+	    <assert-eq>"abc"</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-tokenize-46">
+      <description> tokenize#1, two tokens </description>
+      <created by="Michael Kay" on="2014-12-05"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>tokenize("abc def")</test>
+      <result>
+	    <assert-deep-eq>"abc", "def"</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-tokenize-47">
+      <description> tokenize#1, two tokens, multiple whitespace separator </description>
+      <created by="Michael Kay" on="2014-12-05"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>tokenize(codepoints-to-string((97, 98, 99, 13, 32, 10, 100, 101, 102)))</test>
+      <result>
+	    <assert-deep-eq>"abc", "def"</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-tokenize-48">
+      <description> tokenize#1, two tokens, multiple whitespace in separator and surrounding </description>
+      <created by="Michael Kay" on="2014-12-05"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>tokenize(codepoints-to-string((9, 9, 97, 98, 99, 13, 32, 10, 100, 101, 102, 10, 10)))</test>
+      <result>
+	    <assert-deep-eq>"abc", "def"</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-tokenize-49">
+      <description> tokenize#1, many tokens </description>
+      <created by="Michael Kay" on="2014-12-05"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>string-join(tokenize(" the quick brown fox jumped over the lazy dog "), '|')</test>
+      <result>
+	    <assert-eq>"the|quick|brown|fox|jumped|over|the|lazy|dog"</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-tokenize-50">
+      <description> tokenize#1, form-feed is not a separator </description>
+      <created by="Michael Kay" on="2014-12-05"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <dependency type="xml-version" value="1.1"/>
+      <test>count(tokenize(codepoints-to-string((97, 98, 99, 12, 100, 101, 102))))</test>
+      <result>
+	    <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-tokenize-51">
+      <description> tokenize#1, nbsp is not a separator </description>
+      <created by="Michael Kay" on="2014-12-05"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>count(fn:tokenize(codepoints-to-string((97, 98, 99, 160, 100, 101, 102))))</test>
+      <result>
+	    <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-tokenize-52">
+      <description> tokenize#1, dynamic call </description>
+      <created by="Michael Kay" on="2014-12-05"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <test>(tokenize#1, upper-case#1, lower-case#1)[1]("abc def")</test>
+      <result>
+	    <assert-deep-eq>"abc", "def"</assert-deep-eq>
+      </result>
+   </test-case>
 
    <test-case name="K-TokenizeFunc-1">
       <description> fn:tokenize takes at least two arguments. </description>
       <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="Michael Kay" on="2014-12-05" change="not applicable to 3.1"/>
+      <dependency type="spec" value="XP20 XP30 XQ10 XQ30"/>
       <test>tokenize("input")</test>
       <result>
          <error code="XPST0017"/>
