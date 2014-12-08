@@ -1615,6 +1615,7 @@
          <assert-true/>
       </result>
    </test-case>   
+
    <test-case name="xquery30keywords5">
       <description>Purpose : keywords can be used as unprefixed function names </description>
       <created by="Andrew Eisenberg" on="2013-05-10"/>
@@ -1847,4 +1848,76 @@
          <assert-true/>
       </result>
    </test-case>   
+
+   <test-case name="xquery31keywords1">
+      <description>Purpose : New XQuery 3.1 keyword can be used as variable name </description>
+      <created by="Jim Melton" on="2014-12-05"/>
+      <environment ref="works-mod"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test>
+        let $exponent-separator := 1
+        return 2
+      </test>
+      <result>
+         <assert-eq>2</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="xquery31keywords2" covers="let-in-xpath">
+      <description>Purpose : New XQuery 3.1 keyword can be used as element name test </description>
+      <created by="Jim Melton" on="2014-12-05"/>
+      <environment ref="works-mod"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[
+        let $x := (/)
+        return $x/exponent-separator
+      ]]></test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+
+   <test-case name="xquery31keywords3">
+      <description>Purpose : New XQuery 3.1 keyword can be used as element name </description>
+      <created by="Jim Melton" on="2014-12-05"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[
+        <keywords>
+           <exponent-separator/>
+        </keywords>/name()
+      ]]></test>
+      <result>
+         <assert-string-value>keywords</assert-string-value>
+      </result>
+   </test-case>   
+
+   <test-case name="xquery31keywords4">
+      <description>Purpose : New XQuery 3.1 keyword can be used as fn-prefixed function name </description>
+      <created by="Jim Melton" on="2014-12-05"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[
+         declare function local:exponent-separator () {126};
+         local:exponent-separator()
+         eq 126
+      ]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>   
+
+   <test-case name="xquery31keywords5">
+      <description>Purpose : New XQuery 3.1 keyword can be used as unprefixed function name </description>
+      <created by="Jim Melton" on="2014-12-05"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[
+         declare default function namespace "http://www.w3.org/2005/xquery-local-functions";
+         declare function exponent-separator () {110};
+         exponent-separator()
+         eq 110
+      ]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>   
+
 </test-set>
