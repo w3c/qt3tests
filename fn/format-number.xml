@@ -981,7 +981,262 @@
       <assert-string-value>042</assert-string-value>
     </result>
   </test-case>
+
+  <test-case name="numberformat101">
+    <description>
+      PURPOSE: test format-number() using default decimal-format declaration with appropriate pattern
+    </description> 
+    <created by="Jim Melton" on="2014-12-05"/>
+    <test>format-number(12345.678, '9.9999e999')</test>
+    <result>
+      <assert-string-value>1.2346e004</assert-string-value>
+    </result>
+  </test-case>
    
+  <test-case name="numberformat102">
+    <description>
+      PURPOSE: test format-number() using default decimal-format declaration with INappropriate pattern 
+    </description> 
+    <created by="Jim Melton" on="2014-12-05"/>
+    <test>format-number(12345.678, '9.9999E999')</test>
+    <result>
+      <error code="FODF1310"/>
+    </result>
+  </test-case>
+   
+  <test-case name="numberformat103">
+    <description>
+      PURPOSE: test format-number() changing default decimal-format declaration to use "E" with appropriate pattern
+    </description> 
+    <created by="Jim Melton" on="2014-12-05"/>
+    <test>
+      declare default decimal-format exponent-separator="E";
+      let $x := fn:format-number(12345.678, '9.9999E999')
+      return $x
+    </test>
+    <result>
+      <assert-string-value>1.2346e004</assert-string-value>
+    </result>
+  </test-case>
+   
+  <test-case name="numberformat104">
+    <description>
+      PURPOSE: test format-number() changing default decimal-format declaration to use "E" with INappropriate pattern
+    </description> 
+    <created by="Jim Melton" on="2014-12-05"/>
+    <test>
+      declare default decimal-format exponent-separator="E";
+      let $x := fn:format-number(12345.678, '9.9999e999')
+      return $x
+    </test>
+    <result>
+      <error code="FODF1310"/>
+    </result>
+  </test-case>
+   
+  <test-case name="numberformat105">
+    <description>
+      PURPOSE: test format-number() with named decimal-format declaration using "E" with appropriate pattern
+    </description> 
+    <created by="Jim Melton" on="2014-12-05"/>
+    <test>
+      declare decimal-format exp-E exponent-separator="E";
+      let $x := fn:format-number(12345.678, '9.9999E999', 'exp-E')
+      return $x
+    </test>
+    <result>
+      <assert-string-value>1.2346e004</assert-string-value>
+    </result>
+  </test-case>
+   
+  <test-case name="numberformat106">
+    <description>
+      PURPOSE: test format-number() with named decimal-format declaration using "E" with INappropriate pattern
+    </description> 
+    <created by="Jim Melton" on="2014-12-05"/>
+    <test>
+      declare decimal-format exp-e exponent-separator="e";
+      let $x := fn:format-number(12345.678, '9.9999E999', 'exp-e')
+      return $x
+    </test>
+    <result>
+      <error code="FODF1310"/>
+    </result>
+  </test-case>
+   
+  <test-case name="numberformat107">
+    <description>
+      PURPOSE: test format-number() with name of no such named format
+    </description> 
+    <created by="Jim Melton" on="2014-12-05"/>
+    <test>
+      let $x := fn:format-number(12345.678, '9.9999E999', 'BadFormat')
+      return $x
+    </test>
+    <result>
+      <error code="FODF1280"/>
+    </result>
+  </test-case>
+   
+  <test-case name="numberformat108">
+    <description>
+      PURPOSE: test format-number() with two exponent separators
+    </description> 
+    <created by="Jim Melton" on="2014-12-05"/>
+    <test>
+      let $x := fn:format-number(12345.678, '9.99e99e99')
+      return $x
+    </test>
+    <result>
+      <error code="FODF1310"/>
+    </result>
+  </test-case>
+   
+  <test-case name="numberformat109">
+    <description>
+      PURPOSE: test format-number() with named format and bizarre exponent separator
+    </description> 
+    <created by="Jim Melton" on="2014-12-05"/>
+    <test>
+      declare decimal-format exp-bizarre exponent-separator="&#10000;";
+      let $x := fn:format-number(12345.678, '9.9999&#10000;999', 'exp-bizarre')
+      return $x
+    </test>
+    <result>
+      <assert-string-value>1.2346&#10000;00</assert-string-value>
+    </result>
+  </test-case>
+   
+  <test-case name="numberformat110">
+    <description>
+      PURPOSE: test format-number() with exponent-separator and percent sign
+    </description>
+    <created by="Jim Melton" on="2014-12-05"/>
+    <test>
+      let $x := fn:format-number(12345.678, '9.9999e999%')
+      return $x
+    <result>
+      declare decimal-format exp-p exponent-separator="%";
+      let $x := fn:format-number(12345.678, '9.9999%999', 'exp-p')
+      return $x
+    </result>
+  </test-case>
+   
+  <test-case name="numberformat111">
+    <description>
+      PURPOSE: test format-number() with named format in which exponent-separator has been set to '%'
+    </description> 
+    <created by="Jim Melton" on="2014-12-05"/>
+    <test>
+      declare decimal-format exp-p exponent-separator="%";
+      let $x := fn:format-number(12345.678, '9.9999%999', 'exp-p')
+      return $x
+    </test>
+    <result>
+      <error code="XQST0098"/>
+    </result>
+  </test-case>
+
+  <test-case name="numberformat112">
+    <description>
+      PURPOSE: test format-number() with named format in which exponent-separator has been set to '%' and per-cent has been set to '!'
+    </description> 
+    <created by="Jim Melton" on="2014-12-05"/>
+    <test>
+      declare decimal-format exp-p percent="!" exponent-separator="%";
+      let $x := fn:format-number(12345.678, '9.9999%999', 'exp-p')
+      return $x
+    </test>
+    <result>
+      <assert-string-value>1.2346%004</assert-string-value>
+    </result>
+  </test-case>
+   
+  <test-case name="numberformat113">
+    <description>
+      PURPOSE: test format-number() with pattern in which exponent-separator is followed by passive character
+    </description>
+    <created by="Jim Melton" on="2014-12-05"/>
+    <test>
+      let $x := fn:format-number(12345.678, '9.9999eDog')
+      return $x
+    </test>
+    <result>
+      <assert-string-value>12345.6780eDog</assert-string-value>
+    </result>
+  </test-case>
+
+  <test-case name="numberformat114">
+    <description>
+      PURPOSE: test format-number() with pattern in which exponent-separator is followed by active character, not digit
+    </description>
+    <created by="Jim Melton" on="2014-12-05"/>
+    <test>
+      let $x := fn:format-number(12345.678, '9.9999e,')
+      return $x
+    </test>
+    <result>
+      <error code="FODF1310"/>
+    </result>
+  </test-case>
+   
+  <test-case name="numberformat115">
+    <description>
+      PURPOSE: test format-number() with an integer instead of a decimal
+    </description>
+    <created by="Jim Melton" on="2014-12-05"/>
+    <test>
+      let $x := fn:format-number(12345, '9.9999e99')
+      return $x
+    </test>
+    <result>
+      <assert-string-value>12345e04</assert-string-value>
+    </result>
+  </test-case>
+
+  <test-case name="numberformat116">
+    <description>
+      PURPOSE: test format-number() with a smaller integer instead of a decimal
+    </description>
+    <created by="Jim Melton" on="2014-12-05"/>
+    <test>
+      let $x := fn:format-number(5, '9.9999e99')
+      return $x
+    </test>
+    <result>
+      <assert-string-value>5.0000e00</assert-string-value>
+    </result>
+  </test-case>
+   
+  <test-case name="numberformat116">
+    <description>
+      PURPOSE: test format-number() with a fractional decimal
+    </description>
+    <created by="Jim Melton" on="2014-12-05"/>
+    <test>
+      let $x := fn:format-number(.05, '9.9999e99')
+      return $x
+    </test>
+    <result>
+      <assert-string-value>0.0500e00</assert-string-value>
+    </result>
+  </test-case>
+   
+  <test-case name="numberformat117">
+    <description>
+      PURPOSE: test format-number() with a real number
+    </description>
+    <created by="Jim Melton" on="2014-12-05"/>
+    <test>
+      let $x := fn:format-number(123.45E7, '9.9999e99')
+      return $x
+    </test>
+    <result>
+      <assert-string-value>1.2345e09</assert-string-value>
+    </result>
+  </test-case>
+
+
    <test-case name="numberformat901err">
       <description>
         Creator: David Marston 
