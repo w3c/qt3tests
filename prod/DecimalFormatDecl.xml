@@ -221,7 +221,115 @@
          <assert-string-value>123!456.789-123'456.789</assert-string-value>
       </result>
    </test-case>
-   
+
+   <test-case name="decimal-format-31">
+      <description>
+        Purpose: Test of decimal-format declaration with two identical default declarations. </description>
+      <created by="Jim Melton" on="2014-12-05"/>
+      <test>
+        declare default decimal-format decimal-separator = "^";
+        declare default decimal-format decimal-separator = "^";
+      	return true;
+      </test>
+      <result>
+         <error code="XQST0111"/>
+      </result>
+   </test-case>
+
+   <test-case name="decimal-format-32">
+      <description>
+        Purpose: Test of decimal-format declaration with two identical named declarations. </description>
+      <created by="Jim Melton" on="2014-12-05"/>
+      <test>
+        declare decimal-format fmt1 decimal-separator = "^";
+        declare decimal-format fmt1 decimal-separator = "^";
+      	return true;
+      </test>
+      <result>
+         <error code="XQST0111"/>
+      </result>
+   </test-case>
+
+   <test-case name="decimal-format-33">
+      <description>
+        Purpose: Test of decimal-format declaration with two different named declarations. </description>
+      <created by="Jim Melton" on="2014-12-05"/>
+      <test>
+        declare decimal-format fmt1 decimal-separator = "^";
+        declare decimal-format fmt2 decimal-separator = "~";
+      	concat (format-number(123.45, '9999^999', 'fmt1'), " and ",
+                format-number(123.45, '9999~999', 'fmt2'))
+      </test>
+      <result>
+         <assert-string-value>0123^450 and 0123~450</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="decimal-format-34">
+      <description>
+        Purpose: Test of decimal-format declaration with duplicate property declarations. </description>
+      <created by="Jim Melton" on="2014-12-05"/>
+      <test>
+        declare default decimal-format decimal-separator = "^" grouping-separator = "\" decimal-separator = "^";
+      	return true
+      </test>
+      <result>
+         <error code="XQST0114"/>
+      </result>
+   </test-case>
+
+   <test-case name="decimal-format-35">
+      <description>
+        Purpose: Test of decimal-format declaration with property declaration using invalid character. </description>
+      <created by="Jim Melton" on="2014-12-05"/>
+      <test>
+        declare default decimal-format zero-digit = "A";
+      	return true
+      </test>
+      <result>
+         <error code="XQST0097"/>
+      </result>
+   </test-case>
+
+   <test-case name="decimal-format-36">
+      <description>
+        Purpose: Test of decimal-format declaration with two properties having same value. </description>
+      <created by="Jim Melton" on="2014-12-05"/>
+      <test>
+        declare default decimal-format decimal-separator = "~" grouping-separator = "~";
+      	return true
+      </test>
+      <result>
+         <error code="XQST0098"/>
+      </result>
+   </test-case>
+
+   <test-case name="decimal-format-37">
+      <description>
+        Purpose: Test of decimal-format declaration with a property having same value as a default property. </description>
+      <created by="Jim Melton" on="2014-12-05"/>
+      <test>
+        declare default decimal-format decimal-separator = ",";
+      	return true
+      </test>
+      <result>
+         <error code="XQST0098"/>
+      </result>
+   </test-case>
+
+   <test-case name="decimal-format-38">
+      <description>
+        Purpose: Test of decimal-format declaration with invalid property name (mis-spelled). </description>
+      <created by="Jim Melton" on="2014-12-05"/>
+      <test>
+        declare default decimal-format decimal-sperator = ".";
+      	return true
+      </test>
+      <result>
+         <error code="XQST0003"/>
+      </result>
+   </test-case>
+
    <test-case name="decimal-format-901err">
       <description>
         Purpose: Create a conflict in the use of the '!' character. 
