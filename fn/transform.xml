@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="fn-transform">
+   <description/>
+   <link type="spec" document="http://www.w3.org/TR/xpath-functions-31/"
+         idref="func-transform"/>
+
+   <dependency type="spec" value="XQ31+"/>
+
+   <environment name="works-mod-uri">
+      <source role="." file="../docs/works-mod.xml" uri="http://www.w3.org/fots/docs/works-mod.xml">
+         <description>Data for various NIST tests (abbreviated, unabbreviated syntax)</description>
+         <created by="Carmelo Montanez" on="2005-03-04"/>
+      </source>
+      <param name="uri" as="xs:string" select="'http://www.w3.org/fots/docs/works-mod.xml'" declared="false"/>
+   </environment>
+
+   <environment name="render-uri">
+      <source role="." file="transform/render.xsl" uri="http://www.w3.org/fots/fn/transform/render.xsl">
+         <description>Stylesheet</description>
+         <created by="O'Neil Delpratt" on="20014-12-09"/>
+      </source>
+      <param name="render" as="xs:string" select="'http://www.w3.org/fots/fn/transform/render.xsl'" declared="false"/>
+   </environment>
+
+   <environment name="variable-uri">
+      <source role="." file="transform/variable.xsl" uri="http://www.w3.org/fots/fn/transform/variable.xsl">
+         <description>Stylesheet</description>
+         <created by="O'Neil Delpratt" on="20014-12-09"/>
+      </source>
+      <param name="variable-uri" as="xs:string" select="'http://www.w3.org/fots/fn/transform/variable.xsl'" declared="false"/>
+   </environment>
+
+    <test-case name="fn-transform-1">
+      <description>Loads a stylesheet from the location render.xsl, applies it to a document loaded from works-mod.xml, and uses an XPath expression to examine the result</description>
+      <created by="O'Neil Delpratt" on="2014-12-09"/>
+      <environment ref="works-mod-uri"/>
+      <environment ref="render-uri"/>
+      <test>let $result := fn:transform(map {"stylesheet-uri" : $render, "source-node" : fn:doc($uri)})return $result?output</test>
+      <result>
+         <assert>count($result//employee) > 0</assert>
+      </result>
+   </test-case>
+
+
+    <test-case name="fn-transform-1a">
+      <description>Loads a stylesheet from the location render.xsl, applies it to a document loaded from works-mod.xml. Delivery format set to xs:string</description>
+      <created by="O'Neil Delpratt" on="2014-12-09"/>
+      <environment ref="works-mod-uri"/>
+      <environment ref="render-uri"/>
+      <test>let $result := fn:transform(map {"stylesheet-uri" : $render, "source-node" : fn:doc($uri), delivery-format: "serialized"})return $result?output castable xs:string</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+
+    <test-case name="fn-transform-2">
+        <description>This test case demonstrates the ability to retrieve multiple result documents. Transform depends on XSLT 3.0 processor</description>
+        <created by="O'Neil Delpratt" on="2014-12-09"/>
+        <test>
+            <![CDATA[
+                    declare $xsl as xs:string :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' version='3.0'
+                                                                 xmlns:app='http://www.example.com'>
+                                                <xsl:template name='app:main' > <xsl:for-each select='section'>
+                                                <xsl:result-document href='section{position()}.html'>
+                                                <xsl:value select='.' />
+                                                </xsl:result-document> </xsl:for-each>
+                                                </xsl:template> </xsl:stylesheet>";
+                     declare $xml as xs:string := "<doc>
+                                                   <section>sect1</section>
+                                                   <section>sect2</section>
+                                                   </doc>"
+
+                    element{xs:QName('html')}{
+                        element {xs:QName('body')} {
+                            for $x in fn:transform(map{"xslt-version":"3.0", "stylesheet-text":$xsl, "initial-template":"app:main", "source-node":fn:parse-xml($xml)})?*
+                            return $x? }
+                        }]]>
+        </test>
+        <result>
+           <assert-eq>section2.html</assert-eq>
+        </result>
+
+    </test-case>
+
+
+    <test-case name="fn-transform-3">
+        <description>This tes case demonstrates the ability to retrieve multiple result documents. Transform depends on XSLT 3.0 processor</description>
+        <created by="O'Neil Delpratt" on="2014-12-09"/>
+        <environment ref="variable-uri"/>
+        <test>
+            <![CDATA[
+                    let $in := <dummy/>
+                    let $style := doc($variable-uri) return (
+                    transform(map{"source-node":$in, "stylesheet-node":$style, "stylesheet-params": map { QName("v"): 1 } } ) )?output
+                        }]]>
+        </test>
+        <result>
+           <assert-eq>section2.html</assert-eq>
+        </result>
+
+    </test-case>
+
+
+
+    <test-case name="fn-transform-4">
+        <description>Outputs the result as html</description>
+        <created by="O'Neil Delpratt" on="2014-12-09"/>
+        <environment ref="variable-uri"/>
+        <test>
+            <![CDATA[
+                    let $in := xs:string("<books>
+    <book>
+        <title>XSLT Programmer?s Reference</title>
+        <author>Michael H. Kay</author>
+    </book>
+    <book>
+        <title>XSLT</title>
+        <author>Doug Tidwell</author>
+        <author>Simon St. Laurent</author>
+        <author>Robert Romano</author>
+    </book>
+</books>")
+let $style := xs:string("<xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+    <xsl:output method="html"/>
+    <xsl:template match="/">
+        <html>
+            <body>
+                <div>
+                    <xsl:for-each select="books/book">
+                        <b><xsl:apply-templates select="title"/></b>: <xsl:value-of select="author"
+                        /><br/>
+                    </xsl:for-each>
+                </div>
+            </body>
+        </html>
+    </xsl:template>
+</xsl:stylesheet>")
+return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, "serialization-params": map{QName("indent"): "yes"} } )?output]]>
+        </test>
+        <result>
+           <assert>//title = 'XSLT'</assert>
+        </result>
+
+    </test-case>
+
+
+
+
+    <test-case name="fn-transform-err-1">
+      <description>Loads a stylesheet from the location render.xsl, but fails to supply a source document</description>
+      <created by="O'Neil Delpratt" on="2014-12-09"/>
+      <environment ref="works-mod-uri"/>
+      <environment ref="render-uri"/>
+      <test>let $result := fn:transform(map {"stylesheet-uri" : $render)return $result?output</test>
+      <result>
+         <assert code="FOXT0004"/>
+      </result>
+   </test-case>
+
+
+     <test-case name="fn-transform-err-2">
+      <description>Error test case to detect supplied parameter that are mutually exclusive</description>
+      <created by="O'Neil Delpratt" on="2014-12-09"/>
+      <environment ref="works-mod-uri"/>
+      <environment ref="render-uri"/>
+      <test><![CDATA[
+                    declare $xsl as xs:string :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' version='3.0'
+                                                                 xmlns:app='http://www.example.com'>
+                                                <xsl:template name='app:main' > <xsl:for-each select='section'>
+                                                <xsl:result-document href='section{position()}.html'> <!-- instructions content here -->
+                                                </xsl:result-document> </xsl:for-each>
+                                                </xsl:template> </xsl:stylesheet>";
+                    declare $xml as xs:string := "<doc>
+                                                   <section>sect1</section>
+                                                   <section>sect2</section>
+                                                   </doc>"
+
+            let $result := fn:transform(map {"stylesheet-text": $xsl,"stylesheet-uri" : $render, "source-node" : fn:doc($uri), "source-node":fn:parse-xml($xml)})return $result?output]]>
+      </test>
+      <result>
+         <assert code="FOXT0002"/>
+      </result>
+   </test-case>
+
+
+
+     <test-case name="fn-transform-err-3">
+      <description>Error test case to detect supplied parameter that are mutually exclusive (stylesheet-text and stylesheet-node)</description>
+      <created by="O'Neil Delpratt" on="2014-12-09"/>
+      <environment ref="works-mod-uri"/>
+      <environment ref="render-uri"/>
+      <test><![CDATA[
+                    declare $xsl as xs:string :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' version='3.0'
+                                                                 xmlns:app='http://www.example.com'>
+                                                <xsl:template name='app:main' > <xsl:for-each select='section'>
+                                                <xsl:result-document href='section{position()}.html'> <!-- instructions content here -->
+                                                </xsl:result-document> </xsl:for-each>
+                                                </xsl:template> </xsl:stylesheet>";
+
+            let $result := fn:transform(map {"stylesheet-text": $xsl,"stylesheet-node" : fn:doc($render), "source-node" : fn:doc($uri)})return $result?output]]>
+      </test>
+      <result>
+         <assert code="FOXT0002"/>
+      </result>
+   </test-case>
+
+</test-set>
