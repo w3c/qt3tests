@@ -47,7 +47,7 @@
       <created by="O'Neil Delpratt" on="2014-12-09"/>
       <environment ref="works-mod-uri"/>
       <environment ref="render-uri"/>
-      <test>let $result := fn:transform(map {"stylesheet-uri" : $render, "source-node" : fn:doc($uri), delivery-format: "serialized"})return $result?output castable xs:string</test>
+      <test>let $result := fn:transform(map {"stylesheet-uri" : $render, "source-node" : fn:doc($uri), delivery-format: "serialized"})return $result?output castable as xs:string</test>
       <result>
          <assert-true/>
       </result>
@@ -59,22 +59,22 @@
         <created by="O'Neil Delpratt" on="2014-12-09"/>
         <test>
             <![CDATA[
-                    declare $xsl as xs:string :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' version='3.0'
+                    declare variable $xsl as xs:string :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' version='3.0'
                                                                  xmlns:app='http://www.example.com'>
                                                 <xsl:template name='app:main' > <xsl:for-each select='section'>
                                                 <xsl:result-document href='section{position()}.html'>
                                                 <xsl:value select='.' />
                                                 </xsl:result-document> </xsl:for-each>
                                                 </xsl:template> </xsl:stylesheet>";
-                     declare $xml as xs:string := "<doc>
+                     declare variable $xml as xs:string := "<doc>
                                                    <section>sect1</section>
                                                    <section>sect2</section>
-                                                   </doc>"
+                                                   </doc>";
 
                     element{xs:QName('html')}{
                         element {xs:QName('body')} {
                             for $x in fn:transform(map{"xslt-version":"3.0", "stylesheet-text":$xsl, "initial-template":"app:main", "source-node":fn:parse-xml($xml)})?*
-                            return $x? }
+                            return $x?output }
                         }]]>
         </test>
         <result>
@@ -93,7 +93,7 @@
                     let $in := <dummy/>
                     let $style := doc($variable-uri) return (
                     transform(map{"source-node":$in, "stylesheet-node":$style, "stylesheet-params": map { QName("v"): 1 } } ) )?output
-                        }]]>
+                        ]]>
         </test>
         <result>
            <assert-eq>section2.html</assert-eq>
@@ -121,7 +121,7 @@
         <author>Robert Romano</author>
     </book>
 </books>")
-let $style := xs:string("<xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+let $style := xs:string('<xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
     <xsl:output method="html"/>
     <xsl:template match="/">
         <html>
@@ -135,7 +135,7 @@ let $style := xs:string("<xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.
             </body>
         </html>
     </xsl:template>
-</xsl:stylesheet>")
+</xsl:stylesheet>')
 return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, "serialization-params": map{QName("indent"): "yes"} } )?output]]>
         </test>
         <result>
@@ -152,7 +152,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
       <created by="O'Neil Delpratt" on="2014-12-09"/>
       <environment ref="works-mod-uri"/>
       <environment ref="render-uri"/>
-      <test>let $result := fn:transform(map {"stylesheet-uri" : $render)return $result?output</test>
+      <test>let $result := fn:transform(map {"stylesheet-uri" : $render})return $result?output</test>
       <result>
          <assert code="FOXT0004"/>
       </result>
@@ -165,16 +165,16 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
       <environment ref="works-mod-uri"/>
       <environment ref="render-uri"/>
       <test><![CDATA[
-                    declare $xsl as xs:string :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' version='3.0'
+                    declare variable $xsl as xs:string :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' version='3.0'
                                                                  xmlns:app='http://www.example.com'>
                                                 <xsl:template name='app:main' > <xsl:for-each select='section'>
                                                 <xsl:result-document href='section{position()}.html'> <!-- instructions content here -->
                                                 </xsl:result-document> </xsl:for-each>
                                                 </xsl:template> </xsl:stylesheet>";
-                    declare $xml as xs:string := "<doc>
+                    declare variable $xml as xs:string := "<doc>
                                                    <section>sect1</section>
                                                    <section>sect2</section>
-                                                   </doc>"
+                                                   </doc>";
 
             let $result := fn:transform(map {"stylesheet-text": $xsl,"stylesheet-uri" : $render, "source-node" : fn:doc($uri), "source-node":fn:parse-xml($xml)})return $result?output]]>
       </test>
@@ -191,7 +191,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
       <environment ref="works-mod-uri"/>
       <environment ref="render-uri"/>
       <test><![CDATA[
-                    declare $xsl as xs:string :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' version='3.0'
+                    declare variable $xsl as xs:string :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' version='3.0'
                                                                  xmlns:app='http://www.example.com'>
                                                 <xsl:template name='app:main' > <xsl:for-each select='section'>
                                                 <xsl:result-document href='section{position()}.html'> <!-- instructions content here -->
