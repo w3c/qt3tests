@@ -1747,6 +1747,7 @@ declare option output:version  "5.0";
    <test-case name="Serialization-json-40">
       <description>Test the JSON serialization output method - escaping </description>
       <created by="Josh Spiegel" on="2014-11-02"/>
+      <modified by="O'Neil Delpratt" on="2014-12-16" change="See bug 27477" />
       <dependency type="spec" value="XQ31+"/>
       <test><![CDATA[
  
@@ -1757,7 +1758,7 @@ declare option output:version  "5.0";
 
       ]]></test>
       <result>
-        <serialization-matches>\\u0009\\n\\u000D </serialization-matches>
+        <serialization-matches>\t\n\r </serialization-matches>
       </result>
    </test-case>
    
@@ -2015,6 +2016,7 @@ declare option output:version  "5.0";
    <test-case name="Serialization-json-55">
       <description>Test the JSON serialization output method</description>
       <created by="Josh Spiegel" on="2014-11-02"/>
+      <modified by="O'Neil Delpratt" on="2014-12-16" change="See bug 27477" />
       <dependency type="spec" value="XQ31+"/>
       <test><![CDATA[
  
@@ -2023,7 +2025,11 @@ declare option output:version  "5.0";
         [text { "&#xd;" }, "&#xd;"]
       ]]></test>
       <result>
-        <serialization-matches>\["&amp;#13;","\\u000D"\]</serialization-matches>
+          <any-of>
+               <serialization-matches>\["&amp;#13;","\r"\]</serialization-matches>
+              <serialization-matches>\["&amp;#xD;","\r"\]</serialization-matches>
+              <serialization-matches>\["&amp;#xd;","\r"\]</serialization-matches>
+          </any-of>
       </result>
    </test-case>
    
