@@ -74,13 +74,10 @@
     <test-case name="map-for-each-007">
         <description>Elimination of duplicates</description>
         <created by="Michael Kay, Saxonica" on="2014-05-13"/>
+        <modified by="O'Neil Delpratt, Saxonica" on="2014-12-16" change="bug 27180: Added error code"/>
         <test>map:for-each(map{"a":1, "a":2}, function($k,$v){$k})</test>
         <result>
-            <all-of>
-                <assert-count>1</assert-count>
-                <assert-type>xs:string</assert-type>
-                <assert-eq>"a"</assert-eq>
-            </all-of>
+           <error code="XQDY0137"/>
         </result>
     </test-case>
     <test-case name="map-for-each-008">
