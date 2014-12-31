@@ -250,8 +250,8 @@
         let $testfiles := //fots:test-set/@file/doc(resolve-uri(., base-uri(..)))
         let $testsets := $testfiles/fots:test-set
         for $token in distinct-values($changes)
-        let $relevant-testsets := $testsets[tokenize(@covers, ' ') = $token]
-        let $relevant-testcases := $testsets/fots:test-case[tokenize(@covers, ' ') = $token]
+        let $relevant-testsets := $testsets[tokenize(@covers-30, ' ') = $token or tokenize(@covers, ' ') = $token]
+        let $relevant-testcases := $testsets/fots:test-case[tokenize(@covers-30, ' ') = $token or tokenize(@covers, ' ') = $token]
         let $count := count($relevant-testsets/fots:test-case) + count($relevant-testcases)
         where $count lt 5
         return <out change="{$token}" tests="{$count}"/>
