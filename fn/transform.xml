@@ -28,6 +28,14 @@
       <param name="variable-uri" as="xs:string" select="'http://www.w3.org/fots/fn/transform/variable.xsl'" declared="false"/>
    </environment>
 
+   <environment name="base-uri">
+      <source role="." file="transform/output-doc.xml" uri="http://www.w3.org/fots/fn/transform/output-doc.xml">
+         <description>Stylesheet</description>
+         <created by="O'Neil Delpratt" on="20014-12-31"/>
+      </source>
+      <param name="base-uri" as="xs:string" select="'http://www.w3.org/fots/fn/transform/output-doc.xml'" declared="false"/>
+   </environment>
+
     <test-case name="fn-transform-1">
       <description>Loads a stylesheet from the location render.xsl, applies it to a document loaded from works-mod.xml, and uses an XPath expression to examine the result</description>
       <created by="O'Neil Delpratt" on="2014-12-09"/>
@@ -44,6 +52,16 @@
       <created by="O'Neil Delpratt" on="2014-12-09"/>
       <environment ref="works-mod-uri2"/>
       <test>let $result := fn:transform(map {"stylesheet-uri" : $render, "source-node" : fn:doc($uri), delivery-format: "serialized"})return $result?output castable as xs:string</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+   <test-case name="fn-transform-1b">
+      <description>Loads a stylesheet from the location render.xsl, applies it to a document loaded from works-mod.xml. Delivery format set to xs:string</description>
+      <created by="O'Neil Delpratt" on="2014-12-09"/>
+      <environment ref="works-mod-uri2"/>
+      <test>let $result := fn:transform(map {"stylesheet-uri" : $render, "source-node" : fn:doc($uri), delivery-format: "document"})return $result?output castable as node()</test>
       <result>
          <assert-true/>
       </result>
@@ -139,6 +157,16 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         </result>
 
     </test-case>
+
+    <test-case name="fn-transform-5">
+      <description>Try to test caching option in fn:transform</description>
+      <created by="O'Neil Delpratt" on="2014-12-09"/>
+      <environment ref="works-mod-uri2"/>
+      <test>let $result := fn:transform(map {"stylesheet-uri" : $render, "source-node" : fn:doc($uri), cache : true, delivery-format:document}) return fn:transform(map {"stylesheet-uri" : $render, "source-node" : fn:doc($result?output), delivery-format:"saved", base-output-uri: $base-uri}</test>
+      <result>
+         <assert>count($result//employee) > 0</assert>
+      </result>
+   </test-case>
 
 
 
