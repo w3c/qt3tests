@@ -6,19 +6,17 @@
 
    <dependency type="spec" value="XQ31+"/>
 
-   <environment name="works-mod-uri">
+
+      <environment name="works-mod-uri2">
       <source role="." file="../docs/works-mod.xml" uri="http://www.w3.org/fots/docs/works-mod.xml">
          <description>Data for various NIST tests (abbreviated, unabbreviated syntax)</description>
          <created by="Carmelo Montanez" on="2005-03-04"/>
       </source>
-      <param name="uri" as="xs:string" select="'http://www.w3.org/fots/docs/works-mod.xml'" declared="false"/>
-   </environment>
-
-   <environment name="render-uri">
       <source role="." file="transform/render.xsl" uri="http://www.w3.org/fots/fn/transform/render.xsl">
          <description>Stylesheet</description>
          <created by="O'Neil Delpratt" on="20014-12-09"/>
       </source>
+      <param name="uri" as="xs:string" select="'http://www.w3.org/fots/docs/works-mod.xml'" declared="false"/>
       <param name="render" as="xs:string" select="'http://www.w3.org/fots/fn/transform/render.xsl'" declared="false"/>
    </environment>
 
@@ -33,8 +31,7 @@
     <test-case name="fn-transform-1">
       <description>Loads a stylesheet from the location render.xsl, applies it to a document loaded from works-mod.xml, and uses an XPath expression to examine the result</description>
       <created by="O'Neil Delpratt" on="2014-12-09"/>
-      <environment ref="works-mod-uri"/>
-      <environment ref="render-uri"/>
+      <environment ref="works-mod-uri2"/>
       <test>let $result := fn:transform(map {"stylesheet-uri" : $render, "source-node" : fn:doc($uri)})return $result?output</test>
       <result>
          <assert>count($result//employee) > 0</assert>
@@ -45,8 +42,7 @@
     <test-case name="fn-transform-1a">
       <description>Loads a stylesheet from the location render.xsl, applies it to a document loaded from works-mod.xml. Delivery format set to xs:string</description>
       <created by="O'Neil Delpratt" on="2014-12-09"/>
-      <environment ref="works-mod-uri"/>
-      <environment ref="render-uri"/>
+      <environment ref="works-mod-uri2"/>
       <test>let $result := fn:transform(map {"stylesheet-uri" : $render, "source-node" : fn:doc($uri), delivery-format: "serialized"})return $result?output castable as xs:string</test>
       <result>
          <assert-true/>
@@ -150,8 +146,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
     <test-case name="fn-transform-err-1">
       <description>Loads a stylesheet from the location render.xsl, but fails to supply a source document</description>
       <created by="O'Neil Delpratt" on="2014-12-09"/>
-      <environment ref="works-mod-uri"/>
-      <environment ref="render-uri"/>
+      <environment ref="works-mod-uri2"/>
       <test>let $result := fn:transform(map {"stylesheet-uri" : $render})return $result?output</test>
       <result>
          <assert code="FOXT0004"/>
@@ -162,8 +157,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
      <test-case name="fn-transform-err-2">
       <description>Error test case to detect supplied parameter that are mutually exclusive</description>
       <created by="O'Neil Delpratt" on="2014-12-09"/>
-      <environment ref="works-mod-uri"/>
-      <environment ref="render-uri"/>
+      <environment ref="works-mod-uri2"/>
       <test><![CDATA[
                     declare variable $xsl as xs:string :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' version='3.0'
                                                                  xmlns:app='http://www.example.com'>
@@ -188,8 +182,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
      <test-case name="fn-transform-err-3">
       <description>Error test case to detect supplied parameter that are mutually exclusive (stylesheet-text and stylesheet-node)</description>
       <created by="O'Neil Delpratt" on="2014-12-09"/>
-      <environment ref="works-mod-uri"/>
-      <environment ref="render-uri"/>
+      <environment ref="works-mod-uri2"/>
       <test><![CDATA[
                     declare variable $xsl as xs:string :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' version='3.0'
                                                                  xmlns:app='http://www.example.com'>
