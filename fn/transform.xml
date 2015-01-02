@@ -161,8 +161,9 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
     <test-case name="fn-transform-5">
       <description>Try to test caching option in fn:transform</description>
       <created by="O'Neil Delpratt" on="2014-12-09"/>
+      <modified by="Michael Dyck" on="2015-01-02" change="Fix typos: insert spaces around colon and insert right-paren"/>
       <environment ref="works-mod-uri2"/>
-      <test>let $result := fn:transform(map {"stylesheet-uri" : $render, "source-node" : fn:doc($uri), cache : true, delivery-format:document}) return fn:transform(map {"stylesheet-uri" : $render, "source-node" : fn:doc($result?output), delivery-format:"saved", base-output-uri: $base-uri}</test>
+      <test>let $result := fn:transform(map {"stylesheet-uri" : $render, "source-node" : fn:doc($uri), cache : true, delivery-format : document}) return fn:transform(map {"stylesheet-uri" : $render, "source-node" : fn:doc($result?output), delivery-format:"saved", base-output-uri: $base-uri})</test>
       <result>
          <assert>count($result//employee) > 0</assert>
       </result>
