@@ -38,10 +38,11 @@
    <test-case name="fn-apply-04">
       <description>Invoke inline function</description>
       <created by="Christian Gruen" on="2014-12-19"/>
+      <modified by="Michael Dyck" on="2015-01-02" change="Use syntax that also works in XPath"/>
       <dependency type="spec" value="XP31+ XQ31+"/>
       <test>
          let $func := function($a,$b,$c) { $a + $b + $c }
-         let $args := [ 1, 2, 3 ]
+           , $args := [ 1, 2, 3 ]
          return apply($func, $args)
       </test>
       <result>
@@ -52,7 +53,8 @@
    <test-case name="fn-apply-05">
       <description>Invoke user-defined function</description>
       <created by="Christian Gruen" on="2014-12-19"/>
-      <dependency type="spec" value="XP31+ XQ31+"/>
+      <modified by="Michael Dyck" on="2015-01-02" change="Remove XP31+ from spec-dependency due to FunctionDecl"/>
+      <dependency type="spec" value="XQ31+"/>
       <test>
          declare function local:square($n as xs:integer) { $n * $n };
          apply(local:square#1, [ 10 ])
@@ -90,9 +92,11 @@
    <test-case name="fn-apply-08">
       <description>Invoke concat with different number of arguments</description>
       <created by="Christian Gruen" on="2014-12-19"/>
+      <modified by="Michael Dyck" on="2015-01-02" change="Use syntax that also works in XPath"/>
       <dependency type="spec" value="XP31+ XQ31+"/>
       <test>
          for $a in 2 to 3
+         return
          let $f := function-lookup(xs:QName('fn:concat'), $a)
          return apply($f, array { 1 to $a })
       </test>
@@ -104,11 +108,13 @@
    <test-case name="fn-apply-09">
       <description>Invoke functions with different number of arguments</description>
       <created by="Christian Gruen" on="2014-12-19"/>
+      <modified by="Michael Dyck" on="2015-01-02" change="Use syntax that also works in XPath"/>
       <dependency type="spec" value="XP31+ XQ31+"/>
       <test>
          for $name in (true#0, count#1, empty#1, concat#2) 
+         return
          let $arity := function-arity($name)
-         let $args := array { (1 to $arity) ! 'X' }
+           , $args := array { (1 to $arity) ! 'X' }
          return apply($name, $args)
       </test>
       <result>

@@ -73,8 +73,9 @@
    <test-case name="UseCaseJSON-002">
       <description>Converting JSON to XML</description>
       <created by="Carla Spruit" on="2014-12-23"/>
+      <modified by="Michael Dyck" on="2015-01-02" change="Remove XP31+ from spec-dependency due to DirectConstructors"/>
       <environment ref="employees.json"/>
-      <dependency type="spec" value="XP31+ XQ31+"/>      
+      <dependency type="spec" value="XQ31+"/>      
       <test><![CDATA[
         let $input := json-doc('employees.json')
 				for $k in map:keys($input)
@@ -98,8 +99,9 @@
    <test-case name="UseCaseJSON-003">
       <description>Update by Copying</description>
       <created by="Carla Spruit" on="2014-12-23"/>
+      <modified by="Michael Dyck" on="2015-01-02" change="Remove XP31+ from spec-dependency due to FunctionDeclaration"/>
       <environment ref="bookinfo.json"/>
-      <dependency type="spec" value="XP31+ XQ31+"/>
+      <dependency type="spec" value="XQ31+"/>
       <dependency type="feature" value="higherOrderFunctions"/>            
       <test><![CDATA[
 				declare function local:deep-put($input as item()*, $key as xs:string, $value as item()*) as item()* {
@@ -121,8 +123,9 @@
    <test-case name="UseCaseJSON-004">
       <description>Joins</description>
       <created by="Carla Spruit" on="2014-12-23"/>
+      <modified by="Michael Dyck" on="2015-01-02" change="Remove XP31+ from spec-dependency due to WhereClause"/>
       <environment ref="users.json"/>
-      <dependency type="spec" value="XP31+ XQ31+"/>            
+      <dependency type="spec" value="XQ31+"/>            
       <test><![CDATA[
         let $users := json-doc('users.json')?*
         for $sarah in $users, $friend in $users
@@ -226,7 +229,8 @@
    <test-case name="UseCaseJSON-009">
       <description>Transforming JSON to SVG</description>
       <created by="Carla Spruit" on="2014-12-23"/>
-      <dependency type="spec" value="XP31+ XQ31+"/>            
+      <modified by="Michael Dyck" on="2015-01-02" change="Remove XP31+ from spec-dependency due to VariableDeclarations"/>
+      <dependency type="spec" value="XQ31+"/>            
       <test><![CDATA[   
         declare variable $data := map {
           "color" : "blue",
@@ -246,8 +250,9 @@
    <test-case name="UseCaseJSON-010">
       <description>Transforming Arrays to HTML Tables</description>
       <created by="Carla Spruit" on="2014-12-23"/>
+      <modified by="Michael Dyck" on="2015-01-02" change="Remove XP31+ from spec-dependency due to DirectConstructors"/>
       <environment ref="table.json"/>
-      <dependency type="spec" value="XP31+ XQ31+"/>            
+      <dependency type="spec" value="XQ31+"/>            
       <test><![CDATA[
         <html>
 				  <body>				
@@ -329,11 +334,12 @@
    <test-case name="UseCaseJSON-014">
       <description>Data Transformations</description>
       <created by="Carla Spruit" on="2014-12-23"/>
+      <modified by="Michael Dyck" on="2015-01-02" change="Use syntax that also works in XPath"/>
       <environment ref="incoming.json"/>
       <dependency type="spec" value="XP31+ XQ31+"/>            
       <test><![CDATA[
 				let $feed := json-doc("incoming.json")("feed")
-				let $entry := $feed("entry")
+				  , $entry := $feed("entry")
 				return
 				if ($entry?*("app$control")("yt$state")("name") = "restricted")
 				  then map:remove($feed, "entry")
