@@ -2156,9 +2156,13 @@
    <test-case name="cbcl-avg-010">
       <description>Test tpe checking is performed when optimizin fn:avg to NaN. </description>
       <created by="Oliver Hallam" on="2008-04-11"/>
+      <modified by="Michael Kay" on="2015-01-03" change="see bug 25084"/>
       <test>avg((xs:double("NaN"), current-date() - xs:date("1997-01-01") ))</test>
       <result>
-         <error code="FORG0006"/>
+         <any-of>
+            <error code="FORG0006"/>
+            <assert-string-value>NaN</assert-string-value>
+         </any-of>
       </result>
    </test-case>
    
