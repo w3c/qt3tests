@@ -1252,13 +1252,42 @@
    <test-case name="K2-DirectConElemContent-35">
       <description> 
       	Check that a directly constructed element gets the right type(#2).
-      	Note: see bug 11585, especially comment 9. 
       </description>
       <created by="Frans Englich" on="2007-11-26"/>
-      <dependency type="spec" value="XQ10+"/>
+      <dependency type="spec" value="XQ10"/>
       <test><![CDATA[<e/> instance of element(*, xs:untyped)]]></test>
       <result>
          <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="K2-DirectConElemContent-35a">
+      <description> 
+      	Check that a directly constructed element gets the right type(#2).
+      </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="Michael Kay" on="2015-01-03" 
+        change="variant of -35 for 3.0 processors supporting typed data: see bugs 22768, 11585, 20828"/>
+      <dependency type="spec" value="XQ30+"/>
+      <dependency type="feature" value="typedData"/>
+      <test><![CDATA[<e/> instance of element(*, xs:untyped)]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="K2-DirectConElemContent-35b">
+      <description> 
+      	Check that a directly constructed element gets the right type(#2). 
+      </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="Michael Kay" on="2015-01-03" 
+        change="variant of -35 for 3.0 processors NOT supporting typed data: see bugs 22768, 11585, 20828"/>
+      <dependency type="spec" value="XQ30+"/>
+      <dependency type="feature" value="typedData" satisfied="false"/>
+      <test><![CDATA[<e/> instance of element(*, xs:untyped)]]></test>
+      <result>
+         <assert-true/>
       </result>
    </test-case>
 
