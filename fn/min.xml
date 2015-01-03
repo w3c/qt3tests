@@ -1438,10 +1438,11 @@
    <test-case name="K2-SeqMINFunc-5">
       <description> Invoke fn:min() with an unsupported collation and one xs:anyURI value. </description>
       <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="Michael Kay" on="2015-01-03" change="see bug 27358"/>
       <test>min(xs:anyURI("str1"), "http://example.com/UNSUPPORTED_COLLATION")</test>
       <result>
          <any-of>
-            <assert-eq>str1</assert-eq>
+            <assert-eq>xs:anyURI("str1")</assert-eq>
             <error code="FOCH0002"/>
          </any-of>
       </result>
