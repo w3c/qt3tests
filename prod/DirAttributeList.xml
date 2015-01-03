@@ -456,9 +456,22 @@
       </result>
    </test-case>
 
-   <test-case name="K2-DirectConElemAttr-4" covers-30="error-XQST0118">
+   <test-case name="K2-DirectConElemAttr-4">
       <description> Comments are not allowed where whitespace is, in direct element constructors. </description>
       <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="Michael Kay" on="2015-01-03" change="see bug 27728"/>
+      <dependency type="spec" value="XQ10"/>
+      <test><![CDATA[<ncname></ncname (:a misplaced comment:)>]]></test>
+      <result>
+         <error code="*"/>
+      </result>
+   </test-case>
+   
+   <test-case name="K2-DirectConElemAttr-4a" covers="error-XQST0118">
+      <description> Comments are not allowed where whitespace is, in direct element constructors. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="Michael Kay" on="2015-01-03" change="see bug 27728"/>
+      <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[<ncname></ncname (:a misplaced comment:)>]]></test>
       <result>
          <any-of>
@@ -477,9 +490,22 @@
       </result>
    </test-case>
 
-   <test-case name="K2-DirectConElemAttr-6" covers-30="error-XQST0118">
+   <test-case name="K2-DirectConElemAttr-6">
       <description> XML tags must be balanced. </description>
       <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="Michael Kay" on="2015-01-03" change="see bug 27728"/>
+      <dependency type="spec" value="XQ10"/>
+      <test><![CDATA[<ncname></ncnameNOTBALANCED>]]></test>
+      <result>
+         <error code="*"/>
+      </result>
+   </test-case>
+   
+   <test-case name="K2-DirectConElemAttr-6a" covers="error-XQST0118">
+      <description> XML tags must be balanced. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="Michael Kay" on="2015-01-03" change="see bug 27728"/>
+      <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[<ncname></ncnameNOTBALANCED>]]></test>
       <result>
          <error code="XQST0118"/>
