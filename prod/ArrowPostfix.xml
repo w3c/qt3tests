@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="prod-ArrowPostfix">
+    <description>Tests for the arrow operator in XPath 3.1</description>
+             
+
+    <test-case name="ArrowPostfix-001">
+      <description>Arrow operator used with ceiling function</description>
+      <created by="Debbie Lockett" on="2015-01-05"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>4.54=>ceiling()</test>
+      <result>
+         <assert-deep-eq>5</assert-deep-eq>
+      </result>
+    </test-case>
+    
+    <test-case name="ArrowPostfix-002">
+        <description>Arrow operator used with contains function</description>
+        <created by="Debbie Lockett" on="2015-01-05"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>"this, that and the other"=>contains("the")</test>
+        <result>
+            <assert-true/>
+        </result>
+    </test-case>
+    
+    <test-case name="ArrowPostfix-003">
+        <description>Arrow operator used with tokenize and count functions</description>
+        <created by="Debbie Lockett" on="2015-01-05"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>"the cat sat on the mat"=>tokenize("\s+")=>count()</test>
+        <result>
+            <assert-deep-eq>6</assert-deep-eq>
+        </result>
+    </test-case>
+    
+    <test-case name="ArrowPostfix-004">
+        <description>Arrow operator used with tokenize and count functions; variable reference</description>
+        <created by="Debbie Lockett" on="2015-01-05"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $f:= tokenize#2 return "the cat sat on the mat"=>$f("\s+")=>count()</test>
+        <result>
+            <assert-deep-eq>6</assert-deep-eq>
+        </result>
+    </test-case>       
+    
+    <test-case name="ArrowPostfix-005">
+        <description>Arrow operator used with tokenize and count functions; variable reference</description>
+        <created by="Debbie Lockett" on="2015-01-05"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $f:= tokenize#1 return "the cat sat on the mat"=>$f()=>count()</test>
+        <result>
+            <assert-deep-eq>6</assert-deep-eq>
+        </result>
+    </test-case>
+    
+    <test-case name="ArrowPostfix-006">
+        <description>Arrow operator used with tokenize and count functions; parenthesized expression</description>
+        <created by="Debbie Lockett" on="2015-01-05"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $f:= tokenize#2 return "the cat sat on the mat"=>($f)("\s+")=>count()</test>
+        <result>
+            <assert-deep-eq>6</assert-deep-eq>
+        </result>
+    </test-case>
+    
+    <test-case name="ArrowPostfix-007">
+        <description>Arrow operator used with head function</description>
+        <created by="Debbie Lockett" on="2015-01-05"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>("first","second","third","fourth")=>head()</test>
+        <result>
+            <assert-deep-eq>"first"</assert-deep-eq>
+        </result>
+    </test-case>
+    
+    <test-case name="ArrowPostfix-008">
+        <description>Arrow operator used with ceiling function; type error</description>
+        <created by="Debbie Lockett" on="2015-01-05"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>"4.54"=>ceiling()</test>
+        <result>
+            <error code="XPTY0004"/>
+        </result>
+    </test-case>
+    
+    <test-case name="ArrowPostfix-009">
+        <description>Arrow operator used with concat function</description>
+        <created by="Debbie Lockett" on="2015-01-05"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>"first second third"=>concat(" fourth")</test>
+        <result>
+            <assert-deep-eq>"first second third fourth"</assert-deep-eq>
+        </result>
+    </test-case>
+    
+    <test-case name="ArrowPostfix-010">
+        <description>Arrow operator used with concat function; number of arguments error</description>
+        <created by="Debbie Lockett" on="2015-01-05"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>"first second third"=>concat()</test>
+        <result>
+            <error code="XPST0017"/>
+        </result>
+    </test-case>
+   
+    <test-case name="ArrowPostfix-011">
+        <description>Arrow operator used with head and ceiling functions</description>
+        <created by="Debbie Lockett" on="2015-01-05"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $f:= (ceiling#1, floor#1, round#1, abs#1)=>head() return 4.54=>$f()</test>
+        <result>
+            <assert-deep-eq>5</assert-deep-eq>
+        </result>
+    </test-case>
+        
+    <test-case name="ArrowPostfix-012">
+        <description>Arrow operator used with head and ceiling functions</description>
+        <created by="Debbie Lockett" on="2015-01-05"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>4.54=>((ceiling#1, floor#1, round#1, abs#1) => head())()</test>
+        <result>
+            <assert-deep-eq>5</assert-deep-eq>
+        </result>
+    </test-case>
+    
+    <test-case name="ArrowPostfix-013">
+        <description>Arrow operator used with ceiling function</description>
+        <created by="Debbie Lockett" on="2015-01-05"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>4.54=>(head((ceiling#1, floor#1, round#1, abs#1)))()</test>
+        <result>
+            <assert-deep-eq>5</assert-deep-eq>
+        </result>
+    </test-case>
+    
+    <test-case name="ArrowPostfix-014">
+        <description>Arrow operator used with ceiling function; syntax error</description>
+        <created by="Debbie Lockett" on="2015-01-05"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>4.54=>(head((ceiling#1, floor#1, round#1, abs#1)))</test>
+        <result>
+            <error code="XPST0003"/>
+        </result>
+    </test-case>
+    
+    <test-case name="ArrowPostfix-015">
+        <description>Arrow operator; chain of functions</description>
+        <created by="Debbie Lockett" on="2015-01-05"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $string:="one two three four five six" return $string=>upper-case()=>normalize-unicode()=>tokenize("\s+")</test>
+        <result>
+            <assert-deep-eq>("ONE", "TWO", "THREE", "FOUR", "FIVE", "SIX")</assert-deep-eq>
+        </result>
+    </test-case>
+    
+    <test-case name="ArrowPostfix-016">
+        <description>Arrow operator; precedence test</description>
+        <created by="Debbie Lockett" on="2015-01-05"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $x:= 4 return $x&lt;=3.2=>ceiling()</test>
+        <result>
+            <assert-true/>
+        </result>
+    </test-case>
+    
+    <test-case name="ArrowPostfix-017">
+        <description>Arrow operator; precedence test</description>
+        <created by="Debbie Lockett" on="2015-01-05"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $x:= 4 return ($x&lt;=3.2)=>boolean()</test>
+        <result>
+            <assert-false/>
+        </result>
+    </test-case>   
+    
+    <test-case name="ArrowPostfix-018">
+        <description>Arrow operator; precedence test</description>
+        <created by="Debbie Lockett" on="2015-01-05"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>-1=>abs()</test>
+        <result>
+            <assert-deep-eq>-1</assert-deep-eq>
+        </result>
+    </test-case>
+    
+    <test-case name="ArrowPostfix-019">
+        <description>Arrow operator; precedence test</description>
+        <created by="Debbie Lockett" on="2015-01-05"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>(-1)=>abs()</test>
+        <result>
+            <assert-deep-eq>1</assert-deep-eq>
+        </result>
+    </test-case>
+    
+    <test-case name="ArrowPostfix-020">
+        <description>Arrow operator used with a map; variable reference</description>
+        <created by="Debbie Lockett" on="2015-01-07"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $m:= map{1:2, 2:4, 3:6} return 2=>$m()</test>
+        <result>
+            <assert-deep-eq>4</assert-deep-eq>
+        </result>
+    </test-case>
+    
+    <test-case name="ArrowPostfix-021">
+        <description>Arrow operator used with a map; parenthesized expression</description>
+        <created by="Debbie Lockett" on="2015-01-07"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>2=>(map{1:2, 2:4, 3:6})()</test>
+        <result>
+            <assert-deep-eq>4</assert-deep-eq>
+        </result>
+    </test-case>
+    
+    <test-case name="ArrowPostfix-022">
+        <description>Arrow operator used with an array; variable reference</description>
+        <created by="Debbie Lockett" on="2015-01-07"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $array:= ['a','b','c','d','e'] return 3=>$array()</test>
+        <result>
+            <assert-deep-eq>'c'</assert-deep-eq>
+        </result>
+    </test-case>
+    
+    <test-case name="ArrowPostfix-023">
+        <description>Arrow operator used with an array; parenthesized expression</description>
+        <created by="Debbie Lockett" on="2015-01-07"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>3=>(['a','b','c','d','e'])()</test>
+        <result>
+            <assert-deep-eq>'c'</assert-deep-eq>
+        </result>
+    </test-case>
+    
+    <test-case name="ArrowPostfix-024">
+        <description>Arrow operator: function not found error</description>
+        <created by="Debbie Lockett" on="2015-01-07"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>5.4=>ceil()</test>
+        <result>
+            <error code="XPST0017"/>
+        </result>
+    </test-case>
+    
+    <test-case name="ArrowPostfix-025">
+        <description>Arrow operator: type error (variable reference not a function)</description>
+        <created by="Debbie Lockett" on="2015-01-07"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $f:= "ceiling" return 5.4=>$f()</test>
+        <result>
+            <error code="XPTY0004"/>
+        </result>
+    </test-case>
+    
+    
+</test-set>
