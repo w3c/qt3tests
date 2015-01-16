@@ -593,6 +593,267 @@
          <assert-string-value>pass</assert-string-value>
       </result>
    </test-case>
+   
+   <test-case name="parse-ietf-date-40">
+      <description>empty input</description>
+      <created by="Debbie Lockett" on="2015-01-16"/>
+      <test>parse-ietf-date(())</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+   
+   <test-case name="parse-ietf-date-41">
+      <description>year two digits</description>
+      <created by="Debbie Lockett, Saxonica" on="2015-01-16"/>
+      <test>parse-ietf-date("20 Aug 14 19:36:01")</test>
+      <result>
+         <all-of>                
+            <assert-type>xs:dateTime</assert-type>
+            <assert-eq>xs:dateTime('1914-08-20T19:36:01Z')</assert-eq>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="parse-ietf-date-42">
+      <description>timezone offset (and ignored timezone name)</description>
+      <created by="Debbie Lockett, Saxonica" on="2015-01-16"/>
+      <test>parse-ietf-date("Wed, 20 Aug 2014 14:36:01 -05:00(EST)")</test>
+      <result>
+         <all-of>                
+            <assert-type>xs:dateTime</assert-type>
+            <assert-eq>xs:dateTime('2014-08-20T19:36:01Z')</assert-eq>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="parse-ietf-date-43">
+      <description>timezone offset (and ignored timezone name, even if wrong)</description>
+      <created by="Debbie Lockett, Saxonica" on="2015-01-16"/>
+      <test>parse-ietf-date("Wed, 20 Aug 2014 14:36:01 -05:00(GMT)")</test>
+      <result>
+         <all-of>                
+            <assert-type>xs:dateTime</assert-type>
+            <assert-eq>xs:dateTime('2014-08-20T19:36:01Z')</assert-eq>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="parse-ietf-date-44">
+      <description>timezone offset (and ignored timezone name with spaces)</description>
+      <created by="Debbie Lockett, Saxonica" on="2015-01-16"/>
+      <test>parse-ietf-date("Wed, 20 Aug 2014 14:36:01 -05:00  (  EST  )")</test>
+      <result>
+         <all-of>                
+            <assert-type>xs:dateTime</assert-type>
+            <assert-eq>xs:dateTime('2014-08-20T19:36:01Z')</assert-eq>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="parse-ietf-date-45">
+      <description>timezone offset no space</description>
+      <created by="Debbie Lockett, Saxonica" on="2015-01-16"/>
+      <test>parse-ietf-date("Wed, 20 Aug 2014 14:36:01-05:00")</test>
+      <result>
+         <all-of>                
+            <assert-type>xs:dateTime</assert-type>
+            <assert-eq>xs:dateTime('2014-08-20T19:36:01Z')</assert-eq>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="parse-ietf-date-46">
+      <description>timezone offset no space, no minutes</description>
+      <created by="Debbie Lockett, Saxonica" on="2015-01-16"/>
+      <test>parse-ietf-date("Wed, 20 Aug 2014 14:36:01-05")</test>
+      <result>
+         <all-of>                
+            <assert-type>xs:dateTime</assert-type>
+            <assert-eq>xs:dateTime('2014-08-20T19:36:01Z')</assert-eq>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="parse-ietf-date-47">
+      <description>timezone offset no space, no minutes but with colon</description>
+      <created by="Debbie Lockett, Saxonica" on="2015-01-16"/>
+      <test>parse-ietf-date("Wed, 20 Aug 2014 14:36:01-05:")</test>
+      <result>
+         <all-of>                
+            <assert-type>xs:dateTime</assert-type>
+            <assert-eq>xs:dateTime('2014-08-20T19:36:01Z')</assert-eq>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="parse-ietf-date-48">
+      <description>timezone offset with space, no minutes</description>
+      <created by="Debbie Lockett, Saxonica" on="2015-01-16"/>
+      <test>parse-ietf-date("Wed, 20 Aug 2014 14:36:01 -05")</test>
+      <result>
+         <all-of>                
+            <assert-type>xs:dateTime</assert-type>
+            <assert-eq>xs:dateTime('2014-08-20T19:36:01Z')</assert-eq>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="parse-ietf-date-49">
+      <description>timezone offset no colon</description>
+      <created by="Debbie Lockett, Saxonica" on="2015-01-16"/>
+      <test>parse-ietf-date("Wed, 20 Aug 2014 14:36:01 -0500")</test>
+      <result>
+         <all-of>                
+            <assert-type>xs:dateTime</assert-type>
+            <assert-eq>xs:dateTime('2014-08-20T19:36:01Z')</assert-eq>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="parse-ietf-date-50">
+      <description>timezone offset no colon</description>
+      <created by="Debbie Lockett, Saxonica" on="2015-01-16"/>
+      <test>parse-ietf-date("Wed, 20 Aug 2014 14:36:01 +0500")</test>
+      <result>
+         <all-of>                
+            <assert-type>xs:dateTime</assert-type>
+            <assert-eq>xs:dateTime('2014-08-20T09:36:01Z')</assert-eq>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="parse-ietf-date-51">
+      <description>timezone offset no colon (and ignored timezone name)</description>
+      <created by="Debbie Lockett, Saxonica" on="2015-01-16"/>
+      <test>parse-ietf-date("Wed, 20 Aug 2014 14:36:01 +0500(EST)")</test>
+      <result>
+         <all-of>                
+            <assert-type>xs:dateTime</assert-type>
+            <assert-eq>xs:dateTime('2014-08-20T09:36:01Z')</assert-eq>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="parse-ietf-date-52">
+      <description>timezone offset no space, no minutes</description>
+      <created by="Debbie Lockett, Saxonica" on="2015-01-16"/>
+      <test>parse-ietf-date("Wed, 20 Aug 2014 14:36:01+05")</test>
+      <result>
+         <all-of>                
+            <assert-type>xs:dateTime</assert-type>
+            <assert-eq>xs:dateTime('2014-08-20T09:36:01Z')</assert-eq>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="parse-ietf-date-53">
+      <description>timezone offset followed by year</description>
+      <created by="Debbie Lockett, Saxonica" on="2015-01-16"/>
+      <test>parse-ietf-date("Aug 20 14:36:01 -05 2014")</test>
+      <result>
+         <all-of>                
+            <assert-type>xs:dateTime</assert-type>
+            <assert-eq>xs:dateTime('2014-08-20T19:36:01Z')</assert-eq>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="parse-ietf-date-54">
+      <description>timezone offset followed by year</description>
+      <created by="Debbie Lockett, Saxonica" on="2015-01-16"/>
+      <test>parse-ietf-date("Aug 20 14:36:01 -05:00 2014")</test>
+      <result>
+         <all-of>                
+            <assert-type>xs:dateTime</assert-type>
+            <assert-eq>xs:dateTime('2014-08-20T19:36:01Z')</assert-eq>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="parse-ietf-date-54">
+      <description>timezone offset (and ignored timezone name) followed by year</description>
+      <created by="Debbie Lockett, Saxonica" on="2015-01-16"/>
+      <test>parse-ietf-date("Aug 20 14:36:01 -05:00(EST) 2014")</test>
+      <result>
+         <all-of>                
+            <assert-type>xs:dateTime</assert-type>
+            <assert-eq>xs:dateTime('2014-08-20T19:36:01Z')</assert-eq>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="parse-ietf-date-55">
+      <description>Date starts dayname monthname</description>
+      <created by="Debbie Lockett, Saxonica" on="2015-01-16"/>
+      <test>parse-ietf-date("Wed Aug 20 19:36:01 2014")</test>
+      <result>
+         <all-of>                
+            <assert-type>xs:dateTime</assert-type>
+            <assert-eq>xs:dateTime('2014-08-20T19:36:01Z')</assert-eq>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="parse-ietf-date-56">
+      <description>Date starts dayname monthname, timezone name</description>
+      <created by="Debbie Lockett, Saxonica" on="2015-01-16"/>
+      <test>parse-ietf-date("Wed, Aug 20 14:36:01EST 2014")</test>
+      <result>
+         <all-of>                
+            <assert-type>xs:dateTime</assert-type>
+            <assert-eq>xs:dateTime('2014-08-20T19:36:01Z')</assert-eq>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="parse-ietf-date-57">
+      <description>Date starts dayname monthname, timezone offset</description>
+      <created by="Debbie Lockett, Saxonica" on="2015-01-16"/>
+      <test>parse-ietf-date("Wed Aug 20 14:36:01-05:00 2014")</test>
+      <result>
+         <all-of>                
+            <assert-type>xs:dateTime</assert-type>
+            <assert-eq>xs:dateTime('2014-08-20T19:36:01Z')</assert-eq>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="parse-ietf-date-58">
+      <description>year two digits</description>
+      <created by="Debbie Lockett, Saxonica" on="2015-01-16"/>
+      <test>parse-ietf-date("Aug 20 19:36:01 14")</test>
+      <result>
+         <all-of>                
+            <assert-type>xs:dateTime</assert-type>
+            <assert-eq>xs:dateTime('1914-08-20T19:36:01Z')</assert-eq>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="parse-ietf-date-59">
+      <description>year two digits, timezone offset two digits (and ignored timezone name), minimal spacing</description>
+      <created by="Debbie Lockett, Saxonica" on="2015-01-16"/>
+      <test>parse-ietf-date("Aug-20 14:36:01-05(EST) 14")</test>
+      <result>
+         <all-of>                
+            <assert-type>xs:dateTime</assert-type>
+            <assert-eq>xs:dateTime('1914-08-20T19:36:01Z')</assert-eq>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="parse-ietf-date-60">
+      <description>dsep -, no seconds, negative timezone offset with colon, year two digits</description>
+      <created by="Debbie Lockett, Saxonica" on="2015-01-16"/>
+      <test>parse-ietf-date("Feb-02 02:02-02: 02")</test>
+      <result>
+         <all-of>                
+            <assert-type>xs:dateTime</assert-type>
+            <assert-eq>xs:dateTime('1902-02-02T04:02:00Z')</assert-eq>
+         </all-of>
+      </result>
+   </test-case>
 
 
    <!--* error conditions *-->
@@ -705,6 +966,203 @@
          <error code="FORG0010"/>
       </result>
    </test-case>
-
+   
+   <test-case name="parse-ietf-date-errs13">
+      <description>Error FORG0010 Date separator wrong</description>
+      <created by="Debbie Lockett, Saxonica" on="2015-01-16"/>
+      <test>parse-ietf-date("Aug,20 19:36:01 2014")</test>
+      <result>
+         <error code="FORG0010"/>
+      </result>
+   </test-case>
+   
+   <test-case name="parse-ietf-date-errs14">
+      <description>Error FORG0010 Date separator missing</description>
+      <created by="Debbie Lockett, Saxonica" on="2015-01-16"/>
+      <test>parse-ietf-date("Aug20 19:36:01 2014")</test>
+      <result>
+         <error code="FORG0010"/>
+      </result>
+   </test-case>
+   
+   <test-case name="parse-ietf-date-errs15">
+      <description>Error FORG0010 Space missing after day name</description>
+      <created by="Debbie Lockett, Saxonica" on="2015-01-16"/>
+      <test>parse-ietf-date("Wed,20 Aug 2014 19:36:01")</test>
+      <result>
+         <error code="FORG0010"/>
+      </result>
+   </test-case>
+   
+   <test-case name="parse-ietf-date-errs16">
+      <description>Error FORG0010 incorrect syntax of date (day number missing)</description>
+      <created by="Debbie Lockett, Saxonica" on="2015-01-16"/>
+      <test>parse-ietf-date("Aug 2014 19:36:01")</test>
+      <result>
+         <error code="FORG0010"/>
+      </result>
+   </test-case>
+   
+   <test-case name="parse-ietf-date-errs17">
+      <description>Error FORG0010 Space missing after day number</description>
+      <created by="Debbie Lockett, Saxonica" on="2015-01-16"/>
+      <test>parse-ietf-date("20Aug 2014 19:36:01")</test>
+      <result>
+         <error code="FORG0010"/>
+      </result>
+   </test-case>
+   
+   <test-case name="parse-ietf-date-errs18">
+      <description>Error FORG0010 Space missing after month name</description>
+      <created by="Debbie Lockett, Saxonica" on="2015-01-16"/>
+      <test>parse-ietf-date("20 Aug2014 19:36:01")</test>
+      <result>
+         <error code="FORG0010"/>
+      </result>
+   </test-case>
+   
+   <test-case name="parse-ietf-date-errs19">
+      <description>Error FORG0010 Space missing after time</description>
+      <created by="Debbie Lockett, Saxonica" on="2015-01-16"/>
+      <test>parse-ietf-date("Aug 20 19:36:01GMT2014")</test>
+      <result>
+         <error code="FORG0010"/>
+      </result>
+   </test-case>
+   
+   <test-case name="parse-ietf-date-errs20">
+      <description>Error FORG0010 incorrect syntax of date (year number missing)</description>
+      <created by="Debbie Lockett, Saxonica" on="2015-01-16"/>
+      <test>parse-ietf-date("Aug 20 19:36:01GMT Manchester")</test>
+      <result>
+         <error code="FORG0010"/>
+      </result>
+   </test-case>
+   
+   <test-case name="parse-ietf-date-errs21">
+      <description>Error FORG0010 year must be two or four digits</description>
+      <created by="Debbie Lockett, Saxonica" on="2015-01-16"/>
+      <test>parse-ietf-date("Aug 20 19:36:01GMT 014")</test>
+      <result>
+         <error code="FORG0010"/>
+      </result>
+   </test-case>
+   
+   <test-case name="parse-ietf-date-errs22">
+      <description>Error FORG0010 unexpected content at end of string</description>
+      <created by="Debbie Lockett, Saxonica" on="2015-01-16"/>
+      <test>parse-ietf-date("Wed, 20 Aug 2014 19:36:01 GMT Manchester")</test>
+      <result>
+         <error code="FORG0010"/>
+      </result>
+   </test-case>
+   
+   <test-case name="parse-ietf-date-errs23">
+      <description>Error FORG0010 wrong time separator</description>
+      <created by="Debbie Lockett, Saxonica" on="2015-01-16"/>
+      <test>parse-ietf-date("Aug 20 19.36.01GMT 2014")</test>
+      <result>
+         <error code="FORG0010"/>
+      </result>
+   </test-case>
+   
+   <test-case name="parse-ietf-date-errs24">
+      <description>Error FORG0010 minutes must be 2 digits</description>
+      <created by="Debbie Lockett, Saxonica" on="2015-01-16"/>
+      <test>parse-ietf-date("Aug 20 19:3:01GMT 2014")</test>
+      <result>
+         <error code="FORG0010"/>
+      </result>
+   </test-case>
+   
+   <test-case name="parse-ietf-date-errs25">
+      <description>Error FORG0010 seconds must be 2 digits</description>
+      <created by="Debbie Lockett, Saxonica" on="2015-01-16"/>
+      <test>parse-ietf-date("Aug 20 19:36:0.1GMT 2014")</test>
+      <result>
+         <error code="FORG0010"/>
+      </result>
+   </test-case>
+   
+   <test-case name="parse-ietf-date-errs26">
+      <description>Error FORG0010 seconds missing after ':'</description>
+      <created by="Debbie Lockett, Saxonica" on="2015-01-16"/>
+      <test>parse-ietf-date("Aug 20 19:36:GMT 2014")</test>
+      <result>
+         <error code="FORG0010"/>
+      </result>
+   </test-case>
+   
+   <test-case name="parse-ietf-date-errs27">
+      <description>Error FORG0010 fractional part of seconds expected</description>
+      <created by="Debbie Lockett, Saxonica" on="2015-01-16"/>
+      <test>parse-ietf-date("Aug 20 19:36:01.GMT 2014")</test>
+      <result>
+         <error code="FORG0010"/>
+      </result>
+   </test-case>
+   
+   <test-case name="parse-ietf-date-errs28">
+      <description>Error FORG0010 timezone offset must be 2 or 4 digits</description>
+      <created by="Debbie Lockett, Saxonica" on="2015-01-16"/>
+      <test>parse-ietf-date("Aug 20 19:36:01 -5 2014")</test>
+      <result>
+         <error code="FORG0010"/>
+      </result>
+   </test-case>
+   
+   <test-case name="parse-ietf-date-errs29">
+      <description>Error FORG0010 timezone offset minutes must be 2 digits</description>
+      <created by="Debbie Lockett, Saxonica" on="2015-01-16"/>
+      <test>parse-ietf-date("Aug 20 19:36:01 -05:0 2014")</test>
+      <result>
+         <error code="FORG0010"/>
+      </result>
+   </test-case>
+   
+   <test-case name="parse-ietf-date-errs30">
+      <description>Error FORG0010 timezone name expected in brackets</description>
+      <created by="Debbie Lockett, Saxonica" on="2015-01-16"/>
+      <test>parse-ietf-date("Aug 20 19:36:01 -05:00 () 2014")</test>
+      <result>
+         <error code="FORG0010"/>
+      </result>
+   </test-case>
+   
+   <test-case name="parse-ietf-date-errs31">
+      <description>Error FORG0010 illegal timezone name</description>
+      <created by="Debbie Lockett, Saxonica" on="2015-01-16"/>
+      <test>parse-ietf-date("Aug 20 19:36:01 -05:00 (CET) 2014")</test>
+      <result>
+         <error code="FORG0010"/>
+      </result>
+   </test-case>
+   
+   <test-case name="parse-ietf-date-errs32">
+      <description>Error FORG0010 timezone name must be in brackets after timezone offset</description>
+      <created by="Debbie Lockett, Saxonica" on="2015-01-16"/>
+      <test>parse-ietf-date("Aug 20 19:36:01 -05:00 EST 2014")</test>
+      <result>
+         <error code="FORG0010"/>
+      </result>
+   </test-case>
+   
+   <test-case name="parse-ietf-date-errs33">
+      <description>Error FORG0010 timezone name must not be in brackets after time</description>
+      <created by="Debbie Lockett, Saxonica" on="2015-01-16"/>
+      <test>parse-ietf-date("Aug 20 19:36(EST) 2014")</test>
+      <result>
+         <error code="FORG0010"/>
+      </result>
+   </test-case>
+   
+   <test-case name="parse-ietf-date-errs34">
+      <description>Error FORG0010 empty string</description>
+      <created by="Debbie Lockett, Saxonica" on="2015-01-16"/>
+      <test>parse-ietf-date("")</test>
+      <result>
+         <error code="FORG0010"/>
+      </result>
+   </test-case>
 
 </test-set>
