@@ -164,6 +164,20 @@
             </all-of>
         </result>
     </test-case>
+    <test-case name="array-sort-012a" covers="fn-tokenize#1">
+        <description>Apply sort function to array with string members. The use of tokenize with one argument</description>
+        <created by="O'Neil Delpratt, Saxonica" on="2015-01-20"/>
+        <dependency type="feature" value="higherOrderFunctions"/>
+        <environment ref="array"/>
+        <test>array:sort(["the cat", "sat", "on the mat"], function($x) {count(tokenize($x))})</test>
+        <result>
+            <all-of>
+                <assert-type>array(*)</assert-type>
+                <assert>array:size($result) eq 3</assert>
+                <assert-deep-eq>["sat", "the cat", "on the mat"]</assert-deep-eq>
+            </all-of>
+        </result>
+    </test-case>
     <test-case name="array-sort-013">
         <description>Apply sort function to array with array members</description>
         <created by="Debbie Lockett, Saxonica" on="2014-11-26"/>
