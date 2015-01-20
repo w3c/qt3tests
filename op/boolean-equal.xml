@@ -378,6 +378,22 @@ Purpose: Evaluates cardinality violation on a sequence
          <error code="XPTY0004"/>
       </result>
    </test-case>
+   <test-case name="op-boolean-equal-18">
+      <description>Only one comparison allowed per expression, unless parenthesized</description>
+      <created by="Debbie Lockett" on="2015-01-20"/>
+      <test>true() eq true() eq true() eq true()</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+   <test-case name="op-boolean-equal-19">
+      <description>Only one comparison allowed per expression, unless parenthesized</description>
+      <created by="Debbie Lockett" on="2015-01-20"/>
+      <test>((true() eq true()) eq true()) eq true()</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
    <test-case name="op-boolean-equal-more-args-001">
       <description>
 *******************************************************
@@ -870,5 +886,5 @@ Purpose: Evaluates cardinality violation on a sequence
       <result>
          <assert-false/>
       </result>
-   </test-case>
+   </test-case>   
 </test-set>
