@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="fn-sort">
+
+   <description>Tests the fn:sort() function</description>
+
+   <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/"
+         idref="func-sort"/>
+
+   <!--* The first few tests are very simple, so as to require as
+       * little other machinery as possible.
+       *
+       * Later tests require higher order function support, because
+       * the 3-argument version of fn:sort takes a function as an argument.
+       *-->
+
+   <test-case name="fn-sort-1">
+      <description>Empty sequence as input gives empty sequence as output</description>
+      <created by="Liam R E Quin" on="2015-01-08"/>
+      <test>fn:empty(fn:sort( () ))</test>
+      <result>
+	 <assert-true />
+      </result>
+   </test-case>
+
+   <test-case name="fn-sort-2">
+      <description>Simple sequence of integers</description>
+      <created by="Liam R E Quin" on="2015-01-08"/>
+      <test>let $r := fn:sort( (1, 2, 3) )
+	 return (count($r) eq 3 and $r[1] eq 1 and $r[2] eq 2 and $r[3] eq 3)</test>
+      <result>
+	 <assert-true />
+      </result>
+   </test-case>
+
+   <test-case name="fn-sort-3">
+      <description>Simple sequence of integers, descending</description>
+      <created by="Liam R E Quin" on="2015-01-08"/>
+      <test>let $r := fn:sort( (3, 2, 1) )
+	 return (count($r) eq 3 and $r[1] eq 1 and $r[2] eq 2 and $r[3] eq 3)</test>
+      <result>
+	 <assert-true />
+      </result>
+   </test-case>
+
+
+   <test-case name="fn-sort-4">
+      <description>Singleton integer</description>
+      <created by="Liam R E Quin" on="2015-01-08"/>
+      <test>let $r := fn:sort( (1) ) return (count($r) eq 1 and $r[1] eq 1)</test>
+      <result>
+	 <assert-true />
+      </result>
+   </test-case>
+
+   <test-case name="fn-sort-5">
+      <description>Singleton integer not expressed as sequence</description>
+      <created by="Liam R E Quin" on="2015-01-08"/>
+      <test>fn:sort(42) = 42</test>
+      <result>
+	 <assert-true />
+      </result>
+   </test-case>
+
+   <test-case name="fn-sort-6">
+      <description></description>
+      <created by="Liam R E Quin" on="2015-01-08"/>
+      <test>fn:empty(fn:sort( () ))</test>
+      <result>
+	 <assert-true />
+      </result>
+   </test-case>
+
+</test-set>
