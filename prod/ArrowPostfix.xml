@@ -176,10 +176,11 @@
     <test-case name="ArrowPostfix-018">
         <description>Arrow operator; precedence test</description>
         <created by="Debbie Lockett" on="2015-01-05"/>
+        <modified by="Debbie Lockett" on="2015-01-20" change="Revised precedence as per bug 27537"/>
         <dependency type="spec" value="XP31+ XQ31+"/>
         <test>-1=>abs()</test>
         <result>
-            <assert-deep-eq>-1</assert-deep-eq>
+            <assert-deep-eq>1</assert-deep-eq>
         </result>
     </test-case>
     
@@ -253,5 +254,74 @@
         </result>
     </test-case>
     
+    <test-case name="ArrowPostfix-026">
+        <description>Precedence of "=>" is less than "//"</description>
+        <created by="Debbie Lockett" on="2015-01-19"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <environment ref="works-mod"/>
+        <test>//hours => count()</test>
+        <result>
+            <assert-eq>16</assert-eq>
+        </result>
+    </test-case>
     
+    <test-case name="ArrowPostfix-027">
+        <description>Precedence of "=>" is less than "!"</description>
+        <created by="Debbie Lockett" on="2015-01-19"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>("one two", "three four five")!tokenize(.," ") => distinct-values()</test>
+        <result>
+            <assert-permutation>("one", "two", "three", "four", "five")</assert-permutation>
+        </result>
+    </test-case> 
+    
+    <test-case name="ArrowPostfix-028">
+        <description>Precedence of "=>" is less than "!"</description>
+        <created by="Debbie Lockett" on="2015-01-19"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>("one two", "three four five")!tokenize(.," ")!upper-case(.) => distinct-values()</test>
+        <result>
+            <assert-permutation>("ONE", "TWO", "THREE", "FOUR", "FIVE")</assert-permutation>
+        </result>
+    </test-case>        
+    
+    <test-case name="ArrowPostfix-029">
+        <description>Precedence of "=>" is less than "!"; variable reference</description>
+        <created by="Debbie Lockett" on="2015-01-19"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $a := ("one two", "three four five") return $a!tokenize(.," ") => distinct-values()</test>
+        <result>
+            <assert-permutation>("one", "two", "three", "four", "five")</assert-permutation>
+        </result>
+    </test-case> 
+    
+    <test-case name="ArrowPostfix-030">
+        <description>Precedence of "=>" is less than "!"; variable references</description>
+        <created by="Debbie Lockett" on="2015-01-19"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $a := ("one two", "three four five"), $b:= tokenize#2 return $a!$b(.," ") => distinct-values()</test>
+        <result>
+            <assert-permutation>("one", "two", "three", "four", "five")</assert-permutation>
+        </result>
+    </test-case> 
+    
+    <test-case name="ArrowPostfix-031">
+        <description>Precedence of "=>" is less than "!"; syntax error</description>
+        <created by="Debbie Lockett" on="2015-01-19"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>"one two three four five" => tokenize(" ") ! upper-case(.)</test>
+        <result>
+            <error code="XPST0003"/>
+        </result>
+    </test-case>
+    
+    <test-case name="ArrowPostfix-032">
+        <description>Precedence of "=>" is less than "!"</description>
+        <created by="Debbie Lockett" on="2015-01-19"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>("one two three four five" => tokenize(" ")) ! upper-case(.)</test>
+        <result>
+            <assert-deep-eq>("ONE", "TWO", "THREE", "FOUR", "FIVE")</assert-deep-eq>
+        </result>
+    </test-case>    
 </test-set>
