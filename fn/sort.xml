@@ -62,9 +62,120 @@
    </test-case>
 
    <test-case name="fn-sort-6">
-      <description></description>
+      <description>Length 1</description>
+      <created by="Liam R E Quin" on="2015-01-18"/>
+      <test>let $r := fn:sort( (1) )
+	 return (count($r) eq 1 and $r[1] eq 1)</test>
+      <result>
+	 <assert-true />
+      </result>
+   </test-case>
+
+   <test-case name="fn-sort-7">
+      <description>length 2</description>
+      <created by="Liam R E Quin" on="2015-01-18"/>
+      <test>let $r := fn:sort( (1, 17) )
+	 return (count($r) eq 2 and $r[1] eq 1 and $r[2] eq 17)</test>
+      <result>
+	 <assert-true />
+      </result>
+   </test-case>
+
+   <test-case name="fn-sort-8">
+      <description>length 2, disordered</description>
+      <created by="Liam R E Quin" on="2015-01-18"/>
+      <test>let $r := fn:sort( (17, 1) )
+	 return (count($r) eq 2 and $r[1] eq 1 and $r[2] eq 17)</test>
+      <result>
+	 <assert-true />
+      </result>
+   </test-case>
+
+   <test-case name="fn-sort-9">
+      <description>length 2, duplicates</description>
+      <created by="Liam R E Quin" on="2015-01-18"/>
+      <test>let $r := fn:sort( (17, 17) )
+	 return (count($r) eq 2 and $r[1] eq 17 and $r[2] eq 17)</test>
+      <result>
+	 <assert-true />
+      </result>
+   </test-case>
+
+   <test-case name="fn-sort-10">
+      <description>length 3, disordered</description>
+      <created by="Liam R E Quin" on="2015-01-18"/>
+      <test>let $r := fn:sort( (17, 5, 14) )
+	 return (count($r) eq 3 and $r[1] eq 5 and $r[2] eq 14 and$r[3] eq 17)</test>
+      <result>
+	 <assert-true />
+      </result>
+   </test-case>
+
+   <test-case name="fn-sort-11">
+      <description>length 3, duplicates</description>
+      <created by="Liam R E Quin" on="2015-01-18"/>
+      <test>let $r := fn:sort( (4, 4, 4) )
+	 return (count($r) eq 3 and $r[1] eq 4 and $r[2] eq 4 and $r[3] eq 4)</test>
+      <result>
+	 <assert-true />
+      </result>
+   </test-case>
+
+   <test-case name="fn-sort-12">
+      <description>length 3, descending</description>
+      <created by="Liam R E Quin" on="2015-01-18"/>
+      <test>let $r := fn:sort( (17, 14, 5) )
+	 return (count($r) eq 3 and $r[1] eq 5 and $r[2] eq 14 and $r[3] eq 17)</test>
+      <result>
+	 <assert-true />
+      </result>
+   </test-case>
+
+   <test-case name="fn-sort-13">
+      <description>length 6</description>
+      <created by="Liam R E Quin" on="2015-01-18"/>
+      <test>let $r := fn:sort( (-42, 14, 5, 6, 14, 0) )
+	  return (count($r) eq 6
+	  and $r[1] eq -42 and $r[2] eq 0
+	  and $r[3] eq 5 and $r[4] eq 6
+	  and $r[5] eq 14 and $r[6] eq 14)
+      </test>
+      <result>
+	 <assert-true />
+      </result>
+   </test-case>
+
+   <!--* ##fractions *-->
+
+   <test-case name="fn-sort-frac-1">
+       <!--* do we have a numeric fuzz function for comparing? *-->
+      <description>numeric but not all integers</description>
+      <created by="Liam R E Quin" on="2015-01-18"/>
+      <test>let $r := fn:sort( (-4.2, 14.25, 5.99, 6, 14.24, 0) )
+	  return (count($r) eq 6
+	  and $r[1] eq -4.2 and $r[2] eq 0
+	  and $r[3] eq 5.99 and $r[4] eq 6
+	  and $r[5] eq 14.25 and $r[6] eq 14.25)
+      </test>
+      <result>
+	 <assert-true />
+      </result>
+   </test-case>
+
+   <!--* ##strings *-->
+   <test-case name="fn-sort-str-1">
+      <description>Simple sequence of strings</description>
       <created by="Liam R E Quin" on="2015-01-08"/>
-      <test>fn:empty(fn:sort( () ))</test>
+      <test>let $r := fn:sort( ("boy","for","new","chosen","black","pope") )
+	  return (count($r) eq 6
+	  and $r[1] eq "black"
+	  and $r[1] eq "boy"
+	  and $r[1] eq "chosen"
+	  and $r[1] eq "for"
+	  and $r[1] eq "new"
+	  and $r[1] eq "pope"
+	  )
+     </test>
       <result>
 	 <assert-true />
       </result>
