@@ -33,9 +33,9 @@
                 
                  <xsl:if test="not($xqueryx)">
                         <xsl:message>
-                            <xsl:value-of select="concat('Test case', ./@name,' failed conversion')"/>
+                            <xsl:value-of select="concat('Test case', ./@name,' failed conversion. &#xD;&#xA;')"/>
                         </xsl:message>
-                        <xsl:message>Result: <xsl:value-of select="$xqueryx"/></xsl:message>
+                     <!--<xsl:message>Result: <xsl:value-of select="$xqueryx"/></xsl:message>-->
                     </xsl:if>
             </xsl:for-each>
 

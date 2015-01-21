@@ -1,6 +1,10 @@
 package org.w3c.xqparser;
 
 
+import net.sf.saxon.s9api.*;
+
+import javax.xml.transform.SourceLocator;
+import javax.xml.transform.stream.StreamSource;
 import java.io.*;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -21,7 +25,7 @@ public class ConvertToXQueryX {
             System.out.println(name + ": " + e.getMessage());
             return false;
         } catch (TokenMgrError e) {
-            System.out.println(name + ": " + e.getMessage());
+            System.out.println(name + ":" + e.getMessage());
             return false;
         } catch (PostParseException e) {
             System.out.println(name + ": " + e.getMessage());
@@ -63,11 +67,41 @@ public class ConvertToXQueryX {
         return tree;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SaxonApiException, IOException {
 
-        boolean result = processXQueryX("let $x := 1 to 10 return sum($x)", "test1", "xqueryx.xq");
-        System.out.println("XQueryX: " + result);
+        Processor processor = new Processor(true);
+        // Create a transformer for the stylesheet.
+        XsltTransformer transformer;
+
+        transformer = processor.newXsltCompiler().compile(
+                    new StreamSource(new File("convertToXQueryX.xsl"))).load();
+
+        final StringBuilder sb = new StringBuilder();
+        transformer.setMessageListener(new MessageListener() {
+                public void message(XdmNode content, boolean terminate, SourceLocator locator) {
+                    sb.append(content.getStringValue());
+                }
+            });
+
+        Serializer serializer = processor.newSerializer();
+        serializer.setOutputStream(System.out);
+        //serializer.setOutputFile(new File("xqueryxResults.txt"));
+        transformer.setSource(new StreamSource(new File("../catalog.xml")));
+        transformer.setDestination(serializer);
+         transformer.transform();
+        File resultsFile = new File("xqueryxResults.txt");
+        BufferedWriter writer = null;
+        try{
+            writer = new BufferedWriter(new FileWriter(resultsFile));
+            writer.write(sb.toString());
+        } finally {
+            if(writer != null) writer.close();
+        }
+       // boolean result = processXQueryX("let $x := 1 to 10 return sum($x)", "test1", "xqueryx.xq");
+        //System.out.println("XQueryX: " + result);
 
     }
+
+
 
 }
