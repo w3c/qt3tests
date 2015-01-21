@@ -316,6 +316,34 @@
          </any-of>
       </result>
    </test-case>
+   
+   <test-case name="rangeExpr-33">
+      <description>"to" operator is not associative (bug in Saxon 9.6)</description>
+      <created by="Michael Kay" on="2015-01-21"/>
+      <test>11 to 11 to 12</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+   
+   <test-case name="rangeExpr-34">
+      <description>"to" operator binds more tightly than "||"</description>
+      <created by="Michael Kay" on="2015-01-21"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>"it is " || 10 to 1 || "already"</test>
+      <result>
+         <assert-eq>"it is already"</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="rangeExpr-35">
+      <description>"to" operator binds less tightly than "+"</description>
+      <created by="Michael Kay" on="2015-01-21"/>
+      <test>3+1 to 4+1</test>
+      <result>
+         <assert-deep-eq>4, 5</assert-deep-eq>
+      </result>
+   </test-case>
 
    <test-case name="K-RangeExpr-1">
       <description> Since the left operand has the static cardinality zero-or-more, implementations using the static typing feature may raise XPTY0004. </description>
