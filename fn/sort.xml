@@ -243,7 +243,8 @@
    <test-case name="fn-sort-spec-1">
       <description>spec example 1</description>
       <created by="Liam R E Quin" on="2015-01-08"/>
-      <test>let $r := fn:sort((1, 4, 6, 5, 3))
+      <modified by="Josh Spiegel" on="2015-01-21" change="Fix typo"/>
+      <test>let $r := fn:sort((1, 4, 6, 5, 3),
 	  fn:data#1
 	  )
 	  return (count($r) eq 5
@@ -262,7 +263,8 @@
    <test-case name="fn-sort-spec-1b">
       <description>spec example 1 but check numeric, not lexical</description>
       <created by="Liam R E Quin" on="2015-01-08"/>
-      <test>let $r := fn:sort((10, 4, 6, 5, 3))
+      <modified by="Josh Spiegel" on="2015-01-21" change="Fix typo"/>
+      <test>let $r := fn:sort((10, 4, 6, 5, 3),
 	  fn:data#1
 	  )
 	  return (count($r) eq 5
@@ -281,9 +283,8 @@
    <test-case name="fn-sort-spec-2">
       <description>spec example 2</description>
       <created by="Liam R E Quin" on="2015-01-08"/>
+      <modified by="Josh Spiegel" on="2015-01-21" change="Fix typo"/>
       <test>let $r := fn:sort((1, -2, 5, 10, -10, 10, 8), fn:abs#1)
-	  fn:data#1
-	  )
 	  return (count($r) eq 7
 	  and $r[1] eq 1
 	  and $r[2] eq -2
@@ -313,7 +314,8 @@
    <test-case name="fn-sort-spec-4">
       <description>spec example 4</description>
       <created by="Liam R E Quin" on="2015-01-08"/>
-      <test>let
+      <modified by="Josh Spiegel" on="2015-01-21" change="Add CDATA to test element (otherwise element constructors are treated as xml)"/>
+      <test><![CDATA[let
 	  $employees := (
 	    <emp><name><first>Reginald</first><last>Cawcutt</last></name></emp>,
 	    <emp><name><first>Hans</first><last>Gro&#xeb;r</last></name></emp>,
@@ -331,7 +333,7 @@
 	  and fn:data($r[5]/name/first) eq "Hans"
 	  and fn:data($r[6]/name/first) eq "Keith"
 	  )
-     </test>
+     ]]></test>
       <result>
 	 <assert-true />
       </result>

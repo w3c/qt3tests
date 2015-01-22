@@ -20,7 +20,8 @@
    <test-case name="fn-serialize-json-002">
       <description>Empty object</description>
       <created by="Michael Kay, Saxonica" on="2011-04-06"/>
-      <test>serialize-json((), map{"spec":="ECMA-262"})</test>
+      <modified by="Josh Spiegel" on="2015-01-21" change="Fix map constructor syntax"/>
+      <test>serialize-json((), map{"spec":"ECMA-262"})</test>
       <result>
          <assert>translate($result,' &#x9;&#xa;&#xd;', '') = 'null'</assert>
        </result>
@@ -158,8 +159,9 @@
    <test-case name="fn-serialize-json-016">
       <description>Nested maps with indent="no" - require no optional space</description>
       <created by="Michael Kay, Saxonica" on="2011-04-06"/>
+      <modified by="Josh Spiegel" on="2015-01-21" change="Fix map constructor syntax"/>
       <test>serialize-json((map{"abc":map{"abc":1}},map{"def":map{"def":2}},map{"ghi":map{"ghi":3}}),
-        map{"indent":=false()})</test>
+        map{"indent":false()})</test>
       <result>
          <assert-string-value>[{"abc":{"abc":1}},{"def":{"def":2}},{"ghi":{"ghi":3}}]</assert-string-value>
       </result>
@@ -284,7 +286,8 @@
    <test-case name="fn-serialize-json-103">
       <description>Fallback applied to a map</description>
       <created by="Michael Kay, Saxonica" on="2011-04-06"/>
-      <test>let $r := serialize-json((0,0,map{true():="gogogo"}), map{"fallback":function($v){if ($v instance of map(xs:boolean, item()*)) then "a-boolean-map" else $v}})
+      <modified by="Josh Spiegel" on="2015-01-21" change="Fix map constructor syntax"/>
+      <test>let $r := serialize-json((0,0,map{true():"gogogo"}), map{"fallback":function($v){if ($v instance of map(xs:boolean, item()*)) then "a-boolean-map" else $v}})
         return translate($r,' &#x9;&#xa;&#xd;', '')</test>
       <result>
         <assert-string-value>[0,0,"a-boolean-map"]</assert-string-value>
