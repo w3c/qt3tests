@@ -1301,4 +1301,31 @@
          <assert-false/>
       </result>
    </test-case>
+   
+   <test-case name="GenCompLT-12">
+      <description>Only one comparison allowed per expression, unless parenthesized</description>
+      <created by="Debbie Lockett" on="2015-01-22"/>
+      <test>2 &lt; 3 &lt; 4</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+   
+   <test-case name="GenCompLT-13">
+      <description>Only one comparison allowed per expression, unless parenthesized</description>
+      <created by="Debbie Lockett" on="2015-01-22"/>
+      <test>true() &lt; true() &lt; true()</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+   
+   <test-case name="GenCompLT-14">
+      <description>Only one comparison allowed per expression, unless parenthesized</description>
+      <created by="Debbie Lockett" on="2015-01-22"/>
+      <test>(true() &lt; true()) &lt; true()</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
 </test-set>
