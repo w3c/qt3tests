@@ -34,6 +34,16 @@ import org.w3c.xqparser.XParser;
  * 
  *   ant -Dxqj.class=org.example.MyDataSource -Dxqj.classpath=foo.jar:bat.jar
  *
+ * NOTE: TODO 
+ *
+ *  In qtspecs/specifications/grammar-30 there are already facilities to 
+ *  process the catalog and convert tests to XQueryX for testing.  We should
+ *  investigate removing this and enabling that process to produce the xqueryx
+ *  zip file(s).  Benefits:
+ *    - Less maintenance
+ *    - Don't need to keep XQueryXCovnerter.jar here (it will become stale)
+ *    - Don't need an XQJ implementation (grammar-30 uses DOM to process the catalog)
+ *
  * @author O'Neil Delpratt
  * @author Josh Spiegel
  */
