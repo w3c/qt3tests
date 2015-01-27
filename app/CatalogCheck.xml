@@ -267,8 +267,6 @@
    <test-case name="Catalog011a">
     <description> Check that for every change listed in the changes.xml file there are at least five tests. </description>
     <created by="O'Neil Delpratt" on="2015-01-20"/>
-    <modified by="Michael Kay" on="2013-04-09" change="recognize absence of serialization tests"/>
-    <modified by="Michael Kay" on="2013-06-13" change="fix bug 22327"/>
     <environment ref="catalog"/>
     <dependency type="spec" value="XQ10+"/>
     <test><![CDATA[
@@ -289,8 +287,7 @@
      }</r>
       ]]></test>
     <result>
-      <!-- serialization tests are still awaited... -->
-      <assert-xml><![CDATA[<r><out change="fn-collection" tests="2"/><out change="xml-xhtml-output" tests="0"/></r>]]></assert-xml>
+      <assert-empty/>
     </result>
   </test-case>
   
@@ -329,7 +326,23 @@
     </result>
   </test-case>
 
-
+     <test-case name="Catalog014">
+    <description> Check that for every change listed in the changes.xml file there are at least five tests. </description>
+    <created by="O'Neil Delpratt" on="2015-01-20"/>
+    <environment ref="catalog"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test><![CDATA[
+    declare namespace fots = "http://www.w3.org/2010/09/qt-fots-catalog";
+        let $testsets := //fots:test-set/@file/doc(resolve-uri(., base-uri(..)))
+        for $test in $testsets//fots:test-case
+        where not(exists($test/(@covers | ../@covers)))
+        where exists($test/((fots:dependency | ../fots:dependency)[@type='spec' and contains(@value, '31')]))
+        return <out test="{$test/@name}"/>
+      ]]></test>
+    <result>
+      <assert-empty/>
+    </result>
+  </test-case>
 
    
 </test-set>
