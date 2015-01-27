@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="fn-random-number-generator" covers="fn-random-number-generator">
+
+   <description>Tests the fn:random-number-generator() function</description>
+
+    <link type="spec" document="http://www.w3.org/TR/xpath-functions-31/"
+       idref="func-random-number-generator"/>
+   
+    <dependency type="spec" value="XP31+ XQ31+"/>    
+   
+    <test-case name="fn-random-number-generator-1">
+        <description>Test function is present</description>
+        <created by="Debbie Lockett" on="2015-01-23"/>
+        <test>fn:random-number-generator()</test>
+        <result>
+            <all-of>
+                <assert-type>map(*)</assert-type>
+                <assert-type>map(xs:string, item())</assert-type>
+            </all-of>            
+        </result>
+    </test-case>
+    
+    <test-case name="fn-random-number-generator-2">
+        <description>Test for 'number' generator</description>
+        <created by="Debbie Lockett" on="2015-01-23"/>
+        <test>fn:random-number-generator()?number</test>
+        <result>
+            <assert-type>xs:double</assert-type>
+        </result>
+    </test-case>
+            
+    <test-case name="fn-random-number-generator-3">
+        <description>Test randomly generated number is greater than 0</description>
+        <created by="Debbie Lockett" on="2015-01-23"/>
+        <test>random-number-generator()?number ge 0</test>
+        <result>
+            <assert-true/>
+        </result>
+    </test-case>
+    
+    <test-case name="fn-random-number-generator-4">
+        <description>Test randomly generated number is in correct range; variable reference</description>
+        <created by="Debbie Lockett" on="2015-01-23"/>
+        <test>let $r := random-number-generator()?number return ($r ge 0 and $r lt 1)</test>
+        <result>
+            <assert-true/>
+        </result>
+    </test-case>
+    
+    <test-case name="fn-random-number-generator-5">
+        <description>Test randomly generated number is in correct range; variable reference</description>
+        <created by="Debbie Lockett" on="2015-01-23"/>
+        <test>let $r := random-number-generator()?number return ($r lt 0 or $r ge 1)</test>
+        <result>
+            <assert-false/>
+        </result>
+    </test-case>    
+        
+    <test-case name="fn-random-number-generator-6">
+        <description>'next' function</description>
+        <created by="Debbie Lockett" on="2015-01-23"/>
+        <test>fn:random-number-generator()?next()</test>
+        <result>
+            <all-of>
+                <assert-type>map(*)</assert-type>
+                <assert-type>map(xs:string, item())</assert-type>
+            </all-of>  
+        </result>
+    </test-case>
+    
+    <test-case name="fn-random-number-generator-7">
+        <description>'next' and 'number' functions</description>
+        <created by="Debbie Lockett" on="2015-01-23"/>
+        <test>fn:random-number-generator()?next()?number</test>
+        <result>
+            <assert-type>xs:double</assert-type>
+        </result>
+    </test-case>
+    
+    <test-case name="fn-random-number-generator-8">
+        <description>'next' and 'number' functions; variable reference</description>
+        <created by="Debbie Lockett" on="2015-01-23"/>
+        <test>let $r := fn:random-number-generator()?next()?number return ($r ge 0 and $r lt 1)</test>
+        <result>
+            <assert-true/>
+        </result>
+    </test-case>
+    
+    <test-case name="fn-random-number-generator-9">
+        <description>'next' and 'number' functions; variable reference</description>
+        <created by="Debbie Lockett" on="2015-01-23"/>
+        <test>let $r := fn:random-number-generator()?next()?number return ($r lt 0 or $r ge 1)</test>
+        <result>
+            <assert-false/>
+        </result>
+    </test-case>
+    
+    <test-case name="fn-random-number-generator-10">
+        <description>Test function with seed supplied</description>
+        <created by="Debbie Lockett" on="2015-01-23"/>
+        <test>fn:random-number-generator(23482)</test>
+        <result>
+            <all-of>
+                <assert-type>map(*)</assert-type>
+                <assert-type>map(xs:string, item())</assert-type>
+            </all-of>            
+        </result>
+    </test-case>    
+    
+    <test-case name="fn-random-number-generator-11">
+        <description>Test function with seed supplied, 'number' function</description>
+        <created by="Debbie Lockett" on="2015-01-23"/>
+        <test>fn:random-number-generator(0000)?number</test>
+        <result>
+            <assert-type>xs:double</assert-type>
+        </result>
+    </test-case>
+    
+    <test-case name="fn-random-number-generator-12">
+        <description>Random number generator with seed, 'number' function</description>
+        <created by="Debbie Lockett" on="2015-01-26"/>
+        <test>random-number-generator(3147)?number ge 0</test>
+        <result>
+            <assert-true/>
+        </result>
+    </test-case>
+    
+    <test-case name="fn-random-number-generator-13">
+        <description>Random number generator with seed, check number is in correct range</description>
+        <created by="Debbie Lockett" on="2015-01-26"/>
+        <test>let $r := random-number-generator("random")?number return ($r ge 0 and $r lt 1)</test>
+        <result>
+            <assert-true/>
+        </result>
+    </test-case>    
+    
+    <test-case name="fn-random-number-generator-14">
+        <description>Random number generator with seed, 'next' function</description>
+        <created by="Debbie Lockett" on="2015-01-23"/>
+        <test>fn:random-number-generator(0000)?next()</test>
+        <result>
+            <all-of>
+                <assert-type>map(*)</assert-type>
+                <assert-type>map(xs:string, item())</assert-type>
+            </all-of>  
+        </result>
+    </test-case>
+    
+    <test-case name="fn-random-number-generator-15">
+        <description>Random number generator with seed, 'next' and 'number' functions</description>
+        <created by="Debbie Lockett" on="2015-01-23"/>
+        <test>fn:random-number-generator()?next()?number</test>
+        <result>
+            <assert-type>xs:double</assert-type>
+        </result>
+    </test-case>
+    
+    <test-case name="fn-random-number-generator-16">
+        <description>Random number generator with seed, 'next' and 'number' functions</description>
+        <created by="Debbie Lockett" on="2015-01-23"/>
+        <test>let $r := fn:random-number-generator()?next()?number return ($r ge 0 and $r lt 1)</test>
+        <result>
+            <assert-true/>
+        </result>
+    </test-case>
+    
+    <test-case name="fn-random-number-generator-17">
+        <description>Permute sequence of integers</description>
+        <created by="Debbie Lockett" on="2015-01-26"/>
+        <test>fn:random-number-generator()?permute(1 to 100)</test>
+        <result>
+            <assert-permutation>1 to 100</assert-permutation>
+        </result>
+    </test-case>
+    
+    <test-case name="fn-random-number-generator-18">
+        <description>Permute sequence of strings</description>
+        <created by="Debbie Lockett" on="2015-01-26"/>
+        <test>fn:random-number-generator()?permute(("a","b","c","d","e","f","g"))</test>
+        <result>
+            <assert-permutation>("a","b","c","d","e","f","g")</assert-permutation>
+        </result>
+    </test-case>
+    
+    <test-case name="fn-random-number-generator-19">
+        <description>Permute sequence, take subsequence</description>
+        <created by="Debbie Lockett" on="2015-01-23"/>
+        <test>subsequence(fn:random-number-generator()?permute(("a","b","c","d","e","f","g")),2,5)</test>
+        <result>
+            <all-of>
+                <assert-type>xs:string*</assert-type>
+                <assert>count($result) eq 5</assert>
+            </all-of>
+        </result>
+    </test-case>
+    
+    <test-case name="fn-random-number-generator-20">
+        <description>Permute sequence, take subsequence with arrow operator</description>
+        <created by="Debbie Lockett" on="2015-01-23"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>fn:random-number-generator()?permute(("a","b","c","d","e","f","g")) => subsequence(2,5)</test>
+        <result>
+            <all-of>
+                <assert-type>xs:string*</assert-type>
+                <assert>count($result) eq 5</assert>
+            </all-of>
+        </result>
+    </test-case>
+    
+    <test-case name="fn-random-number-generator-21">
+        <description>Function to give sequence (of any finite length) of randomly generated numbers</description>
+        <created by="Debbie Lockett" on="2015-01-23"/>
+        <test><![CDATA[
+            declare namespace r="http://example.com/random/";
+            declare %public function r:random-sequence($length as xs:integer) as xs:double* {
+  r:random-sequence($length, fn:random-number-generator())
+};
+declare %private function r:random-sequence($length as xs:integer, $G as map(xs:string, item())) {
+  if ($length eq 0)
+  then ()
+  else ($G?number, r:random-sequence($length - 1, $G?next()))
+};
+r:random-sequence(200)]]></test>
+        <result>
+            <assert-type>xs:double*</assert-type>
+        </result>
+    </test-case>
+
+
+</test-set>
