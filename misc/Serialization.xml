@@ -191,7 +191,8 @@
    <test-case name="K2-Serialization-13" covers="json-output">
       <description>Test item-separator property</description>
       <created by="Michael Kay" on="2013-10-04"/>
-      <dependency type="feature" value="serialization" satisfied="true"/>
+      <modified by="Christian Gruen" on="2015-01-28" change="regular expression fixed"/>
+     <dependency type="feature" value="serialization" satisfied="true"/>
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
       	declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
@@ -200,7 +201,7 @@
         1 to 10
       ]]></test>
       <result>
-         <serialization-matches><![CDATA[1|2|3|4|5|6|7|8|9|10]]></serialization-matches>
+         <serialization-matches><![CDATA[1\|2\|3\|4\|5\|6\|7\|8\|9\|10]]></serialization-matches>
       </result>
    </test-case>
    
@@ -1660,7 +1661,8 @@ declare option output:version  "5.0";
    <test-case name="Serialization-json-35" covers="json-output">
       <description>Test the JSON serialization output method - use-character-map (replacement shouldn't be normalized) </description>
       <created by="Josh Spiegel" on="2014-11-02"/>
-      <dependency type="spec" value="XQ31+"/>
+      <modified by="Christian Gruen" on="2015-01-28" change="regular expression fixed"/>
+     <dependency type="spec" value="XQ31+"/>
       <test><![CDATA[
  
         declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
@@ -1671,7 +1673,7 @@ declare option output:version  "5.0";
 
       ]]></test>
       <result>
-        <serialization-matches>"|suc&#807;on|"</serialization-matches>
+        <serialization-matches>"\|suc&#807;on\|"</serialization-matches>
       </result>
    </test-case>
    
