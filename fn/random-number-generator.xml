@@ -69,7 +69,7 @@
     </test-case>
     
     <test-case name="fn-random-number-generator-7">
-        <description>'next' and 'number' functions</description>
+        <description>'next' function and 'number' generator</description>
         <created by="Debbie Lockett" on="2015-01-23"/>
         <test>fn:random-number-generator()?next()?number</test>
         <result>
@@ -78,7 +78,7 @@
     </test-case>
     
     <test-case name="fn-random-number-generator-8">
-        <description>'next' and 'number' functions; variable reference</description>
+        <description>'next' function and 'number' generator; variable reference</description>
         <created by="Debbie Lockett" on="2015-01-23"/>
         <test>let $r := fn:random-number-generator()?next()?number return ($r ge 0 and $r lt 1)</test>
         <result>
@@ -87,7 +87,7 @@
     </test-case>
     
     <test-case name="fn-random-number-generator-9">
-        <description>'next' and 'number' functions; variable reference</description>
+        <description>'next' function and 'number' generator; variable reference</description>
         <created by="Debbie Lockett" on="2015-01-23"/>
         <test>let $r := fn:random-number-generator()?next()?number return ($r lt 0 or $r ge 1)</test>
         <result>
@@ -108,7 +108,7 @@
     </test-case>    
     
     <test-case name="fn-random-number-generator-11">
-        <description>Test function with seed supplied, 'number' function</description>
+        <description>Test function with seed supplied, 'number' generator</description>
         <created by="Debbie Lockett" on="2015-01-23"/>
         <test>fn:random-number-generator(0000)?number</test>
         <result>
@@ -117,7 +117,7 @@
     </test-case>
     
     <test-case name="fn-random-number-generator-12">
-        <description>Random number generator with seed, 'number' function</description>
+        <description>Random number generator with seed, 'number' generator</description>
         <created by="Debbie Lockett" on="2015-01-26"/>
         <test>random-number-generator(3147)?number ge 0</test>
         <result>
@@ -147,7 +147,7 @@
     </test-case>
     
     <test-case name="fn-random-number-generator-15">
-        <description>Random number generator with seed, 'next' and 'number' functions</description>
+        <description>Random number generator with seed, 'next' function and 'number' generator</description>
         <created by="Debbie Lockett" on="2015-01-23"/>
         <test>fn:random-number-generator()?next()?number</test>
         <result>
@@ -156,7 +156,7 @@
     </test-case>
     
     <test-case name="fn-random-number-generator-16">
-        <description>Random number generator with seed, 'next' and 'number' functions</description>
+        <description>Random number generator with seed, 'next' function and 'number' generator</description>
         <created by="Debbie Lockett" on="2015-01-23"/>
         <test>let $r := fn:random-number-generator()?next()?number return ($r ge 0 and $r lt 1)</test>
         <result>
@@ -222,9 +222,11 @@ declare %private function r:random-sequence($length as xs:integer, $G as map(xs:
 };
 r:random-sequence(200)]]></test>
         <result>
-            <assert-type>xs:double*</assert-type>
+            <all-of>
+                <assert-type>xs:double*</assert-type>
+                <assert>count($result) eq 200</assert>
+            </all-of>
         </result>
     </test-case>
-
 
 </test-set>
