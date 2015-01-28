@@ -315,10 +315,11 @@
    <test-case name="K2-SeqDocFunc-13">
       <description> Never use the result of calls to fn:doc. Since implementations are allowed to dereference the sources in any case, an error is allowed. </description>
       <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="Christian Gruen" on="2015-01-28" change="Changed to unknown hosts to speed up execution"/>
       <dependency type="spec" value="XQ10+"/>
       <test>
-        declare variable $doc1 := doc("http://example.com"); 
-        let $doc2 := doc("ftp://example.com/") 
+        declare variable $doc1 := doc("http://fybnqmf.com/fybnqmf"); 
+        let $doc2 := doc("ftp://fybnqmf.com/fybnqmf") 
         for $i in doc("localFile.xml") 
         return (1, 2, 3)</test>
       <result>
@@ -553,4 +554,36 @@
          </any-of>
       </result>
    </test-case>
+
+   <test-case name="fn-doc-38">
+      <description>Raise no dynamic error if query can execute without it (2.3.1; Bug #27908)</description>
+      <created by="Christian Gruen" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        <a/>/self::b[doc('%GG')]
+      ]]></test>
+      <result>
+         <any-of>
+            <assert-empty/>
+            <error code="XPST0005"/>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="fn-doc-39">
+      <description>Raise no dynamic error if query can execute without it (2.3.1; Bug #27908)</description>
+      <created by="Christian Gruen" on="2007-11-26"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        for $n in (text { 'x' }, comment { 'y' })/self::a
+        return doc('i-do-not.exist')
+      ]]></test>
+      <result>
+         <any-of>
+            <assert-empty/>
+            <error code="XPST0005"/>
+         </any-of>
+      </result>
+   </test-case>
+
 </test-set>
