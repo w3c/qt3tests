@@ -19,20 +19,22 @@
    <test-case name="fn-apply-02">
       <description>Call built-in function with 0 arguments</description>
       <created by="Christian Gruen" on="2014-12-19"/>
+      <modified by="Michael Kay" on="2015-01-29" change="correct expected result (was 'true' as an element name)"/>
       <dependency type="spec" value="XP31+ XQ31+"/>
       <test>apply(true#0, array {})</test>
       <result>
-         <assert-eq>true</assert-eq>
+         <assert-true/>
       </result>
    </test-case>
  
    <test-case name="fn-apply-03">
       <description>Invoke built-in function with sequence as argument</description>
       <created by="Christian Gruen" on="2014-12-19"/>
+      <modified by="Michael Kay" on="2015-01-29" change="correct expected result (a string, not a number)"/>
       <dependency type="spec" value="XP31+ XQ31+"/>
       <test>apply(string-join#1, [reverse(1 to 5) ! string()])</test>
       <result>
-         <assert-eq>54321</assert-eq>
+         <assert-eq>"54321"</assert-eq>
       </result>
    </test-case>
  
@@ -68,12 +70,13 @@
    <test-case name="fn-apply-06">
       <description>Partial function application</description>
       <created by="Christian Gruen" on="2014-12-19"/>
+      <modified by="Michael Kay" on="2015-01-29" change="correct expected result (a string, not a node name)"/>
       <dependency type="spec" value="XP31+ XQ31+"/>
       <test>
          apply(substring('flower', ?, ?), [ 3, 2 ])
       </test>
       <result>
-         <assert-eq>ow</assert-eq>
+         <assert-eq>"ow"</assert-eq>
       </result>
    </test-case>
  
@@ -169,6 +172,18 @@
       <test>apply(string-length#1, [ ('a','b') ])</test>
       <result>
          <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-apply-14">
+      <description>Invoke atomization</description>
+      <created by="Michael Kay" on="2015-01-29"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[
+         fn:apply(lower-case#1, [<a>ABC</a>])
+      ]]></test>
+      <result>
+         <assert-eq>"abc"</assert-eq>
       </result>
    </test-case>
 </test-set>
