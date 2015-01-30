@@ -2,9 +2,6 @@
 <test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="fn-parse-json" covers="fn-parse-json">
    <description>
       Tests the parse-json function.
-      
-      Test coverage of the first argument is reasonably complete. There are few tests yet
-      for the options argument.
    </description>
    <link type="spec" document="http://www.w3.org/TR/xpath-functions-11/" idref="func-parse-json"/>
    <dependency type="spec" value="XT30+ XP31+ XQ31+"/>
@@ -20,6 +17,8 @@
    <test-case name="fn-parse-json-002">
       <description>Singleton object, numeric value</description>
       <created by="Michael Kay, Saxonica" on="2011-03-31"/>
+      <modified by="Michael Kay, Saxonica" on="2015-01-30" change="add test for redundant option"/>      
+      <test>parse-json('{"abc":12}', map{'liberal':false()})</test>
       <modified by="Josh Spiegel" on="2015-01-21" change="Fix map constructor syntax"/>
       <test>parse-json('{"abc":12}')</test>
       <result>
@@ -103,100 +102,111 @@
    <test-case name="fn-parse-json-011">
       <description>Empty array</description>
       <created by="Michael Kay, Saxonica" on="2011-03-31"/>
+      <modified by="Michael Kay, Saxonica" on="2015-01-30" change="return an array"/>
       <test>parse-json("[]")</test>
       <result>
          <all-of>
-            <assert-type>map(*)</assert-type>
+            <assert-type>array(*)</assert-type>
             <assert-count>1</assert-count>
-            <assert>map:size($result) eq 0</assert>
-            <assert>map:collation($result) eq "http://saxon.sf.net/json/array-collation"</assert><!-- TEMPORARY -->
+            <assert>array:size($result) eq 0</assert>
          </all-of>
       </result>
    </test-case>
    <test-case name="fn-parse-json-012">
       <description>Single-item array</description>
       <created by="Michael Kay, Saxonica" on="2011-03-31"/>
+      <modified by="Michael Kay, Saxonica" on="2015-01-30" change="return an array"/>
       <test>parse-json("[12345]")</test>
       <result>
          <all-of>
-            <assert-type>map(*)</assert-type>
+            <assert-type>array(*)</assert-type>
             <assert-count>1</assert-count>
-            <assert>map:contains($result, 1)</assert>
-            <assert>map:get($result, 1) eq 12345</assert>
+            <assert>$result?1 eq 12345</assert>
+            <assert>array:size($result) eq 1</assert>
          </all-of>
       </result>
    </test-case>
    <test-case name="fn-parse-json-013">
       <description>Single-item array</description>
       <created by="Michael Kay, Saxonica" on="2011-03-31"/>
+      <modified by="Michael Kay, Saxonica" on="2015-01-30" change="return an array"/>
       <test>parse-json('["abcd"]')</test>
       <result>
          <all-of>
-            <assert-type>map(*)</assert-type>
+            <assert-type>array(*)</assert-type>
             <assert-count>1</assert-count>
-            <assert>map:contains($result, 1)</assert>
-            <assert>$result(1) eq "abcd"</assert>
+            <assert>$result?1 eq "abcd"</assert>
+            <assert>array:size($result) eq 1</assert>
          </all-of>
       </result>
    </test-case>
    <test-case name="fn-parse-json-014">
       <description>Single-item array</description>
       <created by="Michael Kay, Saxonica" on="2011-03-31"/>
+      <modified by="Michael Kay, Saxonica" on="2015-01-30" change="return an array"/>
       <test>parse-json("[true]")</test>
       <result>
         <all-of>
-            <assert-type>map(*)</assert-type>
+            <assert-type>array(*)</assert-type>
             <assert-count>1</assert-count>
-            <assert>map:contains($result, 1)</assert>
-            <assert>$result(1) eq true()</assert>
+            <assert>$result?1 eq true()</assert>
+            <assert>array:size($result) eq 1</assert>
          </all-of>
       </result>
    </test-case>
    <test-case name="fn-parse-json-015">
       <description>Single-item array</description>
       <created by="Michael Kay, Saxonica" on="2011-03-31"/>
+      <modified by="Michael Kay, Saxonica" on="2015-01-30" change="return an array"/>
       <test>parse-json("[false]")</test>
       <result>
          <all-of>
-            <assert-type>map(*)</assert-type>
+            <assert-type>array(*)</assert-type>
             <assert-count>1</assert-count>
-            <assert>map:contains($result, 1)</assert>
-            <assert>$result(1) eq false()</assert>
+            <assert>$result?1 eq false()</assert>
+            <assert>array:size($result) eq 1</assert>
          </all-of>
       </result>
    </test-case>
    <test-case name="fn-parse-json-016">
       <description>Single-item array</description>
       <created by="Michael Kay, Saxonica" on="2011-03-31"/>
+      <modified by="Michael Kay, Saxonica" on="2015-01-30" change="return an array"/>
       <test>parse-json("[null]")</test>
       <result>
          <all-of>
-            <assert-type>map(*)</assert-type>
+            <assert-type>array(*)</assert-type>
             <assert-count>1</assert-count>
-            <assert>map:contains($result, 1)</assert>
-            <assert>empty($result(1))</assert>
+            <assert>empty($result?1)</assert>
+            <assert>array:size($result) eq 1</assert>
          </all-of>
       </result>
    </test-case>
    <test-case name="fn-parse-json-017">
       <description>Multi-item array</description>
       <created by="Michael Kay, Saxonica" on="2011-03-31"/>
+      <modified by="Michael Kay, Saxonica" on="2015-01-30" change="return an array"/>
       <test>parse-json('[1,2,3, "abc", "def", true, false, null]')</test>
       <result>
         <all-of>
-            <assert-type>map(*)</assert-type>
+            <assert-type>array(*)</assert-type>
             <assert-count>1</assert-count>
-            <assert>every $i in 1 to 8 satisfies map:contains($result, $i)</assert>
-            <assert>every $i in (0, 9, 10) satisfies not(map:contains($result, $i))</assert>
-            <assert>$result(1) eq 1</assert>
-            <assert>$result(5) eq "def"</assert>
-            <assert>$result(7) eq false()</assert>
+            <assert>array:size($result) eq 8</assert>
+            <assert>$result?1 eq 1</assert>
+            <assert>$result?2 eq 2</assert>
+            <assert>$result?3 eq 3</assert>
+            <assert>$result?4 eq "abc"</assert>
+            <assert>$result?5 eq "def"</assert>
+            <assert>$result?6 eq true()</assert>
+            <assert>$result?7 eq false()</assert>
+            <assert>$result?8 => empty()</assert>
          </all-of>
       </result>
    </test-case>
    <test-case name="fn-parse-json-018">
       <description>Multi-item array - same with more whitespace</description>
       <created by="Michael Kay, Saxonica" on="2011-03-31"/>
+      <modified by="Michael Kay, Saxonica" on="2015-01-30" change="return an array"/>
       <test>parse-json('
         [   1,     2,  3, 
         "abc",  "def",   true, 
@@ -204,37 +214,45 @@
         ')</test>
       <result>
          <all-of>
-            <assert-type>map(*)</assert-type>
+            <assert-type>array(*)</assert-type>
             <assert-count>1</assert-count>
-            <assert>every $i in 1 to 8 satisfies map:contains($result, $i)</assert>
-            <assert>every $i in (0, 9, 10) satisfies not(map:contains($result, $i))</assert>
-            <assert>$result(1) eq 1</assert>
-            <assert>$result(5) eq "def"</assert>
-            <assert>$result(7) eq false()</assert>
+            <assert>array:size($result) eq 8</assert>
+            <assert>$result?1 eq 1</assert>
+            <assert>$result?2 eq 2</assert>
+            <assert>$result?3 eq 3</assert>
+            <assert>$result?4 eq "abc"</assert>
+            <assert>$result?5 eq "def"</assert>
+            <assert>$result?6 eq true()</assert>
+            <assert>$result?7 eq false()</assert>
+            <assert>$result?8 => empty()</assert>
          </all-of>
       </result>
    </test-case>
    <test-case name="fn-parse-json-019">
       <description>Nested empty arrays</description>
       <created by="Michael Kay, Saxonica" on="2011-03-31"/>
+      <modified by="Michael Kay, Saxonica" on="2015-01-30" change="return an array"/>
       <test>parse-json("[[[],[]]]")</test>
       <result>
         <all-of>
-            <assert-type>map(xs:integer, map(xs:integer, map(*)))</assert-type>
+            <assert-type>array(array(array(*)))</assert-type>
             <assert-count>1</assert-count>
-            <assert>map:size($result) eq 1</assert>
-            <assert>map:size($result(1)) eq 2</assert>
-            <assert>map:size($result(1)(2)) eq 0</assert>
+            <assert>array:size($result) eq 1</assert>
+            <assert>array:size($result(1)) eq 2</assert>
+            <assert>array:size($result(1)(2)) eq 0</assert>
          </all-of>
       </result>
    </test-case>
    <test-case name="fn-parse-json-020">
       <description>Nested non-empty arrays</description>
       <created by="Michael Kay, Saxonica" on="2011-03-31"/>
+      <modified by="Michael Kay, Saxonica" on="2015-01-30" change="return an array"/>
       <test>parse-json('[1, 2, [], [1], [1,2], [1,2,3]]')</test>
       <result>        
          <all-of>
-            <assert>map:size($result) = 6</assert>
+            <assert-type>array(*)</assert-type>
+            <assert-count>1</assert-count>
+            <assert>array:size($result) = 6</assert>
             <assert>$result(6)(3) = 3</assert>
          </all-of>
       </result>
@@ -242,10 +260,13 @@
    <test-case name="fn-parse-json-021">
       <description>Array of objects</description>
       <created by="Michael Kay, Saxonica" on="2011-03-31"/>
+      <modified by="Michael Kay, Saxonica" on="2015-01-30" change="return an array"/>
       <test>parse-json('[{"x":12,"y":5}, {"x":13,"y":6}]')</test>
       <result>
-         <all-of><assert>map:size($result) = 2</assert>
-         <assert>$result(2)("y") = 6</assert></all-of>
+         <all-of>
+           <assert>array:size($result) = 2</assert>
+           <assert>$result(2)("y") = 6</assert>
+         </all-of>
       </result>
    </test-case>
    <test-case name="fn-parse-json-022">
@@ -253,8 +274,10 @@
       <created by="Michael Kay, Saxonica" on="2011-03-31"/>
       <test>parse-json('{"x":[12,3], "y":[14,9]}')</test>
       <result>
-         <all-of><assert>map:size($result) = 2</assert>
-         <assert>$result("y")(2) = 9</assert></all-of>
+         <all-of>
+           <assert>map:size($result) = 2</assert>
+           <assert>$result("y")(2) = 9</assert>
+         </all-of>
       </result>
    </test-case>
    <test-case name="fn-parse-json-023">
@@ -262,8 +285,10 @@
       <created by="Michael Kay, Saxonica" on="2011-03-31"/>
       <test>parse-json('[0.123]')</test>
       <result>
-         <all-of><assert>$result(1) = 0.123e0</assert>
-         <assert>$result(1) instance of xs:double</assert></all-of>
+         <all-of>
+           <assert>$result(1) = 0.123e0</assert>
+           <assert>$result(1) instance of xs:double</assert>
+         </all-of>
       </result>
    </test-case>
    <test-case name="fn-parse-json-024">
@@ -395,8 +420,8 @@
    <test-case name="fn-parse-json-038">
       <description>Anything allowed at Top level under ECMA spec</description>
       <created by="Michael Kay, Saxonica" on="2011-03-31"/>
-      <modified by="Josh Spiegel" on="2015-01-21" change="Fix map constructor syntax"/>
-      <test>parse-json('true', map{'spec':'ECMA-262'})</test>
+      <modified by="Michael Kay, Saxonica" on="2015-01-30" change="'spec' option has been dropped from the spec"/>
+      <test>parse-json('true')</test>
       <result>
          <assert-true/>
       </result>
@@ -404,8 +429,8 @@
    <test-case name="fn-parse-json-039">
       <description>Anything allowed at Top level under ECMA spec</description>
       <created by="Michael Kay, Saxonica" on="2011-03-31"/>
-      <modified by="Josh Spiegel" on="2015-01-21" change="Fix map constructor syntax"/>
-      <test>parse-json('false', map{'spec':'ECMA-262'})</test>
+      <modified by="Michael Kay, Saxonica" on="2015-01-30" change="'spec' option has been dropped from the spec"/>
+      <test>parse-json('false')</test>
       <result>
          <assert-false/>
       </result>
@@ -413,8 +438,8 @@
    <test-case name="fn-parse-json-040">
       <description>Anything allowed at Top level under ECMA spec</description>
       <created by="Michael Kay, Saxonica" on="2011-03-31"/>
-      <modified by="Josh Spiegel" on="2015-01-21" change="Fix map constructor syntax"/>
-      <test>parse-json('null', map{'spec':'ECMA-262'})</test>
+      <modified by="Michael Kay, Saxonica" on="2015-01-30" change="'spec' option has been dropped from the spec"/>
+      <test>parse-json('null')</test>
       <result>
          <assert-empty/>
       </result>
@@ -422,8 +447,8 @@
    <test-case name="fn-parse-json-041">
       <description>Anything allowed at Top level under ECMA spec</description>
       <created by="Michael Kay, Saxonica" on="2011-03-31"/>
-      <modified by="Josh Spiegel" on="2015-01-21" change="Fix map constructor syntax"/>
-      <test>parse-json('93.7', map{'spec':'ECMA-262'})</test>
+      <modified by="Michael Kay, Saxonica" on="2015-01-30" change="'spec' option has been dropped from the spec"/>
+      <test>parse-json('93.7')</test>
       <result>
         <all-of>
           <assert-eq>93.7e0</assert-eq>
@@ -434,13 +459,37 @@
    <test-case name="fn-parse-json-042">
       <description>Anything allowed at Top level under ECMA spec</description>
       <created by="Michael Kay, Saxonica" on="2011-03-31"/>
-      <modified by="Josh Spiegel" on="2015-01-21" change="Fix map constructor syntax"/>
-      <test>parse-json('"abcd\n"', map{'spec':'ECMA-262','unescape':false()})</test>
+      <modified by="Michael Kay, Saxonica" on="2015-01-30" change="'spec' option has been dropped from the spec"/>
+      <test>parse-json('"abcd\n"', map{'unescape':false()})</test>
       <result>
         <all-of>
           <assert-eq>'abcd\n'</assert-eq>
           <assert-type>xs:string</assert-type>
         </all-of>
+      </result>
+   </test-case>
+   <test-case name="fn-parse-json-050">
+      <description>Duplicate keys - use first</description>
+      <created by="Michael Kay, Saxonica" on="2015-01-30"/>
+      <test>parse-json('{"a":1, "b":2, "a":3}', map{'duplicates':'use-first'})</test>
+      <result>
+        <assert-deep-eq>map{"a":1, "b":2}</assert-deep-eq>
+      </result>
+   </test-case>
+   <test-case name="fn-parse-json-051">
+      <description>Duplicate keys - use last</description>
+      <created by="Michael Kay, Saxonica" on="2015-01-30"/>
+      <test>parse-json('{"a":1, "b":2, "a":3}', map{'duplicates':'use-last'})</test>
+      <result>
+        <assert-deep-eq>map{"a":3, "b":2}</assert-deep-eq>
+      </result>
+   </test-case>
+   <test-case name="fn-parse-json-052">
+      <description>Duplicate keys - default</description>
+      <created by="Michael Kay, Saxonica" on="2015-01-30"/>
+      <test>parse-json('{"a":1, "b":2, "a":3}', map{})</test>
+      <result>
+        <assert-deep-eq>map{"a":3, "b":2}</assert-deep-eq>
       </result>
    </test-case>
    
@@ -487,6 +536,273 @@
       </result>
    </test-case>
    
+   <!-- things that a liberal parser might allow -->
+
+   <test-case name="fn-parse-json-801">
+      <description>Syntax error</description>
+      <created by="Michael Kay, Saxonica" on="2015-01-30"/>
+      <test>parse-json('[-0.123e-2,]', map{'liberal':true()})</test>
+      <result>
+        <any-of>
+          <assert-type>item()?</assert-type>
+          <error code="FOJS0001"/>
+        </any-of>
+      </result>
+   </test-case>
+   <test-case name="fn-parse-json-802">
+      <description>Syntax error</description>
+      <created by="Michael Kay, Saxonica" on="2015-01-30"/>
+      <test>parse-json('[FALSE]', map{'liberal':true()})</test>
+      <result>
+        <any-of>
+          <assert-type>item()?</assert-type>
+          <error code="FOJS0001"/>
+        </any-of>
+      </result>
+   </test-case>
+   <test-case name="fn-parse-json-804">
+      <description>Syntax error</description>
+      <created by="Michael Kay, Saxonica" on="2015-01-30"/>
+      <test>parse-json('[(5)]', map{'liberal':true()})</test>
+      <result>
+        <any-of>
+          <assert-type>item()?</assert-type>
+          <error code="FOJS0001"/>
+        </any-of>
+      </result>
+   </test-case>
+   <test-case name="fn-parse-json-806">
+      <description>Syntax error</description>
+      <created by="Michael Kay, Saxonica" on="2015-01-30"/>
+      <test>parse-json('[{x:23}]', map{'liberal':true()})</test>
+      <result>
+        <any-of>
+          <assert-type>item()?</assert-type>
+          <error code="FOJS0001"/>
+        </any-of>
+      </result>
+   </test-case>
+   <test-case name="fn-parse-json-809">
+      <description>Syntax error</description>
+      <created by="Michael Kay, Saxonica" on="2015-01-30"/>
+      <test>parse-json('[1,2,3,]', map{'liberal':true()})</test>
+      <result>
+        <any-of>
+          <assert-type>item()?</assert-type>
+          <error code="FOJS0001"/>
+        </any-of>
+      </result>
+   </test-case>
+   <test-case name="fn-parse-json-810">
+      <description>Syntax error</description>
+      <created by="Michael Kay, Saxonica" on="2015-01-30"/>
+      <test>parse-json('{"a":=13}', map{'liberal':true()})</test>
+      <result>
+        <any-of>
+          <assert-type>item()?</assert-type>
+          <error code="FOJS0001"/>
+        </any-of>
+      </result>
+   </test-case>
+   <test-case name="fn-parse-json-811">
+      <description>Syntax error</description>
+      <created by="Michael Kay, Saxonica" on="2015-01-30"/>
+      <test>parse-json('{"a":13,,"b":15}', map{'liberal':true()})</test>
+      <result>
+        <any-of>
+          <assert-type>item()?</assert-type>
+          <error code="FOJS0001"/>
+        </any-of>
+      </result>
+   </test-case>
+   <test-case name="fn-parse-json-814">
+      <description>Syntax error</description>
+      <created by="Michael Kay, Saxonica" on="2015-01-30"/>
+      <test>parse-json('{"a":{"b":12}}}', map{'liberal':true()})</test>
+      <result>
+        <any-of>
+          <assert-type>item()?</assert-type>
+          <error code="FOJS0001"/>
+        </any-of>
+      </result>
+   </test-case>
+   <test-case name="fn-parse-json-815">
+      <description>Syntax error</description>
+      <created by="Michael Kay, Saxonica" on="2015-01-30"/>
+      <test>parse-json('["\"]', map{'liberal':true()})</test>
+      <result>
+        <any-of>
+          <assert-type>item()?</assert-type>
+          <error code="FOJS0001"/>
+        </any-of>
+      </result>
+   </test-case>
+   <test-case name="fn-parse-json-816">
+      <description>Syntax error</description>
+      <created by="Michael Kay, Saxonica" on="2015-01-30"/>
+      <test>parse-json('["\1"]', map{'liberal':true()})</test>
+      <result>
+        <any-of>
+          <assert-type>item()?</assert-type>
+          <error code="FOJS0001"/>
+        </any-of>
+      </result>
+   </test-case>
+   <test-case name="fn-parse-json-817">
+      <description>Syntax error</description>
+      <created by="Michael Kay, Saxonica" on="2015-01-30"/>
+      <test>parse-json('["\u2"]', map{'liberal':true()})</test>
+      <result>
+        <any-of>
+          <assert-type>item()?</assert-type>
+          <error code="FOJS0001"/>
+        </any-of>
+      </result>
+   </test-case>
+   <test-case name="fn-parse-json-819">
+      <description>Syntax error: invalid character under XML 1.0</description>
+      <created by="Michael Kay, Saxonica" on="2015-01-30"/>
+      <dependency type="xml-version" value="1.0"/>
+      <test>parse-json('["\b"]', map{'liberal':true()})</test>
+      <result>
+        <any-of>
+          <assert-type>item()?</assert-type>
+          <error code="FOJS0001"/>
+        </any-of>
+      </result>
+   </test-case>
+   <test-case name="fn-parse-json-820">
+      <description>Syntax error</description>
+      <created by="Michael Kay, Saxonica" on="2015-01-30"/>
+      <test>parse-json('["\x20"]', map{'liberal':true()})</test>
+      <result>
+        <any-of>
+          <assert-type>item()?</assert-type>
+          <error code="FOJS0001"/>
+        </any-of>
+      </result>
+   </test-case>
+   <test-case name="fn-parse-json-821">
+      <description>String formats: \s is not allowed by the RFC</description>
+      <created by="Michael Kay, Saxonica" on="2015-01-30"/>
+      <test>parse-json('["\s"]', map{'liberal':true()})</test>
+      <result>
+        <any-of>
+          <assert-type>item()?</assert-type>
+          <error code="FOJS0001"/>
+        </any-of>
+      </result>
+   </test-case>
+   <test-case name="fn-parse-json-822">
+      <description>String formats - unpaired surrogate</description>
+      <created by="Michael Kay, Saxonica" on="2015-01-30"/>
+      <test>parse-json('["\uD834"]', map{'liberal':true()})</test>
+      <result>
+        <any-of>
+          <assert-type>item()?</assert-type>
+          <error code="FOJS0001"/>
+        </any-of>
+      </result>
+   </test-case>
+   <test-case name="fn-parse-json-823">
+      <description>String formats - surrogate pair</description>
+      <created by="Michael Kay, Saxonica" on="2015-01-30"/>
+      <test>parse-json('["\udD1E"]', map{'liberal':true()})</test>
+      <result>
+        <any-of>
+          <assert-type>item()?</assert-type>
+          <error code="FOJS0001"/>
+        </any-of>
+      </result>
+   </test-case>
+   <test-case name="fn-parse-json-824">
+      <description>String formats: effect of unescape option: invalid XML character</description>
+      <created by="Michael Kay, Saxonica" on="2015-01-30"/>
+      <test>parse-json('["\u0000"]', map{'unescape':true(), 'liberal':true()})</test>
+      <result>
+        <any-of>
+          <assert-type>item()?</assert-type>
+          <error code="FOJS0001"/>
+        </any-of>
+      </result>
+   </test-case>
+   <test-case name="fn-parse-json-830">
+      <description>Invalid number</description>
+      <created by="Michael Kay, Saxonica" on="2015-01-30"/>
+      <test>parse-json('[.3]', map{'liberal':true()})</test>
+      <result>
+        <any-of>
+          <assert-type>item()?</assert-type>
+          <error code="FOJS0001"/>
+        </any-of>
+      </result>
+   </test-case>
+   <test-case name="fn-parse-json-831">
+      <description>Invalid number</description>
+      <created by="Michael Kay, Saxonica" on="2015-01-30"/>
+      <test>parse-json('[01]', map{'liberal':true()})</test>
+      <result>
+        <any-of>
+          <assert-type>item()?</assert-type>
+          <error code="FOJS0001"/>
+        </any-of>
+      </result>
+   </test-case>
+   <test-case name="fn-parse-json-832">
+      <description>Invalid number</description>
+      <created by="Michael Kay, Saxonica" on="2015-01-30"/>
+      <test>parse-json('[00.00]', map{'liberal':true()})</test>
+      <result>
+        <any-of>
+          <assert-type>item()?</assert-type>
+          <error code="FOJS0001"/>
+        </any-of>
+      </result>
+   </test-case>
+   <test-case name="fn-parse-json-833">
+      <description>Invalid number</description>
+      <created by="Michael Kay, Saxonica" on="2015-01-30"/>
+      <test>parse-json('[+23]', map{'liberal':true()})</test>
+      <result>
+        <any-of>
+          <assert-type>item()?</assert-type>
+          <error code="FOJS0001"/>
+        </any-of>
+      </result>
+   </test-case>
+   <test-case name="fn-parse-json-834">
+      <description>Invalid number</description>
+      <created by="Michael Kay, Saxonica" on="2015-01-30"/>
+      <test>parse-json('[1.234f0]', map{'liberal':true()})</test>
+      <result>
+        <any-of>
+          <assert-type>item()?</assert-type>
+          <error code="FOJS0001"/>
+        </any-of>
+      </result>
+   </test-case>
+   <test-case name="fn-parse-json-835">
+      <description>Wrong quote mark</description>
+      <created by="Michael Kay, Saxonica" on="2015-01-30"/>
+      <test>parse-json("['wrong']", map{'liberal':true()})</test>
+      <result>
+        <any-of>
+          <assert-type>item()?</assert-type>
+          <error code="FOJS0001"/>
+        </any-of>
+      </result>
+   </test-case>
+   <test-case name="fn-parse-json-839">
+      <description>Empty input</description>
+      <created by="Michael Kay, Saxonica" on="2015-01-30"/>
+      <test>parse-json('', map{'liberal':true()})</test>
+      <result>
+        <any-of>
+          <assert-type>item()?</assert-type>
+          <error code="FOJS0001"/>
+        </any-of>
+      </result>
+   </test-case>
     
    <!-- error cases -->
    
@@ -765,6 +1081,46 @@
       <description>Invalid number</description>
       <created by="Michael Kay, Saxonica" on="2011-03-31"/>
       <test>parse-json('[1.234f0]')</test>
+      <result>
+        <error code="FOJS0001"/>
+      </result>
+   </test-case>
+   <test-case name="fn-parse-json-935">
+      <description>Wrong quote mark</description>
+      <created by="Michael Kay, Saxonica" on="2015-01-30"/>
+      <test>parse-json("['wrong']")</test>
+      <result>
+        <error code="FOJS0001"/>
+      </result>
+   </test-case>
+   <test-case name="fn-parse-json-936">
+      <description>Duplicate keys</description>
+      <created by="Michael Kay, Saxonica" on="2015-01-30"/>
+      <test>parse-json('{"a":1, "b":2, "a":3}', map{'duplicates':'reject'})</test>
+      <result>
+        <error code="FOJS0003"/>
+      </result>
+   </test-case>
+   <test-case name="fn-parse-json-937">
+      <description>Bad option value (see bug 27930)</description>
+      <created by="Michael Kay, Saxonica" on="2015-01-30"/>
+      <test>parse-json('{"a":1, "b":2, "a":3}', map{'duplicates':'do-your-own-thing'})</test>
+      <result>
+        <error code="FOJS0004"/>
+      </result>
+   </test-case>
+   <test-case name="fn-parse-json-938">
+      <description>Bad option value (see bug 27930)</description>
+      <created by="Michael Kay, Saxonica" on="2015-01-30"/>
+      <test>parse-json('{"a":1, "b":2, "c":3}', map{'liberal':'liberal'})</test>
+      <result>
+        <error code="FOJS0004"/>
+      </result>
+   </test-case>
+   <test-case name="fn-parse-json-939">
+      <description>Empty input</description>
+      <created by="Michael Kay, Saxonica" on="2015-01-30"/>
+      <test>parse-json('')</test>
       <result>
         <error code="FOJS0001"/>
       </result>
