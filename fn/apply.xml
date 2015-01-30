@@ -186,4 +186,29 @@
          <assert-eq>"abc"</assert-eq>
       </result>
    </test-case>
+   
+   <test-case name="fn-apply-15">
+      <description>Apply user-defined function, with atomization</description>
+      <created by="Michael Kay" on="2015-01-29"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[
+         declare function local:l($x as xs:string){lower-case($x)};
+         declare function local:u($x as xs:string){upper-case($x)};
+         let $data := <a><b>Banana</b></a>
+         return apply(if (current-date() lt xs:date('1900-01-01')) then local:l#1 else local:u#1, [$data])
+      ]]></test>
+      <result>
+         <assert-eq>"BANANA"</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-apply-16">
+      <description>An XPath test to defeat rewriting as a static function call</description>
+      <created by="Michael Kay" on="2015-01-29"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>apply(if (current-date() lt xs:date('1900-01-01')) then abs#1 else round#1, [-2])</test>
+      <result>
+	    <assert-eq>-2</assert-eq>
+      </result>
+   </test-case>
 </test-set>
