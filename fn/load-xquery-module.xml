@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="fn-load-xquery-module" covers="fn-load-xquery-module">
+  <description>Tests for the fn:load-xquery-module() function introduced in XPath 3.1</description>
+  <link type="spec" document="http://www.w3.org/TR/xpath-functions-31/"
+    idref="func-load-xquery-module"/>
+
+  <dependency type="spec" value="XP31+ XQ31+"/>
+
+  <environment name="load-xquery-module">
+    <source 
+      file="load-xquery-module/invalid-module.xqm" 
+      uri="http://www.w3.org/fots/fn/load-xquery-module/invalid/module">
+      <description>Invalid XQuery Module</description>
+      <created by="Adam Retter" on="2015-02-01"/>
+    </source>
+    <source 
+      file="load-xquery-module/external-var-module.xqm" 
+      uri="http://www.w3.org/fots/fn/load-xquery-module/external-var/module">
+      <description>XQuery Module that requires an external var</description>
+      <created by="Adam Retter" on="2015-02-01"/>
+    </source>
+    <source 
+      file="load-xquery-module/context-item-module.xqm" 
+      uri="http://www.w3.org/fots/fn/load-xquery-module/context-item/module">
+      <description>XQuery Module that requires a context item</description>
+      <created by="Adam Retter" on="2015-02-01"/>
+    </source>
+    <source 
+      file="load-xquery-module/context-item-module.xqm" 
+      uri="http://www.w3.org/fots/fn/load-xquery-module/dynamic-error/module">
+      <description>XQuery Module that raises a dynamic error when it is processed</description>
+      <created by="Adam Retter" on="2015-02-01"/>
+    </source>
+    <source 
+      file="load-xquery-module/valid-module.xqm" 
+      uri="http://www.w3.org/fots/fn/load-xquery-module/valid/module">
+      <description>XQuery Module that has a few variables and functions</description>
+      <created by="Adam Retter" on="2015-02-01"/>
+    </source>
+  </environment>
+
+  <test-case name="fn-load-xquery-module-001">
+    <description>Checks for an error when calling fn:load-xquery-module without a module-uri.</description>
+    <created by="Adam Retter" on="2015-02-01"/>
+    <test>fn:load-xquery-module("")</test>
+    <result>
+      <error code="FOQM0001"/>
+    </result>
+  </test-case>
+
+  <test-case name="fn-load-xquery-module-002">
+    <description>Checks for an error when calling fn:load-xquery-module without a module-uri.</description>
+    <created by="Adam Retter" on="2015-02-01"/>
+    <test>fn:load-xquery-module("", map{})</test>
+    <result>
+      <error code="FOQM0001"/>
+    </result>
+  </test-case>
+
+  <test-case name="fn-load-xquery-module-003">
+    <description>Checks for an error when calling fn:load-xquery-module and the module-uri cannot be resolved.</description>
+    <created by="Adam Retter" on="2015-02-01"/>
+    <test>fn:load-xquery-module("http://nonexistent/module")</test>
+    <result>
+      <error code="FOQM0002"/>
+    </result>
+  </test-case>
+
+  <test-case name="fn-load-xquery-module-004">
+    <description>Checks for an error when calling fn:load-xquery-module and the module-uri cannot be resolved.</description>
+    <created by="Adam Retter" on="2015-02-01"/>
+    <test>fn:load-xquery-module("http://nonexistent/module", map{})</test>
+    <result>
+      <error code="FOQM0002"/>
+    </result>
+  </test-case>
+
+  <test-case name="fn-load-xquery-module-005">
+    <description>Checks for an error when calling fn:load-xquery-module against an invalid module.</description>
+    <created by="Adam Retter" on="2015-02-01"/>
+    <test>fn:load-xquery-module("http://www.w3.org/fots/fn/load-xquery-module/invalid/module")</test>
+    <result>
+      <error code="FOQM0003"/>
+    </result>
+  </test-case>
+
+  <test-case name="fn-load-xquery-module-006">
+    <description>Checks for an error when calling fn:load-xquery-module against an invalid module.</description>
+    <created by="Adam Retter" on="2015-02-01"/>
+    <test>fn:load-xquery-module("http://www.w3.org/fots/fn/load-xquery-module/invalid/module", map{})</test>
+    <result>
+      <error code="FOQM0003"/>
+    </result>
+  </test-case>
+
+  <test-case name="fn-load-xquery-module-007">
+    <description>Checks for an error when calling fn:load-xquery-module and not providing a value for an external var in the module.</description>
+    <created by="Adam Retter" on="2015-02-01"/>
+    <test>fn:load-xquery-module("http://www.w3.org/fots/fn/load-xquery-module/external-var/module")</test>
+    <result>
+      <error code="FOQM0004"/>
+    </result>
+  </test-case>
+
+  <test-case name="fn-load-xquery-module-008">
+    <description>Checks for an error when calling fn:load-xquery-module and not providing a value for an external var in the module.</description>
+    <created by="Adam Retter" on="2015-02-01"/>
+    <test>fn:load-xquery-module("http://www.w3.org/fots/fn/load-xquery-module/external-var/module", map{})</test>
+    <result>
+      <error code="FOQM0004"/>
+    </result>
+  </test-case>
+  
+  <test-case name="fn-load-xquery-module-009">
+    <description>Checks for an error when calling fn:load-xquery-module and not providing a context item for the module.</description>
+    <created by="Adam Retter" on="2015-02-01"/>
+    <test>fn:load-xquery-module("http://www.w3.org/fots/fn/load-xquery-module/context-item/module")</test>
+    <result>
+      <error code="FOQM0004"/>
+    </result>
+  </test-case>
+
+  <test-case name="fn-load-xquery-module-010">
+    <description>Checks for an error when calling fn:load-xquery-module and not providing a context item for the module.</description>
+    <created by="Adam Retter" on="2015-02-01"/>
+    <test>fn:load-xquery-module("http://www.w3.org/fots/fn/load-xquery-module/context-item/module", map{})</test>
+    <result>
+      <error code="FOQM0004"/>
+    </result>
+  </test-case>
+
+  <test-case name="fn-load-xquery-module-011">
+    <description>Checks for an error when calling fn:load-xquery-module and providing the wrong type of value for an external var in the module.</description>
+    <created by="Adam Retter" on="2015-02-01"/>
+    <test>fn:load-xquery-module("http://www.w3.org/fots/fn/load-xquery-module/external-var/module", map {"variables" : map { QName("http://www.w3.org/fots/fn/load-xquery-module/external-var/module", "var1") : 1234 }})</test>
+    <result>
+      <error code="FOQM0005"/>
+    </result>
+  </test-case>
+
+  <test-case name="fn-load-xquery-module-012">
+    <description>Checks that a dynamic error caused when fn:load-xquery-module processes a module is returned as is.</description>
+    <created by="Adam Retter" on="2015-02-01"/>
+    <test>fn:load-xquery-module("http://www.w3.org/fots/fn/load-xquery-module/dynamic-error/module")</test>
+    <result>
+      <error code="XPDY0139"/>
+    </result>
+  </test-case>
+  
+  <test-case name="fn-load-xquery-module-013">
+    <description>Checks that a dynamic error caused when fn:load-xquery-module processes a module is returned as is.</description>
+    <created by="Adam Retter" on="2015-02-01"/>
+    <test>fn:load-xquery-module("http://www.w3.org/fots/fn/load-xquery-module/dynamic-error/module", map{})</test>
+    <result>
+      <error code="XPDY0139"/>
+    </result>
+  </test-case>
+  
+  <test-case name="fn-load-xquery-module-014">
+    <description>Loads a module.</description>
+    <created by="Adam Retter" on="2015-02-01"/>
+    <test>
+      let $module-ns := "http://www.w3.org/fots/fn/load-xquery-module/valid/module"
+      let $module := fn:load-xquery-module($module-ns)
+      return
+        let $vars := $module("variables")
+        let $fns := $module("function")
+        return
+          let $var-values := ($vars(QName($module-ns, "var1")), $vars(QName($module-ns, "var2")))
+          let $fns-values := ($fns(QName($module-ns, "func1"))(0), $fns(QName($module-ns, "func2"))(0))
+          return
+            ($var-values, $fns-values)
+    </test>
+    <result>
+      <assert-deep-eq>("var1", "var2", "func1", "func2")</assert-deep-eq>
+    </result>
+  </test-case>
+  
+  <test-case name="fn-load-xquery-module-015">
+    <description>Loads a module and sets the value for an external var in the module.</description>
+    <created by="Adam Retter" on="2015-02-01"/>
+    <test>
+      let $qn-var1 := QName("http://www.w3.org/fots/fn/load-xquery-module/external-var/module", "var1")
+      let $test-value := "some value"
+      return
+        let $module := fn:load-xquery-module("http://www.w3.org/fots/fn/load-xquery-module/external-var/module", map {"variables" : map { $qn-var1 : $test-value }})
+        return
+          $module("variables")($qn-var1)
+    </test>
+    <result>
+      <assert-string-value>some value</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="fn-load-xquery-module-016">
+    <description>Loads a module and sets the context item for the module.</description>
+    <created by="Adam Retter" on="2015-02-01"/>
+    <test><![CDATA[
+      let $module := fn:load-xquery-module("http://www.w3.org/fots/fn/load-xquery-module/context-item/module", map{"context-item" : <a><b>hello</b></a>})
+      return
+        let $f := $module("function")(QName("http://www.w3.org/fots/fn/load-xquery-module/context-item/module", "get-context-child"))(0)
+        return
+          $f()
+    ]]></test>
+    <result>
+      <assert-xml><![CDATA[<b>hello</b>]]></assert-xml>
+    </result>
+  </test-case>
+  
+</test-set>
