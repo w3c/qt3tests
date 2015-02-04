@@ -62,4 +62,28 @@
          <assert-true/>
       </result>
    </test-case>
+   
+   <test-case name="head-007">
+      <description> dynamic call on head() </description>
+      <created by="Michael Kay" on="2015-02-04"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <test>
+        let $f := if (current-date() gt xs:date('1900-01-01')) then head#1 else count#1
+        return $f(5 to 10)</test>
+      <result>
+         <assert-eq>5</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="head-008">
+      <description> dynamic call on head(), returning empty </description>
+      <created by="Michael Kay" on="2015-02-04"/>
+      <environment ref="works-mod"/>
+      <test>
+        let $f := if (current-date() gt xs:date('1900-01-01')) then head#1 else (abs#1, abs#1, abs#1, abs#1)
+        return $f[1](/works/cucumber)</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
 </test-set>
