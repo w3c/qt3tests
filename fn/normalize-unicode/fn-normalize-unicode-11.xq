@@ -3,7 +3,10 @@
 (: Result should be empty, indicating that normalization is idempotent on these characters :)
 
 declare variable $Cn := 
-   (: derived from the Unicode 5.2 database - essentially a list of characters that are legal in XML but undefined in Unicode 5.2 :)
+   (: derived from the Unicode 5.2 database - essentially a list of characters that are legal
+    in XML but undefined in Unicode :)
+   (: queries for other Unicode versions can be generated using the stylesheet generator-for-test-11.xsl
+    in the containing directory :)
    <Cn>
       <range from="888" to="889"/>
       <range from="895" to="899"/>
