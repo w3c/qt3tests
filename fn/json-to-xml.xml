@@ -6,25 +6,35 @@
 
    <dependency type="spec" value="XP31+ XQ31+"/>
 
-   <environment name="data001-json">
-      <source role="." file="json/data001.json">
-         <description>JSON document</description>
-         <created by="john Lumley" on="2013-10-01"/>
-      </source>
+  <environment name="json-files">
+      <resource file="json/data001.json"
+                media-type="text/plain"
+                encoding="utf-8"
+                uri="http://www.w3.org/qt3/json/data001-json">
+         <description>UTF-8 encoded plain text.</description>
+         <created by="O'Neil Delpratt" on="2015-02-23"/>
+      </resource>
+      <resource file="json/escapeText.json"
+                media-type="text/plain"
+                encoding="utf-8"
+                uri="http://www.w3.org/qt3/json/escapeText-json">
+         <description>UTF-8 encoded plain text.</description>
+         <created by="O'Neil Delpratt" on="2015-02-23"/>
+      </resource>
+      <resource file="json/data005.json"
+                media-type="text/plain"
+                encoding="utf-8"
+                uri="http://www.w3.org/qt3/json/data005-json">
+         <description>UTF-8 encoded plain text.</description>
+         <created by="O'Neil Delpratt" on="2015-02-23"/>
+      </resource>
       <namespace prefix="j" uri="http://www.w3.org/2013/XSL/json"/>
-   </environment>
+     </environment>
 
    <environment name="json-ns">
         <namespace prefix="j" uri="http://www.w3.org/2013/XSL/json"/>
     </environment>
 
-   <environment name="data005-json">
-      <source role="." file="json/data005.json">
-         <description>JSON document</description>
-         <created by="john Lumley" on="2013-10-01"/>
-      </source>
-      <namespace prefix="j" uri="http://www.w3.org/2013/XSL/json"/>
-   </environment>
 
    <test-case name="json-to-xml-001">
       <description>Empty object as document-node</description>
@@ -150,8 +160,8 @@
       <description>Larger 2</description>
       <created by="John Lumley" on="2013-10-01"/>
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
-      <environment ref="data001-json"/>
-      <test>fn:json-to-xml(unparsed-text(.))</test>
+      <environment ref="json-files"/>
+      <test>fn:json-to-xml(unparsed-text('http://www.w3.org/qt3/json/data001-json'))</test>
       <result>
             <all-of>
                 <assert-count>1</assert-count>
@@ -167,13 +177,51 @@
       <description>Larger 2</description>
       <created by="John Lumley" on="2013-10-01"/>
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
-      <environment ref="data005-json"/>
-      <environment ref="json-ns" />
-      <test>fn:json-to-xml(unparsed-text($data005.json))</test>
+      <environment ref="json-files"/>
+      <test>fn:json-to-xml(unparsed-text('http://www.w3.org/qt3/json/data005-json'))</test>
       <result>
             <all-of>
                 <assert>/j:map/j:map[@key='menu']/j:string[@key='header'][.='SVG Viewer']</assert>
                 <assert>/j:map/j:map[@key='menu']/j:array[@key='items']/j:map[not(@*)]/j:string[@key='id'][.='Open']</assert>
+            </all-of>
+      </result>
+   </test-case>
+
+   <test-case name="json-to-xml-010">
+      <description>Larger 2</description>
+      <created by="John Lumley" on="2013-10-01"/>
+      <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
+      <environment ref="json-files"/>
+      <test>fn:json-to-xml(unparsed-text('http://www.w3.org/qt3/json/escapeText-json'))</test>
+      <result>
+            <assert-xml><![CDATA[<j:map><j:string key="key">Data with " within it</j:string></j:map>]]></assert-xml>
+      </result>
+   </test-case>
+
+
+   <test-case name="json-to-xml-011">
+      <description>Larger 2</description>
+      <created by="John Lumley" on="2013-10-01"/>
+      <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
+      <environment ref="json-files"/>
+      <test>fn:json-to-xml(unparsed-text('http://www.w3.org/qt3/json/escapeText-json'))//j:string</test>
+      <result>
+            <assert-xml><![CDATA[<j:string key="key">Data with " within it</j:string>]]></assert-xml>
+      </result>
+   </test-case>
+
+      <test-case name="json-to-xml-012">
+      <description>Larger 2</description>
+      <created by="John Lumley" on="2013-10-01"/>
+      <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
+      <environment ref="json-files"/>
+      <test>
+         fn:json-to-xml(unparsed-text('http://www.w3.org/qt3/json/escapeText-json'), map{'unescape':false()})//j:string
+      </test>
+      <result>
+         <all-of>
+                <assert-type>element(Q{http://www.w3.org/2013/XSL/json}string)</assert-type>
+                <assert-xml><![CDATA[<j:string key="key" escaped="true">Data with \" within it</j:string>]]></assert-xml>
             </all-of>
       </result>
    </test-case>
