@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="fn-json-to-xml" covers="fn-json-to-xml">
+  <description>xml-to-json() function introduced in XPath 3.1</description>
+  <link type="spec" document="http://www.w3.org/TR/xpath-functions-31/"
+    idref="func-json-to-xml"/>
+
+   <dependency type="spec" value="XP31+ XQ31+"/>
+
+   <environment name="data001-json">
+      <source role="." file="json/data001.json">
+         <description>JSON document</description>
+         <created by="john Lumley" on="2013-10-01"/>
+      </source>
+      <namespace prefix="j" uri="http://www.w3.org/2013/XSL/json"/>
+   </environment>
+
+   <environment name="json-ns">
+        <namespace prefix="j" uri="http://www.w3.org/2013/XSL/json"/>
+    </environment>
+
+   <environment name="data005-json">
+      <source role="." file="json/data005.json">
+         <description>JSON document</description>
+         <created by="john Lumley" on="2013-10-01"/>
+      </source>
+      <namespace prefix="j" uri="http://www.w3.org/2013/XSL/json"/>
+   </environment>
+
+   <test-case name="json-to-xml-001">
+      <description>Empty object as document-node</description>
+       <created by="John Lumley" on="2013-10-01"/>
+      <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
+      <environment ref="json-ns" />
+      <test>fn:json-to-xml('{}')</test>
+      <result>
+            <all-of>
+                <assert-count>1</assert-count>
+                <assert-type>document-node()</assert-type>
+                <assert-xml><![CDATA[<j:map/>]]></assert-xml>
+            </all-of>
+      </result>
+   </test-case>
+
+   <test-case name="json-to-xml-002">
+      <description>Empty array as document-node</description>
+      <created by="John Lumley" on="2013-10-01"/>
+      <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
+      <environment ref="json-ns" />
+      <test>fn:json-to-xml('[]')</test>
+      <result>
+            <all-of>
+                <assert-count>1</assert-count>
+                <assert-type>document-node()</assert-type>
+                <assert-xml><![CDATA[<j:array/>]]></assert-xml>
+            </all-of>
+      </result>
+   </test-case>
+
+   <test-case name="json-to-xml-003">
+      <description>Array Number</description>
+      <created by="John Lumley" on="2013-10-01"/>
+      <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
+      <environment ref="json-ns" />
+      <test>fn:json-to-xml('[1]')</test>
+      <result>
+            <all-of>
+                <assert-count>1</assert-count>
+                <assert-type>element(j:array)</assert-type>
+                <assert>count($result/*) eq 1</assert>
+                <assert>$result/*[1] instance of element(j:number,xs:untyped)</assert>
+                <assert>xs:double($result/*[1]) eq 1</assert>
+                <assert-xml><![CDATA[<j:array><j:number>1</j:number></j:array>]]></assert-xml>
+            </all-of>
+      </result>
+   </test-case>
+
+   <test-case name="json-to-xml-004">
+      <description>Array String</description>
+      <created by="John Lumley" on="2013-10-01"/>
+      <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
+      <environment ref="json-ns" />
+      <test>fn:json-to-xml('[&#34;a&#34;]')</test>
+      <result>
+            <all-of>
+                <assert-count>1</assert-count>
+                <assert-type>element(*)</assert-type>
+                <assert>count($result/*) eq 1</assert>
+                <assert>$result/*[1] instance of element(j:string,xs:untyped)</assert>
+                <assert>xs:string($result/*[1]) eq "a"</assert>
+                <assert-xml><![CDATA[<j:array><j:string>a</j:string></j:array>]]></assert-xml>
+            </all-of>
+      </result>
+   </test-case>
+
+   <test-case name="json-to-xml-005">
+      <description>Array true</description>
+      <created by="John Lumley" on="2013-10-01"/>
+      <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
+      <environment ref="json-ns" />
+      <test>fn:json-to-xml('[true]')</test>
+      <result>
+            <all-of>
+                <assert-count>1</assert-count>
+                <assert-type>element(*)</assert-type>
+                <assert>count($result/*) eq 1</assert>
+                <assert>$result/*[1] instance of element(j:boolean,xs:untyped)</assert>
+                <assert>xs:boolean($result/*[1]) eq true()</assert>
+                <assert-xml><![CDATA[<j:array><j:boolean>true</j:boolean></j:array>]]></assert-xml>
+            </all-of>
+      </result>
+   </test-case>
+
+   <test-case name="json-to-xml-006">
+      <description>Array false</description>
+      <created by="John Lumley" on="2013-10-01"/>
+      <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
+      <environment ref="json-ns" />
+      <test>fn:json-to-xml('[false]')</test>
+      <result>
+            <all-of>
+                <assert-count>1</assert-count>
+                <assert-type>element(*)</assert-type>
+                <assert>count($result/*) eq 1</assert>
+                <assert>$result/*[1] instance of element(j:boolean,xs:untyped)</assert>
+                <assert>xs:boolean($result/*[1]) eq false()</assert>
+                <assert-xml><![CDATA[<j:array><j:boolean>false</j:boolean></j:array>]]></assert-xml>
+            </all-of>
+      </result>
+   </test-case>
+
+   <test-case name="json-to-xml-007">
+      <description>Array null</description>
+      <created by="John Lumley" on="2013-10-01"/>
+      <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
+      <environment ref="json-ns" />
+      <test>fn:json-to-xml('[null]')</test>
+      <result>
+            <all-of>
+                <assert-count>1</assert-count>
+                <assert-type>element(*)</assert-type>
+                <assert>count($result/*) eq 1</assert>
+                <assert>$result/*[1] instance of element(j:null,xs:untyped)</assert>
+                <assert>empty($result/*[1]/(*|text()))</assert>
+                <assert-xml><![CDATA[<j:array><j:null/></j:array>]]></assert-xml>
+            </all-of>
+      </result>
+   </test-case>
+
+   <test-case name="json-to-xml-008">
+      <description>Larger 2</description>
+      <created by="John Lumley" on="2013-10-01"/>
+      <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
+      <environment ref="data001-json"/>
+      <test>fn:json-to-xml(unparsed-text(.))</test>
+      <result>
+            <all-of>
+                <assert-count>1</assert-count>
+                <assert-type>element(*)</assert-type>
+                <assert>count($result/*) eq 1</assert>
+                <assert>/j:map/j:map[@key='glossary']/j:string[@key='title']</assert>
+                <assert>/j:map/j:map[@key='glossary']/j:map[@key='GlossDiv']</assert>
+            </all-of>
+      </result>
+   </test-case>
+
+   <test-case name="json-to-xml-009">
+      <description>Larger 2</description>
+      <created by="John Lumley" on="2013-10-01"/>
+      <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
+      <environment ref="data005-json"/>
+      <environment ref="json-ns" />
+      <test>fn:json-to-xml(unparsed-text($data005.json))</test>
+      <result>
+            <all-of>
+                <assert>/j:map/j:map[@key='menu']/j:string[@key='header'][.='SVG Viewer']</assert>
+                <assert>/j:map/j:map[@key='menu']/j:array[@key='items']/j:map[not(@*)]/j:string[@key='id'][.='Open']</assert>
+            </all-of>
+      </result>
+   </test-case>
+
+
+</test-set>
