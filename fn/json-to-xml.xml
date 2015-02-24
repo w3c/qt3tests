@@ -210,7 +210,7 @@
       </result>
    </test-case>
 
-      <test-case name="json-to-xml-012">
+   <test-case name="json-to-xml-012">
       <description>Larger 2</description>
       <created by="John Lumley" on="2013-10-01"/>
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
@@ -226,5 +226,379 @@
       </result>
    </test-case>
 
+
+   <test-case name="json-to-xml-013">
+      <description>Larger 2</description>
+      <created by="John Lumley" on="2013-10-01"/>
+      <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
+      <environment ref="json-ns"/>
+      <test>
+         fn:json-to-xml('[&#34;Data with \&#34; within it&#34;]')//j:string
+      </test>
+      <result>
+         <all-of>
+                <assert-type>element(Q{http://www.w3.org/2013/XSL/json}string)</assert-type>
+                <assert-xml><![CDATA[<j:string>Data with " within it</j:string>]]></assert-xml>
+            </all-of>
+      </result>
+   </test-case>
+
+
+   <test-case name="json-to-xml-014">
+      <description>Larger 2</description>
+      <created by="John Lumley" on="2013-10-01"/>
+      <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
+      <environment ref="json-ns"/>
+      <test>
+         fn:json-to-xml('{&#34;Key \&#34; with quote&#34;:&#34;Data with \&#34; within it&#34;}')//j:string
+      </test>
+      <result>
+         <all-of>
+                <assert-type>element(Q{http://www.w3.org/2013/XSL/json}string)</assert-type>
+                <assert-xml><![CDATA[<j:string key="Key &#34; with quote">Data with " within it</j:string>]]></assert-xml>
+            </all-of>
+      </result>
+   </test-case>
+
+   <test-case name="json-to-xml-error-001">
+      <description>Empty string</description>
+      <created by="John Lumley" on="2013-10-01"/>
+      <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
+      <environment ref="json-ns"/>
+      <test>
+         fn:json-to-xml('')
+      </test>
+        <result>
+            <error code="XTDE3240"/>
+        </result>
+   </test-case>
+
+   <test-case name="json-to-xml-error-002">
+      <description>Unknown token</description>
+      <created by="John Lumley" on="2013-10-01"/>
+      <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
+      <environment ref="json-ns"/>
+      <test>
+         fn:json-to-xml({error})
+      </test>
+        <result>
+            <error code="XTDE3240"/>
+        </result>
+   </test-case>
+
+   <test-case name="json-to-xml-error-003">
+      <description>Unknown token</description>
+      <created by="John Lumley" on="2013-10-01"/>
+      <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
+      <environment ref="json-ns"/>
+      <test>
+         fn:json-to-xml({terriblyWrong})
+      </test>
+        <result>
+            <error code="XTDE3240"/>
+        </result>
+   </test-case>
+
+   <test-case name="json-to-xml-error-004">
+      <description>Extra token</description>
+      <created by="John Lumley" on="2013-10-01"/>
+      <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
+      <environment ref="json-ns"/>
+      <test>
+         fn:json-to-xml({}"extra token")
+      </test>
+        <result>
+            <error code="XTDE3240"/>
+        </result>
+   </test-case>
+
+   <test-case name="json-to-xml-error-005">
+      <description>Extra token</description>
+      <created by="John Lumley" on="2013-10-01"/>
+      <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
+      <environment ref="json-ns"/>
+      <test>
+         fn:json-to-xml({1:1})
+      </test>
+        <result>
+            <error code="XTDE3240"/>
+        </result>
+   </test-case>
+
+   <test-case name="json-to-xml-error-006">
+      <description>Extra token</description>
+      <created by="John Lumley" on="2013-10-01"/>
+      <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
+      <environment ref="json-ns"/>
+      <test>
+         fn:json-to-xml({true:1})
+      </test>
+        <result>
+            <error code="XTDE3240"/>
+        </result>
+   </test-case>
+
+
+   <test-case name="json-to-xml-error-007">
+      <description>Extra token</description>
+      <created by="John Lumley" on="2013-10-01"/>
+      <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
+      <environment ref="json-ns"/>
+      <test>
+         fn:json-to-xml({"key" 1})
+      </test>
+        <result>
+            <error code="XTDE3240"/>
+        </result>
+   </test-case>
+
+    <test-case name="json-to-xml-error-008">
+      <description>Extra token</description>
+      <created by="John Lumley" on="2013-10-01"/>
+      <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
+      <environment ref="json-ns"/>
+      <test>
+         fn:json-to-xml({"key" :1 2})
+      </test>
+        <result>
+            <error code="XTDE3240"/>
+        </result>
+   </test-case>
+
+  <test-case name="json-to-xml-error-009">
+      <description>Leading + on the number</description>
+      <created by="John Lumley" on="2013-10-01"/>
+      <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
+      <environment ref="json-ns"/>
+      <test>
+         fn:json-to-xml([+1])
+      </test>
+        <result>
+            <error code="XTDE3240"/>
+        </result>
+   </test-case>
+
+    <test-case name="json-to-xml-error-010">
+      <description>Redundant leading 0 on number</description>
+      <created by="John Lumley" on="2013-10-01"/>
+      <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
+      <environment ref="json-ns"/>
+      <test>
+         fn:json-to-xml([01])
+      </test>
+        <result>
+            <error code="XTDE3240"/>
+        </result>
+   </test-case>
+
+    <test-case name="json-to-xml-error-011">
+      <description>Hex number</description>
+      <created by="John Lumley" on="2013-10-01"/>
+      <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
+      <environment ref="json-ns"/>
+      <test>
+         fn:json-to-xml([1234A])
+      </test>
+        <result>
+            <error code="XTDE3240"/>
+        </result>
+   </test-case>
+
+  <test-case name="json-to-xml-error-012">
+      <description>Trailing backslash</description>
+      <created by="John Lumley" on="2013-10-01"/>
+      <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
+      <environment ref="json-ns"/>
+      <test>
+         fn:json-to-xml(["123\"])
+      </test>
+        <result>
+            <error code="XTDE3240"/>
+        </result>
+   </test-case>
+
+  <test-case name="json-to-xml-error-013">
+      <description>short unicode</description>
+      <created by="John Lumley" on="2013-10-01"/>
+      <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
+      <environment ref="json-ns"/>
+      <test>
+         fn:json-to-xml(["123\u234"])
+      </test>
+        <result>
+            <error code="XTDE3240"/>
+        </result>
+   </test-case>
+
+    <test-case name="json-to-xml-error-014">
+      <description>Trailing comma</description>
+      <created by="John Lumley" on="2013-10-01"/>
+      <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
+      <environment ref="json-ns"/>
+      <test>
+         fn:json-to-xml({"key":123,})
+      </test>
+        <result>
+            <error code="XTDE3240"/>
+        </result>
+   </test-case>
+
+    <test-case name="json-to-xml-error-015">
+      <description>Trailing comma liberal spec</description>
+      <created by="John Lumley" on="2013-10-01"/>
+      <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
+      <environment ref="json-ns"/>
+      <test>
+         fn:json-to-xml({"key":123 ,}, map{'liberal':true()})
+      </test>
+        <result>
+            <error code="XTDE3240"/>
+        </result>
+   </test-case>
+
+    <test-case name="json-to-xml-error-016">
+      <description>Trailing comma</description>
+      <created by="John Lumley" on="2013-10-01"/>
+      <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
+      <environment ref="json-ns"/>
+      <test>
+         fn:json-to-xml(["key":123,])
+      </test>
+        <result>
+            <error code="XTDE3240"/>
+        </result>
+   </test-case>
+
+    <test-case name="json-to-xml-error-017">
+      <description>Trailing comma liberal spec</description>
+      <created by="John Lumley" on="2013-10-01"/>
+      <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
+      <environment ref="json-ns"/>
+      <test>
+         fn:json-to-xml(["key":123 ,], map{'liberal':true()})
+      </test>
+        <result>
+            <error code="XTDE3240"/>
+        </result>
+   </test-case>
+
+    <test-case name="json-to-xml-error-018">
+      <description>Trailing comma liberal spec</description>
+      <created by="John Lumley" on="2013-10-01"/>
+      <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
+      <environment ref="json-ns"/>
+      <test>
+         fn:json-to-xml(["String"], map{'liberal':()})
+      </test>
+        <result>
+            <error code="XTDE3240"/>
+        </result>
+   </test-case>
+
+
+    <test-case name="json-to-xml-error-019">
+      <description>Trailing comma liberal spec</description>
+      <created by="John Lumley" on="2013-10-01"/>
+      <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
+      <environment ref="json-ns"/>
+      <test>
+         fn:json-to-xml(["String"], map{'liberal':'something'})
+      </test>
+        <result>
+            <error code="XTDE3240"/>
+        </result>
+   </test-case>
+
+
+    <test-case name="json-to-xml-error-020">
+      <description>Validate option error</description>
+      <created by="John Lumley" on="2013-10-01"/>
+      <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
+      <environment ref="json-ns"/>
+      <test>
+         fn:json-to-xml(["String"], map{'validate':()})
+      </test>
+        <result>
+            <error code="XTDE3240"/>
+        </result>
+   </test-case>
+
+    <test-case name="json-to-xml-error-021">
+      <description>Validate option error</description>
+      <created by="John Lumley" on="2013-10-01"/>
+      <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
+      <environment ref="json-ns"/>
+      <test>
+         fn:json-to-xml(["String"], map{'validate':(true(),true())})
+      </test>
+        <result>
+            <error code="XTDE3240"/>
+        </result>
+   </test-case>
+
+    <test-case name="json-to-xml-error-022">
+      <description>Validate option error</description>
+      <created by="John Lumley" on="2013-10-01"/>
+      <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
+      <environment ref="json-ns"/>
+      <test>
+         fn:json-to-xml(["String"], map{'validate':'EMCA-262'})
+      </test>
+        <result>
+            <error code="XTDE3240"/>
+        </result>
+   </test-case>
+
+    <test-case name="json-to-xml-error-023">
+      <description>Validate option error</description>
+      <created by="John Lumley" on="2013-10-01"/>
+      <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
+      <environment ref="json-ns"/>
+      <test>
+         fn:json-to-xml(["String"], map{'unescape':()})
+      </test>
+        <result>
+            <error code="XTDE3240"/>
+        </result>
+   </test-case>
+
+    <test-case name="json-to-xml-error-024">
+      <description>Validate option error</description>
+      <created by="John Lumley" on="2013-10-01"/>
+      <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
+      <environment ref="json-ns"/>
+      <test>
+         fn:json-to-xml(["String"], map{'unescape':(true(),true())})
+      </test>
+        <result>
+            <error code="XTDE3240"/>
+        </result>
+   </test-case>
+
+    <test-case name="json-to-xml-error-025">
+      <description>Validate option error</description>
+      <created by="John Lumley" on="2013-10-01"/>
+      <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
+      <environment ref="json-ns"/>
+      <test>
+         fn:json-to-xml(["String"], map{'unescape':'EMCA-262'})
+      </test>
+        <result>
+            <error code="XTDE3240"/>
+        </result>
+   </test-case>
+
+    <test-case name="json-to-xml-error-026">
+      <description>Validate option error</description>
+      <created by="John Lumley" on="2013-10-01"/>
+      <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
+      <environment ref="json-ns"/>
+      <test>
+         fn:json-to-xml(["String"], map{'fallback':'dummy'})
+      </test>
+        <result>
+            <error code="XTDE3240"/>
+        </result>
+   </test-case>
 
 </test-set>
