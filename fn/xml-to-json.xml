@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="fn-xml-to-json" covers="fn-xml-to-json">
+  <description>xml-to-json() function introduced in XPath 3.1</description>
+  <link type="spec" document="http://www.w3.org/TR/xpath-functions-31/"
+    idref="func-json-to-xml"/>
+
+   <dependency type="spec" value="XP31+ XQ31+"/>
+
+   <test-case name="xml-to-json-001">
+      <description>Test of xml-to-json: simple "null" content, indented</description>
+       <created by="Michael Kay" on="2014-07-19"/>
+      <modified by="O'Neil Delpratt" on="2015-02-24" change="This test case was ported from the XSLT30 test suite" />
+      <test>xml-to-json(json-to-xml('null',map{'liberal':true()}))</test>
+      <result>
+            <assert>"null"</assert>
+      </result>
+   </test-case>
+
+      <test-case name="xml-to-json-002">
+      <description>Test of xml-to-json: simple "null" content, indented</description>
+       <created by="Michael Kay" on="2014-07-19"/>
+      <modified by="O'Neil Delpratt" on="2015-02-24" change="This test case was ported from the XSLT30 test suite" />
+      <test>xml-to-json(json-to-xml('null',map{'liberal':true()}))</test>
+      <result>
+            <assert>"null"</assert>
+      </result>
+   </test-case>
+
+      <test-case name="xml-to-json-003">
+      <description>Test of xml-to-json: simple "null" content, indented</description>
+       <created by="Michael Kay" on="2014-07-19"/>
+      <modified by="O'Neil Delpratt" on="2015-02-24" change="This test case was ported from the XSLT30 test suite" />
+      <test>xml-to-json(json-to-xml('null',map{'liberal':true()}))</test>
+      <result>
+            <assert>"null"</assert>
+      </result>
+   </test-case>
+
+   <test-case name="xml-to-json-004">
+      <description>Test of xml-to-json: simple "true" content, indented</description>
+       <created by="Michael Kay" on="2014-07-19"/>
+      <modified by="O'Neil Delpratt" on="2015-02-24" change="This test case was ported from the XSLT30 test suite" />
+      <test>xml-to-json(json-to-xml('true'))</test>
+      <result>
+            <assert>"true"</assert>
+      </result>
+   </test-case>
+
+   <test-case name="xml-to-json-005">
+      <description>Test of xml-to-json: simple "false" content</description>
+       <created by="Michael Kay" on="2014-07-19"/>
+      <modified by="O'Neil Delpratt" on="2015-02-24" change="This test case was ported from the XSLT30 test suite" />
+      <test>xml-to-json(json-to-xml('false'))"</test>
+      <result>
+            <assert>"false"</assert>
+      </result>
+   </test-case>
+
+   <test-case name="xml-to-json-006">
+      <description>Test of xml-to-json: simple "number" content</description>
+       <created by="Michael Kay" on="2014-07-19"/>
+      <modified by="O'Neil Delpratt" on="2015-02-24" change="This test case was ported from the XSLT30 test suite" />
+      <test>xml-to-json(json-to-xml('93.7'))</test>
+      <result>
+            <assert>"false"</assert>
+      </result>
+   </test-case>
+
+   <test-case name="xml-to-json-007">
+      <description>Test of xml-to-json: simple variable content</description>
+      <created by="Michael Kay" on="2014-07-19"/>
+      <modified by="O'Neil Delpratt" on="2015-02-24" change="This test case was ported from the XSLT30 test suite" />
+      <dependency type="spec" value="XQ31+"/>
+       <test>
+           declare variable $in := '"London"';
+          xml-to-json(json-to-xml($in))</test>
+      <result>
+            <assert>$result = '"London"'</assert>
+      </result>
+   </test-case>
+
+   <test-case name="xml-to-json-008">
+      <description>Test of xml-to-json: simple variable with empty string</description>
+      <created by="Michael Kay" on="2014-07-19"/>
+      <modified by="O'Neil Delpratt" on="2015-02-24" change="This test case was ported from the XSLT30 test suite" />
+      <dependency type="spec" value="XQ31+"/>
+      <test>
+           declare variable $in := '""';
+          xml-to-json(json-to-xml($in))</test>
+      <result>
+            <assert>$result = '""'</assert>
+      </result>
+   </test-case>
+
+   <test-case name="xml-to-json-009">
+      <description>Test of xml-to-json: empty array</description>
+      <created by="Michael Kay" on="2014-07-19"/>
+      <modified by="O'Neil Delpratt" on="2015-02-24" change="This test case was ported from the XSLT30 test suite" />
+      <test>xml-to-json(json-to-xml('[]'))</test>
+      <result>
+            <assert>'[]'</assert>
+      </result>
+   </test-case>
+
+   <test-case name="xml-to-json-010">
+      <description>Test of xml-to-json: singleton array</description>
+      <created by="Michael Kay" on="2014-07-19"/>
+      <modified by="O'Neil Delpratt" on="2015-02-24" change="This test case was ported from the XSLT30 test suite" />
+      <test>xml-to-json(json-to-xml('[34]'))</test>
+      <result>
+            <assert>'[34]'</assert>
+      </result>
+   </test-case>
+
+   <test-case name="xml-to-json-011">
+      <description>Test of xml-to-json: two-member array</description>
+      <created by="Michael Kay" on="2014-07-19"/>
+      <modified by="O'Neil Delpratt" on="2015-02-24" change="This test case was ported from the XSLT30 test suite" />
+      <test>xml-to-json(json-to-xml('[true, false]'))</test>
+      <result>
+            <assert>'[true, false]'</assert>
+      </result>
+   </test-case>
+
+   <test-case name="xml-to-json-012">
+      <description>Test of xml-to-json: simple variable with empty string</description>
+      <created by="Michael Kay" on="2014-07-19"/>
+      <modified by="O'Neil Delpratt" on="2015-02-24" change="This test case was ported from the XSLT30 test suite" />
+      <test>xml-to-json(json-to-xml('["A", "B", "C", "D", "E"]'))</test>
+      <result>
+            <assert>'["A", "B", "C", "D", "E"]'</assert>
+      </result>
+   </test-case>
+
+   <test-case name="xml-to-json-013">
+      <description>Test of xml-to-json: empty map</description>
+      <created by="Michael Kay" on="2014-07-19"/>
+      <modified by="O'Neil Delpratt" on="2015-02-24" change="This test case was ported from the XSLT30 test suite" />
+      <test>xml-to-json(json-to-xml('{}'))</test>
+      <result>
+            <assert>'{}'</assert>
+      </result>
+   </test-case>
+
+   <test-case name="xml-to-json-014">
+      <description>Test of xml-to-json: 1 entry map</description>
+      <created by="Michael Kay" on="2014-07-19"/>
+      <modified by="O'Neil Delpratt" on="2015-02-24" change="This test case was ported from the XSLT30 test suite" />
+       <test>xml-to-json(json-to-xml('{"A":true}'))</test>
+      <result>
+            <assert>'{"A":true}'</assert>
+      </result>
+   </test-case>
+
+   <test-case name="xml-to-json-015">
+      <description>Test of xml-to-json: five entry map</description>
+      <created by="Michael Kay" on="2014-07-19"/>
+      <modified by="O'Neil Delpratt" on="2015-02-24" change="This test case was ported from the XSLT30 test suite" />
+       <test>xml-to-json(json-to-xml('{"A":1, "B":2, "C":3, "D":4, "E":5}'))</test>
+      <result>
+            <assert>'{"A":1,"B":2,"C":3,"D":4,"E":5}'</assert>
+      </result>
+   </test-case>
+
+   <test-case name="xml-to-json-016">
+      <description>Test of xml-to-json: complex map</description>
+      <created by="Michael Kay" on="2014-07-19"/>
+      <modified by="O'Neil Delpratt" on="2015-02-24" change="This test case was ported from the XSLT30 test suite" />
+       <test>xml-to-json(json-to-xml('{"A":[1,2], "B":[true,false], "C":["Paris","London","Berlin"], "D":[1, true, "on"], "E":[null, null]}'))</test>
+      <result>
+            <assert>'{"A":[1,2], "B":[true,false], "C":["Paris","London","Berlin"], "D":[1, true, "on"], "E":[null, null]}'</assert>
+      </result>
+   </test-case>
+
+   <test-case name="xml-to-json-017">
+      <description>Test of xml-to-json: 1 entry map</description>
+      <created by="Michael Kay" on="2014-07-19"/>
+      <modified by="O'Neil Delpratt" on="2015-02-24" change="This test case was ported from the XSLT30 test suite" />
+       <test>xml-to-json(json-to-xml("\\\/\"\r\t\n\u0020"))</test>
+      <result>
+            <assert>"null"</assert>
+      </result>
+   </test-case>
+
+
+
+</test-set>
