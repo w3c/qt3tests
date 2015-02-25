@@ -4433,6 +4433,134 @@
       <assert-string-value>ENTITY1 ENTITY2 ENTITY3</assert-string-value>
     </result>
   </test-case>
+  
+  <test-case name="function-literal-701">
+    <description>Attempts to look up user-defined function.</description>
+    <created by="Michael Kay" on="2015-02-25"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test><![CDATA[
+        declare function local:plus($x, $y) {
+          $x + $y
+        };
+        function-name(local:plus#2)  
+    ]]></test>
+    <result>
+      <assert-eq>QName("http://www.w3.org/2005/xquery-local-functions", "plus")</assert-eq>
+    </result>
+  </test-case>
+  
+  <test-case name="function-literal-702">
+    <description>Attempts to look up user-defined function.</description>
+    <created by="Michael Kay" on="2015-02-25"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test><![CDATA[
+        declare function local:plus($x, $y) {
+          $x + $y
+        };
+        function-arity(local:plus#2)  
+    ]]></test>
+    <result>
+      <assert-eq>2</assert-eq>
+    </result>
+  </test-case>
+  
+  <test-case name="function-literal-703">
+    <description>Attempts to invoke user-defined function.</description>
+    <created by="Michael Kay" on="2015-02-25"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test><![CDATA[
+        declare function local:plus($x, $y) {
+          $x + $y
+        };
+        let $f := (if (current-date() gt xs:date('1900-01-01')) then local:plus#2 else round#2)
+        return $f(5, 7)  
+    ]]></test>
+    <result>
+      <assert-eq>12</assert-eq>
+    </result>
+  </test-case>
+  
+  <test-case name="function-literal-704">
+    <description>Attempts to look up user-defined function, forwards-reference.</description>
+    <created by="Michael Kay" on="2015-02-25"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test><![CDATA[
+        declare variable $v := function-name(local:plus#2);
+        declare function local:plus($x, $y) {
+          $x + $y
+        };
+        $v 
+    ]]></test>
+    <result>
+      <assert-eq>QName("http://www.w3.org/2005/xquery-local-functions", "plus")</assert-eq>
+    </result>
+  </test-case>
+  
+  <test-case name="function-literal-705">
+    <description>Attempts to look up user-defined function, forwards reference.</description>
+    <created by="Michael Kay" on="2015-02-25"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test><![CDATA[
+        declare variable $v := function-arity(local:plus#2);
+        declare function local:plus($x, $y) {
+          $x + $y
+        };
+        $v
+    ]]></test>
+    <result>
+      <assert-eq>2</assert-eq>
+    </result>
+  </test-case>
+  
+  <test-case name="function-literal-706">
+    <description>Attempts to invoke user-defined function, forwards reference.</description>
+    <created by="Michael Kay" on="2015-02-25"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test><![CDATA[
+        declare variable $f := (if (current-date() gt xs:date('1900-01-01')) then local:plus#2 else round#2);
+        declare function local:plus($x, $y) {
+          $x + $y
+        };
+        $f(5, 7)  
+    ]]></test>
+    <result>
+      <assert-eq>12</assert-eq>
+    </result>
+  </test-case>
+  
+  <test-case name="function-literal-707">
+    <description>Convoluted variable initialization.</description>
+    <created by="Michael Kay" on="2015-02-25"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test><![CDATA[
+        declare variable $f := (if (current-date() gt xs:date('1900-01-01')) then local:plus#2 else round#2);
+        declare function local:plus($x, $y) {
+          $x + $y + $a
+        };
+        declare variable $a := function-arity($f);
+        $f(3, 4) 
+    ]]></test>
+    <result>
+      <assert-eq>9</assert-eq>
+    </result>
+  </test-case>
+  
+  <test-case name="function-literal-708">
+    <description>Attempts to invoke user-defined function, default namespace.</description>
+    <created by="Michael Kay" on="2015-02-25"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test><![CDATA[
+        declare default function namespace "http://example.com/functions";
+        declare variable $f := (if (fn:current-date() gt xs:date('1900-01-01')) then plus#2 else fn:round#2);
+        declare function plus($x, $y) {
+          $x + $y
+        };
+        $f(5, 7)  
+    ]]></test>
+    <result>
+      <assert-eq>12</assert-eq>
+    </result>
+  </test-case>
 
    <test-case name="named-function-ref-reserved-function-names-001">
       <description>Check that reserved function name attribute is handled correctly. </description>
