@@ -31,13 +31,14 @@
         <description>Evaluate the function map:merge() with a single singleton map</description>
         <created by="Michael Kay, Saxonica" on="2011-03-23"/>
         <modified by="Michael Kay, Saxonica" on="2014-05-13" change="spec change and function renaming"/>
+        <modified by="Debbie Lockett, Saxonica" on="2015-02-27" change="function signature correction, bug 28063"/>
         <test>map:merge(map:entry("foo", 1 to 5))</test>
         <result>
             <all-of>
                 <assert-count>1</assert-count>
                 <assert-type>map(*)</assert-type>
                 <assert-type>map(xs:string, xs:integer+)</assert-type>
-                <assert-type>function(xs:anyURI) as xs:integer*</assert-type>
+                <not><assert-type>function(xs:anyURI) as xs:integer*</assert-type></not>
             </all-of>
         </result>
     </test-case>
@@ -265,6 +266,19 @@
                          map:merge(for $i in 2 to 1000 return map:entry($i, $i+1)))</test>
         <result>
             <assert-false/>
+        </result>
+    </test-case>
+    <test-case name="map-merge-024">
+        <description>Evaluate the function map:merge() with a single singleton map (map-merge-003 adapted)</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-02-27"/>
+        <test>map:merge(map:entry("foo", 1 to 5))</test>
+        <result>
+            <all-of>
+                <assert-count>1</assert-count>
+                <assert-type>map(*)</assert-type>
+                <assert-type>map(xs:string, xs:integer+)</assert-type>
+                <assert-type>function(xs:anyURI) as item()*</assert-type>
+            </all-of>
         </result>
     </test-case>
 

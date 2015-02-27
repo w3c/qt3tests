@@ -8,13 +8,14 @@
     <test-case name="map-entry-001">
         <description>Integer key, singleton value</description>
         <created by="Michael Kay, Saxonica" on="2011-03-27"/>
+        <modified by="Debbie Lockett, Saxonica" on="2015-02-27" change="function signature correction, bug 28063"/>
         <test>map:entry(3, 5)</test>
         <result>
             <all-of>
                 <assert-count>1</assert-count>
                 <assert-type>map(*)</assert-type>
                 <assert-type>map(xs:integer, xs:integer)</assert-type>
-                <assert-type>function(xs:anyAtomicType) as xs:integer?</assert-type>
+                <not><assert-type>function(xs:anyAtomicType) as xs:integer?</assert-type></not>
                 <assert>$result(3) eq 5</assert>
                 <assert>map:size($result) eq 1</assert>
                 <assert>map:size(map:remove($result, 3)) eq 0</assert>
@@ -102,7 +103,23 @@
             </all-of>
         </result>
     </test-case>
-    
+    <test-case name="map-entry-007">
+        <description>Integer key, singleton value (map-entry-001 adapted)</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-02-27"/>
+        <test>map:entry(3, 5)</test>
+        <result>
+            <all-of>
+                <assert-count>1</assert-count>
+                <assert-type>map(*)</assert-type>
+                <assert-type>map(xs:integer, xs:integer)</assert-type>
+                <assert-type>function(xs:anyAtomicType) as item()*</assert-type>
+                <assert>$result(3) eq 5</assert>
+                <assert>map:size($result) eq 1</assert>
+                <assert>map:size(map:remove($result, 3)) eq 0</assert>
+                <assert>map:size(map:remove($result, 1)) eq 1</assert>
+            </all-of>
+        </result>
+    </test-case>
  
 
 </test-set>

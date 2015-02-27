@@ -6,16 +6,30 @@
     <dependency type="spec" value="XP31+ XQ31+ XT30+"/>
 
  
-    <test-case name="map-put-003">
-        <description>Evaluate the function map:put() with a single singleton map</description>
-        <created by="Michael Kay, Saxonica" on="2014-05-13"/>
+    <test-case name="map-put-002">
+        <description>Evaluate the function map:put() with a single singleton map (map-put-003 adapted)</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-02-27"/>
         <test>map:put(map{}, "foo", 1 to 5)</test>
         <result>
             <all-of>
                 <assert-count>1</assert-count>
                 <assert-type>map(*)</assert-type>
                 <assert-type>map(xs:string, xs:integer+)</assert-type>
-                <assert-type>function(xs:string) as xs:integer*</assert-type>
+                <assert-type>function(xs:string) as item()*</assert-type>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="map-put-003">
+        <description>Evaluate the function map:put() with a single singleton map</description>
+        <created by="Michael Kay, Saxonica" on="2014-05-13"/>
+        <modified by="Debbie Lockett, Saxonica" on="2015-02-27" change="function signature correction, bug 28063"/>
+        <test>map:put(map{}, "foo", 1 to 5)</test>
+        <result>
+            <all-of>
+                <assert-count>1</assert-count>
+                <assert-type>map(*)</assert-type>
+                <assert-type>map(xs:string, xs:integer+)</assert-type>
+                <not><assert-type>function(xs:string) as xs:integer*</assert-type></not>
             </all-of>
         </result>
     </test-case>
