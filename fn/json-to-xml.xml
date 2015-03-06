@@ -7,32 +7,32 @@
    <dependency type="spec" value="XP31+ XQ31+"/>
 
   <environment name="json-files">
-      <resource file="json/data001.json"
+      <resource file="json-to-xml/data001.json"
                 media-type="text/plain"
                 encoding="utf-8"
                 uri="http://www.w3.org/qt3/json/data001-json">
          <description>UTF-8 encoded plain text.</description>
          <created by="O'Neil Delpratt" on="2015-02-23"/>
       </resource>
-      <resource file="json/escapeText.json"
+      <resource file="json-to-xml/escapeText.json"
                 media-type="text/plain"
                 encoding="utf-8"
                 uri="http://www.w3.org/qt3/json/escapeText-json">
          <description>UTF-8 encoded plain text.</description>
          <created by="O'Neil Delpratt" on="2015-02-23"/>
       </resource>
-      <resource file="json/data005.json"
+      <resource file="json-to-xml/data005.json"
                 media-type="text/plain"
                 encoding="utf-8"
                 uri="http://www.w3.org/qt3/json/data005-json">
          <description>UTF-8 encoded plain text.</description>
          <created by="O'Neil Delpratt" on="2015-02-23"/>
       </resource>
-      <namespace prefix="j" uri="http://www.w3.org/2013/XSL/json"/>
+      <namespace prefix="j" uri="http://www.w3.org/2005/xpath-functions/json"/>
      </environment>
 
    <environment name="json-ns">
-        <namespace prefix="j" uri="http://www.w3.org/2013/XSL/json"/>
+        <namespace prefix="j" uri="http://www.w3.org/2005/xpath-functions/json"/>
     </environment>
 
 
@@ -70,14 +70,15 @@
       <description>Array Number</description>
       <created by="John Lumley" on="2013-10-01"/>
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
+      <modified by="Michael Kay" on="2015-03-06" change="Spec says the result is a document node"/>
       <environment ref="json-ns" />
       <test>fn:json-to-xml('[1]')</test>
       <result>
             <all-of>
                 <assert-count>1</assert-count>
-                <assert-type>element(j:array)</assert-type>
+                <assert-type>document-node(element(j:array))</assert-type>
                 <assert>count($result/*) eq 1</assert>
-                <assert>$result/*[1] instance of element(j:number,xs:untyped)</assert>
+                <assert>$result/*/*[1] instance of element(j:number,xs:untyped)</assert>
                 <assert>xs:double($result/*[1]) eq 1</assert>
                 <assert-xml><![CDATA[<j:array><j:number>1</j:number></j:array>]]></assert-xml>
             </all-of>
@@ -88,15 +89,16 @@
       <description>Array String</description>
       <created by="John Lumley" on="2013-10-01"/>
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
+      <modified by="Michael Kay" on="2015-03-06" change="Spec says the result is a document node"/>
       <environment ref="json-ns" />
       <test>fn:json-to-xml('[&#34;a&#34;]')</test>
       <result>
             <all-of>
                 <assert-count>1</assert-count>
-                <assert-type>element(*)</assert-type>
+                <assert-type>document-node(element(*))</assert-type>
                 <assert>count($result/*) eq 1</assert>
-                <assert>$result/*[1] instance of element(j:string,xs:untyped)</assert>
-                <assert>xs:string($result/*[1]) eq "a"</assert>
+                <assert>$result/*/*[1] instance of element(j:string,xs:untyped)</assert>
+                <assert>xs:string($result/*/*[1]) eq "a"</assert>
                 <assert-xml><![CDATA[<j:array><j:string>a</j:string></j:array>]]></assert-xml>
             </all-of>
       </result>
@@ -106,14 +108,15 @@
       <description>Array true</description>
       <created by="John Lumley" on="2013-10-01"/>
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
+      <modified by="Michael Kay" on="2015-03-06" change="Spec says the result is a document node"/>
       <environment ref="json-ns" />
       <test>fn:json-to-xml('[true]')</test>
       <result>
             <all-of>
                 <assert-count>1</assert-count>
-                <assert-type>element(*)</assert-type>
+                <assert-type>document-node(element(*))</assert-type>
                 <assert>count($result/*) eq 1</assert>
-                <assert>$result/*[1] instance of element(j:boolean,xs:untyped)</assert>
+                <assert>$result/*/*[1] instance of element(j:boolean,xs:untyped)</assert>
                 <assert>xs:boolean($result/*[1]) eq true()</assert>
                 <assert-xml><![CDATA[<j:array><j:boolean>true</j:boolean></j:array>]]></assert-xml>
             </all-of>
@@ -124,14 +127,15 @@
       <description>Array false</description>
       <created by="John Lumley" on="2013-10-01"/>
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
+      <modified by="Michael Kay" on="2015-03-06" change="Spec says the result is a document node"/>
       <environment ref="json-ns" />
       <test>fn:json-to-xml('[false]')</test>
       <result>
             <all-of>
                 <assert-count>1</assert-count>
-                <assert-type>element(*)</assert-type>
+                <assert-type>document-node(element(*))</assert-type>
                 <assert>count($result/*) eq 1</assert>
-                <assert>$result/*[1] instance of element(j:boolean,xs:untyped)</assert>
+                <assert>$result/*/*[1] instance of element(j:boolean,xs:untyped)</assert>
                 <assert>xs:boolean($result/*[1]) eq false()</assert>
                 <assert-xml><![CDATA[<j:array><j:boolean>false</j:boolean></j:array>]]></assert-xml>
             </all-of>
@@ -142,15 +146,16 @@
       <description>Array null</description>
       <created by="John Lumley" on="2013-10-01"/>
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
+      <modified by="Michael Kay" on="2015-03-06" change="Spec says the result is a document node"/>
       <environment ref="json-ns" />
       <test>fn:json-to-xml('[null]')</test>
       <result>
             <all-of>
                 <assert-count>1</assert-count>
-                <assert-type>element(*)</assert-type>
+                <assert-type>document-node(element(*))</assert-type>
                 <assert>count($result/*) eq 1</assert>
-                <assert>$result/*[1] instance of element(j:null,xs:untyped)</assert>
-                <assert>empty($result/*[1]/(*|text()))</assert>
+                <assert>$result/*/*[1] instance of element(j:null,xs:untyped)</assert>
+                <assert>empty($result/*[1]/*[1]/(*|text()))</assert>
                 <assert-xml><![CDATA[<j:array><j:null/></j:array>]]></assert-xml>
             </all-of>
       </result>
@@ -160,15 +165,16 @@
       <description>Larger 2</description>
       <created by="John Lumley" on="2013-10-01"/>
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
+      <modified by="Michael Kay" on="2015-03-06" change="Spec says the result is a document node"/>
       <environment ref="json-files"/>
       <test>fn:json-to-xml(unparsed-text('http://www.w3.org/qt3/json/data001-json'))</test>
       <result>
             <all-of>
                 <assert-count>1</assert-count>
-                <assert-type>element(*)</assert-type>
+                <assert-type>document-node(element(j:map))</assert-type>
                 <assert>count($result/*) eq 1</assert>
-                <assert>/j:map/j:map[@key='glossary']/j:string[@key='title']</assert>
-                <assert>/j:map/j:map[@key='glossary']/j:map[@key='GlossDiv']</assert>
+                <assert>$result/j:map/j:map[@key='glossary']/j:string[@key='title']</assert>
+                <assert>$result/j:map/j:map[@key='glossary']/j:map[@key='GlossDiv']</assert>
             </all-of>
       </result>
    </test-case>
@@ -181,8 +187,8 @@
       <test>fn:json-to-xml(unparsed-text('http://www.w3.org/qt3/json/data005-json'))</test>
       <result>
             <all-of>
-                <assert>/j:map/j:map[@key='menu']/j:string[@key='header'][.='SVG Viewer']</assert>
-                <assert>/j:map/j:map[@key='menu']/j:array[@key='items']/j:map[not(@*)]/j:string[@key='id'][.='Open']</assert>
+                <assert>$result/j:map/j:map[@key='menu']/j:string[@key='header'][.='SVG Viewer']</assert>
+                <assert>$result/j:map/j:map[@key='menu']/j:array[@key='items']/j:map[not(@*)]/j:string[@key='id'][.='Open']</assert>
             </all-of>
       </result>
    </test-case>
@@ -214,13 +220,14 @@
       <description>Larger 2</description>
       <created by="John Lumley" on="2013-10-01"/>
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
+      <modified by="Michael Kay" on="2015-03-06" change="Spec says the result is a document node"/>
       <environment ref="json-files"/>
       <test>
          fn:json-to-xml(unparsed-text('http://www.w3.org/qt3/json/escapeText-json'), map{'unescape':false()})//j:string
       </test>
       <result>
          <all-of>
-                <assert-type>element(Q{http://www.w3.org/2013/XSL/json}string)</assert-type>
+                <assert-type>document-node(element(j:string))</assert-type>
                 <assert-xml><![CDATA[<j:string key="key" escaped="true">Data with \" within it</j:string>]]></assert-xml>
             </all-of>
       </result>
@@ -231,13 +238,14 @@
       <description>Larger 2</description>
       <created by="John Lumley" on="2013-10-01"/>
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
+      <modified by="Michael Kay" on="2015-03-06" change="Spec says the result is a document node"/>
       <environment ref="json-ns"/>
       <test>
          fn:json-to-xml('[&#34;Data with \&#34; within it&#34;]')//j:string
       </test>
       <result>
          <all-of>
-                <assert-type>element(Q{http://www.w3.org/2013/XSL/json}string)</assert-type>
+                <assert-type>document-node(element(j:string))</assert-type>
                 <assert-xml><![CDATA[<j:string>Data with " within it</j:string>]]></assert-xml>
             </all-of>
       </result>
@@ -254,7 +262,7 @@
       </test>
       <result>
          <all-of>
-                <assert-type>element(Q{http://www.w3.org/2013/XSL/json}string)</assert-type>
+                <assert-type>document-node(element(j:string))</assert-type>
                 <assert-xml><![CDATA[<j:string key="Key &#34; with quote">Data with " within it</j:string>]]></assert-xml>
             </all-of>
       </result>
@@ -264,12 +272,12 @@
       <description>Empty string</description>
       <created by="John Lumley" on="2013-10-01"/>
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
-      <environment ref="json-ns"/>
+      <modified by="Michael Kay" on="2015-03-06" change="error code"/>
       <test>
          fn:json-to-xml('')
       </test>
         <result>
-            <error code="XTDE3240"/>
+            <error code="FOJS0001"/>
         </result>
    </test-case>
 
@@ -277,12 +285,13 @@
       <description>Unknown token</description>
       <created by="John Lumley" on="2013-10-01"/>
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
+      <modified by="Michael Kay" on="2015-03-06" change="error code, and put string in quotes"/>
       <environment ref="json-ns"/>
       <test>
-         fn:json-to-xml({error})
+         fn:json-to-xml('{error}')
       </test>
         <result>
-            <error code="XTDE3240"/>
+            <error code="FOJS0001"/>
         </result>
    </test-case>
 
@@ -290,12 +299,13 @@
       <description>Unknown token</description>
       <created by="John Lumley" on="2013-10-01"/>
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
+      <modified by="Michael Kay" on="2015-03-06" change="error code, and put string in quotes"/>
       <environment ref="json-ns"/>
       <test>
-         fn:json-to-xml({terriblyWrong})
+         fn:json-to-xml('{terriblyWrong}')
       </test>
         <result>
-            <error code="XTDE3240"/>
+            <error code="FOJS0001"/>
         </result>
    </test-case>
 
@@ -303,12 +313,13 @@
       <description>Extra token</description>
       <created by="John Lumley" on="2013-10-01"/>
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
+      <modified by="Michael Kay" on="2015-03-06" change="error code, and put string in quotes"/>
       <environment ref="json-ns"/>
       <test>
-         fn:json-to-xml({}"extra token")
+         fn:json-to-xml("{}extra token")
       </test>
         <result>
-            <error code="XTDE3240"/>
+            <error code="FOJS0001"/>
         </result>
    </test-case>
 
@@ -316,12 +327,13 @@
       <description>Extra token</description>
       <created by="John Lumley" on="2013-10-01"/>
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
+      <modified by="Michael Kay" on="2015-03-06" change="error code, and put string in quotes"/>
       <environment ref="json-ns"/>
       <test>
-         fn:json-to-xml({1:1})
+         fn:json-to-xml('{1:1}')
       </test>
         <result>
-            <error code="XTDE3240"/>
+            <error code="FOJS0001"/>
         </result>
    </test-case>
 
@@ -329,12 +341,13 @@
       <description>Extra token</description>
       <created by="John Lumley" on="2013-10-01"/>
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
+      <modified by="Michael Kay" on="2015-03-06" change="error code, and put string in quotes"/>
       <environment ref="json-ns"/>
       <test>
-         fn:json-to-xml({true:1})
+         fn:json-to-xml('{true:1}')
       </test>
         <result>
-            <error code="XTDE3240"/>
+            <error code="FOJS0001"/>
         </result>
    </test-case>
 
@@ -343,12 +356,13 @@
       <description>Extra token</description>
       <created by="John Lumley" on="2013-10-01"/>
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
+      <modified by="Michael Kay" on="2015-03-06" change="error code, and put string in quotes"/>
       <environment ref="json-ns"/>
       <test>
-         fn:json-to-xml({"key" 1})
+         fn:json-to-xml('{"key" 1}')
       </test>
         <result>
-            <error code="XTDE3240"/>
+            <error code="FOJS0001"/>
         </result>
    </test-case>
 
@@ -356,12 +370,13 @@
       <description>Extra token</description>
       <created by="John Lumley" on="2013-10-01"/>
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
+      <modified by="Michael Kay" on="2015-03-06" change="error code, and put string in quotes"/>
       <environment ref="json-ns"/>
       <test>
-         fn:json-to-xml({"key" :1 2})
+         fn:json-to-xml('{"key" :1 2}')
       </test>
         <result>
-            <error code="XTDE3240"/>
+            <error code="FOJS0001"/>
         </result>
    </test-case>
 
@@ -369,12 +384,13 @@
       <description>Leading + on the number</description>
       <created by="John Lumley" on="2013-10-01"/>
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
+      <modified by="Michael Kay" on="2015-03-06" change="error code, and put string in quotes"/>
       <environment ref="json-ns"/>
       <test>
-         fn:json-to-xml([+1])
+         fn:json-to-xml('[+1]')
       </test>
         <result>
-            <error code="XTDE3240"/>
+            <error code="FOJS0001"/>
         </result>
    </test-case>
 
@@ -382,12 +398,13 @@
       <description>Redundant leading 0 on number</description>
       <created by="John Lumley" on="2013-10-01"/>
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
+      <modified by="Michael Kay" on="2015-03-06" change="error code, and put string in quotes"/>
       <environment ref="json-ns"/>
       <test>
-         fn:json-to-xml([01])
+         fn:json-to-xml('[01]')
       </test>
         <result>
-            <error code="XTDE3240"/>
+            <error code="FOJS0001"/>
         </result>
    </test-case>
 
@@ -395,12 +412,13 @@
       <description>Hex number</description>
       <created by="John Lumley" on="2013-10-01"/>
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
+      <modified by="Michael Kay" on="2015-03-06" change="error code, and put string in quotes"/>
       <environment ref="json-ns"/>
       <test>
-         fn:json-to-xml([1234A])
+         fn:json-to-xml('[1234A]')
       </test>
         <result>
-            <error code="XTDE3240"/>
+            <error code="FOJS0001"/>
         </result>
    </test-case>
 
@@ -408,12 +426,13 @@
       <description>Trailing backslash</description>
       <created by="John Lumley" on="2013-10-01"/>
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
+      <modified by="Michael Kay" on="2015-03-06" change="error code, and put string in quotes"/>
       <environment ref="json-ns"/>
       <test>
-         fn:json-to-xml(["123\"])
+         fn:json-to-xml('["123\"]')
       </test>
         <result>
-            <error code="XTDE3240"/>
+            <error code="FOJS0001"/>
         </result>
    </test-case>
 
@@ -421,12 +440,13 @@
       <description>short unicode</description>
       <created by="John Lumley" on="2013-10-01"/>
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
+      <modified by="Michael Kay" on="2015-03-06" change="error code, and put string in quotes"/>
       <environment ref="json-ns"/>
       <test>
-         fn:json-to-xml(["123\u234"])
+         fn:json-to-xml('["123\u234"]')
       </test>
         <result>
-            <error code="XTDE3240"/>
+            <error code="FOJS0001"/>
         </result>
    </test-case>
 
@@ -434,12 +454,13 @@
       <description>Trailing comma</description>
       <created by="John Lumley" on="2013-10-01"/>
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
+      <modified by="Michael Kay" on="2015-03-06" change="error code, and put string in quotes"/>
       <environment ref="json-ns"/>
       <test>
-         fn:json-to-xml({"key":123,})
+         fn:json-to-xml('{"key":123,}')
       </test>
         <result>
-            <error code="XTDE3240"/>
+            <error code="FOJS0001"/>
         </result>
    </test-case>
 
@@ -447,12 +468,13 @@
       <description>Trailing comma liberal spec</description>
       <created by="John Lumley" on="2013-10-01"/>
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
+      <modified by="Michael Kay" on="2015-03-06" change="error code, and put string in quotes"/>
       <environment ref="json-ns"/>
       <test>
-         fn:json-to-xml({"key":123 ,}, map{'liberal':true()})
+         fn:json-to-xml('{"key":123 ,}', map{"liberal":false()})
       </test>
         <result>
-            <error code="XTDE3240"/>
+            <error code="FOJS0001"/>
         </result>
    </test-case>
 
@@ -460,12 +482,13 @@
       <description>Trailing comma</description>
       <created by="John Lumley" on="2013-10-01"/>
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
+      <modified by="Michael Kay" on="2015-03-06" change="error code, and put string in quotes"/>
       <environment ref="json-ns"/>
       <test>
-         fn:json-to-xml(["key":123,])
+         fn:json-to-xml('["key":123,]')
       </test>
         <result>
-            <error code="XTDE3240"/>
+            <error code="FOJS0001"/>
         </result>
    </test-case>
 
@@ -473,12 +496,13 @@
       <description>Trailing comma liberal spec</description>
       <created by="John Lumley" on="2013-10-01"/>
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
+      <modified by="Michael Kay" on="2015-03-06" change="error code, and put string in quotes"/>
       <environment ref="json-ns"/>
       <test>
-         fn:json-to-xml(["key":123 ,], map{'liberal':true()})
+         fn:json-to-xml('["key":123 ,]', map{'liberal':true()})
       </test>
         <result>
-            <error code="XTDE3240"/>
+            <error code="FOJS0001"/>
         </result>
    </test-case>
 
@@ -486,12 +510,13 @@
       <description>Trailing comma liberal spec</description>
       <created by="John Lumley" on="2013-10-01"/>
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
+      <modified by="Michael Kay" on="2015-03-06" change="error code, and put string in quotes"/>
       <environment ref="json-ns"/>
       <test>
-         fn:json-to-xml(["String"], map{'liberal':()})
+         fn:json-to-xml('["String",]', map{'liberal':()})
       </test>
         <result>
-            <error code="XTDE3240"/>
+            <error code="FOJS0004"/>
         </result>
    </test-case>
 
@@ -500,12 +525,13 @@
       <description>Trailing comma liberal spec</description>
       <created by="John Lumley" on="2013-10-01"/>
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
+      <modified by="Michael Kay" on="2015-03-06" change="error code, and put string in quotes"/>
       <environment ref="json-ns"/>
       <test>
-         fn:json-to-xml(["String"], map{'liberal':'something'})
+         fn:json-to-xml('["String"]', map{'liberal':'something'})
       </test>
         <result>
-            <error code="XTDE3240"/>
+            <error code="FOJS0004"/>
         </result>
    </test-case>
 
@@ -514,12 +540,13 @@
       <description>Validate option error</description>
       <created by="John Lumley" on="2013-10-01"/>
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
+      <modified by="Michael Kay" on="2015-03-06" change="error code, and put string in quotes"/>
       <environment ref="json-ns"/>
       <test>
-         fn:json-to-xml(["String"], map{'validate':()})
+         fn:json-to-xml('["String"]', map{'validate':()})
       </test>
         <result>
-            <error code="XTDE3240"/>
+            <error code="FOJS0004"/>
         </result>
    </test-case>
 
@@ -527,12 +554,13 @@
       <description>Validate option error</description>
       <created by="John Lumley" on="2013-10-01"/>
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
+      <modified by="Michael Kay" on="2015-03-06" change="error code, and put string in quotes"/>
       <environment ref="json-ns"/>
       <test>
-         fn:json-to-xml(["String"], map{'validate':(true(),true())})
+         fn:json-to-xml('["String"]', map{'validate':(true(),true())})
       </test>
         <result>
-            <error code="XTDE3240"/>
+            <error code="FOJS0004"/>
         </result>
    </test-case>
 
@@ -540,12 +568,13 @@
       <description>Validate option error</description>
       <created by="John Lumley" on="2013-10-01"/>
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
+      <modified by="Michael Kay" on="2015-03-06" change="error code, and put string in quotes"/>
       <environment ref="json-ns"/>
       <test>
-         fn:json-to-xml(["String"], map{'validate':'EMCA-262'})
+         fn:json-to-xml('["String"]', map{'validate':'EMCA-262'})
       </test>
         <result>
-            <error code="XTDE3240"/>
+            <error code="FOJS0004"/>
         </result>
    </test-case>
 
@@ -553,12 +582,13 @@
       <description>Validate option error</description>
       <created by="John Lumley" on="2013-10-01"/>
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
+      <modified by="Michael Kay" on="2015-03-06" change="error code, and put string in quotes"/>
       <environment ref="json-ns"/>
       <test>
-         fn:json-to-xml(["String"], map{'unescape':()})
+         fn:json-to-xml('["String"]', map{'unescape':()})
       </test>
         <result>
-            <error code="XTDE3240"/>
+            <error code="FOJS0004"/>
         </result>
    </test-case>
 
@@ -566,12 +596,13 @@
       <description>Validate option error</description>
       <created by="John Lumley" on="2013-10-01"/>
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
+      <modified by="Michael Kay" on="2015-03-06" change="error code, and put string in quotes"/>
       <environment ref="json-ns"/>
       <test>
-         fn:json-to-xml(["String"], map{'unescape':(true(),true())})
+         fn:json-to-xml('["String"]', map{'unescape':(true(),true())})
       </test>
         <result>
-            <error code="XTDE3240"/>
+            <error code="FOJS0004"/>
         </result>
    </test-case>
 
@@ -579,12 +610,13 @@
       <description>Validate option error</description>
       <created by="John Lumley" on="2013-10-01"/>
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
+      <modified by="Michael Kay" on="2015-03-06" change="error code, and put string in quotes"/>
       <environment ref="json-ns"/>
       <test>
-         fn:json-to-xml(["String"], map{'unescape':'EMCA-262'})
+         fn:json-to-xml('["String"]', map{'unescape':'EMCA-262'})
       </test>
         <result>
-            <error code="XTDE3240"/>
+            <error code="FOJS0004"/>
         </result>
    </test-case>
 
@@ -592,12 +624,13 @@
       <description>Validate option error</description>
       <created by="John Lumley" on="2013-10-01"/>
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
+      <modified by="Michael Kay" on="2015-03-06" change="error code, and put string in quotes"/>
       <environment ref="json-ns"/>
       <test>
-         fn:json-to-xml(["String"], map{'fallback':'dummy'})
+         fn:json-to-xml('["String"]', map{'fallback':'dummy'})
       </test>
         <result>
-            <error code="XTDE3240"/>
+            <error code="FOJS0004"/>
         </result>
    </test-case>
 
