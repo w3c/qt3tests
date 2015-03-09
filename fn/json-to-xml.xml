@@ -31,7 +31,9 @@
       <namespace prefix="j" uri="http://www.w3.org/2005/xpath-functions/json"/>
      </environment>
 
-   <environment name="json-ns">
+    <environment name="json-ns">
+        <schema uri="http://www.w3.org/2005/xpath-functions/json"/>
+        <!-- Either the test driver or the product under test is expected to recognize this URI -->
         <namespace prefix="j" uri="http://www.w3.org/2005/xpath-functions/json"/>
     </environment>
 
@@ -46,7 +48,7 @@
             <all-of>
                 <assert-count>1</assert-count>
                 <assert-type>document-node()</assert-type>
-                <assert-xml><![CDATA[<j:map/>]]></assert-xml>
+                <assert-xml ignore-prefixes="true"><![CDATA[<map xmlns="http://www.w3.org/2005/xpath-functions/json"/>]]></assert-xml>
             </all-of>
       </result>
    </test-case>
@@ -61,7 +63,7 @@
             <all-of>
                 <assert-count>1</assert-count>
                 <assert-type>document-node()</assert-type>
-                <assert-xml><![CDATA[<j:array/>]]></assert-xml>
+                <assert-xml ignore-prefixes="true"><![CDATA[<array xmlns="http://www.w3.org/2005/xpath-functions/json"/>]]></assert-xml>
             </all-of>
       </result>
    </test-case>
@@ -80,7 +82,7 @@
                 <assert>count($result/*) eq 1</assert>
                 <assert>$result/*/*[1] instance of element(j:number,xs:untyped)</assert>
                 <assert>xs:double($result/*[1]) eq 1</assert>
-                <assert-xml><![CDATA[<j:array><j:number>1</j:number></j:array>]]></assert-xml>
+                <assert-xml ignore-prefixes="true"><![CDATA[<array xmlns="http://www.w3.org/2005/xpath-functions/json"><number>1</number></array>]]></assert-xml>
             </all-of>
       </result>
    </test-case>
@@ -99,7 +101,7 @@
                 <assert>count($result/*) eq 1</assert>
                 <assert>$result/*/*[1] instance of element(j:string,xs:untyped)</assert>
                 <assert>xs:string($result/*/*[1]) eq "a"</assert>
-                <assert-xml><![CDATA[<j:array><j:string>a</j:string></j:array>]]></assert-xml>
+                <assert-xml ignore-prefixes="true"><![CDATA[<array xmlns="http://www.w3.org/2005/xpath-functions/json"><string>a</string></array>]]></assert-xml>
             </all-of>
       </result>
    </test-case>
@@ -118,7 +120,7 @@
                 <assert>count($result/*) eq 1</assert>
                 <assert>$result/*/*[1] instance of element(j:boolean,xs:untyped)</assert>
                 <assert>xs:boolean($result/*[1]) eq true()</assert>
-                <assert-xml><![CDATA[<j:array><j:boolean>true</j:boolean></j:array>]]></assert-xml>
+                <assert-xml ignore-prefixes="true"><![CDATA[<array xmlns="http://www.w3.org/2005/xpath-functions/json"><boolean>true</boolean></array>]]></assert-xml>
             </all-of>
       </result>
    </test-case>
@@ -137,7 +139,7 @@
                 <assert>count($result/*) eq 1</assert>
                 <assert>$result/*/*[1] instance of element(j:boolean,xs:untyped)</assert>
                 <assert>xs:boolean($result/*[1]) eq false()</assert>
-                <assert-xml><![CDATA[<j:array><j:boolean>false</j:boolean></j:array>]]></assert-xml>
+                <assert-xml ignore-prefixes="true"><![CDATA[<array xmlns="http://www.w3.org/2005/xpath-functions/json"><boolean>false</boolean></array>]]></assert-xml>
             </all-of>
       </result>
    </test-case>
@@ -156,7 +158,7 @@
                 <assert>count($result/*) eq 1</assert>
                 <assert>$result/*/*[1] instance of element(j:null,xs:untyped)</assert>
                 <assert>empty($result/*[1]/*[1]/(*|text()))</assert>
-                <assert-xml><![CDATA[<j:array><j:null/></j:array>]]></assert-xml>
+                <assert-xml ignore-prefixes="true"><![CDATA[<array xmlns="http://www.w3.org/2005/xpath-functions/json"><null/></array>]]></assert-xml>
             </all-of>
       </result>
    </test-case>
@@ -200,7 +202,7 @@
       <environment ref="json-files"/>
       <test>fn:json-to-xml(unparsed-text('http://www.w3.org/qt3/json/escapeText-json'))</test>
       <result>
-            <assert-xml><![CDATA[<j:map><j:string key="key">Data with " within it</j:string></j:map>]]></assert-xml>
+            <assert-xml ignore-prefixes="true"><![CDATA[<map xmlns="http://www.w3.org/2005/xpath-functions/json"><string key="key">Data with " within it</string></map>]]></assert-xml>
       </result>
    </test-case>
 
@@ -212,7 +214,7 @@
       <environment ref="json-files"/>
       <test>fn:json-to-xml(unparsed-text('http://www.w3.org/qt3/json/escapeText-json'))//j:string</test>
       <result>
-            <assert-xml><![CDATA[<j:string key="key">Data with " within it</j:string>]]></assert-xml>
+            <assert-xml ignore-prefixes="true"><![CDATA[<string xmlns="http://www.w3.org/2005/xpath-functions/json" key="key">Data with " within it</string>]]></assert-xml>
       </result>
    </test-case>
 
@@ -220,15 +222,15 @@
       <description>Larger 2</description>
       <created by="John Lumley" on="2013-10-01"/>
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
-      <modified by="Michael Kay" on="2015-03-06" change="Spec says the result is a document node"/>
       <environment ref="json-files"/>
       <test>
          fn:json-to-xml(unparsed-text('http://www.w3.org/qt3/json/escapeText-json'), map{'unescape':false()})//j:string
       </test>
       <result>
          <all-of>
-                <assert-type>document-node(element(j:string))</assert-type>
-                <assert-xml><![CDATA[<j:string key="key" escaped="true">Data with \" within it</j:string>]]></assert-xml>
+                <assert-type>element(j:string)</assert-type>
+                <assert-xml ignore-prefixes="true"><![CDATA[<string 
+                key="key" escaped="true" xmlns="http://www.w3.org/2005/xpath-functions/json">Data with \" within it</string>]]></assert-xml>
             </all-of>
       </result>
    </test-case>
@@ -238,15 +240,14 @@
       <description>Larger 2</description>
       <created by="John Lumley" on="2013-10-01"/>
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
-      <modified by="Michael Kay" on="2015-03-06" change="Spec says the result is a document node"/>
       <environment ref="json-ns"/>
       <test>
          fn:json-to-xml('[&#34;Data with \&#34; within it&#34;]')//j:string
       </test>
       <result>
          <all-of>
-                <assert-type>document-node(element(j:string))</assert-type>
-                <assert-xml><![CDATA[<j:string>Data with " within it</j:string>]]></assert-xml>
+                <assert-type>element(j:string)</assert-type>
+                <assert-xml><![CDATA[<string xmlns="http://www.w3.org/2005/xpath-functions/json">Data with " within it</string>]]></assert-xml>
             </all-of>
       </result>
    </test-case>
@@ -262,8 +263,9 @@
       </test>
       <result>
          <all-of>
-                <assert-type>document-node(element(j:string))</assert-type>
-                <assert-xml><![CDATA[<j:string key="Key &#34; with quote">Data with " within it</j:string>]]></assert-xml>
+                <assert-type>element(j:string)</assert-type>
+                <assert-xml><![CDATA[<string
+                 xmlns="http://www.w3.org/2005/xpath-functions/json" key="Key &#34; with quote">Data with " within it</string>]]></assert-xml>
             </all-of>
       </result>
    </test-case>
@@ -276,7 +278,9 @@
          fn:json-to-xml(codepoints-to-string(65279)||'[1]')
       </test>
       <result>
-         <assert-xml><![CDATA[<j:array><j:number>1</j:number></j:array>]]></assert-xml>
+         <assert-xml ignore-prefixes="true"><![CDATA[<array 
+         xmlns="http://www.w3.org/2005/xpath-functions/json"><number>1</number></array>
+         ]]></assert-xml>
       </result>
    </test-case>
    
@@ -329,7 +333,10 @@
          fn:json-to-xml('{"a\\":3, "b\\":4}', map{'unescape':false()})
       </test>
       <result>
-         <assert-xml><![CDATA[<j:map><j:number key="a\\" escaped-key="true">3</j:number><j:number key="b\\" escaped-key="true">4</j:number></j:map>]]></assert-xml> 
+         <assert-xml ignore-prefixes="true"><![CDATA[<map 
+         xmlns="http://www.w3.org/2005/xpath-functions/json"><number key="a\\" escaped-key="true"
+         >3</number><number key="b\\" escaped-key="true">4</number></map>
+         ]]></assert-xml> 
       </result>
    </test-case>
    
@@ -342,9 +349,206 @@
          fn:json-to-xml('{"a\\":3, "b\\":4}', map{'unescape':true()})
       </test>
       <result>
-         <assert-xml><![CDATA[<j:map><j:number key="a\">3</j:number><j:number key="b\">4</j:number></j:map>]]></assert-xml> 
+         <assert-xml ignore-prefixes="true"><![CDATA[<map 
+      xmlns="http://www.w3.org/2005/xpath-functions/json"><number key="a\"
+      >3</number><number key="b\">4</number></map>]]></assert-xml> 
       </result>
    </test-case>
+   
+   <test-case name="json-to-xml-021">
+      <description>Character invalid in XML 1.0 in a string and a key: unescape=true</description>
+      <created by="Michael Kay" on="2015-03-07"/>
+      <environment ref="json-ns"/>
+      <dependency type="xml-version" value="1.0"/>
+      <test>
+         fn:json-to-xml('{"a":"\u000C", "\u0007":"bell"}', map{'unescape':false()})
+      </test>
+      <result>
+         <assert-xml ignore-prefixes="true"><![CDATA[<map 
+         xmlns="http://www.w3.org/2005/xpath-functions/json"
+         ><string key="a" escaped="true">\u000C</string
+         ><string key="\u0007" escaped-key="true">bell</string></map>
+         ]]></assert-xml> 
+      </result>
+   </test-case>
+   
+   <test-case name="json-to-xml-022">
+      <description>Character invalid in XML 1.0 in a string and a key: unescape=false</description>
+      <created by="Michael Kay" on="2015-03-07"/>
+      <environment ref="json-ns"/>
+      <dependency type="xml-version" value="1.0"/>
+      <test>
+         fn:json-to-xml('{"a":"\u000C", "\u0007":"bell"}', map{'unescape':true()})
+      </test>
+      <result>
+         <assert-xml ignore-prefixes="true"><![CDATA[<map 
+         xmlns="http://www.w3.org/2005/xpath-functions/json"
+         ><string key="a">&#xFFFD;</string><string key="&#xFFFD;">bell</string></map>
+         ]]></assert-xml> 
+      </result>
+   </test-case>
+   
+   <test-case name="json-to-xml-023">
+      <description>Unpaired surrogates: unescape=true</description>
+      <created by="Michael Kay" on="2015-03-09"/>
+      <dependency type="xml-version" value="1.0"/>
+      <test>
+         fn:json-to-xml('{"a":"\uDA00", "\uDD00":"bell"}', map{'unescape':true()})
+      </test>
+      <result>
+         <assert-xml ignore-prefixes="true"><![CDATA[<map 
+         xmlns="http://www.w3.org/2005/xpath-functions/json"
+         ><string key="a">&#xFFFD;</string><string key="&#xFFFD;">bell</string></map>]]></assert-xml> 
+      </result>
+   </test-case>
+   
+   <test-case name="json-to-xml-024">
+      <description>Unpaired surrogates: unescape=false</description>
+      <created by="Michael Kay" on="2015-03-09"/>
+      <dependency type="xml-version" value="1.0"/>
+      <test>
+         fn:json-to-xml('{"a":"\uDA00", "\uDD00":"bell"}', map{'unescape':false()})
+      </test>
+      <result>
+         <assert-xml ignore-prefixes="true"><![CDATA[<j:map 
+         xmlns:j="http://www.w3.org/2005/xpath-functions/json"
+         ><j:string escaped="true" key="a">\uDA00</j:string><j:string escaped-key="true" key="\uDD00">bell</j:string></j:map>]]></assert-xml> 
+      </result>
+   </test-case>
+
+   <test-case name="json-to-xml-025">
+      <description>Character invalid in XML 1.0 in a string and a key: fallback</description>
+      <created by="Michael Kay" on="2015-03-09"/>
+      <environment ref="json-ns"/>
+      <dependency type="xml-version" value="1.0"/>
+      <test>
+         fn:json-to-xml('{"a":"\u000C", "\u0007":"bell"}', 
+              map{'unescape':true(), 'fallback':function($s){'??'}})
+      </test>
+      <result>
+         <assert-xml ignore-prefixes="true"><![CDATA[<map 
+         xmlns="http://www.w3.org/2005/xpath-functions/json"
+         ><string key="a">??</string><string key="??">bell</string></map>
+         ]]></assert-xml> 
+      </result>
+   </test-case>
+   
+   <test-case name="json-to-xml-026">
+      <description>Unpaired surrogates: fallback</description>
+      <created by="Michael Kay" on="2015-03-09"/>
+      <dependency type="xml-version" value="1.0"/>
+      <test>
+         fn:json-to-xml('{"a":"\uDA00", "\uDD00":"bell"}', 
+             map{'unescape':true(), 'fallback':function($s){'??' || translate($s, 'abcdef', 'ABCDEF')  || '??'}})
+      </test>
+      <result>
+         <assert-xml ignore-prefixes="true"><![CDATA[<map 
+         xmlns="http://www.w3.org/2005/xpath-functions/json"
+         ><string key="a">??\uDA00??</string><string key="??\uDD00??">bell</string></map>]]></assert-xml> 
+      </result>
+   </test-case>
+   
+   <test-case name="json-to-xml-027">
+      <description>Unpaired surrogates: unescape=false, fallback</description>
+      <created by="Michael Kay" on="2015-03-09"/>
+      <dependency type="xml-version" value="1.0"/>
+      <test>
+         fn:json-to-xml('{"a":"\uDA00", "\uDD00":"bell"}', 
+            map{'unescape':true(), 'fallback':function($s){'??' || translate($s, 'abcdef', 'ABCDEF') || '??'}})
+      </test>
+      <result>
+         <assert-xml ignore-prefixes="true"><![CDATA[<map 
+         xmlns="http://www.w3.org/2005/xpath-functions/json"
+         ><string key="a">??\uDA00??</string><string key="??\uDD00??">bell</string></map>]]></assert-xml> 
+      </result>
+   </test-case>
+   
+   <test-case name="json-to-xml-028">
+      <description>Supply empty sequence ()</description>
+      <created by="Michael Kay" on="2015-03-09"/>
+      <test>
+         fn:json-to-xml((), 
+            map{'unescape':true(), 'fallback':function($s){'??' || translate($s, 'abcdef', 'ABCDEF') || '??'}})
+      </test>
+      <result>
+         <assert-empty/> 
+      </result>
+   </test-case>
+   
+   <test-case name="json-to-xml-029">
+      <description>Supply empty options map</description>
+      <created by="Michael Kay" on="2015-03-09"/>
+      <test>
+         fn:json-to-xml('23', map{})
+      </test>
+      <result>
+         <assert-xml ignore-prefixes="true"><![CDATA[<number 
+         xmlns="http://www.w3.org/2005/xpath-functions/json">23</number>]]></assert-xml> 
+      </result>
+   </test-case>
+   
+   <test-case name="json-to-xml-030">
+      <description>Exponent with upper-case E</description>
+      <created by="Michael Kay" on="2015-03-09"/>
+      <test>
+         fn:json-to-xml('23E0', map{})
+      </test>
+      <result>
+         <assert-xml ignore-prefixes="true"><![CDATA[<number 
+         xmlns="http://www.w3.org/2005/xpath-functions/json">23</number>]]></assert-xml> 
+         <!-- Queried: see bug 28179 -->
+      </result>
+   </test-case>
+   
+   <test-case name="json-to-xml-031">
+      <description>Exponent with lower-case E and sign; leading zero OK if followed by "."</description>
+      <created by="Michael Kay" on="2015-03-09"/>
+      <test>
+         fn:json-to-xml('0.23e+02')
+      </test>
+      <result>
+         <assert-xml ignore-prefixes="true"><![CDATA[<number 
+         xmlns="http://www.w3.org/2005/xpath-functions/json">23</number>]]></assert-xml>
+         <!-- Queried: see bug 28179 --> 
+      </result>
+   </test-case>
+   
+   <test-case name="json-to-xml-032">
+      <description>Zero is OK</description>
+      <created by="Michael Kay" on="2015-03-09"/>
+      <test>
+         fn:json-to-xml('0')
+      </test>
+      <result>
+         <assert-xml ignore-prefixes="true"><![CDATA[<number 
+         xmlns="http://www.w3.org/2005/xpath-functions/json">0</number>]]></assert-xml> 
+      </result>
+   </test-case>
+   
+   <test-case name="json-to-xml-033">
+      <description>Negative zero is OK</description>
+      <created by="Michael Kay" on="2015-03-09"/>
+      <test>
+         fn:json-to-xml('-0')
+      </test>
+      <result>
+         <assert-xml ignore-prefixes="true"><![CDATA[<number 
+         xmlns="http://www.w3.org/2005/xpath-functions/json">-0</number>]]></assert-xml> 
+      </result>
+   </test-case>
+   
+   <test-case name="json-to-xml-034">
+      <description>Zero-length keys and values are OK</description>
+      <created by="Michael Kay" on="2015-03-09"/>
+      <test>
+         fn:json-to-xml('{"":"", "0":"0"}')
+      </test>
+      <result>
+         <assert-xml ignore-prefixes="true"><![CDATA[<map 
+         xmlns="http://www.w3.org/2005/xpath-functions/json"><string key=""/><string key="0">0</string></map>]]></assert-xml> 
+      </result>
+   </test-case>
+   
 
    <test-case name="json-to-xml-error-001">
       <description>Empty string</description>
@@ -734,8 +938,75 @@
          fn:json-to-xml('{"a":3, "b":4, "a":3}', map{'validate':true()})
       </test>
       <result>
-         <error code="XXXX9999"/> 
+         <error code="FOJS0003"/> 
       </result>
    </test-case>
+   
+   <test-case name="json-to-xml-error-029">
+      <description>Zero not allowed before another digit</description>
+      <created by="Michael Kay" on="2015-03-09"/>
+      <test>
+         fn:json-to-xml('-00')
+      </test>
+      <result>
+         <error code="FOJS0001"/>
+      </result>
+   </test-case>
+   
+   <test-case name="json-to-xml-error-030">
+      <description>Leading plus sign not allowed</description>
+      <created by="Michael Kay" on="2015-03-09"/>
+      <test>
+         fn:json-to-xml('+10')
+      </test>
+      <result>
+         <error code="FOJS0001"/>
+      </result>
+   </test-case>
+   
+   <test-case name="json-to-xml-error-031">
+      <description>Leading decimal point not allowed</description>
+      <created by="Michael Kay" on="2015-03-09"/>
+      <test>
+         fn:json-to-xml('.1')
+      </test>
+      <result>
+         <error code="FOJS0001"/>
+      </result>
+   </test-case>
+   
+   <test-case name="json-to-xml-error-032">
+      <description>Trailing decimal point not allowed</description>
+      <created by="Michael Kay" on="2015-03-09"/>
+      <test>
+         fn:json-to-xml('1.')
+      </test>
+      <result>
+         <error code="FOJS0001"/>
+      </result>
+   </test-case>
+   
+   <test-case name="json-to-xml-error-033">
+      <description>Trailing decimal point not allowed</description>
+      <created by="Michael Kay" on="2015-03-09"/>
+      <test>
+         fn:json-to-xml('1.e2')
+      </test>
+      <result>
+         <error code="FOJS0001"/>
+      </result>
+   </test-case>
+   
+   <test-case name="json-to-xml-error-034">
+      <description>Leading decimal point not allowed</description>
+      <created by="Michael Kay" on="2015-03-09"/>
+      <test>
+         fn:json-to-xml('-.01')
+      </test>
+      <result>
+         <error code="FOJS0001"/>
+      </result>
+   </test-case>
+
 
 </test-set>
