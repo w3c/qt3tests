@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="misc-RandomNumberGenerator">
+   <description>Tests for features associated with the random number generator</description>
+   <link type="spec" document="http://www.w3.org/TR/xquery-30/"
+         idref="doc-xquery30-EQName"/>
+   <link type="spec" document="XQuery" section-number="H.0.0.0.0.0.0.0" idref="__HOF"/>
+   
+   <dependency type="feature" value="higherOrderFunctions"/>
+   
+   <environment name="user-defined-types">
+      <schema uri="http://www.w3.org/XQueryTest/userDefinedTypes" file="../docs/userdefined.xsd">
+         <description>A schema user defined types and constructor tests</description>
+         <created by="Anonymous" on="2006-04-03"/>
+      </schema>   
+   </environment>        
+
+   <test-case name="rnd-001" covers-30="random-number-generator">
+      <description> random number generator  </description>
+      <created by="Loren Cahlander" on="2015-01-18"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[
+         declare function local:random-sequence($length as xs:integer) as xs:double* {
+         local:random-sequence($length, fn:random-number-generator())
+         };
+         declare function local:random-sequence($length as xs:integer, $G as map(xs:string, item())) {
+         if ($length eq 0)
+         then ()
+         else ($G?number, local:random-sequence($length - 1, $G?next()))
+         };
+         
+         let $r := local:random-sequence(200)
+         
+         return if (not(count(distinct-values($r)) > 0.5*count($r)))
+         then fn:error(fn:random-number-generator, '')
+         else if (not(not(deep-equal($r, fn:sort($r)))))
+         then fn:error(fn:random-number-generator, '')
+         else if (not(count($r[. lt 0.5]) > 0.2*count($r) and count($r[. gt 0.5]) > 0.2*count($r)))
+         then fn:error(fn:random-number-generator, '')
+         else fn:true()
+      ]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+
+</test-set>
