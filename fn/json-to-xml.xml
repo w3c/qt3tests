@@ -313,14 +313,17 @@
    </test-case>
    
    <test-case name="json-to-xml-018">
-      <description>Duplicate entries in a map: spec unclear</description>
+      <description>Duplicate entries in a map: default is to retain duplicates</description>
       <created by="Michael Kay" on="2015-03-07"/>
       <environment ref="json-ns"/>
       <test>
-         fn:json-to-xml('{"a":3, "b":4, "a":3}')
+         fn:json-to-xml('{"a":3, "b":4, "a":5}')
       </test>
       <result>
-         <error code="not-sure-if-this-is-an-error"/> 
+         <assert-xml ignore-prefixes="true"><![CDATA[<map 
+         xmlns="http://www.w3.org/2005/xpath-functions/json"><number key="a"
+         >3</number><number key="b">4</number><number key="a">5</number></map>
+         ]]></assert-xml> 
       </result>
    </test-case>
    
@@ -488,28 +491,29 @@
    </test-case>
    
    <test-case name="json-to-xml-030">
-      <description>Exponent with upper-case E</description>
+      <description>Exponent with upper-case E. Lexical representation retained, see bug 28179 </description>
       <created by="Michael Kay" on="2015-03-09"/>
       <test>
          fn:json-to-xml('23E0', map{})
       </test>
       <result>
          <assert-xml ignore-prefixes="true"><![CDATA[<number 
-         xmlns="http://www.w3.org/2005/xpath-functions/json">23</number>]]></assert-xml> 
-         <!-- Queried: see bug 28179 -->
+         xmlns="http://www.w3.org/2005/xpath-functions/json">23E0</number>]]></assert-xml> 
       </result>
    </test-case>
    
    <test-case name="json-to-xml-031">
-      <description>Exponent with lower-case E and sign; leading zero OK if followed by "."</description>
+      <description>
+        Exponent with lower-case E and sign; leading zero OK if followed by ".". 
+        Lexical representation retained, see bug 28179
+      </description>
       <created by="Michael Kay" on="2015-03-09"/>
       <test>
          fn:json-to-xml('0.23e+02')
       </test>
       <result>
          <assert-xml ignore-prefixes="true"><![CDATA[<number 
-         xmlns="http://www.w3.org/2005/xpath-functions/json">23</number>]]></assert-xml>
-         <!-- Queried: see bug 28179 --> 
+         xmlns="http://www.w3.org/2005/xpath-functions/json">0.23e+02</number>]]></assert-xml>
       </result>
    </test-case>
    
@@ -549,6 +553,128 @@
       </result>
    </test-case>
    
+   <test-case name="json-to-xml-035">
+      <description>Empty sequence is OK</description>
+      <created by="Michael Kay" on="2015-03-09"/>
+      <test>
+         fn:json-to-xml(())
+      </test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+   
+   <test-case name="json-to-xml-036">
+      <description>Duplicate entries in a map: duplicates=use-first</description>
+      <created by="Michael Kay" on="2015-03-07"/>
+      <environment ref="json-ns"/>
+      <test>
+         fn:json-to-xml('{"a":3, "b":4, "a":5}', map{"duplicates":"use-first"})
+      </test>
+      <result>
+         <assert-xml ignore-prefixes="true"><![CDATA[<map 
+         xmlns="http://www.w3.org/2005/xpath-functions/json"><number key="a"
+         >3</number><number key="b">4</number></map>
+         ]]></assert-xml> 
+      </result>
+   </test-case>
+   
+   <test-case name="json-to-xml-037">
+      <description>Validate a more complex example</description>
+      <created by="Michael Kay" on="2015-03-10"/>
+      <environment ref="json-ns"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>
+         fn:json-to-xml('{"a":3, "b":true, "c":null, "d":[], "e":[1E2, ""], "f":{"1":true, "2":false}, "g\n":"h\n"}', 
+            map{'validate':true()})
+      </test>
+      <result>
+         <assert-type>document-node(schema-element(Q{http://www.w3.org/2005/xpath-functions/json}map))</assert-type>
+      </result>
+   </test-case>
+   
+   <test-case name="json-to-xml-038">
+      <description>Validate a more complex example</description>
+      <created by="Michael Kay" on="2015-03-10"/>
+      <environment ref="json-ns"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>
+         fn:json-to-xml('{"a":3, "b":true, "c":null, "d":[], "e":[1E2, ""], "f":{"1":true, "2":false}, "g\n":"h\n"}', 
+            map{'validate':true(), 'unescape':false()})
+      </test>
+      <result>
+         <assert-type>document-node(schema-element(Q{http://www.w3.org/2005/xpath-functions/json}map))</assert-type>
+      </result>
+   </test-case>
+   
+   <test-case name="json-to-xml-039">
+      <description>Unpaired surrogate</description>
+      <created by="Michael Kay" on="2015-03-10"/>
+      <test>
+         fn:json-to-xml('"oh dear \uDEAD"', map{'fallback':function($s){substring($s, 3)}})
+      </test>
+      <result>
+         <assert-xml ignore-prefixes="true"><![CDATA[<string 
+         xmlns="http://www.w3.org/2005/xpath-functions/json">oh dear DEAD</string>
+         ]]></assert-xml> 
+      </result>
+   </test-case>
+   
+   <test-case name="json-to-xml-040">
+      <description>Duplicate entries in a map: use-first</description>
+      <created by="Michael Kay" on="2015-03-10"/>
+      <environment ref="json-ns"/>
+      <test>
+         fn:json-to-xml('{"a":3, "b":4, "a":5, "c":5}', map{'duplicates':'use-first'})
+      </test>
+      <result>
+         <assert-xml ignore-prefixes="true"><![CDATA[<map 
+         xmlns="http://www.w3.org/2005/xpath-functions/json"><number key="a"
+         >3</number><number key="b">4</number><number key="c">5</number></map>
+         ]]></assert-xml> 
+      </result>
+   </test-case>
+   
+   <test-case name="json-to-xml-041">
+      <description>Base URI of the result</description>
+      <created by="Michael Kay" on="2015-03-10"/>
+      <test>
+         static-base-uri() eq base-uri(fn:json-to-xml('true'))
+      </test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="json-to-xml-042">
+      <description>No duplicates after no unescaping</description>
+      <created by="Michael Kay" on="2015-03-11"/>
+      <environment ref="json-ns"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>
+         fn:json-to-xml('{"\n":1, "\u000A":2}', map{'unescape':false(), 'duplicates':'reject'})
+      </test>
+        <result>
+            <assert-xml ignore-prefixes="true"><![CDATA[<map 
+         xmlns="http://www.w3.org/2005/xpath-functions/json"><number key="\n" escaped-key="true"
+         >1</number><number key="\u000A" escaped-key="true">2</number></map>
+         ]]></assert-xml> 
+        </result>
+   </test-case>
+
+   <test-case name="json-to-xml-043">
+      <description>Lower case hex digits are allowed</description>
+      <created by="Michael Kay" on="2015-03-10"/>
+      <test>
+         fn:json-to-xml('"\u005c"')
+      </test>
+      <result>
+         <assert-xml ignore-prefixes="true"><![CDATA[<string 
+         xmlns="http://www.w3.org/2005/xpath-functions/json">\</string>
+         ]]></assert-xml> 
+      </result>
+   </test-case>
+
 
    <test-case name="json-to-xml-error-001">
       <description>Empty string</description>
@@ -798,7 +924,7 @@
          fn:json-to-xml('["String",]', map{'liberal':()})
       </test>
         <result>
-            <error code="FOJS0004"/>
+            <error code="FOJS0005"/>
         </result>
    </test-case>
 
@@ -813,7 +939,7 @@
          fn:json-to-xml('["String"]', map{'liberal':'something'})
       </test>
         <result>
-            <error code="FOJS0004"/>
+            <error code="FOJS0005"/>
         </result>
    </test-case>
 
@@ -828,7 +954,7 @@
          fn:json-to-xml('["String"]', map{'validate':()})
       </test>
         <result>
-            <error code="FOJS0004"/>
+            <error code="FOJS0005"/>
         </result>
    </test-case>
 
@@ -842,7 +968,7 @@
          fn:json-to-xml('["String"]', map{'validate':(true(),true())})
       </test>
         <result>
-            <error code="FOJS0004"/>
+            <error code="FOJS0005"/>
         </result>
    </test-case>
 
@@ -856,7 +982,7 @@
          fn:json-to-xml('["String"]', map{'validate':'EMCA-262'})
       </test>
         <result>
-            <error code="FOJS0004"/>
+            <error code="FOJS0005"/>
         </result>
    </test-case>
 
@@ -870,7 +996,7 @@
          fn:json-to-xml('["String"]', map{'unescape':()})
       </test>
         <result>
-            <error code="FOJS0004"/>
+            <error code="FOJS0005"/>
         </result>
    </test-case>
 
@@ -884,7 +1010,7 @@
          fn:json-to-xml('["String"]', map{'unescape':(true(),true())})
       </test>
         <result>
-            <error code="FOJS0004"/>
+            <error code="FOJS0005"/>
         </result>
    </test-case>
 
@@ -898,7 +1024,7 @@
          fn:json-to-xml('["String"]', map{'unescape':'EMCA-262'})
       </test>
         <result>
-            <error code="FOJS0004"/>
+            <error code="FOJS0005"/>
         </result>
    </test-case>
 
@@ -912,7 +1038,7 @@
          fn:json-to-xml('["String"]', map{'fallback':'dummy'})
       </test>
         <result>
-            <error code="FOJS0004"/>
+            <error code="FOJS0005"/>
         </result>
    </test-case>
    
@@ -1007,6 +1133,100 @@
          <error code="FOJS0001"/>
       </result>
    </test-case>
+   
+   <test-case name="json-to-xml-error-035">
+      <description>Duplicate entries in a map: duplicates=reject</description>
+      <created by="Michael Kay" on="2015-03-10"/>
+      <test>
+         fn:json-to-xml('{"a":3, "b":4, "a":5}', map{"duplicates":"reject"})
+      </test>
+      <result>
+         <error code="FOJS0003"/>
+      </result>
+   </test-case>
+      
+   <test-case name="json-to-xml-error-037">
+      <description>Backslash at end of string</description>
+      <created by="Michael Kay" on="2015-03-10"/>
+      <test>
+         fn:json-to-xml('"oh dear \"')
+      </test>
+      <result>
+         <error code="FOJS0001"/>
+      </result>
+   </test-case>
+   
+   <test-case name="json-to-xml-error-038">
+      <description>Insufficient characters after \u</description>
+      <created by="Michael Kay" on="2015-03-10"/>
+      <test>
+         fn:json-to-xml('"oh dear \uAAA"')
+      </test>
+      <result>
+         <error code="FOJS0001"/>
+      </result>
+   </test-case>
+   
+   <test-case name="json-to-xml-error-039">
+      <description>Invalid character after \</description>
+      <created by="Michael Kay" on="2015-03-10"/>
+      <test>
+         fn:json-to-xml('"oh dear \xAA"')
+      </test>
+      <result>
+         <error code="FOJS0001"/>
+      </result>
+   </test-case>
+   
+   <test-case name="json-to-xml-error-040">
+      <description>Duplicate entries in a map: duplicates=use-last</description>
+      <created by="Michael Kay" on="2015-03-10"/>
+      <test>
+         fn:json-to-xml('{"a":3, "b":4, "c":5}', map{"duplicates":"use-last"})
+      </test>
+      <result>
+         <error code="FOJS0005"/>
+      </result>
+   </test-case>
+   
+   <test-case name="json-to-xml-error-041">
+      <description>Fallback function with wrong arity</description>
+      <created by="Michael Kay" on="2015-03-10"/>
+      <test>
+         fn:json-to-xml('"\uFFFF"', map{'fallback':concat#2})
+      </test>
+        <result>
+            <error code="FOJS0005"/>
+        </result>
+   </test-case>
+   
+   <test-case name="json-to-xml-error-042">
+      <description>Validate option error - inconsistent with retaining duplicates</description>
+      <created by="Michael Kay" on="2015-03-11"/>
+      <environment ref="json-ns"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>
+         fn:json-to-xml('{"A":1, "A":2}', map{'validate':true(), 'duplicates':'retain'})
+      </test>
+        <result>
+            <error code="FOJS0005"/>
+        </result>
+   </test-case>
+   
+   <test-case name="json-to-xml-error-043">
+      <description>Duplicates after unescaping</description>
+      <created by="Michael Kay" on="2015-03-11"/>
+      <environment ref="json-ns"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>
+         fn:json-to-xml('{"\n":1, "\u000A":2}', map{'duplicates':'reject'})
+      </test>
+        <result>
+            <error code="FOJS0003"/>
+        </result>
+   </test-case>
+   
+
 
 
 </test-set>

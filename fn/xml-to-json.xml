@@ -771,6 +771,50 @@
             <error code="FOJS0005"/>
       </result>
    </test-case>
+   
+   <test-case name="xml-to-json-066">
+      <description>Empty sequence</description>
+      <created by="Michael Kay" on="2015-03-10"/>
+      <test>xml-to-json(())</test>
+      <result>
+          <assert-empty/>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-067">
+      <description>Empty sequence</description>
+      <created by="Michael Kay" on="2015-03-10"/>
+      <test>xml-to-json((), map{})</test>
+      <result>
+          <assert-empty/>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-068">
+      <description>Attributes in other namespaces are OK</description>
+      <created by="Michael Kay" on="2015-03-09"/>
+      <dependency type="spec" value="XQ31"/>
+      <test><![CDATA[
+        xml-to-json(<map xmlns="http://www.w3.org/2005/xpath-functions/json"
+         xml:base="http://www.w3.org"><string key="t">tab</string></map>)
+       ]]></test>
+      <result>
+            <assert-eq>'{"t":"tab"}'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-069">
+      <description>Attributes in JSON namespace are not OK</description>
+      <created by="Michael Kay" on="2015-03-09"/>
+      <dependency type="spec" value="XQ31"/>
+      <test><![CDATA[
+        xml-to-json(<j:map xmlns:j="http://www.w3.org/2005/xpath-functions/json"
+         j:base="http://www.w3.org"><j:string key="t">tab</j:string></j:map>)
+       ]]></test>
+      <result>
+            <error code="FOJS0005"/>
+      </result>
+   </test-case>
 
 
 

@@ -349,9 +349,10 @@
       <description>String formats</description>
       <created by="Michael Kay, Saxonica" on="2011-03-31"/>
       <modified by="Christian Gruen" on="2015-01-31" change="Additional encoding of entity"/>
+      <modified by="Michael Kay" on="2015-03-11" change="Avoid using character reference, so the assertion works in both XPath and XQuery"/>
       <test>parse-json('["\r"]')</test>
       <result>
-         <all-of><assert>$result(1) = '&amp;#xd;'</assert>
+         <all-of><assert>$result(1) = codepoints-to-string(13)</assert>
          <assert>$result(1) instance of xs:string</assert></all-of>
       </result>
    </test-case>
@@ -359,9 +360,10 @@
       <description>String formats</description>
       <created by="Michael Kay, Saxonica" on="2011-03-31"/>
       <modified by="Christian Gruen" on="2015-01-31" change="Additional encoding of entity"/>
+      <modified by="Michael Kay" on="2015-03-11" change="Avoid using character reference, so the assertion works in both XPath and XQuery"/>
       <test>parse-json('["\n"]')</test>
       <result>
-         <all-of><assert>$result(1) = '&amp;#x0a;'</assert>
+         <all-of><assert>$result(1) = codepoints-to-string(10)</assert>
          <assert>$result(1) instance of xs:string</assert></all-of>
       </result>
    </test-case>
@@ -386,9 +388,10 @@
    <test-case name="fn-parse-json-034">
       <description>String formats - surrogate pair</description>
       <created by="Michael Kay, Saxonica" on="2011-03-31"/>
+      <modified by="Michael Kay" on="2015-03-11" change="Avoid using character reference, so the assertion works in both XPath and XQuery"/>
       <test>parse-json('["\uD834\udD1E"]')</test>
       <result>
-         <all-of><assert>$result(1) = '&amp;#x1D11E;'</assert>
+         <all-of><assert>$result(1) = codepoints-to-string(119070)</assert>
          <assert>$result(1) instance of xs:string</assert></all-of>
       </result>
    </test-case>
@@ -406,9 +409,10 @@
       <created by="Michael Kay, Saxonica" on="2011-03-31"/>
       <modified by="Josh Spiegel" on="2015-01-21" change="Fix map constructor syntax"/>
       <modified by="Christian Gruen" on="2015-01-31" change="Additional encoding of entity"/>
+      <modified by="Michael Kay" on="2015-03-11" change="Avoid using character reference, so the assertion works in both XPath and XQuery"/>
       <test>parse-json('["\r"]', map{'unescape':true()})</test>
       <result>
-         <assert>$result(1) = '&amp;#xd;'</assert>
+         <assert>$result(1) = codepoints-to-string(13)</assert>
       </result>
    </test-case>
    <test-case name="fn-parse-json-037">
@@ -493,6 +497,106 @@
       <test>parse-json('{"a":1, "b":2, "a":3}', map{})</test>
       <result>
         <assert-deep-eq>map{"a":3, "b":2}</assert-deep-eq>
+      </result>
+   </test-case>
+   <test-case name="fn-parse-json-053">
+      <description>Invalid XML char, no fallback</description>
+      <created by="Michael Kay, Saxonica" on="2015-03-11"/>
+      <test>parse-json('"\uFFFF"')</test>
+      <result>
+        <assert-eq>codepoints-to-string(65533)</assert-eq>
+      </result>
+   </test-case>
+   <test-case name="fn-parse-json-054">
+      <description>Unpaired surrogate, no fallback</description>
+      <created by="Michael Kay, Saxonica" on="2015-03-11"/>
+      <test>parse-json('"\uDEAD"')</test>
+      <result>
+        <assert-eq>codepoints-to-string(65533)</assert-eq>
+      </result>
+   </test-case>
+   <test-case name="fn-parse-json-055">
+      <description>Character not in XML 1.0, no fallback</description>
+      <created by="Michael Kay, Saxonica" on="2015-03-11"/>
+      <dependency type="xml-version" value="1.0"/>
+      <test>parse-json('"\b"')</test>
+      <result>
+        <assert-eq>codepoints-to-string(65533)</assert-eq>
+      </result>
+   </test-case>
+   <test-case name="fn-parse-json-056">
+      <description>Invalid XML char, no fallback</description>
+      <created by="Michael Kay, Saxonica" on="2015-03-11"/>
+      <test>parse-json('{"\uFFFF":""}') => map:keys()</test>
+      <result>
+        <assert-eq>codepoints-to-string(65533)</assert-eq>
+      </result>
+   </test-case>
+   <test-case name="fn-parse-json-057">
+      <description>Unpaired surrogate, no fallback</description>
+      <created by="Michael Kay, Saxonica" on="2015-03-11"/>
+      <test>parse-json('{"\uDEAD":""}') => map:keys()</test>
+      <result>
+        <assert-eq>codepoints-to-string(65533)</assert-eq>
+      </result>
+   </test-case>
+   <test-case name="fn-parse-json-058">
+      <description>Character not in XML 1.0, no fallback</description>
+      <created by="Michael Kay, Saxonica" on="2015-03-11"/>
+      <dependency type="xml-version" value="1.0"/>
+      <test>parse-json('{"\b":""}') => map:keys()</test>
+      <result>
+        <assert-eq>codepoints-to-string(65533)</assert-eq>
+      </result>
+   </test-case>
+   <test-case name="fn-parse-json-059">
+      <description>Invalid XML char, fallback</description>
+      <created by="Michael Kay, Saxonica" on="2015-03-11"/>
+      <test>parse-json('"\uFFFF"', map{'fallback':lower-case#1})</test>
+      <result>
+        <assert-eq>"\uffff"</assert-eq>
+      </result>
+   </test-case>
+   <test-case name="fn-parse-json-060">
+      <description>Unpaired surrogate, fallback</description>
+      <created by="Michael Kay, Saxonica" on="2015-03-11"/>
+      <test>parse-json('"\uDEAD"', map{'fallback':lower-case#1})</test>
+      <result>
+        <assert-eq>"\udead"</assert-eq>
+      </result>
+   </test-case>
+   <test-case name="fn-parse-json-061">
+      <description>Character not in XML 1.0, fallback</description>
+      <created by="Michael Kay, Saxonica" on="2015-03-11"/>
+      <dependency type="xml-version" value="1.0"/>
+      <test>parse-json('"\b"', map{'fallback':lower-case#1})</test>
+      <result>
+        <assert-eq>"\b"</assert-eq>
+      </result>
+   </test-case>
+   <test-case name="fn-parse-json-062">
+      <description>Invalid XML char, no fallback</description>
+      <created by="Michael Kay, Saxonica" on="2015-03-11"/>
+      <test>parse-json('{"\uFFFF":""}', map{'fallback':lower-case#1}) => map:keys()</test>
+      <result>
+        <assert-eq>"\uffff"</assert-eq>
+      </result>
+   </test-case>
+   <test-case name="fn-parse-json-063">
+      <description>Unpaired surrogate, no fallback</description>
+      <created by="Michael Kay, Saxonica" on="2015-03-11"/>
+      <test>parse-json('{"\uDEAD":""}', map{'fallback':lower-case#1}) => map:keys()</test>
+      <result>
+        <assert-eq>"\udead"</assert-eq>
+      </result>
+   </test-case>
+   <test-case name="fn-parse-json-064">
+      <description>Character not in XML 1.0, no fallback</description>
+      <created by="Michael Kay, Saxonica" on="2015-03-11"/>
+      <dependency type="xml-version" value="1.0"/>
+      <test>parse-json('{"\b":""}', map{'fallback':lower-case#1}) => map:keys()</test>
+      <result>
+        <assert-eq>"\b"</assert-eq>
       </result>
    </test-case>
    
@@ -1023,45 +1127,50 @@
       <description>Anything not allowed at Top level under RFC spec</description>
       <created by="Michael Kay, Saxonica" on="2011-03-31"/>
       <modified by="Josh Spiegel" on="2015-01-21" change="Fix map constructor syntax"/>
+      <modified by="Michael Kay" on="2015-03-11" change="RFC4627 resctriction no longer applies; and 'spec' options should be ignored"/>
       <test>parse-json('true', map{'spec':'RFC4627'})</test>
       <result>
-         <error code="FOJS0001"/>
+         <assert-true/>
       </result>
    </test-case>
    <test-case name="fn-parse-json-926">
       <description>Anything not allowed at Top level under RFC spec</description>
       <created by="Michael Kay, Saxonica" on="2011-03-31"/>
       <modified by="Josh Spiegel" on="2015-01-21" change="Fix map constructor syntax"/>
+      <modified by="Michael Kay" on="2015-03-11" change="RFC4627 resctriction no longer applies; and 'spec' options should be ignored"/>
       <test>parse-json('false', map{'spec':'RFC4627'})</test>
       <result>
-         <error code="FOJS0001"/>
+         <assert-false/>
       </result>
    </test-case>
    <test-case name="fn-parse-json-927">
       <description>Anything not allowed at Top level under RFC spec</description>
       <created by="Michael Kay, Saxonica" on="2011-03-31"/>
       <modified by="Josh Spiegel" on="2015-01-21" change="Fix map constructor syntax"/>
+      <modified by="Michael Kay" on="2015-03-11" change="RFC4627 resctriction no longer applies; and 'spec' options should be ignored"/>
       <test>parse-json('null', map{'spec':'RFC4627'})</test>
       <result>
-         <error code="FOJS0001"/>
+         <assert-empty/>
       </result>
    </test-case>
    <test-case name="fn-parse-json-928">
       <description>Anything not allowed at Top level under RFC spec</description>
       <created by="Michael Kay, Saxonica" on="2011-03-31"/>
       <modified by="Josh Spiegel" on="2015-01-21" change="Fix map constructor syntax"/>
+      <modified by="Michael Kay" on="2015-03-11" change="RFC4627 resctriction no longer applies; and 'spec' options should be ignored"/>
       <test>parse-json('93.7', map{'spec':'RFC4627'})</test>
       <result>
-        <error code="FOJS0001"/>
+        <assert-eq>93.7</assert-eq>
       </result>
    </test-case>
    <test-case name="fn-parse-json-929">
       <description>Anything not allowed at Top level under RFC spec</description>
       <created by="Michael Kay, Saxonica" on="2011-03-31"/>
       <modified by="Josh Spiegel" on="2015-01-21" change="Fix map constructor syntax"/>
+      <modified by="Michael Kay" on="2015-03-11" change="RFC4627 resctriction no longer applies; and 'spec' options should be ignored"/>
       <test>parse-json('"abcd\n"', map{'spec':'RFC4627','unescape':false()})</test>
       <result>
-        <error code="FOJS0001"/>
+        <assert-eq>'abcd\n'</assert-eq>
       </result>
    </test-case>
    <test-case name="fn-parse-json-930">
@@ -1123,17 +1232,19 @@
    <test-case name="fn-parse-json-937">
       <description>Bad option value (see bug 27930)</description>
       <created by="Michael Kay, Saxonica" on="2015-01-30"/>
+      <modified by="Michael Kay, Saxonica" on="2015-03-11" change="change error code"/>
       <test>parse-json('{"a":1, "b":2, "a":3}', map{'duplicates':'do-your-own-thing'})</test>
       <result>
-        <error code="FOJS0004"/>
+        <error code="FOJS0005"/>
       </result>
    </test-case>
    <test-case name="fn-parse-json-938">
       <description>Bad option value (see bug 27930)</description>
       <created by="Michael Kay, Saxonica" on="2015-01-30"/>
+      <modified by="Michael Kay, Saxonica" on="2015-03-11" change="change error code"/>
       <test>parse-json('{"a":1, "b":2, "c":3}', map{'liberal':'liberal'})</test>
       <result>
-        <error code="FOJS0004"/>
+        <error code="FOJS0005"/>
       </result>
    </test-case>
    <test-case name="fn-parse-json-939">
@@ -1142,6 +1253,66 @@
       <test>parse-json('')</test>
       <result>
         <error code="FOJS0001"/>
+      </result>
+   </test-case>
+   <test-case name="fn-parse-json-940">
+      <description>Bad option value (see bug 27930)</description>
+      <created by="Michael Kay, Saxonica" on="2015-03-11"/>
+      <test>parse-json('{"a":1, "b":2, "a":3}', map{'duplicates':'retain'})</test>
+      <result>
+        <error code="FOJS0005"/>
+      </result>
+   </test-case>
+   <test-case name="fn-parse-json-941">
+      <description>Fallback is not a function</description>
+      <created by="Michael Kay, Saxonica" on="2015-03-11"/>
+      <dependency type="xml-version" value="1.0"/>
+      <test>parse-json('{"\b":""}', map{'fallback':lower-case('a')}) => map:keys()</test>
+      <result>
+        <error code="FOJS0005"/>
+      </result>
+   </test-case>
+   <test-case name="fn-parse-json-942">
+      <description>Fallback is a function with wrong arity</description>
+      <created by="Michael Kay, Saxonica" on="2015-03-11"/>
+      <dependency type="xml-version" value="1.0"/>
+      <test>parse-json('{"\b":""}', map{'fallback':substring#2}) => map:keys()</test>
+      <result>
+        <error code="FOJS0005"/>
+      </result>
+   </test-case>
+   <test-case name="fn-parse-json-943">
+      <description>Fallback throws an error</description>
+      <created by="Michael Kay, Saxonica" on="2015-03-11"/>
+      <dependency type="xml-version" value="1.0"/>
+      <test>parse-json('{"\b":""}', map{'fallback':error(QName("","USER9999"), ?)}) => map:keys()</test>
+      <result>
+        <error code="Q{}USER9999"/>
+      </result>
+   </test-case>
+   <test-case name="fn-parse-json-944">
+      <description>Fallback is not called for invalid escape sequences</description>
+      <created by="Michael Kay, Saxonica" on="2015-03-11"/>
+      <test>parse-json('{"\xaa":""}', map{'fallback':upper-case#1}) => map:keys()</test>
+      <result>
+        <error code="FOJS0001"/>
+      </result>
+   </test-case>
+   <test-case name="fn-parse-json-945">
+      <description>Fallback function does not accept a string (Note: awaits outcome of bug 28196)</description>
+      <created by="Michael Kay, Saxonica" on="2015-03-11"/>
+      <test>parse-json('{"\uFFFF":""}', map{'fallback':abs#1}) => map:keys()</test>
+      <result>
+        <error code="FOJS0005"/>
+      </result>
+   </test-case>
+   <test-case name="fn-parse-json-946">
+      <description>Option values are not implicitly atomized (Note: awaits outcome of bug 28196)</description>
+      <created by="Michael Kay, Saxonica" on="2015-01-30"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[parse-json('{"a":1, "b":2}', map{'duplicates':<a>use-first</a>})]]></test>
+      <result>
+        <error code="FOJS0005"/>
       </result>
    </test-case>
 
