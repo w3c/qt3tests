@@ -101,6 +101,44 @@
                 <assert-deep-eq>1, 7</assert-deep-eq>
         </result>
     </test-case>
+    <test-case name="for-each-009">
+        <description>for-each function - numeric promotion from integer to double</description>
+        <created by="Michael Kay" on="2015-03-13"/>
+        <test>for-each((1,4,9,16,25), Q{http://www.w3.org/2005/xpath-functions/math}sqrt#1)</test>
+        <result>
+                <assert-deep-eq>1,2,3,4,5</assert-deep-eq>
+        </result>
+    </test-case>
+    <test-case name="for-each-010">
+        <description>for-each function - promotion from anyURI to string</description>
+        <created by="Michael Kay" on="2015-03-13"/>
+        <test>for-each(namespace-uri-from-QName(function-name(xs:int#1)), upper-case#1)</test>
+        <result>
+                <assert-eq>'HTTP://WWW.W3.ORG/2001/XMLSCHEMA'</assert-eq>
+        </result>
+    </test-case>
+    <test-case name="for-each-011">
+        <description>for-each function - nested function coercion</description>
+        <created by="Michael Kay" on="2015-03-13"/>
+        <test>
+          let $f := function($ff as (function(item()) as item()), $s as xs:string){$ff($ff($s))} return
+          for-each((upper-case#1, lower-case#1, normalize-space#1), $f(?, ' Say NO! '))</test>
+        <result>
+                <assert-deep-eq>' SAY NO! ', ' say no! ', 'Say NO!'</assert-deep-eq>
+        </result>
+    </test-case>
+    <test-case name="for-each-012">
+        <description>for-each function - atomization</description>
+        <created by="Michael Kay" on="2015-03-13"/>
+        <dependency type="spec" value="XQ30+"/>
+        <test><![CDATA[
+          for-each((<a>1</a>, <b>22</b>, <c>33</c>), 
+                   function($a as xs:string) as xs:integer {string-length($a)})
+        ]]></test>
+        <result>
+                <assert-deep-eq>1,2,2</assert-deep-eq>
+        </result>
+    </test-case>
     <test-case name="for-each-901">
         <description>for-each function - error, function has the wrong arity</description>
         <created by="Michael Kay" on="2010-02-10"/>
