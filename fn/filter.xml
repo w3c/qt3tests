@@ -72,6 +72,17 @@
                 <assert-deep-eq>2, 5, 7</assert-deep-eq>
         </result>
     </test-case>
+    <test-case name="filter-006">
+        <description>Filter returns an untyped node that can be cast to boolean</description>
+        <created by="Michael Kay" on="2015-03-12"/>
+        <dependency type="spec" value="XQ30+"/>
+        <test><![CDATA[
+            filter((1 to 20), function($i){<a>{1 - ($i mod 2)}</a>})
+        ]]></test>
+        <result>
+                <assert-deep-eq>2, 4, 6, 8, 10, 12, 14, 16, 18, 20</assert-deep-eq>
+        </result>
+    </test-case>
     <test-case name="filter-901">
         <description>filter function - not a boolean</description>
         <created by="Michael Kay" on="2010-02-10"/>
