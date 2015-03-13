@@ -651,10 +651,132 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
         </result>
     </test-case>
     
-       
+    <test-case name="fn-transform-28">
+        <description>Transform using serialized delivery-format option, and serialization-params (no indent)</description>
+        <created by="Debbie Lockett" on="2015-03-13"/>
+        <environment ref="works-mod-uri2"/>
+        <test>fn:transform(map {"stylesheet-location" : $render, "source-node" : fn:doc($uri), "delivery-format" : "serialized",
+            "serialization-params" : map { QName("","indent"): "no" } })</test>
+        <result>
+            <all-of>
+                <assert>$result?output instance of xs:string</assert> 
+                <assert><![CDATA[contains($result?output, "<works>")]]></assert>
+                <assert><![CDATA[contains($result?output, "</works>")]]></assert>
+                <assert><![CDATA[contains($result?output, "<body><works>")]]></assert>
+            </all-of>            
+        </result>
+    </test-case>   
     
+    <test-case name="fn-transform-29">
+        <description>Transform using serialized delivery-format option, and serialization-params (yes indent)</description>
+        <created by="Debbie Lockett" on="2015-03-13"/>
+        <environment ref="works-mod-uri2"/>
+        <test>fn:transform(map {"stylesheet-location" : $render, "source-node" : fn:doc($uri), "delivery-format" : "serialized",
+            "serialization-params" : map { QName("","indent"): "yes" } })</test>
+        <result>
+            <all-of>
+                <assert>$result?output instance of xs:string</assert> 
+                <assert><![CDATA[contains($result?output, "<works>")]]></assert>
+                <assert><![CDATA[contains($result?output, "</works>")]]></assert>
+                <assert><![CDATA[not(contains($result?output, "<body><works>"))]]></assert>
+            </all-of>            
+        </result>
+    </test-case> 
     
-
+    <test-case name="fn-transform-30">
+        <description>Transforms using serialized delivery-format option, and serialization-params (yes and no indent)</description>
+        <created by="Debbie Lockett" on="2015-03-13"/>
+        <environment ref="works-mod-uri2"/>
+        <test>let $out1 := fn:transform(map {"stylesheet-location" : $render, "source-node" : fn:doc($uri), "delivery-format" : "serialized",
+            "serialization-params" : map { QName("","indent"): "yes" } })?output,
+            $out2 := fn:transform(map {"stylesheet-location" : $render, "source-node" : fn:doc($uri), "delivery-format" : "serialized",
+            "serialization-params" : map { QName("","indent"): "no" } })?output
+            return $out1 eq $out2
+        </test>
+        <result>
+            <assert-false/>        
+        </result>
+    </test-case>
+    
+    <test-case name="fn-transform-31">
+        <description>Transform using option serialization-params, to output result as html (with delivery-format serialized)</description>
+        <created by="Debbie Lockett" on="2015-03-13"/>
+        <dependency type="spec" value="XQ31+"/>
+        <test>
+            <![CDATA[
+                    let $in := xs:string("<books>
+    <book>
+        <title>XSLT Programmer?s Reference</title>
+        <author>Michael H. Kay</author>
+    </book>
+    <book>
+        <title>XSLT</title>
+        <author>Doug Tidwell</author>
+        <author>Simon St. Laurent</author>
+        <author>Robert Romano</author>
+    </book>
+</books>")
+let $style := xs:string('<xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+    <xsl:template match="/">
+        <html>
+            <body>
+                <div>
+                    <xsl:for-each select="books/book">
+                        <b><xsl:value-of select="title"/></b>: <xsl:value-of select="author"
+                        /><br/>
+                    </xsl:for-each>
+                </div>
+            </body>
+        </html>
+    </xsl:template>
+</xsl:stylesheet>')
+return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, "delivery-format":"serialized",
+"serialization-params": map{QName("","method"): "html"} } )?output]]>
+        </test>
+        <result>
+            <assert><![CDATA[contains($result, '<br>')]]></assert>
+        </result>
+    </test-case>
+    
+    <test-case name="fn-transform-32">
+        <description>Transform using option serialization-params, to output result as xml (with delivery-format serialized)</description>
+        <created by="Debbie Lockett" on="2015-03-13"/>
+        <dependency type="spec" value="XQ31+"/>
+        <test>
+            <![CDATA[
+                    let $in := xs:string("<books>
+    <book>
+        <title>XSLT Programmer?s Reference</title>
+        <author>Michael H. Kay</author>
+    </book>
+    <book>
+        <title>XSLT</title>
+        <author>Doug Tidwell</author>
+        <author>Simon St. Laurent</author>
+        <author>Robert Romano</author>
+    </book>
+</books>")
+let $style := xs:string('<xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+    <xsl:template match="/">
+        <html>
+            <body>
+                <div>
+                    <xsl:for-each select="books/book">
+                        <b><xsl:value-of select="title"/></b>: <xsl:value-of select="author"
+                        /><br/>
+                    </xsl:for-each>
+                </div>
+            </body>
+        </html>
+    </xsl:template>
+</xsl:stylesheet>')
+return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, "delivery-format":"serialized",
+"serialization-params": map{QName("","method"): "xml"} } )?output]]>
+        </test>
+        <result>
+            <assert><![CDATA[contains($result, '<br/>')]]></assert>
+        </result>
+    </test-case>
 
 
 
