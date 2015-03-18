@@ -10,6 +10,18 @@
       </source>
    </environment>
    
+   <environment name="id-idref">
+      <source role="." file="id/id.xml" validation="strict">
+         <description>A DTD validated xml file, that contains data for the ID/IDREF function tests.</description>
+         <created by="Carmelo Montanez" on="2005-11-27"/>
+      </source>
+      <schema uri="http://www.w3.org/XQueryTest/ididrefs"
+              file="id/id.xsd">
+         <description>A schema for the id/idref functions tests</description>
+         <created by="Carmelo Montanez" on="2005-11-27"/>
+      </schema>
+   </environment>
+   
    <environment name="UsingXMLId">
       <source role="." file="id/UsingXMLId.xml">
          <description>This happens to be a schema, but its interest is in the xml:id attributes.</description>
@@ -75,6 +87,228 @@
          <error code="FODC0001"/>
       </result>
    </test-case>
+   
+   <!-- Following tests transferred from MiscFunctions (March 2015, Michael Kay) -->
+   
+      <test-case name="fn-id-5">
+      <description> Evaluation of fn:id with given IDREF matching a single element. </description>
+      <created by="Carmelo Montanez" on="2005-11-27"/>
+      <environment ref="id-idref"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>import schema namespace ids="http://www.w3.org/XQueryTest/ididrefs"; fn:id("id1", /ids:IDS[1])</test>
+      <result>
+         <assert-xml><![CDATA[<elementwithid-1 xmlns = "http://www.w3.org/XQueryTest/ididrefs" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" anId="id1"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="fn-id-6">
+      <description> Evaluation of fn:id with given IDREF not matching a single element. USes fn:count to avoid empty file. </description>
+      <created by="Carmelo Montanez" on="2005-11-27"/>
+      <environment ref="id-idref"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>import schema namespace ids="http://www.w3.org/XQueryTest/ididrefs"; fn:count(fn:id("nomatchingid", /ids:IDS[1]))</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-id-7">
+      <description> Evaluation of fn:id with given IDREF matching same element. </description>
+      <created by="Carmelo Montanez" on="2005-11-27"/>
+      <environment ref="id-idref"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>import schema namespace ids="http://www.w3.org/XQueryTest/ididrefs"; fn:id("id2 id2", /ids:IDS[1])</test>
+      <result>
+         <assert-xml><![CDATA[<elementwithid-2 xmlns = "http://www.w3.org/XQueryTest/ididrefs" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" anId="id2"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="fn-id-8">
+      <description> Evaluation of fn:id with multiple IDREF matching multiple elements. </description>
+      <created by="Carmelo Montanez" on="2005-11-27"/>
+      <environment ref="id-idref"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>import schema namespace ids="http://www.w3.org/XQueryTest/ididrefs"; fn:id("id1 id2", /ids:IDS[1])</test>
+      <result>
+         <any-of>
+            <assert-xml><![CDATA[<elementwithid-1 xmlns = "http://www.w3.org/XQueryTest/ididrefs" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" anId="id1"/><elementwithid-2 xmlns = "http://www.w3.org/XQueryTest/ididrefs" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" anId="id2"/>]]></assert-xml>
+            <assert-xml><![CDATA[<elementwithid-2 anId="id1"/><elementwithid-1 anId="id2"/>]]></assert-xml>
+         </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="fn-id-9">
+      <description> Evaluation of fn:id with multiple IDREF, but only one matching one element. </description>
+      <created by="Carmelo Montanez" on="2005-11-27"/>
+      <environment ref="id-idref"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>import schema namespace ids="http://www.w3.org/XQueryTest/ididrefs"; fn:id("id1 nomatching", /ids:IDS[1])</test>
+      <result>
+         <assert-xml><![CDATA[<elementwithid-1 xmlns = "http://www.w3.org/XQueryTest/ididrefs" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" anId="id1"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="fn-id-10">
+      <description> Evaluation of fn:id with multiple IDREF, but none matching one element. Uses fn:count to avoid empty file. </description>
+      <created by="Carmelo Montanez" on="2005-11-27"/>
+      <environment ref="id-idref"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>import schema namespace ids="http://www.w3.org/XQueryTest/ididrefs"; fn:count(fn:id("nomatching1 nomatching2", /ids:IDS[1]))</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-id-11">
+      <description> Evaluation of fn:id with IDREF set to empty string. Uses fn:count to avoid empty file. </description>
+      <created by="Carmelo Montanez" on="2005-11-27"/>
+      <environment ref="id-idref"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>import schema namespace ids="http://www.w3.org/XQueryTest/ididrefs"; fn:count(fn:id("", /ids:IDS[1]))</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-id-12">
+      <description> Evaluation of fn:id function that give first argument as argument to fn:substring. </description>
+      <created by="Carmelo Montanez" on="2005-11-27"/>
+      <environment ref="id-idref"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>import schema namespace ids="http://www.w3.org/XQueryTest/ididrefs"; fn:id(fn:substring("1id3",2), /ids:IDS[1])</test>
+      <result>
+         <assert-xml><![CDATA[<elementwithid-3 xmlns = "http://www.w3.org/XQueryTest/ididrefs" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" anId="id3"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="fn-id-13">
+      <description> Evaluation of fn:id, where the same IDREF makes refence to the same element. </description>
+      <created by="Carmelo Montanez" on="2005-11-27"/>
+      <environment ref="id-idref"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>import schema namespace ids="http://www.w3.org/XQueryTest/ididrefs"; fn:id("id4", /ids:IDS[1])</test>
+      <result>
+         <assert-xml><![CDATA[<elementwithid-4 xmlns = "http://www.w3.org/XQueryTest/ididrefs" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" anId="id4"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="fn-id-14">
+      <description> Evaluation of fn:id for which the given IDREF contains a prefix. Use fn:count to avoid empty file. </description>
+      <created by="Carmelo Montanez" on="2005-11-27"/>
+      <environment ref="id-idref"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>import schema namespace ids="http://www.w3.org/XQueryTest/ididrefs"; fn:count(fn:id("p1:id5", /ids:IDS[1]))</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-id-15">
+      <description> Evaluation of fn:id for which IDREF list have the same value for all its members. </description>
+      <created by="Carmelo Montanez" on="2005-11-27"/>
+      <environment ref="id-idref"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>import schema namespace ids="http://www.w3.org/XQueryTest/ididrefs"; fn:id("id1 id1", /ids:IDS[1])</test>
+      <result>
+         <assert-xml><![CDATA[<elementwithid-1 xmlns = "http://www.w3.org/XQueryTest/ididrefs" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" anId="id1"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="fn-id-16">
+      <description> Evaluation of fn:id for which IDREF list have the same value for all its members but different case. </description>
+      <created by="Carmelo Montanez" on="2005-11-27"/>
+      <environment ref="id-idref"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>import schema namespace ids="http://www.w3.org/XQueryTest/ididrefs"; fn:id("id1 ID1", /ids:IDS[1])</test>
+      <result>
+         <assert-xml><![CDATA[<elementwithid-1 xmlns = "http://www.w3.org/XQueryTest/ididrefs" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" anId="id1"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="fn-id-17">
+      <description> Evaluation of fn:id for which IDREF uses the fn lower case function. </description>
+      <created by="Carmelo Montanez" on="2005-11-27"/>
+      <environment ref="id-idref"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>import schema namespace ids="http://www.w3.org/XQueryTest/ididrefs"; fn:id(fn:lower-case("ID1"), /ids:IDS[1])</test>
+      <result>
+         <assert-xml><![CDATA[<elementwithid-1 xmlns = "http://www.w3.org/XQueryTest/ididrefs" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" anId="id1"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="fn-id-18">
+      <description> Evaluation of fn:id for which IDREF uses the fn:upper-case function. </description>
+      <created by="Carmelo Montanez" on="2005-11-27"/>
+      <environment ref="id-idref"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>import schema namespace ids="http://www.w3.org/XQueryTest/ididrefs"; fn:id(fn:upper-case("id5"), /ids:IDS[1])</test>
+      <result>
+         <assert-xml><![CDATA[<elementwithid-6 xmlns = "http://www.w3.org/XQueryTest/ididrefs" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" anId="ID5"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="fn-id-19">
+      <description> Evaluation of fn:id for which $arg uses the fn:concat function. </description>
+      <created by="Carmelo Montanez" on="2005-11-27"/>
+      <environment ref="id-idref"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>import schema namespace ids="http://www.w3.org/XQueryTest/ididrefs"; fn:id(fn:concat("i","d1"), /ids:IDS[1])</test>
+      <result>
+         <assert-xml><![CDATA[<elementwithid-1 xmlns = "http://www.w3.org/XQueryTest/ididrefs" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" anId="id1"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="fn-id-20">
+      <description> Evaluation of fn:id for which $arg uses the xs:string function. </description>
+      <created by="Carmelo Montanez" on="2005-11-27"/>
+      <environment ref="id-idref"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>import schema namespace ids="http://www.w3.org/XQueryTest/ididrefs"; fn:id(xs:string("id1"), /ids:IDS[1])</test>
+      <result>
+         <assert-xml><![CDATA[<elementwithid-1 xmlns = "http://www.w3.org/XQueryTest/ididrefs" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" anId="id1"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="fn-id-21">
+      <description> Evaluation of fn:id for which $arg uses the fn:string-join function. </description>
+      <created by="Carmelo Montanez" on="2005-11-27"/>
+      <environment ref="id-idref"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>import schema namespace ids="http://www.w3.org/XQueryTest/ididrefs"; fn:id(fn:string-join(("id","1"),""), /ids:IDS[1])</test>
+      <result>
+         <assert-xml><![CDATA[<elementwithid-1 xmlns = "http://www.w3.org/XQueryTest/ididrefs" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" anId="id1"/>]]></assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="fn-id-23">
+      <description> Evaluation of fn:id together with declare ordering. </description>
+      <created by="Carmelo Montanez" on="2005-11-27"/>
+      <environment ref="id-idref"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>declare ordering ordered; import schema namespace ids="http://www.w3.org/XQueryTest/ididrefs"; fn:id("id1 id2", /ids:IDS[1])</test>
+      <result>
+         <assert-xml><![CDATA[<elementwithid-1 xmlns = "http://www.w3.org/XQueryTest/ididrefs" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" anId="id1"/><elementwithid-2 xmlns = "http://www.w3.org/XQueryTest/ididrefs" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" anId="id2"/>]]></assert-xml>
+      </result>
+   </test-case>
+
 
    <test-case name="fn-id-dtd-5">
       <description>Evaluation of fn:id with given IDREF matching a single element.</description>
