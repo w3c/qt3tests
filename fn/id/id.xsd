@@ -109,6 +109,8 @@
   
   <xs:attribute name="List-of-Restricted-IDREF" type="ids:List-of-Restricted-IDREF"/>
   
+  <xs:attribute name="Restricted-NCName-or-IDREF-list" type="ids:List-of-Restricted-NCName-or-IDREF"/>
+  
   <xs:element name="Element-as-ID" type="xs:ID"/>
   
   <xs:element name="Element-as-Restricted-ID" type="ids:Restricted-ID"/>
@@ -186,6 +188,10 @@
     </xs:complexType>
   </xs:element>
   
+  <xs:element name="Nillable-ID" type="xs:ID" nillable="true"/>
+  
+  <xs:element name="Restricted-NCName-or-IDREF-list" type="ids:List-of-Restricted-NCName-or-IDREF"/>
+  
   <xs:element name="W">
     <xs:complexType>
       <xs:anyAttribute processContents="strict"/>
@@ -226,6 +232,20 @@
     <xs:restriction base="xs:ID">
       <xs:pattern value="[a-z]+"/>
     </xs:restriction>
+  </xs:simpleType>
+  
+  <xs:simpleType name="Restricted-NCName">
+    <xs:restriction base="xs:NCName">
+      <xs:pattern value="[A-Z]"/>
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <xs:simpleType name="Restricted-NCName-or-IDREF">
+    <xs:union memberTypes="ids:Restricted-NCName xs:IDREF"/>
+  </xs:simpleType>
+  
+  <xs:simpleType name="List-of-Restricted-NCName-or-IDREF">
+    <xs:list itemType="ids:Restricted-NCName-or-IDREF"/>
   </xs:simpleType>
       
 </xs:schema>
