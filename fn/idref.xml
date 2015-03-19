@@ -27,6 +27,7 @@
       <source role="." file="id/id2.xml" validation="strict">
          <description>More data for id and idref related functions (schema-based).</description>
          <created by="Michael Kay" on="2009-03-06"/>
+         <modified by="Michael Kay" on="2015-03-19" change="add a nillable IDREF element"/>
       </source>
       <schema uri="http://www.w3.org/XQueryTest/ididrefs"
               file="id/id.xsd">
@@ -314,7 +315,6 @@
       <created by="Michael Kay" on="2009-03-06"/>
       <environment ref="id-idref3"/>
       <dependency type="spec" value="XQ10+"/>
-      <dependency type="spec" value="XQ10+"/>
       <dependency type="feature" value="schemaImport"/>
       <test><![CDATA[
         import schema namespace ids="http://www.w3.org/XQueryTest/ididrefs"; 
@@ -335,7 +335,6 @@
       <created by="Michael Kay" on="2009-03-06"/>
       <environment ref="id-idref3"/>
       <dependency type="spec" value="XQ10+"/>
-      <dependency type="spec" value="XQ10+"/>
       <dependency type="feature" value="schemaImport"/>
       <test><![CDATA[
         import schema namespace ids="http://www.w3.org/XQueryTest/ididrefs"; 
@@ -350,6 +349,21 @@
       ]]></test>
       <result>
          <assert-xml><![CDATA[<out xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:i="http://www.w3.org/XQueryTest/ididrefs" xmlns="http://www.w3.org/XQueryTest/ididrefs"><e val="alpha" i:IDREF-Union="gamma 976 delta alpha"><IDREF-List>epsilon mu alpha</IDREF-List><IDREF-List-content>epsilon mu alpha</IDREF-List-content></e><e val="beta" i:Restricted-IDREF="beta"><List-of-Restricted-IDREF>lambda beta iota</List-of-Restricted-IDREF><List-of-Restricted-IDREF-content>lambda beta iota</List-of-Restricted-IDREF-content></e><e val="epsilon" i:IDREF="epsilon"><IDREF-List>epsilon mu alpha</IDREF-List><IDREF-List-content>epsilon mu alpha</IDREF-List-content></e><e val="gamma" i:IDREF-Union="gamma 976 delta alpha"><IDREFS>gamma kappa</IDREFS><IDREFS-content>gamma kappa</IDREFS-content></e><e val="kappa" i:List-of-Restricted-IDREF="lambda kappa"><IDREFS>gamma kappa</IDREFS><IDREFS-content>gamma kappa</IDREFS-content></e><e val="mu"><IDREF-List>epsilon mu alpha</IDREF-List><IDREF-List-content>epsilon mu alpha</IDREF-List-content></e></out>]]></assert-xml>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-idref-32">
+      <description> Evaluation of fn:idref with a nillable IDREF value. </description>
+      <created by="Michael Kay" on="2015-03-19"/>
+      <environment ref="id-idref3"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test><![CDATA[
+        import schema namespace ids="http://www.w3.org/XQueryTest/ididrefs"; 
+        <out>{count(idref('omicron'))}</out>
+      ]]></test>
+      <result>
+        <assert-xml><![CDATA[<out>1</out>]]></assert-xml>
       </result>
    </test-case>
 
