@@ -3,7 +3,7 @@
     xmlns:xs="http://www.w3.org/2001/XMLSchema" exclude-result-prefixes="xs" version="2.0">
     <xsl:template match="/">
         <xsl:for-each select="//section">
-            <xsl:result-document method="xhtml" href="section{position()}.html">
+            <xsl:result-document method="xhtml" href="{resolve-uri(concat('sandbox/fn-transform-39/section', position(),'.html'), static-base-uri())}">
                 <html>
                     <head>
                         <title>Section <xsl:value-of select="position()"/></title>
