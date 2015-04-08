@@ -160,6 +160,7 @@
         <description>QName as search key</description>
         <created by="Michael Kay, Saxonica" on="2011-03-25"/>
         <modified by="Michael Kay, Saxonica" on="2014-09-11" change="bug 26747"/>
+        <dependency type="feature" value="higherOrderFunctions"/>
         <test>map:get(map{1:"Sunday",2:"Monday",3:"Tuesday",function-name(abs#1):"Wednesday",5:"Thursday",6:"Friday",7:"Saturday"}, xs:QName('fn:abs'))</test>
         <result>
             <assert-string-value>Wednesday</assert-string-value>
@@ -206,6 +207,7 @@
         <description>use map as a function item</description>
         <created by="Michael Kay, Saxonica" on="2011-03-25"/>
         <modified by="Michael Kay, Saxonica" on="2014-09-11" change="bug 26747"/>
+        <dependency type="feature" value="higherOrderFunctions"/>
         <test>fn:for-each(("we", "th"),
                 map{"su":"Sunday","mo":"Monday","tu":"Tuesday","we":"Wednesday","th":"Thursday","fr":"Friday","sa":"Saturday"}
             )</test>
@@ -256,6 +258,7 @@
     <test-case name="map-get-905">
         <description>First argument is not a map</description>
         <created by="Michael Kay, Saxonica" on="2011-03-25"/>
+        <dependency type="feature" value="higherOrderFunctions"/>
         <test>map:get(abs#1, "a")</test>
         <result>
             <error code="XPTY0004"/>
