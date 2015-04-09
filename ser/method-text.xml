@@ -3,11 +3,13 @@
    <description>Tests for the "text" Serialization method</description>
    <link type="spec" document="http://www.w3.org/TR/xquery-30/"
          idref="doc-xquery30-Serialization"/>
+         
+   <dependency type="spec" value="XQ30+"/>
+   <dependency type="feature" value="serialization"/>      
 
    <test-case name="Serialization-text-1" >
       <description> A standalone attribute node cannot be serialized. </description>
       <created by="Michael Kay" on="2015-04-09"/>
-      <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[
         declare option Q{http://www.w3.org/2010/xslt-xquery-serialization}method  "text";
         attribute name {<anElement/>}]]></test>
@@ -19,7 +21,6 @@
    <test-case name="Serialization-text-2" >
       <description> An attribute node appearing after an element cannot be serialized. </description>
       <created by="Michael Kay" on="2015-04-09"/>
-      <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[
         declare option Q{http://www.w3.org/2010/xslt-xquery-serialization}method  "text";
         <e/>, attribute name {<anElement/>}]]></test>
@@ -31,7 +32,6 @@
    <test-case name="Serialization-text-3" >
       <description> An attribute node appearing before an element cannot be serialized. </description>
       <created by="Michael Kay" on="2015-04-09"/>
-      <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[
         declare option Q{http://www.w3.org/2010/xslt-xquery-serialization}method  "text";
         attribute name {<anElement/>}, <e/>]]></test>
@@ -43,7 +43,6 @@
    <test-case name="Serialization-text-4" >
       <description> An attribute node appearing between two element nodes cannot be serialized. </description>
       <created by="Michael Kay" on="2015-04-09"/>
-      <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[
         declare option Q{http://www.w3.org/2010/xslt-xquery-serialization}method  "text";
         <e/>, attribute name {<anElement/>}, <e/>]]></test>
@@ -55,8 +54,6 @@
    <test-case name="Serialization-text-5" >
       <description> Ensure that CR, NEL and LINE SEPARATOR in text nodes are NOT escaped when serialized. </description>
       <created by="Michael Kay" on="2015-04-09"/>
-      <modified by="Michael Kay" on="2012-05-23" change="use new serialization assertion"/>
-      <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[
         declare option Q{http://www.w3.org/2010/xslt-xquery-serialization}method  "text";
         <a>&#xD;&#x85;&#x2028;</a>]]></test>
@@ -70,8 +67,6 @@
    <test-case name="Serialization-text-6" >
       <description> Ensure that CR, NL, TAB, NEL and LINE SEPARATOR in attributes are NOT escaped when serialized. </description>
       <created by="Michael Kay" on="2015-04-09"/>
-      <modified by="Michael Kay" on="2012-05-23" change="use new serialization assertion"/>
-      <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[
         declare option Q{http://www.w3.org/2010/xslt-xquery-serialization}method  "text";
         <a attr="&#xD;&#xA;&#x9;&#x85;&#x2028;"/>]]></test>
@@ -85,24 +80,18 @@
    <test-case name="Serialization-text-7" >
       <description> Use characters in a text node that in XML 1.0 are invalid, and in XML 1.1 must be escaped. #x1 - #x1F </description>
       <created by="Michael Kay" on="2015-04-09"/>
-      <modified by="Michael Kay" on="2012-05-23" change="use new serialization assertion"/>
-      <dependency type="spec" value="XQ10+"/>
       <dependency type="xml-version" value="1.1"/>
       <test><![CDATA[
         declare option Q{http://www.w3.org/2010/xslt-xquery-serialization}method  "text";
         <a>{codepoints-to-string(1 to 31)}</a>]]></test>
       <result>
-         <any-of>
-            <serialization-matches>^.{31}$</serialization-matches>
-         </any-of>
+            <serialization-matches flags="s">^.{31}$</serialization-matches>
       </result>
    </test-case>
    
    <test-case name="Serialization-text-7a" >
       <description> Use characters in a text node that in XML 1.0 are invalid, and in XML 1.1 must be escaped. #x1 - #x1F </description>
       <created by="Michael Kay" on="2015-04-09"/>
-      <modified by="Michael Kay" on="2012-05-23" change="separate out XML 1.0 version of test"/>
-      <dependency type="spec" value="XQ10+"/>
       <dependency type="xml-version" value="1.0"/>
       <test><![CDATA[
         declare option Q{http://www.w3.org/2010/xslt-xquery-serialization}method  "text";
@@ -117,7 +106,6 @@
    <test-case name="Serialization-text-8" >
       <description> Use characters in an attribute node that in XML 1.0 are invalid, and in XML 1.1 must be escaped. #x1 - #x1F </description>
       <created by="Michael Kay" on="2015-04-09"/>
-      <dependency type="spec" value="XQ10+"/>
       <dependency type="xml-version" value="1.1"/>
       <test><![CDATA[
         declare option Q{http://www.w3.org/2010/xslt-xquery-serialization}method  "text";
@@ -130,7 +118,6 @@
    <test-case name="Serialization-text-8a" >
       <description> Use characters in an attribute node that in XML 1.0 are invalid, and in XML 1.1 must be escaped. #x1 - #x1F </description>
       <created by="Michael Kay" on="2015-04-09"/>
-      <dependency type="spec" value="XQ10+"/>
       <dependency type="xml-version" value="1.0"/>
       <test><![CDATA[
         declare option Q{http://www.w3.org/2010/xslt-xquery-serialization}method  "text";
@@ -143,7 +130,6 @@
    <test-case name="Serialization-text-9" >
       <description> Use characters in the range of #x7F through #x9F in an attribute node and ensure they are escaped properly. #x7F - #x9F </description>
       <created by="Michael Kay" on="2015-04-09"/>
-      <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[
         declare option Q{http://www.w3.org/2010/xslt-xquery-serialization}method  "text";
         <a attr="{codepoints-to-string(127 to 159)}"/>]]></test>
@@ -155,8 +141,6 @@
    <test-case name="Serialization-text-10" >
       <description> Use characters in the range of #x7F through #x9F in a text node and ensure they are escaped properly. #x7F - #x9F </description>
       <created by="Michael Kay" on="2015-04-09"/>
-      <modified by="Michael Kay" on="2012-05-23" change="use new serialization assertion"/>
-      <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[
         declare option Q{http://www.w3.org/2010/xslt-xquery-serialization}method  "text";
         <a>{codepoints-to-string(127 to 159)}</a>]]></test>
@@ -168,33 +152,20 @@
    <test-case name="Serialization-text-11" >
       <description> Ensure a new-line character is NOT escaped. </description>
       <created by="Michael Kay" on="2015-04-09"/>
-      <modified by="O'Neil Delpratt" on="2011-09-08" change="Corrected expected result"/>
-      <modified by="Michael Kay" on="2012-05-23" change="use new serialization assertion"/>
-      <modified by="Michael Kay" on="2013-01-11" change="allow \r\n in serialized result - see bug 20647"/>
-      <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[
         declare option Q{http://www.w3.org/2010/xslt-xquery-serialization}method  "text";
         "a&#xD;aa&#xD;&#xA;a&#xD;&#xA;"]]></test>
       <result>
-         <all-of>
-            <any-of>
-              <serialization-matches flags="i"><![CDATA[a\r?\naa\r?\n]]></serialization-matches>
-            </any-of>
-            <serialization-matches>\r?\n.*\r?\n</serialization-matches>
-            <!-- the serializer is allowed to serialize a newline as \r\n -->
-         </all-of>
+        <serialization-matches><![CDATA[^a\raa\r?\na\r?\n$]]></serialization-matches>
       </result>
    </test-case>
    
    <test-case name="Serialization-text-13" >
       <description>Test item-separator property</description>
-      <created by="Michael Kay" on="2013-10-04"/>
-      <modified by="Christian Gruen" on="2015-01-28" change="regular expression fixed"/>
-     <dependency type="feature" value="serialization" satisfied="true"/>
-      <dependency type="spec" value="XQ30+"/>
+      <created by="Michael Kay" on="2015-04-09"/>
       <test><![CDATA[
       	declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
-        declare option outputmethod "text";
+        declare option output:method "text";
         declare option output:item-separator "|";
         1 to 10
       ]]></test>
@@ -205,13 +176,10 @@
    
    <test-case name="Serialization-text-14" >
       <description>Test item-separator property</description>
-      <created by="Michael Kay" on="2013-10-04"/>
-      <modified by="Michael Kay" on="2014-01-15" change="escape vertical bar in regex (was passing for the wrong reason)"/>
-      <dependency type="feature" value="serialization" satisfied="true"/>
-      <dependency type="spec" value="XQ30+"/>
+      <created by="Michael Kay" on="2015-04-09"/>
       <test><![CDATA[
       	declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
-        declare option outputmethod "text";
+        declare option output:method "text";
         declare option output:item-separator "|";
         <a>{1,2,3}</a>,<b>{4,5,6}</b>
       ]]></test>
@@ -222,12 +190,10 @@
    
    <test-case name="Serialization-text-15" >
       <description>Test item-separator property</description>
-      <created by="Michael Kay" on="2013-10-04"/>
-      <dependency type="feature" value="serialization" satisfied="true"/>
-      <dependency type="spec" value="XQ30+"/>
+      <created by="Michael Kay" on="2015-04-09"/>
       <test><![CDATA[
       	declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
-        declare option outputmethod "text";
+        declare option output:method "text";
         declare option output:item-separator "|";
         document { 1 to 5 }
       ]]></test>
@@ -238,12 +204,10 @@
    
    <test-case name="Serialization-text-16" >
       <description>Test item-separator property</description>
-      <created by="Michael Kay" on="2013-10-04"/>
-      <dependency type="feature" value="serialization" satisfied="true"/>
-      <dependency type="spec" value="XQ30+"/>
+      <created by="Michael Kay" on="2015-04-09"/>
       <test><![CDATA[
       	declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
-        declare option outputmethod "text";
+        declare option output:method "text";
         declare option output:item-separator "==";
         (1 to 4)!text{.}
       ]]></test>
@@ -251,9 +215,32 @@
          <serialization-matches><![CDATA[1==2==3==4]]></serialization-matches>
       </result>
    </test-case>
-
-
-
+   
+   <test-case name="Serialization-text-17" >
+      <description>Angle brackets and ampersands are not escaped</description>
+      <created by="Michael Kay" on="2015-04-09"/>
+      <test><![CDATA[
+      	declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "text";
+        <a>&lt;&amp;&gt;</a>
+      ]]></test>
+      <result>
+         <serialization-matches><![CDATA[^<&>$]]></serialization-matches>
+      </result>
+   </test-case>
+   
+   <test-case name="Serialization-text-18" >
+      <description>Comments and PIs are ignored</description>
+      <created by="Michael Kay" on="2015-04-09"/>
+      <test><![CDATA[
+      	declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "text";
+        <a>The <?quick brown?>fox<!--jumped--> down</a>
+      ]]></test>
+      <result>
+         <serialization-matches><![CDATA[^The fox down$]]></serialization-matches>
+      </result>
+   </test-case>
 
 
 </test-set>
