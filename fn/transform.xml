@@ -44,6 +44,11 @@
       <param name="variable-uri" as="xs:string" select="'http://www.w3.org/fots/fn/transform/variable.xsl'" declared="false"/>
    </environment>    
     
+    <environment name="multiple-result-docs">
+        <source role="$multipledocs" file="transform/multipledocs.xsl"/>
+        <source role="$sections" file="transform/sections.xml"/>
+    </environment>
+    
     
 
     <test-case name="fn-transform-1">
@@ -85,6 +90,7 @@
         <description>This test case demonstrates the ability to retrieve multiple result documents. Transform depends on XSLT 3.0 processor</description>
         <created by="O'Neil Delpratt" on="2014-12-09"/>
         <modified by="Debbie Lockett" on="2015-03-05" change="Fix options xslt-version and initial-template, typos in stylesheet, return statement and assertion"/>
+        <modified by="Debbie Lockett" on="2015-04-13" change="Add base-output-uri option"/>
         <dependency type="spec" value="XQ31+"/>
         <test>
             <![CDATA[
@@ -102,7 +108,9 @@
 
                     element{xs:QName('html')}{
                         element {xs:QName('body')} {
-                            for $x in fn:transform(map{"xslt-version":3.0, "stylesheet-text":$xsl, "initial-template":fn:QName('http://www.example.com','main'), "source-node":fn:parse-xml($xml)})?*
+                            for $x in fn:transform(map{"xslt-version":3.0, "stylesheet-text":$xsl, 
+                            "base-output-uri":"http://www.w3.org/fots/fn/transform/output-doc.xml",
+                            "initial-template":fn:QName('http://www.example.com','main'), "source-node":fn:parse-xml($xml)})?*
                             return $x }
                         }]]>
         </test>
@@ -396,6 +404,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
     <test-case name="fn-transform-13">
         <description>Transform producing multiple result documents</description>
         <created by="Debbie Lockett" on="2015-03-09"/>
+        <modified by="Debbie Lockett" on="2015-04-13" change="Add base-output-uri option"/>
         <dependency type="spec" value="XQ31+"/>
         <test><![CDATA[
                     declare variable $xsl as xs:string :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' version='3.0'>
@@ -408,7 +417,8 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
                                                    <section>sect2</section>
                                                    <section>sect3</section>
                                                    </doc>";                                                   
-            fn:transform(map {"stylesheet-text": $xsl, "source-node": parse-xml($xml)})]]>
+            fn:transform(map {"stylesheet-text": $xsl, "source-node": parse-xml($xml),
+            "base-output-uri":"http://www.w3.org/fots/fn/transform/output-doc.xml"})]]>
         </test>
         <result>
             <all-of>
@@ -420,13 +430,53 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
         </result>
     </test-case>   
     
+    <test-case name="fn-transform-13a">
+        <description>Transform producing multiple result documents (with content)</description>
+        <created by="Debbie Lockett" on="2015-04-13"/>
+        <dependency type="spec" value="XQ31+"/>
+        <test><![CDATA[
+                    declare variable $xsl as xs:string :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' version='3.0'>
+                                                <xsl:template match='/'> <xsl:for-each select='//section'>
+                                                <xsl:result-document href='section{position()}.html'> <!-- instructions content here -->
+                                                <html>
+                    <head>
+                        <title>Section <xsl:value-of select='position()'/></title>
+                    </head>
+                    <body>
+                        <h1>Header for section <xsl:value-of select='position()'/></h1>
+                        <p>The content of <xsl:value-of select='.'/>.</p>
+                        <xsl:if test='position() ne last()'>
+                            <p><a href='section{position()+1}.html'>Next section</a></p>
+                        </xsl:if>
+                        <xsl:if test='position() eq last()'>     
+                            <p><a href='section1.html'>First section</a></p>
+                        </xsl:if>                        
+                    </body>
+                </html>
+                                                </xsl:result-document> </xsl:for-each>
+                                                </xsl:template> </xsl:stylesheet>";
+                    declare variable $xml as xs:string := "<doc>
+                                                   <section>sect1</section>
+                                                   <section>sect2</section>
+                                                   <section>sect3</section>
+                                                   </doc>";                                                   
+            fn:transform(map {"stylesheet-text": $xsl, "source-node": parse-xml($xml),
+            "base-output-uri":"http://www.w3.org/fots/fn/transform/output-doc.xml"})]]>
+        </test>
+        <result>
+            <all-of>
+                <assert-type>map(*)</assert-type>
+                <assert>map:size($result) = 3</assert>
+                <assert>not(map:contains($result, "output"))</assert>
+                <assert>contains(string-join(map:keys($result)),"www.w3.org/fots/fn/transform/section2")</assert>
+            </all-of>     
+        </result>
+    </test-case>   
+    
     <test-case name="fn-transform-14">
-        <description>Transform producing multiple result documents, also uses base-output-uri option</description>
+        <description>Transform producing multiple result documents, with base-output-uri option</description>
         <created by="Debbie Lockett" on="2015-03-09"/>
-        <environment name="multiple-result-docs">
-            <source role="$multipledocs" file="transform/multipledocs.xsl"/>            
-            <source role="$sections" file="transform/sections.xml"/>
-        </environment>
+        <environment ref="multiple-result-docs"/>
         <test>fn:transform(map {"stylesheet-node":$multipledocs, "source-node":$sections, "base-output-uri": "http://www.w3.org/fots/fn/transform/output-doc.xml"}) => map:keys()</test>
         <result>
             <assert-permutation>("http://www.w3.org/fots/fn/transform/section1.html","http://www.w3.org/fots/fn/transform/section2.html","http://www.w3.org/fots/fn/transform/section3.html")</assert-permutation>               
@@ -532,7 +582,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
         <environment>
             <source role="$staticbaseuri" file="transform/staticbaseuri.xsl"  uri="http://www.w3.org/fots/fn/transform/staticbaseuri.xsl"/>
         </environment>
-        <test>fn:transform(map {"stylesheet-location" : 'http://www.w3.org/fots/fn/transform/staticbaseuri.xsl', "initial-template" : QName('','main'), "stylesheet-base-uri": "http://www.example.com"})?output</test>
+        <test>fn:transform(map {"stylesheet-location" : "http://www.w3.org/fots/fn/transform/staticbaseuri.xsl", "initial-template" : QName('','main'), "stylesheet-base-uri": "http://www.example.com"})?output</test>
         <result>
             <assert>$result/x = 'http://www.example.com'</assert>
         </result>
@@ -769,6 +819,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
     <test-case name="fn-transform-33">
         <description>Transform producing multiple result documents, using serialized delivery-format</description>
         <created by="Debbie Lockett" on="2015-03-25"/>
+        <modified by="Debbie Lockett" on="2015-04-13" change="added base-output-uri option"/>
         <dependency type="spec" value="XQ31+"/>
         <test><![CDATA[
                     declare variable $xsl as xs:string :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' version='3.0'>
@@ -781,7 +832,9 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
                                                    <section>sect2</section>
                                                    <section>sect3</section>
                                                    </doc>";                                                   
-            fn:transform(map {"stylesheet-text": $xsl, "source-node": parse-xml($xml), "delivery-format":"serialized"})]]>
+            fn:transform(map {"stylesheet-text": $xsl, "source-node": parse-xml($xml), 
+            "base-output-uri" : resolve-uri("transform/sandbox/fn-transform-33.xml", static-base-uri()),
+            "delivery-format":"serialized"})]]>
         </test>
         <result>
             <all-of>
@@ -839,6 +892,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         <description>Transform using saved delivery-format option, and serialization-params (yes
             indent)</description>
         <created by="Debbie Lockett" on="2015-03-25"/>
+        <modified by="Debbie Lockett" on="2015-04-02" change="Assertions added to check use of serialization-param"/>
         <environment ref="works-mod-uri2"/>
         <test>fn:transform(map {"stylesheet-location" : $render, "source-node" : fn:doc($uri),
             "base-output-uri" : resolve-uri("transform/sandbox/fn-transform-36.xml", static-base-uri()),
@@ -852,6 +906,33 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
                 <assert>$result?* instance of xs:string</assert>
                 <assert>ends-with($result?*, 'transform/sandbox/fn-transform-36.xml')</assert>
                 <assert>count(doc(map:keys($result))//employee) > 3</assert>
+                <assert><![CDATA[contains(serialize(doc(map:keys($result))), "<works>")]]></assert>
+                <assert><![CDATA[contains(serialize(doc(map:keys($result))), "</works>")]]></assert>
+                <assert><![CDATA[not(contains(serialize(doc(map:keys($result))), "<body><works>"))]]></assert>
+            </all-of>
+        </result>
+    </test-case>
+        
+    <test-case name="fn-transform-36a">
+        <description>Transform using saved delivery-format option, and serialization-params (no
+            indent)</description>
+        <created by="Debbie Lockett" on="2015-04-02"/>
+        <environment ref="works-mod-uri2"/>
+        <test>fn:transform(map {"stylesheet-location" : $render, "source-node" : fn:doc($uri),
+            "base-output-uri" : resolve-uri("transform/sandbox/fn-transform-36a.xml", static-base-uri()),
+            "delivery-format" : "saved", "serialization-params" : map { QName("","indent"): "no" }
+            })</test>
+        <result>
+            <all-of>
+                <assert-type>map(*)</assert-type>
+                <assert>map:size($result) = 1</assert>
+                <assert>ends-with(map:keys($result), 'transform/sandbox/fn-transform-36a.xml')</assert>
+                <assert>$result?* instance of xs:string</assert>
+                <assert>ends-with($result?*, 'transform/sandbox/fn-transform-36a.xml')</assert>
+                <assert>count(doc(map:keys($result))//employee) > 3</assert>
+                <assert><![CDATA[contains(serialize(doc(map:keys($result))), "<works>")]]></assert>
+                <assert><![CDATA[contains(serialize(doc(map:keys($result))), "</works>")]]></assert>
+                <assert><![CDATA[contains(serialize(doc(map:keys($result))), "<body><works>")]]></assert>
             </all-of>
         </result>
     </test-case>
@@ -899,10 +980,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         <description>Transform producing multiple result documents, using saved delivery-format and
             base-output-uri options</description>
         <created by="Debbie Lockett" on="2015-03-25"/>
-        <environment name="multiple-result-docs">
-            <source role="$multipledocs" file="transform/multipledocs.xsl"/>
-            <source role="$sections" file="transform/sections.xml"/>
-        </environment>
+        <environment ref="multiple-result-docs"/>
         <test>fn:transform(map {"stylesheet-node":$multipledocs, "source-node":$sections,
             "base-output-uri" : resolve-uri("transform/sandbox/fn-transform-38/output.html",
             static-base-uri()), "delivery-format":"saved"}) => map:keys()</test>
@@ -959,7 +1037,149 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         </result>
     </test-case>
     
+    <test-case name="fn-transform-41">
+        <description>Transform using options stylesheet-node and stylesheet-base-uri</description>
+        <created by="Debbie Lockett" on="2015-04-01"/>
+        <environment>
+            <source role="$staticbaseuri" file="transform/staticbaseuri.xsl"  uri="http://www.w3.org/fots/fn/transform/staticbaseuri.xsl"/>
+        </environment>
+        <test>fn:transform(map {"stylesheet-node" : $staticbaseuri, "initial-template" : QName('','main'), "stylesheet-base-uri": "http://www.example.com"})?output</test>
+        <result>
+            <assert>$result/x = 'http://www.example.com'</assert>
+        </result>
+    </test-case>
     
+    <test-case name="fn-transform-42">
+        <description>Transform using static base URI default from option stylesheet-node</description>
+        <created by="Debbie Lockett" on="2015-04-01"/>
+        <environment>
+            <source role="$staticbaseuri" file="transform/staticbaseuri.xsl"  uri="http://www.w3.org/fots/fn/transform/staticbaseuri.xsl"/>
+        </environment>
+        <test>fn:transform(map {"stylesheet-node" : $staticbaseuri, "initial-template" : QName('','main')})?output</test>
+        <result>
+            <assert>$result/x = 'http://www.w3.org/fots/fn/transform/staticbaseuri.xsl'</assert>
+        </result>
+    </test-case>    
+        
+    <test-case name="fn-transform-43">
+        <description>Transform producing multiple result documents, using serialized delivery-format and
+            base-output-uri options</description>
+        <created by="Debbie Lockett" on="2015-04-13"/>
+        <environment ref="multiple-result-docs"/>
+        <test>fn:transform(map {"stylesheet-node":$multipledocs, "source-node":$sections,
+            "base-output-uri" : resolve-uri("transform/sandbox/fn-transform-43/output.html",
+            static-base-uri()), "delivery-format":"serialized"}) => map:keys()</test>
+        <result>
+            <all-of>
+                <assert>count($result) = 3</assert>
+                <assert>contains(string-join($result), 'section1.html')</assert>
+                <assert>some $key in $result satisfies ends-with($key, 
+                    'transform/sandbox/fn-transform-43/section3.html')</assert>
+                <assert><![CDATA[some $key in $result satisfies doc($key)//h1 = 'Header for section 2']]></assert>
+            </all-of>
+        </result>
+    </test-case>
+    
+    <test-case name="fn-transform-44">
+        <description>Transform producing multiple result documents, using serialized delivery-format and
+            base-output-uri options</description>
+        <created by="Debbie Lockett" on="2015-04-13"/>
+        <dependency type="spec" value="XQ31+"/>
+        <test><![CDATA[
+                    declare variable $xsl as xs:string :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' version='3.0'>
+                                                <xsl:template match='/'> <xsl:for-each select='//section'>
+                                                <xsl:result-document href='section{position()}.xml'> <!-- instructions content here -->
+                                                <out>
+                                                <xsl:value-of select='position()'/>
+                                                </out>
+                                                </xsl:result-document> </xsl:for-each>
+                                                </xsl:template> </xsl:stylesheet>";
+                    declare variable $xml as xs:string := "<doc>
+                                                   <section>sect1</section>
+                                                   <section>sect2</section>
+                                                   <section>sect3</section>
+                                                   </doc>";                                                   
+            fn:transform(map {"stylesheet-text": $xsl, "source-node": parse-xml($xml), 
+            "base-output-uri" : resolve-uri("transform/sandbox/fn-transform-44/output.xml", static-base-uri()), 
+            "delivery-format":"serialized"})]]>
+        </test>
+        <result>
+            <all-of>
+                <assert-type>map(*)</assert-type>
+                <assert>map:size($result) = 3</assert>
+                <assert>not(map:contains($result, "output"))</assert>
+                <assert>contains(string-join(map:keys($result)),"section2")</assert>
+                <assert>some $key in map:keys($result) satisfies ends-with($key, 
+                    'transform/sandbox/fn-transform-44/section3.xml')</assert>
+                <assert><![CDATA[some $key in map:keys($result) satisfies parse-xml($result?($key))//out = '2']]></assert>
+            </all-of>     
+        </result>
+    </test-case>
+    
+    <test-case name="fn-transform-45">
+        <description>Transform using option base-output-uri, and serialized delivery-format</description>
+        <created by="Debbie Lockett" on="2015-04-13"/>
+        <environment ref="works-mod-uri2"/>
+        <test>fn:transform(map {"stylesheet-location" : $render, "source-node" : fn:doc($uri),
+            "base-output-uri" : resolve-uri("transform/sandbox/fn-transform-45.xml", static-base-uri()),
+            "delivery-format" : "serialized"})</test>
+        <result>
+            <all-of>
+                <assert-type>map(*)</assert-type>
+                <assert>map:size($result) = 1</assert>
+                <assert>not(map:contains($result, "output"))</assert>
+                <assert>contains(map:keys($result), 'fn-transform-45.xml')</assert>
+                <assert>$result?* instance of xs:string</assert>
+                <assert><![CDATA[contains($result?*, "<works>")]]></assert>
+                <assert>count(parse-xml($result?*)//employee) > 3</assert>
+                <assert>some $key in map:keys($result) satisfies ends-with($key, 
+                    'transform/sandbox/fn-transform-45.xml')</assert>            
+            </all-of>
+        </result>
+    </test-case>
+    
+    <test-case name="fn-transform-46">
+        <description>Transform producing multiple result documents, using serialized delivery-format
+            option, but no base-output-uri (xsl:result-document/@href is absolute)</description>
+        <created by="Debbie Lockett" on="2015-04-13"/>
+        <environment name="multiple-result-docs2">
+            <source role="$multipledocs2" file="transform/multipledocs2.xsl"/>
+            <source role="$sections" file="transform/sections.xml"/>
+        </environment>
+        <test>fn:transform(map {"stylesheet-node":$multipledocs2, "source-node":$sections,
+            "delivery-format":"serialized"})</test>
+        <result>
+            <all-of>
+                <assert>count(map:keys($result)) = 3</assert>
+                <assert>contains(string-join(map:keys($result)), 'section1.html')</assert>
+                <assert>some $key in map:keys($result) satisfies ends-with($key, 
+                    'transform/sandbox/fn-transform-39/section3.html')</assert>
+                <assert><![CDATA[some $key in map:keys($result) satisfies parse-xml($result?($key))//h1 = 'Header for section 2']]></assert>
+            </all-of>
+        </result>
+    </test-case>
+    
+    <test-case name="fn-transform-47">
+        <description>Transform producing multiple result documents, using document delivery-format
+            option, but no base-output-uri (xsl:result-document/@href is absolute)</description>
+        <created by="Debbie Lockett" on="2015-04-13"/>
+        <environment name="multiple-result-docs2">
+            <source role="$multipledocs2" file="transform/multipledocs2.xsl"/>
+            <source role="$sections" file="transform/sections.xml"/>
+        </environment>
+        <test>fn:transform(map {"stylesheet-node":$multipledocs2, "source-node":$sections,
+            "delivery-format":"document"})</test>
+        <result>
+            <all-of>
+                <assert>count(map:keys($result)) = 3</assert>
+                <assert>contains(string-join(map:keys($result)), 'section1.html')</assert>
+                <assert>some $key in map:keys($result) satisfies ends-with($key, 
+                    'transform/sandbox/fn-transform-39/section3.html')</assert>
+                <assert><![CDATA[some $key in map:keys($result) satisfies $result?($key)//h1 = 'Header for section 2']]></assert>
+            </all-of>
+        </result>
+    </test-case>
+        
 
     <test-case name="fn-transform-err-1">
       <description>Loads a stylesheet from the location render.xsl, but fails to supply a source document</description>
@@ -1098,7 +1318,54 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         <result>
             <error code="FOXT0002"/>
         </result>
+    </test-case>    
+    
+    <test-case name="fn-transform-err-9">
+        <description>Error - transform using xsl:include with relative href, using option stylesheet-text, but without stylesheet-base-uri</description>
+        <created by="Debbie Lockett" on="2015-03-11"/>
+        <dependency type="spec" value="XQ31+"/>
+        <test><![CDATA[
+            declare variable $xsl as xs:string :="<xsl:stylesheet version='2.0' xmlns:xsl='http://www.w3.org/1999/XSL/Transform'>
+                    <xsl:include href='transform/staticbaseuri.xsl'/>
+                    </xsl:stylesheet>";    
+            fn:transform(map {"stylesheet-text" : $xsl, "initial-template" : QName('','main')})?output
+            ]]></test>
+        <result>
+            <error code="XTSE0165"/>
+        </result>
     </test-case>
     
+    <test-case name="fn-transform-err-10">
+        <description>Error - location of output documents (delivery-format saved) undefined; no base-output-uri and xsl:result-document/@href is relative</description>
+        <created by="Debbie Lockett" on="2015-04-13"/>
+        <environment ref="multiple-result-docs"/>
+        <test>fn:transform(map {"stylesheet-node":$multipledocs, "source-node":$sections,
+            "delivery-format":"saved"}) => map:keys()</test>
+        <result>
+            <error code="FOXT0002"/>
+        </result>
+    </test-case>
+    
+    <test-case name="fn-transform-err-11">
+        <description>Error - location of output documents (delivery-format serialized) undefined; no base-output-uri and xsl:result-document/@href is relative</description>
+        <created by="Debbie Lockett" on="2015-04-13"/>
+        <environment ref="multiple-result-docs"/>
+        <test>fn:transform(map {"stylesheet-node":$multipledocs, "source-node":$sections,
+            "delivery-format":"serialized"}) => map:keys()</test>
+        <result>
+            <error code="FOXT0002"/>
+        </result>
+    </test-case>
+    
+    <test-case name="fn-transform-err-12">
+        <description>Error - location of output documents (delivery-format document) undefined; no base-output-uri and xsl:result-document/@href is relative</description>
+        <created by="Debbie Lockett" on="2015-04-13"/>
+        <environment ref="multiple-result-docs"/>
+        <test>fn:transform(map {"stylesheet-node":$multipledocs, "source-node":$sections,
+            "delivery-format":"document"}) => map:keys()</test>
+        <result>
+            <error code="FOXT0002"/>
+        </result>
+    </test-case>
 
 </test-set>
