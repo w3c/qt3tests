@@ -240,7 +240,7 @@
    
    <test-case name="K2-Serialization-16" >
       <description>Test item-separator property</description>
-      <created by="Michael Kay" on="2013-10-04"/>
+      <created by="Michael Kay" on="2015-04-13"/>
       <dependency type="feature" value="serialization" satisfied="true"/>
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
@@ -253,6 +253,355 @@
          <serialization-matches><![CDATA[1==2==3==4]]></serialization-matches>
       </result>
    </test-case>
+   
+   <test-case name="K2-Serialization-17" >
+      <description>Test omit-xml-declaration property</description>
+      <created by="Michael Kay" on="2015-04-13"/>
+      <dependency type="feature" value="serialization" satisfied="true"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+      	declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "xml";
+        declare option output:omit-xml-declaration "yes";
+        <a/>
+      ]]></test>
+      <result>
+         <not><serialization-matches><![CDATA[<?xml]]></serialization-matches></not>
+      </result>
+   </test-case>
+   
+   <test-case name="K2-Serialization-18" >
+      <description>Test omit-xml-declaration property</description>
+      <created by="Michael Kay" on="2015-04-13"/>
+      <dependency type="feature" value="serialization" satisfied="true"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+      	declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "xml";
+        declare option output:omit-xml-declaration "no";
+        <a/>
+      ]]></test>
+      <result>
+         <serialization-matches><![CDATA[<?xml]]></serialization-matches>
+      </result>
+   </test-case>
+   
+   <test-case name="K2-Serialization-20" >
+      <description>Test XML 1.1 serialization with undeclare-prefixes</description>
+      <created by="Michael Kay" on="2015-04-13"/>
+      <dependency type="feature" value="serialization" satisfied="true"/>
+      <dependency type="xml-version" value="1.1"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+      	declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "xml";
+        declare option output:version "1.1";
+        declare option output:undeclare-prefixes "yes";
+        <p:chapter xmlns:p="http://example.com/p"><section xmlns:p=""><para/></section></p:chapter>
+      ]]></test>
+      <result>
+           <serialization-matches><![CDATA[<section xmlns:p="">]]></serialization-matches>
+      </result>
+   </test-case>
+   
+   <test-case name="K2-Serialization-21" >
+      <description>Test XML 1.1 serialization with undeclare-prefixes</description>
+      <created by="Michael Kay" on="2015-04-13"/>
+      <dependency type="feature" value="serialization" satisfied="true"/>
+      <dependency type="xml-version" value="1.1"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+      	declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "xml";
+        declare option output:version "1.1";
+        declare option output:undeclare-prefixes "no";
+        <p:chapter xmlns:p="http://example.com/p"><section xmlns:p=""><para/></section></p:chapter>
+      ]]></test>
+      <result>
+         <all-of>
+           <serialization-matches><![CDATA[version\s*=\s*['"]1.1['"]]]></serialization-matches>
+           <not><serialization-matches><![CDATA[<section xmlns:p="">]]></serialization-matches></not>
+         </all-of>  
+      </result>
+   </test-case>
+   
+   <test-case name="K2-Serialization-22" >
+      <description>Test standalone=yes property</description>
+      <created by="Michael Kay" on="2015-04-13"/>
+      <dependency type="feature" value="serialization" satisfied="true"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+      	declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "xml";
+        declare option output:standalone "yes";
+        <chapter><section><para><b>bold</b>{" "}<i>italic</i></para></section></chapter>
+      ]]></test>
+      <result>
+        <all-of>
+           <serialization-matches><![CDATA[version\s*=\s*['"]1.0['"]]]></serialization-matches>
+           <serialization-matches><![CDATA[standalone\s*=\s*['"]yes['"]]]></serialization-matches>
+        </all-of>     
+      </result>
+   </test-case>
+   
+   <test-case name="K2-Serialization-23" >
+      <description>Test standalone=no property</description>
+      <created by="Michael Kay" on="2015-04-13"/>
+      <dependency type="feature" value="serialization" satisfied="true"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+      	declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "xml";
+        declare option output:standalone "no";
+        <chapter><section><para><b>bold</b>{" "}<i>italic</i></para></section></chapter>
+      ]]></test>
+      <result>
+           <serialization-matches><![CDATA[standalone\s*=\s*['"]no['"]]]></serialization-matches>  
+      </result>
+   </test-case>
+   
+   <test-case name="K2-Serialization-24" >
+      <description>Test standalone=omit property</description>
+      <created by="Michael Kay" on="2015-04-13"/>
+      <dependency type="feature" value="serialization" satisfied="true"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+      	declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "xml";
+        declare option output:standalone "omit";
+        <chapter><section><para><b>bold</b>{" "}<i>italic</i></para></section></chapter>
+      ]]></test>
+      <result>
+           <all-of>
+             <serialization-matches>&lt;?xml</serialization-matches>
+             <not><serialization-matches>standalone</serialization-matches></not>
+           </all-of>   
+      </result>
+   </test-case>
+   
+   <test-case name="K2-Serialization-25" >
+      <description>Test indent and suppress-indentation properties</description>
+      <created by="Michael Kay" on="2015-04-13"/>
+      <dependency type="feature" value="serialization" satisfied="true"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+      	declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "xml";
+        declare option output:indent "yes";
+        declare option output:suppress-indentation "para";
+        <chapter><section><para><b>bold</b>{" "}<i>italic</i></para></section></chapter>
+      ]]></test>
+      <result>
+         <all-of>
+           <serialization-matches><![CDATA[<chapter>\s+<section>]]></serialization-matches>
+           <serialization-matches><![CDATA[<para><b>bold</b> <i>italic</i></para>]]></serialization-matches>
+         </all-of>  
+      </result>
+   </test-case>
+   
+   <test-case name="K2-Serialization-26" >
+      <description>Test suppress-indentation as lexical QName</description>
+      <created by="Michael Kay" on="2015-04-13"/>
+      <dependency type="feature" value="serialization" satisfied="true"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+      	declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+      	declare namespace p = "http://www.example.org/ns/p";
+        declare option output:method "xml";
+        declare option output:indent "yes";
+        declare option output:suppress-indentation "p p:para";
+        <chapter><section><p:para><b>bold</b><i>italic</i></p:para><p><b><BOLD/></b><i>ITALIC</i></p></section></chapter>
+      ]]></test>
+      <result>
+         <all-of>
+           <serialization-matches><![CDATA[><b><BOLD/></b><i>ITALIC</i></]]></serialization-matches>
+           <serialization-matches><![CDATA[><b>bold</b><i>italic</i></]]></serialization-matches>
+         </all-of>  
+      </result>
+   </test-case>
+   
+   <test-case name="K2-Serialization-27" >
+      <description>Test suppress-indentation as EQName. (Note: assumes resolution of bug #28486)</description>
+      <created by="Michael Kay" on="2015-04-13"/>
+      <dependency type="feature" value="serialization" satisfied="true"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+      	declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+      	declare namespace p = "http://www.example.org/ns/p";
+        declare option output:method "xml";
+        declare option output:indent "yes";
+        declare option output:suppress-indentation "p Q{http://www.example.org/ns/p}para";
+        <chapter><section><para xmlns="http://www.example.org/ns/p"><b>bold</b><i>italic</i></para><p><b>BOLD</b><i>ITALIC</i></p></section></chapter>
+      ]]></test>
+      <result>
+         <all-of>
+           <serialization-matches><![CDATA[><b>BOLD</b><i>ITALIC</i></]]></serialization-matches>
+           <serialization-matches><![CDATA[><b>bold</b><i>italic</i></]]></serialization-matches>
+         </all-of>  
+      </result>
+   </test-case>
+   
+   <test-case name="K2-Serialization-28" >
+      <description>Test suppress-indentation as a lexical QName using default namespace. (Note: assumes resolution of bug #28486)</description>
+      <created by="Michael Kay" on="2015-04-13"/>
+      <dependency type="feature" value="serialization" satisfied="true"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+      	declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+      	declare default element namespace "http://www.example.org/ns/p";
+        declare option output:method "xml";
+        declare option output:indent "yes";
+        declare option output:suppress-indentation "p para";
+        <chapter xmlns=""><section><para xmlns="http://www.example.org/ns/p"><b>bold</b><i>italic</i></para><p><b>BOLD</b><i>ITALIC</i></p></section></chapter>
+      ]]></test>
+      <result>
+         <all-of>
+           <not><serialization-matches><![CDATA[><b>BOLD</b><i>ITALIC</i></]]></serialization-matches></not>
+           <serialization-matches><![CDATA[><b>bold</b><i>italic</i></]]></serialization-matches>
+         </all-of>  
+      </result>
+   </test-case>
+   
+   <test-case name="K2-Serialization-29" >
+      <description>Test whitespace in serialization parameters. (Note: assumes resolution of bug #28486)</description>
+      <created by="Michael Kay" on="2015-04-13"/>
+      <dependency type="feature" value="serialization" satisfied="true"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+      	declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+      	declare namespace p = "http://www.example.org/ns/p";
+        declare option output:method " Q{}xml&#x9;";
+        declare option Q{http://www.w3.org/2010/xslt-xquery-serialization}indent "yes
+        ";
+        declare option output:suppress-indentation " p   p:para ";
+        <chapter><section><p:para><b>bold</b><i>italic</i></p:para><p><b><BOLD/></b><i>ITALIC</i></p></section></chapter>
+      ]]></test>
+      <result>
+         <all-of>
+           <serialization-matches><![CDATA[><b><BOLD/></b><i>ITALIC</i></]]></serialization-matches>
+           <serialization-matches><![CDATA[><b>bold</b><i>italic</i></]]></serialization-matches>
+         </all-of>  
+      </result>
+   </test-case>
+   
+   <test-case name="K2-Serialization-30" >
+      <description>Test cdata-section-elements property with lexical QName</description>
+      <created by="Michael Kay" on="2015-04-13"/>
+      <dependency type="feature" value="serialization" satisfied="true"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+      	declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+      	declare namespace p = "http://www.example.org/ns/p";
+        declare option output:method "xml";
+        declare option output:cdata-section-elements "b p:b";
+        declare option output:suppress-indentation "para";
+        <chapter><section><para><b>bold</b><i>italic</i><p:b>BOLD</p:b><p:i>ITALIC</p:i></para></section></chapter>
+      ]]></test>
+      <result>
+         <all-of>
+           <serialization-matches flags="q"><![CDATA[CDATA[bold]]]></serialization-matches>
+           <serialization-matches flags="q"><![CDATA[CDATA[BOLD]]]></serialization-matches>
+           <not><serialization-matches flags="q"><![CDATA[CDATA[italic]]]></serialization-matches></not>
+           <not><serialization-matches flags="q"><![CDATA[CDATA[ITALIC]]]></serialization-matches></not>
+         </all-of>  
+      </result>
+   </test-case>
+   
+   <test-case name="K2-Serialization-31" >
+      <description>Test cdata-section-elements property with default element namespace</description>
+      <created by="Michael Kay" on="2015-04-13"/>
+      <dependency type="feature" value="serialization" satisfied="true"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+      	declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+      	declare default element namespace "http://www.example.org/ns/p";
+        declare option output:method "xml";
+        declare option output:cdata-section-elements "b";
+        declare option output:suppress-indentation "para";
+        <chapter xmlns="http://www.example.com/ns/c"><section><para><b>bold</b><i>italic</i></para><para xmlns:p="http://www.example.org/ns/p"><p:b>BOLD</p:b><p:i>ITALIC</p:i></para></section></chapter>
+      ]]></test>
+      <result>
+         <all-of>
+           <not><serialization-matches flags="q"><![CDATA[CDATA[bold]]]></serialization-matches></not>
+           <serialization-matches flags="q"><![CDATA[CDATA[BOLD]]]></serialization-matches>
+           <not><serialization-matches flags="q"><![CDATA[CDATA[italic]]]></serialization-matches></not>
+           <not><serialization-matches flags="q"><![CDATA[CDATA[ITALIC]]]></serialization-matches></not>
+         </all-of>  
+      </result>
+   </test-case>
+   
+   <test-case name="K2-Serialization-32" >
+      <description>Test cdata-section-elements property with EQName</description>
+      <created by="Michael Kay" on="2015-04-13"/>
+      <dependency type="feature" value="serialization" satisfied="true"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+      	declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "xml";
+        declare option output:cdata-section-elements "b Q{http://www.example.org/ns/p}b";
+        declare option output:suppress-indentation "para";
+        <chapter><section xmlns:p="http://www.example.org/ns/p"><para><b>bold</b><i>italic</i><p:b>BOLD</p:b><p:i>ITALIC</p:i></para></section></chapter>
+      ]]></test>
+      <result>
+         <all-of>
+           <serialization-matches flags="q"><![CDATA[CDATA[bold]]]></serialization-matches>
+           <serialization-matches flags="q"><![CDATA[CDATA[BOLD]]]></serialization-matches>
+           <not><serialization-matches flags="q"><![CDATA[CDATA[italic]]]></serialization-matches></not>
+           <not><serialization-matches flags="q"><![CDATA[CDATA[ITALIC]]]></serialization-matches></not>
+         </all-of>  
+      </result>
+   </test-case>
+   
+   <test-case name="K2-Serialization-33" >
+      <description>Test cdata-section-elements property with interspersed comments</description>
+      <created by="Michael Kay" on="2015-04-13"/>
+      <dependency type="feature" value="serialization" satisfied="true"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+      	declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "xml";
+        declare option output:cdata-section-elements "b";
+        <chapter><para><b>bold <!--comment--> as brass</b><i>italic</i></para></chapter>
+      ]]></test>
+      <result>
+           <serialization-matches flags="q">&lt;![CDATA[bold ]]&gt;&lt;!--comment-->&lt;![CDATA[ as brass]]&gt;</serialization-matches>
+      </result>
+   </test-case>
+   
+   <test-case name="K2-Serialization-34" >
+      <description>Test cdata-section-elements property with interspersed delimiter</description>
+      <created by="Michael Kay" on="2015-04-13"/>
+      <dependency type="feature" value="serialization" satisfied="true"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+      	declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "xml";
+        declare option output:cdata-section-elements "b";
+        <chapter><para><b>bold {"<"}{"[["}{"]]"}{">"} as brass</b><i>italic</i></para></chapter>
+      ]]></test>
+      <result>
+           <serialization-matches flags="q">&lt;![CDATA[bold &lt;[[]]]]&gt;&lt;![CDATA[&gt; as brass]]&gt;</serialization-matches>
+      </result>
+   </test-case>
+   
+   <test-case name="K2-Serialization-35" >
+      <description>Test cdata-section-elements property with interspersed unencodable character</description>
+      <created by="Michael Kay" on="2015-04-13"/>
+      <dependency type="feature" value="serialization" satisfied="true"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+      	declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "xml";
+        declare option output:encoding "us-ascii";
+        declare option output:cdata-section-elements "b";
+        <chapter><para><b>bold&#xa0;as brass</b></para></chapter>
+      ]]></test>
+      <result>
+           <serialization-matches><![CDATA[<!\[CDATA\[bold\]\]>&#(xa0|xA0|160);<!\[CDATA\[as brass\]\]>]]></serialization-matches>
+      </result>
+   </test-case>
+
+
 
 
 
