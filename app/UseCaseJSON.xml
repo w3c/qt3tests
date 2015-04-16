@@ -163,6 +163,7 @@
    <test-case name="UseCaseJSON-006" covers="fn-json-doc">
       <description>More Complex Grouping Queries for JSON</description>
       <created by="Carla Spruit" on="2014-12-23"/>
+      <modified by="Michael Kay" on="2015-04-16" change="add ordering to make the results predictable: group-by produces indeterminate ordering"/>
       <environment ref="sales.json"/>
       <dependency type="spec" value="XQ31+"/>            
       <test><![CDATA[
@@ -170,12 +171,14 @@
 				  for $store in json-doc('stores.json')?*
 				  let $state := $store?state
 				  group by $state
+				  order by $state
 				  return
 				    map {
 				      $state :  array {
 				        for $product in json-doc('products.json')?*
 				        let $category := $product?category
 				        group by $category
+				        order by $category
 				        return
 				          map {
 				            $category :  map:merge((
@@ -183,6 +186,7 @@
 				              where $sales?("store number") = $store?("store number") and $sales?product = $product?name
 				              let $pname := $sales?product
 				              group by $pname
+				              order by $pname
 				              return map { $pname :  sum(for $s in $sales return $s?quantity)}
 				            ))
 				          }
@@ -191,7 +195,7 @@
 				}
 		  ]]></test>
       <result>
-         <assert-deep-eq>[map { "CA" : [ map { "kitchen" : map { "broiler" : 20, "toaster" : 150 }}, map { "clothes" : map { "socks" : 510 }} ] }, map { "MA" : [ map { "kitchen" : map { "toaster" : 50, "blender" : 250 }}, map { "clothes" : map { "shirt" : 10 }} ] } ]</assert-deep-eq>
+         <assert-deep-eq>[map { "CA" : [ map { "clothes" : map { "socks" : 510 }}, map { "kitchen" : map { "broiler" : 20, "toaster" : 150 }} ] }, map { "MA" : [ map { "clothes" : map { "shirt" : 10 }}, map { "kitchen" : map { "toaster" : 50, "blender" : 250 }}]}]</assert-deep-eq>
       </result>
    </test-case>
 
