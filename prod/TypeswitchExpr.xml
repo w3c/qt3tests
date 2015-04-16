@@ -18,7 +18,13 @@
       <description> Simple test for evaluation of atomic value (integer) and various data types for case evaluation </description>
       <created by="Carmelo Montanez" on="2005-02-14"/>
       <dependency type="spec" value="XQ10+"/>
-      <test><![CDATA[typeswitch (5) case $i as xs:integer return <wrap>test passed - integer data type</wrap> case $i as xs:date return <wrap>test failed</wrap> case $i as xs:time return <wrap>test failed</wrap> case $i as xs:string return <wrap>test failed</wrap> default return <wrap>test failed</wrap>]]></test>
+      <test><![CDATA[
+        typeswitch (5) 
+        case $i as xs:integer return <wrap>test passed - integer data type</wrap> 
+        case $i as xs:date return <wrap>test failed</wrap> 
+        case $i as xs:time return <wrap>test failed</wrap> 
+        case $i as xs:string return <wrap>test failed</wrap> 
+        default return <wrap>test failed</wrap>]]></test>
       <result>
          <assert-xml><![CDATA[<wrap>test passed - integer data type</wrap>]]></assert-xml>
       </result>
@@ -28,7 +34,13 @@
       <description> Simple test for evaluation of atomic value (decimal) and various data types for case evaluation </description>
       <created by="Carmelo Montanez" on="2005-02-14"/>
       <dependency type="spec" value="XQ10+"/>
-      <test><![CDATA[typeswitch (5.1) case $i as xs:decimal return <wrap>test passed - 5.1 is a decimal type</wrap> case $i as xs:float return <wrap>test failed</wrap> case $i as xs:integer return <wrap>test failed</wrap> case $i as xs:double return <wrap>test failed</wrap> default return <wrap>test failed</wrap>]]></test>
+      <test><![CDATA[
+        typeswitch (5.1) 
+        case $i as xs:decimal return <wrap>test passed - 5.1 is a decimal type</wrap> 
+        case $i as xs:float return <wrap>test failed</wrap> 
+        case $i as xs:integer return <wrap>test failed</wrap> 
+        case $i as xs:double return <wrap>test failed</wrap> 
+        default return <wrap>test failed</wrap>]]></test>
       <result>
          <assert-xml><![CDATA[<wrap>test passed - 5.1 is a decimal type</wrap>]]></assert-xml>
       </result>
@@ -38,7 +50,11 @@
       <description> Simple test for evaluation of atomic value (double) and various data types for case evaluation </description>
       <created by="Carmelo Montanez" on="2005-02-14"/>
       <dependency type="spec" value="XQ10+"/>
-      <test><![CDATA[typeswitch (5.1E2) case $i as xs:integer return <wrap>test failed2</wrap> case $i as xs:double return <wrap>test passed - 5.1E2 is a double type</wrap> default return <wrap>test failed</wrap>]]></test>
+      <test><![CDATA[
+        typeswitch (5.1E2) 
+        case $i as xs:integer return <wrap>test failed2</wrap> 
+        case $i as xs:double return <wrap>test passed - 5.1E2 is a double type</wrap> 
+        default return <wrap>test failed</wrap>]]></test>
       <result>
          <assert-xml><![CDATA[<wrap>test passed - 5.1E2 is a double type</wrap>]]></assert-xml>
       </result>
@@ -48,7 +64,12 @@
       <description> Simple test for evaluation of atomic value (string) and various data types for case evaluation </description>
       <created by="Carmelo Montanez" on="2005-02-14"/>
       <dependency type="spec" value="XQ10+"/>
-      <test><![CDATA[typeswitch ("A String") case $i as xs:decimal return <wrap>test failed</wrap> case $i as xs:integer return <wrap>test failed</wrap> case $i as xs:string return <wrap>test passed - "A String" is a string type</wrap> default return <wrap>test failed</wrap>]]></test>
+      <test><![CDATA[
+        typeswitch ("A String") 
+        case $i as xs:decimal return <wrap>test failed</wrap> 
+        case $i as xs:integer return <wrap>test failed</wrap> 
+        case $i as xs:string return <wrap>test passed - "A String" is a string type</wrap> 
+        default return <wrap>test failed</wrap>]]></test>
       <result>
          <assert-xml><![CDATA[<wrap>test passed - "A String" is a string type</wrap>]]></assert-xml>
       </result>
@@ -58,7 +79,12 @@
       <description> Simple test for evaluation of atomic value (float) and various data types for case evaluation </description>
       <created by="Carmelo Montanez" on="2005-02-14"/>
       <dependency type="spec" value="XQ10+"/>
-      <test><![CDATA[typeswitch (1267.43233E12) case $i as xs:string return <wrap>test failed</wrap> case $i as xs:integer return <wrap>test failed</wrap> case $i as xs:double return <wrap>test passed - 1267.43233E12 is a double type</wrap> default return <wrap>test failed</wrap>]]></test>
+      <test><![CDATA[
+        typeswitch (1267.43233E12) 
+        case $i as xs:string return <wrap>test failed</wrap> 
+        case $i as xs:integer return <wrap>test failed</wrap> 
+        case $i as xs:double return <wrap>test passed - 1267.43233E12 is a double type</wrap> 
+        default return <wrap>test failed</wrap>]]></test>
       <result>
          <assert-xml><![CDATA[<wrap>test passed - 1267.43233E12 is a double type</wrap>]]></assert-xml>
       </result>
@@ -68,7 +94,11 @@
       <description> Simple test for evaluation of simple boolean expression and various data types for case evaluation </description>
       <created by="Carmelo Montanez" on="2005-02-14"/>
       <dependency type="spec" value="XQ10+"/>
-      <test><![CDATA[typeswitch(1 > 2) case $i as xs:string return <wrap>test failed</wrap> case $i as xs:integer return <wrap>test failed</wrap> case $i as xs:boolean return <wrap>test passed - 1 > 2 is a boolean type</wrap> default return <wrap>test failed</wrap>]]></test>
+      <test><![CDATA[
+        typeswitch(1 > 2) case $i as xs:string return <wrap>test failed</wrap> 
+        case $i as xs:integer return <wrap>test failed</wrap> 
+        case $i as xs:boolean return <wrap>test passed - 1 > 2 is a boolean type</wrap> 
+        default return <wrap>test failed</wrap>]]></test>
       <result>
          <assert-xml><![CDATA[<wrap>test passed - 1 &gt; 2 is a boolean type</wrap>]]></assert-xml>
       </result>
@@ -78,7 +108,12 @@
       <description> Simple test for evaluation of simple date expression and various data types for case evaluation </description>
       <created by="Carmelo Montanez" on="2005-02-14"/>
       <dependency type="spec" value="XQ10+"/>
-      <test><![CDATA[typeswitch(xs:date("1999-05-31")) case $i as xs:string return <wrap>test failed</wrap> case $i as xs:integer return <wrap>test failed</wrap> case $i as xs:date return <wrap>test passed - xs:date("1999-05-31")is of date type</wrap> default return <wrap>test failed</wrap>]]></test>
+      <test><![CDATA[
+        typeswitch(xs:date("1999-05-31")) 
+        case $i as xs:string return <wrap>test failed</wrap> 
+        case $i as xs:integer return <wrap>test failed</wrap> 
+        case $i as xs:date return <wrap>test passed - xs:date("1999-05-31")is of date type</wrap> 
+        default return <wrap>test failed</wrap>]]></test>
       <result>
          <assert-xml><![CDATA[<wrap>test passed - xs:date("1999-05-31")is of date type</wrap>]]></assert-xml>
       </result>
@@ -88,7 +123,12 @@
       <description> Simple test for evaluation of simple time expression and various data types for case evaluation </description>
       <created by="Carmelo Montanez" on="2005-02-14"/>
       <dependency type="spec" value="XQ10+"/>
-      <test><![CDATA[typeswitch(xs:time("12:00:00")) case $i as xs:string return <wrap>test failed</wrap> case $i as xs:integer return <wrap>test failed</wrap> case $i as xs:time return <wrap>test passed - xs:time("12:00:00")is of time type</wrap> default return <wrap>test failed</wrap>]]></test>
+      <test><![CDATA[
+        typeswitch(xs:time("12:00:00")) 
+        case $i as xs:string return <wrap>test failed</wrap> 
+        case $i as xs:integer return <wrap>test failed</wrap> 
+        case $i as xs:time return <wrap>test passed - xs:time("12:00:00")is of time type</wrap> 
+        default return <wrap>test failed</wrap>]]></test>
       <result>
          <assert-xml><![CDATA[<wrap>test passed - xs:time("12:00:00")is of time type</wrap>]]></assert-xml>
       </result>
@@ -98,7 +138,12 @@
       <description> Simple test for evaluation of simple dateTime expression and various data types for case evaluation </description>
       <created by="Carmelo Montanez" on="2005-02-14"/>
       <dependency type="spec" value="XQ10+"/>
-      <test><![CDATA[typeswitch(xs:dateTime("1999-12-31T19:20:00")) case $i as xs:string return <wrap>test failed</wrap> case $i as xs:integer return <wrap>test failed</wrap> case $i as xs:dateTime return <wrap>test passed - xs:dateTime("1999-12-31T19:20:00")is of dateTime type</wrap> default return <wrap>test failed</wrap>]]></test>
+      <test><![CDATA[
+        typeswitch(xs:dateTime("1999-12-31T19:20:00")) 
+        case $i as xs:string return <wrap>test failed</wrap> 
+        case $i as xs:integer return <wrap>test failed</wrap> 
+        case $i as xs:dateTime return <wrap>test passed - xs:dateTime("1999-12-31T19:20:00")is of dateTime type</wrap> 
+        default return <wrap>test failed</wrap>]]></test>
       <result>
          <assert-xml><![CDATA[<wrap>test passed - xs:dateTime("1999-12-31T19:20:00")is of dateTime type</wrap>]]></assert-xml>
       </result>
@@ -108,7 +153,12 @@
       <description> Simple test for evaluation of simple anyURI expression and various data types for case evaluation </description>
       <created by="Carmelo Montanez" on="2005-02-14"/>
       <dependency type="spec" value="XQ10+"/>
-      <test><![CDATA[typeswitch(xs:anyURI("http://example.com")) case $i as xs:string return <wrap>test failed</wrap> case $i as xs:integer return <wrap>test failed</wrap> case $i as xs:anyURI return <wrap>test passed - xs:anyURI("http://www.example.com")is of anyURI type</wrap> default return <wrap>test failed</wrap>]]></test>
+      <test><![CDATA[
+        typeswitch(xs:anyURI("http://example.com")) 
+        case $i as xs:string return <wrap>test failed</wrap> 
+        case $i as xs:integer return <wrap>test failed</wrap> 
+        case $i as xs:anyURI return <wrap>test passed - xs:anyURI("http://www.example.com")is of anyURI type</wrap> 
+        default return <wrap>test failed</wrap>]]></test>
       <result>
          <assert-xml><![CDATA[<wrap>test passed - xs:anyURI("http://www.example.com")is of anyURI type</wrap>]]></assert-xml>
       </result>
@@ -118,7 +168,12 @@
       <description> Simple test for evaluation of various expressions and should mathc the deafult value </description>
       <created by="Carmelo Montanez" on="2005-02-14"/>
       <dependency type="spec" value="XQ10+"/>
-      <test><![CDATA[typeswitch(123) case $i as xs:string return <wrap>test failed</wrap> case $i as xs:double return <wrap>test failed</wrap> case $i as xs:anyURI return <wrap>test failed</wrap> default return <wrap>test passed - 123 is an integer (not an option on any cases)</wrap>]]></test>
+      <test><![CDATA[
+        typeswitch(123) 
+        case $i as xs:string return <wrap>test failed</wrap> 
+        case $i as xs:double return <wrap>test failed</wrap> 
+        case $i as xs:anyURI return <wrap>test failed</wrap> 
+        default return <wrap>test passed - 123 is an integer (not an option on any cases)</wrap>]]></test>
       <result>
          <assert-xml><![CDATA[<wrap>test passed - 123 is an integer (not an option on any cases)</wrap>]]></assert-xml>
       </result>
@@ -128,7 +183,12 @@
       <description> Simple test for evaluating dynamic error raised by default clause (no error raised) </description>
       <created by="Carmelo Montanez" on="2005-02-14"/>
       <dependency type="spec" value="XQ10+"/>
-      <test><![CDATA[typeswitch(123) case $i as xs:string return <wrap>test failed</wrap> case $i as xs:double return <wrap>test failed</wrap> case $i as xs:integer return <wrap>test passed - If a dynamic error is generated, then test failed.</wrap> default return 12 div 0]]></test>
+      <test><![CDATA[
+        typeswitch(123) 
+        case $i as xs:string return <wrap>test failed</wrap> 
+        case $i as xs:double return <wrap>test failed</wrap> 
+        case $i as xs:integer return <wrap>test passed - If a dynamic error is generated, then test failed.</wrap> 
+        default return 12 div 0]]></test>
       <result>
          <assert-xml><![CDATA[<wrap>test passed - If a dynamic error is generated, then test failed.</wrap>]]></assert-xml>
       </result>
@@ -138,7 +198,12 @@
       <description> Simple test for typeswitch with operand expression (if Expression) evaluating to an integer. </description>
       <created by="Carmelo Montanez" on="2005-02-14"/>
       <dependency type="spec" value="XQ10+"/>
-      <test><![CDATA[typeswitch(if (1 lt 2) then 3 else 4.5E4) case $i as xs:string return <wrap>test failed</wrap> case $i as xs:double return <wrap>test failed</wrap> case $i as xs:integer return <wrap>test passed - "(1 lt 2) then 3 else 4.5E4" should evaluate to an integer</wrap> default return <wrap>test failed</wrap>]]></test>
+      <test><![CDATA[
+        typeswitch(if (1 lt 2) then 3 else 4.5E4) 
+        case $i as xs:string return <wrap>test failed</wrap> 
+        case $i as xs:double return <wrap>test failed</wrap> 
+        case $i as xs:integer return <wrap>test passed - "(1 lt 2) then 3 else 4.5E4" should evaluate to an integer</wrap> 
+        default return <wrap>test failed</wrap>]]></test>
       <result>
          <assert-xml><![CDATA[<wrap>test passed - "(1 lt 2) then 3 else 4.5E4" should evaluate to an integer</wrap>]]></assert-xml>
       </result>
@@ -148,7 +213,12 @@
       <description> Simple test for typeswitch with operand expression (boolean) evaluating to boolean type </description>
       <created by="Carmelo Montanez" on="2005-02-14"/>
       <dependency type="spec" value="XQ10+"/>
-      <test><![CDATA[typeswitch(fn:true() and fn:true()) case $i as xs:string return <wrap>test failed</wrap> case $i as xs:double return <wrap>test failed</wrap> case $i as xs:boolean return <wrap>test passed - "fn:true() and fn:true()" should evaluate to boolean type</wrap> default return <wrap>test failed</wrap>]]></test>
+      <test><![CDATA[
+        typeswitch(fn:true() and fn:true()) 
+        case $i as xs:string return <wrap>test failed</wrap> 
+        case $i as xs:double return <wrap>test failed</wrap> 
+        case $i as xs:boolean return <wrap>test passed - "fn:true() and fn:true()" should evaluate to boolean type</wrap> 
+        default return <wrap>test failed</wrap>]]></test>
       <result>
          <assert-xml><![CDATA[<wrap>test passed - "fn:true() and fn:true()" should evaluate to boolean type</wrap>]]></assert-xml>
       </result>
@@ -158,7 +228,12 @@
       <description> Simple test for typeswitch with operand expression (boolean or boolean) evaluating to boolean type </description>
       <created by="Carmelo Montanez" on="2005-02-14"/>
       <dependency type="spec" value="XQ10+"/>
-      <test><![CDATA[typeswitch(fn:true() or fn:false()) case $i as xs:string return <wrap>test failed</wrap> case $i as xs:double return <wrap>test failed</wrap> case $i as xs:boolean return <wrap>test passed - "fn:true() or fn:false()" should evaluate to boolean type</wrap> default return <wrap>test failed</wrap>]]></test>
+      <test><![CDATA[
+        typeswitch(fn:true() or fn:false()) 
+        case $i as xs:string return <wrap>test failed</wrap> 
+        case $i as xs:double return <wrap>test failed</wrap> 
+        case $i as xs:boolean return <wrap>test passed - "fn:true() or fn:false()" should evaluate to boolean type</wrap> 
+        default return <wrap>test failed</wrap>]]></test>
       <result>
          <assert-xml><![CDATA[<wrap>test passed - "fn:true() or fn:false()" should evaluate to boolean type</wrap>]]></assert-xml>
       </result>
@@ -168,7 +243,13 @@
       <description> Simple test for typeswitch with operand expression, that is itself a typeswitch expression evaluating to integer type </description>
       <created by="Carmelo Montanez" on="2005-02-14"/>
       <dependency type="spec" value="XQ10+"/>
-      <test><![CDATA[typeswitch(typeswitch (1) case $i as xs:integer return $i default return <a>fn:false</a> ) case $i as xs:string return <wrap>test failed</wrap> case $i as xs:double return <wrap>test failed</wrap> case $i as xs:integer return <wrap>test passed - the operand expression should evaluate to an integer type</wrap> default return <wrap>test failed</wrap>]]></test>
+      <test><![CDATA[
+        typeswitch(typeswitch (1) 
+        case $i as xs:integer return $i default return <a>fn:false</a> ) 
+        case $i as xs:string return <wrap>test failed</wrap> 
+        case $i as xs:double return <wrap>test failed</wrap> 
+        case $i as xs:integer return <wrap>test passed - the operand expression should evaluate to an integer type</wrap> 
+        default return <wrap>test failed</wrap>]]></test>
       <result>
          <assert-xml><![CDATA[<wrap>test passed - the operand expression should evaluate to an integer type</wrap>]]></assert-xml>
       </result>
@@ -178,7 +259,13 @@
       <description> Simple test for evaluation of atomic value (integer) and return contains integer expression </description>
       <created by="Carmelo Montanez" on="2005-08-25"/>
       <dependency type="spec" value="XQ10+"/>
-      <test><![CDATA[typeswitch (5) case $i as xs:integer return xs:integer(1 + 1) case $i as xs:date return <wrap>test failed</wrap> case $i as xs:time return <wrap>test failed</wrap> case $i as xs:string return <wrap>test failed</wrap> default return <wrap>test failed</wrap>]]></test>
+      <test><![CDATA[
+        typeswitch (5) 
+        case $i as xs:integer return xs:integer(1 + 1) 
+        case $i as xs:date return <wrap>test failed</wrap> 
+        case $i as xs:time return <wrap>test failed</wrap> 
+        case $i as xs:string return <wrap>test failed</wrap> 
+        default return <wrap>test failed</wrap>]]></test>
       <result>
          <assert-eq>2</assert-eq>
       </result>
@@ -188,7 +275,13 @@
       <description> Simple test for evaluation of atomic value (decimal) and return clause conatining an arithmetic expression with decimals </description>
       <created by="Carmelo Montanez" on="2005-08-25"/>
       <dependency type="spec" value="XQ10+"/>
-      <test><![CDATA[typeswitch (5.1) case $i as xs:decimal return xs:decimal(1.1 + 3.1) case $i as xs:float return <wrap>test failed</wrap> case $i as xs:integer return <wrap>test failed</wrap> case $i as xs:double return <wrap>test failed</wrap> default return <wrap>test failed</wrap>]]></test>
+      <test><![CDATA[
+        typeswitch (5.1) 
+        case $i as xs:decimal return xs:decimal(1.1 + 3.1) 
+        case $i as xs:float return <wrap>test failed</wrap> 
+        case $i as xs:integer return <wrap>test failed</wrap> 
+        case $i as xs:double return <wrap>test failed</wrap> 
+        default return <wrap>test failed</wrap>]]></test>
       <result>
          <assert-string-value>4.2</assert-string-value>
       </result>
@@ -198,7 +291,11 @@
       <description> Simple test for evaluation of atomic value (double) and return clause containing a double addition operation. </description>
       <created by="Carmelo Montanez" on="2005-08-25"/>
       <dependency type="spec" value="XQ10+"/>
-      <test><![CDATA[typeswitch (5.1E2) case $i as xs:integer return <wrap>test failed2</wrap> case $i as xs:double return xs:double(5.1E2 + 1.1E2) default return <wrap>test failed</wrap>]]></test>
+      <test><![CDATA[
+        typeswitch (5.1E2) 
+        case $i as xs:integer return <wrap>test failed2</wrap> 
+        case $i as xs:double return xs:double(5.1E2 + 1.1E2) 
+        default return <wrap>test failed</wrap>]]></test>
       <result>
          <assert-eq>620</assert-eq>
       </result>
@@ -208,7 +305,12 @@
       <description> Simple test for evaluation of atomic value (string) and return clause containing a string operation </description>
       <created by="Carmelo Montanez" on="2005-08-25"/>
       <dependency type="spec" value="XQ10+"/>
-      <test><![CDATA[typeswitch ("A String") case $i as xs:decimal return <wrap>test failed</wrap> case $i as xs:integer return <wrap>test failed</wrap> case $i as xs:string return fn:string-length($i) default return <wrap>test failed</wrap>]]></test>
+      <test><![CDATA[
+        typeswitch ("A String") 
+        case $i as xs:decimal return <wrap>test failed</wrap> 
+        case $i as xs:integer return <wrap>test failed</wrap> 
+        case $i as xs:string return fn:string-length($i) 
+        default return <wrap>test failed</wrap>]]></test>
       <result>
          <assert-eq>8</assert-eq>
       </result>
@@ -218,7 +320,12 @@
       <description> Simple test for evaluation of atomic value ("1") and return clause containing an fn:count() </description>
       <created by="Carmelo Montanez" on="2005-08-25"/>
       <dependency type="spec" value="XQ10+"/>
-      <test><![CDATA[typeswitch (1) case $i as xs:double return <wrap>test failed</wrap> case $i as xs:integer return fn:count((1, 2, 3)) case $i as xs:string return <wrap>test failed</wrap> default return <wrap>test failed</wrap>]]></test>
+      <test><![CDATA[
+        typeswitch (1) 
+        case $i as xs:double return <wrap>test failed</wrap> 
+        case $i as xs:integer return fn:count((1, 2, 3)) 
+        case $i as xs:string return <wrap>test failed</wrap> 
+        default return <wrap>test failed</wrap>]]></test>
       <result>
          <assert-eq>3</assert-eq>
       </result>
@@ -228,7 +335,12 @@
       <description> Simple test for evaluation of atomic value ("1") and return clause containing a subtraction operation </description>
       <created by="Carmelo Montanez" on="2005-08-25"/>
       <dependency type="spec" value="XQ10+"/>
-      <test><![CDATA[typeswitch (1) case $i as xs:double return <wrap>test failed</wrap> case $i as xs:integer return 5 - 3 case $i as xs:string return <wrap>test failed</wrap> default return <wrap>test failed</wrap>]]></test>
+      <test><![CDATA[
+        typeswitch (1) 
+        case $i as xs:double return <wrap>test failed</wrap> 
+        case $i as xs:integer return 5 - 3 
+        case $i as xs:string return <wrap>test failed</wrap> 
+        default return <wrap>test failed</wrap>]]></test>
       <result>
          <assert-eq>2</assert-eq>
       </result>
@@ -238,7 +350,12 @@
       <description> Simple test for evaluation of atomic value ("1") and return clause containing a multiplication operation </description>
       <created by="Carmelo Montanez" on="2005-08-25"/>
       <dependency type="spec" value="XQ10+"/>
-      <test><![CDATA[typeswitch (1) case $i as xs:double return <wrap>test failed</wrap> case $i as xs:integer return 5 * 2 case $i as xs:string return <wrap>test failed</wrap> default return <wrap>test failed</wrap>]]></test>
+      <test><![CDATA[
+        typeswitch (1) 
+        case $i as xs:double return <wrap>test failed</wrap> 
+        case $i as xs:integer return 5 * 2 
+        case $i as xs:string return <wrap>test failed</wrap> 
+        default return <wrap>test failed</wrap>]]></test>
       <result>
          <assert-eq>10</assert-eq>
       </result>
@@ -248,7 +365,12 @@
       <description> Simple test for evaluation of atomic value ("1") and return clause containing a division (div) operation </description>
       <created by="Carmelo Montanez" on="2005-08-25"/>
       <dependency type="spec" value="XQ10+"/>
-      <test><![CDATA[typeswitch (1) case $i as xs:double return <wrap>test failed</wrap> case $i as xs:integer return 10 div 2 case $i as xs:string return <wrap>test failed</wrap> default return <wrap>test failed</wrap>]]></test>
+      <test><![CDATA[
+        typeswitch (1) 
+        case $i as xs:double return <wrap>test failed</wrap> 
+        case $i as xs:integer return 10 div 2 
+        case $i as xs:string return <wrap>test failed</wrap> 
+        default return <wrap>test failed</wrap>]]></test>
       <result>
          <assert-eq>5</assert-eq>
       </result>
@@ -258,7 +380,12 @@
       <description> Simple test for evaluation of atomic value ("1") and return clause containing a division (idiv) operation </description>
       <created by="Carmelo Montanez" on="2005-08-25"/>
       <dependency type="spec" value="XQ10+"/>
-      <test><![CDATA[typeswitch (1) case $i as xs:double return <wrap>test failed</wrap> case $i as xs:integer return 10 idiv 2 case $i as xs:string return <wrap>test failed</wrap> default return <wrap>test failed</wrap>]]></test>
+      <test><![CDATA[
+        typeswitch (1) 
+        case $i as xs:double return <wrap>test failed</wrap> 
+        case $i as xs:integer return 10 idiv 2 
+        case $i as xs:string return <wrap>test failed</wrap> 
+        default return <wrap>test failed</wrap>]]></test>
       <result>
          <assert-eq>5</assert-eq>
       </result>
@@ -747,6 +874,50 @@
       </test>
       <result>
          <assert-true/>
+      </result>
+   </test-case>  
+   
+   <test-case name="typeswitch-117">
+      <description>purpose: Test typeswitch with maps and arrays. </description>
+      <created by="Michael Kay" on="2015-04-16"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test>
+      	let $x := [map{'x':1, 'y':2}, 'x']
+      	let $y := [array{1, 2, 3}, 1]
+      	let $z := ($x, $y)
+      	for $e in $z return
+      	  typeswitch($e?1)
+      	  case $A as array(*) return array:get($A, $e?2)
+      	  case $M as map(*) return map:get($M, $e?2)
+      	  default return error()
+      </test>
+      <result>
+         <assert-deep-eq>1,1</assert-deep-eq>
+      </result>
+   </test-case>   
+   
+   <test-case name="typeswitch-118">
+      <description>
+        Purpose: Test typeswitch where a branch does not get executed. 
+        Detecting a type error here is permitted but not required.
+      </description>
+      <created by="Michael Kay" on="2015-04-16"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test>
+      	let $x := map{'x':1, 'y':2}
+      	let $y := map{'A':1, 'B':2}
+      	let $z := ($x, $y, [])
+      	for $e in $z(position() lt 3) return
+      	  typeswitch($e)
+      	  case $A as array(*) return array:get($A, 'A')
+      	  case $M as map(*) return map:get($M, 'A')
+      	  default return error()
+      </test>
+      <result>
+         <any-of>
+           <error code="XPTY0004"/>
+           <assert-eq>1</assert-eq>
+         </any-of>
       </result>
    </test-case>   
    
