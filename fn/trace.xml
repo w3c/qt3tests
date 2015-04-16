@@ -201,6 +201,36 @@
          <assert-string-value>a A b B</assert-string-value>
       </result>
    </test-case>
+   
+   <test-case name="fn-trace-22" covers="fn-trace#1">
+      <description> Simple call of "fn:trace" function with one argument. </description>
+      <created by="Michael Kay" on="2015-04-16"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>fn:trace(1 to 10)</test>
+      <result>
+         <assert-deep-eq>1 to 10</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-trace-23" covers="fn-trace#1">
+      <description> Call of "fn:trace" function with one argument, argument is an array </description>
+      <created by="Michael Kay" on="2015-04-16"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>fn:trace([1 to 10])</test>
+      <result>
+         <assert-deep-eq>[1 to 10]</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-trace-24" covers="fn-trace#1">
+      <description> Call of "fn:trace" function with one argument, argument is an sequence of maps </description>
+      <created by="Michael Kay" on="2015-04-16"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>fn:trace((map{'x':1,'y':2}, map{}))</test>
+      <result>
+         <assert-deep-eq>map{'x':1,'y':2}, map{}</assert-deep-eq>
+      </result>
+   </test-case>
 
    <test-case name="K-TraceFunc-1">
       <description> A test whose essence is: `trace()`. </description>
