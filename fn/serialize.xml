@@ -246,4 +246,348 @@
             <error code="SENR0001"/>
         </result>
     </test-case>
+    
+    <test-case name="serialize-xml-014">
+        <description>serialize test - with invalid attribute</description>
+        <created by="Michael Kay" on="2015-04-16"/>
+        <environment ref="atomic"/>
+        <dependency type="spec" value="XQ30+"/>
+        <test><![CDATA[
+            let $params := 
+              <output:serialization-parameters
+                   xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization">
+                <output:indent value="yes" value2="no"/>
+              </output:serialization-parameters>
+          return serialize(., $params)
+        ]]></test>
+        <result>
+            <error code="SEPM0017"/>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-015">
+        <description>serialize test - with invalid attribute</description>
+        <created by="Michael Kay" on="2015-04-16"/>
+        <environment ref="atomic"/>
+        <dependency type="spec" value="XQ30+"/>
+        <test><![CDATA[
+            let $params := 
+              <output:serialization-parameters
+                   xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization"
+                    value2="no">
+                <output:indent value="yes"/>
+              </output:serialization-parameters>
+          return serialize(., $params)
+        ]]></test>
+        <result>
+            <error code="SEPM0017"/>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-016">
+        <description>serialize test - with disallowed element</description>
+        <created by="Michael Kay" on="2015-04-16"/>
+        <environment ref="atomic"/>
+        <dependency type="spec" value="XQ30+"/>
+        <test><![CDATA[
+            let $params := 
+              <output:serialization-parameters
+                   xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization">
+                <output:indent value="yes"/>
+                <output:outdent value="yes"/>
+              </output:serialization-parameters>
+          return serialize(., $params)
+        ]]></test>
+        <result>
+            <error code="SEPM0017"/>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-017">
+        <description>serialize test - with wrong namespace</description>
+        <created by="Michael Kay" on="2015-04-16"/>
+        <environment ref="atomic"/>
+        <dependency type="spec" value="XQ30+"/>
+        <test><![CDATA[
+            let $params := 
+              <output:serialization-parameters
+                   xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization/wrong">
+                <output:indent value="yes"/>
+              </output:serialization-parameters>
+          return serialize(., $params)
+        ]]></test>
+        <result>
+            <error code="XPTY0004"/>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-018">
+        <description>serialize test - with wrong outermost element</description>
+        <created by="Michael Kay" on="2015-04-16"/>
+        <environment ref="atomic"/>
+        <dependency type="spec" value="XQ30+"/>
+        <test><![CDATA[
+            let $params := 
+              <output:serialization-parameters-wrong
+                   xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization">
+                <output:indent value="yes"/>
+              </output:serialization-parameters-wrong>
+          return serialize(., $params)
+        ]]></test>
+        <result>
+            <error code="XPTY0004"/>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-019">
+        <description>serialize test - with duplicated element</description>
+        <created by="Michael Kay" on="2015-04-16"/>
+        <environment ref="atomic"/>
+        <dependency type="spec" value="XQ30+"/>
+        <test><![CDATA[
+            let $params := 
+              <output:serialization-parameters
+                   xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization">
+                <output:indent value="yes"/>
+                <output:indent value="yes"/>
+              </output:serialization-parameters>
+          return serialize(., $params)
+        ]]></test>
+        <result>
+            <error code="SEPM0019"/>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-020">
+        <description>serialize test - with disallowed no-namespace element</description>
+        <created by="Michael Kay" on="2015-04-16"/>
+        <environment ref="atomic"/>
+        <dependency type="spec" value="XQ30+"/>
+        <test><![CDATA[
+            let $params := 
+              <output:serialization-parameters
+                   xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization">
+                <indent value="yes"/>
+              </output:serialization-parameters>
+          return serialize(., $params)
+        ]]></test>
+        <result>
+            <error code="SEPM0017"/>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-021">
+        <description>serialize test - with bad attribute on character map</description>
+        <created by="Michael Kay" on="2015-04-16"/>
+        <environment ref="atomic"/>
+        <dependency type="spec" value="XQ30+"/>
+        <test><![CDATA[
+            let $params := 
+              <output:serialization-parameters
+                   xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization">
+                <output:use-character-maps>
+                  <output:character-map character="$" map-string="£" exchange-rate="1.80"/>
+                </output:use-character-maps>
+              </output:serialization-parameters>
+          return serialize(., $params)
+        ]]></test>
+        <result>
+            <error code="SEPM0017"/>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-022">
+        <description>serialize test - with invalid child of character map</description>
+        <created by="Michael Kay" on="2015-04-16"/>
+        <environment ref="atomic"/>
+        <dependency type="spec" value="XQ30+"/>
+        <test><![CDATA[
+            let $params := 
+              <output:serialization-parameters
+                   xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization">
+                <output:use-character-maps>
+                  <output:character-map character="$" map-string="£" />
+                  <output:character-mapping character="%" map-string="£"/>
+                </output:use-character-maps>
+              </output:serialization-parameters>
+          return serialize(., $params)
+        ]]></test>
+        <result>
+            <error code="SEPM0017"/>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-023">
+        <description>serialize test - with character map - must be a single character</description>
+        <created by="Michael Kay" on="2015-04-16"/>
+        <environment ref="atomic"/>
+        <dependency type="spec" value="XQ30+"/>
+        <test><![CDATA[
+            let $params := 
+              <output:serialization-parameters
+                   xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization">
+                <output:use-character-maps>
+                  <output:character-map character="$$" map-string="£" />
+                </output:use-character-maps>
+              </output:serialization-parameters>
+          return serialize(., $params)
+        ]]></test>
+        <result>
+            <error code="SEPM0017"/>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-024">
+        <description>serialize test - with character map - duplicate mappings</description>
+        <created by="Michael Kay" on="2015-04-16"/>
+        <environment ref="atomic"/>
+        <dependency type="spec" value="XQ30+"/>
+        <test><![CDATA[
+            let $params := 
+              <output:serialization-parameters
+                   xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization">
+                <output:use-character-maps>
+                  <output:character-map character="$" map-string="£" />
+                  <output:character-map character="$" map-string="€" />
+                </output:use-character-maps>
+              </output:serialization-parameters>
+          return serialize(., $params)
+        ]]></test>
+        <result>
+            <error code="SEPM0018"/>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-025">
+        <description>serialize test - with duplicated element in user namespace</description>
+        <created by="Michael Kay" on="2015-04-16"/>
+        <environment ref="atomic"/>
+        <dependency type="spec" value="XQ30+"/>
+        <test><![CDATA[
+            let $params := 
+              <output:serialization-parameters
+                   xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization"
+                   xmlns:my-output="http://example.com/xslt-xquery-serialization">
+                <my-output:indent-spaces value="3"/>
+                <my-output:indent-spaces value="2"/>
+              </output:serialization-parameters>
+          return serialize(., $params)
+        ]]></test>
+        <result>
+            <error code="SEPM0019"/>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-026">
+        <description>serialize test - with ignored element in user namespace</description>
+        <created by="Michael Kay" on="2015-04-16"/>
+        <environment ref="atomic"/>
+        <dependency type="spec" value="XQ30+"/>
+        <test><![CDATA[
+            let $params := 
+              <output:serialization-parameters
+                   xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization"
+                   xmlns:my-output="http://example.com/xslt-xquery-serialization">
+                <output:indent value="yes"/>
+                <my-output:indent-spaces value="2"/>
+              </output:serialization-parameters>
+          return serialize(., $params)
+        ]]></test>
+        <result>
+            <assert>contains($result,'atomic')</assert>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-027">
+        <description>serialize test - omit-xml-declaration</description>
+        <created by="Michael Kay" on="2015-04-16"/>
+        <environment ref="atomic"/>
+        <dependency type="spec" value="XQ30+"/>
+        <test><![CDATA[
+            let $params := 
+              <output:serialization-parameters
+                   xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization">
+                <output:omit-xml-declaration value="yes"/>
+              </output:serialization-parameters>
+          return serialize(., $params)
+        ]]></test>
+        <result>
+            <assert>not(contains($result,'&lt;?xml'))</assert>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-028">
+        <description>serialize test - omit-xml-declaration</description>
+        <created by="Michael Kay" on="2015-04-16"/>
+        <environment ref="atomic"/>
+        <dependency type="spec" value="XQ30+"/>
+        <test><![CDATA[
+            let $params := 
+              <output:serialization-parameters
+                   xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization">
+                <output:omit-xml-declaration value="no"/>
+              </output:serialization-parameters>
+          return serialize(., $params)
+        ]]></test>
+        <result>
+            <assert>contains($result,'&lt;?xml')</assert>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-028">
+        <description>serialize test - standalone</description>
+        <created by="Michael Kay" on="2015-04-16"/>
+        <environment ref="atomic"/>
+        <dependency type="spec" value="XQ30+"/>
+        <test><![CDATA[
+            let $params := 
+              <output:serialization-parameters
+                   xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization">
+                <output:omit-xml-declaration value="no"/>
+                <output:standalone value=" no "/>
+              </output:serialization-parameters>
+          return serialize(., $params)
+        ]]></test>
+        <result>
+            <assert>contains($result,'standalone="no"')</assert>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-029">
+        <description>serialize test - standalone</description>
+        <created by="Michael Kay" on="2015-04-16"/>
+        <environment ref="atomic"/>
+        <dependency type="spec" value="XQ30+"/>
+        <test><![CDATA[
+            let $params := 
+              <output:serialization-parameters
+                   xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization">
+                <output:omit-xml-declaration value="no"/>
+                <output:standalone value=" yes "/>
+              </output:serialization-parameters>
+          return serialize(., $params)
+        ]]></test>
+        <result>
+            <assert>contains($result,'standalone="yes"')</assert>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-030">
+        <description>serialize test - standalone</description>
+        <created by="Michael Kay" on="2015-04-16"/>
+        <environment ref="atomic"/>
+        <dependency type="spec" value="XQ30+"/>
+        <test><![CDATA[
+            let $params := 
+              <output:serialization-parameters
+                   xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization">
+                <output:omit-xml-declaration value="no"/>
+                <output:standalone value=" omit "/>
+              </output:serialization-parameters>
+          return serialize(., $params)
+        ]]></test>
+        <result>
+            <assert>not(contains($result,'standalone'))</assert>
+        </result>
+    </test-case>
 </test-set>
