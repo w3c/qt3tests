@@ -5,7 +5,7 @@
     <link type="spec" document="http://www.w3.org/TR/xpath-functions-31/" idref="func-array-remove"/>
     <dependency type="spec" value="XP31+ XQ31+"/>
 
- 
+
 
     <test-case name="array-remove-401">
         <description>Remove member from array</description>
@@ -86,8 +86,48 @@
             <error code="FOAY0001"/>
         </result>
     </test-case>
-    
 
+    <test-case name="array-remove-408">
+        <description>Remove member from array - error</description>
+        <created by="Josh Spiegel" on="2015-04-14"/>
+        <test>array:remove([[(1,2)]], -3)</test>
+        <result>
+            <error code="FOAY0001"/>
+        </result>
+    </test-case>
 
+    <test-case name="array-remove-409">
+        <description>Remove first nested array</description>
+        <created by="Josh Spiegel" on="2015-04-14"/>
+        <test>array:remove([[(1,2)]], 1)</test>
+        <result>
+            <all-of>
+                <assert-type>array(*)</assert-type>
+                <assert>array:size($result) eq 0</assert>
+                <assert-deep-eq>[]</assert-deep-eq>
+            </all-of>
+        </result>
+    </test-case>
 
+    <test-case name="array-remove-410">
+        <description>Remove last nested array</description>
+        <created by="Josh Spiegel" on="2015-04-14"/>
+        <test>array:remove([[(1,2)],[(1,2)]], 1)</test>
+        <result>
+            <all-of>
+                <assert-type>array(*)</assert-type>
+                <assert>array:size($result) eq 1</assert>
+                <assert-deep-eq>[[(1,2)]]</assert-deep-eq>
+            </all-of>
+        </result>
+    </test-case>
+
+    <test-case name="array-remove-412">
+        <description>Remove after last nested array</description>
+        <created by="Josh Spiegel" on="2015-04-14"/>
+        <test>array:remove([[(1,2)],[(1,2)]], 3)</test>
+        <result>
+            <error code="FOAY0001"/>
+        </result>
+    </test-case>
 </test-set>

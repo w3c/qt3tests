@@ -6,7 +6,7 @@
     <dependency type="spec" value="XP31+ XQ31+"/>
 
 
-    
+
     <test-case name="array-tail-701">
         <description>Return tail of array with integer members</description>
         <created by="Debbie Lockett, Saxonica" on="2014-10-28"/>
@@ -55,7 +55,36 @@
             <error code="FOAY0001"/>
         </result>
     </test-case>
-    
- 
+
+    <test-case name="array-tail-705">
+        <description>Return tail of array with single member that is empty</description>
+        <created by="Josh Spiegel" on="2014-04-10"/>
+        <test>array:tail([()])</test>
+        <result>
+            <all-of>
+                <assert-type>array(*)</assert-type>
+                <assert>array:size($result) eq 0</assert>
+                <assert-deep-eq>[]</assert-deep-eq>
+            </all-of>
+        </result>
+    </test-case>
+
+    <test-case name="array-tail-706">
+        <description>Return tail of array with nested arrays in the first argument.</description>
+        <created by="Josh Spiegel" on="2014-04-10"/>
+        <test><![CDATA[
+          array:tail([
+        	[1,[[2]]],
+        	<e/>,
+            (<f/>,<g/>)
+          ])
+        ]]></test>
+        <result>
+            <all-of>
+                <assert-type>array(*)</assert-type>
+                <assert>array:size($result) eq 2</assert>
+            </all-of>
+        </result>
+    </test-case>
 
 </test-set>

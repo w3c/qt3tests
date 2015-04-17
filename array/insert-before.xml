@@ -6,7 +6,7 @@
     <dependency type="spec" value="XP31+ XQ31+"/>
 
 
-    
+
     <test-case name="array-insert-before-501">
         <description>Insert sequence member in array with string members</description>
         <created by="Debbie Lockett, Saxonica" on="2014-10-28"/>
@@ -90,6 +90,71 @@
             <error code="FOAY0001"/>
         </result>
     </test-case>
- 
 
+    <test-case name="array-insert-before-508">
+        <description>array:insert-before</description>
+        <created by="Josh Spiegel" on="2015-04-17"/>
+        <test><![CDATA[   
+              let $x := <x/>
+        	  let $array := [<e/>, <f/>, <g/>]
+           	  for $i in 1 to array:size($array) + 1
+              return
+        	     array:insert-before($array, $i, $x) 
+        ]]></test>
+        <result>
+            <all-of>
+                <assert-type>array(*)+</assert-type>
+                <assert>count($result) eq 4</assert>
+                <assert-deep-eq><![CDATA[ 
+                    [<x/>, <e/>, <f/>, <g/>],
+                    [<e/>, <x/>, <f/>, <g/>],
+                    [<e/>, <f/>, <x/>, <g/>],
+                    [<e/>, <f/>, <g/>, <x/>] 
+                ]]></assert-deep-eq>
+            </all-of>
+        </result>
+    </test-case>
+
+    <test-case name="array-insert-before-509">
+        <description>array:insert-before</description>
+        <created by="Josh Spiegel" on="2015-04-17"/>
+        <test><![CDATA[   
+              let $x := 1
+              let $array := [0,0,0]
+              for $i in 1 to array:size($array) + 1
+              return
+                 array:insert-before($array, $i, $x) 
+        ]]></test>
+        <result>
+            <all-of>
+                <assert-type>array(*)+</assert-type>
+                <assert>count($result) eq 4</assert>
+                <assert-deep-eq><![CDATA[ 
+                    [1,0,0,0],
+                    [0,1,0,0],
+                    [0,0,1,0],
+                    [0,0,0,1]
+                ]]></assert-deep-eq>
+            </all-of>
+        </result>
+    </test-case>
+
+    <test-case name="array-insert-before-510">
+        <description>array:insert-before - node identity</description>
+        <created by="Josh Spiegel" on="2015-04-17"/>
+        <test><![CDATA[   
+              let $x := <c/>
+              let $array := [<a/>, <b/>]
+              let $insert1 := array:insert-before($array, 1, $x)
+              let $insert2 := array:insert-before($array, 2, $x)
+              for $element in (array:flatten($insert1) union array:flatten($insert2))
+              let $name := $element/name()
+              order by $name
+              return $name
+        ]]></test>
+        <result>
+            <assert-deep-eq>("a", "b", "c")</assert-deep-eq>
+        </result>
+    </test-case>    
+    
 </test-set>

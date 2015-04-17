@@ -5,8 +5,8 @@
     <link type="spec" document="http://www.w3.org/TR/xpath-functions-31/" idref="func-array-join"/>
     <dependency type="spec" value="XP31+ XQ31+"/>
 
- 
-    
+
+
     <test-case name="array-join-201">
         <description>Join two arrays, integer members</description>
         <created by="Debbie Lockett, Saxonica" on="2014-10-15"/>
@@ -73,6 +73,93 @@
         </result>
     </test-case>
 
- 
+
+    <test-case name="array-join-206">
+        <description>A single empty array</description>
+        <created by="Josh Spiegel" on="2015-04-09"/>
+        <test>array:join([])</test>
+        <result>
+            <all-of>
+                <assert-type>array(*)</assert-type>
+                <assert>array:size($result) eq 0</assert>
+                <assert-deep-eq>[]</assert-deep-eq>
+            </all-of>
+        </result>
+    </test-case>
+
+    <test-case name="array-join-207">
+        <description>A single array containing the empty sequence</description>
+        <created by="Josh Spiegel" on="2015-04-09"/>
+        <test>array:join([()])</test>
+        <result>
+            <all-of>
+                <assert-type>array(*)</assert-type>
+                <assert>array:size($result) eq 1</assert>
+                <assert-deep-eq>[()]</assert-deep-eq>
+            </all-of>
+        </result>
+    </test-case>
+
+    <test-case name="array-join-208">
+        <description>Multiple empty arrays</description>
+        <created by="Josh Spiegel" on="2015-04-09"/>
+        <test>array:join(([], [], []))</test>
+        <result>
+            <all-of>
+                <assert-type>array(*)</assert-type>
+                <assert>array:size($result) eq 0</assert>
+                <assert-deep-eq>[]</assert-deep-eq>
+            </all-of>
+        </result>
+    </test-case>
+
+    <test-case name="array-join-209">
+        <description>Multiple arrays containing the empty sequence</description>
+        <created by="Josh Spiegel" on="2015-04-09"/>
+        <test>array:join(([()], [()], [()]))</test>
+        <result>
+            <all-of>
+                <assert-type>array(*)</assert-type>
+                <assert>array:size($result) eq 3</assert>
+                <assert-deep-eq>[(), (), ()]</assert-deep-eq>
+            </all-of>
+        </result>
+    </test-case>
+
+    <test-case name="array-join-210">
+        <description>A mix of empty and non-empty arrays</description>
+        <created by="Josh Spiegel" on="2015-04-09"/>
+        <test><![CDATA[
+           array:join(([], [()], [], [4], [], [<e>f</e>, <!-- 234 -->], [], [] ))
+        ]]></test>
+        <result>
+            <all-of>
+                <assert-type>array(*)</assert-type>
+                <assert>array:size($result) eq 4</assert>
+                <assert>$result(3)/data() eq "f"</assert>
+            </all-of>
+        </result>
+    </test-case>
+
+    <test-case name="array-join-211">
+        <description>A mix of nesting arrays</description>
+        <created by="Josh Spiegel" on="2015-04-09"/>
+        <test><![CDATA[
+           array:join((
+              [[(1,2)]],
+              [[(3,4)],(5,6)],
+              [7],
+        	  []
+           ))
+        ]]></test>
+        <result>
+            <all-of>
+                <assert-type>array(*)</assert-type>
+                <assert>array:size($result) eq 4</assert>
+                <assert>$result(1)(1)[2] eq 2</assert>
+            </all-of>
+        </result>
+    </test-case>
+
 
 </test-set>
