@@ -1179,6 +1179,477 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
             </all-of>
         </result>
     </test-case>
+    
+    <test-case name="fn-transform-48">
+        <description>Transform with additional unrecognised option which is ignored</description>
+        <created by="Debbie Lockett" on="2015-04-15"/>
+        <dependency type="spec" value="XQ31+"/>
+        <test><![CDATA[
+            declare variable $xsl as xs:string :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' version='2.0'>
+                <xsl:template name='main'>
+                    <out>
+                        <xsl:value-of select='.' />
+                    </out>
+                </xsl:template> 
+            </xsl:stylesheet>";
+            transform(map{"stylesheet-text":$xsl, "source-node":parse-xml("<doc>this</doc>"), 
+            "initial-template": fn:QName('','main'), 
+            "another-option" : "dummy"})
+        ]]>
+        </test>
+        <result>
+            <all-of>
+                <assert-type>map(*)</assert-type>
+                <assert>map:contains($result, "output")</assert>
+                <assert>$result("output") instance of node()</assert>
+                <assert>$result?output//out = 'this'</assert>
+            </all-of>
+        </result>
+    </test-case>
+    
+    
+    <test-case name="fn-transform-50">
+        <description>Transform using XSLT 3.0 option static-params</description>
+        <created by="Debbie Lockett" on="2015-04-15"/>
+        <dependency type="spec" value="XQ31+"/>
+        <dependency type="feature" value="fn-transform-XSLT30"/>
+        <test><![CDATA[
+            declare variable $xsl as xs:string :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' version='3.0'>
+                <xsl:param name='static-param' static='yes' select='&quot;success&quot;'/>
+                <xsl:template match='/'>
+                    <out><xsl:value-of select='$static-param'/></out>
+                </xsl:template>
+            </xsl:stylesheet>";
+            transform(map{"stylesheet-node":parse-xml($xsl), "source-node":parse-xml("<doc>this</doc>"), 
+            "static-params":map{QName('','static-param'):"Hello World"}
+            })
+        ]]></test>
+        <result>
+            <all-of>
+                <assert-type>map(*)</assert-type>
+                <assert>map:contains($result, "output")</assert>
+                <assert>$result("output") instance of node()</assert>
+                <assert>$result?output//out = 'Hello World'</assert>
+            </all-of>
+        </result>        
+    </test-case>
+    
+    <test-case name="fn-transform-51">
+        <description>Transform using XSLT 3.0 option static-params</description>
+        <created by="Debbie Lockett" on="2015-04-15"/>
+        <dependency type="spec" value="XQ31+"/>
+        <dependency type="feature" value="fn-transform-XSLT30"/>
+        <test><![CDATA[
+            declare variable $xsl as xs:string :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' version='3.0'>
+                <xsl:param name='static-param' static='yes' select='&quot;success&quot;'/>
+                <xsl:param name='alt-param' static='yes' select='upper-case($static-param)'/>
+                <xsl:template match='/'>
+                    <out><xsl:value-of select='$static-param'/><xsl:value-of select='$alt-param'/></out>
+                </xsl:template>
+            </xsl:stylesheet>";
+            transform(map{"stylesheet-node":parse-xml($xsl), "source-node":parse-xml("<doc>this</doc>"), 
+            "static-params":map{QName('','static-param'):"Hello"}
+            })
+        ]]></test>
+        <result>
+            <all-of>
+                <assert-type>map(*)</assert-type>
+                <assert>map:contains($result, "output")</assert>
+                <assert>$result("output") instance of node()</assert>
+                <assert>$result?output//out = 'HelloHELLO'</assert>
+            </all-of>
+        </result>        
+    </test-case>
+    
+    <test-case name="fn-transform-52">
+        <description>Transform using XSLT 3.0 option static-params</description>
+        <created by="Debbie Lockett" on="2015-04-15"/>
+        <dependency type="spec" value="XQ31+"/>
+        <dependency type="feature" value="fn-transform-XSLT30"/>
+        <test><![CDATA[
+            declare variable $xsl as xs:string :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' version='3.0'>
+                <xsl:param name='static-param' static='yes' select='&quot;success&quot;'/>
+                <xsl:param name='alt-param' static='yes' select='upper-case($static-param)'/>
+                <xsl:template match='/'>
+                    <out><xsl:value-of select='$static-param'/><xsl:value-of select='$alt-param'/></out>
+                </xsl:template>
+            </xsl:stylesheet>";
+            transform(map{"stylesheet-node":parse-xml($xsl), "source-node":parse-xml("<doc>this</doc>"), 
+            "static-params":map{QName('','static-param'):"Hello", QName('','alt-param'):"World"}
+            })
+        ]]></test>
+        <result>
+            <all-of>
+                <assert-type>map(*)</assert-type>
+                <assert>map:contains($result, "output")</assert>
+                <assert>$result("output") instance of node()</assert>
+                <assert>$result?output//out = 'HelloWorld'</assert>
+            </all-of>
+        </result>        
+    </test-case>
+    
+    <test-case name="fn-transform-53">
+        <description>Transform using XSLT 3.0 option template-params</description>
+        <created by="Debbie Lockett" on="2015-04-15"/>
+        <dependency type="spec" value="XQ31+"/>
+        <dependency type="feature" value="fn-transform-XSLT30"/>
+        <test><![CDATA[
+            declare variable $xsl as xs:string :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' version='3.0'>
+                <xsl:template name='main'>
+                <xsl:param name='template-param' select='&quot;old&quot;'/>
+                    <out>
+                        <xsl:value-of select='$template-param' />
+                    </out>
+                </xsl:template> 
+            </xsl:stylesheet>";
+            transform(map{"stylesheet-text":$xsl, "source-node":parse-xml("<doc>this</doc>"), 
+            "initial-template": fn:QName('','main'),
+            "template-params": map{QName('','template-param'):"new"}
+            })
+        ]]>
+        </test>
+        <result>
+            <all-of>
+                <assert-type>map(*)</assert-type>
+                <assert>map:contains($result, "output")</assert>
+                <assert>$result("output") instance of node()</assert>
+                <assert>$result?output//out/text() = 'new'</assert>
+            </all-of>
+        </result>
+    </test-case> 
+    
+    <test-case name="fn-transform-54">
+        <description>Transform using XSLT 3.0 option template-params</description>
+        <created by="Debbie Lockett" on="2015-04-15"/>
+        <dependency type="spec" value="XQ31+"/>
+        <dependency type="feature" value="fn-transform-XSLT30"/>
+        <test><![CDATA[
+            declare variable $xsl as xs:string :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' version='3.0'>
+                <xsl:template name='main'>
+                <xsl:param name='param1' select='&quot;old1&quot;'/>
+                <xsl:param name='param2' select='&quot;old2&quot;'/>
+                <xsl:param name='param3' select='&quot;old3&quot;'/>
+                    <out>
+                        <xsl:value-of select='$param1' />
+                        <xsl:value-of select='$param2' />
+                        <xsl:value-of select='$param3' />
+                    </out>
+                </xsl:template> 
+            </xsl:stylesheet>";
+            transform(map{"stylesheet-text":$xsl, "source-node":parse-xml("<doc>this</doc>"), 
+            "initial-template": fn:QName('','main'),
+            "template-params": map{QName('','param1'):"new1", QName('','param2'):"new2", QName('','param4'):"new4"}
+            })
+        ]]>
+        </test>
+        <result>
+            <all-of>
+                <assert-type>map(*)</assert-type>
+                <assert>map:contains($result, "output")</assert>
+                <assert>$result("output") instance of node()</assert>
+                <assert>$result?output//out/text() = 'new1new2old3'</assert>
+            </all-of>
+        </result>
+    </test-case> 
+    
+    <test-case name="fn-transform-55">
+        <description>Transform using XSLT 3.0 option template-params</description>
+        <created by="Debbie Lockett" on="2015-04-15"/>
+        <dependency type="spec" value="XQ31+"/>
+        <dependency type="feature" value="fn-transform-XSLT30"/>
+        <test><![CDATA[
+            declare variable $xsl as xs:string :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' version='3.0'>
+                <xsl:template name='main'>
+                <xsl:param name='param1' select='&quot;old1&quot;'/>
+                <xsl:param name='param2' required='yes'/>
+                <xsl:param name='param3' select='&quot;old3&quot;'/>
+                    <out>
+                        <xsl:value-of select='$param1' />
+                        <xsl:value-of select='$param2' />
+                        <xsl:value-of select='$param3' />
+                    </out>
+                </xsl:template> 
+            </xsl:stylesheet>";
+            transform(map{"stylesheet-text":$xsl, "source-node":parse-xml("<doc>this</doc>"), 
+            "initial-template": fn:QName('','main'),
+            "template-params": map{QName('','param1'):"new1", QName('','param2'):"new2"}
+            })
+        ]]>
+        </test>
+        <result>
+            <all-of>
+                <assert-type>map(*)</assert-type>
+                <assert>map:contains($result, "output")</assert>
+                <assert>$result("output") instance of node()</assert>
+                <assert>$result?output//out/text() = 'new1new2old3'</assert>
+            </all-of>
+        </result>
+    </test-case> 
+    
+    <test-case name="fn-transform-56">
+        <description>Transform using XSLT 3.0 option template-params (note $param1 is tunnel param so not set)</description>
+        <created by="Debbie Lockett" on="2015-04-15"/>
+        <dependency type="spec" value="XQ31+"/>
+        <dependency type="feature" value="fn-transform-XSLT30"/>
+        <test><![CDATA[
+            declare variable $xsl as xs:string :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' version='3.0'>
+                <xsl:template name='main'>
+                <xsl:param name='param1' select='&quot;old1&quot;' tunnel='yes'/>
+                <xsl:param name='param2' select='&quot;old2&quot;'/>
+                <xsl:param name='param3' select='&quot;old3&quot;'/>
+                    <out>
+                        <xsl:value-of select='$param1' />
+                        <xsl:value-of select='$param2' />
+                        <xsl:value-of select='$param3' />
+                    </out>
+                </xsl:template> 
+            </xsl:stylesheet>";
+            transform(map{"stylesheet-text":$xsl, "source-node":parse-xml("<doc>this</doc>"), 
+            "initial-template": fn:QName('','main'),
+            "template-params": map{QName('','param1'):"new1", QName('','param2'):"new2", QName('','param4'):"new4"}
+            })
+        ]]>
+        </test>
+        <result>
+            <all-of>
+                <assert-type>map(*)</assert-type>
+                <assert>map:contains($result, "output")</assert>
+                <assert>$result("output") instance of node()</assert>
+                <assert>$result?output//out/text() = 'old1new2old3'</assert>
+            </all-of>
+        </result>
+    </test-case> 
+    
+    <test-case name="fn-transform-57">
+        <description>Transform using XSLT 3.0 option tunnel-params</description>
+        <created by="Debbie Lockett" on="2015-04-15"/>
+        <dependency type="spec" value="XQ31+"/>
+        <dependency type="feature" value="fn-transform-XSLT30"/>
+        <test><![CDATA[
+            declare variable $xsl as xs:string :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' version='3.0'>
+                <xsl:template name='main'>
+                <xsl:param name='param1' select='&quot;old1&quot;' tunnel='yes'/>
+                <xsl:param name='param2' select='&quot;old2&quot;'/>
+                <xsl:param name='param3' select='&quot;old3&quot;'/>
+                    <out>
+                        <xsl:value-of select='$param1' />
+                        <xsl:value-of select='$param2' />
+                        <xsl:value-of select='$param3' />
+                    </out>
+                </xsl:template> 
+            </xsl:stylesheet>";
+            transform(map{"stylesheet-text":$xsl, "source-node":parse-xml("<doc>this</doc>"), 
+            "initial-template": fn:QName('','main'),
+            "tunnel-params": map{QName('','param1'):"tunnel1", QName('','param2'):"tunnel2"}
+            })
+        ]]>
+        </test>
+        <result>
+            <all-of>
+                <assert-type>map(*)</assert-type>
+                <assert>map:contains($result, "output")</assert>
+                <assert>$result("output") instance of node()</assert>
+                <assert>$result?output//out/text() = 'tunnel1old2old3'</assert>
+            </all-of>
+        </result>
+    </test-case> 
+    
+    <test-case name="fn-transform-58">
+        <description>Transform using XSLT 3.0 options template-params and tunnel-params</description>
+        <created by="Debbie Lockett" on="2015-04-15"/>
+        <dependency type="spec" value="XQ31+"/>
+        <dependency type="feature" value="fn-transform-XSLT30"/>
+        <test><![CDATA[
+            declare variable $xsl as xs:string :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' version='3.0'>
+                <xsl:template name='main'>
+                <xsl:param name='param1' select='&quot;old1&quot;' tunnel='yes'/>
+                <xsl:param name='param2' select='&quot;old2&quot;'/>
+                <xsl:param name='param3' select='&quot;old3&quot;'/>
+                    <out>
+                        <xsl:value-of select='$param1' />
+                        <xsl:value-of select='$param2' />
+                        <xsl:value-of select='$param3' />
+                    </out>
+                </xsl:template> 
+            </xsl:stylesheet>";
+            transform(map{"stylesheet-text":$xsl, "source-node":parse-xml("<doc>this</doc>"), 
+            "initial-template": fn:QName('','main'),
+            "template-params": map{QName('','param1'):"new1", QName('','param2'):"new2", QName('','param4'):"new4"},
+            "tunnel-params": map{QName('','param1'):"tunnel1", QName('','param2'):"tunnel2"}
+            })
+        ]]>
+        </test>
+        <result>
+            <all-of>
+                <assert-type>map(*)</assert-type>
+                <assert>map:contains($result, "output")</assert>
+                <assert>$result("output") instance of node()</assert>
+                <assert>$result?output//out/text() = 'tunnel1new2old3'</assert>
+            </all-of>
+        </result>
+    </test-case>   
+        
+    
+    
+    <test-case name="fn-transform-60">
+        <description>Transform using XSLT 3.0 options initial-function and function-params</description>
+        <created by="Debbie Lockett" on="2015-04-15"/>
+        <dependency type="spec" value="XQ31+"/>
+        <dependency type="feature" value="fn-transform-XSLT30"/>
+        <test><![CDATA[
+            declare variable $xsl as xs:string :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' 
+            xmlns:my='http://www.w3.org/fots/fn/transform/myfunctions' version='3.0'>
+                <xsl:function name='my:user-function'>
+                    <xsl:param name='param1'/>
+                    <xsl:param name='param2'/>
+                    <this>
+                    <xsl:value-of select='$param1'/><xsl:value-of select='$param2'/>
+                    </this>
+                </xsl:function>
+                <xsl:template name='main'>
+                    <out>
+                        <xsl:value-of select='.' />
+                    </out>
+                </xsl:template> 
+            </xsl:stylesheet>";
+            transform(map{"stylesheet-text":$xsl, "source-node":parse-xml("<doc>this</doc>"), 
+            "initial-function": fn:QName('http://www.w3.org/fots/fn/transform/myfunctions','user-function'),
+            "function-params": ["new1","new2"]
+            })
+        ]]>
+        </test>
+        <result>
+            <all-of>
+                <assert-type>map(*)</assert-type>
+                <assert>map:contains($result, "output")</assert>
+                <assert>$result("output") instance of node()</assert>
+                <assert>$result?output//this = 'new1new2'</assert>
+            </all-of>
+        </result>
+    </test-case> 
+    
+    <test-case name="fn-transform-61">
+        <description>Transform using XSLT 3.0 options initial-function and function-params 
+        for version 2.0 stylesheet</description>
+        <created by="Debbie Lockett" on="2015-04-15"/>
+        <dependency type="spec" value="XQ31+"/>
+        <dependency type="feature" value="fn-transform-XSLT30"/>
+        <test><![CDATA[
+            declare variable $xsl as xs:string :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' 
+            xmlns:my='http://www.w3.org/fots/fn/transform/myfunctions' version='2.0'>
+                <xsl:function name='my:user-function'>
+                    <xsl:param name='param1'/>
+                    <xsl:param name='param2'/>
+                    <this>
+                    <xsl:value-of select='$param1'/><xsl:value-of select='$param2'/>
+                    </this>
+                </xsl:function>
+                <xsl:template name='main'>
+                    <out>
+                        <xsl:value-of select='.' />
+                    </out>
+                </xsl:template> 
+            </xsl:stylesheet>";
+            transform(map{"stylesheet-text":$xsl, "source-node":parse-xml("<doc>this</doc>"), 
+            "initial-function": fn:QName('http://www.w3.org/fots/fn/transform/myfunctions','user-function'),
+            "function-params": ["new1","new2"]
+            })
+        ]]>
+        </test>
+        <result>
+            <all-of>
+                <assert-type>map(*)</assert-type>
+                <assert>map:contains($result, "output")</assert>
+                <assert>$result("output") instance of node()</assert>
+                <assert>$result?output//this = 'new1new2'</assert>
+            </all-of>
+        </result>
+    </test-case> 
+    
+    <test-case name="fn-transform-62">
+        <description>Transform with delivery-format raw</description>
+        <created by="Debbie Lockett" on="2015-04-15"/>
+        <dependency type="spec" value="XQ31+"/>
+        <dependency type="feature" value="fn-transform-XSLT30"/>
+        <test><![CDATA[
+            declare variable $xsl as xs:string :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform'
+            xmlns:xs='http://www.w3.org/2001/XMLSchema'
+            version='2.0'>
+                <xsl:template match='/' as='xs:integer'>
+                    <xsl:sequence select='count(//*)'/>
+                </xsl:template> 
+            </xsl:stylesheet>";
+            transform(map{"stylesheet-text":$xsl, "source-node":parse-xml("<one><two/><three/><four/></one>"),
+            "delivery-format":"raw"})
+        ]]></test>
+        <result>
+            <all-of>
+                <assert-type>map(*)</assert-type>
+                <assert>map:contains($result, "output")</assert>
+                <assert>$result("output") instance of xs:integer</assert>
+                <assert>$result?output = 4</assert>
+            </all-of>
+        </result>        
+    </test-case>
+    
+    <test-case name="fn-transform-63">
+        <description>Transform using option initial-template with delivery-format raw</description>
+        <created by="Debbie Lockett" on="2015-04-15"/>
+        <dependency type="spec" value="XQ31+"/>
+        <dependency type="feature" value="fn-transform-XSLT30"/>
+        <test><![CDATA[
+            declare variable $xsl as xs:string :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform'
+            xmlns:xs='http://www.w3.org/2001/XMLSchema'
+            version='2.0'>
+                <xsl:template name='main' as='xs:integer'>
+                    <xsl:sequence select='count(//*)'/>
+                </xsl:template> 
+            </xsl:stylesheet>";
+            transform(map{"stylesheet-text":$xsl, "source-node":parse-xml("<one><two/><three/><four/></one>"),
+            "initial-template": QName('','main'),
+            "delivery-format":"raw"})
+        ]]></test>
+        <result>
+            <all-of>
+                <assert-type>map(*)</assert-type>
+                <assert>map:contains($result, "output")</assert>
+                <assert>$result("output") instance of xs:integer</assert>
+                <assert>$result?output = 4</assert>
+            </all-of>
+        </result>        
+    </test-case>
+    
+    <test-case name="fn-transform-64">
+        <description>Transform using XSLT 3.0 options initial-function, function-params, and delivery-format raw</description>
+        <created by="Debbie Lockett" on="2015-04-15"/>
+        <dependency type="spec" value="XQ31+"/>
+        <dependency type="feature" value="fn-transform-XSLT30"/>
+        <test><![CDATA[
+            declare variable $xsl as xs:string :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' 
+            xmlns:xs='http://www.w3.org/2001/XMLSchema'
+            xmlns:my='http://www.w3.org/fots/fn/transform/myfunctions' version='3.0'>
+                <xsl:function name='my:user-function' as='xs:integer*'>
+                    <xsl:param name='param1'/>
+                    <xsl:param name='param2'/>
+                    <xsl:sequence select='$param1 to $param2'/>
+                </xsl:function>
+            </xsl:stylesheet>";
+            transform(map{"stylesheet-text":$xsl, 
+            "initial-function": fn:QName('http://www.w3.org/fots/fn/transform/myfunctions','user-function'),
+            "function-params": [1,5], 
+            "delivery-format": "raw"
+            })
+        ]]>
+        </test>
+        <result>
+            <all-of>
+                <assert-type>map(*)</assert-type>
+                <assert>map:contains($result, "output")</assert>
+                <assert>$result("output") instance of xs:integer*</assert>
+                <assert>$result?output = (1, 2, 3, 4, 5)</assert>
+            </all-of>
+        </result>
+    </test-case>   
         
 
     <test-case name="fn-transform-err-1">
@@ -1367,5 +1838,96 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
             <error code="FOXT0002"/>
         </result>
     </test-case>
+    
+    <test-case name="fn-transform-err-13">
+        <description>Error - value supplied for the option 'delivery-format' is not one of those allowed</description>
+        <created by="Debbie Lockett" on="2015-04-13"/>
+        <environment name="multiple-result-docs2">
+            <source role="$multipledocs2" file="transform/multipledocs2.xsl"/>
+            <source role="$sections" file="transform/sections.xml"/>
+        </environment>
+        <test>fn:transform(map {"stylesheet-node":$multipledocs2, "source-node":$sections,
+            "delivery-format":"doc"})</test>
+        <result>
+            <error code="FOXT0002"/>
+        </result>
+    </test-case>    
+    
+    <test-case name="fn-transform-err-14"> 
+        <description>Error - value 'raw' supplied for the option 'delivery-format' is not allowed if processor is not XSLT 3.0</description>
+        <created by="Debbie Lockett" on="2015-04-13"/>
+        <dependency type="feature" value="fn-transform-XSLT30" satisfied="false"/>
+        <environment name="multiple-result-docs2">
+            <source role="$multipledocs2" file="transform/multipledocs2.xsl"/>
+            <source role="$sections" file="transform/sections.xml"/>
+        </environment>
+        <test>fn:transform(map {"stylesheet-node":$multipledocs2, "source-node":$sections,
+            "delivery-format":"raw"})</test>
+        <result>
+            <error code="FOXT0002"/>
+        </result>
+    </test-case>
+    
+    <test-case name="fn-transform-err-15">
+        <description>Error - the initial template defines a required parameter which is not included in 
+            the map supplied in the XSLT 3.0 transform option template-params</description>
+        <created by="Debbie Lockett" on="2015-04-15"/>
+        <dependency type="spec" value="XQ31+"/>
+        <dependency type="feature" value="fn-transform-XSLT30"/>
+        <test><![CDATA[
+            declare variable $xsl as xs:string :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' version='3.0'>
+                <xsl:template name='main'>
+                <xsl:param name='param1' select='&quot;old1&quot;'/>
+                <xsl:param name='param2' select='&quot;old1&quot;'/>
+                <xsl:param name='param3' required='yes'/>
+                    <out>
+                        <xsl:value-of select='$param1' />
+                        <xsl:value-of select='$param2' />
+                        <xsl:value-of select='$param3' />
+                    </out>
+                </xsl:template> 
+            </xsl:stylesheet>";
+            transform(map{"stylesheet-text":$xsl, "source-node":parse-xml("<doc>this</doc>"), 
+            "initial-template": fn:QName('','main'),
+            "template-params": map{QName('','param1'):"new1", QName('','param2'):"new2"}
+            })
+        ]]>
+        </test>
+        <result>
+            <error code="XTDE0700"/>
+        </result>
+    </test-case> 
+    
+    <test-case name="fn-transform-err-16">
+        <description>Error - transform using XSLT 3.0 option initial-function, but without option function-params</description>
+        <created by="Debbie Lockett" on="2015-04-15"/>
+        <dependency type="spec" value="XQ31+"/>
+        <dependency type="feature" value="fn-transform-XSLT30"/>
+        <test><![CDATA[
+            declare variable $xsl as xs:string :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' 
+            xmlns:my='http://www.w3.org/fots/fn/transform/myfunctions' version='3.0'>
+                <xsl:function name='my:user-function'>
+                    <xsl:param name='param1'/>
+                    <xsl:param name='param2'/>
+                    <this>
+                    <xsl:value-of select='$param1'/><xsl:value-of select='$param2'/>
+                    </this>
+                </xsl:function>
+                <xsl:template name='main'>
+                    <out>
+                        <xsl:value-of select='.' />
+                    </out>
+                </xsl:template> 
+            </xsl:stylesheet>";
+            transform(map{"stylesheet-text":$xsl, "source-node":parse-xml("<doc>this</doc>"), 
+            "initial-function": fn:QName('http://www.w3.org/fots/fn/transform/myfunctions','user-function')
+            })
+        ]]>
+        </test>
+        <result>
+            <error code="FOXT0002"/>
+        </result>
+    </test-case> 
+        
 
 </test-set>
