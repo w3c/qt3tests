@@ -1068,14 +1068,14 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         <environment ref="multiple-result-docs"/>
         <test>fn:transform(map {"stylesheet-node":$multipledocs, "source-node":$sections,
             "base-output-uri" : resolve-uri("transform/sandbox/fn-transform-43/output.html",
-            static-base-uri()), "delivery-format":"serialized"}) => map:keys()</test>
+            static-base-uri()), "delivery-format":"serialized"})</test>
         <result>
             <all-of>
-                <assert>count($result) = 3</assert>
-                <assert>contains(string-join($result), 'section1.html')</assert>
-                <assert>some $key in $result satisfies ends-with($key, 
+                <assert>map:size($result) = 3</assert>
+                <assert>contains(string-join(map:keys($result)), 'section1.html')</assert>
+                <assert>some $key in map:keys($result) satisfies ends-with($key, 
                     'transform/sandbox/fn-transform-43/section3.html')</assert>
-                <assert><![CDATA[some $key in $result satisfies doc($key)//h1 = 'Header for section 2']]></assert>
+                <assert><![CDATA[some $key in map:keys($result) satisfies parse-xml($result?($key))//h1 = 'Header for section 2']]></assert>
             </all-of>
         </result>
     </test-case>
