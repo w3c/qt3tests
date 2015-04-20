@@ -162,7 +162,8 @@
                     <p>The <code>uri</code>
                         attribute is the collation URI as it actually appears in the XPath expression. There is
                         a small enumerated set of collation URIs that may appear in tests; these have a meaning
-                        that is defined in the test suite. If the implementation cannot bind arbitrary URIs to
+                        that is defined in the test suite. In addition, from 3.1 onwards, URIs in the Unicode
+                        Collation Algorithm family can be used. If the implementation cannot bind arbitrary URIs to
                         collations, it may substitute this URI in the source expression by a different one having
                         the same semantics. If the implementation does not support the semantics of the collation,
                         then it should not run the test (support for collations other than the codepoint collation
@@ -175,6 +176,8 @@
         </xs:annotation>
         <xs:complexType>
             <xs:attribute name="uri">
+             <xs:simpleType>
+              <xs:union> 
                 <xs:simpleType>
                     <xs:restriction base="xs:anyURI">
                         <xs:enumeration value="http://www.w3.org/2005/xpath-functions/collation/codepoint">
@@ -207,6 +210,13 @@
                         </xs:enumeration>
                     </xs:restriction>
                 </xs:simpleType>
+                <xs:simpleType>
+                  <xs:restriction base="xs:anyURI">
+                    <xs:pattern value="http://www.w3.org/2013/collation/UCA\?.*"/>
+                  </xs:restriction>
+                </xs:simpleType>
+               </xs:union>
+              </xs:simpleType>   
              </xs:attribute>
              <xs:attribute name="default" type="xs:boolean" use="optional" default="false">
                 <xs:annotation>
@@ -673,9 +683,11 @@
                 <xs:element ref="description" />
                 <xs:element ref="created" />
                 <xs:element ref="modified" minOccurs="0" maxOccurs="unbounded"/>
-                <xs:element ref="environment" minOccurs="0"/>
-                <xs:element ref="module" minOccurs="0" maxOccurs="unbounded"/>
-                <xs:element ref="dependency" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                  <xs:element ref="environment"/> <!-- must only appear once -->
+                  <xs:element ref="module"/>
+                  <xs:element ref="dependency"/>
+                </xs:choice>  
                 <xs:element ref="test" />
                 <xs:element ref="result" />
             </xs:sequence>
@@ -800,8 +812,7 @@
             </xs:documentation>
         </xs:annotation>
         <xs:sequence>
-            <xs:element ref="abstractAssertion" minOccurs="1" maxOccurs="unbounded"/>
-            
+            <xs:element ref="abstractAssertion" minOccurs="1" maxOccurs="unbounded"/>          
         </xs:sequence>
     </xs:complexType>
     
@@ -833,6 +844,25 @@
                 </div> 
             </xs:documentation>
         </xs:annotation>
+    </xs:element>
+    
+    <xs:element name="not" substitutionGroup="abstractAssertion">
+        <xs:annotation>
+            <xs:documentation>
+                <div>
+                    <h3>all-of</h3>
+                    <p>
+                        Negates an assertion: this assertion is satisfied if the contained assertion fails,
+                        and vice versa. Particularly useful with assert-serialization-matches.      
+                    </p>
+                </div> 
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element ref="abstractAssertion"/>         
+          </xs:sequence>
+        </xs:complexType>  
     </xs:element>
     
     <xs:element name="abstractAssertion" abstract="true" type="xs:anyType" >
@@ -1344,7 +1374,7 @@
         </xs:annotation>
         <xs:attribute name="covers" use="optional">
             <xs:simpleType>
-                <xs:list itemType="xs:NCName"/>
+                <xs:list itemType="xs:token"/>
             </xs:simpleType>
         </xs:attribute>    
     </xs:attributeGroup>
