@@ -250,6 +250,7 @@
    <test-case name="step-expr-si-1">
       <description> Ensure that the type of the child axis on an extended schema type is computed correctly. </description>
       <created by="Oliver Hallam" on="2010-03-17"/>
+      <modified by="O'Neil Delpratt, Saxonica" on="2015-04-21" change="Added alternative assertions. See bug issue #28494" />
       <environment ref="extendedTypes"/>
       <test>
         import schema default element namespace "http://www.example.com/XQueryTest/extendedTypes"; 
@@ -257,7 +258,11 @@
         let $baseElement as empty-sequence() := $extended/baseElement 
         return $baseElement</test>
       <result>
-         <error code="XPTY0004"/>
+          <any-of>
+            <error code="XPTY0004"/>
+            <error code="XPTY0005"/>
+            <assert-empty/>
+          </any-of>
       </result>
    </test-case>
 

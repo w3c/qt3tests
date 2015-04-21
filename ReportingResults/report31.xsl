@@ -31,14 +31,14 @@
    <!--                                                                      -->
 
    <!-- Place document author at end of report -->
-   <xsl:param name="documentAuthor" select="'Michael Kay'"/>
+   <xsl:param name="documentAuthor" select="'O''Neil Delpratt'"/>
 
    <!-- Place creation date at end of report -->
    <xsl:param name="creationDate" select="format-date(current-date(), '[D1] [MNn] [Y0001]')"/>
 
    <!-- Document that contains URLs of result reports -->
    <!-- <results><result>url</result>...</results> -->
-   <xsl:param name="resultsDocs" select="collection('../../result-submissions/?select=results*.xml')"/>
+   <xsl:param name="resultsDocs" select="collection('../results/result-submissions/?select=results*.xml')"/>
    
 
    <!-- Generate Implementation-defined items, Static Context Properties,   -->
@@ -223,7 +223,7 @@
                              
                <!-- Generate analysis by new facility name -->
                
-               <h2>Results for New 3.0 Facilities</h2>
+               <h2>Results for New 3.1 Facilities</h2>
                <blockquote>
                   <xsl:call-template name="changeList" />
                </blockquote>
@@ -838,10 +838,10 @@
    </xsl:template>
    
    <xsl:template name="changeList">
-      <xsl:variable name="changes" select="distinct-values($changesDoc//change/@id)" />
+      <xsl:variable name="changes" select="distinct-values($changesDoc//change[contains(../@name,'31')]/@id)" />
       
       <xsl:for-each select="$changes">
-         <xsl:sort select="$changesDoc//change[@id = current()]/translate(., '&quot;', '')" lang="en"/>
+         <!--<xsl:sort select="$changesDoc//change[@id = current()]/translate(., '&quot;', '')" lang="en"/>-->
          <xsl:variable name="changei" select="." />
          <xsl:variable name="desc" select="$changesDoc//change[@id = current()]/string()"/>
          <xsl:variable name="relevant-test-cases" 
@@ -867,7 +867,7 @@
             </blockquote>
          </xsl:if>
          
-         <xsl:result-document href="new/{.}.html">
+         <xsl:result-document href="new/{if(contains(., '#')) then replace(.,'#','-') else .}.html">
             <html>
                <head>
                   <title>Test results covering change: <xsl:value-of select="$desc"/></title>
@@ -1047,8 +1047,11 @@
       <xsl:variable name="dependency" select="$testCase/((.|..)/t:dependency[@type='spec'])[last()]/@value"/>
       <xsl:sequence select="empty($dependency) or 
                             contains($dependency, $spec) or
-                            ($spec = 'XQ30' and contains($dependency, 'XQ10+')) or
-                            ($spec = 'XP30' and contains($dependency, 'XP20+'))"/>
+                            ($spec = 'XQ31' and contains($dependency, 'XQ10+')) or
+                            ($spec = 'XQ31' and contains($dependency, 'XQ11+')) or
+                            ($spec = 'XQ31' and contains($dependency, 'XQ30+')) or
+                            ($spec = 'XP31' and contains($dependency, 'XP30+')) or
+                            ($spec = 'XP31' and contains($dependency, 'XP21+'))"/>
 
    </xsl:function>
 
