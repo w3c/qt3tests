@@ -231,4 +231,33 @@ r:random-sequence(200)]]></test>
         </result>
     </test-case>
 
+    <test-case name="fn-random-number-generator-22">
+        <description>Detect randomness</description>
+        <created by="Loren Cahlander" on="2015-01-18"/>
+        <modified by="Loren Cahlander" on="2015-04-21" change="Moved to proper location"/>
+        <dependency type="spec" value="XQ31+"/>
+        <test><![CDATA[
+         declare function local:random-sequence($length as xs:integer) as xs:double* {
+         local:random-sequence($length, fn:random-number-generator())
+         };
+         declare function local:random-sequence($length as xs:integer, $G as map(xs:string, item())) {
+         if ($length eq 0)
+         then ()
+         else ($G?number, local:random-sequence($length - 1, $G?next()))
+         };
+         
+         let $r := local:random-sequence(200)
+         
+         return if (not(count(distinct-values($r)) > 0.5*count($r)))
+         then fn:false()
+         else if (not(not(deep-equal($r, fn:sort($r)))))
+         then fn:false()
+         else if (not(count($r[. lt 0.5]) > 0.2*count($r) and count($r[. gt 0.5]) > 0.2*count($r)))
+         then fn:false()
+         else fn:true()
+      ]]></test>
+        <result>
+            <assert-true/>
+        </result>
+    </test-case>
 </test-set>
