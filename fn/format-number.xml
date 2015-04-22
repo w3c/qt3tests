@@ -797,7 +797,6 @@
         Use Osmanya digits (non-BMP) in formatted output
       </description> 
       <created by="Michael Kay, Saxonica" on="2010-12-13"/>
-      <!--SOURCE: numberformat/stdxmlfile.xml-->
       <environment>
          <decimal-format zero-digit="&#66720;"/>
       </environment>
@@ -811,7 +810,6 @@
         Check that overflow isn't an error
       </description>
       <created by="Michael Kay, Saxonica" on="2010-12-13"/>
-      <!--SOURCE: numberformat/stdxmlfile.xml-->
       <environment/>
       <test>format-number(1234567890.123456,'000.000')</test>
       <result>
@@ -823,7 +821,6 @@
         PURPOSE: test format-number() with two arguments
       </description> 
       <created by="Michael Kay, Saxonica" on="2010-12-13"/>
-      <!--SOURCE: numberformat/numberformat80.xml-->
       <environment/>
       <test>format-number(12.34, '##.##')</test>
       <result>
@@ -1193,7 +1190,7 @@
     </result>
   </test-case>
    
-  <test-case name="numberformat115" covers="fn-format-number exponent-separator">
+  <test-case name="numberformat115" covers="fn-format-number">
     <description>
       PURPOSE: test format-number() with an integer instead of a decimal
     </description>
@@ -1250,6 +1247,137 @@
     </test>
     <result>
       <assert-string-value>1.2345e09</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat119" covers="fn-format-number">
+    <description>
+      PURPOSE: test format-number() with a decimal having higher precision than a double
+    </description>
+    <created by="Michael Kay" on="2015-04-22"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>
+      fn:format-number(0.900001000020000345, '9.9999e99')
+    </test>
+    <result>
+      <assert-string-value>9.00001000020000345e-01</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat120" covers="fn-format-number">
+    <description>
+      PURPOSE: test format-number() with an integer having higher precision than a double
+    </description>
+    <created by="Michael Kay" on="2015-04-22"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>
+      fn:format-number(123456789012345678, '9.9999e99')
+    </test>
+    <result>
+      <assert-string-value>1.23456789012345678e17</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat121" covers="fn-format-number">
+    <description>
+      PURPOSE: test format-number() with a decimal having higher exponent than a double
+    </description>
+    <created by="Michael Kay" on="2015-04-22"/>
+    <dependency type="spec" value="XQ31+"/>
+    <test>
+      declare function local:timesTenToThe($n as xs:decimal, $exp as xs:integer) as xs:decimal {
+        if ($exp eq 0)
+          then $n
+        else if ($exp gt 0)
+          then ($n*10) => local:timesTenToThe($exp - 1)
+        else 
+          ($n div 10) => local:timesTenToThe($exp + 1)  
+      };    
+      fn:format-number(1 => local:timesTenToThe(5000), '9.9999e9999')
+    </test>
+    <result>
+      <assert-string-value>1.0000e5000</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat122" covers="fn-format-number">
+    <description>
+      PURPOSE: test format-number() with a decimal having smaller negative exponent than a double
+    </description>
+    <created by="Michael Kay" on="2015-04-22"/>
+    <dependency type="spec" value="XQ31+"/>
+    <test>
+      declare function local:timesTenToThe($n as xs:decimal, $exp as xs:integer) as xs:decimal {
+        if ($exp eq 0)
+          then $n
+        else if ($exp gt 0)
+          then ($n*10) => local:timesTenToThe($exp - 1)
+        else 
+          ($n div 10) => local:timesTenToThe($exp + 1)  
+      };    
+      fn:format-number(1 => local:timesTenToThe(-5000), '0.0000e0001')
+    </test>
+    <result>
+      <assert-string-value>1.0000e-5000</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat123" covers="fn-format-number">
+      <description>
+        Use Osmanya digits (non-BMP) in scientific format output
+      </description> 
+      <created by="Michael Kay" on="2015-04-22"/>
+      <environment>
+         <decimal-format zero-digit="&#66720;"/>
+      </environment>
+      <test>format-number(1.0,'&#66720;.&#66720;e&#66720;')</test>
+      <result>
+         <assert-string-value>'&#66721;.&#66720;e&#66720;'</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="numberformat124" covers="fn-format-number exponent-separator">
+    <description>
+      PURPOSE: exponent separator more than one character
+    </description> 
+    <created by="Michael Kay" on="2015-04-22"/>
+    <dependency type="spec" value="XQ31+"/>
+    <test>
+      declare decimal-format exp-E exponent-separator="x10^";
+      fn:format-number(12345.678, '9.9999x10^999', 'exp-E')
+    </test>
+    <result>
+      <error code="XQST0097"/>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat125" covers="fn-format-number exponent-separator">
+    <description>
+      PURPOSE: exponent separator is repeated
+    </description> 
+    <created by="Michael Kay" on="2015-04-22"/>
+    <dependency type="spec" value="XQ31+"/>
+    <test>
+      declare decimal-format exp-E exponent-separator="e" exponent-separator="E";
+      fn:format-number(12345.678, '9.9999E999', 'exp-E')
+    </test>
+    <result>
+      <error code="XQST0114"/>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat126" covers="fn-format-number exponent-separator">
+    <description>
+      PURPOSE: exponent separator conflicts with digit sign
+    </description> 
+    <created by="Michael Kay" on="2015-04-22"/>
+    <dependency type="spec" value="XQ31+"/>
+    <test>
+      declare decimal-format exp-E exponent-separator="#";
+      fn:format-number(12345.678, '9.9999#999', 'exp-E')
+    </test>
+    <result>
+      <error code="XQST0098"/>
     </result>
   </test-case>
 
