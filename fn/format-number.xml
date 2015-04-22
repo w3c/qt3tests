@@ -1380,6 +1380,35 @@
       <error code="XQST0098"/>
     </result>
   </test-case>
+  
+  <test-case name="numberformat127" covers="fn-format-number exponent-separator">
+    <description>
+      PURPOSE: exponent separator rejected in 3.0
+    </description> 
+    <created by="Michael Kay" on="2015-04-22"/>
+    <dependency type="spec" value="XQ30"/>
+    <test>
+      declare decimal-format exp-E exponent-separator="E";
+      fn:format-number(12345.678, '9.9999E999', 'exp-E')
+    </test>
+    <result>
+      <error code="XPST0003"/>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat128" covers="fn-format-number">
+    <description>
+      PURPOSE: exponent separator rejected in 3.0
+    </description> 
+    <created by="Michael Kay" on="2015-04-22"/>
+    <dependency type="spec" value="XQ30 XP30"/>
+    <test>
+      fn:format-number(12345.678, '9.9999e999')
+    </test>
+    <result>
+      <error code="FODF1310"/>
+    </result>
+  </test-case>
 
 
    <test-case name="numberformat901err">
