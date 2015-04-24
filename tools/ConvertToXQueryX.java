@@ -13,6 +13,7 @@ import java.io.StringReader;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.Properties;
 
 import javax.xml.xquery.XQConnection;
 import javax.xml.xquery.XQConstants;
@@ -48,13 +49,7 @@ import org.w3c.xqparser.XParser;
  * @author Josh Spiegel
  */
 public final class ConvertToXQueryX {
-    
-    /** See bug 13796 */
-    private static Set<String> EXPECTED_FAILURES = new HashSet<String>(Arrays.asList(
-        "fn-parse-json-917", "fn-parse-json-918", "fn-parse-json-922",
-        "XML11-1ed-Included-char-1-new", "XML10-4ed-Excluded-char-1-new"
-    ));
-    
+
     /** Used to query the catalog and test set files */
     private final XQConnection con;
     
@@ -66,6 +61,9 @@ public final class ConvertToXQueryX {
     
     /** Counts the number of conversion failures not in EXPECTED_FAILURES  */
     private int unexpectedFailures; 
+
+    /** xqx-conversion-failures.properties */
+    private Properties expectedFailures;
     
     private ConvertToXQueryX(XQDataSource dataSource, File outputDir, File logFile) throws XQException, IOException {
         this.con = dataSource.getConnection();
@@ -74,7 +72,12 @@ public final class ConvertToXQueryX {
         XQStaticContext ctx = con.getStaticContext();
         ctx.setBindingMode(XQConstants.BINDING_MODE_DEFERRED);
         ctx.declareNamespace("t", "http://www.w3.org/2010/09/qt-fots-catalog");
-        con.setStaticContext(ctx);   
+        con.setStaticContext(ctx);  
+
+        FileInputStream fis = new FileInputStream("xqx-conversion-failures.properties");
+        expectedFailures = new Properties();
+        expectedFailures.load(fis);
+        fis.close();
     }
     
     private void close() throws XQException {
@@ -125,14 +128,10 @@ public final class ConvertToXQueryX {
         XQItem testSetDoc = item(testSetFile.toString());
         XQExpression expr = con.createExpression();
         expr.bindItem(XQConstants.CONTEXT_ITEM, testSetDoc);
-        
-        // skip tests with static errors as they can't be converted
+
+        // Tests with syntax errors shouldn't be convertible
         XQSequence testCases = expr.executeQuery(
-           "t:test-set/t:test-case[not(t:result//t:error[" +
-           "   starts-with(@code,'XQST') or " +
-           "   starts-with(@code, 'XPST') or " +
-           "   @code eq '*'" +
-           "])] "
+           "t:test-set/t:test-case[empty(t:result/t:error[@code eq 'XPST0003'])]"
         );
         while (testCases.next()) {
             processTestCase(testCases.getItem(), setOutputDir, baseDir);
@@ -199,14 +198,18 @@ public final class ConvertToXQueryX {
         } finally {
             ps.close();
         }
+
+        if (expectedFailures.containsKey(name)) {
+	    log.println("WARNING: Conversion of test " + name + " is expected to fail but it passed.");
+        }
     }
 
     private void logFailure(String name, Throwable e) {
-        if (!EXPECTED_FAILURES.contains(name)) {
+        if (!expectedFailures.containsKey(name)) {
+            log.println("** Unexpected error converting test " + name);
+            e.printStackTrace(log);
             unexpectedFailures++;
         }
-        log.println("** Error converting test " + name);
-        e.printStackTrace(log);
     }
 
     private XQItem item(String file) throws FileNotFoundException, XQException, IOException {
