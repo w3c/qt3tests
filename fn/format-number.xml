@@ -978,6 +978,58 @@
       <assert-string-value>042</assert-string-value>
     </result>
   </test-case>
+  
+  <test-case name="numberformat92">
+    <description>
+      PURPOSE: test format-number() with pattern in which fractional part has size zero
+    </description>
+    <created by="Debbie Lockett" on="2015-04-22"/>
+    <test>
+      fn:format-number(12345.678, '9.')
+    </test>
+    <result>
+      <assert-string-value>12346</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat93">
+    <description>
+      PURPOSE: test format-number() with pattern in which fractional part has size zero
+    </description>
+    <created by="Debbie Lockett" on="2015-04-22"/>
+    <test>
+      fn:format-number(12345.000, '99999.')
+    </test>
+    <result>
+      <assert-string-value>12345</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat94">
+    <description>
+      PURPOSE: test format-number() with pattern in which min integer part size is zero
+    </description>
+    <created by="Debbie Lockett" on="2015-04-22"/>
+    <test>
+      fn:format-number(12345.678, '.9')
+    </test>
+    <result>
+      <assert-string-value>12345.7</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat95">
+    <description>
+      PURPOSE: test format-number() with pattern in which min integer part size is zero
+    </description>
+    <created by="Debbie Lockett" on="2015-04-22"/>
+    <test>
+      fn:format-number(0.2, '.#')
+    </test>
+    <result>
+      <assert-string-value>.2</assert-string-value>
+    </result>
+  </test-case>
 
   <test-case name="numberformat101" covers="fn-format-number">
     <description>
@@ -1018,7 +1070,7 @@
       <assert-string-value>1.2346E004</assert-string-value>
     </result>
   </test-case>
-   
+     
   <test-case name="numberformat104" covers="fn-format-number exponent-separator">
     <description>
       PURPOSE: test format-number() changing default decimal-format declaration to use "E" with INappropriate pattern
@@ -1082,7 +1134,7 @@
     </result>
   </test-case>
    
-  <test-case name="numberformat108" covers="fn-format-number exponent-separator">
+  <test-case name="numberformat108" covers="fn-format-number">
     <description>
       PURPOSE: test format-number() with two exponent separators
     </description> 
@@ -1113,12 +1165,13 @@
     </result>
   </test-case>
    
-  <test-case name="numberformat110" covers="exponent-separator">
+  <test-case name="numberformat110" covers="fn-format-number">
     <description>
       PURPOSE: test format-number() with exponent-separator and percent sign
     </description>
     <created by="Jim Melton" on="2014-12-05"/>
-    <dependency type="spec" value="XQ31+"/>
+    <modified by="Debbie Lockett, Saxonica" on="2015-04-22" change="add XP31+ to dependency"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
     <test>
       let $x := fn:format-number(12345.678, '9.9999e999%')
       return $x
@@ -1160,7 +1213,7 @@
     </result>
   </test-case>
    
-  <test-case name="numberformat113" covers="fn-format-number exponent-separator">
+  <test-case name="numberformat113" covers="fn-format-number">
     <description>
       PURPOSE: test format-number() with pattern in which exponent-separator is followed by passive character
     </description>
@@ -1175,7 +1228,7 @@
     </result>
   </test-case>
 
-  <test-case name="numberformat114" covers="fn-format-number exponent-separator">
+  <test-case name="numberformat114" covers="fn-format-number">
     <description>
       PURPOSE: test format-number() with pattern in which exponent-separator is followed by active character, not digit
     </description>
@@ -1223,6 +1276,7 @@
   <test-case name="numberformat117" covers="fn-format-number">
     <description>
       PURPOSE: test format-number() with a fractional decimal
+      (bug 28568 raised against expected result)
     </description>
     <created by="Jim Melton" on="2014-12-05"/>
     <dependency type="spec" value="XP31+ XQ31+"/>
@@ -1249,15 +1303,16 @@
       <assert-string-value>1.2345e09</assert-string-value>
     </result>
   </test-case>
-  
+    
   <test-case name="numberformat119" covers="fn-format-number">
     <description>
       PURPOSE: test format-number() with a decimal having higher precision than a double
     </description>
     <created by="Michael Kay" on="2015-04-22"/>
+    <modified by="Debbie Lockett, Saxonica" on="2015-04-24" change="Edit fractional part in picture"/>
     <dependency type="spec" value="XP31+ XQ31+"/>
     <test>
-      fn:format-number(0.900001000020000345, '9.9999e99')
+      fn:format-number(0.900001000020000345, '9.99999999999999999e99')
     </test>
     <result>
       <assert-string-value>9.00001000020000345e-01</assert-string-value>
@@ -1269,9 +1324,10 @@
       PURPOSE: test format-number() with an integer having higher precision than a double
     </description>
     <created by="Michael Kay" on="2015-04-22"/>
+    <modified by="Debbie Lockett, Saxonica" on="2015-04-24" change="Edit fractional part in picture"/>
     <dependency type="spec" value="XP31+ XQ31+"/>
     <test>
-      fn:format-number(123456789012345678, '9.9999e99')
+      fn:format-number(123456789012345678, '9.99999999999999999e99')
     </test>
     <result>
       <assert-string-value>1.23456789012345678e17</assert-string-value>
@@ -1327,12 +1383,14 @@
         Use Osmanya digits (non-BMP) in scientific format output
       </description> 
       <created by="Michael Kay" on="2015-04-22"/>
+    <modified by="Debbie Lockett, Saxonica" on="2015-04-27" change="added spec dependencies"/>
+      <dependency type="spec" value="XQ31+ XP31+"/>
       <environment>
          <decimal-format zero-digit="&#66720;"/>
       </environment>
       <test>format-number(1.0,'&#66720;.&#66720;e&#66720;')</test>
       <result>
-         <assert-string-value>'&#66721;.&#66720;e&#66720;'</assert-string-value>
+         <assert-string-value>&#66721;.&#66720;e&#66720;</assert-string-value>
       </result>
    </test-case>
    
@@ -1409,6 +1467,348 @@
       <error code="FODF1310"/>
     </result>
   </test-case>
+  
+  <test-case name="numberformat129" covers="fn-format-number">
+    <description>
+      PURPOSE: test format-number() with pattern in which integer part of mantissa has more than one digit
+    </description>
+    <created by="Debbie Lockett" on="2015-04-22"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>
+      fn:format-number(12345.678, '999.99e99')
+    </test>
+    <result>
+      <assert-string-value>123.46e02</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat130" covers="fn-format-number">
+    <description>
+      PURPOSE: test format-number() with pattern in which integer part of mantissa begins with an optional-digit-sign
+    </description>
+    <created by="Debbie Lockett" on="2015-04-22"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>
+      fn:format-number(12345.678, '#99.99e99')
+    </test>
+    <result>
+      <assert-string-value>12.35e03</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat131" covers="fn-format-number">
+    <description>
+      PURPOSE: test format-number() with pattern in which integer part of mantissa is one optional-digit-sign
+    </description>
+    <created by="Debbie Lockett" on="2015-04-22"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>
+      fn:format-number(12345.678, '#.99e99')
+    </test>
+    <result>
+      <assert-string-value>.12e05</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat132">
+    <description>
+      PURPOSE: test format-number() with pattern in which min integer part size, 
+      and min fractional part size of mantissa are both zero
+    </description>
+    <created by="Debbie Lockett" on="2015-04-22"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>
+      fn:format-number(0045.234, '#.#e99')
+    </test>
+    <result>
+      <assert-string-value>.5e02</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat133" covers="fn-format-number">
+    <description>
+      PURPOSE: test format-number() with pattern in which min integer part size is zero, with nonempty exponent part
+    </description>
+    <created by="Debbie Lockett" on="2015-04-22"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>
+      fn:format-number(0.2, '.#e9')
+    </test>
+    <result>
+      <assert-string-value>.2e0</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat134" covers="fn-format-number">
+    <description>
+      PURPOSE: test format-number() with pattern in which min integer part size is zero, with nonempty exponent part
+    </description>
+    <created by="Debbie Lockett" on="2015-04-22"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>
+      fn:format-number(0.2, '.999e9')
+    </test>
+    <result>
+      <assert-string-value>.200e0</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat135" covers="fn-format-number">
+    <description>
+      PURPOSE: test format-number() with pattern in which fractional part has size zero, with nonempty exponent part
+    </description>
+    <created by="Debbie Lockett" on="2015-04-22"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>
+      fn:format-number(0.2, '#.e9')
+    </test>
+    <result>
+      <assert-string-value>2e-1</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat136" covers="fn-format-number">
+    <description>
+      PURPOSE: test format-number() with pattern in which fractional part has size zero, with nonempty exponent part
+    </description>
+    <created by="Debbie Lockett" on="2015-04-22"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>
+      fn:format-number(0.2, '9e9')
+    </test>
+    <result>
+      <assert-string-value>2e-1</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat137">
+    <description>
+      PURPOSE: test format-number() with pattern in which fractional part has size zero, with nonempty exponent part
+    </description>
+    <created by="Debbie Lockett" on="2015-04-22"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>
+      fn:format-number(12345.678, '999.e99')
+    </test>
+    <result>
+      <assert-string-value>123e02</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat138" covers="fn-format-number">
+    <description>
+      PURPOSE: test format-number() with pattern in which fractional part has size zero, with nonempty exponent part
+    </description>
+    <created by="Debbie Lockett" on="2015-04-22"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>
+      fn:format-number(12345.678, '999e9')
+    </test>
+    <result>
+      <assert-string-value>123e2</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat139" covers="fn-format-number">
+    <description>
+      PURPOSE: test format-number() with pattern in which mantissa part contains no 
+      optional-digit-sign nor member of the decimal-digit-family.
+      Expected result depends on resolution of bug 28567.
+    </description>
+    <created by="Debbie Lockett" on="2015-04-22"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>
+      fn:format-number(12345.678, '.e99')
+    </test>
+    <result>
+      <error code="FODF1310"/>
+    </result>
+  </test-case>  
+  
+  <test-case name="numberformat140" covers="fn-format-number">
+    <description>
+      PURPOSE: test format-number() - negative number into scientific format
+    </description>
+    <created by="Debbie Lockett" on="2015-04-22"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>
+      fn:format-number(-12345.678, '999.99e99')
+    </test>
+    <result>
+      <assert-string-value>-123.46e02</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat141" covers="fn-format-number">
+    <description>
+      PURPOSE: test format-number() - exponent of result is negative
+    </description>
+    <created by="Debbie Lockett" on="2015-04-22"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>
+      fn:format-number(0.00012345678, '9.99e99')
+    </test>
+    <result>
+      <assert-string-value>1.23e-04</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat142" covers="fn-format-number">
+    <description>
+      PURPOSE: test format-number() - negative number, and exponent of result is negative
+    </description>
+    <created by="Debbie Lockett" on="2015-04-22"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>
+      fn:format-number(-0.00012345678, '9.99e99')
+    </test>
+    <result>
+      <assert-string-value>-1.23e-04</assert-string-value>
+    </result>
+  </test-case>  
+    
+  <test-case name="numberformat143" covers="fn-format-number">
+    <description>
+      PURPOSE: test format-number() with pattern in which 2nd exponent-separator is treated as passive character
+    </description>
+    <created by="Debbie Lockett" on="2015-04-22"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>
+      fn:format-number(12345.678, '9.9999e99end')
+    </test>
+    <result>
+      <assert-string-value>1.2346e04end</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat144" covers="fn-format-number">
+    <description>
+      PURPOSE: test format-number() with pattern in which 2nd exponent-separator is treated as passive character
+    </description>
+    <created by="Debbie Lockett" on="2015-04-22"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>
+      fn:format-number(12345.678, '9.9999e99e')
+    </test>
+    <result>
+      <assert-string-value>1.2346e04e</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat145" covers="fn-format-number">
+    <description>
+      PURPOSE: test format-number() with pattern with exponent-separator and suffix
+    </description>
+    <created by="Debbie Lockett" on="2015-04-22"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>
+      fn:format-number(12345.678, '9.9999e99dog')
+    </test>
+    <result>
+      <assert-string-value>1.2346e04dog</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat146" covers="fn-format-number">
+    <description>
+      PURPOSE: test format-number() with pattern with exponent-separator, prefix and suffix containing exponent-separator
+    </description>
+    <created by="Debbie Lockett" on="2015-04-22"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>
+      fn:format-number(12345.678, 'end9.9999e99end')
+    </test>
+    <result>
+      <assert-string-value>end1.2346e04end</assert-string-value>
+    </result>
+  </test-case>
+    
+  <test-case name="numberformat150">
+    <description>
+      PURPOSE: test format-number() - grouping-separator should not be adjacent to decimal separator
+    </description>
+    <created by="Debbie Lockett" on="2015-04-22"/>
+    <test>
+      fn:format-number(12345.678, '#,.##')
+    </test>
+    <result>
+      <error code="FODF1310"/>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat151">
+    <description>
+      PURPOSE: test format-number() - grouping-separator should not be adjacent to decimal separator
+    </description>
+    <created by="Debbie Lockett" on="2015-04-22"/>
+    <test>
+      fn:format-number(12345.678, '#.,##')
+    </test>
+    <result>
+      <error code="FODF1310"/>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat152">
+    <description>
+      PURPOSE: test format-number() with pattern with grouping-separator at end of integer part.
+      Expected result depends on resolution of bug 28567.
+    </description>
+    <created by="Debbie Lockett" on="2015-04-22"/>
+    <test>
+      fn:format-number(12345.678, '#,')
+    </test>
+    <result>
+      <error code="FODF1310"/>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat153">
+    <description>
+      PURPOSE: test format-number() with pattern with adjacent grouping-separators.
+      Expected result depends on resolution of bug 28567.
+    </description>
+    <created by="Debbie Lockett" on="2015-04-22"/>
+    <test>
+      fn:format-number(12345.678, '#,,###')
+    </test>
+    <result>
+      <assert-string-value>12,346</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat154">
+    <description>
+      PURPOSE: test format-number() setting zero-digit
+    </description>
+    <created by="Debbie Lockett" on="2015-04-22"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test>
+      declare default decimal-format zero-digit = "&#x660;";
+      format-number(1, '&#x660;')
+    </test>
+    <result>
+      <assert-string-value>&#x661;</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat155">
+    <description>
+      PURPOSE: test format-number() setting zero-digit
+    </description>
+    <created by="Debbie Lockett" on="2015-04-22"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test>
+      declare default decimal-format zero-digit = "&#1632;";
+      format-number(1, '&#1632;')
+    </test>
+    <result>
+      <assert-string-value>&#1633;</assert-string-value>
+    </result>
+  </test-case>
+  
+  
+  
 
 
    <test-case name="numberformat901err">
