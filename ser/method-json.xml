@@ -1149,6 +1149,7 @@ parse-json(unparsed-text('json/data004.json'))
       <created by="Andrew Coleman" on="2014-09-26"/>
       <modified by="Christian Gruen" on="2015-01-27" change="regular expressions; bug #27608"/>
       <modified by="Michael Kay" on="2015-04-13" change="Moved file location; further fix for bug 27608"/>
+      <modified by="Christian Gruen" on="2015-04-28" change="regular expression: escaping closing curly braces"/>
       <test><![CDATA[
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare option output:method  "json";
@@ -1165,7 +1166,7 @@ parse-json(unparsed-text('json/data005.json'))
       <result>
         <all-of>
          <serialization-matches><![CDATA[\{"menu":\{.*"header":"SVG Viewer".*\}\}]]></serialization-matches>
-         <serialization-matches><![CDATA[\{"menu":\{.*"items":\[(\{[^}]*},){2}null,((\{[^}]*},){3}null,){2}(\{[^}]*},){8}null,\{"id":"Help"},\{.*}\].*\}\}]]></serialization-matches>
+         <serialization-matches><![CDATA[\{"menu":\{.*"items":\[(\{[^}]*\},){2}null,((\{[^}]*\},){3}null,){2}(\{[^}]*\},){8}null,\{"id":"Help"\},\{.*\}\].*\}\}]]></serialization-matches>
         </all-of>
       </result>
    </test-case>
