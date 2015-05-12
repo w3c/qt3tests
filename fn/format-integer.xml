@@ -638,4 +638,24 @@
             <error code="FODF1310"/>
         </result>    
     </test-case>
+    <test-case name="format-integer-065">
+        <description>format-integer - Ordinal number output request - German - using CLDR</description>
+        <created by="Michael Kay" on="2015-04-22"/>
+        <dependency type="language" value="de"/>
+        <dependency type="feature" value="fn-format-integer-CLDR"/>
+        <test>format-integer(20, 'Ww;o(%spellout-ordinal)', 'de')</test>
+        <result>
+            <assert-eq>'Zwanzigste'</assert-eq>
+        </result>    
+    </test-case>
+    <test-case name="format-integer-066">
+        <description>format-integer - Ordinal number output request - Italian - using CLDR</description>
+        <created by="Michael Kay" on="2015-04-22"/>
+        <dependency type="language" value="it"/>
+        <dependency type="feature" value="fn-format-integer-CLDR"/>
+        <test>format-integer(5, 'Ww;o(%spellout-ordinal-masculine)', 'it') || ';' || format-integer(5, 'Ww;o(%spellout-ordinal-feminine)', 'it')</test>
+        <result>
+            <assert-eq>'Quinto;Quinta'</assert-eq>
+        </result>    
+    </test-case>
 </test-set>
