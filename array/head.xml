@@ -93,4 +93,25 @@
             </all-of>
         </result>
     </test-case>
+    
+    <test-case name="array-head-608">
+        <description>array:head() applied to a curly array constructor</description>
+        <created by="Michael Kay" on="2015-05-12"/>
+        <environment ref="array"/>
+        <test>array:head(array { (), (27, 17, 0) })</test>
+        <result>
+            <assert-eq>27</assert-eq>
+        </result>
+    </test-case>
+    
+    <test-case name="array-head-609">
+        <description>array:head() applied to a dynamically empty array</description>
+        <created by="Michael Kay" on="2015-05-12"/>
+        <environment ref="array"/>
+        <test>array:head(array { (1 to 100) [. eq year-from-date(current-date())] })</test>
+        <result>
+            <error code="FOAY0001"/>
+        </result>
+    </test-case>
+    
 </test-set>
