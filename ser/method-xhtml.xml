@@ -94,6 +94,7 @@ declare option output:html-version  "4.0";
       <created by="Henry Zongaro" on="2012-10-26"/>
       <modified by="O'Neil Delpratt" on="2013-05-30" change="added dependency inline with bug issue #21868"/>
       <modified by="Michael Kay" on="2015-04-09" change="created XHTML version of HTML serialization test"/>
+      <modified by="Michael Kay" on="2015-05-12" change="bug 28626: allow whitespace in minimized tags"/>
       <test><![CDATA[
 declare boundary-space strip;        
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
@@ -106,132 +107,13 @@ declare option output:html-version  "5.0";
 ]]></test>
       <result>
          <all-of>
-           <serialization-matches><![CDATA[<html xmlns="http://www.w3.org/1999/xhtml"><body><area/><base/><br/><col/><embed/><frame></frame><hr/><img/><input/><isindex></isindex><link/><meta/><param/></body></html>]]></serialization-matches>
+           <serialization-matches><![CDATA[<html xmlns="http://www.w3.org/1999/xhtml"><body><area\s*/><base\s*/><br\s*/><col\s*/><embed\s*/><frame></frame><hr\s*/><img\s*/><input\s*/><isindex></isindex><link\s*/><meta\s*/><param\s*/></body></html>]]></serialization-matches>
            <serialization-matches flags="i"><![CDATA[<!DOCTYPE .*]]></serialization-matches>
          </all-of>
       </result>
    </test-case>
 
-   <test-case name="Serialization-xhtml-5" >
-      <description>Test serialization of XML islands for HTML 4.0</description>
-      <created by="Henry Zongaro" on="2012-10-26"/>
-      <modified by="Michael Kay" on="2015-04-09" change="created XHTML version of HTML serialization test"/>
-      <test><![CDATA[ () ]]></test>
-      <result>
-        <assert-empty />
-      </result>
-   </test-case>
 
-   <test-case name="Serialization-xhtml-6" >
-      <description>Test serialization of XML islands for HTML 5.0</description>
-      <created by="Henry Zongaro" on="2012-10-26"/>
-      <modified by="Michael Kay" on="2015-04-09" change="created XHTML version of HTML serialization test"/>
-      <test><![CDATA[ () ]]></test>
-      <result>
-        <assert-empty />
-      </result>
-   </test-case>
-
-   <test-case name="Serialization-xhtml-7" >
-      <description>Test serialization of unknown elements in no namespace for HTML 5.0</description>
-      <created by="Henry Zongaro" on="2012-10-26"/>
-      <modified by="Michael Kay" on="2015-04-09" change="created XHTML version of HTML serialization test"/>
-      <test><![CDATA[ () ]]></test>
-      <result>
-        <assert-empty />
-      </result>
-   </test-case>
-
-   <test-case name="Serialization-xhtml-8" >
-      <description>Test serialization of unknown elements in no namespace or in the XHTML namespace for HTML 5.0</description>
-      <created by="Henry Zongaro" on="2012-10-26"/>
-      <modified by="Michael Kay" on="2015-04-09" change="created XHTML version of HTML serialization test"/>
-      <test><![CDATA[ () ]]></test>
-      <result>
-        <assert-empty />
-      </result>
-   </test-case>
-
-   <test-case name="Serialization-xhtml-9" >
-      <description>Test that no escaping is performed for text node descendants or attributes of same in the script and style elements</description>
-      <created by="Henry Zongaro" on="2012-10-26"/>
-      <test><![CDATA[ () ]]></test>
-      <result>
-        <assert-empty />
-      </result>
-   </test-case>
-
-   <test-case name="Serialization-xhtml-10" >
-      <description>Verify HTML elements are recognized regardless of case</description>
-      <created by="Henry Zongaro" on="2012-10-26"/>
-      <test><![CDATA[ () ]]></test>
-      <result>
-        <assert-empty />
-      </result>
-   </test-case>
-
-   <test-case name="Serialization-xhtml-11" >
-      <description>Verify that an ampersand in an attribute value is not escaped if it is immediately followed by a left brace</description>
-      <created by="Henry Zongaro" on="2012-10-26"/>
-      <test><![CDATA[ () ]]></test>
-      <result>
-        <assert-empty />
-      </result>
-   </test-case>
-
-   <test-case name="Serialization-xhtml-12" >
-      <description>Verify boolean attributes in HTML 4.0 are serialized in minimized form only if the name and value match, without regard to case</description>
-      <created by="Henry Zongaro" on="2012-10-26"/>
-      <test><![CDATA[ () ]]></test>
-      <result>
-        <assert-empty />
-      </result>
-   </test-case>
-
-   <test-case name="Serialization-xhtml-13" >
-      <description>Verify boolean attributes in HTML 5.0 are serialized in minimized form only if the name and value match, without regard to case</description>
-      <created by="Henry Zongaro" on="2012-10-26"/>
-      <test><![CDATA[ () ]]></test>
-      <result>
-        <assert-empty />
-      </result>
-   </test-case>
-
-   <test-case name="Serialization-xhtml-14" >
-      <description>Test the effect of the indent serialization parameter with value yes</description>
-      <created by="Henry Zongaro" on="2012-10-26"/>
-      <test><![CDATA[ () ]]></test>
-      <result>
-        <assert-empty />
-      </result>
-   </test-case>
-
-   <test-case name="Serialization-xhtml-15" >
-      <description>Test the effect of the indent serialization parameter with value no</description>
-      <created by="Henry Zongaro" on="2012-10-26"/>
-      <test><![CDATA[ () ]]></test>
-      <result>
-        <assert-empty />
-      </result>
-   </test-case>
-
-   <test-case name="Serialization-xhtml-16" >
-      <description>Test the effect of the suppress-indentation serialization parameter if the indent parameter has value yes</description>
-      <created by="Henry Zongaro" on="2012-10-26"/>
-      <test><![CDATA[ () ]]></test>
-      <result>
-        <assert-empty />
-      </result>
-   </test-case>
-
-   <test-case name="Serialization-xhtml-17" >
-      <description>Test the effect of the suppress-indentation serialization parameter if the indent parameter has value no</description>
-      <created by="Henry Zongaro" on="2012-10-26"/>
-      <test><![CDATA[ () ]]></test>
-      <result>
-        <assert-empty />
-      </result>
-   </test-case>
 
    <test-case name="Serialization-xhtml-18" >
       <description>Test with cdata-section-elements for XHTML with html-version = 4.0</description>
@@ -862,40 +744,6 @@ declare option output:html-version  "5.0";
       </result>
    </test-case>
 
-   <test-case name="Serialization-xhtml-41" >
-      <description>Test byte-order-mark parameter for HTML 4.0</description>
-      <created by="Henry Zongaro" on="2012-10-26"/>
-      <test><![CDATA[ () ]]></test>
-      <result>
-        <assert-empty />
-      </result>
-   </test-case>
 
-   <test-case name="Serialization-xhtml-42" >
-      <description>Test byte-order-mark parameter for HTML 5.0</description>
-      <created by="Henry Zongaro" on="2012-10-26"/>
-      <test><![CDATA[ () ]]></test>
-      <result>
-        <assert-empty />
-      </result>
-   </test-case>
-
-   <test-case name="Serialization-xhtml-43" >
-      <description>Test escape-uri-attributes parameter for HTML 4.0</description>
-      <created by="Henry Zongaro" on="2012-10-26"/>
-      <test><![CDATA[ () ]]></test>
-      <result>
-        <assert-empty />
-      </result>
-   </test-case>
-
-   <test-case name="Serialization-xhtml-44" >
-      <description>Test escape-uri-attributes parameter for HTML 5.0</description>
-      <created by="Henry Zongaro" on="2012-10-26"/>
-      <test><![CDATA[ () ]]></test>
-      <result>
-        <assert-empty />
-      </result>
-   </test-case>
 
 </test-set>
