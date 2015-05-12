@@ -738,5 +738,31 @@
         <assert-serialization-error code="SEPM0009" />
       </result>
    </test-case>
+   
+   <test-case name="Serialization-033">
+      <description>Serialization parameter values may contain escape sequences</description>
+      <created by="Michael Kay" on="2015-05-03"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+         declare option output:indent "&#x6e;&#x6f;";
+         <result>ok</result>
+        ]]></test>
+      <result>
+         <assert-xml>&lt;result&gt;ok&lt;/result&gt;</assert-xml>
+      </result>
+   </test-case>
+   
+   <test-case name="Serialization-034">
+      <description>Serialization parameter values may contain whitespace</description>
+      <created by="Michael Kay" on="2015-05-03"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+         declare option output:indent " no ";
+         <result>ok</result>
+        ]]></test>
+      <result>
+         <assert-xml>&lt;result&gt;ok&lt;/result&gt;</assert-xml>
+      </result>
+   </test-case>
 
 </test-set>
