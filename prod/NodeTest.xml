@@ -255,6 +255,17 @@
          <assert-xml><![CDATA[<out>1</out>]]></assert-xml>
       </result>
    </test-case>
+   
+   <test-case name="NodeTest013-2">
+      <description>In XQuery, processing instruction name can be escaped</description>
+      <created by="Michael Kay" on="2015-05-03"/>
+      <environment ref="TreeCompass"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<out>{fn:count(//center/processing-instruction('a&#x2d;pi'))}</out>]]></test>
+      <result>
+         <assert-xml><![CDATA[<out>1</out>]]></assert-xml>
+      </result>
+   </test-case>
 
    <test-case name="NodeTesthc-1">
       <description> Simple test for text type involving a boolean expression (and fn:true) </description>
