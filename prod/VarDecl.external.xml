@@ -418,6 +418,22 @@
          <error code="XPDY0002"/>
       </result>
    </test-case>
+   
+   <test-case name="extvardeclwithouttype-24">
+      <description> Evaluates an external variable reference without type, variable name includes namespace prefix. </description>
+      <created by="Debbie Lockett" on="2015-06-02"/>
+      <environment>
+         <param name="test:x"
+            xmlns:test="http://www.w3.org/fots/example-test-namespace"
+            select="2"
+            declared="true"/>
+      </environment>
+      <test>declare namespace test = "http://www.w3.org/fots/example-test-namespace";
+         declare variable $test:x external; $test:x</test>
+      <result>
+         <assert-eq>2</assert-eq>
+      </result>
+   </test-case>
 
    <test-case name="K2-ExternalVariablesWithout-1">
       <description> Two external variables with the same name. </description>
@@ -655,7 +671,7 @@
       </result>
    </test-case>
    
-      <test-case name="extvardeclwithtype-1">
+    <test-case name="extvardeclwithtype-1">
       <description> Evaluates an external variable declaration with type Use type xs:string. </description>
       <created by="Carmelo Montanez" on="2006-02-09"/>
       <environment>
@@ -977,6 +993,22 @@
       <test file="VarDecl.external/extvardeclwithtype-23.xq"/>
       <result>
          <assert-xml file="VarDecl.external/extvardeclwithtype-23.out"/>
+      </result>
+   </test-case>
+   
+   <test-case name="extvardeclwithtype-24">
+      <description> Evaluates an external variable reference with type, variable name includes namespace prefix. </description>
+      <created by="Debbie Lockett" on="2015-06-02"/>
+      <environment>
+         <param name="test:x"
+            xmlns:test="http://www.w3.org/fots/example-test-namespace"
+            select="2"
+            declared="true"/>
+      </environment>
+      <test>declare namespace test = "http://www.w3.org/fots/example-test-namespace";
+         declare variable $test:x as xs:integer external; $test:x</test>
+      <result>
+         <assert-eq>2</assert-eq>
       </result>
    </test-case>
 
