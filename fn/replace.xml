@@ -511,7 +511,24 @@ abracadabra", "\n","with")</test>
 	    <assert-eq>"34"</assert-eq>
       </result>
    </test-case>
- 
+   
+   <test-case name="fn-replace-47">
+      <description>fn:replace, Saxon bug 2390 (reluctant quantifiers, backtracking, and captured groups)</description>
+      <created by="Michael Kay (from Gerrit Imsieke)" on="2015-06-03"/>
+      <test>replace('abc', '^.+?(b+)?$', '$1')</test>
+      <result>
+         <assert-eq>""</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-replace-48">
+      <description>fn:replace, Saxon bug 2390 (choice, backtracking, and captured groups)</description>
+      <created by="Michael Kay" on="2015-06-03"/>
+      <test>replace('abcd', '^a(.).$|^a...$', '$1')</test>
+      <result>
+         <assert-eq>""</assert-eq>
+      </result>
+   </test-case>
 
    <test-case name="K-ReplaceFunc-1">
       <description> The flags argument cannot contain whitespace. </description>
