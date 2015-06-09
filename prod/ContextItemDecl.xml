@@ -24,6 +24,7 @@
    <test-case name="contextDecl-015" covers-30="declaration-cycles">
       <description>It is a static error if the initializer of the context item depends on the context item. </description>
       <created by="David Graf" on="2011-12-02"/>
+      <modified by="O'Neil Delpratt" on="2012-10-08" change="fix bug 28665 added error code XPDY0002" />
       <test><![CDATA[
         declare variable $y := /works/employee;
         declare context item := $y[9];
@@ -31,7 +32,10 @@
         ($x, $y)
       ]]></test>
       <result>
-         <error code="XQDY0054"/>
+          <any-of>
+            <error code="XPDY0002"/>
+            <error code="XQDY0054"/>
+          </any-of>
       </result>
    </test-case>
 
@@ -73,6 +77,7 @@
         <any-of>
           <assert-eq>2</assert-eq>
           <error code="XPDY0002"/>
+          <error code="XQDY0054"/>
         </any-of>
       </result>
    </test-case>
@@ -85,6 +90,7 @@
         <any-of>
           <assert-eq>2</assert-eq>
           <error code="XPDY0002"/>
+          <error code="XQDY0054"/>
         </any-of>
       </result>
    </test-case>
@@ -448,6 +454,7 @@
    <test-case name="contextDecl-053" covers-30="declaration-cycles">
       <description>Dynamic circularity involving function lookup</description>
       <created by="Michael Kay" on="2012-10-02"/>
+      <modified by="O'Neil Delpratt" on="2012-10-08" change="fix bug 28665 added error code XPDY0002" />
       <environment ref="empty"/>
       <dependency type="feature" value="higherOrderFunctions"/>
       <test>
@@ -457,7 +464,10 @@
         .
       </test>
       <result>
-         <error code="XQDY0054"/>
+          <any-of>
+            <error code="XPDY0002"/>
+            <error code="XQDY0054"/>
+          </any-of>
       </result>
    </test-case>
    
