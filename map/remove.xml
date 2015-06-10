@@ -134,6 +134,18 @@
             <assert-true/>
         </result>
     </test-case>
+    <test-case name="map-remove-014">
+        <description>Remove from map containing dates with and without timezone</description>
+        <created by="Michael Kay, Saxonica" on="2015-06-10"/>
+        <test>
+            map{current-dateTime():100, current-dateTime()=>adjust-dateTime-to-timezone(()):101} 
+            => map:remove(current-dateTime()) 
+            => map:get(current-dateTime()=>adjust-dateTime-to-timezone(()))
+        </test>
+        <result>
+            <assert-eq>101</assert-eq>
+        </result>
+    </test-case>
     
  
 
