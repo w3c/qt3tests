@@ -352,8 +352,13 @@
    <test-case name="K2-Steps-34">
       <description> Tricky combination of focus and a recursive function call(#3). </description>
       <created by="Frans Englich" on="2008-03-05"/>
+      <modified by="Michael Kay" on="2015-06-14" change="see bug 28807"/>
       <dependency type="spec" value="XQ10+"/>
-      <test><![CDATA[declare variable $root := ( <b d=""/>, <c d=""> <c d=""/> </c> ); declare function local:function($object) { $root[@d eq $object/@d] }; $root/local:function(c)]]></test>
+      <test><![CDATA[
+        declare variable $root := ( <b d=""/>, <c d=""> <c d=""/> </c> ); 
+        declare function local:function($object) { $root[@d eq $object/@d] }; 
+        $root!local:function(c)
+      ]]></test>
       <result>
          <assert-xml><![CDATA[<b d=""/><c d=""><c d=""/></c>]]></assert-xml>
       </result>
