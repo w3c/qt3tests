@@ -340,6 +340,17 @@
          <assert-string-value>-26,931.4</assert-string-value>
       </result>
    </test-case>
+  
+  <test-case name="decimal-format-40">
+    <description>Purpose: It's OK to use '0' to represent NaN </description>
+    <created by="Michael Kay, Saxonica" on="2015-06-04"/>
+    <test>
+      declare default decimal-format NaN = "0";
+      format-number(xs:double('NaN'),'###,###.###')</test>
+    <result>
+      <assert-string-value>0</assert-string-value>
+    </result>
+  </test-case>
 
    <test-case name="decimal-format-901err">
       <description>
@@ -486,6 +497,19 @@
          <error code="XQST0097"/>
       </result>
    </test-case>
+  
+  <test-case name="decimal-format-912err">
+    <description>
+      Purpose: Test of decimal-format declaration with a property value clashing with a digit in the zero-digit family. </description>
+    <created by="Michael Kay" on="2015-06-04"/>
+    <test>
+      declare default decimal-format decimal-separator = "6";
+      true()
+    </test>
+    <result>
+      <error code="XQST0098"/>
+    </result>
+  </test-case>
 
   
 
