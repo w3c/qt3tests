@@ -348,6 +348,16 @@
          <assert-true/>
       </result>
    </test-case>
+   
+   <test-case name="K-VersionProlog-2-v31" covers="version-decl-31">
+      <description> A simple version declaration excluding encoding. </description>
+      <created by="Debbie Lockett" on="2015-06-15"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test>xquery version "3.1" ; 1 eq 1</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
 
    <test-case name="prolog-version-4">
       <description> Simple version decl. </description>
@@ -366,6 +376,16 @@
       <modified by="O'Neil Delpratt" on="2014-12-16" change="Bug fix relating #27180: Added + to dependency value" />
       <dependency type="spec" value="XQ30+"/>
       <test>xquery version "3.0"; 1,2</test>
+      <result>
+         <assert-string-value>1 2</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="prolog-version-4-v31" covers="version-decl-31">
+      <description> Simple version decl. </description>
+      <created by="Debbie Lockett" on="2015-06-15"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test>xquery version "3.1"; 1,2</test>
       <result>
          <assert-string-value>1 2</assert-string-value>
       </result>
@@ -393,6 +413,16 @@
       <test><![CDATA[xquery version "3.0"; <bib/>]]></test>
       <result>
           <assert-xml><![CDATA[<bib/>]]></assert-xml>
+      </result>
+   </test-case>
+   
+   <test-case name="prolog-version-5-v31" covers="version-decl-31">
+      <description> An XQuery 3.1 processor must accept version "3.1". </description>
+      <created by="Debbie Lockett" on="2015-06-15"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[xquery version "3.1"; <bib/>]]></test>
+      <result>
+         <assert-xml><![CDATA[<bib/>]]></assert-xml>
       </result>
    </test-case>
 
@@ -431,6 +461,23 @@
          <assert-xml><![CDATA[<title>Data on the Web</title><title>TCP/IP Illustrated</title><title>Advanced Programming in the Unix environment</title><title>The Economics of Technology and Content for Digital TV</title>]]></assert-xml>
       </result>
    </test-case>
+   
+   <test-case name="prolog-version-6-v31" covers="version-decl-31">
+      <description> A more realistic query with a version decl, no encoding. </description>
+      <created by="Debbie Lockett" on="2015-06-15"/>
+      <environment ref="bib2"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test>
+         xquery version '3.1'; 
+         declare boundary-space preserve; 
+         declare default order empty greatest; 
+         declare namespace ns = "http://www.example.org/"; 
+         for $b in//book stable order by xs:decimal($b/price[1]) empty greatest 
+         return $b/title</test>
+      <result>
+         <assert-xml><![CDATA[<title>Data on the Web</title><title>TCP/IP Illustrated</title><title>Advanced Programming in the Unix environment</title><title>The Economics of Technology and Content for Digital TV</title>]]></assert-xml>
+      </result>
+   </test-case>
 
    <test-case name="prolog-version-7">
       <description> A more realitic query with a version decl, no encoding. </description>
@@ -463,6 +510,23 @@
         declare namespace ns = "http://www.example.org/"; 
         for $b in //book stable order by xs:decimal($b/price[1]) empty greatest 
         return $b/title</test>
+      <result>
+         <assert-xml><![CDATA[<title>Data on the Web</title><title>TCP/IP Illustrated</title><title>Advanced Programming in the Unix environment</title><title>The Economics of Technology and Content for Digital TV</title>]]></assert-xml>
+      </result>
+   </test-case>
+   
+   <test-case name="prolog-version-7-v31" covers="version-decl-31">
+      <description> A more realitic query with a version decl, no encoding. </description>
+      <created by="Debbie Lockett" on="2015-06-15"/>
+      <environment ref="bib2"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test>
+         xquery version "3.1"; 
+         declare boundary-space preserve; 
+         declare default order empty greatest; 
+         declare namespace ns = "http://www.example.org/"; 
+         for $b in //book stable order by xs:decimal($b/price[1]) empty greatest 
+         return $b/title</test>
       <result>
          <assert-xml><![CDATA[<title>Data on the Web</title><title>TCP/IP Illustrated</title><title>Advanced Programming in the Unix environment</title><title>The Economics of Technology and Content for Digital TV</title>]]></assert-xml>
       </result>
