@@ -552,6 +552,7 @@
    <test-case name="fn-parse-json-059">
       <description>Invalid XML char, fallback</description>
       <created by="Michael Kay, Saxonica" on="2015-03-11"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
       <test>parse-json('"\uFFFF"', map{'fallback':lower-case#1})</test>
       <result>
         <assert-eq>"\uffff"</assert-eq>
@@ -560,6 +561,7 @@
    <test-case name="fn-parse-json-060">
       <description>Unpaired surrogate, fallback</description>
       <created by="Michael Kay, Saxonica" on="2015-03-11"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
       <test>parse-json('"\uDEAD"', map{'fallback':lower-case#1})</test>
       <result>
         <assert-eq>"\udead"</assert-eq>
@@ -569,6 +571,7 @@
       <description>Character not in XML 1.0, fallback</description>
       <created by="Michael Kay, Saxonica" on="2015-03-11"/>
       <dependency type="xml-version" value="1.0"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
       <test>parse-json('"\b"', map{'fallback':lower-case#1})</test>
       <result>
         <assert-eq>"\b"</assert-eq>
@@ -577,6 +580,7 @@
    <test-case name="fn-parse-json-062">
       <description>Invalid XML char, no fallback</description>
       <created by="Michael Kay, Saxonica" on="2015-03-11"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
       <test>parse-json('{"\uFFFF":""}', map{'fallback':lower-case#1}) => map:keys()</test>
       <result>
         <assert-eq>"\uffff"</assert-eq>
@@ -585,6 +589,7 @@
    <test-case name="fn-parse-json-063">
       <description>Unpaired surrogate, no fallback</description>
       <created by="Michael Kay, Saxonica" on="2015-03-11"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
       <test>parse-json('{"\uDEAD":""}', map{'fallback':lower-case#1}) => map:keys()</test>
       <result>
         <assert-eq>"\udead"</assert-eq>
@@ -594,6 +599,7 @@
       <description>Character not in XML 1.0, no fallback</description>
       <created by="Michael Kay, Saxonica" on="2015-03-11"/>
       <dependency type="xml-version" value="1.0"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
       <test>parse-json('{"\b":""}', map{'fallback':lower-case#1}) => map:keys()</test>
       <result>
         <assert-eq>"\b"</assert-eq>
@@ -1284,6 +1290,7 @@
       <description>Fallback is a function with wrong arity</description>
       <created by="Michael Kay, Saxonica" on="2015-03-11"/>
       <dependency type="xml-version" value="1.0"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
       <test>parse-json('{"\b":""}', map{'fallback':substring#2}) => map:keys()</test>
       <result>
         <error code="FOJS0005"/>
@@ -1293,6 +1300,7 @@
       <description>Fallback throws an error</description>
       <created by="Michael Kay, Saxonica" on="2015-03-11"/>
       <dependency type="xml-version" value="1.0"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
       <test>parse-json('{"\b":""}', map{'fallback':error(QName("","USER9999"), ?)}) => map:keys()</test>
       <result>
         <error code="Q{}USER9999"/>
@@ -1301,6 +1309,7 @@
    <test-case name="fn-parse-json-944">
       <description>Fallback is not called for invalid escape sequences</description>
       <created by="Michael Kay, Saxonica" on="2015-03-11"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
       <test>parse-json('{"\xaa":""}', map{'fallback':upper-case#1}) => map:keys()</test>
       <result>
         <error code="FOJS0001"/>
@@ -1309,6 +1318,7 @@
    <test-case name="fn-parse-json-945">
       <description>Fallback function does not accept a string (Note: awaits outcome of bug 28196)</description>
       <created by="Michael Kay, Saxonica" on="2015-03-11"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
       <test>parse-json('{"\uFFFF":""}', map{'fallback':abs#1}) => map:keys()</test>
       <result>
         <error code="FOJS0005"/>

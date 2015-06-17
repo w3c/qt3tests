@@ -37,6 +37,7 @@
         <description>Arrow operator used with tokenize and count functions; variable reference</description>
         <created by="Debbie Lockett" on="2015-01-05"/>
         <dependency type="spec" value="XP31+ XQ31+"/>
+        <dependency type="feature" value="higherOrderFunctions"/>
         <test>let $f:= tokenize#2 return "the cat sat on the mat"=>$f("\s+")=>count()</test>
         <result>
             <assert-deep-eq>6</assert-deep-eq>
@@ -47,6 +48,7 @@
         <description>Arrow operator used with tokenize and count functions; variable reference</description>
         <created by="Debbie Lockett" on="2015-01-05"/>
         <dependency type="spec" value="XP31+ XQ31+"/>
+        <dependency type="feature" value="higherOrderFunctions"/>
         <test>let $f:= tokenize#1 return "the cat sat on the mat"=>$f()=>count()</test>
         <result>
             <assert-deep-eq>6</assert-deep-eq>
@@ -57,6 +59,7 @@
         <description>Arrow operator used with tokenize and count functions; parenthesized expression</description>
         <created by="Debbie Lockett" on="2015-01-05"/>
         <dependency type="spec" value="XP31+ XQ31+"/>
+        <dependency type="feature" value="higherOrderFunctions"/>
         <test>let $f:= tokenize#2 return "the cat sat on the mat"=>($f)("\s+")=>count()</test>
         <result>
             <assert-deep-eq>6</assert-deep-eq>
@@ -107,6 +110,7 @@
         <description>Arrow operator used with head and ceiling functions</description>
         <created by="Debbie Lockett" on="2015-01-05"/>
         <dependency type="spec" value="XP31+ XQ31+"/>
+        <dependency type="feature" value="higherOrderFunctions"/>
         <test>let $f:= (ceiling#1, floor#1, round#1, abs#1)=>head() return 4.54=>$f()</test>
         <result>
             <assert-deep-eq>5</assert-deep-eq>
@@ -117,6 +121,7 @@
         <description>Arrow operator used with head and ceiling functions</description>
         <created by="Debbie Lockett" on="2015-01-05"/>
         <dependency type="spec" value="XP31+ XQ31+"/>
+        <dependency type="feature" value="higherOrderFunctions"/>
         <test>4.54=>((ceiling#1, floor#1, round#1, abs#1) => head())()</test>
         <result>
             <assert-deep-eq>5</assert-deep-eq>
@@ -127,6 +132,7 @@
         <description>Arrow operator used with ceiling function</description>
         <created by="Debbie Lockett" on="2015-01-05"/>
         <dependency type="spec" value="XP31+ XQ31+"/>
+        <dependency type="feature" value="higherOrderFunctions"/>
         <test>4.54=>(head((ceiling#1, floor#1, round#1, abs#1)))()</test>
         <result>
             <assert-deep-eq>5</assert-deep-eq>
@@ -198,6 +204,7 @@
         <description>Arrow operator used with a map; variable reference</description>
         <created by="Debbie Lockett" on="2015-01-07"/>
         <dependency type="spec" value="XP31+ XQ31+"/>
+        <dependency type="feature" value="higherOrderFunctions"/>
         <test>let $m:= map{1:2, 2:4, 3:6} return 2=>$m()</test>
         <result>
             <assert-deep-eq>4</assert-deep-eq>
@@ -218,6 +225,7 @@
         <description>Arrow operator used with an array; variable reference</description>
         <created by="Debbie Lockett" on="2015-01-07"/>
         <dependency type="spec" value="XP31+ XQ31+"/>
+        <dependency type="feature" value="higherOrderFunctions"/>
         <test>let $array:= ['a','b','c','d','e'] return 3=>$array()</test>
         <result>
             <assert-deep-eq>'c'</assert-deep-eq>
@@ -248,6 +256,7 @@
         <description>Arrow operator: type error (variable reference not a function)</description>
         <created by="Debbie Lockett" on="2015-01-07"/>
         <dependency type="spec" value="XP31+ XQ31+"/>
+        <dependency type="feature" value="higherOrderFunctions"/>
         <test>let $f:= "ceiling" return 5.4=>$f()</test>
         <result>
             <error code="XPTY0004"/>
@@ -299,6 +308,7 @@
         <description>Precedence of "=>" is less than "!"; variable references</description>
         <created by="Debbie Lockett" on="2015-01-19"/>
         <dependency type="spec" value="XP31+ XQ31+"/>
+        <dependency type="feature" value="higherOrderFunctions"/>
         <test>let $a := ("one two", "three four five"), $b:= tokenize#2 return $a!$b(.," ") => distinct-values()</test>
         <result>
             <assert-permutation>("one", "two", "three", "four", "five")</assert-permutation>
