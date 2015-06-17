@@ -494,9 +494,10 @@
    <test-case name="fn-parse-json-052">
       <description>Duplicate keys - default</description>
       <created by="Michael Kay, Saxonica" on="2015-01-30"/>
+      <modified by="Josh Spiegel" on="2015-06-17" change="Bug 28771 changes the default for duplicates to use-first"/>
       <test>parse-json('{"a":1, "b":2, "a":3}', map{})</test>
       <result>
-        <assert-deep-eq>map{"a":3, "b":2}</assert-deep-eq>
+        <assert-deep-eq>map{"a":1, "b":2}</assert-deep-eq>
       </result>
    </test-case>
    <test-case name="fn-parse-json-053">
@@ -1325,12 +1326,13 @@
       </result>
    </test-case>
    <test-case name="fn-parse-json-946">
-      <description>Option values are not implicitly atomized (Note: awaits outcome of bug 28196)</description>
+      <description>Option values are implicitly atomized</description>
       <created by="Michael Kay, Saxonica" on="2015-01-30"/>
+      <modified by="Josh Spiegel" on="2015-06-17" change="Updated result, value should be atomized (Bug 28196)"/>
       <dependency type="spec" value="XQ31+"/>
       <test><![CDATA[parse-json('{"a":1, "b":2}', map{'duplicates':<a>use-first</a>})]]></test>
       <result>
-        <error code="FOJS0005"/>
+        <assert-deep-eq>map{"a":1, "b":2}</assert-deep-eq>
       </result>
    </test-case>
 
