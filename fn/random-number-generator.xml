@@ -235,6 +235,7 @@ r:random-sequence(200)]]></test>
         <description>Detect randomness</description>
         <created by="Loren Cahlander" on="2015-01-18"/>
         <modified by="Loren Cahlander" on="2015-04-21" change="Moved to proper location"/>
+        <modified by="Christian Gruen" on="2015-06-22" change="First condition fixed"/>
         <dependency type="spec" value="XQ31+"/>
         <test><![CDATA[
          declare function local:random-sequence($length as xs:integer) as xs:double* {
@@ -248,7 +249,7 @@ r:random-sequence(200)]]></test>
          
          let $r := local:random-sequence(200)
          
-         return if (not(count(distinct-values($r)) > 0.5*count($r)))
+         return if (not(count(distinct-values($r)) >= 0.5*count($r)))
          then fn:false()
          else if (not(not(deep-equal($r, fn:sort($r)))))
          then fn:false()
