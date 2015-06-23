@@ -27,14 +27,15 @@
                 uri="http://www.w3.org/qt3/json/data005-json">
          <description>UTF-8 encoded plain text.</description>
          <created by="O'Neil Delpratt" on="2015-02-23"/>
+         <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       </resource>
-      <namespace prefix="j" uri="http://www.w3.org/2005/xpath-functions/json"/>
+      <namespace prefix="j" uri="http://www.w3.org/2005/xpath-functions"/>
      </environment>
 
     <environment name="json-ns">
-        <schema uri="http://www.w3.org/2005/xpath-functions/json"/>
+        <schema uri="http://www.w3.org/2005/xpath-functions"/>
         <!-- Either the test driver or the product under test is expected to recognize this URI -->
-        <namespace prefix="j" uri="http://www.w3.org/2005/xpath-functions/json"/>
+        <namespace prefix="j" uri="http://www.w3.org/2005/xpath-functions"/>
     </environment>
 
 
@@ -42,13 +43,14 @@
       <description>Empty object as document-node</description>
        <created by="John Lumley" on="2013-10-01"/>
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <environment ref="json-ns" />
       <test>fn:json-to-xml('{}')</test>
       <result>
             <all-of>
                 <assert-count>1</assert-count>
                 <assert-type>document-node()</assert-type>
-                <assert-xml ignore-prefixes="true"><![CDATA[<map xmlns="http://www.w3.org/2005/xpath-functions/json"/>]]></assert-xml>
+                <assert-xml ignore-prefixes="true"><![CDATA[<map xmlns="http://www.w3.org/2005/xpath-functions"/>]]></assert-xml>
             </all-of>
       </result>
    </test-case>
@@ -57,13 +59,14 @@
       <description>Empty array as document-node</description>
       <created by="John Lumley" on="2013-10-01"/>
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <environment ref="json-ns" />
       <test>fn:json-to-xml('[]')</test>
       <result>
             <all-of>
                 <assert-count>1</assert-count>
                 <assert-type>document-node()</assert-type>
-                <assert-xml ignore-prefixes="true"><![CDATA[<array xmlns="http://www.w3.org/2005/xpath-functions/json"/>]]></assert-xml>
+                <assert-xml ignore-prefixes="true"><![CDATA[<array xmlns="http://www.w3.org/2005/xpath-functions"/>]]></assert-xml>
             </all-of>
       </result>
    </test-case>
@@ -73,6 +76,7 @@
       <created by="John Lumley" on="2013-10-01"/>
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
       <modified by="Michael Kay" on="2015-03-06" change="Spec says the result is a document node"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <environment ref="json-ns" />
       <test>fn:json-to-xml('[1]')</test>
       <result>
@@ -82,7 +86,7 @@
                 <assert>count($result/*) eq 1</assert>
                 <assert>$result/*/*[1] instance of element(j:number,xs:untyped)</assert>
                 <assert>xs:double($result/*[1]) eq 1</assert>
-                <assert-xml ignore-prefixes="true"><![CDATA[<array xmlns="http://www.w3.org/2005/xpath-functions/json"><number>1</number></array>]]></assert-xml>
+                <assert-xml ignore-prefixes="true"><![CDATA[<array xmlns="http://www.w3.org/2005/xpath-functions"><number>1</number></array>]]></assert-xml>
             </all-of>
       </result>
    </test-case>
@@ -92,6 +96,7 @@
       <created by="John Lumley" on="2013-10-01"/>
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
       <modified by="Michael Kay" on="2015-03-06" change="Spec says the result is a document node"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <environment ref="json-ns" />
       <test>fn:json-to-xml('[&#34;a&#34;]')</test>
       <result>
@@ -101,7 +106,7 @@
                 <assert>count($result/*) eq 1</assert>
                 <assert>$result/*/*[1] instance of element(j:string,xs:untyped)</assert>
                 <assert>xs:string($result/*/*[1]) eq "a"</assert>
-                <assert-xml ignore-prefixes="true"><![CDATA[<array xmlns="http://www.w3.org/2005/xpath-functions/json"><string>a</string></array>]]></assert-xml>
+                <assert-xml ignore-prefixes="true"><![CDATA[<array xmlns="http://www.w3.org/2005/xpath-functions"><string>a</string></array>]]></assert-xml>
             </all-of>
       </result>
    </test-case>
@@ -111,6 +116,7 @@
       <created by="John Lumley" on="2013-10-01"/>
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
       <modified by="Michael Kay" on="2015-03-06" change="Spec says the result is a document node"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <environment ref="json-ns" />
       <test>fn:json-to-xml('[true]')</test>
       <result>
@@ -120,7 +126,7 @@
                 <assert>count($result/*) eq 1</assert>
                 <assert>$result/*/*[1] instance of element(j:boolean,xs:untyped)</assert>
                 <assert>xs:boolean($result/*[1]) eq true()</assert>
-                <assert-xml ignore-prefixes="true"><![CDATA[<array xmlns="http://www.w3.org/2005/xpath-functions/json"><boolean>true</boolean></array>]]></assert-xml>
+                <assert-xml ignore-prefixes="true"><![CDATA[<array xmlns="http://www.w3.org/2005/xpath-functions"><boolean>true</boolean></array>]]></assert-xml>
             </all-of>
       </result>
    </test-case>
@@ -130,6 +136,7 @@
       <created by="John Lumley" on="2013-10-01"/>
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
       <modified by="Michael Kay" on="2015-03-06" change="Spec says the result is a document node"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <environment ref="json-ns" />
       <test>fn:json-to-xml('[false]')</test>
       <result>
@@ -139,7 +146,7 @@
                 <assert>count($result/*) eq 1</assert>
                 <assert>$result/*/*[1] instance of element(j:boolean,xs:untyped)</assert>
                 <assert>xs:boolean($result/*[1]) eq false()</assert>
-                <assert-xml ignore-prefixes="true"><![CDATA[<array xmlns="http://www.w3.org/2005/xpath-functions/json"><boolean>false</boolean></array>]]></assert-xml>
+                <assert-xml ignore-prefixes="true"><![CDATA[<array xmlns="http://www.w3.org/2005/xpath-functions"><boolean>false</boolean></array>]]></assert-xml>
             </all-of>
       </result>
    </test-case>
@@ -149,6 +156,7 @@
       <created by="John Lumley" on="2013-10-01"/>
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
       <modified by="Michael Kay" on="2015-03-06" change="Spec says the result is a document node"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <environment ref="json-ns" />
       <test>fn:json-to-xml('[null]')</test>
       <result>
@@ -158,7 +166,7 @@
                 <assert>count($result/*) eq 1</assert>
                 <assert>$result/*/*[1] instance of element(j:null,xs:untyped)</assert>
                 <assert>empty($result/*[1]/*[1]/(*|text()))</assert>
-                <assert-xml ignore-prefixes="true"><![CDATA[<array xmlns="http://www.w3.org/2005/xpath-functions/json"><null/></array>]]></assert-xml>
+                <assert-xml ignore-prefixes="true"><![CDATA[<array xmlns="http://www.w3.org/2005/xpath-functions"><null/></array>]]></assert-xml>
             </all-of>
       </result>
    </test-case>
@@ -168,6 +176,7 @@
       <created by="John Lumley" on="2013-10-01"/>
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
       <modified by="Michael Kay" on="2015-03-06" change="Spec says the result is a document node"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <environment ref="json-files"/>
       <test>fn:json-to-xml(unparsed-text('http://www.w3.org/qt3/json/data001-json'))</test>
       <result>
@@ -199,10 +208,11 @@
       <description>Larger 2</description>
       <created by="John Lumley" on="2013-10-01"/>
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <environment ref="json-files"/>
       <test>fn:json-to-xml(unparsed-text('http://www.w3.org/qt3/json/escapeText-json'))</test>
       <result>
-            <assert-xml ignore-prefixes="true"><![CDATA[<map xmlns="http://www.w3.org/2005/xpath-functions/json"><string key="key">Data with " within it</string></map>]]></assert-xml>
+            <assert-xml ignore-prefixes="true"><![CDATA[<map xmlns="http://www.w3.org/2005/xpath-functions"><string key="key">Data with " within it</string></map>]]></assert-xml>
       </result>
    </test-case>
 
@@ -211,10 +221,11 @@
       <description>Larger 2</description>
       <created by="John Lumley" on="2013-10-01"/>
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <environment ref="json-files"/>
       <test>fn:json-to-xml(unparsed-text('http://www.w3.org/qt3/json/escapeText-json'))//j:string</test>
       <result>
-            <assert-xml ignore-prefixes="true"><![CDATA[<string xmlns="http://www.w3.org/2005/xpath-functions/json" key="key">Data with " within it</string>]]></assert-xml>
+            <assert-xml ignore-prefixes="true"><![CDATA[<string xmlns="http://www.w3.org/2005/xpath-functions" key="key">Data with " within it</string>]]></assert-xml>
       </result>
    </test-case>
 
@@ -222,6 +233,7 @@
       <description>Larger 2</description>
       <created by="John Lumley" on="2013-10-01"/>
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <environment ref="json-files"/>
       <test>
          fn:json-to-xml(unparsed-text('http://www.w3.org/qt3/json/escapeText-json'), map{'unescape':false()})//j:string
@@ -230,7 +242,7 @@
          <all-of>
                 <assert-type>element(j:string)</assert-type>
                 <assert-xml ignore-prefixes="true"><![CDATA[<string 
-                key="key" escaped="true" xmlns="http://www.w3.org/2005/xpath-functions/json">Data with \" within it</string>]]></assert-xml>
+                key="key" escaped="true" xmlns="http://www.w3.org/2005/xpath-functions">Data with \" within it</string>]]></assert-xml>
             </all-of>
       </result>
    </test-case>
@@ -240,6 +252,7 @@
       <description>Larger 2</description>
       <created by="John Lumley" on="2013-10-01"/>
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <environment ref="json-ns"/>
       <test>
          fn:json-to-xml('[&#34;Data with \&#34; within it&#34;]')//j:string
@@ -247,7 +260,7 @@
       <result>
          <all-of>
                 <assert-type>element(j:string)</assert-type>
-                <assert-xml><![CDATA[<string xmlns="http://www.w3.org/2005/xpath-functions/json">Data with " within it</string>]]></assert-xml>
+                <assert-xml><![CDATA[<string xmlns="http://www.w3.org/2005/xpath-functions">Data with " within it</string>]]></assert-xml>
             </all-of>
       </result>
    </test-case>
@@ -265,7 +278,7 @@
          <all-of>
                 <assert-type>element(j:string)</assert-type>
                 <assert-xml><![CDATA[<string
-                 xmlns="http://www.w3.org/2005/xpath-functions/json" key="Key &#34; with quote">Data with " within it</string>]]></assert-xml>
+                 xmlns="http://www.w3.org/2005/xpath-functions" key="Key &#34; with quote">Data with " within it</string>]]></assert-xml>
             </all-of>
       </result>
    </test-case>
@@ -273,13 +286,14 @@
    <test-case name="json-to-xml-015">
       <description>Accept Byte-Order-Mark</description>
       <created by="Michael Kay" on="2015-03-07"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <environment ref="json-ns"/>
       <test>
          fn:json-to-xml(codepoints-to-string(65279)||'[1]')
       </test>
       <result>
          <assert-xml ignore-prefixes="true"><![CDATA[<array 
-         xmlns="http://www.w3.org/2005/xpath-functions/json"><number>1</number></array>
+         xmlns="http://www.w3.org/2005/xpath-functions"><number>1</number></array>
          ]]></assert-xml>
       </result>
    </test-case>
@@ -315,13 +329,14 @@
    <test-case name="json-to-xml-018">
       <description>Duplicate entries in a map: default is to retain duplicates</description>
       <created by="Michael Kay" on="2015-03-07"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <environment ref="json-ns"/>
       <test>
          fn:json-to-xml('{"a":3, "b":4, "a":5}')
       </test>
       <result>
          <assert-xml ignore-prefixes="true"><![CDATA[<map 
-         xmlns="http://www.w3.org/2005/xpath-functions/json"><number key="a"
+         xmlns="http://www.w3.org/2005/xpath-functions"><number key="a"
          >3</number><number key="b">4</number><number key="a">5</number></map>
          ]]></assert-xml> 
       </result>
@@ -330,6 +345,7 @@
    <test-case name="json-to-xml-019">
       <description>Not-Unescaped key</description>
       <created by="Michael Kay" on="2015-03-07"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <environment ref="json-ns"/>
       <dependency type="feature" value="schemaImport"/>
       <test>
@@ -337,7 +353,7 @@
       </test>
       <result>
          <assert-xml ignore-prefixes="true"><![CDATA[<map 
-         xmlns="http://www.w3.org/2005/xpath-functions/json"><number key="a\\" escaped-key="true"
+         xmlns="http://www.w3.org/2005/xpath-functions"><number key="a\\" escaped-key="true"
          >3</number><number key="b\\" escaped-key="true">4</number></map>
          ]]></assert-xml> 
       </result>
@@ -346,6 +362,7 @@
    <test-case name="json-to-xml-020">
       <description>Unescaped key</description>
       <created by="Michael Kay" on="2015-03-07"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <environment ref="json-ns"/>
       <dependency type="feature" value="schemaImport"/>
       <test>
@@ -353,7 +370,7 @@
       </test>
       <result>
          <assert-xml ignore-prefixes="true"><![CDATA[<map 
-      xmlns="http://www.w3.org/2005/xpath-functions/json"><number key="a\"
+      xmlns="http://www.w3.org/2005/xpath-functions"><number key="a\"
       >3</number><number key="b\">4</number></map>]]></assert-xml> 
       </result>
    </test-case>
@@ -361,6 +378,7 @@
    <test-case name="json-to-xml-021">
       <description>Character invalid in XML 1.0 in a string and a key: unescape=true</description>
       <created by="Michael Kay" on="2015-03-07"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <environment ref="json-ns"/>
       <dependency type="xml-version" value="1.0"/>
       <test>
@@ -368,7 +386,7 @@
       </test>
       <result>
          <assert-xml ignore-prefixes="true"><![CDATA[<map 
-         xmlns="http://www.w3.org/2005/xpath-functions/json"
+         xmlns="http://www.w3.org/2005/xpath-functions"
          ><string key="a" escaped="true">\u000C</string
          ><string key="\u0007" escaped-key="true">bell</string></map>
          ]]></assert-xml> 
@@ -378,6 +396,7 @@
    <test-case name="json-to-xml-022">
       <description>Character invalid in XML 1.0 in a string and a key: unescape=false</description>
       <created by="Michael Kay" on="2015-03-07"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <environment ref="json-ns"/>
       <dependency type="xml-version" value="1.0"/>
       <test>
@@ -385,7 +404,7 @@
       </test>
       <result>
          <assert-xml ignore-prefixes="true"><![CDATA[<map 
-         xmlns="http://www.w3.org/2005/xpath-functions/json"
+         xmlns="http://www.w3.org/2005/xpath-functions"
          ><string key="a">&#xFFFD;</string><string key="&#xFFFD;">bell</string></map>
          ]]></assert-xml> 
       </result>
@@ -394,13 +413,14 @@
    <test-case name="json-to-xml-023">
       <description>Unpaired surrogates: unescape=true</description>
       <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <dependency type="xml-version" value="1.0"/>
       <test>
          fn:json-to-xml('{"a":"\uDA00", "\uDD00":"bell"}', map{'unescape':true()})
       </test>
       <result>
          <assert-xml ignore-prefixes="true"><![CDATA[<map 
-         xmlns="http://www.w3.org/2005/xpath-functions/json"
+         xmlns="http://www.w3.org/2005/xpath-functions"
          ><string key="a">&#xFFFD;</string><string key="&#xFFFD;">bell</string></map>]]></assert-xml> 
       </result>
    </test-case>
@@ -408,13 +428,14 @@
    <test-case name="json-to-xml-024">
       <description>Unpaired surrogates: unescape=false</description>
       <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <dependency type="xml-version" value="1.0"/>
       <test>
          fn:json-to-xml('{"a":"\uDA00", "\uDD00":"bell"}', map{'unescape':false()})
       </test>
       <result>
          <assert-xml ignore-prefixes="true"><![CDATA[<j:map 
-         xmlns:j="http://www.w3.org/2005/xpath-functions/json"
+         xmlns:j="http://www.w3.org/2005/xpath-functions"
          ><j:string escaped="true" key="a">\uDA00</j:string><j:string escaped-key="true" key="\uDD00">bell</j:string></j:map>]]></assert-xml> 
       </result>
    </test-case>
@@ -422,6 +443,7 @@
    <test-case name="json-to-xml-025">
       <description>Character invalid in XML 1.0 in a string and a key: fallback</description>
       <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <environment ref="json-ns"/>
       <dependency type="xml-version" value="1.0"/>
       <test>
@@ -430,7 +452,7 @@
       </test>
       <result>
          <assert-xml ignore-prefixes="true"><![CDATA[<map 
-         xmlns="http://www.w3.org/2005/xpath-functions/json"
+         xmlns="http://www.w3.org/2005/xpath-functions"
          ><string key="a">??</string><string key="??">bell</string></map>
          ]]></assert-xml> 
       </result>
@@ -439,6 +461,7 @@
    <test-case name="json-to-xml-026">
       <description>Unpaired surrogates: fallback</description>
       <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <dependency type="xml-version" value="1.0"/>
       <test>
          fn:json-to-xml('{"a":"\uDA00", "\uDD00":"bell"}', 
@@ -446,7 +469,7 @@
       </test>
       <result>
          <assert-xml ignore-prefixes="true"><![CDATA[<map 
-         xmlns="http://www.w3.org/2005/xpath-functions/json"
+         xmlns="http://www.w3.org/2005/xpath-functions"
          ><string key="a">??\uDA00??</string><string key="??\uDD00??">bell</string></map>]]></assert-xml> 
       </result>
    </test-case>
@@ -454,6 +477,7 @@
    <test-case name="json-to-xml-027">
       <description>Unpaired surrogates: unescape=false, fallback</description>
       <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <modified by="Debbie Lockett" on="2015-06-17" change="test and result corrections to actually use unescape=false"/>
       <dependency type="xml-version" value="1.0"/>
       <test>
@@ -462,7 +486,7 @@
       </test>
       <result>
          <assert-xml ignore-prefixes="true"><![CDATA[<map 
-         xmlns="http://www.w3.org/2005/xpath-functions/json"
+         xmlns="http://www.w3.org/2005/xpath-functions"
          ><string escaped="true" key="a">\uDA00</string><string escaped-key="true" key="\uDD00">bell</string></map>]]></assert-xml> 
       </result>
    </test-case>
@@ -482,24 +506,26 @@
    <test-case name="json-to-xml-029">
       <description>Supply empty options map</description>
       <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <test>
          fn:json-to-xml('23', map{})
       </test>
       <result>
          <assert-xml ignore-prefixes="true"><![CDATA[<number 
-         xmlns="http://www.w3.org/2005/xpath-functions/json">23</number>]]></assert-xml> 
+         xmlns="http://www.w3.org/2005/xpath-functions">23</number>]]></assert-xml> 
       </result>
    </test-case>
    
    <test-case name="json-to-xml-030">
       <description>Exponent with upper-case E. Lexical representation retained, see bug 28179 </description>
       <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <test>
          fn:json-to-xml('23E0', map{})
       </test>
       <result>
          <assert-xml ignore-prefixes="true"><![CDATA[<number 
-         xmlns="http://www.w3.org/2005/xpath-functions/json">23E0</number>]]></assert-xml> 
+         xmlns="http://www.w3.org/2005/xpath-functions">23E0</number>]]></assert-xml> 
       </result>
    </test-case>
    
@@ -509,48 +535,52 @@
         Lexical representation retained, see bug 28179
       </description>
       <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <test>
          fn:json-to-xml('0.23e+02')
       </test>
       <result>
          <assert-xml ignore-prefixes="true"><![CDATA[<number 
-         xmlns="http://www.w3.org/2005/xpath-functions/json">0.23e+02</number>]]></assert-xml>
+         xmlns="http://www.w3.org/2005/xpath-functions">0.23e+02</number>]]></assert-xml>
       </result>
    </test-case>
    
    <test-case name="json-to-xml-032">
       <description>Zero is OK</description>
       <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <test>
          fn:json-to-xml('0')
       </test>
       <result>
          <assert-xml ignore-prefixes="true"><![CDATA[<number 
-         xmlns="http://www.w3.org/2005/xpath-functions/json">0</number>]]></assert-xml> 
+         xmlns="http://www.w3.org/2005/xpath-functions">0</number>]]></assert-xml> 
       </result>
    </test-case>
    
    <test-case name="json-to-xml-033">
       <description>Negative zero is OK</description>
       <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <test>
          fn:json-to-xml('-0')
       </test>
       <result>
          <assert-xml ignore-prefixes="true"><![CDATA[<number 
-         xmlns="http://www.w3.org/2005/xpath-functions/json">-0</number>]]></assert-xml> 
+         xmlns="http://www.w3.org/2005/xpath-functions">-0</number>]]></assert-xml> 
       </result>
    </test-case>
    
    <test-case name="json-to-xml-034">
       <description>Zero-length keys and values are OK</description>
       <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <test>
          fn:json-to-xml('{"":"", "0":"0"}')
       </test>
       <result>
          <assert-xml ignore-prefixes="true"><![CDATA[<map 
-         xmlns="http://www.w3.org/2005/xpath-functions/json"><string key=""/><string key="0">0</string></map>]]></assert-xml> 
+         xmlns="http://www.w3.org/2005/xpath-functions"><string key=""/><string key="0">0</string></map>]]></assert-xml> 
       </result>
    </test-case>
    
@@ -568,13 +598,14 @@
    <test-case name="json-to-xml-036">
       <description>Duplicate entries in a map: duplicates=use-first</description>
       <created by="Michael Kay" on="2015-03-07"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <environment ref="json-ns"/>
       <test>
          fn:json-to-xml('{"a":3, "b":4, "a":5}', map{"duplicates":"use-first"})
       </test>
       <result>
          <assert-xml ignore-prefixes="true"><![CDATA[<map 
-         xmlns="http://www.w3.org/2005/xpath-functions/json"><number key="a"
+         xmlns="http://www.w3.org/2005/xpath-functions"><number key="a"
          >3</number><number key="b">4</number></map>
          ]]></assert-xml> 
       </result>
@@ -583,6 +614,7 @@
    <test-case name="json-to-xml-037">
       <description>Validate a more complex example</description>
       <created by="Michael Kay" on="2015-03-10"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <environment ref="json-ns"/>
       <dependency type="feature" value="schemaImport"/>
       <test>
@@ -590,13 +622,14 @@
             map{'validate':true()})
       </test>
       <result>
-         <assert-type>document-node(schema-element(Q{http://www.w3.org/2005/xpath-functions/json}map))</assert-type>
+         <assert-type>document-node(schema-element(Q{http://www.w3.org/2005/xpath-functions}map))</assert-type>
       </result>
    </test-case>
    
    <test-case name="json-to-xml-038">
       <description>Validate a more complex example</description>
       <created by="Michael Kay" on="2015-03-10"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <environment ref="json-ns"/>
       <dependency type="feature" value="schemaImport"/>
       <test>
@@ -604,19 +637,20 @@
             map{'validate':true(), 'unescape':false()})
       </test>
       <result>
-         <assert-type>document-node(schema-element(Q{http://www.w3.org/2005/xpath-functions/json}map))</assert-type>
+         <assert-type>document-node(schema-element(Q{http://www.w3.org/2005/xpath-functions}map))</assert-type>
       </result>
    </test-case>
    
    <test-case name="json-to-xml-039">
       <description>Unpaired surrogate</description>
       <created by="Michael Kay" on="2015-03-10"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <test>
          fn:json-to-xml('"oh dear \uDEAD"', map{'fallback':function($s){substring($s, 3)}})
       </test>
       <result>
          <assert-xml ignore-prefixes="true"><![CDATA[<string 
-         xmlns="http://www.w3.org/2005/xpath-functions/json">oh dear DEAD</string>
+         xmlns="http://www.w3.org/2005/xpath-functions">oh dear DEAD</string>
          ]]></assert-xml> 
       </result>
    </test-case>
@@ -624,13 +658,14 @@
    <test-case name="json-to-xml-040">
       <description>Duplicate entries in a map: use-first</description>
       <created by="Michael Kay" on="2015-03-10"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <environment ref="json-ns"/>
       <test>
          fn:json-to-xml('{"a":3, "b":4, "a":5, "c":5}', map{'duplicates':'use-first'})
       </test>
       <result>
          <assert-xml ignore-prefixes="true"><![CDATA[<map 
-         xmlns="http://www.w3.org/2005/xpath-functions/json"><number key="a"
+         xmlns="http://www.w3.org/2005/xpath-functions"><number key="a"
          >3</number><number key="b">4</number><number key="c">5</number></map>
          ]]></assert-xml> 
       </result>
@@ -650,6 +685,7 @@
    <test-case name="json-to-xml-042">
       <description>No duplicates after no unescaping</description>
       <created by="Michael Kay" on="2015-03-11"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <environment ref="json-ns"/>
       <dependency type="feature" value="schemaImport"/>
       <test>
@@ -657,7 +693,7 @@
       </test>
         <result>
             <assert-xml ignore-prefixes="true"><![CDATA[<map 
-         xmlns="http://www.w3.org/2005/xpath-functions/json"><number key="\n" escaped-key="true"
+         xmlns="http://www.w3.org/2005/xpath-functions"><number key="\n" escaped-key="true"
          >1</number><number key="\u000A" escaped-key="true">2</number></map>
          ]]></assert-xml> 
         </result>
@@ -666,12 +702,13 @@
    <test-case name="json-to-xml-043">
       <description>Lower case hex digits are allowed</description>
       <created by="Michael Kay" on="2015-03-10"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <test>
          fn:json-to-xml('"\u005c"')
       </test>
       <result>
          <assert-xml ignore-prefixes="true"><![CDATA[<string 
-         xmlns="http://www.w3.org/2005/xpath-functions/json">\</string>
+         xmlns="http://www.w3.org/2005/xpath-functions">\</string>
          ]]></assert-xml> 
       </result>
    </test-case>

@@ -185,9 +185,10 @@
    <test-case name="xml-to-json-021">
       <description>simple "null" content</description>
       <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <dependency type="spec" value="XQ31"/>
       <test><![CDATA[
-        xml-to-json(<null xmlns="http://www.w3.org/2005/xpath-functions/json"/>)
+        xml-to-json(<null xmlns="http://www.w3.org/2005/xpath-functions"/>)
        ]]></test>
       <result>
             <assert-eq>"null"</assert-eq>
@@ -197,9 +198,10 @@
    <test-case name="xml-to-json-022">
       <description>simple true content</description>
       <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <dependency type="spec" value="XQ31"/>
       <test><![CDATA[
-        xml-to-json(<boolean xmlns="http://www.w3.org/2005/xpath-functions/json">true</boolean>)
+        xml-to-json(<boolean xmlns="http://www.w3.org/2005/xpath-functions">true</boolean>)
        ]]></test>
       <result>
             <assert-eq>"true"</assert-eq>
@@ -209,9 +211,10 @@
    <test-case name="xml-to-json-023">
       <description>simple numeric content</description>
       <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <dependency type="spec" value="XQ31"/>
       <test><![CDATA[
-        xml-to-json(<number xmlns="http://www.w3.org/2005/xpath-functions/json">23</number>)
+        xml-to-json(<number xmlns="http://www.w3.org/2005/xpath-functions">23</number>)
        ]]></test>
       <result>
             <assert-eq>"23"</assert-eq>
@@ -221,9 +224,10 @@
    <test-case name="xml-to-json-024">
       <description>simple string content</description>
       <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <dependency type="spec" value="XQ31"/>
       <test><![CDATA[
-        xml-to-json(<string xmlns="http://www.w3.org/2005/xpath-functions/json">banana</string>)
+        xml-to-json(<string xmlns="http://www.w3.org/2005/xpath-functions">banana</string>)
        ]]></test>
       <result>
             <assert-eq>'"banana"'</assert-eq>
@@ -233,9 +237,10 @@
    <test-case name="xml-to-json-025">
       <description>boolean with whitespace (bug 28180)</description>
       <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <dependency type="spec" value="XQ31"/>
       <test><![CDATA[
-        xml-to-json(<boolean xmlns="http://www.w3.org/2005/xpath-functions/json"> false </boolean>)
+        xml-to-json(<boolean xmlns="http://www.w3.org/2005/xpath-functions"> false </boolean>)
        ]]></test>
       <result>
             <assert-eq>"false"</assert-eq>
@@ -245,9 +250,10 @@
    <test-case name="xml-to-json-026">
       <description>number with leading zeroes and whitespace (bug 28180)</description>
       <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <dependency type="spec" value="XQ31"/>
       <test><![CDATA[
-        xml-to-json(<number xmlns="http://www.w3.org/2005/xpath-functions/json"> +005 </number>)
+        xml-to-json(<number xmlns="http://www.w3.org/2005/xpath-functions"> +005 </number>)
        ]]></test>
       <result>
             <assert-eq>"5"</assert-eq>
@@ -257,10 +263,11 @@
    <test-case name="xml-to-json-027">
       <description>whitespace string (bug 28180)</description>
       <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <dependency type="spec" value="XQ31"/>
       <test><![CDATA[
         declare boundary-space preserve;
-        xml-to-json(<string xmlns="http://www.w3.org/2005/xpath-functions/json">   </string>)
+        xml-to-json(<string xmlns="http://www.w3.org/2005/xpath-functions">   </string>)
        ]]></test>
       <result>
             <assert-eq>'"   "'</assert-eq>
@@ -270,10 +277,11 @@
    <test-case name="xml-to-json-028">
       <description>array with comments and whitespace</description>
       <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <dependency type="spec" value="XQ31"/>
       <test><![CDATA[
         declare boundary-space preserve;
-        xml-to-json(<array xmlns="http://www.w3.org/2005/xpath-functions/json"> <null/> <!--comma--> <null/>   </array>)
+        xml-to-json(<array xmlns="http://www.w3.org/2005/xpath-functions"> <null/> <!--comma--> <null/>   </array>)
        ]]></test>
       <result>
             <assert-eq>"[null,null]"</assert-eq>
@@ -283,10 +291,11 @@
    <test-case name="xml-to-json-029">
       <description>map with comments and whitespace</description>
       <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <dependency type="spec" value="XQ31"/>
       <test><![CDATA[
         declare boundary-space preserve;
-        xml-to-json(<map xmlns="http://www.w3.org/2005/xpath-functions/json"> <null key="a"/> <!--comma--> <null key="b"/>   </map>)
+        xml-to-json(<map xmlns="http://www.w3.org/2005/xpath-functions"> <null key="a"/> <!--comma--> <null key="b"/>   </map>)
        ]]></test>
       <result>
             <assert-eq>'{"a":null,"b":null}'</assert-eq>
@@ -296,10 +305,11 @@
    <test-case name="xml-to-json-030">
       <description>Document node wrapper</description>
       <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <dependency type="spec" value="XQ31"/>
       <test><![CDATA[
         declare boundary-space preserve;
-        xml-to-json(document{<array xmlns="http://www.w3.org/2005/xpath-functions/json"><null/><null/></array>})
+        xml-to-json(document{<array xmlns="http://www.w3.org/2005/xpath-functions"><null/><null/></array>})
        ]]></test>
       <result>
             <assert-eq>"[null,null]"</assert-eq>
@@ -309,10 +319,11 @@
    <test-case name="xml-to-json-031">
       <description>Use a namespace prefix</description>
       <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <dependency type="spec" value="XQ31"/>
       <test><![CDATA[
         declare boundary-space preserve;
-        xml-to-json(document{<jj:array xmlns:jj="http://www.w3.org/2005/xpath-functions/json"><jj:null/><jj:null/></jj:array>})
+        xml-to-json(document{<jj:array xmlns:jj="http://www.w3.org/2005/xpath-functions"><jj:null/><jj:null/></jj:array>})
        ]]></test>
       <result>
             <assert-eq>"[null,null]"</assert-eq>
@@ -335,10 +346,11 @@
    <test-case name="xml-to-json-033">
       <description>Invalid XML: contains disallowed attributes</description>
       <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <dependency type="spec" value="XQ31"/>
       <test><![CDATA[
         declare boundary-space preserve;
-        xml-to-json(<map xmlns="http://www.w3.org/2005/xpath-functions/json"> <null key="a" yek="z"/> <null key="b"/>   </map>)
+        xml-to-json(<map xmlns="http://www.w3.org/2005/xpath-functions"> <null key="a" yek="z"/> <null key="b"/>   </map>)
        ]]></test>
       <result>
             <error code="FOJS0005"/>
@@ -348,10 +360,11 @@
    <test-case name="xml-to-json-034">
       <description>Invalid XML: contains disallowed elements</description>
       <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <dependency type="spec" value="XQ31"/>
       <test><![CDATA[
         declare boundary-space preserve;
-        xml-to-json(<map xmlns="http://www.w3.org/2005/xpath-functions/json"> <null key="a"/> <null key="b"/> <yek key="c"/>  </map>)
+        xml-to-json(<map xmlns="http://www.w3.org/2005/xpath-functions"> <null key="a"/> <null key="b"/> <yek key="c"/>  </map>)
        ]]></test>
       <result>
             <error code="FOJS0005"/>
@@ -361,9 +374,10 @@
    <test-case name="xml-to-json-035">
       <description>Invalid XML: contains missing attribute</description>
       <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <dependency type="spec" value="XQ31"/>
       <test><![CDATA[
-        xml-to-json(<map xmlns="http://www.w3.org/2005/xpath-functions/json"><null/><null/></map>)
+        xml-to-json(<map xmlns="http://www.w3.org/2005/xpath-functions"><null/><null/></map>)
        ]]></test>
       <result>
             <error code="FOJS0005"/>
@@ -373,9 +387,10 @@
    <test-case name="xml-to-json-036">
       <description>Invalid XML: contains duplicate keys</description>
       <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <dependency type="spec" value="XQ31"/>
       <test><![CDATA[
-        xml-to-json(<map xmlns="http://www.w3.org/2005/xpath-functions/json"><null key="a"/><null key="a"/></map>)
+        xml-to-json(<map xmlns="http://www.w3.org/2005/xpath-functions"><null key="a"/><null key="a"/></map>)
        ]]></test>
       <result>
             <error code="FOJS0005"/>
@@ -385,9 +400,10 @@
    <test-case name="xml-to-json-037">
       <description>String split by a comment</description>
       <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <dependency type="spec" value="XQ31"/>
       <test><![CDATA[
-        xml-to-json(<string xmlns="http://www.w3.org/2005/xpath-functions/json">ban<!--c-->ana</string>)
+        xml-to-json(<string xmlns="http://www.w3.org/2005/xpath-functions">ban<!--c-->ana</string>)
        ]]></test>
       <result>
             <assert-eq>'"banana"'</assert-eq>
@@ -397,9 +413,10 @@
    <test-case name="xml-to-json-038">
       <description>Number split by a comment</description>
       <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <dependency type="spec" value="XQ31"/>
       <test><![CDATA[
-        xml-to-json(<number xmlns="http://www.w3.org/2005/xpath-functions/json">2<!--c-->7</number>)
+        xml-to-json(<number xmlns="http://www.w3.org/2005/xpath-functions">2<!--c-->7</number>)
        ]]></test>
       <result>
             <assert-eq>'27'</assert-eq>
@@ -409,10 +426,11 @@
    <test-case name="xml-to-json-039">
       <description>Boolean split by a comment</description>
       <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <dependency type="spec" value="XQ31"/>
       <test><![CDATA[
         declare boundary-space preserve;
-        xml-to-json(<boolean xmlns="http://www.w3.org/2005/xpath-functions/json">tr<!--c-->ue</boolean>)
+        xml-to-json(<boolean xmlns="http://www.w3.org/2005/xpath-functions">tr<!--c-->ue</boolean>)
        ]]></test>
       <result>
             <assert-eq>'true'</assert-eq>
@@ -422,10 +440,11 @@
    <test-case name="xml-to-json-040">
       <description>Invalid child of string</description>
       <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <dependency type="spec" value="XQ31"/>
       <test><![CDATA[
         declare boundary-space preserve;
-        xml-to-json(<string xmlns="http://www.w3.org/2005/xpath-functions/json">ok<null/></string>)
+        xml-to-json(<string xmlns="http://www.w3.org/2005/xpath-functions">ok<null/></string>)
        ]]></test>
       <result>
             <error code="FOJS0005"/>
@@ -435,10 +454,11 @@
    <test-case name="xml-to-json-041">
       <description>Invalid child of number</description>
       <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <dependency type="spec" value="XQ31"/>
       <test><![CDATA[
         declare boundary-space preserve;
-        xml-to-json(<number xmlns="http://www.w3.org/2005/xpath-functions/json">17<string>qq</string></number>)
+        xml-to-json(<number xmlns="http://www.w3.org/2005/xpath-functions">17<string>qq</string></number>)
        ]]></test>
       <result>
             <error code="FOJS0005"/>
@@ -448,10 +468,11 @@
    <test-case name="xml-to-json-042">
       <description>Invalid child of boolean</description>
       <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <dependency type="spec" value="XQ31"/>
       <test><![CDATA[
         declare boundary-space preserve;
-        xml-to-json(<boolean xmlns="http://www.w3.org/2005/xpath-functions/json">true<string>qq</string></boolean>)
+        xml-to-json(<boolean xmlns="http://www.w3.org/2005/xpath-functions">true<string>qq</string></boolean>)
        ]]></test>
       <result>
             <error code="FOJS0005"/>
@@ -461,9 +482,10 @@
    <test-case name="xml-to-json-043">
       <description>Invalid child of null</description>
       <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <dependency type="spec" value="XQ31"/>
       <test><![CDATA[
-        xml-to-json(<null xmlns="http://www.w3.org/2005/xpath-functions/json"><null/></null>)
+        xml-to-json(<null xmlns="http://www.w3.org/2005/xpath-functions"><null/></null>)
        ]]></test>
       <result>
             <error code="FOJS0005"/>
@@ -473,9 +495,10 @@
    <test-case name="xml-to-json-044">
       <description>Invalid child of null</description>
       <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <dependency type="spec" value="XQ31"/>
       <test><![CDATA[
-        xml-to-json(<null xmlns="http://www.w3.org/2005/xpath-functions/json"><null/></null>)
+        xml-to-json(<null xmlns="http://www.w3.org/2005/xpath-functions"><null/></null>)
        ]]></test>
       <result>
             <error code="FOJS0005"/>
@@ -485,9 +508,10 @@
    <test-case name="xml-to-json-045">
       <description>Effect of xsi:type (bug 28181)</description>
       <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <dependency type="spec" value="XQ31"/>
       <test><![CDATA[
-        xml-to-json(<number xsi:type="xs:short" xmlns="http://www.w3.org/2005/xpath-functions/json" 
+        xml-to-json(<number xsi:type="xs:short" xmlns="http://www.w3.org/2005/xpath-functions" 
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
             xmlns:xs="http://www.w3.org/2001/XMLSchema">231</number>)
        ]]></test>
@@ -499,10 +523,11 @@
    <test-case name="xml-to-json-046">
       <description>Validated content</description>
       <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <dependency type="spec" value="XQ31"/>
       <dependency type="feature" value="schemaImport"/>
       <test><![CDATA[
-        import schema default element namespace "http://www.w3.org/2005/xpath-functions/json";
+        import schema default element namespace "http://www.w3.org/2005/xpath-functions";
         xml-to-json(validate strict {<number>-23.7</number>})
        ]]></test>
       <result>
@@ -513,10 +538,11 @@
    <test-case name="xml-to-json-047">
       <description>Validated content. Validation fails because xsi:type isn't derived from j:numberType</description>
       <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <dependency type="spec" value="XQ31"/>
       <dependency type="feature" value="schemaImport"/>
       <test><![CDATA[
-        import schema default element namespace "http://www.w3.org/2005/xpath-functions/json";
+        import schema default element namespace "http://www.w3.org/2005/xpath-functions";
         xml-to-json(validate strict{<number xsi:type="xs:int" 
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
             xmlns:xs="http://www.w3.org/2001/XMLSchema">-23</number>})
@@ -529,10 +555,11 @@
    <test-case name="xml-to-json-048">
       <description>Invalid content</description>
       <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <dependency type="spec" value="XQ31"/>
       <dependency type="feature" value="schemaImport"/>
       <test><![CDATA[
-        import schema default element namespace "http://www.w3.org/2005/xpath-functions/json";
+        import schema default element namespace "http://www.w3.org/2005/xpath-functions";
         xml-to-json(validate strict{<number xsi:type="xs:int" 
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
             xmlns:xs="http://www.w3.org/2001/XMLSchema">-23.7</number>})
@@ -545,9 +572,10 @@
    <test-case name="xml-to-json-049">
       <description>String that needs escaping</description>
       <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <dependency type="spec" value="XQ31"/>
       <test><![CDATA[
-        xml-to-json(<string xmlns="http://www.w3.org/2005/xpath-functions/json">abc&#xa;def</string>)
+        xml-to-json(<string xmlns="http://www.w3.org/2005/xpath-functions">abc&#xa;def</string>)
        ]]></test>
       <result>
             <assert-eq>'"abc\ndef"'</assert-eq>
@@ -557,10 +585,11 @@
    <test-case name="xml-to-json-050">
       <description>String that needs escaping</description>
       <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <dependency type="spec" value="XQ31"/>
       <dependency type="xml-version" value="1.1"/>
       <test><![CDATA[
-        xml-to-json(<string xmlns="http://www.w3.org/2005/xpath-functions/json">abc&#x7;def</string>)
+        xml-to-json(<string xmlns="http://www.w3.org/2005/xpath-functions">abc&#x7;def</string>)
        ]]></test>
       <result>
             <assert-eq>'"abc\u0007def"'</assert-eq>
@@ -570,9 +599,10 @@
    <test-case name="xml-to-json-051">
       <description>Key that needs escaping</description>
       <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <dependency type="spec" value="XQ31"/>
       <test><![CDATA[
-        xml-to-json(<map xmlns="http://www.w3.org/2005/xpath-functions/json"><string key="&#x9;">tab</string></map>)
+        xml-to-json(<map xmlns="http://www.w3.org/2005/xpath-functions"><string key="&#x9;">tab</string></map>)
        ]]></test>
       <result>
             <assert-eq>'{"\t":"tab"}'</assert-eq>
@@ -582,9 +612,10 @@
    <test-case name="xml-to-json-052">
       <description>Key marked as escaped</description>
       <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <dependency type="spec" value="XQ31"/>
       <test><![CDATA[
-        xml-to-json(<map xmlns="http://www.w3.org/2005/xpath-functions/json"
+        xml-to-json(<map xmlns="http://www.w3.org/2005/xpath-functions"
         ><string escaped-key="true" key="\t">tab</string></map>)
        ]]></test>
       <result>
@@ -595,9 +626,10 @@
    <test-case name="xml-to-json-053">
       <description>Key marked as not escaped</description>
       <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <dependency type="spec" value="XQ31"/>
       <test><![CDATA[
-        xml-to-json(<map xmlns="http://www.w3.org/2005/xpath-functions/json"
+        xml-to-json(<map xmlns="http://www.w3.org/2005/xpath-functions"
         ><string escaped-key="0" key="\t">tab</string></map>)
        ]]></test>
       <result>
@@ -608,9 +640,10 @@
    <test-case name="xml-to-json-054">
       <description>String marked as escaped</description>
       <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <dependency type="spec" value="XQ31"/>
       <test><![CDATA[
-        xml-to-json(<map xmlns="http://www.w3.org/2005/xpath-functions/json">
+        xml-to-json(<map xmlns="http://www.w3.org/2005/xpath-functions">
             <string escaped="1" key="t1">\t</string>
             <string escaped="0" key="t2">\t</string>
             <string escaped="1" key="t3">&#x9;</string>
@@ -625,9 +658,10 @@
    <test-case name="xml-to-json-055">
       <description>String marked as not escaped</description>
       <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <dependency type="spec" value="XQ31"/>
       <test><![CDATA[
-        xml-to-json(<map xmlns="http://www.w3.org/2005/xpath-functions/json"
+        xml-to-json(<map xmlns="http://www.w3.org/2005/xpath-functions"
         ><string escaped="false" key="tab">\t</string></map>)
        ]]></test>
       <result>
@@ -638,9 +672,10 @@
    <test-case name="xml-to-json-056">
       <description>Indent</description>
       <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <dependency type="spec" value="XQ31"/>
       <test><![CDATA[
-        let $result := xml-to-json(<map xmlns="http://www.w3.org/2005/xpath-functions/json"
+        let $result := xml-to-json(<map xmlns="http://www.w3.org/2005/xpath-functions"
         ><number key="a">1</number><number key="b">2</number></map>, map{'indent':true()})
         return translate(normalize-space($result), ' ', '')
        ]]></test>
@@ -652,9 +687,10 @@
    <test-case name="xml-to-json-057">
       <description>Indent</description>
       <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <dependency type="spec" value="XQ31"/>
       <test><![CDATA[
-        let $result := xml-to-json(<map xmlns="http://www.w3.org/2005/xpath-functions/json"
+        let $result := xml-to-json(<map xmlns="http://www.w3.org/2005/xpath-functions"
         ><number key="a">1</number><number key="b">2</number></map>, map{'indent':true()})
         return normalize-space($result) eq $result
        ]]></test>
@@ -667,9 +703,10 @@
    <test-case name="xml-to-json-058">
       <description>Indent=false</description>
       <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <dependency type="spec" value="XQ31"/>
       <test><![CDATA[
-        let $result := xml-to-json(<map xmlns="http://www.w3.org/2005/xpath-functions/json"
+        let $result := xml-to-json(<map xmlns="http://www.w3.org/2005/xpath-functions"
         ><number key="a">1</number><number key="b">2</number></map>, map{'indent':false()})
         return normalize-space($result) eq $result
        ]]></test>
@@ -681,9 +718,10 @@
    <test-case name="xml-to-json-059">
       <description>Indent=rubbish</description>
       <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <dependency type="spec" value="XQ31"/>
       <test><![CDATA[
-        let $result := xml-to-json(<map xmlns="http://www.w3.org/2005/xpath-functions/json"
+        let $result := xml-to-json(<map xmlns="http://www.w3.org/2005/xpath-functions"
         ><number key="a">1</number><number key="b">2</number></map>, map{'indent':()})
         return normalize-space($result) eq $result
        ]]></test>
@@ -695,9 +733,10 @@
    <test-case name="xml-to-json-060">
       <description>Unknown options are ignored</description>
       <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <dependency type="spec" value="XQ31"/>
       <test><![CDATA[
-        let $result := xml-to-json(<map xmlns="http://www.w3.org/2005/xpath-functions/json"
+        let $result := xml-to-json(<map xmlns="http://www.w3.org/2005/xpath-functions"
         ><number key="a">1</number><number key="b">2</number></map>, map{'indent':false(), 'outdent':true()})
         return normalize-space($result) eq $result
        ]]></test>
@@ -709,10 +748,11 @@
    <test-case name="xml-to-json-061">
       <description>Validated content with maps and arrays</description>
       <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <dependency type="spec" value="XQ31"/>
       <dependency type="feature" value="schemaImport"/>
       <test><![CDATA[
-        import schema default element namespace "http://www.w3.org/2005/xpath-functions/json";
+        import schema default element namespace "http://www.w3.org/2005/xpath-functions";
         xml-to-json(validate strict {json-to-xml('{"a":2, "b\\":[null, true, false, "xyz\t"]}')})
        ]]></test>
       <result>
@@ -723,9 +763,10 @@
    <test-case name="xml-to-json-062">
       <description>Invalid value of escaped-key attribute</description>
       <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <dependency type="spec" value="XQ31"/>
       <test><![CDATA[
-        xml-to-json(<map xmlns="http://www.w3.org/2005/xpath-functions/json"
+        xml-to-json(<map xmlns="http://www.w3.org/2005/xpath-functions"
         ><string escaped-key="bonkers" key="\t">tab</string></map>)
        ]]></test>
       <result>
@@ -736,9 +777,10 @@
    <test-case name="xml-to-json-063">
       <description>Invalid value of escaped attribute</description>
       <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <dependency type="spec" value="XQ31"/>
       <test><![CDATA[
-        xml-to-json(<map xmlns="http://www.w3.org/2005/xpath-functions/json"
+        xml-to-json(<map xmlns="http://www.w3.org/2005/xpath-functions"
         ><string escaped="potty" key="\t">tab</string></map>)
        ]]></test>
       <result>
@@ -749,9 +791,10 @@
    <test-case name="xml-to-json-064">
       <description>Invalid position of escaped-key attribute</description>
       <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <dependency type="spec" value="XQ31"/>
       <test><![CDATA[
-        xml-to-json(<map xmlns="http://www.w3.org/2005/xpath-functions/json"
+        xml-to-json(<map xmlns="http://www.w3.org/2005/xpath-functions"
         escaped-key="0"><string key="\t">tab</string></map>)
        ]]></test>
       <result>
@@ -762,9 +805,10 @@
    <test-case name="xml-to-json-065">
       <description>Invalid position of escaped attribute</description>
       <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <dependency type="spec" value="XQ31"/>
       <test><![CDATA[
-        xml-to-json(<map xmlns="http://www.w3.org/2005/xpath-functions/json"
+        xml-to-json(<map xmlns="http://www.w3.org/2005/xpath-functions"
          escaped="0"><string key="\t">tab</string></map>)
        ]]></test>
       <result>
@@ -793,9 +837,10 @@
    <test-case name="xml-to-json-068">
       <description>Attributes in other namespaces are OK</description>
       <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <dependency type="spec" value="XQ31"/>
       <test><![CDATA[
-        xml-to-json(<map xmlns="http://www.w3.org/2005/xpath-functions/json"
+        xml-to-json(<map xmlns="http://www.w3.org/2005/xpath-functions"
          xml:base="http://www.w3.org"><string key="t">tab</string></map>)
        ]]></test>
       <result>
@@ -806,9 +851,10 @@
    <test-case name="xml-to-json-069">
       <description>Attributes in JSON namespace are not OK</description>
       <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <dependency type="spec" value="XQ31"/>
       <test><![CDATA[
-        xml-to-json(<j:map xmlns:j="http://www.w3.org/2005/xpath-functions/json"
+        xml-to-json(<j:map xmlns:j="http://www.w3.org/2005/xpath-functions"
          j:base="http://www.w3.org"><j:string key="t">tab</j:string></j:map>)
        ]]></test>
       <result>
