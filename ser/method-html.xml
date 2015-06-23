@@ -77,6 +77,7 @@ declare option output:version  "4.0";
       <modified by="O'Neil Delpratt" on="2013-05-30" change="added dependency inline with bug issue #21868"/>
       <modified by="Christian Gruen" on="2015-04-28" change="isindex and frame removed (implementation-defined, see 7.1)"/>
       <modified by="Christian Gruen" on="2015-05-20" change="isindex and frame removed (fix)"/>
+      <modified by="O'Neil Delpratt, Saxonica" on="2015-06-23" change="Added isindex element bug issue #28627"/>
       <dependency type="feature" value="serialization" satisfied="true"/>
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
@@ -91,7 +92,10 @@ declare option output:version  "5.0";
 ]]></test>
       <result>
          <all-of>
-           <serialization-matches><![CDATA[<html xmlns="http://www.w3.org/1999/xhtml"><body><area><base><br><col><embed><hr><img><input><link><meta><param></body></html>]]></serialization-matches>
+           <any-of>
+               <serialization-matches><![CDATA[<html xmlns="http://www.w3.org/1999/xhtml"><body><area><base><br><col><embed><hr><img><input><isindex><link><meta><param></body></html>]]></serialization-matches>
+               <serialization-matches><![CDATA[<html xmlns="http://www.w3.org/1999/xhtml"><body><area><base><br><col><embed><hr><img><input><isindex></isindex><link><meta><param></body></html>]]></serialization-matches>
+           </any-of>
            <serialization-matches flags="i"><![CDATA[<!DOCTYPE .*]]></serialization-matches>
          </all-of>
       </result>
