@@ -49,6 +49,7 @@ declare option output:html-version  "4.0";
       <created by="Henry Zongaro" on="2012-10-26"/>
       <modified by="O'Neil Delpratt" on="2013-05-30" change="added dependency inline with bug issue #21868"/>
       <modified by="Michael Kay" on="2015-04-09" change="created XHTML version of HTML serialization test"/>
+      <modified by="O'Neil Delpratt" on="2015-06-24" change="Relating to issue #28626: Removed the element command"/>
       <test><![CDATA[
 declare boundary-space strip;        
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
@@ -56,11 +57,11 @@ declare option output:method  "xhtml";
 declare option output:indent  "no";
 declare option output:html-version  "5.0";
 
-<html><body><area/><base/><br/><col/><command/><embed/><hr/><img/><input/><keygen/><link/><meta/><param/><source/><track/><wbr/></body></html>
+<html><body><area/><base/><br/><col/><embed/><hr/><img/><input/><keygen/><link/><meta/><param/><source/><track/><wbr/></body></html>
 ]]></test>
       <result>
          <all-of>
-           <serialization-matches><![CDATA[<html><body><area\s*/><base\s*/><br\s*/><col\s*/><command\s*/><embed\s*/><hr\s*/><img\s*/><input\s*/><keygen\s*/><link\s*/><meta\s*/><param\s*/><source\s*/><track\s*/><wbr\s*/></body></html>]]></serialization-matches>
+           <serialization-matches><![CDATA[<html><body><area\s*/><base\s*/><br\s*/><col\s*/><embed\s*/><hr\s*/><img\s*/><input\s*/><keygen\s*/><link\s*/><meta\s*/><param\s*/><source\s*/><track\s*/><wbr\s*/></body></html>]]></serialization-matches>
            <serialization-matches flags="i"><![CDATA[<!DOCTYPE .*]]></serialization-matches>
          </all-of>
       </result>
