@@ -391,14 +391,15 @@
    </test-case>  
       
    <test-case name="json-doc-018">
-      <description>Duplicate entries in a map: default is use-last</description>
+      <description>Duplicate entries in a map: default is use-first</description>
       <created by="Debbie Lockett" on="2015-06-15"/>
+      <modified by="Josh Spiegel" on="2015-07-01" change="Bug 28771 changes the default for duplicates to use-first"/>
       <environment ref="json-doc-map"/>
       <test>
          fn:json-doc('http://www.w3.org/qt3/json/mapDuplicates-json')
       </test>
       <result>
-         <assert-deep-eq>map{"a":5, "b":4}</assert-deep-eq>
+         <assert-deep-eq>map{"a":3, "b":4}</assert-deep-eq>
       </result>
    </test-case>
    
@@ -659,6 +660,7 @@
       <description>No duplicates after no unescaping</description>
       <created by="Debbie Lockett" on="2015-06-15"/>
       <environment ref="json-doc-map"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
       <test>
          fn:json-doc('http://www.w3.org/qt3/json/mapDuplicatesEscape-json', map{'unescape':false(), 'duplicates':'reject'})
       </test>
@@ -842,6 +844,7 @@
       <description>Option fallback type error</description>
       <created by="Debbie Lockett" on="2015-06-15"/>
       <environment ref="json-doc-array"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
       <test>fn:json-doc('http://www.w3.org/qt3/json/arrayNumber-json', map{'fallback':'dummy'})</test>
       <result>
          <error code="FOJS0005"/>
@@ -973,7 +976,96 @@
       </result>
    </test-case>
    
+  <test-case name="json-doc-error-028">
+      <description>
 
+         "The function may raise any error defined for the
+         fn:unparsed-text or fn:parse-json functions."
 
+         "A dynamic error is raised [err:FOUT1170] if $href contains a
+         fragment identifier, or if it cannot be resolved to an
+         absolute URI (for example, because the base-URI property in
+         the static context is absent), or if it cannot be used to
+         retrieve the string representation of a resource."
+
+         Derived from fn-unparsed-text-013
+
+      </description>
+      <created by="Josh Spiegel" on="2015-07-01"/>
+      <test>fn:json-doc("http://www.example.org/#fragment")</test>
+      <result>
+         <error code="FOUT1170" />
+      </result>
+   </test-case>
+
+   <test-case name="json-doc-error-029">
+      <description>
+
+         "The function may raise any error defined for the
+         fn:unparsed-text or fn:parse-json functions."
+
+         Derived from fn-unparsed-text-015
+
+      </description>
+      <created by="Josh Spiegel" on="2015-07-01"/>
+      <test>fn:json-doc("http://www.example.org/%gg")</test>
+      <result>
+         <error code="FOUT1170" />
+      </result>
+   </test-case>
+   
+   <test-case name="json-doc-error-030">
+      <description>
+
+         "The function may raise any error defined for the
+         fn:unparsed-text or fn:parse-json functions."
+
+         Derived from fn-unparsed-text-019
+
+      </description>
+      <created by="Josh Spiegel" on="2015-07-01"/>
+      <test>fn:json-doc("http://www.w3.org/fots/unparsed-text/does-not-exist.txt")</test>
+      <result>
+         <error code="FOUT1170" />
+      </result>
+   </test-case>
+
+   <test-case name="json-doc-error-031">
+      <description>
+
+         "The function may raise any error defined for the
+         fn:unparsed-text or fn:parse-json functions."
+
+         Derived from fn-unparsed-text-023
+ 
+      </description>
+      <created by="Josh Spiegel" on="2015-07-01"/>
+      <environment>
+             <static-base-uri uri="#UNDEFINED" />
+      </environment>
+      <test>fn:json-doc("unparsed-text/text-plain-utf-8.txt")</test>
+      <result>
+         <error code="FOUT1170"/>
+      </result>
+   </test-case>
+
+   <test-case name="json-doc-error-032">
+      <description>
+
+         "The function may raise any error defined for the
+         fn:unparsed-text or fn:parse-json functions."
+
+         Derived from fn-unparsed-text-025
+
+      </description>
+      <created by="Josh Spiegel" on="2015-07-01"/>
+      <environment>
+         <static-base-uri uri="http://www.w3.org/fots/unparsed-text/" />
+      </environment>
+      <test>fn:json-doc("does-not-exist.txt")</test>
+      <result>
+             <error code="FOUT1170" />
+      </result>
+   </test-case>
 
 </test-set>
