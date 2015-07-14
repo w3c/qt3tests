@@ -189,6 +189,27 @@
             <assert-eq>1</assert-eq>
         </result>
     </test-case>
+    <test-case name="map-put-022">
+        <description>Float NaN and Double NaN are duplicates</description>
+        <created by="Michael Kay, Saxonica" on="2015-06-10"/>
+        <test>deep-equal(map{xs:double('NaN'): 10}, map{xs:float('NaN'):10e0})</test>
+        <result>
+            <assert-true/>
+        </result>
+    </test-case>
+    <test-case name="map-put-023">
+        <description>Edge case with numerics: put with nearly-equal numerics</description>
+        <created by="Michael Kay, Saxonica" on="2015-06-10"/>
+        <modified by="Michael Kay, Saxonica" on="2015-07-13" change="specification change"/>
+        <test>
+            map{xs:float('1.0'):0, xs:double('1.00000000001'):1} 
+            => map:put(xs:decimal('1.0000000000100000000001'), 2) 
+            => map:size()
+        </test>
+        <result>
+            <assert-eq>3</assert-eq>
+        </result>
+    </test-case>
     
     
 </test-set>
