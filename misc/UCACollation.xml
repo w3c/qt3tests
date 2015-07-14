@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog"
-          xmlns:j="http://www.w3.org/2013/XSL/json"
           name="misc-UCACollation" covers="uca-collation">
   <description>Tests for Unicode Collation Algorithm features. These tests check mainly the
     operation of the parametric controls for the UCA, rather than the UCA details themselves (such
@@ -237,6 +236,16 @@
       <created by="John Lumley" on="2014-05-02"/>
       <environment ref="UCA-collation"/>
       <test>compare('abc','aBC',concat($collation,'version=unknown'))</test>
+      <result>
+         <error code="FOCH0002"/>
+      </result>
+   </test-case>
+   
+   <test-case name="UCA-collation-024">
+      <description>Non-existent UCA version, with fallback not allowed</description>
+      <created by="Michael Kay" on="2015-07-13"/>
+      <environment ref="UCA-collation"/>
+      <test>compare('abc','aBC',concat($collation,'version=1.255;fallback=no'))</test>
       <result>
          <error code="FOCH0002"/>
       </result>
