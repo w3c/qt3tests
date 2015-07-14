@@ -146,7 +146,31 @@
             <assert-eq>101</assert-eq>
         </result>
     </test-case>
+    <test-case name="map-remove-015">
+        <description>Float and double are (in this case) equal </description>
+        <created by="Michael Kay, Saxonica" on="2015-06-10"/>
+        <test>
+            map{xs:double('1.25'):0}
+            => map:remove(xs:float('1.25')) 
+            => map:size()
+        </test>
+        <result>
+            <assert-eq>0</assert-eq>
+        </result>
+    </test-case>
+    <test-case name="map-remove-016">
+        <description>Edge case with numerics: decimal not promoted to double</description>
+        <created by="Michael Kay, Saxonica" on="2015-06-10"/>
+        <test>
+            map{xs:float('1.0'):0, xs:double('1.00000000001'):1} 
+            => map:remove(xs:decimal('1.0000000000100000000001')) 
+            => map:size()
+        </test>
+        <result>
+            <assert-eq>2</assert-eq>
+        </result>
+    </test-case>
     
- 
+
 
 </test-set>
