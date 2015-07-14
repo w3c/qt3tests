@@ -137,10 +137,11 @@
     <description>Checks that a dynamic error caused when fn:load-xquery-module processes a module is returned as is.</description>
     <created by="Adam Retter" on="2015-02-01"/>
     <modified by="Debbie Lockett" on="2015-05-11" change="Added module element"/>
+    <modified by="Michael Kay" on="2015-07-13" change="Mixing timezones is no longer an error; added new dynamic error"/>
     <module uri="http://www.w3.org/fots/fn/load-xquery-module/dynamic-error/module" file="load-xquery-module/dynamic-error-module.xqm"/>
     <test>fn:load-xquery-module("http://www.w3.org/fots/fn/load-xquery-module/dynamic-error/module")</test>
     <result>
-      <error code="XPDY0139"/>
+      <error code="FOAR0001"/>
     </result>
   </test-case>
   
@@ -148,10 +149,11 @@
     <description>Checks that a dynamic error caused when fn:load-xquery-module processes a module is returned as is.</description>
     <created by="Adam Retter" on="2015-02-01"/>
     <modified by="Debbie Lockett" on="2015-05-11" change="Added module element"/>
+    <modified by="Michael Kay" on="2015-07-13" change="Mixing timezones is no longer an error; added new dynamic error"/>
     <module uri="http://www.w3.org/fots/fn/load-xquery-module/dynamic-error/module" file="load-xquery-module/dynamic-error-module.xqm"/>
     <test>fn:load-xquery-module("http://www.w3.org/fots/fn/load-xquery-module/dynamic-error/module", map{})</test>
     <result>
-      <error code="XPDY0139"/>
+      <error code="FOAR0001"/>
     </result>
   </test-case>
   
@@ -458,13 +460,14 @@
   <test-case name="fn-load-xquery-module-030">
     <description>Loads a module which imports itself circularly.</description>
     <created by="Debbie Lockett" on="2015-06-01"/>
+    <modified by="Michael Kay" on="2015-07-13" change="make the test query actually call the function"/>
     <module uri="http://www.w3.org/TestModules/test1" file="../prod/ModuleImport/test1c1-lib.xq"/>
     <module uri="http://www.w3.org/TestModules/test2" file="../prod/ModuleImport/test2c1-lib.xq"/>
     <dependency type="feature" value="moduleImport"/>
     <test>      
       let $module := fn:load-xquery-module("http://www.w3.org/TestModules/test1")
       return
-      $module("functions")(QName("http://www.w3.org/TestModules/test1", "ok"))
+      $module("functions")(QName("http://www.w3.org/TestModules/test1", "ok"))(0)()
     </test>
     <result>
       <assert-string-value>ok</assert-string-value>
