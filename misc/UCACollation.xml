@@ -211,7 +211,7 @@
       </result>
    </test-case>
    <test-case name="UCA-collation-022">
-      <description>version</description>
+      <description>version (Note: see bug 28944)</description>
       <created by="John Lumley" on="2014-05-02"/>
       <modified by="O'Neil Delpratt" on="2014-12-16" change="Bug fix relating #27180: Change error code" />
       <environment ref="UCA-collation"/>
@@ -221,7 +221,7 @@
       </result>
    </test-case>
    <test-case name="UCA-collation-022a">
-      <description>Test spurious version</description>
+      <description>Test spurious version (Note: see bug 28944)</description>
       <created by="O'Neil Delpratt" on="2014-12-18"/>
       <modified by="Christian Gruen" on="2015-01-27" change="minor version number limited to smaller value"/>
       <environment ref="UCA-collation"/>
@@ -234,10 +234,11 @@
    <test-case name="UCA-collation-023">
       <description>version</description>
       <created by="John Lumley" on="2014-05-02"/>
+      <modified by="Michael Kay" on="2015-07-13" change="should use fallback. (But see bug 28944)"/>
       <environment ref="UCA-collation"/>
       <test>compare('abc','aBC',concat($collation,'version=unknown'))</test>
       <result>
-         <error code="FOCH0002"/>
+         <assert-eq>-1</assert-eq>
       </result>
    </test-case>
    
@@ -245,7 +246,7 @@
       <description>Non-existent UCA version, with fallback not allowed</description>
       <created by="Michael Kay" on="2015-07-13"/>
       <environment ref="UCA-collation"/>
-      <test>compare('abc','aBC',concat($collation,'version=1.255;fallback=no'))</test>
+      <test>compare('abc','aBC',concat($collation,'version=96.5;fallback=no'))</test>
       <result>
          <error code="FOCH0002"/>
       </result>
