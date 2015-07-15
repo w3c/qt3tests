@@ -442,9 +442,9 @@
   </test-case>
   
   <test-case name="fn-load-xquery-module-029">
-    <description>Error loading a module which attempts to import itself directly 
-      (static error when processing module due to duplicate definition of global variable).</description>
+    <description>Error loading a module which attempts to import itself directly</description>
     <created by="Debbie Lockett" on="2015-06-01"/>
+    <modified by="Michael Kay" on="2015-07-14" change="Not an error. XQ 4.12.4 Cycles: implementations must resolve cycles..."/>
     <module uri="http://www.w3.org/fots/fn/load-xquery-module/import-self/module" file="load-xquery-module/import-self-module.xqm"/>
     <dependency type="feature" value="moduleImport"/>
     <test>      
@@ -453,7 +453,7 @@
       $module("variables")(QName("http://www.w3.org/fots/fn/load-xquery-module/import-self/module", "var1"))
     </test>
     <result>
-      <error code="FOQM0003"/>
+      <assert-string-value>this</assert-string-value>
     </result>
   </test-case>
   
