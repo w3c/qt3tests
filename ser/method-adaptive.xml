@@ -173,6 +173,7 @@
    <test-case name="Serialization-adaptive-11" covers="adaptive-serialization">
       <description>Test the adaptive serialization output method - attribute node</description>
       <created by="Andrew Coleman" on="2015-02-11"/>
+      <modified by="Michael Kay" on="2015-06-15" change="Allow some variability in the result"/>
       <dependency type="spec" value="XQ31+"/>
       <test><![CDATA[
  
@@ -183,7 +184,7 @@
 
       ]]></test>
       <result>
-        <serialization-matches><![CDATA[att-name="att-value"]]></serialization-matches>
+        <serialization-matches><![CDATA[att-name\s*=\s*['"]att-value['"]]]></serialization-matches>
       </result>
    </test-case>
 
@@ -454,7 +455,7 @@
    <test-case name="Serialization-adaptive-27" covers="adaptive-serialization">
       <description>Test the adaptive serialization output method - mixed array</description>
       <created by="Andrew Coleman" on="2015-02-11"/>
-      <modified by="Christian Gruen" on="2012-02-19" change="query and regular expression fixed"/>
+      <modified by="Christian Gruen" on="2015-02-19" change="query and regular expression fixed"/>
       <dependency type="spec" value="XQ31+"/>
       <test><![CDATA[
  
@@ -466,6 +467,133 @@
       ]]></test>
       <result>
         <serialization-matches><![CDATA[\[function fn:exists#1,1,"<element>content</element>",null,function \(anonymous\)#1,\{"infinity":INF\},"json-string"\]]]></serialization-matches>
+      </result>
+   </test-case>
+   
+   <test-case name="Serialization-adaptive-28" covers="adaptive-serialization">
+      <description>Test the adaptive serialization output method - empty sequence</description>
+      <created by="Michael Kay" on="2015-07-13"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[
+ 
+     	declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "adaptive";
+        
+        ()
+
+      ]]></test>
+      <result>
+        <serialization-matches><![CDATA[^$]]></serialization-matches>
+      </result>
+   </test-case>
+   
+   <test-case name="Serialization-adaptive-29" covers="adaptive-serialization">
+      <description>Test the adaptive serialization output method - sequence with item-separator</description>
+      <created by="Michael Kay" on="2015-07-13"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[
+ 
+     	declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "adaptive";
+        declare option output:item-separator " ";
+        
+        1 to 5
+
+      ]]></test>
+      <result>
+        <serialization-matches><![CDATA[1 2 3 4 5]]></serialization-matches>
+      </result>
+   </test-case>
+   
+   <test-case name="Serialization-adaptive-30" covers="adaptive-serialization">
+      <description>Test the adaptive serialization output method - sequence with item-separator</description>
+      <created by="Michael Kay" on="2015-07-13"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[
+ 
+     	declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "adaptive";
+        declare option output:item-separator " ";
+        
+        "the quick", "brown fox"
+
+      ]]></test>
+      <result>
+        <serialization-matches><![CDATA[the quick brown fox]]></serialization-matches>
+      </result>
+   </test-case>
+   
+   <test-case name="Serialization-adaptive-31" covers="adaptive-serialization">
+      <description>Test the adaptive serialization output method - map with duplicate keys</description>
+      <created by="Michael Kay" on="2015-07-13"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[
+ 
+     	declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "adaptive";
+        
+        map{ "2015":1, 2015:2, xs:gYear('2015'):3 }
+
+      ]]></test>
+      <result>
+        <all-of>
+         <serialization-matches><![CDATA["2015":1]]></serialization-matches>
+         <serialization-matches><![CDATA["2015":2]]></serialization-matches>
+         <serialization-matches><![CDATA["2015":3]]></serialization-matches>
+        </all-of> 
+      </result>
+   </test-case>
+   
+   <test-case name="Serialization-adaptive-32" covers="adaptive-serialization">
+      <description>Test the adaptive serialization output method - escaping in map keys</description>
+      <created by="Michael Kay" on="2015-07-13"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[
+ 
+     	declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "adaptive";
+        
+        map{ "O'Neil says ""no""": 1 }
+
+      ]]></test>
+      <result>
+        <serialization-matches><![CDATA[\{"O'Neil says \\"no\\"":1\}]]></serialization-matches>
+      </result>
+   </test-case>
+   
+   <test-case name="Serialization-adaptive-33" covers="adaptive-serialization">
+      <description>Test the adaptive serialization output method - escaping in map values</description>
+      <created by="Michael Kay" on="2015-07-13"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[
+ 
+     	declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "adaptive";
+        
+        map{ 1:"O'Neil says ""no""" }
+
+      ]]></test>
+      <result>
+        <serialization-matches><![CDATA[\{"1":"O'Neil says \\"no\\""}]]></serialization-matches>
+      </result>
+   </test-case>
+   
+   <test-case name="Serialization-adaptive-34" covers="adaptive-serialization">
+      <description>No quotes and no escaping when a map value has length > 1</description>
+      <created by="Michael Kay" on="2015-07-13"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[
+ 
+     	declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "adaptive";
+        declare option output:item-separator "~";
+        
+        map{ "a":("quotes ("")", "apos (')") }
+
+      ]]></test>
+      <result>
+        <!-- Provisional. See bug 28947 -->
+        <serialization-matches><![CDATA[\{"a":quotes \(\\"\)~apos \('\)]]></serialization-matches>
       </result>
    </test-case>
 </test-set>   
