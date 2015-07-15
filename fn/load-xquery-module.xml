@@ -5,6 +5,7 @@
     idref="func-load-xquery-module"/>
 
   <dependency type="spec" value="XP31+ XQ31+"/>
+  <dependency type="feature" value="moduleImport"/>  
   <dependency type="feature" value="higherOrderFunctions"/>  
 
   <environment name="hats" >
@@ -972,10 +973,12 @@
   <test-case name="fn-load-xquery-module-063">
     <description>Loads a module, variables option map contains entries of the wrong type.</description>
     <created by="Debbie Lockett" on="2015-06-04"/>
+    <modified by="Debbie Lockett" on="2015-07-15" change="Added return statement in query"/>
     <module uri="http://www.w3.org/fots/fn/load-xquery-module/valid/module" file="load-xquery-module/valid-module.xqm"/>    
     <test>
       let $module-ns := "http://www.w3.org/fots/fn/load-xquery-module/valid/module"
       let $module := fn:load-xquery-module($module-ns, map{"variables" : map{"wrong":"entry"}})
+      return $module
     </test>
     <result>
       <error code="FOQM0007"/>
@@ -1017,10 +1020,12 @@
   <test-case name="fn-load-xquery-module-066">
     <description>Error loading a module, supplying a value of the wrong type for the vendor-options option.</description>
     <created by="Debbie Lockett" on="2015-06-04"/>
+    <modified by="Debbie Lockett" on="2015-07-15" change="Added return statement in query"/>
     <module uri="http://www.w3.org/fots/fn/load-xquery-module/valid/module" file="load-xquery-module/valid-module.xqm"/>    
     <test>
       let $module-ns := "http://www.w3.org/fots/fn/load-xquery-module/valid/module"
-      let $module := fn:load-xquery-module($module-ns, map{"vendor-options" : 42})
+      let $module := fn:load-xquery-module($module-ns, map{"vendor-options" : 42})      
+      return $module
     </test>
     <result>
       <error code="FOQM0007"/>
@@ -1030,10 +1035,12 @@
   <test-case name="fn-load-xquery-module-067">
     <description>Error loading a module, when vendor-options option map contains entries of the wrong type.</description>
     <created by="Debbie Lockett" on="2015-06-04"/>
+    <modified by="Debbie Lockett" on="2015-07-15" change="Added return statement in query"/>
     <module uri="http://www.w3.org/fots/fn/load-xquery-module/valid/module" file="load-xquery-module/valid-module.xqm"/>    
     <test>
       let $module-ns := "http://www.w3.org/fots/fn/load-xquery-module/valid/module"
-      let $module := fn:load-xquery-module($module-ns, map{"vendor-options" : map{"wrong":"entry"}})
+      let $module := fn:load-xquery-module($module-ns, map{"vendor-options" : map{"wrong":"entry"}})      
+      return $module
     </test>
     <result>
       <error code="FOQM0007"/>
@@ -1098,6 +1105,37 @@
     <test>fn:load-xquery-module("http://www.w3.org/fots/fn/load-xquery-module/main/module")</test>
     <result>
       <error code="FOQM0003"/>
+    </result>
+  </test-case>
+  
+  <test-case name="fn-load-xquery-module-072">
+    <description>Error - the type of the value supplied for the option 'xquery-version' is incorrect</description>
+    <created by="Debbie Lockett" on="2015-06-09"/>
+    <modified by="Debbie Lockett" on="2015-07-15" change="Added return statement in query"/>
+    <module uri="http://www.w3.org/fots/fn/load-xquery-module/valid/module" file="load-xquery-module/valid-module.xqm"/>  
+    <test>
+      let $module-ns := "http://www.w3.org/fots/fn/load-xquery-module/valid/module"
+      let $module := fn:load-xquery-module($module-ns, map{"xquery-version" : "3.1"})      
+      return $module
+    </test>
+    <result>
+      <error code="FOQM0007"/>
+    </result>       
+  </test-case>
+  
+  <test-case name="fn-load-xquery-module-073">
+    <description>Loads a module, setting the xquery-version option explicitly.</description>
+    <created by="Debbie Lockett" on="2015-06-09"/>
+    <module uri="http://www.w3.org/fots/fn/load-xquery-module/valid/module" file="load-xquery-module/valid-module.xqm"/>    
+    <test>
+      let $module-ns := "http://www.w3.org/fots/fn/load-xquery-module/valid/module"
+      let $module := fn:load-xquery-module($module-ns, map{"xquery-version" : 3.1})
+      return
+      ($module("variables")(QName($module-ns, "var1")), $module("variables")(QName($module-ns, "var2")), 
+      $module("functions")(QName($module-ns, "func1"))(0)(), $module("functions")(QName($module-ns, "func2"))(0)())
+    </test>
+    <result>
+      <assert-deep-eq>("var1", "var2", "func1", "func2")</assert-deep-eq>
     </result>
   </test-case>
   
