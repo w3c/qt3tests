@@ -1855,6 +1855,46 @@ return string($a)
          <assert-deep-eq>"lib", "main", "main"</assert-deep-eq>
       </result>
    </test-case>
-
-
+   
+   <test-case name="xqhof20">
+      <description>Function coercion applied to a map</description>
+      <created by="John Snelson" on="2015-07-16"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+          let $m := map {
+                "Tuesday" : true(),
+                "Wednesday" : true(),
+                "Thursday" : false(),
+                "Friday" : true(),
+                "Monday" : true(),
+                "Sunday" : false(),
+                "Saturday" : false() }
+          let $days := ("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")     
+          return fn:filter($days,$m)        
+      ]]></test>
+      <result>
+         <assert-deep-eq>"Monday", "Tuesday", "Wednesday", "Friday"</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xqhof21">
+      <description>Function coercion applied to a map, failing</description>
+      <created by="John Snelson" on="2015-07-16"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+          let $m := map {
+                "Tuesday" : true(),
+                "Wednesday" : true(),
+                "Friday" : true(),
+                "Monday" : true(),
+                "Sunday" : false(),
+                "Saturday" : false() }
+          let $days := ("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")     
+          return fn:filter($days,$m)        
+      ]]></test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
 </test-set>
