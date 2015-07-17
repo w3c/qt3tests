@@ -808,6 +808,26 @@
       <result>
          <assert-eq>18</assert-eq>
       </result>
+   </test-case>   
+   
+   <test-case name="Lookup-163">
+      <description>Decimal literal not allowed for maps</description>
+      <created by="Debbie Lockett" on="2015-07-17"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>(map{1.1:1, 2.2:2, 3.3:3},  map{1.1:2, 2.2:3, 3.3:4})?2.2 </test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-164">
+      <description>Decimal literal allowed in parentheses for maps</description>
+      <created by="Debbie Lockett" on="2015-07-17"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>(map{1.1:1, 2.2:2, 3.3:3},  map{1.1:2, 2.2:3, 3.3:4})?(2.2) </test>
+      <result>
+         <assert-deep-eq>2, 3</assert-deep-eq>
+      </result>
    </test-case>
 
 
