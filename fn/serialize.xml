@@ -683,6 +683,7 @@
     <test-case name="serialize-xml-036" >
         <description>serialize test - XML 1.1 serialization with undeclare-prefixes</description>
         <created by="Debbie Lockett, Saxonica" on="2015-05-26"/>
+        <modified by="Michael Kay" on="2015-07-18" change="force XML declaration to be output"/>
         <environment name="ser035">
             <source role="." file="serialize/serialize-035-src.xml">
                 <description>File to be serialized</description>
@@ -697,6 +698,7 @@
               <output:serialization-parameters
                    xmlns:output="http://www.w3.org/2010/xslt-xquery-serialization">
                 <output:method value="xml"/>
+                <output:omit-xml-declaration value="no"/>
                 <output:version value="1.1"/>
                 <output:undeclare-prefixes value="no"/>
               </output:serialization-parameters>
@@ -1191,6 +1193,7 @@
     <test-case name="serialize-xml-136" covers="fn-serialize">
         <description>serialize test - params supplied as map, XML 1.1 serialization with undeclare-prefixes</description>
         <created by="Debbie Lockett, Saxonica" on="2015-05-26"/>
+        <modified by="Michael Kay" on="2015-07-18" change="force XML declaration to be output"/>
         <environment name="ser035">
             <source role="." file="serialize/serialize-035-src.xml">
                 <description>File to be serialized</description>
@@ -1203,6 +1206,7 @@
         <test>let $params := map {
             "method" : "xml",
             "version" : "1.1",
+            "omit-xml-declaration" : false(),
             "undeclare-prefixes" : false()
             }
             return serialize(., $params)
