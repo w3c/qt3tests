@@ -371,20 +371,22 @@
    </test-case>
    
    <test-case name="json-doc-011">
-      <description>JSON document containing escape character, using unescape options parameter</description>
+      <description>JSON document containing escape character, using escape options parameter</description>
       <created by="Debbie Lockett" on="2015-06-15"/>
+      <modified by="Michael Kay" on="2015-07-17" change="Change keyword unescape->escape"/>
       <environment ref="json-files"/>
-      <test>fn:json-doc('http://www.w3.org/qt3/json/escapeText-json', map{'unescape':true()})?key</test>
+      <test>fn:json-doc('http://www.w3.org/qt3/json/escapeText-json', map{'escape':false()})?key</test>
       <result>
          <assert-string-value>Data with " within it</assert-string-value>
       </result>
    </test-case>
    
    <test-case name="json-doc-012">
-      <description>JSON document containing escape character, using unescape options parameter</description>
+      <description>JSON document containing escape character, using escape options parameter</description>
       <created by="Debbie Lockett" on="2015-06-15"/>
+      <modified by="Michael Kay" on="2015-07-17" change="Change keyword unescape->escape"/>
       <environment ref="json-files"/>
-      <test>fn:json-doc('http://www.w3.org/qt3/json/escapeText-json', map{'unescape':false()})?key</test>
+      <test>fn:json-doc('http://www.w3.org/qt3/json/escapeText-json', map{'escape':true()})?key</test>
       <result>
          <assert-string-value>Data with \" within it</assert-string-value>
       </result>
@@ -406,9 +408,10 @@
    <test-case name="json-doc-019">
       <description>Not-Unescaped key</description>
       <created by="Debbie Lockett" on="2015-06-15"/>
+      <modified by="Michael Kay" on="2015-07-17" change="Change keyword unescape->escape"/>
       <environment ref="json-doc-map"/>
       <test>
-         fn:json-doc('http://www.w3.org/qt3/json/mapUnescape-json', map{'unescape':false()})
+         fn:json-doc('http://www.w3.org/qt3/json/mapUnescape-json', map{'escape':true()})
       </test>
       <result>
          <assert-deep-eq>map{"a\\":3, "b\\":4}</assert-deep-eq>
@@ -418,9 +421,10 @@
    <test-case name="json-doc-020">
       <description>Unescaped key</description>
       <created by="Debbie Lockett" on="2015-06-15"/>
+      <modified by="Michael Kay" on="2015-07-17" change="Change keyword unescape->escape"/>
       <environment ref="json-doc-map"/>
       <test>
-         fn:json-doc('http://www.w3.org/qt3/json/mapUnescape-json', map{'unescape':true()})
+         fn:json-doc('http://www.w3.org/qt3/json/mapUnescape-json', map{'escape':false()})
       </test>
       <result>
          <assert-deep-eq>map{"a\":3, "b\":4}</assert-deep-eq>
@@ -428,12 +432,13 @@
    </test-case>
    
    <test-case name="json-doc-021">
-      <description>Character invalid in XML 1.0 in a string and a key: unescape false</description>
+      <description>Character invalid in XML 1.0 in a string and a key: escape true</description>
       <created by="Debbie Lockett" on="2015-06-15"/>
+      <modified by="Michael Kay" on="2015-07-17" change="Change keyword unescape->escape"/>
       <environment ref="json-doc-map"/>
       <dependency type="xml-version" value="1.0"/>
       <test>
-         fn:json-doc('http://www.w3.org/qt3/json/mapUnescape10-json', map{'unescape':false()})
+         fn:json-doc('http://www.w3.org/qt3/json/mapUnescape10-json', map{'escape':true()})
       </test>
       <result>
          <assert-deep-eq>map{"a":"\u000C", "\u0007":"bell"}</assert-deep-eq>
@@ -441,12 +446,13 @@
    </test-case>
    
    <test-case name="json-doc-022">
-      <description>Character invalid in XML 1.0 in a string and a key: unescape true</description>
+      <description>Character invalid in XML 1.0 in a string and a key: escape false</description>
       <created by="Debbie Lockett" on="2015-06-15"/>
+      <modified by="Michael Kay" on="2015-07-17" change="Change keyword unescape->escape"/>
       <environment ref="json-doc-map"/>
       <dependency type="xml-version" value="1.0"/>
       <test>
-         fn:json-doc('http://www.w3.org/qt3/json/mapUnescape10-json', map{'unescape':true()})
+         fn:json-doc('http://www.w3.org/qt3/json/mapUnescape10-json', map{'escape':false()})
       </test>
       <result>
          <assert-deep-eq>map{"a":"&#xFFFD;", "&#xFFFD;":"bell"}</assert-deep-eq>
@@ -454,12 +460,12 @@
    </test-case>
    
    <test-case name="json-doc-023">
-      <description>Unpaired surrogates: unescape true</description>
+      <description>Unpaired surrogates: escape false</description>
       <created by="Debbie Lockett" on="2015-06-15"/>
       <environment ref="json-doc-map"/>
       <dependency type="xml-version" value="1.0"/>
       <test>
-         fn:json-doc('http://www.w3.org/qt3/json/mapUnescapeUnpaired10-json', map{'unescape':true()})
+         fn:json-doc('http://www.w3.org/qt3/json/mapUnescapeUnpaired10-json', map{'escape':false()})
       </test>
       <result>
          <assert-deep-eq>map{"a":"&#xFFFD;", "&#xFFFD;":"bell"}</assert-deep-eq>
@@ -467,12 +473,13 @@
    </test-case>
    
    <test-case name="json-doc-024">
-      <description>Unpaired surrogates: unescape false</description>
+      <description>Unpaired surrogates: escape true</description>
       <created by="Debbie Lockett" on="2015-06-15"/>
+      <modified by="Michael Kay" on="2015-07-17" change="Change keyword unescape->escape"/>
       <environment ref="json-doc-map"/>
       <dependency type="xml-version" value="1.0"/>
       <test>
-         fn:json-doc('http://www.w3.org/qt3/json/mapUnescapeUnpaired10-json', map{'unescape':false()})
+         fn:json-doc('http://www.w3.org/qt3/json/mapUnescapeUnpaired10-json', map{'escape':true()})
       </test>
       <result>
          <assert-deep-eq>map{"a":"\uDA00", "\uDD00":"bell"}</assert-deep-eq>
@@ -482,12 +489,13 @@
    <test-case name="json-doc-025">
       <description>Character invalid in XML 1.0 in a string and a key: fallback</description>
       <created by="Debbie Lockett" on="2015-06-15"/>
+      <modified by="Michael Kay" on="2015-07-17" change="Change keyword unescape->escape"/>
       <environment ref="json-doc-map"/>
       <dependency type="xml-version" value="1.0"/>
       <dependency type="feature" value="higherOrderFunctions"/>
       <test>
          fn:json-doc('http://www.w3.org/qt3/json/mapUnescape10-json', 
-         map{'unescape':true(), 'fallback':function($s){'??'}})
+         map{'escape':false(), 'fallback':function($s){'??'}})
       </test>
       <result>
          <assert-deep-eq>map{"a":"??", "??":"bell"}</assert-deep-eq>
@@ -497,12 +505,13 @@
    <test-case name="json-doc-026">
       <description>Unpaired surrogates: fallback</description>
       <created by="Debbie Lockett" on="2015-06-15"/>
+      <modified by="Michael Kay" on="2015-07-17" change="Change keyword unescape->escape"/>
       <environment ref="json-doc-map"/>
       <dependency type="xml-version" value="1.0"/>
       <dependency type="feature" value="higherOrderFunctions"/>
       <test>
          fn:json-doc('http://www.w3.org/qt3/json/mapUnescapeUnpaired10-json', 
-         map{'unescape':true(), 'fallback':function($s){'??' || translate($s, 'abcdef', 'ABCDEF')  || '??'}})
+         map{'escape':false(), 'fallback':function($s){'??' || translate($s, 'abcdef', 'ABCDEF')  || '??'}})
       </test>
       <result>
          <assert-deep-eq>map{"a":"??\uDA00??", "??\uDD00??":"bell"}</assert-deep-eq>
@@ -510,27 +519,29 @@
    </test-case>
    
    <test-case name="json-doc-027">
-      <description>Unpaired surrogates: unescape false, fallback</description>
+      <description>Unpaired surrogates: escape true, fallback (invalid combination)</description>
       <created by="Debbie Lockett" on="2015-06-15"/>
+      <modified by="Michael Kay" on="2015-07-17" change="Change keyword unescape->escape. This case is now an error."/>
       <environment ref="json-doc-map"/>
       <dependency type="xml-version" value="1.0"/>
       <dependency type="feature" value="higherOrderFunctions"/>
       <test>
          fn:json-doc('http://www.w3.org/qt3/json/mapUnescapeUnpaired10-json', 
-         map{'unescape':false(), 'fallback':function($s){'??' || translate($s, 'abcdef', 'ABCDEF')  || '??'}})
+         map{'escape':true(), 'fallback':function($s){'??' || translate($s, 'abcdef', 'ABCDEF')  || '??'}})
       </test>
       <result>
-         <assert-deep-eq>map{"a":"\uDA00", "\uDD00":"bell"}</assert-deep-eq>
+         <error code="FOJS0005"/>
       </result>
    </test-case>
    
    <test-case name="json-doc-028">
       <description>Supply empty sequence (), with options map</description>
       <created by="Debbie Lockett" on="2015-06-15"/>
+      <modified by="Michael Kay" on="2015-07-17" change="Change keyword unescape->escape"/>
       <dependency type="feature" value="higherOrderFunctions"/>
       <test>
          fn:json-doc((), 
-         map{'unescape':true(), 'fallback':function($s){'??' || translate($s, 'abcdef', 'ABCDEF')  || '??'}})
+         map{'escape':false(), 'fallback':function($s){'??' || translate($s, 'abcdef', 'ABCDEF')  || '??'}})
       </test>
       <result>
          <assert-empty/>
@@ -659,10 +670,11 @@
    <test-case name="json-doc-042">
       <description>No duplicates after no unescaping</description>
       <created by="Debbie Lockett" on="2015-06-15"/>
+      <modified by="Michael Kay" on="2015-07-17" change="Change keyword unescape->escape"/>
       <environment ref="json-doc-map"/>
       <dependency type="feature" value="higherOrderFunctions"/>
       <test>
-         fn:json-doc('http://www.w3.org/qt3/json/mapDuplicatesEscape-json', map{'unescape':false(), 'duplicates':'reject'})
+         fn:json-doc('http://www.w3.org/qt3/json/mapDuplicatesEscape-json', map{'escape':true(), 'duplicates':'reject'})
       </test>
       <result>
          <assert-deep-eq>map{"\n":1, "\u000A":2}</assert-deep-eq>
@@ -811,30 +823,33 @@
    </test-case>
    
    <test-case name="json-doc-error-013">
-      <description>Option unescape type error</description>
+      <description>Option escape type error</description>
       <created by="Debbie Lockett" on="2015-06-15"/>
+      <modified by="Michael Kay" on="2015-07-17" change="Change keyword unescape->escape"/>
       <environment ref="json-doc-array"/>
-      <test>fn:json-doc('http://www.w3.org/qt3/json/arrayNumber-json', map{'unescape':()})</test>
+      <test>fn:json-doc('http://www.w3.org/qt3/json/arrayNumber-json', map{'escape':()})</test>
       <result>
          <error code="FOJS0005"/>
       </result>
    </test-case>
    
    <test-case name="json-doc-error-014">
-      <description>Option unescape type error</description>
+      <description>Option escape type error</description>
       <created by="Debbie Lockett" on="2015-06-15"/>
+      <modified by="Michael Kay" on="2015-07-17" change="Change keyword unescape->escape"/>
       <environment ref="json-doc-array"/>
-      <test>fn:json-doc('http://www.w3.org/qt3/json/arrayNumber-json', map{'unescape':(true(),true())})</test>
+      <test>fn:json-doc('http://www.w3.org/qt3/json/arrayNumber-json', map{'escape':(true(),true())})</test>
       <result>
          <error code="FOJS0005"/>
       </result>
    </test-case>
    
    <test-case name="json-doc-error-015">
-      <description>Option unescape type error</description>
+      <description>Option escape type error</description>
       <created by="Debbie Lockett" on="2015-06-15"/>
+      <modified by="Michael Kay" on="2015-07-17" change="Change keyword unescape->escape"/>
       <environment ref="json-doc-array"/>
-      <test>fn:json-doc('http://www.w3.org/qt3/json/arrayNumber-json', map{'unescape':'EMCA-262'})</test>
+      <test>fn:json-doc('http://www.w3.org/qt3/json/arrayNumber-json', map{'escape':'EMCA-262'})</test>
       <result>
          <error code="FOJS0005"/>
       </result>

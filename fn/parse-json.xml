@@ -396,30 +396,33 @@
       </result>
    </test-case>
    <test-case name="fn-parse-json-035">
-      <description>String formats: effect of unescape option</description>
+      <description>String formats: effect of escape option</description>
       <created by="Michael Kay, Saxonica" on="2011-03-31"/>
       <modified by="Josh Spiegel" on="2015-01-21" change="Fix map constructor syntax"/>
-      <test>parse-json('["\r"]', map{'unescape':false()})</test>
+      <modified by="Michael Kay" on="2015-07-17" change="Change keyword unescape->escape"/>
+      <test>parse-json('["\r"]', map{'escape':true()})</test>
       <result>
          <assert>$result(1) = '\r'</assert>
       </result>
    </test-case>
    <test-case name="fn-parse-json-036">
-      <description>String formats: effect of unescape option</description>
+      <description>String formats: effect of escape option</description>
       <created by="Michael Kay, Saxonica" on="2011-03-31"/>
       <modified by="Josh Spiegel" on="2015-01-21" change="Fix map constructor syntax"/>
       <modified by="Christian Gruen" on="2015-01-31" change="Additional encoding of entity"/>
       <modified by="Michael Kay" on="2015-03-11" change="Avoid using character reference, so the assertion works in both XPath and XQuery"/>
-      <test>parse-json('["\r"]', map{'unescape':true()})</test>
+      <modified by="Michael Kay" on="2015-07-17" change="Change keyword unescape->escape"/>
+      <test>parse-json('["\r"]', map{'escape':false()})</test>
       <result>
          <assert>$result(1) = codepoints-to-string(13)</assert>
       </result>
    </test-case>
    <test-case name="fn-parse-json-037">
-      <description>String formats: effect of unescape option</description>
+      <description>String formats: effect of escape option</description>
       <created by="Michael Kay, Saxonica" on="2011-03-31"/>
       <modified by="Josh Spiegel" on="2015-01-21" change="Fix map constructor syntax"/>
-      <test>parse-json('["\u0000"]', map{'unescape':false()})</test>
+      <modified by="Michael Kay" on="2015-07-17" change="Change keyword unescape->escape"/>
+      <test>parse-json('["\u0000"]', map{'escape':true()})</test>
       <result>
          <assert>$result(1) = '\u0000'</assert>
       </result>
@@ -467,7 +470,8 @@
       <description>Anything allowed at Top level under ECMA spec</description>
       <created by="Michael Kay, Saxonica" on="2011-03-31"/>
       <modified by="Michael Kay, Saxonica" on="2015-01-30" change="'spec' option has been dropped from the spec"/>
-      <test>parse-json('"abcd\n"', map{'unescape':false()})</test>
+      <modified by="Michael Kay" on="2015-07-17" change="Change keyword unescape->escape"/>
+      <test>parse-json('"abcd\n"', map{'escape':true()})</test>
       <result>
         <all-of>
           <assert-eq>'abcd\n'</assert-eq>
@@ -838,9 +842,10 @@
       </result>
    </test-case>
    <test-case name="fn-parse-json-824">
-      <description>String formats: effect of unescape option: invalid XML character</description>
+      <description>String formats: effect of escape option: invalid XML character</description>
       <created by="Michael Kay, Saxonica" on="2015-01-30"/>
-      <test>parse-json('["\u0000"]', map{'unescape':true(), 'liberal':true()})</test>
+      <modified by="Michael Kay" on="2015-07-17" change="Change keyword unescape->escape"/>
+      <test>parse-json('["\u0000"]', map{'escape':false(), 'liberal':true()})</test>
       <result>
         <any-of>
           <assert-type>item()?</assert-type>
@@ -1126,11 +1131,12 @@
       </result>
    </test-case>
    <test-case name="fn-parse-json-924">
-      <description>String formats: effect of unescape option: invalid XML character</description>
+      <description>String formats: effect of escape option: invalid XML character</description>
       <created by="Michael Kay, Saxonica" on="2011-03-31"/>
       <modified by="Josh Spiegel" on="2015-01-21" change="Fix map constructor syntax"/>
       <modified by="Christian Gruen" on="2015-01-31" change="Encode as xFFFD"/>
-      <test>parse-json('["\u0000"]', map{'unescape':true()})</test>
+      <modified by="Michael Kay" on="2015-07-17" change="Change keyword unescape->escape"/>
+      <test>parse-json('["\u0000"]', map{'escape':false()})</test>
       <result>
          <any-of>
             <assert-eq>'&#xFFFD;'</assert-eq>
@@ -1183,7 +1189,8 @@
       <created by="Michael Kay, Saxonica" on="2011-03-31"/>
       <modified by="Josh Spiegel" on="2015-01-21" change="Fix map constructor syntax"/>
       <modified by="Michael Kay" on="2015-03-11" change="RFC4627 resctriction no longer applies; and 'spec' options should be ignored"/>
-      <test>parse-json('"abcd\n"', map{'spec':'RFC4627','unescape':false()})</test>
+      <modified by="Michael Kay" on="2015-07-17" change="Change keyword unescape->escape"/>
+      <test>parse-json('"abcd\n"', map{'spec':'RFC4627','escape':true()})</test>
       <result>
         <assert-eq>'abcd\n'</assert-eq>
       </result>

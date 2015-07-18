@@ -234,9 +234,10 @@
       <created by="John Lumley" on="2013-10-01"/>
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
       <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
+      <modified by="Michael Kay" on="2015-07-17" change="Change keyword unescape->escape"/>
       <environment ref="json-files"/>
       <test>
-         fn:json-to-xml(unparsed-text('http://www.w3.org/qt3/json/escapeText-json'), map{'unescape':false()})//j:string
+         fn:json-to-xml(unparsed-text('http://www.w3.org/qt3/json/escapeText-json'), map{'escape':true()})//j:string
       </test>
       <result>
          <all-of>
@@ -346,10 +347,11 @@
       <description>Not-Unescaped key</description>
       <created by="Michael Kay" on="2015-03-07"/>
       <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
+      <modified by="Michael Kay" on="2015-07-17" change="Change keyword unescape->escape"/>
       <environment ref="json-ns"/>
       <dependency type="feature" value="schemaImport"/>
       <test>
-         fn:json-to-xml('{"a\\":3, "b\\":4}', map{'unescape':false()})
+         fn:json-to-xml('{"a\\":3, "b\\":4}', map{'escape':true()})
       </test>
       <result>
          <assert-xml ignore-prefixes="true"><![CDATA[<map 
@@ -363,10 +365,11 @@
       <description>Unescaped key</description>
       <created by="Michael Kay" on="2015-03-07"/>
       <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
+      <modified by="Michael Kay" on="2015-07-17" change="Change keyword unescape->escape"/>
       <environment ref="json-ns"/>
       <dependency type="feature" value="schemaImport"/>
       <test>
-         fn:json-to-xml('{"a\\":3, "b\\":4}', map{'unescape':true()})
+         fn:json-to-xml('{"a\\":3, "b\\":4}', map{'escape':false()})
       </test>
       <result>
          <assert-xml ignore-prefixes="true"><![CDATA[<map 
@@ -376,13 +379,14 @@
    </test-case>
    
    <test-case name="json-to-xml-021">
-      <description>Character invalid in XML 1.0 in a string and a key: unescape=true</description>
+      <description>Character invalid in XML 1.0 in a string and a key: escape=true</description>
       <created by="Michael Kay" on="2015-03-07"/>
       <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
+      <modified by="Michael Kay" on="2015-07-17" change="Change keyword unescape->escape"/>
       <environment ref="json-ns"/>
       <dependency type="xml-version" value="1.0"/>
       <test>
-         fn:json-to-xml('{"a":"\u000C", "\u0007":"bell"}', map{'unescape':false()})
+         fn:json-to-xml('{"a":"\u000C", "\u0007":"bell"}', map{'escape':true()})
       </test>
       <result>
          <assert-xml ignore-prefixes="true"><![CDATA[<map 
@@ -394,13 +398,14 @@
    </test-case>
    
    <test-case name="json-to-xml-022">
-      <description>Character invalid in XML 1.0 in a string and a key: unescape=false</description>
+      <description>Character invalid in XML 1.0 in a string and a key: escape=false</description>
       <created by="Michael Kay" on="2015-03-07"/>
       <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
+      <modified by="Michael Kay" on="2015-07-17" change="Change keyword unescape->escape"/>
       <environment ref="json-ns"/>
       <dependency type="xml-version" value="1.0"/>
       <test>
-         fn:json-to-xml('{"a":"\u000C", "\u0007":"bell"}', map{'unescape':true()})
+         fn:json-to-xml('{"a":"\u000C", "\u0007":"bell"}', map{'escape':false()})
       </test>
       <result>
          <assert-xml ignore-prefixes="true"><![CDATA[<map 
@@ -411,12 +416,13 @@
    </test-case>
    
    <test-case name="json-to-xml-023">
-      <description>Unpaired surrogates: unescape=true</description>
+      <description>Unpaired surrogates: escape=false</description>
       <created by="Michael Kay" on="2015-03-09"/>
       <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
+      <modified by="Michael Kay" on="2015-07-17" change="Change keyword unescape->escape"/>
       <dependency type="xml-version" value="1.0"/>
       <test>
-         fn:json-to-xml('{"a":"\uDA00", "\uDD00":"bell"}', map{'unescape':true()})
+         fn:json-to-xml('{"a":"\uDA00", "\uDD00":"bell"}', map{'escape':false()})
       </test>
       <result>
          <assert-xml ignore-prefixes="true"><![CDATA[<map 
@@ -426,12 +432,13 @@
    </test-case>
    
    <test-case name="json-to-xml-024">
-      <description>Unpaired surrogates: unescape=false</description>
+      <description>Unpaired surrogates: escape=true</description>
       <created by="Michael Kay" on="2015-03-09"/>
       <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
+      <modified by="Michael Kay" on="2015-07-17" change="Change keyword unescape->escape"/>
       <dependency type="xml-version" value="1.0"/>
       <test>
-         fn:json-to-xml('{"a":"\uDA00", "\uDD00":"bell"}', map{'unescape':false()})
+         fn:json-to-xml('{"a":"\uDA00", "\uDD00":"bell"}', map{'escape':true()})
       </test>
       <result>
          <assert-xml ignore-prefixes="true"><![CDATA[<j:map 
@@ -444,11 +451,12 @@
       <description>Character invalid in XML 1.0 in a string and a key: fallback</description>
       <created by="Michael Kay" on="2015-03-09"/>
       <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
+      <modified by="Michael Kay" on="2015-07-17" change="Change keyword unescape->escape"/>
       <environment ref="json-ns"/>
       <dependency type="xml-version" value="1.0"/>
       <test>
          fn:json-to-xml('{"a":"\u000C", "\u0007":"bell"}', 
-              map{'unescape':true(), 'fallback':function($s){'??'}})
+              map{'escape':false(), 'fallback':function($s){'??'}})
       </test>
       <result>
          <assert-xml ignore-prefixes="true"><![CDATA[<map 
@@ -462,10 +470,11 @@
       <description>Unpaired surrogates: fallback</description>
       <created by="Michael Kay" on="2015-03-09"/>
       <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
+      <modified by="Michael Kay" on="2015-07-17" change="Change keyword unescape->escape"/>
       <dependency type="xml-version" value="1.0"/>
       <test>
          fn:json-to-xml('{"a":"\uDA00", "\uDD00":"bell"}', 
-             map{'unescape':true(), 'fallback':function($s){'??' || translate($s, 'abcdef', 'ABCDEF')  || '??'}})
+             map{'escape':false(), 'fallback':function($s){'??' || translate($s, 'abcdef', 'ABCDEF')  || '??'}})
       </test>
       <result>
          <assert-xml ignore-prefixes="true"><![CDATA[<map 
@@ -475,28 +484,29 @@
    </test-case>
    
    <test-case name="json-to-xml-027">
-      <description>Unpaired surrogates: unescape=false, fallback</description>
+      <description>Unpaired surrogates: escape=true, fallback</description>
       <created by="Michael Kay" on="2015-03-09"/>
       <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <modified by="Debbie Lockett" on="2015-06-17" change="test and result corrections to actually use unescape=false"/>
+      <modified by="Michael Kay" on="2015-07-16" change="See bug 28946: this combination of options is now an error"/>
+      <modified by="Michael Kay" on="2015-07-17" change="Change keyword unescape->escape"/>
       <dependency type="xml-version" value="1.0"/>
       <test>
          fn:json-to-xml('{"a":"\uDA00", "\uDD00":"bell"}', 
-            map{'unescape':false(), 'fallback':function($s){'??' || translate($s, 'abcdef', 'ABCDEF') || '??'}})
+            map{'escape':true(), 'fallback':function($s){'??' || translate($s, 'abcdef', 'ABCDEF') || '??'}})
       </test>
       <result>
-         <assert-xml ignore-prefixes="true"><![CDATA[<map 
-         xmlns="http://www.w3.org/2005/xpath-functions"
-         ><string escaped="true" key="a">\uDA00</string><string escaped-key="true" key="\uDD00">bell</string></map>]]></assert-xml> 
+         <error code="FOJS0005"/>
       </result>
    </test-case>
    
    <test-case name="json-to-xml-028">
       <description>Supply empty sequence ()</description>
       <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Michael Kay" on="2015-07-17" change="Change keyword unescape->escape"/>
       <test>
          fn:json-to-xml((), 
-            map{'unescape':true(), 'fallback':function($s){'??' || translate($s, 'abcdef', 'ABCDEF') || '??'}})
+            map{'escape':false(), 'fallback':function($s){'??' || translate($s, 'abcdef', 'ABCDEF') || '??'}})
       </test>
       <result>
          <assert-empty/> 
@@ -630,11 +640,12 @@
       <description>Validate a more complex example</description>
       <created by="Michael Kay" on="2015-03-10"/>
       <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
+      <modified by="Michael Kay" on="2015-07-17" change="Change keyword unescape->escape"/>
       <environment ref="json-ns"/>
       <dependency type="feature" value="schemaImport"/>
       <test>
          fn:json-to-xml('{"a":3, "b":true, "c":null, "d":[], "e":[1E2, ""], "f":{"1":true, "2":false}, "g\n":"h\n"}', 
-            map{'validate':true(), 'unescape':false()})
+            map{'validate':true(), 'escape':true()})
       </test>
       <result>
          <assert-type>document-node(schema-element(Q{http://www.w3.org/2005/xpath-functions}map))</assert-type>
@@ -686,10 +697,11 @@
       <description>No duplicates after no unescaping</description>
       <created by="Michael Kay" on="2015-03-11"/>
       <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
+      <modified by="Michael Kay" on="2015-07-17" change="Change keyword unescape->escape"/>
       <environment ref="json-ns"/>
       <dependency type="feature" value="schemaImport"/>
       <test>
-         fn:json-to-xml('{"\n":1, "\u000A":2}', map{'unescape':false(), 'duplicates':'reject'})
+         fn:json-to-xml('{"\n":1, "\u000A":2}', map{'escape':true(), 'duplicates':'reject'})
       </test>
         <result>
             <assert-xml ignore-prefixes="true"><![CDATA[<map 
@@ -1029,9 +1041,10 @@
       <created by="John Lumley" on="2013-10-01"/>
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
       <modified by="Michael Kay" on="2015-03-06" change="error code, and put string in quotes"/>
+      <modified by="Michael Kay" on="2015-07-17" change="Change keyword unescape->escape"/>
       <environment ref="json-ns"/>
       <test>
-         fn:json-to-xml('["String"]', map{'unescape':()})
+         fn:json-to-xml('["String"]', map{'escape':()})
       </test>
         <result>
             <error code="FOJS0005"/>
@@ -1043,9 +1056,10 @@
       <created by="John Lumley" on="2013-10-01"/>
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
       <modified by="Michael Kay" on="2015-03-06" change="error code, and put string in quotes"/>
+      <modified by="Michael Kay" on="2015-07-17" change="Change keyword unescape->escape"/>
       <environment ref="json-ns"/>
       <test>
-         fn:json-to-xml('["String"]', map{'unescape':(true(),true())})
+         fn:json-to-xml('["String"]', map{'escape':(true(),true())})
       </test>
         <result>
             <error code="FOJS0005"/>
@@ -1057,9 +1071,10 @@
       <created by="John Lumley" on="2013-10-01"/>
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
       <modified by="Michael Kay" on="2015-03-06" change="error code, and put string in quotes"/>
+      <modified by="Michael Kay" on="2015-07-17" change="Change keyword unescape->escape"/>
       <environment ref="json-ns"/>
       <test>
-         fn:json-to-xml('["String"]', map{'unescape':'EMCA-262'})
+         fn:json-to-xml('["String"]', map{'escape':'EMCA-262'})
       </test>
         <result>
             <error code="FOJS0005"/>
