@@ -226,6 +226,42 @@
          <error code="XPTY0004"/>
       </result>
    </test-case>
+   
+   <test-case name="fn-local-name-from-qname-022">
+      <description> Evaluation of fn-local-name-from-QName applied to node-name(). </description>
+      <created by="Michael Kay" on="2015-07-19"/>
+      <environment ref="atomic"/>
+      <test>fn:local-name-from-QName(node-name(/*))</test>
+      <result>
+         <all-of>
+            <assert-string-value>root</assert-string-value>
+            <assert-type>xs:NCName</assert-type>
+         </all-of>   
+      </result>
+   </test-case>
+   
+   <test-case name="fn-local-name-from-qname-023">
+      <description> Evaluation of fn-local-name-from-QName applied to node-name(). </description>
+      <created by="Michael Kay" on="2015-07-19"/>
+      <environment ref="atomic"/>
+      <test>fn:local-name-from-QName(node-name((//@*)[1]))</test>
+      <result>
+         <all-of>
+            <assert-string-value>attr</assert-string-value>
+            <assert-type>xs:NCName</assert-type>
+         </all-of>   
+      </result>
+   </test-case>
+   
+    <test-case name="fn-local-name-from-qname-024">
+      <description> Evaluation of fn-local-name-from-QName applied to node-name(). </description>
+      <created by="Michael Kay" on="2015-07-19"/>
+      <environment ref="works-mod"/>
+      <test>fn:local-name-from-QName(node-name(/*))</test>
+      <result>
+         <assert-string-value>works</assert-string-value>
+      </result>
+   </test-case>
 
    <test-case name="K-LocalNameFromQNameFunc-1">
       <description> A test whose essence is: `local-name-from-QName()`. </description>
