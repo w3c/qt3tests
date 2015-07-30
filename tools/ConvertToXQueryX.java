@@ -193,14 +193,13 @@ public final class ConvertToXQueryX {
         
         try {
             controller.transform(tree, ps);
+            if (expectedFailures.containsKey(name)) {
+                log.println("WARNING: Conversion of test " + name + " is expected to fail but it passed.");
+            }
         } catch (Throwable e) {
             logFailure(name, e);
         } finally {
             ps.close();
-        }
-
-        if (expectedFailures.containsKey(name)) {
-	    log.println("WARNING: Conversion of test " + name + " is expected to fail but it passed.");
         }
     }
 
