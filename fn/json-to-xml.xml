@@ -725,6 +725,91 @@
       </result>
    </test-case>
 
+   <test-case name="json-to-xml-044">
+      <description>Alternate validation dynamically</description>
+      <created by="Josh Spiegel" on="2015-07-27"/>
+      <test>
+         import schema "http://www.w3.org/2005/xpath-functions";
+          
+         for $i in 1 to 4
+         let $validate := $i mod 2 eq 1
+         let $options := map { 'validate' : $validate }
+         return
+             (fn:json-to-xml('{}', $options)/* instance of schema-element(fn:map))
+      </test>
+      <result>
+         <assert-deep-eq>(fn:true(), fn:false(), fn:true(), fn:false())</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="json-to-xml-045">
+      <description>Alternate escape dynamically</description>
+      <created by="Josh Spiegel" on="2015-07-27"/>
+      <test>
+         import schema "http://www.w3.org/2005/xpath-functions";
+          
+         for $i in 1 to 4
+         let $escape := $i mod 2 eq 1
+         let $options := map { 'escape' : $escape }
+         return
+             fn:json-to-xml('"-\b-\t-\u0001-"', $options)/fn:string/fn:string()
+      </test>
+      <result>
+         <assert-deep-eq><![CDATA[(1,1) ! ("-\b-\t-\u0001-", "-&#xFFFD;-&#x09;-&#xFFFD;-")]]></assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="json-to-xml-046">
+      <description>Validated map children (which should have anonymous type annotations)</description>
+      <created by="Josh Spiegel" on="2015-07-29"/>
+      <test>
+         import schema "http://www.w3.org/2005/xpath-functions";
+         let $json := '
+           {
+             "a" : "foo",
+             "b" : 123,
+             "c"   : null,
+             "d"   : true,
+             "e" : false,
+             "f" : [1],
+             "g" : {}
+           }
+         '
+         let $xml := json-to-xml($json, map { 'validate' : true() })/fn:map
+         return (
+            $xml/fn:string instance of element(fn:string, fn:stringType),
+            $xml/fn:number instance of element(fn:number, fn:numberType),
+            not($xml/fn:null instance of element(fn:null, fn:nullType)),
+            $xml/fn:boolean instance of element(fn:boolean, fn:booleanType)+,
+            $xml/fn:map instance of element(fn:map, fn:mapType),
+            $xml/fn:array instance of element(fn:array, fn:arrayType)
+          )
+      </test>
+      <result>
+         <assert>every $r in $result satisfies $r</assert>
+      </result>
+   </test-case>
+   
+   <test-case name="json-to-xml-047">
+      <description>Validated array children (which should have global type annotations)</description>
+      <created by="Josh Spiegel" on="2015-07-29"/>
+      <test>
+         import schema "http://www.w3.org/2005/xpath-functions";
+         let $json := '["foo",123,null,true,false,[],{}]'
+         let $xml := json-to-xml($json, map { 'validate' : true() })/fn:array
+         return (
+            $xml/fn:string instance of element(fn:string, fn:stringType),
+            $xml/fn:number instance of element(fn:number, fn:numberType),
+            $xml/fn:null instance of element(fn:null, fn:nullType),
+            $xml/fn:boolean instance of element(fn:boolean, fn:booleanType)+,
+            $xml/fn:map instance of element(fn:map, fn:mapType),
+            $xml/fn:array instance of element(fn:array, fn:arrayType)
+          )
+      </test>
+      <result>
+         <assert>every $r in $result satisfies $r</assert>
+      </result>
+   </test-case>      
 
    <test-case name="json-to-xml-error-001">
       <description>Empty string</description>

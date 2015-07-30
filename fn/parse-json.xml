@@ -618,6 +618,25 @@
          <assert-deep-eq>map{"a":1, "b":2}</assert-deep-eq>
       </result>
    </test-case>
+   <test-case name="fn-parse-json-066">
+      <description>Use last</description>
+      <created by="Josh Spiegel" on="2015-08-01"/>
+      <test>
+        parse-json('
+          {
+             "x" : [1,2,[]],
+             "y" : { "a" : {} },
+             "x" : [3,4,[]],
+             "y" : { "c" : [], "c" : 1, "c" : {} }
+          }
+        ',
+        map{'duplicates':'use-last'})
+      </test>
+      <result>
+         <assert-deep-eq>map{"x":[3,4,[]], "y":map{"c" : map{}}}</assert-deep-eq>
+      </result>
+   </test-case>   
+   
    
    <!-- "real" JSON files -->
    
