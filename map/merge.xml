@@ -27,11 +27,14 @@
             </all-of>
         </result>
     </test-case>
-    <test-case name="map-merge-003">
+
+    <test-case name="map-merge-003-hof">
         <description>Evaluate the function map:merge() with a single singleton map</description>
         <created by="Michael Kay, Saxonica" on="2011-03-23"/>
         <modified by="Michael Kay, Saxonica" on="2014-05-13" change="spec change and function renaming"/>
         <modified by="Debbie Lockett, Saxonica" on="2015-02-27" change="function signature correction, bug 28063"/>
+        <modified by="Josh Spiegel" on="2015-08-04" change="Split into two tests based on support of HOF feature"/>
+        <dependency type="feature" value="higherOrderFunctions"/>
         <test>map:merge(map:entry("foo", 1 to 5))</test>
         <result>
             <all-of>
@@ -42,6 +45,23 @@
             </all-of>
         </result>
     </test-case>
+
+    <test-case name="map-merge-003">
+        <description>Evaluate the function map:merge() with a single singleton map</description>
+        <created by="Michael Kay, Saxonica" on="2011-03-23"/>
+        <modified by="Michael Kay, Saxonica" on="2014-05-13" change="spec change and function renaming"/>
+        <modified by="Debbie Lockett, Saxonica" on="2015-02-27" change="function signature correction, bug 28063"/>
+        <modified by="Josh Spiegel" on="2015-08-04" change="Split into two tests based on support of HOF feature"/>
+        <test>map:merge(map:entry("foo", 1 to 5))</test>
+        <result>
+            <all-of>
+                <assert-count>1</assert-count>
+                <assert-type>map(*)</assert-type>
+                <assert-type>map(xs:string, xs:integer+)</assert-type>
+            </all-of>
+        </result>
+    </test-case>
+
     <test-case name="map-merge-004">
         <description>Evaluate the function map:merge() with two singleton maps</description>
         <created by="Michael Kay, Saxonica" on="2011-03-23"/>
@@ -268,9 +288,11 @@
             <assert-false/>
         </result>
     </test-case>
-    <test-case name="map-merge-024">
+    <test-case name="map-merge-024-hof">
         <description>Evaluate the function map:merge() with a single singleton map (map-merge-003 adapted)</description>
         <created by="Debbie Lockett, Saxonica" on="2015-02-27"/>
+        <modified by="Josh Spiegel" on="2015-08-04" change="Split into two tests based on support of HOF feature"/>
+        <dependency type="feature" value="higherOrderFunctions"/>
         <test>map:merge(map:entry("foo", 1 to 5))</test>
         <result>
             <all-of>
@@ -281,6 +303,17 @@
             </all-of>
         </result>
     </test-case>
-
-    
+    <test-case name="map-merge-024">
+        <description>Evaluate the function map:merge() with a single singleton map (map-merge-003 adapted)</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-02-27"/>
+        <modified by="Josh Spiegel" on="2015-08-04" change="Split into two tests based on support of HOF feature"/>
+        <test>map:merge(map:entry("foo", 1 to 5))</test>
+        <result>
+            <all-of>
+                <assert-count>1</assert-count>
+                <assert-type>map(*)</assert-type>
+                <assert-type>map(xs:string, xs:integer+)</assert-type>
+            </all-of>
+        </result>
+    </test-case>
 </test-set>
