@@ -518,6 +518,27 @@
       </result>
    </test-case>
    
+   <test-case name="value-comparison-12">
+      <description> Value comparison on elements annotated as xs:int. </description>
+      <created by="Michael Kay" on="2015-08-04"/>
+      <dependency type="spec" value="XP20+ XQ10+"/>
+      <environment>
+         <namespace prefix="test" uri="http://www.xpathtest.com/test"/>
+         <source role="." validation="strict" file="ValueComp/valueComp200.xml">
+            <description>A instance containing an integer-valued element</description>
+            <created by="Nick Evans" on="2015-08-04"/>
+         </source> 
+         <schema uri="http://www.w3.org/XQueryTest/valueComp200.xsd" file="ValueComp/valueComp200.xsd">
+            <description>A schema user defining an integer-valued element</description>
+            <created by="Nick Evans" on="2015-08-04"/>
+         </schema>  
+      </environment>
+      <test>//test:comparable[1]/test:int eq //test:comparable[2]/test:int</test>
+      <result>
+         <assert-true/> 
+      </result>
+   </test-case>
+   
    <test-case name="value-comp-eq-string-1">
       <description> Value comparison on strings. </description>
       <created by="Michael Kay" on="2014-10-15"/>
