@@ -706,9 +706,13 @@
    <test-case name="json-doc-error-001">
       <description>Empty string</description>
       <created by="Debbie Lockett" on="2015-06-15"/>
+      <modified by="Debbie Lockett" on="2015-08-04" change="Added the error code FOUT1170, for bug 28837." />
       <test>fn:json-doc('')</test>
       <result>
-         <error code="FOJS0001"/>
+         <any-of>
+            <error code="FOJS0001"/>
+            <error code="FOUT1170"/>
+         </any-of>
       </result>
    </test-case>
    
@@ -716,13 +720,11 @@
       <description>Invalid JSON input, unknown token</description>
       <created by="Debbie Lockett" on="2015-06-15"/>
       <modified by="O'Neil Delpratt" on="2015-07-30" change="see bug issue 28837. Added the error code FOUT1170" />
+      <modified by="Debbie Lockett" on="2015-08-04" change="Revert error code change, mistakenly made for this test but intended for json-doc-error-001." />
       <environment ref="json-doc-error"/>
       <test>fn:json-doc('http://www.w3.org/qt3/json/errorToken-json')</test>
       <result>
-         <any-of>
-            <error code="FOJS0001"/>
-            <error code="FOUT1170"/>
-         </any-of>
+         <error code="FOJS0001"/>                     
       </result>
    </test-case>
    
