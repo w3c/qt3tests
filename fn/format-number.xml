@@ -1761,7 +1761,7 @@
   <test-case name="numberformat152">
     <description>
       PURPOSE: test format-number() with pattern with grouping-separator at end of integer part.
-      Expected result depends on resolution of bug 28567.
+      See bug 28567.
     </description>
     <created by="Debbie Lockett" on="2015-04-22"/>
     <test>
@@ -1775,14 +1775,14 @@
   <test-case name="numberformat153">
     <description>
       PURPOSE: test format-number() with pattern with adjacent grouping-separators.
-      Expected result depends on resolution of bug 28567.
     </description>
     <created by="Debbie Lockett" on="2015-04-22"/>
+    <modified by="Debbie Lockett" on="2015-07-30" change="Expected result to an error following resolution of bug 28567"/>
     <test>
       fn:format-number(12345.678, '#,,###')
     </test>
     <result>
-      <assert-string-value>12,346</assert-string-value>
+      <error code="FODF1310"/>
     </result>
   </test-case>
   
@@ -1816,9 +1816,45 @@
     </result>
   </test-case>
   
+  <test-case name="numberformat156">
+    <description>
+      PURPOSE: test format-number() with pattern with adjacent grouping-separators in fractional part.
+    </description>
+    <created by="Debbie Lockett" on="2015-07-30"/>
+    <test>
+      fn:format-number(12345.678, '#.#,,#')
+    </test>
+    <result>
+      <error code="FODF1310"/>
+    </result>
+  </test-case>
   
+  <test-case name="numberformat157">
+    <description>
+      PURPOSE: test format-number() with pattern with grouping-separators in fractional part.
+    </description>
+    <created by="Debbie Lockett" on="2015-07-30"/>
+    <test>
+      fn:format-number(12345.6789012345, '#.#,##,#')
+    </test>
+    <result>
+      <assert-string-value>12345.6,78,9</assert-string-value>
+    </result>
+  </test-case>
   
-
+  <test-case name="numberformat158">
+    <description>
+      PURPOSE: test format-number() with pattern with grouping-separators in fractional part.
+    </description>
+    <created by="Debbie Lockett" on="2015-07-30"/>
+    <test>
+      fn:format-number(12345.6789012345, '#.##,##,##')
+    </test>
+    <result>
+      <assert-string-value>12345.67,89,01</assert-string-value>
+    </result>
+  </test-case>   
+  
 
    <test-case name="numberformat901err">
       <description>
