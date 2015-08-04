@@ -1058,13 +1058,17 @@
       <description>Trailing comma liberal spec</description>
       <created by="John Lumley" on="2013-10-01"/>
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
-      <modified by="Michael Kay" on="2015-03-06" change="error code, and put string in quotes"/>
+       <modified by="Michael Kay" on="2015-03-06" change="error code, and put string in quotes"/>
+       <modified by="Debbie Lockett" on="2015-08-04" change="Alternate error code added, for bug 28994"/>
       <environment ref="json-ns"/>
       <test>
          fn:json-to-xml('["String",]', map{'liberal':()})
       </test>
         <result>
-            <error code="FOJS0005"/>
+           <any-of>
+              <error code="FOJS0005"/>              
+              <error code="XPTY0004"/>              
+           </any-of>
         </result>
    </test-case>
 
@@ -1073,13 +1077,14 @@
       <description>Trailing comma liberal spec</description>
       <created by="John Lumley" on="2013-10-01"/>
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
-      <modified by="Michael Kay" on="2015-03-06" change="error code, and put string in quotes"/>
+       <modified by="Michael Kay" on="2015-03-06" change="error code, and put string in quotes"/>
+       <modified by="Debbie Lockett" on="2015-08-04" change="Error code change for bug 28994"/>
       <environment ref="json-ns"/>
       <test>
          fn:json-to-xml('["String"]', map{'liberal':'something'})
       </test>
         <result>
-            <error code="FOJS0005"/>
+           <error code="XPTY0004"/>
         </result>
    </test-case>
 
@@ -1088,13 +1093,14 @@
       <description>Validate option error</description>
       <created by="John Lumley" on="2013-10-01"/>
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
-      <modified by="Michael Kay" on="2015-03-06" change="error code, and put string in quotes"/>
+       <modified by="Michael Kay" on="2015-03-06" change="error code, and put string in quotes"/>
+       <modified by="Debbie Lockett" on="2015-08-04" change="Error code change for bug 28994"/>
       <environment ref="json-ns"/>
       <test>
          fn:json-to-xml('["String"]', map{'validate':()})
       </test>
         <result>
-            <error code="FOJS0005"/>
+           <error code="XPTY0004"/>
         </result>
    </test-case>
 
@@ -1102,13 +1108,14 @@
       <description>Validate option error</description>
       <created by="John Lumley" on="2013-10-01"/>
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
-      <modified by="Michael Kay" on="2015-03-06" change="error code, and put string in quotes"/>
+       <modified by="Michael Kay" on="2015-03-06" change="error code, and put string in quotes"/>
+       <modified by="Debbie Lockett" on="2015-08-04" change="Error code change for bug 28994"/>
       <environment ref="json-ns"/>
       <test>
          fn:json-to-xml('["String"]', map{'validate':(true(),true())})
       </test>
         <result>
-            <error code="FOJS0005"/>
+           <error code="XPTY0004"/>
         </result>
    </test-case>
 
@@ -1116,13 +1123,14 @@
       <description>Validate option error</description>
       <created by="John Lumley" on="2013-10-01"/>
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
-      <modified by="Michael Kay" on="2015-03-06" change="error code, and put string in quotes"/>
+       <modified by="Michael Kay" on="2015-03-06" change="error code, and put string in quotes"/>
+       <modified by="Debbie Lockett" on="2015-08-04" change="Error code change for bug 28994"/>
       <environment ref="json-ns"/>
       <test>
          fn:json-to-xml('["String"]', map{'validate':'EMCA-262'})
       </test>
         <result>
-            <error code="FOJS0005"/>
+           <error code="XPTY0004"/>
         </result>
    </test-case>
 
@@ -1131,13 +1139,14 @@
       <created by="John Lumley" on="2013-10-01"/>
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
       <modified by="Michael Kay" on="2015-03-06" change="error code, and put string in quotes"/>
-      <modified by="Michael Kay" on="2015-07-17" change="Change keyword unescape->escape"/>
+       <modified by="Michael Kay" on="2015-07-17" change="Change keyword unescape->escape"/>
+       <modified by="Debbie Lockett" on="2015-08-04" change="Error code change for bug 28994"/>
       <environment ref="json-ns"/>
       <test>
          fn:json-to-xml('["String"]', map{'escape':()})
       </test>
         <result>
-            <error code="FOJS0005"/>
+           <error code="XPTY0004"/>
         </result>
    </test-case>
 
@@ -1146,13 +1155,14 @@
       <created by="John Lumley" on="2013-10-01"/>
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
       <modified by="Michael Kay" on="2015-03-06" change="error code, and put string in quotes"/>
-      <modified by="Michael Kay" on="2015-07-17" change="Change keyword unescape->escape"/>
+       <modified by="Michael Kay" on="2015-07-17" change="Change keyword unescape->escape"/>
+       <modified by="Debbie Lockett" on="2015-08-04" change="Error code change for bug 28994"/>
       <environment ref="json-ns"/>
       <test>
          fn:json-to-xml('["String"]', map{'escape':(true(),true())})
       </test>
         <result>
-            <error code="FOJS0005"/>
+           <error code="XPTY0004"/>
         </result>
    </test-case>
 
@@ -1161,13 +1171,14 @@
       <created by="John Lumley" on="2013-10-01"/>
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
       <modified by="Michael Kay" on="2015-03-06" change="error code, and put string in quotes"/>
-      <modified by="Michael Kay" on="2015-07-17" change="Change keyword unescape->escape"/>
+       <modified by="Michael Kay" on="2015-07-17" change="Change keyword unescape->escape"/>
+       <modified by="Debbie Lockett" on="2015-08-04" change="Error code change for bug 28994"/>
       <environment ref="json-ns"/>
       <test>
          fn:json-to-xml('["String"]', map{'escape':'EMCA-262'})
       </test>
         <result>
-            <error code="FOJS0005"/>
+           <error code="XPTY0004"/>
         </result>
    </test-case>
 
@@ -1175,13 +1186,14 @@
       <description>Validate option error</description>
       <created by="John Lumley" on="2013-10-01"/>
       <modified by="O'Neil Delpratt" on="2015-02-11" change="This test case was ported from the XSLT30 test suite" />
-      <modified by="Michael Kay" on="2015-03-06" change="error code, and put string in quotes"/>
+       <modified by="Michael Kay" on="2015-03-06" change="error code, and put string in quotes"/>
+       <modified by="Debbie Lockett" on="2015-08-04" change="Error code change for bug 28994"/>
       <environment ref="json-ns"/>
       <test>
          fn:json-to-xml('["String"]', map{'fallback':'dummy'})
       </test>
         <result>
-            <error code="FOJS0005"/>
+           <error code="XPTY0004"/>
         </result>
    </test-case>
    

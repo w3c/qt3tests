@@ -333,13 +333,14 @@
    <test-case name="xml-to-json-032">
       <description>Wrong namespace</description>
       <created by="Michael Kay" on="2015-03-09"/>
+      <modified by="Debbie Lockett" on="2015-08-04" change="Error code change for bug 29021"/>
       <dependency type="spec" value="XQ31"/>
       <test><![CDATA[
         declare boundary-space preserve;
         xml-to-json(document{<jj:array xmlns:jj="http://www.w3.org/2005/xpath-functions/not-json"><jj:null/><jj:null/></jj:array>})
        ]]></test>
       <result>
-           <error code="FOJS0005"/>
+           <error code="FOJS0006"/>
       </result>
    </test-case>
    
@@ -347,13 +348,14 @@
       <description>Invalid XML: contains disallowed attributes</description>
       <created by="Michael Kay" on="2015-03-09"/>
       <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
+      <modified by="Debbie Lockett" on="2015-08-04" change="Error code change for bug 29021"/>
       <dependency type="spec" value="XQ31"/>
       <test><![CDATA[
         declare boundary-space preserve;
         xml-to-json(<map xmlns="http://www.w3.org/2005/xpath-functions"> <null key="a" yek="z"/> <null key="b"/>   </map>)
        ]]></test>
       <result>
-            <error code="FOJS0005"/>
+            <error code="FOJS0006"/>
       </result>
    </test-case>
    
@@ -361,13 +363,14 @@
       <description>Invalid XML: contains disallowed elements</description>
       <created by="Michael Kay" on="2015-03-09"/>
       <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
+      <modified by="Debbie Lockett" on="2015-08-04" change="Error code change for bug 29021"/>
       <dependency type="spec" value="XQ31"/>
       <test><![CDATA[
         declare boundary-space preserve;
         xml-to-json(<map xmlns="http://www.w3.org/2005/xpath-functions"> <null key="a"/> <null key="b"/> <yek key="c"/>  </map>)
        ]]></test>
       <result>
-            <error code="FOJS0005"/>
+            <error code="FOJS0006"/>
       </result>
    </test-case>
    
@@ -375,12 +378,13 @@
       <description>Invalid XML: contains missing attribute</description>
       <created by="Michael Kay" on="2015-03-09"/>
       <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
+      <modified by="Debbie Lockett" on="2015-08-04" change="Error code change for bug 29021"/>
       <dependency type="spec" value="XQ31"/>
       <test><![CDATA[
         xml-to-json(<map xmlns="http://www.w3.org/2005/xpath-functions"><null/><null/></map>)
        ]]></test>
       <result>
-            <error code="FOJS0005"/>
+            <error code="FOJS0006"/>
       </result>
    </test-case>
    
@@ -388,12 +392,13 @@
       <description>Invalid XML: contains duplicate keys</description>
       <created by="Michael Kay" on="2015-03-09"/>
       <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
+      <modified by="Debbie Lockett" on="2015-08-04" change="Error code change for bug 29021"/>
       <dependency type="spec" value="XQ31"/>
       <test><![CDATA[
         xml-to-json(<map xmlns="http://www.w3.org/2005/xpath-functions"><null key="a"/><null key="a"/></map>)
        ]]></test>
       <result>
-            <error code="FOJS0005"/>
+            <error code="FOJS0006"/>
       </result>
    </test-case>
    
@@ -441,13 +446,14 @@
       <description>Invalid child of string</description>
       <created by="Michael Kay" on="2015-03-09"/>
       <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
+      <modified by="Debbie Lockett" on="2015-08-04" change="Error code change for bug 29021"/>
       <dependency type="spec" value="XQ31"/>
       <test><![CDATA[
         declare boundary-space preserve;
         xml-to-json(<string xmlns="http://www.w3.org/2005/xpath-functions">ok<null/></string>)
        ]]></test>
       <result>
-            <error code="FOJS0005"/>
+            <error code="FOJS0006"/>
       </result>
    </test-case>
    
@@ -455,13 +461,14 @@
       <description>Invalid child of number</description>
       <created by="Michael Kay" on="2015-03-09"/>
       <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
+      <modified by="Debbie Lockett" on="2015-08-04" change="Error code change for bug 29021"/>
       <dependency type="spec" value="XQ31"/>
       <test><![CDATA[
         declare boundary-space preserve;
         xml-to-json(<number xmlns="http://www.w3.org/2005/xpath-functions">17<string>qq</string></number>)
        ]]></test>
       <result>
-            <error code="FOJS0005"/>
+            <error code="FOJS0006"/>
       </result>
    </test-case>
    
@@ -469,13 +476,14 @@
       <description>Invalid child of boolean</description>
       <created by="Michael Kay" on="2015-03-09"/>
       <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
+      <modified by="Debbie Lockett" on="2015-08-04" change="Error code change for bug 29021"/>
       <dependency type="spec" value="XQ31"/>
       <test><![CDATA[
         declare boundary-space preserve;
         xml-to-json(<boolean xmlns="http://www.w3.org/2005/xpath-functions">true<string>qq</string></boolean>)
        ]]></test>
       <result>
-            <error code="FOJS0005"/>
+            <error code="FOJS0006"/>
       </result>
    </test-case>
    
@@ -483,12 +491,13 @@
       <description>Invalid child of null</description>
       <created by="Michael Kay" on="2015-03-09"/>
       <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
+      <modified by="Debbie Lockett" on="2015-08-04" change="Error code change for bug 29021"/>
       <dependency type="spec" value="XQ31"/>
       <test><![CDATA[
         xml-to-json(<null xmlns="http://www.w3.org/2005/xpath-functions"><null/></null>)
        ]]></test>
       <result>
-            <error code="FOJS0005"/>
+            <error code="FOJS0006"/>
       </result>
    </test-case>
    
@@ -496,12 +505,13 @@
       <description>Invalid child of null</description>
       <created by="Michael Kay" on="2015-03-09"/>
       <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
+      <modified by="Debbie Lockett" on="2015-08-04" change="Error code change for bug 29021"/>
       <dependency type="spec" value="XQ31"/>
       <test><![CDATA[
         xml-to-json(<null xmlns="http://www.w3.org/2005/xpath-functions"><null/></null>)
        ]]></test>
       <result>
-            <error code="FOJS0005"/>
+            <error code="FOJS0006"/>
       </result>
    </test-case>
    
@@ -557,6 +567,7 @@
       <description>Invalid content</description>
       <created by="Michael Kay" on="2015-03-09"/>
       <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
+      <modified by="Debbie Lockett" on="2015-08-04" change="Error code change for bug 29021"/>
       <dependency type="spec" value="XQ31"/>
       <dependency type="feature" value="schemaImport"/>
       <test><![CDATA[
@@ -566,7 +577,7 @@
             xmlns:xs="http://www.w3.org/2001/XMLSchema">-23.7</number>})
        ]]></test>
       <result>
-            <error code="FOJS0005"/>
+            <error code="FOJS0006"/>
       </result>
    </test-case>
    
@@ -720,6 +731,7 @@
       <description>Indent=rubbish</description>
       <created by="Michael Kay" on="2015-03-09"/>
       <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
+      <modified by="Debbie Lockett" on="2015-08-04" change="Error code change for bug 29022"/>
       <dependency type="spec" value="XQ31"/>
       <test><![CDATA[
         let $result := xml-to-json(<map xmlns="http://www.w3.org/2005/xpath-functions"
@@ -727,7 +739,7 @@
         return normalize-space($result) eq $result
        ]]></test>
       <result>
-            <error code="FOJS0003"/>
+         <error code="XPTY0004"/>
       </result>
    </test-case>
    
@@ -793,13 +805,14 @@
       <description>Invalid position of escaped-key attribute</description>
       <created by="Michael Kay" on="2015-03-09"/>
       <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
+      <modified by="Debbie Lockett" on="2015-08-04" change="Error code change for bug 29021"/>
       <dependency type="spec" value="XQ31"/>
       <test><![CDATA[
         xml-to-json(<map xmlns="http://www.w3.org/2005/xpath-functions"
         escaped-key="0"><string key="\t">tab</string></map>)
        ]]></test>
       <result>
-            <error code="FOJS0005"/>
+            <error code="FOJS0006"/>
       </result>
    </test-case>
    
@@ -807,13 +820,14 @@
       <description>Invalid position of escaped attribute</description>
       <created by="Michael Kay" on="2015-03-09"/>
       <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
+      <modified by="Debbie Lockett" on="2015-08-04" change="Error code change for bug 29021"/>
       <dependency type="spec" value="XQ31"/>
       <test><![CDATA[
         xml-to-json(<map xmlns="http://www.w3.org/2005/xpath-functions"
          escaped="0"><string key="\t">tab</string></map>)
        ]]></test>
       <result>
-            <error code="FOJS0005"/>
+            <error code="FOJS0006"/>
       </result>
    </test-case>
    
@@ -853,13 +867,14 @@
       <description>Attributes in JSON namespace are not OK</description>
       <created by="Michael Kay" on="2015-03-09"/>
       <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
+      <modified by="Debbie Lockett" on="2015-08-04" change="Error code change for bug 29021"/>
       <dependency type="spec" value="XQ31"/>
       <test><![CDATA[
         xml-to-json(<j:map xmlns:j="http://www.w3.org/2005/xpath-functions"
          j:base="http://www.w3.org"><j:string key="t">tab</j:string></j:map>)
        ]]></test>
       <result>
-            <error code="FOJS0005"/>
+            <error code="FOJS0006"/>
       </result>
    </test-case>
 
