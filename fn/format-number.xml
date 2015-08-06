@@ -1622,7 +1622,6 @@
     <description>
       PURPOSE: test format-number() with pattern in which mantissa part contains no 
       optional-digit-sign nor member of the decimal-digit-family.
-      Expected result depends on resolution of bug 28567.
     </description>
     <created by="Debbie Lockett" on="2015-04-22"/>
     <dependency type="spec" value="XP31+ XQ31+"/>
@@ -1855,6 +1854,800 @@
     </result>
   </test-case>   
   
+  <test-case name="numberformat201">
+    <description>
+      format-number() with pattern in which min integer part size is zero, frac part empty, input number between 0 and 1
+    </description>
+    <created by="Debbie Lockett" on="2015-08-04"/>
+    <test>
+      fn:format-number(0.2, '#')
+    </test>
+    <result>
+      <assert-string-value>0</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat202">
+    <description>
+      format-number() with pattern in which min integer part size is zero, frac part empty
+    </description>
+    <created by="Debbie Lockett" on="2015-08-04"/>
+    <test>
+      fn:format-number(1.2, '#')
+    </test>
+    <result>
+      <assert-string-value>1</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat203">
+    <description>
+      format-number() with pattern in which min integer part size is one, frac part empty, input number between 0 and 1
+    </description>
+    <created by="Debbie Lockett" on="2015-08-04"/>
+    <test>
+      fn:format-number(0.2, '0')
+    </test>
+    <result>
+      <assert-string-value>0</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat204">
+    <description>
+      format-number() with pattern in which min integer part size is one, frac part empty
+    </description>
+    <created by="Debbie Lockett" on="2015-08-04"/>
+    <test>
+      fn:format-number(1.2, '0')
+    </test>
+    <result>
+      <assert-string-value>1</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat205">
+    <description>
+      test format-number() with pattern in which min integer part size is zero, frac part not empty, input number between 0 and 1
+    </description>
+    <created by="Debbie Lockett" on="2015-08-04"/>
+    <test>
+      fn:format-number(0.2, '.#')
+    </test>
+    <result>
+      <assert-string-value>.2</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat206">
+    <description>
+      format-number() with pattern in which min integer part size is zero, frac part not empty
+    </description>
+    <created by="Debbie Lockett" on="2015-08-04"/>
+    <test>
+      fn:format-number(1.2, '.#')
+    </test>
+    <result>
+      <assert-string-value>1.2</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat207">
+    <description>
+      test format-number() with pattern in which min integer part size is zero, frac part not empty, 
+      input number between 0 and 1
+    </description>
+    <created by="Debbie Lockett" on="2015-08-04"/>
+    <test>
+      fn:format-number(0.2, '.0')
+    </test>
+    <result>
+      <assert-string-value>.2</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat208">
+    <description>
+      test format-number() with pattern in which min integer part size is zero, frac part not empty
+    </description>
+    <created by="Debbie Lockett" on="2015-08-04"/>
+    <test>
+      fn:format-number(1.2, '.0')
+    </test>
+    <result>
+      <assert-string-value>1.2</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat209">
+    <description>
+      test format-number() with pattern in which min integer part size is zero, frac part not empty, 
+      input number between 0 and 1
+    </description>
+    <created by="Debbie Lockett" on="2015-08-04"/>
+    <test>
+      fn:format-number(0.2, '#.#')
+    </test>
+    <result>
+      <assert-string-value>.2</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat210">
+    <description>
+      format-number() with pattern in which min integer part size is zero, frac part not empty
+    </description>
+    <created by="Debbie Lockett" on="2015-08-04"/>
+    <test>
+      fn:format-number(1.2, '#.#')
+    </test>
+    <result>
+      <assert-string-value>1.2</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat211">
+    <description>
+      test format-number() with pattern in which min integer part size is one, frac part not empty, 
+      input number between 0 and 1
+    </description>
+    <created by="Debbie Lockett" on="2015-08-04"/>
+    <test>
+      fn:format-number(0.2, '0.0')
+    </test>
+    <result>
+      <assert-string-value>0.2</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat212">
+    <description>
+      test format-number() with pattern in which min integer part size is one, frac part not empty
+    </description>
+    <created by="Debbie Lockett" on="2015-08-04"/>
+    <test>
+      fn:format-number(1.2, '0.0')
+    </test>
+    <result>
+      <assert-string-value>1.2</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat213">
+    <description>
+      format-number() with pattern in which min integer part size is one, frac part not empty, 
+      input number between 0 and 1
+    </description>
+    <created by="Debbie Lockett" on="2015-08-04"/>
+    <test>
+      fn:format-number(0.2, '0.#')
+    </test>
+    <result>
+      <assert-string-value>0.2</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat214">
+    <description>
+      format-number() with pattern in which min integer part size is one, frac part not empty
+    </description>
+    <created by="Debbie Lockett" on="2015-08-04"/>
+    <test>
+      fn:format-number(1.2, '0.#')
+    </test>
+    <result>
+      <assert-string-value>1.2</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat215">
+    <description>
+      format-number() with pattern in which min integer part size is zero, frac part not empty, 
+      input number between 0 and 1
+    </description>
+    <created by="Debbie Lockett" on="2015-08-04"/>
+    <test>
+      fn:format-number(0.2, '#.0')
+    </test>
+    <result>
+      <assert-string-value>.2</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat216">
+    <description>
+      test format-number() with pattern in which min integer part size is zero, frac part not empty
+    </description>
+    <created by="Debbie Lockett" on="2015-08-04"/>
+    <test>
+      fn:format-number(1.2, '#.0')
+    </test>
+    <result>
+      <assert-string-value>1.2</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat217">
+    <description>
+      format-number() with pattern in which integer part contains no decimal-digit-family-characters, 
+      frac part empty, input number between 0 and 1
+    </description>
+    <created by="Debbie Lockett" on="2015-08-04"/>
+    <test>
+      fn:format-number(0.2, '#.')
+    </test>
+    <result>
+      <assert-string-value>0</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat218">
+    <description>
+      test format-number() with pattern in which min integer part size is zero, frac part empty
+    </description>
+    <created by="Debbie Lockett" on="2015-08-04"/>
+    <test>
+      fn:format-number(1.2, '#.')
+    </test>
+    <result>
+      <assert-string-value>1</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat219">
+    <description>
+      test format-number() with pattern in which min integer part size is one, frac part empty, 
+      input number between 0 and 1
+    </description>
+    <created by="Debbie Lockett" on="2015-08-04"/>
+    <test>
+      fn:format-number(0.2, '0.')
+    </test>
+    <result>
+      <assert-string-value>0</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat220">
+    <description>
+      format-number() with pattern in which min integer part size is one, frac part empty
+    </description>
+    <created by="Debbie Lockett" on="2015-08-04"/>
+    <test>
+      fn:format-number(1.2, '0.')
+    </test>
+    <result>
+      <assert-string-value>1</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat221">
+    <description>
+      test format-number() with pattern in which min integer part size is zero 
+      (but integer part contains inactive characters), frac part not empty, input number between 0 and 1
+    </description>
+    <created by="Debbie Lockett" on="2015-08-04"/>
+    <test>
+      fn:format-number(0.2, 'this.#')
+    </test>
+    <result>
+      <assert-string-value>this.2</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat222">
+    <description>
+      format-number() with pattern in which min integer part size is zero 
+      (but integer part contains inactive characters), frac part not empty
+    </description>
+    <created by="Debbie Lockett" on="2015-08-04"/>
+    <test>
+      fn:format-number(1.2, 'this.#')
+    </test>
+    <result>
+      <assert-string-value>this1.2</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat223">
+    <description>
+      test format-number() with pattern in which min integer part size is zero 
+      (but integer part contains inactive characters), frac part not empty, input number between 0 and 1
+    </description>
+    <created by="Debbie Lockett" on="2015-08-04"/>
+    <test>
+      fn:format-number(0.2, 'this.0')
+    </test>
+    <result>
+      <assert-string-value>this.2</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat224">
+    <description>
+      test format-number() with pattern in which min integer part size is zero 
+      (but integer part contains inactive characters), frac part not empty
+    </description>
+    <created by="Debbie Lockett" on="2015-08-04"/>
+    <test>
+      fn:format-number(1.2, 'this.0')
+    </test>
+    <result>
+      <assert-string-value>this1.2</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat225">
+    <description>
+      test format-number() with pattern in which min integer part size is zero, 
+      frac part only contains inactive characters, input number between 0 and 1
+    </description>
+    <created by="Debbie Lockett" on="2015-08-04"/>
+    <test>
+      fn:format-number(0.2, '#.suffix')
+    </test>
+    <result>
+      <assert-string-value>0suffix</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat226">
+    <description>
+      test format-number() with pattern in which min integer part size is zero, 
+      frac part only contains inactive characters
+    </description>
+    <created by="Debbie Lockett" on="2015-08-04"/>
+    <test>
+      fn:format-number(1.2, '#.suffix')
+    </test>
+    <result>
+      <assert-string-value>1suffix</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat227">
+    <description>
+      test format-number() with pattern in which min integer part size is three, 
+      frac part not empty
+    </description>
+    <created by="Debbie Lockett" on="2015-08-04"/>
+    <test>
+      fn:format-number(0.2, '000.0')
+    </test>
+    <result>
+      <assert-string-value>000.2</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat231" covers="fn-format-number">
+    <description>
+      format-number() with pattern in which min integer part size is zero, 
+      frac part empty, input number between 0 and 1, exponent part not empty
+    </description>
+    <created by="Debbie Lockett" on="2015-08-04"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>
+      fn:format-number(0.2, '#e0')
+    </test>
+    <result>
+      <assert-string-value>2e-1</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat232" covers="fn-format-number">
+    <description>
+      format-number() with pattern in which min integer part size is zero, 
+      frac part empty, exponent part not empty
+    </description>
+    <created by="Debbie Lockett" on="2015-08-04"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>
+      fn:format-number(1.2, '#e0')
+    </test>
+    <result>
+      <assert-string-value>1e0</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat233" covers="fn-format-number">
+    <description>
+      format-number() with pattern in which min integer part size is one, 
+      frac part empty, input number between 0 and 1, exponent part not empty
+    </description>
+    <created by="Debbie Lockett" on="2015-08-04"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>
+      fn:format-number(0.2, '0e0')
+    </test>
+    <result>
+      <assert-string-value>2e-1</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat234" covers="fn-format-number">
+    <description>
+      format-number() with pattern in which min integer part size is one, 
+      frac part empty, exponent part not empty
+    </description>
+    <created by="Debbie Lockett" on="2015-08-04"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>
+      fn:format-number(1.2, '0e0')
+    </test>
+    <result>
+      <assert-string-value>1e0</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat235" covers="fn-format-number">
+    <description>
+      test format-number() with pattern in which min integer part size is zero, 
+      frac part not empty, input number between 0 and 1, exponent part not empty
+    </description>
+    <created by="Debbie Lockett" on="2015-08-04"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>
+      fn:format-number(0.2, '.#e0')
+    </test>
+    <result>
+      <assert-string-value>.2e0</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat236" covers="fn-format-number">
+    <description>
+      format-number() with pattern in which min integer part size is zero, 
+      frac part not empty, exponent part not empty
+    </description>
+    <created by="Debbie Lockett" on="2015-08-04"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>
+      fn:format-number(1.2, '.#e0')
+    </test>
+    <result>
+      <assert-string-value>.1e1</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat237" covers="fn-format-number">
+    <description>
+      test format-number() with pattern in which min integer part size is zero, 
+      frac part not empty, input number between 0 and 1, exponent part not empty
+    </description>
+    <created by="Debbie Lockett" on="2015-08-04"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>
+      fn:format-number(0.2, '.0e0')
+    </test>
+    <result>
+      <assert-string-value>.2e0</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat238" covers="fn-format-number">
+    <description>
+      test format-number() with pattern in which min integer part size is zero, 
+      frac part not empty, exponent part not empty
+    </description>
+    <created by="Debbie Lockett" on="2015-08-04"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>
+      fn:format-number(1.2, '.0e0')
+    </test>
+    <result>
+      <assert-string-value>.1e1</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat239" covers="fn-format-number">
+    <description>
+      test format-number() with pattern in which min integer part size is zero, 
+      frac part not empty, input number between 0 and 1, exponent part not empty
+    </description>
+    <created by="Debbie Lockett" on="2015-08-04"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>
+      fn:format-number(0.2, '#.#e0')
+    </test>
+    <result>
+      <assert-string-value>.2e0</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat240" covers="fn-format-number">
+    <description>
+      format-number() with pattern in which min integer part size is zero, 
+      frac part not empty, exponent part not empty
+    </description>
+    <created by="Debbie Lockett" on="2015-08-04"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>
+      fn:format-number(1.2, '#.#e0')
+    </test>
+    <result>
+      <assert-string-value>.1e1</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat241" covers="fn-format-number">
+    <description>
+      test format-number() with pattern in which min integer part size is one, 
+      frac part not empty, input number between 0 and 1, exponent part not empty
+    </description>
+    <created by="Debbie Lockett" on="2015-08-04"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>
+      fn:format-number(0.2, '0.0e0')
+    </test>
+    <result>
+      <assert-string-value>2.0e-1</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat242" covers="fn-format-number">
+    <description>
+      test format-number() with pattern in which min integer part size is one, 
+      frac part not empty, exponent part not empty
+    </description>
+    <created by="Debbie Lockett" on="2015-08-04"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>
+      fn:format-number(1.2, '0.0e0')
+    </test>
+    <result>
+      <assert-string-value>1.2e0</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat243" covers="fn-format-number">
+    <description>
+      format-number() with pattern in which min integer part size is one, 
+      frac part not empty, input number between 0 and 1, exponent part not empty
+    </description>
+    <created by="Debbie Lockett" on="2015-08-04"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>
+      fn:format-number(0.2, '0.#e0')
+    </test>
+    <result>
+      <assert-string-value>2e-1</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat244" covers="fn-format-number">
+    <description>
+      format-number() with pattern in which min integer part size is one, 
+      frac part not empty, exponent part not empty
+    </description>
+    <created by="Debbie Lockett" on="2015-08-04"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>
+      fn:format-number(1.2, '0.#e0')
+    </test>
+    <result>
+      <assert-string-value>1.2e0</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat245" covers="fn-format-number">
+    <description>
+      format-number() with pattern in which min integer part size is zero, 
+      frac part not empty, input number between 0 and 1, exponent part not empty
+    </description>
+    <created by="Debbie Lockett" on="2015-08-04"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>
+      fn:format-number(0.2, '#.0e0')
+    </test>
+    <result>
+      <assert-string-value>.2e0</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat246" covers="fn-format-number">
+    <description>
+      test format-number() with pattern in which min integer part size is zero, 
+      frac part not empty, exponent part not empty
+    </description>
+    <created by="Debbie Lockett" on="2015-08-04"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>
+      fn:format-number(1.2, '#.0e0')
+    </test>
+    <result>
+      <assert-string-value>.1e1</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat247" covers="fn-format-number">
+    <description>
+      format-number() with pattern in which integer part contains no decimal-digit-family-characters, 
+      frac part empty, input number between 0 and 1, exponent part not empty
+      <!-- Result depends on resolution of bug #28845  -->
+    </description>
+    <created by="Debbie Lockett" on="2015-08-04"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>
+      fn:format-number(0.2, '#.e0')
+    </test>
+    <result>
+      <assert-string-value>2e-1</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat248" covers="fn-format-number">
+    <description>
+      test format-number() with pattern in which min integer part size is zero, 
+      frac part empty, exponent part not empty
+      <!-- Result depends on resolution of bug #28845  -->
+    </description>
+    <created by="Debbie Lockett" on="2015-08-04"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>
+      fn:format-number(1.2, '#.e0')
+    </test>
+    <result>
+      <assert-string-value>1e0</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat249" covers="fn-format-number">
+    <description>
+      test format-number() with pattern in which min integer part size is one, 
+      frac part empty, input number between 0 and 1, exponent part not empty
+      <!-- Result depends on resolution of bug #28845  -->
+    </description>
+    <created by="Debbie Lockett" on="2015-08-04"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>
+      fn:format-number(0.2, '0.e0')
+    </test>
+    <result>
+      <assert-string-value>2e-1</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat250" covers="fn-format-number">
+    <description>
+      format-number() with pattern in which min integer part size is one, 
+      frac part empty, exponent part not empty
+      <!-- Result depends on resolution of bug #28845  -->
+    </description>
+    <created by="Debbie Lockett" on="2015-08-04"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>
+      fn:format-number(1.2, '0.e0')
+    </test>
+    <result>
+      <assert-string-value>1e0</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat251" covers="fn-format-number">
+    <description>
+      test format-number() with pattern in which min integer part size is zero 
+      (but integer part contains inactive characters), frac part not empty, input number between 0 and 1,
+      exponent part not empty
+    </description>
+    <created by="Debbie Lockett" on="2015-08-04"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>
+      fn:format-number(0.2, 'this.#e0')
+    </test>
+    <result>
+      <assert-string-value>this.2e0</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat252" covers="fn-format-number">
+    <description>
+      format-number() with pattern in which min integer part size is zero 
+      (but integer part contains inactive characters), frac part not empty, exponent part not empty
+    </description>
+    <created by="Debbie Lockett" on="2015-08-04"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>
+      fn:format-number(1.2, 'this.#e0')
+    </test>
+    <result>
+      <assert-string-value>this.1e1</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat253" covers="fn-format-number">
+    <description>
+      test format-number() with pattern in which min integer part size is zero 
+      (but integer part contains inactive characters), frac part not empty, 
+      input number between 0 and 1, exponent part not empty
+    </description>
+    <created by="Debbie Lockett" on="2015-08-04"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>
+      fn:format-number(0.2, 'this.0e0')
+    </test>
+    <result>
+      <assert-string-value>this.2e0</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat254" covers="fn-format-number">
+    <description>
+      test format-number() with pattern in which min integer part size is zero 
+      (but integer part contains inactive characters), frac part not empty, 
+      exponent part not empty
+    </description>
+    <created by="Debbie Lockett" on="2015-08-04"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>
+      fn:format-number(1.2, 'this.0e0')
+    </test>
+    <result>
+      <assert-string-value>this.1e1</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat255" covers="fn-format-number">
+    <description>
+      test format-number() with pattern in which min integer part size is three, 
+      frac part not empty, exponent part not empty
+    </description>
+    <created by="Debbie Lockett" on="2015-08-04"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>
+      fn:format-number(0.2, '000.0e0')
+    </test>
+    <result>
+      <assert-string-value>200.0e-3</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat261" covers="fn-format-number">
+    <description>
+      test format-number() with pattern in which min integer part size is zero, 
+      for which there is a possible choice of mantissa and exponent.
+      <!-- Result depends on resolution of bug #28845  -->
+    </description>
+    <created by="Debbie Lockett" on="2015-08-04"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>
+      fn:format-number(0.002, '.0e0')
+    </test>
+    <result>
+      <assert-string-value>.2e-2</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat262" covers="fn-format-number">
+    <description>
+      test format-number() with pattern in which min integer part size is zero, 
+      for which there is a possible choice of mantissa and exponent.
+      <!-- Result depends on resolution of bug #28845  -->
+    </description>
+    <created by="Debbie Lockett" on="2015-08-04"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>
+      fn:format-number(0.002, '.000e0')
+    </test>
+    <result>
+      <assert-string-value>.200e-2</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat263" covers="fn-format-number">
+    <description>
+      test format-number() with pattern in which min integer part size is zero, 
+      for which there is a possible choice of mantissa and exponent.
+      <!-- Result depends on resolution of bug #28845  -->
+    </description>
+    <created by="Debbie Lockett" on="2015-08-04"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>
+      fn:format-number(0.002, '#.###e0')
+    </test>
+    <result>
+      <assert-string-value>.2e-2</assert-string-value>
+    </result>
+  </test-case>
 
    <test-case name="numberformat901err">
       <description>
