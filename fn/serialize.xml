@@ -966,6 +966,7 @@
     <test-case name="serialize-xml-123" covers="fn-serialize">
         <description>serialize test - params supplied as map: error - character map key must be a single character</description>
         <created by="Debbie Lockett, Saxonica" on="2015-05-19"/>
+        <modified by="Debbie Lockett, Saxonica" on="2015-08-06" change="Changed error code, see bug #29030"/>
         <environment ref="atomic"/>
         <dependency type="spec" value="XP31+ XQ31+"/>
         <test>let $params := map {
@@ -974,7 +975,7 @@
             return serialize(., $params)
         </test>
         <result>
-            <error code="SEPM0017"/>
+            <error code="SEPM0016"/>
         </result>
     </test-case>
     
@@ -1276,6 +1277,7 @@
     <test-case name="serialize-json-004" covers="fn-serialize">
         <description>serialize test - params supplied as map, json output method, first argument is a map</description>
         <created by="Debbie Lockett, Saxonica" on="2015-06-23"/>
+        <modified by="Debbie Lockett, Saxonica" on="2015-08-06" change="Adapted result assertions, see bug #29029"/>
         <dependency type="spec" value="XP31+ XQ31+"/>
         <test>let $params := map {
             "method" : "json",
@@ -1286,8 +1288,8 @@
         <result>
             <all-of>
                 <assert-type>xs:string</assert-type>
-                <assert>contains($result,'"method":"json"')</assert>
-                <assert>contains($result,'"indent":true')</assert>
+                <assert>parse-json($result)("method") eq "json"</assert>
+                <assert>parse-json($result)("indent")</assert>
             </all-of>
         </result>
     </test-case>
@@ -1295,6 +1297,7 @@
     <test-case name="serialize-json-005" covers="fn-serialize">
         <description>serialize test - params supplied as map, json output method, $arg is a map</description>
         <created by="Debbie Lockett, Saxonica" on="2015-06-23"/>
+        <modified by="Debbie Lockett, Saxonica" on="2015-08-06" change="Adapted result assertions, see bug #29029"/>
         <dependency type="spec" value="XP31+ XQ31+"/>
         <test>let $params := map {
             "method" : "json",
@@ -1306,7 +1309,7 @@
         <result>
             <all-of>
                 <assert-type>xs:string</assert-type>
-                <assert>contains($result,'"abc":true')</assert>
+                <assert>parse-json($result)("abc")</assert>
             </all-of>
         </result>
     </test-case>
