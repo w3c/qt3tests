@@ -415,6 +415,20 @@
       </result>
    </test-case>
    
+   <test-case name="group-019">
+       <description>grouping key values with timezones</description>
+       <created by="Michael Kay" on="2015-08-04"/>
+       <test>
+           let $without_tz := xs:dateTime('2015-04-08T01:30:00') 
+           let $with_tz := adjust-dateTime-to-timezone($without_tz, implicit-timezone())
+           let $keys := (xs:dateTime('2015-04-08T02:30:00'), $without_tz, $with_tz)
+           return count(for $k in $keys group by $k return $k)
+       </test>
+       <result>
+             <assert>$result lt 3</assert>
+       </result>
+   </test-case>
+   
    <test-case name="use-case-groupby-Q1">
       <description>Use Case "Group By" - Q1</description>
       <created by="Andrew Eisenberg" on="2012-03-14"/>
