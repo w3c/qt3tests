@@ -1219,7 +1219,113 @@
             </all-of>  
         </result>
     </test-case>
+    
+    <test-case name="serialize-xml-137" covers="fn-serialize">
+        <description>2nd argument is empty</description>
+        <created by="Josh Spiegel" on="2015-08-06"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test><![CDATA[
+            serialize(<e/>, ())
+        ]]></test>
+        <result>
+            <assert>exists(parse-xml($result)/e)</assert>
+        </result>
+    </test-case>    
+    
+    <test-case name="serialize-xml-138" covers="fn-serialize">
+        <description>Options from JSON</description>
+        <created by="Josh Spiegel" on="2015-08-06"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test><![CDATA[
+            let $json := '
+                {
+                  "method" : "xml",
+                  "indent" : true, 
+                  "use-character-maps" : {
+                     "x" : "j",
+                     "m" : "so",
+                     "l" : "n"
+                  }     
+                }
+            '      
+            return       
+               serialize(<e>xml</e>, parse-json($json))
+        ]]></test>
+        <result>
+            <assert>parse-xml($result)/e/string() eq "json"</assert>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-139" covers="fn-serialize">
+        <description>Strange key in a character mapping (option parameter conventions apply) </description>
+        <created by="Josh Spiegel" on="2015-08-06"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test><![CDATA[   
+               serialize(<e>xml</e>, map { 'use-character-maps' : map { QName("http://example.org","xyz") : "abc" } })
+        ]]></test>
+        <result>
+            <assert>parse-xml($result)/e/string() eq "xml"</assert>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-140" covers="fn-serialize">
+        <description>Character mappings and option parameter conventions </description>
+        <created by="Josh Spiegel" on="2015-08-06"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test><![CDATA[  
+               let $options := map {
+                  'use-character-maps' : map {
+                     'x' : xs:untypedAtomic('j'),
+                     'm' : <e>so</e>,
+                     'l' : 'n'
+                  }
+               }
+               return     
+                  serialize(<e>[xml]</e>, $options)
+        ]]></test>
+        <result>
+            <assert>parse-xml($result)/e/string() eq "[json]"</assert>
+        </result>
+    </test-case>     
       
+    <test-case name="serialize-xml-141" covers="fn-serialize">
+        <description>Character mappings and option parameter conventions (required xs:string, QName given)</description>
+        <created by="Josh Spiegel" on="2015-08-06"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test><![CDATA[  
+               let $options := map {
+                  'use-character-maps' : map {
+                     'x' : xs:untypedAtomic('j'),
+                     'm' : <e>so</e>,
+                     'l' : xs:QName('n')
+                  }
+               }
+               return     
+                  serialize(<e>[xml]</e>, $options)
+        ]]></test>
+        <result>
+            <error code="XPTY0004"/>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-xml-142" covers="fn-serialize">
+        <description>Multiple untypedAtomic conversions in one map</description>
+        <created by="Josh Spiegel" on="2015-08-06"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test><![CDATA[  
+               let $options := map {
+                    'method' : 'xml',
+                    'indent' : xs:untypedAtomic('false'),
+                    'item-separator' : xs:untypedAtomic('  ')     
+               }
+               return     
+                  serialize((<e/>,<f/>), $options)
+        ]]></test>
+        <result>
+            <assert><![CDATA[contains($result,"&gt;  &lt;")]]></assert>
+        </result>
+    </test-case>       
+    
     <!-- XPath 3.1 tests JSON serialization output method -->
     <test-case name="serialize-json-001" covers="fn-serialize">
         <description>serialize test - params supplied as map, json output method, $arg is an array</description>
@@ -1385,6 +1491,44 @@
         </result>
     </test-case>
     
+    <test-case name="serialize-json-010" covers="fn-serialize">
+        <description>allow-duplicate-names default</description>
+        <created by="Josh Spiegel" on="2015-08-06"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>
+            serialize(map { xs:QName("foo") : 1, "foo" : 2 }, map { 'method' : 'json' }) 
+        </test>
+        <result>
+            <error code="SERE0022"/>
+        </result>
+    </test-case>
     
+    <test-case name="serialize-json-011" covers="fn-serialize">
+        <description>allow-duplicate-names from map</description>
+        <created by="Josh Spiegel" on="2015-08-06"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>
+          serialize(
+            map { 
+              QName("", "foo") : 1, 
+              "foo" : 2 
+            }, 
+            map { 
+              'method' : 'json', 
+              'allow-duplicate-names' : true()
+            }
+          )
+        </test>
+        <result>
+          <all-of>
+            <assert>
+                let $xml := json-to-xml($result, map { 'duplicates' : 'retain' })
+                return
+                   count($xml/fn:map/fn:number) eq 2
+            </assert>
+            <assert>map:size(parse-json($result)) eq 1</assert>
+          </all-of>
+        </result>
+    </test-case>     
     
 </test-set>
