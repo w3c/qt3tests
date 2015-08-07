@@ -26,7 +26,7 @@ declare function mod3:function2($param as simple:myType) as xs:integer
 
 declare function mod3:function3() as schema-element(simple:integer)
 {
-  <simple:integer>2</simple:integer>
+  validate { <simple:integer>2</simple:integer> }
 };
 
 
