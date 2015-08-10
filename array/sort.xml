@@ -248,6 +248,72 @@
             </all-of>
         </result>
     </test-case>    
-    
-    
+    <test-case name="array-sort-018">
+        <description>Sort complex nested arrays</description>
+        <created by="Josh Spiegel" on="2015-08-10"/>
+        <test><![CDATA[
+            array:sort(
+             [
+                [<e>a</e>, <e>b</e>],
+                [(<f>a</f>, <f>b</f>)],
+                [<g>a</g>, <g>b</g>],
+                "A",
+                ("A","B")     
+             ]
+            )
+        ]]></test>
+        <result>
+            <all-of>                
+                <assert>array:size($result) eq 5</assert>
+                <assert-deep-eq><![CDATA[
+                  [
+                    "A",
+                    ("A","B"),                    
+                    [<e>a</e>, <e>b</e>],
+                    [(<f>a</f>, <f>b</f>)],
+                    [<g>a</g>, <g>b</g>]   
+                  ]                    
+                ]]></assert-deep-eq>
+            </all-of>
+        </result>
+    </test-case>       
+    <test-case name="array-sort-019">
+        <description>Atomize a map</description>
+        <created by="Josh Spiegel" on="2015-08-10"/>
+        <test>array:sort([map{},1])</test>
+        <result>
+            <error code="FOTY0013"/>
+        </result>
+    </test-case>
+    <test-case name="array-sort-020">
+        <description>Sort mix of complex and simple</description>
+        <created by="Josh Spiegel" on="2015-08-10"/>
+        <test><![CDATA[
+          array:sort([[3],2,validate type xs:integer { <e>1</e> }])
+        ]]></test>
+        <result>
+            <all-of>                
+                <assert>$result(1) eq 1</assert>
+                <assert>$result(2) eq 2</assert>
+                <assert>$result(3) eq 3</assert>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="array-sort-021">
+        <description>Sort NaN values.  Result may depend on the outcome of bug 29044</description>
+        <created by="Josh Spiegel" on="2015-08-10"/>
+        <test><![CDATA[
+          let $a := [xs:float("NaN"), 1]     
+          let $b := [xs:float("NaN"), 2]
+          return     
+             array:sort([$a,$b,$a,$b])
+        ]]></test>
+        <result>
+            <all-of>                
+                <assert>every $x in 1 to 4 satisfies deep-equal($result($x)(1), xs:float("NaN"))</assert>
+                <assert>$result(1)(2) eq 1 and $result(2)(2) eq 1</assert>
+                <assert>$result(3)(2) eq 2 and $result(4)(2) eq 2</assert>
+            </all-of>
+        </result>
+    </test-case>              
 </test-set>

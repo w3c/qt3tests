@@ -146,7 +146,78 @@
 	 <assert-true />
       </result>
    </test-case>
+   
+   <test-case name="fn-sort-14">
+      <description>One-argument sort where input is not simple </description>
+      <created by="Josh Spiegel" on="2015-08-10"/>
+      <test><![CDATA[
+        <turtles>
+          <name>Leonardo</name>
+          <name>Raphael</name>
+          <name>Donatello</name>
+          <name>Michelangelo</name>
+        </turtles>
+        !sort(*)!data()
+      ]]></test>
+      <result>
+         <assert-deep-eq><![CDATA["Donatello", "Leonardo", "Michelangelo", "Raphael"]]></assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-sort-15">
+      <description>One-argument sort where input is not simple </description>
+      <created by="Josh Spiegel" on="2015-08-10"/>
+      <test><![CDATA[
+            sort(
+              (
+                [<e>a</e>, <e>b</e>],
+                [(<f>a</f>, <f>b</f>)],
+                [<g>a</g>, <g>b</g>],
+                "A",
+                <h><i><j>A</j></i></h>   
+              )
+            )
+      ]]></test>
+      <result>
+          <assert-deep-eq><![CDATA[
+              (
+                "A",
+                <h><i><j>A</j></i></h>,     
+                [<e>a</e>, <e>b</e>],
+                [(<f>a</f>, <f>b</f>)],
+                [<g>a</g>, <g>b</g>]  
+              )              
+          ]]></assert-deep-eq>
+      </result>
+   </test-case>   
+   
+   <test-case name="fn-sort-16">
+      <description>One-argument sort where input is a mix of simple and complex</description>
+      <created by="Josh Spiegel" on="2015-08-10"/>
+      <test><![CDATA[sort(("b", "d", <e>a</e>, "c", <f>e</f>))]]></test>
+      <result>
+         <assert-deep-eq><![CDATA[<e>a</e>, "b", "c", "d", <f>e</f>]]></assert-deep-eq>
+      </result>
+   </test-case>
 
+    <test-case name="array-sort-17">
+        <description>Sort NaN values.  Result may depend on the outcome of bug 29044</description>
+        <created by="Josh Spiegel" on="2015-08-10"/>
+        <test><![CDATA[
+          let $a := [xs:float("NaN"), 1]     
+          let $b := [xs:float("NaN"), 2]
+          return     
+             sort(($a,$b,$a,$b))
+        ]]></test>
+        <result>
+            <all-of>                
+                <assert>every $x in 1 to 4 satisfies deep-equal($result[$x](1), xs:float("NaN"))</assert>
+                <assert>$result[1](2) eq 1 and $result[2](2) eq 1</assert>
+                <assert>$result[3](2) eq 2 and $result[4](2) eq 2</assert>
+            </all-of>
+        </result>
+    </test-case>    
+   
    <!--* ##fractions *-->
 
    <test-case name="fn-sort-frac-1">
@@ -347,8 +418,5 @@
 	 <assert-true />
       </result>
    </test-case>
-
-
-
 
 </test-set>
