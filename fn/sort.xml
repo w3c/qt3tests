@@ -150,6 +150,8 @@
    <test-case name="fn-sort-14">
       <description>One-argument sort where input is not simple </description>
       <created by="Josh Spiegel" on="2015-08-10"/>
+      <modified by="Debbie Lockett" on="2015-08-12" change="Added XQuery dependency"/>
+      <dependency type="spec" value="XQ31+"/>
       <test><![CDATA[
         <turtles>
           <name>Leonardo</name>
@@ -167,7 +169,10 @@
    <test-case name="fn-sort-15">
       <description>One-argument sort where input is not simple </description>
       <created by="Josh Spiegel" on="2015-08-10"/>
+      <modified by="Debbie Lockett" on="2015-08-12" change="Added XQuery dependency, move deep-equal into test"/>
+      <dependency type="spec" value="XQ31+"/>
       <test><![CDATA[
+         deep-equal(
             sort(
               (
                 [<e>a</e>, <e>b</e>],
@@ -177,35 +182,42 @@
                 <h><i><j>A</j></i></h>   
               )
             )
-      ]]></test>
-      <result>
-          <assert-deep-eq><![CDATA[
-              (
+            ,(
                 "A",
                 <h><i><j>A</j></i></h>,     
                 [<e>a</e>, <e>b</e>],
                 [(<f>a</f>, <f>b</f>)],
                 [<g>a</g>, <g>b</g>]  
-              )              
-          ]]></assert-deep-eq>
+              )
+            )
+      ]]></test>
+      <result>
+         <assert-true/>
       </result>
    </test-case>   
    
    <test-case name="fn-sort-16">
       <description>One-argument sort where input is a mix of simple and complex</description>
       <created by="Josh Spiegel" on="2015-08-10"/>
-      <test><![CDATA[sort(("b", "d", <e>a</e>, "c", <f>e</f>))]]></test>
+      <modified by="Debbie Lockett" on="2015-08-12" change="Added XQuery dependency, move deep-equal into test"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[deep-equal(
+         sort(("b", "d", <e>a</e>, "c", <f>e</f>))
+         ,(<e>a</e>, "b", "c", "d", <f>e</f>)
+         )
+         ]]></test>
       <result>
-         <assert-deep-eq><![CDATA[<e>a</e>, "b", "c", "d", <f>e</f>]]></assert-deep-eq>
+         <assert-true/>
       </result>
    </test-case>
 
     <test-case name="fn-sort-17">
         <description>Sort NaN values.  Result may depend on the outcome of bug 29044</description>
-        <created by="Josh Spiegel" on="2015-08-10"/>
+       <created by="Josh Spiegel" on="2015-08-10"/>
+       <modified by="Debbie Lockett" on="2015-08-12" change="Edit test to use XPath let expression syntax"/>
         <test><![CDATA[
-          let $a := [xs:float("NaN"), 1]     
-          let $b := [xs:float("NaN"), 2]
+          let $a := [xs:float("NaN"), 1],     
+          $b := [xs:float("NaN"), 2]
           return     
              sort(($a,$b,$a,$b))
         ]]></test>

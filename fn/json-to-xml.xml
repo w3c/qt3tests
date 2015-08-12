@@ -734,6 +734,8 @@
    <test-case name="json-to-xml-044">
       <description>Alternate validation dynamically</description>
       <created by="Josh Spiegel" on="2015-07-27"/>
+      <modified by="Debbie Lockett" on="2015-08-12" change="Added XQuery dependency"/>
+      <dependency type="spec" value="XQ31+"/>
       <test>
          import schema "http://www.w3.org/2005/xpath-functions";
           
@@ -752,6 +754,8 @@
       <description>Alternate escape dynamically</description>
       <created by="Josh Spiegel" on="2015-07-27"/>
       <modified by="Debbie Lockett" on="2015-08-07" change="Modified assertion to work in XPath as well as XQuery"/>
+      <modified by="Debbie Lockett" on="2015-08-12" change="Added XQuery dependency"/>
+      <dependency type="spec" value="XQ31+"/>
       <test>
          import schema "http://www.w3.org/2005/xpath-functions";
           
@@ -769,6 +773,8 @@
    <test-case name="json-to-xml-046">
       <description>Validated map children (which should have anonymous type annotations)</description>
       <created by="Josh Spiegel" on="2015-07-29"/>
+      <modified by="Debbie Lockett" on="2015-08-12" change="Added XQuery dependency"/>
+      <dependency type="spec" value="XQ31+"/>
       <test>
          import schema "http://www.w3.org/2005/xpath-functions";
          let $json := '
@@ -800,6 +806,8 @@
    <test-case name="json-to-xml-047">
       <description>Validated array children (which should have global type annotations)</description>
       <created by="Josh Spiegel" on="2015-07-29"/>
+      <modified by="Debbie Lockett" on="2015-08-12" change="Added XQuery dependency"/>
+      <dependency type="spec" value="XQ31+"/>
       <test>
          import schema "http://www.w3.org/2005/xpath-functions";
          let $json := '["foo",123,null,true,false,[],{}]'
@@ -816,7 +824,25 @@
       <result>
          <assert>every $r in $result satisfies $r</assert>
       </result>
-   </test-case>      
+   </test-case>
+   
+   <test-case name="json-to-xml-048">
+      <description>Special characters, with default escape=false</description>
+      <created by="Debbie Lockett" on="2015-08-10"/>
+      <test>json-to-xml('"\\\/\"\r\t\u0020"')</test>
+      <result>
+         <assert-xml ignore-prefixes="true"><![CDATA[<string xmlns="http://www.w3.org/2005/xpath-functions">\/"&#13;&#009;&#032;</string>]]></assert-xml>
+      </result>
+   </test-case>
+   
+   <test-case name="json-to-xml-049">
+      <description>Special characters, with escape=true</description>
+      <created by="Debbie Lockett" on="2015-08-10"/>
+      <test>json-to-xml('"\\\/\"\r\t\u0020"', map {'escape':true()})</test>
+      <result>
+         <assert-xml ignore-prefixes="true"><![CDATA[<string xmlns="http://www.w3.org/2005/xpath-functions" escaped="true">\\/"\r\t&#032;</string>]]></assert-xml>
+      </result>
+   </test-case>
 
    <test-case name="json-to-xml-error-001">
       <description>Empty string</description>

@@ -251,7 +251,10 @@
     <test-case name="array-sort-018">
         <description>Sort complex nested arrays</description>
         <created by="Josh Spiegel" on="2015-08-10"/>
+        <modified by="Debbie Lockett" on="2015-08-12" change="Added XQuery dependency, move deep-equal into test"/>
+        <dependency type="spec" value="XQ31+"/>
         <test><![CDATA[
+            deep-equal(
             array:sort(
              [
                 [<e>a</e>, <e>b</e>],
@@ -261,20 +264,16 @@
                 ("A","B")     
              ]
             )
-        ]]></test>
-        <result>
-            <all-of>                
-                <assert>array:size($result) eq 5</assert>
-                <assert-deep-eq><![CDATA[
-                  [
+            ,[
                     "A",
                     ("A","B"),                    
                     [<e>a</e>, <e>b</e>],
                     [(<f>a</f>, <f>b</f>)],
                     [<g>a</g>, <g>b</g>]   
-                  ]                    
-                ]]></assert-deep-eq>
-            </all-of>
+                  ]  )
+        ]]></test>
+        <result>
+            <assert-true/>
         </result>
     </test-case>       
     <test-case name="array-sort-019">
@@ -288,6 +287,8 @@
     <test-case name="array-sort-020">
         <description>Sort mix of complex and simple</description>
         <created by="Josh Spiegel" on="2015-08-10"/>
+        <modified by="Debbie Lockett" on="2015-08-12" change="Added XQuery dependency"/>
+        <dependency type="spec" value="XQ31+"/>
         <test><![CDATA[
           array:sort([[3],2,validate type xs:integer { <e>1</e> }])
         ]]></test>
@@ -302,9 +303,10 @@
     <test-case name="array-sort-021">
         <description>Sort NaN values.  Result may depend on the outcome of bug 29044</description>
         <created by="Josh Spiegel" on="2015-08-10"/>
+        <modified by="Debbie Lockett" on="2015-08-12" change="Edit test to use XPath let expression syntax"/>
         <test><![CDATA[
-          let $a := [xs:float("NaN"), 1]     
-          let $b := [xs:float("NaN"), 2]
+          let $a := [xs:float("NaN"), 1],     
+          $b := [xs:float("NaN"), 2]
           return     
              array:sort([$a,$b,$a,$b])
         ]]></test>

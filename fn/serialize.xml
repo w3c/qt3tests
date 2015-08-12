@@ -1223,7 +1223,8 @@
     <test-case name="serialize-xml-137" covers="fn-serialize">
         <description>2nd argument is empty</description>
         <created by="Josh Spiegel" on="2015-08-06"/>
-        <dependency type="spec" value="XP31+ XQ31+"/>
+        <modified by="Debbie Lockett" on="2015-08-12" change="Edited dependency to XQuery only"/>
+        <dependency type="spec" value="XQ31+"/>
         <test><![CDATA[
             serialize(<e/>, ())
         ]]></test>
@@ -1235,7 +1236,8 @@
     <test-case name="serialize-xml-138" covers="fn-serialize">
         <description>Options from JSON</description>
         <created by="Josh Spiegel" on="2015-08-06"/>
-        <dependency type="spec" value="XP31+ XQ31+"/>
+        <modified by="Debbie Lockett" on="2015-08-12" change="Edited dependency to XQuery only"/>
+        <dependency type="spec" value="XQ31+"/>
         <test><![CDATA[
             let $json := '
                 {
@@ -1259,7 +1261,8 @@
     <test-case name="serialize-xml-139" covers="fn-serialize">
         <description>Strange key in a character mapping (option parameter conventions apply) </description>
         <created by="Josh Spiegel" on="2015-08-06"/>
-        <dependency type="spec" value="XP31+ XQ31+"/>
+        <modified by="Debbie Lockett" on="2015-08-12" change="Edited dependency to XQuery only"/>
+        <dependency type="spec" value="XQ31+"/>
         <test><![CDATA[   
                serialize(<e>xml</e>, map { 'use-character-maps' : map { QName("http://example.org","xyz") : "abc" } })
         ]]></test>
@@ -1271,7 +1274,8 @@
     <test-case name="serialize-xml-140" covers="fn-serialize">
         <description>Character mappings and option parameter conventions </description>
         <created by="Josh Spiegel" on="2015-08-06"/>
-        <dependency type="spec" value="XP31+ XQ31+"/>
+        <modified by="Debbie Lockett" on="2015-08-12" change="Edited dependency to XQuery only"/>
+        <dependency type="spec" value="XQ31+"/>
         <test><![CDATA[  
                let $options := map {
                   'use-character-maps' : map {
@@ -1291,7 +1295,8 @@
     <test-case name="serialize-xml-141" covers="fn-serialize">
         <description>Character mappings and option parameter conventions (required xs:string, QName given)</description>
         <created by="Josh Spiegel" on="2015-08-06"/>
-        <dependency type="spec" value="XP31+ XQ31+"/>
+        <modified by="Debbie Lockett" on="2015-08-12" change="Edited dependency to XQuery only"/>
+        <dependency type="spec" value="XQ31+"/>
         <test><![CDATA[  
                let $options := map {
                   'use-character-maps' : map {
@@ -1311,7 +1316,8 @@
     <test-case name="serialize-xml-142" covers="fn-serialize">
         <description>Multiple untypedAtomic conversions in one map</description>
         <created by="Josh Spiegel" on="2015-08-06"/>
-        <dependency type="spec" value="XP31+ XQ31+"/>
+        <modified by="Debbie Lockett" on="2015-08-12" change="Edited dependency to XQuery only"/>
+        <dependency type="spec" value="XQ31+"/>
         <test><![CDATA[  
                let $options := map {
                     'method' : 'xml',
@@ -1347,11 +1353,12 @@
     <test-case name="serialize-json-002" covers="fn-serialize">
         <description>serialize test - params supplied as map, json output method, $arg is an array</description>
         <created by="Debbie Lockett, Saxonica" on="2015-06-23"/>
+        <modified by="Debbie Lockett" on="2015-08-12" change="Edit test to use XPath let expression syntax"/>
         <dependency type="spec" value="XP31+ XQ31+"/>
         <test>let $params := map {
             "method" : "json"
-            }          
-            let $arg := array { 1, 2 , (3,4,5), 6 }
+            },
+            $arg := array { 1, 2 , (3,4,5), 6 }
             return serialize($arg, $params)
         </test>
         <result>
@@ -1365,11 +1372,12 @@
     <test-case name="serialize-json-003" covers="fn-serialize">
         <description>serialize test - params supplied as map, json output method, $arg is an array</description>
         <created by="Debbie Lockett, Saxonica" on="2015-06-23"/>
+        <modified by="Debbie Lockett" on="2015-08-12" change="Edit test to use XPath let expression syntax"/>
         <dependency type="spec" value="XP31+ XQ31+"/>
         <test>let $params := map {
             "method" : "json"
-            }          
-            let $arg := [1, 2 , [3,4,5], 6]        
+            },   
+            $arg := [1, 2 , [3,4,5], 6]        
             return serialize($arg, $params)
         </test>
         <result>
@@ -1404,12 +1412,13 @@
         <description>serialize test - params supplied as map, json output method, $arg is a map</description>
         <created by="Debbie Lockett, Saxonica" on="2015-06-23"/>
         <modified by="Debbie Lockett, Saxonica" on="2015-08-06" change="Adapted result assertions, see bug #29029"/>
+        <modified by="Debbie Lockett" on="2015-08-12" change="Edit test to use XPath let expression syntax"/>
         <dependency type="spec" value="XP31+ XQ31+"/>
         <test>let $params := map {
             "method" : "json",
             "indent" : true() 
-            }          
-            let $arg := parse-json('{"abc":true}')
+            },         
+            $arg := parse-json('{"abc":true}')
             return serialize($arg, $params)
         </test>
         <result>
@@ -1456,12 +1465,13 @@
     <test-case name="serialize-json-008" covers="fn-serialize">
         <description>serialize test - params supplied as map, json output method, $arg is a comment node</description>
         <created by="Debbie Lockett, Saxonica" on="2015-06-23"/>
-        <dependency type="spec" value="XP31+ XQ31+"/>
+        <modified by="Debbie Lockett" on="2015-08-12" change="Edit dependency to XQuery only"/>
+        <dependency type="spec" value="XQ31+"/>
         <test>let $params := map {
             "method" : "json",
             "json-node-output-method" : "xml"
-            }
-            let $s := serialize(comment {" hello world "}, $params)
+            },
+            $s := serialize(comment {" hello world "}, $params)
             return matches($s, '"&lt;!-- hello world --&gt;"')
         </test>
         <result>
@@ -1472,12 +1482,13 @@
     <test-case name="serialize-json-009" covers="fn-serialize">
         <description>serialize test - params supplied as map, json output method, $arg is an array of nodes</description>
         <created by="Debbie Lockett, Saxonica" on="2015-06-23"/>
-        <dependency type="spec" value="XP31+ XQ31+"/>
+        <modified by="Debbie Lockett" on="2015-08-12" change="Edit dependency to XQuery only"/>
+        <dependency type="spec" value="XQ31+"/>
         <test>let $params := map {
             "method" : "json",
             "json-node-output-method" : "xml"
-            }
-            let $s := serialize(array {
+            },
+            $s := serialize(array {
             text { "a" },
             processing-instruction {"a"} {"b"},
             comment { "a" },
