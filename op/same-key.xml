@@ -192,6 +192,8 @@
    <test-case name="same-key-010">
        <description>op:same-key over numerics</description>
        <created by="Josh Spiegel" on="2015-07-22"/>
+       <modified by="Debbie Lockett" on="2015-08-13" change="Added XQuery dependency"/>
+       <dependency type="spec" value="XQ31+"/>
        <test>
            for $i in -100000 to 100000
            let $f := xs:float($i)
@@ -208,6 +210,8 @@
    <test-case name="same-key-011">
        <description>op:same-key over numerics</description>
        <created by="Josh Spiegel" on="2015-07-22"/>
+       <modified by="Debbie Lockett" on="2015-08-13" change="Added XQuery dependency"/>
+       <dependency type="spec" value="XQ31+"/>
        <test>
            for $i in -100000 to 100000
            let $d := xs:double($i)
@@ -224,6 +228,8 @@
    <test-case name="same-key-012">
        <description>op:same-key over numerics</description>
        <created by="Josh Spiegel" on="2015-07-22"/>
+       <modified by="Debbie Lockett" on="2015-08-13" change="Added XQuery dependency"/>
+       <dependency type="spec" value="XQ31+"/>
        <test>
            for $i in -100000 to 100000
            let $m := map { $i : 1 }
@@ -239,6 +245,8 @@
    <test-case name="same-key-013">
        <description>op:same-key values with timezones</description>
        <created by="Josh Spiegel" on="2015-07-22"/>
+       <modified by="Debbie Lockett" on="2015-08-13" change="Added XQuery dependency"/>
+       <dependency type="spec" value="XQ31+"/>
        <test>
            let $without_tz := xs:dateTime('2015-04-08T01:30:00') 
            let $with_tz := adjust-dateTime-to-timezone($without_tz, implicit-timezone())
@@ -262,6 +270,8 @@
    <test-case name="same-key-014">
        <description>op:same-key values with timezones</description>
        <created by="Josh Spiegel" on="2015-07-22"/>
+       <modified by="Debbie Lockett" on="2015-08-13" change="Added XQuery dependency"/>
+       <dependency type="spec" value="XQ31+"/>
        <test>
            let $without_tz := xs:date('2015-04-08') 
            let $with_tz := adjust-date-to-timezone($without_tz, implicit-timezone())
@@ -285,6 +295,8 @@
    <test-case name="same-key-015">
        <description>op:same-key values with timezones</description>
        <created by="Josh Spiegel" on="2015-07-22"/>
+       <modified by="Debbie Lockett" on="2015-08-13" change="Added XQuery dependency"/>
+       <dependency type="spec" value="XQ31+"/>
        <test>
            let $without_tz := xs:time('01:30:00') 
            let $with_tz := adjust-time-to-timezone($without_tz, implicit-timezone())
@@ -308,6 +320,8 @@
    <test-case name="same-key-016">
        <description>op:same-key values with timezones</description>
        <created by="Josh Spiegel" on="2015-07-22"/>
+       <modified by="Debbie Lockett" on="2015-08-13" change="Added XQuery dependency"/>
+       <dependency type="spec" value="XQ31+"/>
        <test>
            let $date := adjust-date-to-timezone(xs:date("2015-10-10"), implicit-timezone())
            let $keys := ($date cast as xs:gYear, xs:gYear("2015"), xs:gYear("2014"))
@@ -330,6 +344,8 @@
    <test-case name="same-key-017">
        <description>op:same-key values with timezones</description>
        <created by="Josh Spiegel" on="2015-07-22"/>
+       <modified by="Debbie Lockett" on="2015-08-13" change="Added XQuery dependency"/>
+       <dependency type="spec" value="XQ31+"/>
        <test>
            let $date := adjust-date-to-timezone(xs:date("2015-10-10"), implicit-timezone())
            let $keys := ($date cast as xs:gYearMonth, xs:gYearMonth("2015-10"), xs:gYearMonth("2015-11"))
@@ -352,6 +368,8 @@
    <test-case name="same-key-018">
        <description>op:same-key values with timezones</description>
        <created by="Josh Spiegel" on="2015-07-22"/>
+       <modified by="Debbie Lockett" on="2015-08-13" change="Added XQuery dependency"/>
+       <dependency type="spec" value="XQ31+"/>
        <test>
            let $date := adjust-date-to-timezone(xs:date("2015-10-10"), implicit-timezone())
            let $keys := ($date cast as xs:gMonth, xs:gMonth("--10"), xs:gMonth("--11"))
@@ -374,6 +392,8 @@
    <test-case name="same-key-019">
        <description>op:same-key values with timezones</description>
        <created by="Josh Spiegel" on="2015-07-22"/>
+       <modified by="Debbie Lockett" on="2015-08-13" change="Added XQuery dependency"/>
+       <dependency type="spec" value="XQ31+"/>
        <test>
            let $date := adjust-date-to-timezone(xs:date("2015-10-10"), implicit-timezone())
            let $keys := ($date cast as xs:gMonthDay, xs:gMonthDay("--10-10"), xs:gMonthDay("--11-11"))
@@ -396,6 +416,8 @@
    <test-case name="same-key-020">
        <description>op:same-key values with timezones</description>
        <created by="Josh Spiegel" on="2015-07-22"/>
+       <modified by="Debbie Lockett" on="2015-08-13" change="Added XQuery dependency"/>
+       <dependency type="spec" value="XQ31+"/>
        <test>
            let $date := adjust-date-to-timezone(xs:date("2015-10-10"), implicit-timezone())
            let $keys := ($date cast as xs:gDay, xs:gDay("---10"), xs:gDay("---11"))
@@ -446,9 +468,10 @@
    <test-case name="same-key-022">
        <description>op:same-key over xs:QName</description>
        <created by="Josh Spiegel" on="2015-07-22"/>
+       <modified by="Debbie Lockett" on="2015-08-13" change="Edit test to use XPath let expression syntax"/>
        <test>
-          let $ns := "http://example.org"
-          let $keys := (QName($ns, "foo"), QName($ns, "ns:foo"), QName($ns, "ns2:foo"))
+          let $ns := "http://example.org",
+           $keys := (QName($ns, "foo"), QName($ns, "ns:foo"), QName($ns, "ns2:foo"))
           return
              map:merge($keys ! map:entry(., position()))
        </test>
