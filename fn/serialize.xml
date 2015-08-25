@@ -1318,6 +1318,7 @@
         <description>Multiple untypedAtomic conversions in one map</description>
         <created by="Josh Spiegel" on="2015-08-06"/>
         <modified by="Debbie Lockett" on="2015-08-12" change="Edited dependency to XQuery only"/>
+        <modified by="Debbie Lockett" on="2015-08-25" change="Use unescaped characters in result assertion"/>
         <dependency type="spec" value="XQ31+"/>
         <test><![CDATA[  
                let $options := map {
@@ -1329,12 +1330,12 @@
                   serialize((<e/>,<f/>), $options)
         ]]></test>
         <result>
-            <assert><![CDATA[contains($result,"&gt;  &lt;")]]></assert>
+            <assert><![CDATA[contains($result,">  <")]]></assert>
         </result>
     </test-case>       
     
     <!-- XPath 3.1 tests JSON serialization output method -->
-    <test-case name="serialize-json-001" covers="fn-serialize">
+    <test-case name="serialize-json-001" covers="fn-serialize json-output">
         <description>serialize test - params supplied as map, json output method, $arg is an array</description>
         <created by="Debbie Lockett, Saxonica" on="2015-06-23"/>
         <dependency type="spec" value="XP31+ XQ31+"/>
@@ -1351,7 +1352,7 @@
         </result>
     </test-case>
     
-    <test-case name="serialize-json-002" covers="fn-serialize">
+    <test-case name="serialize-json-002" covers="fn-serialize json-output">
         <description>serialize test - params supplied as map, json output method, $arg is an array</description>
         <created by="Debbie Lockett, Saxonica" on="2015-06-23"/>
         <modified by="Debbie Lockett" on="2015-08-12" change="Edit test to use XPath let expression syntax"/>
@@ -1370,7 +1371,7 @@
         </result>
     </test-case>
     
-    <test-case name="serialize-json-003" covers="fn-serialize">
+    <test-case name="serialize-json-003" covers="fn-serialize json-output">
         <description>serialize test - params supplied as map, json output method, $arg is an array</description>
         <created by="Debbie Lockett, Saxonica" on="2015-06-23"/>
         <modified by="Debbie Lockett" on="2015-08-12" change="Edit test to use XPath let expression syntax"/>
@@ -1389,7 +1390,7 @@
         </result>
     </test-case>
     
-    <test-case name="serialize-json-004" covers="fn-serialize">
+    <test-case name="serialize-json-004" covers="fn-serialize json-output">
         <description>serialize test - params supplied as map, json output method, first argument is a map</description>
         <created by="Debbie Lockett, Saxonica" on="2015-06-23"/>
         <modified by="Debbie Lockett, Saxonica" on="2015-08-06" change="Adapted result assertions, see bug #29029"/>
@@ -1409,7 +1410,7 @@
         </result>
     </test-case>
     
-    <test-case name="serialize-json-005" covers="fn-serialize">
+    <test-case name="serialize-json-005" covers="fn-serialize json-output">
         <description>serialize test - params supplied as map, json output method, $arg is a map</description>
         <created by="Debbie Lockett, Saxonica" on="2015-06-23"/>
         <modified by="Debbie Lockett, Saxonica" on="2015-08-06" change="Adapted result assertions, see bug #29029"/>
@@ -1430,7 +1431,7 @@
         </result>
     </test-case>
     
-    <test-case name="serialize-json-006" covers="fn-serialize">
+    <test-case name="serialize-json-006" covers="fn-serialize json-output">
         <description>serialize test - params supplied as map, json output method, $arg is an empty sequence</description>
         <created by="Debbie Lockett, Saxonica" on="2015-06-23"/>
         <dependency type="spec" value="XP31+ XQ31+"/>
@@ -1447,7 +1448,7 @@
         </result>
     </test-case>
     
-    <test-case name="serialize-json-007" covers="fn-serialize">
+    <test-case name="serialize-json-007" covers="fn-serialize json-output">
         <description>serialize test - error: params supplied as map, json output method, 
             $arg is a sequence of length greater than one</description>
         <created by="Debbie Lockett, Saxonica" on="2015-06-23"/>
@@ -1463,7 +1464,7 @@
         </result>
     </test-case>
      
-    <test-case name="serialize-json-008" covers="fn-serialize">
+    <test-case name="serialize-json-008" covers="fn-serialize json-output">
         <description>serialize test - params supplied as map, json output method, $arg is a comment node</description>
         <created by="Debbie Lockett, Saxonica" on="2015-06-23"/>
         <modified by="Debbie Lockett" on="2015-08-12" change="Edit dependency to XQuery only"/>
@@ -1480,7 +1481,7 @@
         </result>
     </test-case>
     
-    <test-case name="serialize-json-009" covers="fn-serialize">
+    <test-case name="serialize-json-009" covers="fn-serialize json-output">
         <description>serialize test - params supplied as map, json output method, $arg is an array of nodes</description>
         <created by="Debbie Lockett, Saxonica" on="2015-06-23"/>
         <modified by="Debbie Lockett" on="2015-08-12" change="Edit dependency to XQuery only"/>
@@ -1503,7 +1504,7 @@
         </result>
     </test-case>
     
-    <test-case name="serialize-json-010" covers="fn-serialize">
+    <test-case name="serialize-json-010" covers="fn-serialize json-output">
         <description>allow-duplicate-names default</description>
         <created by="Josh Spiegel" on="2015-08-06"/>
         <dependency type="spec" value="XP31+ XQ31+"/>
@@ -1515,7 +1516,7 @@
         </result>
     </test-case>
     
-    <test-case name="serialize-json-011" covers="fn-serialize">
+    <test-case name="serialize-json-011" covers="fn-serialize json-output">
         <description>allow-duplicate-names from map</description>
         <created by="Josh Spiegel" on="2015-08-06"/>
         <dependency type="spec" value="XP31+ XQ31+"/>
@@ -1542,5 +1543,397 @@
           </all-of>
         </result>
     </test-case>     
+    
+    <!-- Tests converted from old test set fn-serialize-json (created by Michael Kay, 2011-04-06)
+        for previously defined XSLT 3.0 function serialize-json() -->
+    
+    <test-case name="serialize-json-101" covers="fn-serialize json-output">
+        <description>Empty object</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-08-20"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>serialize(map{}, map{'method':'json'})</test>
+        <result>
+            <assert>translate($result,' &#x9;&#xa;&#xd;', '') = '{}'</assert>
+        </result>
+    </test-case>
+
+    <test-case name="serialize-json-102" covers="fn-serialize json-output">
+        <description>Empty sequence</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-08-20"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>serialize((), map{'method':'json'})</test>
+        <result>
+            <assert>translate($result,' &#x9;&#xa;&#xd;', '') = 'null'</assert>
+        </result>
+    </test-case>
+
+    <test-case name="serialize-json-103" covers="fn-serialize json-output">
+        <description>Numeric value</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-08-20"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>serialize(12.5, map{'method':'json'})</test>
+        <result>
+            <assert>number($result) = 12.5</assert>
+        </result>
+    </test-case>
+
+    <test-case name="serialize-json-104" covers="fn-serialize json-output">
+        <description>Boolean value</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-08-20"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>normalize-space(serialize(true(), map{'method':'json'}))</test>
+        <result>
+            <assert-string-value>true</assert-string-value>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-json-105" covers="fn-serialize json-output">
+        <description>Boolean value</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-08-20"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>normalize-space(serialize(false(), map{'method':'json'}))</test>
+        <result>
+            <assert-string-value>false</assert-string-value>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-json-106" covers="fn-serialize json-output">
+        <description>Singleton object</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-08-20"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>serialize(map{'abc':23}, map{'method':'json'})</test>
+        <result>
+            <assert>translate($result,' &#x9;&#xa;&#xd;', '') = '{"abc":23}'</assert>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-json-107" covers="fn-serialize json-output">
+        <description>Two-entry object</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-08-20"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $r := serialize(map{'abc':23, 'xyz':49}, map{'method':'json'}) return
+            translate($r,' &#x9;&#xa;&#xd;', '')</test>
+        <result>
+            <all-of>
+                <assert>starts-with($result, '{')</assert>
+                <assert>contains($result, '"abc":23')</assert>
+                <assert>contains($result, '"xyz":49')</assert>
+                <assert>ends-with($result, '}')</assert>
+                <assert-type>xs:string</assert-type>
+                <assert-count>1</assert-count>
+                <assert>parse-json($result)("abc") = 23</assert>
+            </all-of>
+        </result>
+    </test-case>
+
+    <test-case name="serialize-json-108" covers="fn-serialize json-output">
+        <description>JSON array</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-08-20"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $r := serialize(parse-json('[1, 2, 3, "four", true, false, null]'),
+            map{'method':'json'}) return translate($r,' &#x9;&#xa;&#xd;', '')</test>
+        <result>
+            <assert-string-value>[1,2,3,"four",true,false,null]</assert-string-value>
+        </result>
+    </test-case>
+
+    <test-case name="serialize-json-109" covers="fn-serialize json-output">
+        <description>JSON array</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-08-20"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $r := serialize([1, 2, 3, "four", true(), false()], map{'method':'json'}) return
+            translate($r,' &#x9;&#xa;&#xd;', '')</test>
+        <result>
+            <assert-string-value>[1,2,3,"four",true,false]</assert-string-value>
+        </result>
+    </test-case>
+
+    <test-case name="serialize-json-110" covers="fn-serialize json-output">
+        <description>Serialize nested arrays</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-08-20"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $r := serialize(parse-json('[[1, 2], [3, 4], [5, 6], [7], [], [null]]'),
+            map{'method':'json'}) return translate($r,' &#x9;&#xa;&#xd;', '')</test>
+        <result>
+            <assert-string-value>[[1,2],[3,4],[5,6],[7],[],[null]]</assert-string-value>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-json-111" covers="fn-serialize json-output">
+        <description>Serialize a map containing an array</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-08-20"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $r := serialize(map{"abc":array{1 to 10}}, map{'method':'json'}) return translate($r,'
+            &#x9;&#xa;&#xd;', '')</test>
+        <result>
+            <assert-string-value>{"abc":[1,2,3,4,5,6,7,8,9,10]}</assert-string-value>
+        </result>
+    </test-case>
+
+    <test-case name="serialize-json-112" covers="fn-serialize json-output">
+        <description>Serialize an array of maps</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-08-20"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $r := serialize([map{"abc":1},map{"def":2},map{"ghi":3}], map{'method':'json'})
+            return translate($r,' &#x9;&#xa;&#xd;', '')</test>
+        <result>
+            <assert-string-value>[{"abc":1},{"def":2},{"ghi":3}]</assert-string-value>
+        </result>
+    </test-case>
+
+    <test-case name="serialize-json-113" covers="fn-serialize json-output">
+        <description>Nested maps</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-08-20"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $r :=
+            serialize(map{"abc": map{"abc":map{"abc":1}, "def": map{"def":2}}},
+            map{'method':'json'}) return translate($r,' &#x9;&#xa;&#xd;', '')</test>
+        <result>
+            <assert-string-value>{"abc":{"abc":{"abc":1},"def":{"def":2}}}</assert-string-value>
+        </result>
+    </test-case>
+
+    <test-case name="serialize-json-114" covers="fn-serialize json-output">
+        <description>Non-BMP string</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-08-20"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $r := serialize('&#x1D11E;', map{'method':'json', 'encoding':'ISO-8859-1'}) return
+            translate(normalize-space($r), 'abcdef', 'ABCDEF')</test>
+        <result>
+            <assert-string-value>"\uD834\uDD1E"</assert-string-value>
+        </result>
+    </test-case>
+
+    <test-case name="serialize-json-115" covers="fn-serialize json-output">
+        <description>String with newline</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-08-20"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $r := serialize('&#xa;', map{'method':'json'}) return
+            translate(normalize-space($r), 'abcdef', 'ABCDEF')</test>
+        <result>
+            <assert-string-value>"\n"</assert-string-value>
+        </result>
+    </test-case>
+
+    <test-case name="serialize-json-116" covers="fn-serialize json-output">
+        <description>Nested maps with indent="no" - require no optional space</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-08-20"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>serialize([map{"abc":map{"abc":1}},map{"def":map{"def":2}},map{"ghi":map{"ghi":3}}],
+            map{'method':'json', "indent":false()})</test>
+        <result>
+            <assert-string-value>[{"abc":{"abc":1}},{"def":{"def":2}},{"ghi":{"ghi":3}}]</assert-string-value>
+        </result>
+    </test-case>
+
+    <test-case name="serialize-json-117" covers="fn-serialize json-output">
+        <description>Nested maps with indent="yes" - (we can't check that it's actually
+            indented)</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-08-20"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $r :=
+            serialize([map{"abc":map{"abc":1}},map{"def":map{"def":2}},map{"ghi":map{"ghi":3}}],
+            map{'method':'json', "indent":true()}) return translate($r,' &#x9;&#xa;&#xd;', '')</test>
+        <result>
+            <assert-string-value>[{"abc":{"abc":1}},{"def":{"def":2}},{"ghi":{"ghi":3}}]</assert-string-value>
+        </result>
+    </test-case>
+
+    <test-case name="serialize-json-118" covers="fn-serialize json-output">
+        <description>Decimal number</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-08-20"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>parse-json(serialize(12.34, map{'method':'json'}))</test>
+        <result>
+            <all-of>
+                <assert>$result eq xs:double('12.34')</assert>
+                <assert>$result instance of xs:double</assert>
+            </all-of>
+        </result>
+    </test-case>
+
+    <test-case name="serialize-json-119" covers="fn-serialize json-output">
+        <description>Exponential number</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-08-20"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>parse-json(serialize(12.34e-30, map{'method':'json'}))</test>
+        <result>
+            <all-of>
+                <assert>$result eq 12.34e-30</assert>
+                <assert>$result instance of xs:double</assert>
+            </all-of>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-json-120" covers="fn-serialize json-output">
+        <description>String with escaping</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-08-20"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>serialize("abc""def", map{'method':'json'})</test>
+        <result>
+            <all-of>
+                <assert>$result eq '"abc\"def"'</assert>
+                <assert>$result instance of xs:string</assert>
+            </all-of>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-json-121" covers="fn-serialize json-output">
+        <description>String with escaping</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-08-20"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>serialize("abc\\def", map{'method':'json'})</test>
+        <result>
+            <all-of>
+                <assert>$result eq '"abc\\\\def"'</assert>
+                <assert>$result instance of xs:string</assert>
+            </all-of>
+        </result>
+    </test-case>
+
+    <test-case name="serialize-json-122" covers="fn-serialize json-output">
+        <description>Error - can not serialize NaN, INF, -INF with JSON</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-08-20"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $r := serialize([number('NaN'), number('INF'), number('-INF')],
+            map{'method':'json'}) return translate($r,' &#x9;&#xa;&#xd;', '')</test>
+        <result>
+            <error code="SERE0020"/>
+        </result>
+    </test-case>
+
+    <test-case name="serialize-json-123" covers="fn-serialize json-output">
+        <description>untypedAtomic input</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-08-20"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $r := serialize([0,0,xs:untypedAtomic("abcd")], map{'method':'json'}) return
+            translate($r,' &#x9;&#xa;&#xd;', '')</test>
+        <result>
+            <assert-string-value>[0,0,"abcd"]</assert-string-value>
+        </result>
+    </test-case>
+
+    <test-case name="serialize-json-124" covers="fn-serialize json-output">
+        <description>sparse array</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-08-20"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $r := serialize(map{1:"a",2:"b",4:"d",10:"j",7:"g"}, map{'method':'json'}) return
+            translate($r,' &#x9;&#xa;&#xd;', '')</test>
+        <result>
+            <assert-string-value>{"1":"a","2":"b","4":"d","7":"g","10":"j"}</assert-string-value>
+        </result>
+    </test-case>
+
+    <test-case name="serialize-json-125" covers="fn-serialize json-output">
+        <description>JSON serialization converts date to string</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-08-20"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $r := serialize([0,0,xs:date('2011-04-06')], map{'method':'json'}) 
+            return translate($r,' &#x9;&#xa;&#xd;', '')</test>
+        <result>
+            <assert-string-value>[0,0,"2011-04-06"]</assert-string-value>
+        </result>
+    </test-case>
+
+    <test-case name="serialize-json-126" covers="fn-serialize json-output">
+        <description>JSON serialization converts date to string</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-08-20"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $r := serialize(map{"a":xs:date('2011-04-06')}, map{'method':'json'}) 
+            return translate($r,' &#x9;&#xa;&#xd;', '')</test>
+        <result>
+            <assert-string-value>{"a":"2011-04-06"}</assert-string-value>
+        </result>
+    </test-case>
+
+    <test-case name="serialize-json-127" covers="fn-serialize json-output">
+        <description>JSON serialization converts nodes to lexical XML</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-08-20"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <environment>
+            <source file="serialize/doc001.xml"
+                uri="http://www.w3.org/fots/serialize-json/doc001.xml"/>
+            <param name="uri" as="xs:string"
+                select="'http://www.w3.org/fots/serialize-json/doc001.xml'"/>
+        </environment>
+        <test>let $r := serialize(map{"a":doc($uri)}, map{'method':'json'}) 
+            return translate($r,' &#x9;&#xa;&#xd;', '')</test>
+        <result>
+            <assert-string-value><![CDATA[{"a":"<a>text</a>"}]]></assert-string-value>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-json-128" covers="fn-serialize json-output">
+        <description>JSON serialization converts URI value to a string</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-08-20"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>serialize(map{"uri":xs:anyURI('http://www.w3.org/')}, map{'method':'json'})</test>
+        <result>
+            <assert-string-value>{"uri":"http://www.w3.org/"}</assert-string-value>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-json-130" covers="fn-serialize json-output">
+        <description>Error - can not serialize an XDM sequence with JSON output method</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-08-20"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $r := serialize((1, 2, 3, "four", true(), false()), map{'method':'json'}) return
+            translate($r,' &#x9;&#xa;&#xd;', '')</test>
+        <result>
+            <error code="SERE0023"/>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-json-131" covers="fn-serialize json-output">
+        <description>Error - can not serialize a sequence (contained in a map)</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-08-20"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $r := serialize(map{"abc":(1 to 10)}, map{'method':'json'}) return translate($r,'
+            &#x9;&#xa;&#xd;', '')</test>
+        <result>
+            <error code="SERE0023"/>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-json-132" covers="fn-serialize json-output">
+        <description>Error - can not serialize a sequence (of maps)</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-08-20"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $r := serialize((map{"abc":1},map{"def":2},map{"ghi":3}), map{'method':'json'})
+            return translate($r,' &#x9;&#xa;&#xd;', '')</test>
+        <result>
+            <error code="SERE0023"/>
+        </result>
+    </test-case>
+
+    <test-case name="serialize-json-133" covers="fn-serialize json-output">
+        <description>Indent option wrong type</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-08-20"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>serialize([1,2,3], map{'method':'json', "indent":23})</test>
+        <result>
+            <error code="XPTY0004"/>
+        </result>
+    </test-case>
+
+    <test-case name="serialize-json-134" covers="fn-serialize json-output">
+        <description>Indent option wrong type</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-08-20"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>serialize([1,2,3], map{'method':'json', "indent":"true"})</test>
+        <result>
+            <error code="XPTY0004"/>
+        </result>
+    </test-case>
+
+    <test-case name="serialize-json-135" covers="fn-serialize json-output">
+        <description>Indent option wrong type</description>
+        <created by="Debbie Lockett, Saxonica" on="2015-08-20"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>serialize([1,2,3], map{'method':'json', "indent":(true(),false())})</test>
+        <result>
+            <error code="XPTY0004"/>
+        </result>
+    </test-case>
     
 </test-set>
