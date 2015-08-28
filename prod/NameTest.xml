@@ -233,6 +233,71 @@
          <assert-xml><![CDATA[<ns1:b xmlns:ns1="http://example.org" attr2="abc2">context2</ns1:b>]]></assert-xml>
       </result>
    </test-case>
+   
+   <test-case name="nametest-19">
+      <description> Nametest using Q{uri}local syntax </description>
+      <created by="Michael Kay" on="2015-08-28"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+      let $e := <a attr1 = "abc1" xmlns="http://example.org/nametest-19"/> 
+      return exists($e/self::Q{http://example.org/nametest-19}a)
+      ]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="nametest-20">
+      <description> Nametest using Q{}local syntax </description>
+      <created by="Michael Kay" on="2015-08-28"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+      let $e := <a attr1 = "abc1"/> 
+      return exists($e/self::Q{}a)
+      ]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="nametest-21">
+      <description> Nametest using Q{uri}* syntax </description>
+      <created by="Michael Kay" on="2015-08-28"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+      let $e := <a attr1 = "abc1" xmlns="http://example.org/nametest-19"/> 
+      return exists($e/self::Q{http://example.org/nametest-19}*)
+      ]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="nametest-22">
+      <description> Nametest using Q{}* syntax </description>
+      <created by="Michael Kay" on="2015-08-28"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+      let $e := <a attr1 = "abc1"/> 
+      return exists($e/self::Q{}*)
+      ]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="nametest-23">
+      <description> Nametest using malformed Q{}:* syntax </description>
+      <created by="Michael Kay" on="2015-08-28"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+      let $e := <a attr1 = "abc1"/> 
+      return exists($e/self::Q{}:*)
+      ]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
 
    <test-case name="K-NameTest-1">
       <description> A nodetest appearing in a wrong place, leading to syntax error. </description>
