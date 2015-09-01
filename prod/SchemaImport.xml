@@ -800,6 +800,7 @@
         (and/or the test driver) respecting relative URIs as schema location hints. The URIs are relative to this
         test catalog file.</description>
       <created by="Michael Kay" on="2006-11-14"/>
+      <modified by="O'Neil Delpratt" on="2015-09-1" change="Added any error according to bug issue 29098" />
       <dependency type="spec" value="XQ10+"/>
       <dependency type="feature" value="schema-location-hint"/>
       <test><![CDATA[
@@ -808,7 +809,10 @@
                 at "SchemaImport/qischema042.xsd", "SchemaImport/qischema042a.xsd", "SchemaImport/qischema042-non-existent.xsd"; 
         <a>{hatsize(5), bighatsize(8), tinyhatsize(4)}</a>]]></test>
       <result>
-         <assert-xml><![CDATA[<a xmlns="qischema0042.uri">5 8 4</a>]]></assert-xml>
+         <any-of>
+            <error code="*"/>
+            <assert-xml><![CDATA[<a xmlns="qischema0042.uri">5 8 4</a>]]></assert-xml>
+         </any-of>
       </result>
    </test-case>
 
