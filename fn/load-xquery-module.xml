@@ -5,7 +5,7 @@
     idref="func-load-xquery-module"/>
 
   <dependency type="spec" value="XP31+ XQ31+"/>
-  <dependency type="feature" value="moduleImport"/>  
+  <dependency type="feature" value="fn-load-xquery-module"/>  
   <dependency type="feature" value="higherOrderFunctions"/>  
 
   <environment name="hats" >
@@ -162,16 +162,17 @@
     <description>Loads a module.</description>
     <created by="Adam Retter" on="2015-02-01"/>
     <modified by="Debbie Lockett" on="2015-05-11" change="Added module element, fix test typos"/>
+    <modified by="Debbie Lockett" on="2015-09-04" change="Use XPath syntax in test"/>
     <module uri="http://www.w3.org/fots/fn/load-xquery-module/valid/module" file="load-xquery-module/valid-module.xqm"/>
     <test>
-      let $module-ns := "http://www.w3.org/fots/fn/load-xquery-module/valid/module"
-      let $module := fn:load-xquery-module($module-ns)
+      let $module-ns := "http://www.w3.org/fots/fn/load-xquery-module/valid/module",
+       $module := fn:load-xquery-module($module-ns)
       return
-        let $vars := $module("variables")
-        let $fns := $module("functions")
+        let $vars := $module("variables"),
+         $fns := $module("functions")
         return
-          let $var-values := ($vars(QName($module-ns, "var1")), $vars(QName($module-ns, "var2")))
-          let $fns-values := ($fns(QName($module-ns, "func1"))(0)(), $fns(QName($module-ns, "func2"))(0)())
+          let $var-values := ($vars(QName($module-ns, "var1")), $vars(QName($module-ns, "var2"))),
+           $fns-values := ($fns(QName($module-ns, "func1"))(0)(), $fns(QName($module-ns, "func2"))(0)())
           return
             ($var-values, $fns-values)
     </test>
@@ -184,10 +185,11 @@
     <description>Loads a module and sets the value for an external var in the module.</description>
     <created by="Adam Retter" on="2015-02-01"/>
     <modified by="Debbie Lockett" on="2015-05-11" change="Added module element"/>
+    <modified by="Debbie Lockett" on="2015-09-04" change="Use XPath syntax in test"/>
     <module uri="http://www.w3.org/fots/fn/load-xquery-module/external-var/module" file="load-xquery-module/external-var-module.xqm"/>
     <test>
-      let $qn-var1 := QName("http://www.w3.org/fots/fn/load-xquery-module/external-var/module", "var1")
-      let $test-value := "some value"
+      let $qn-var1 := QName("http://www.w3.org/fots/fn/load-xquery-module/external-var/module", "var1"),
+       $test-value := "some value"
       return
         let $module := fn:load-xquery-module("http://www.w3.org/fots/fn/load-xquery-module/external-var/module", map {"variables" : map { $qn-var1 : $test-value }})
         return
@@ -234,10 +236,11 @@
   <test-case name="fn-load-xquery-module-018">
     <description>Loads a module containing functions, but no variables.</description>
     <created by="Debbie Lockett" on="2015-05-13"/>
+    <modified by="Debbie Lockett" on="2015-09-04" change="Use XPath syntax in test"/>
     <module uri="http://www.w3.org/fots/fn/load-xquery-module/functions/module" file="load-xquery-module/functions-module.xqm"/>
     <test>
-      let $module-ns := "http://www.w3.org/fots/fn/load-xquery-module/functions/module"
-      let $module := fn:load-xquery-module($module-ns)
+      let $module-ns := "http://www.w3.org/fots/fn/load-xquery-module/functions/module",
+       $module := fn:load-xquery-module($module-ns)
       return
       let $fns := $module("functions")
       return
@@ -253,10 +256,11 @@
   <test-case name="fn-load-xquery-module-019">
     <description>Loads a module containing functions, including functions with same name but different arities.</description>
     <created by="Debbie Lockett" on="2015-05-13"/>
+    <modified by="Debbie Lockett" on="2015-09-04" change="Use XPath syntax in test"/>
     <module uri="http://www.w3.org/fots/fn/load-xquery-module/functions/module" file="load-xquery-module/functions2-module.xqm"/>
     <test>
-      let $module-ns := "http://www.w3.org/fots/fn/load-xquery-module/functions/module"
-      let $module := fn:load-xquery-module($module-ns)
+      let $module-ns := "http://www.w3.org/fots/fn/load-xquery-module/functions/module",
+       $module := fn:load-xquery-module($module-ns)
       return
       let $fns := $module("functions")
       return
@@ -272,11 +276,12 @@
   <test-case name="fn-load-xquery-module-020">
     <description>Loads a module and sets the values for external variables in the module.</description>
     <created by="Debbie Lockett" on="2015-05-14"/>
+    <modified by="Debbie Lockett" on="2015-09-04" change="Use XPath syntax in test"/>
     <module uri="http://www.w3.org/fots/fn/load-xquery-module/external-vars/module" file="load-xquery-module/external-vars-module.xqm"/>
     <test>
-      let $qn-var1 := QName("http://www.w3.org/fots/fn/load-xquery-module/external-vars/module", "var1")
-      let $qn-var2 := QName("http://www.w3.org/fots/fn/load-xquery-module/external-vars/module", "var2")
-      let $qn-var3 := QName("http://www.w3.org/fots/fn/load-xquery-module/external-vars/module", "var3")
+      let $qn-var1 := QName("http://www.w3.org/fots/fn/load-xquery-module/external-vars/module", "var1"),
+       $qn-var2 := QName("http://www.w3.org/fots/fn/load-xquery-module/external-vars/module", "var2"),
+       $qn-var3 := QName("http://www.w3.org/fots/fn/load-xquery-module/external-vars/module", "var3")
       return
       let $module := fn:load-xquery-module("http://www.w3.org/fots/fn/load-xquery-module/external-vars/module", 
       map {"variables" : map { $qn-var1 : "some value", $qn-var2 : 42, $qn-var3 : map{"a":1,"b":2,"c":(3,4,5)} }})
@@ -291,12 +296,13 @@
   <test-case name="fn-load-xquery-module-021">
     <description>Loads a module and sets the values of its variables only if they are external.</description>
     <created by="Debbie Lockett" on="2015-05-14"/>
+    <modified by="Debbie Lockett" on="2015-09-04" change="Use XPath syntax in test"/>
     <module uri="http://www.w3.org/fots/fn/load-xquery-module/external-vars/module" file="load-xquery-module/external-vars-module.xqm"/>
     <test>      
-      let $qn-var1 := QName("http://www.w3.org/fots/fn/load-xquery-module/external-vars/module", "var1")
-      let $qn-var2 := QName("http://www.w3.org/fots/fn/load-xquery-module/external-vars/module", "var2")
-      let $qn-var3 := QName("http://www.w3.org/fots/fn/load-xquery-module/external-vars/module", "var3")
-      let $qn-var4 := QName("http://www.w3.org/fots/fn/load-xquery-module/external-vars/module", "var4")
+      let $qn-var1 := QName("http://www.w3.org/fots/fn/load-xquery-module/external-vars/module", "var1"),
+       $qn-var2 := QName("http://www.w3.org/fots/fn/load-xquery-module/external-vars/module", "var2"),
+       $qn-var3 := QName("http://www.w3.org/fots/fn/load-xquery-module/external-vars/module", "var3"),
+       $qn-var4 := QName("http://www.w3.org/fots/fn/load-xquery-module/external-vars/module", "var4")
       return
       let $module := fn:load-xquery-module("http://www.w3.org/fots/fn/load-xquery-module/external-vars/module", 
       map {"variables" : map { $qn-var2 : 42, $qn-var3 : map{"a":1,"b":2,"c":(3,4,5)}, $qn-var4 : "the other" }})
@@ -313,7 +319,6 @@
     <created by="Debbie Lockett" on="2015-06-01"/>
     <module uri="http://www.w3.org/fots/fn/load-xquery-module/import-func/module" file="load-xquery-module/import-func-module.xqm"/>
     <module uri="http://www.w3.org/fots/fn/load-xquery-module/valid/module" file="load-xquery-module/valid-module.xqm"/>
-    <dependency type="feature" value="moduleImport"/>
     <test>
       let $module := fn:load-xquery-module("http://www.w3.org/fots/fn/load-xquery-module/import-func/module")
       return
@@ -327,14 +332,14 @@
   <test-case name="fn-load-xquery-module-023">
     <description>Global functions from a module imported by the loaded module are not included in the result of load-xquery-module().</description>
     <created by="Debbie Lockett" on="2015-05-18"/>
+    <modified by="Debbie Lockett" on="2015-09-04" change="Use XPath syntax in test"/>
     <module uri="http://www.w3.org/fots/fn/load-xquery-module/import/module" file="load-xquery-module/import-module.xqm"/>
     <module uri="http://www.w3.org/TestModules/module1" file="../prod/ModuleImport/module1-lib.xq"/>
     <module uri="http://www.w3.org/TestModules/module2" file="../prod/ModuleImport/module2-lib.xq"/>
-    <dependency type="feature" value="moduleImport"/>
     <test>
-      let $module-ns := "http://www.w3.org/fots/fn/load-xquery-module/import/module"
-      let $module := fn:load-xquery-module($module-ns)
-      let $mod1-ns := "http://www.w3.org/TestModules/module1"
+      let $module-ns := "http://www.w3.org/fots/fn/load-xquery-module/import/module",
+       $module := fn:load-xquery-module($module-ns),
+       $mod1-ns := "http://www.w3.org/TestModules/module1"
       return
       let $fns := $module("functions")
       return $fns(QName($mod1-ns, "x"))(0)()
@@ -347,15 +352,15 @@
   <test-case name="fn-load-xquery-module-024"> 
     <description>Global functions from a module imported by the loaded module are not included in the result of load-xquery-module().</description>
     <created by="Debbie Lockett" on="2015-05-18"/>
+    <modified by="Debbie Lockett" on="2015-09-04" change="Use XPath syntax in test"/>
     <module uri="http://www.w3.org/fots/fn/load-xquery-module/import/module" file="load-xquery-module/import-module.xqm"/>
     <module uri="http://www.w3.org/TestModules/module1" file="../prod/ModuleImport/module1-lib.xq"/>
     <module uri="http://www.w3.org/TestModules/module2" file="../prod/ModuleImport/module2-lib.xq"/>
-    <dependency type="feature" value="moduleImport"/>
     <test>
-      let $module-ns := "http://www.w3.org/fots/fn/load-xquery-module/import/module"
-      let $module := fn:load-xquery-module($module-ns)
-      let $mod1-ns := "http://www.w3.org/TestModules/module1"
-      let $mod2-ns := "http://www.w3.org/TestModules/module2"
+      let $module-ns := "http://www.w3.org/fots/fn/load-xquery-module/import/module",
+       $module := fn:load-xquery-module($module-ns),
+       $mod1-ns := "http://www.w3.org/TestModules/module1",
+       $mod2-ns := "http://www.w3.org/TestModules/module2"
       return
       let $fns := $module("functions")
       return $fns(QName($mod2-ns, "y"))(0)()
@@ -370,7 +375,6 @@
     <created by="Debbie Lockett" on="2015-06-01"/>
     <module uri="http://www.w3.org/fots/fn/load-xquery-module/import-vars/module" file="load-xquery-module/import-vars-module.xqm"/>
     <module uri="http://www.w3.org/fots/fn/load-xquery-module/valid/module" file="load-xquery-module/valid-module.xqm"/>
-    <dependency type="feature" value="moduleImport"/>
     <test>
       let $module := fn:load-xquery-module("http://www.w3.org/fots/fn/load-xquery-module/import-vars/module")
       return
@@ -387,7 +391,6 @@
     <created by="Debbie Lockett" on="2015-06-01"/>
     <module uri="http://www.w3.org/fots/fn/load-xquery-module/import-vars/module" file="load-xquery-module/import-vars2-module.xqm"/>
     <module uri="http://www.w3.org/fots/fn/load-xquery-module/external-vars/module" file="load-xquery-module/external-vars2-module.xqm"/>
-    <dependency type="feature" value="moduleImport"/>
     <test>      
       let $qn-var1 := QName("http://www.w3.org/fots/fn/load-xquery-module/external-vars/module", "var1")
       return
@@ -408,7 +411,6 @@
     <module uri="http://www.w3.org/fots/fn/load-xquery-module/import/module" file="load-xquery-module/import2-module.xqm"/>
     <module uri="http://www.w3.org/fots/fn/load-xquery-module/middle/module" file="load-xquery-module/middle-module.xqm"/>
     <module uri="http://www.w3.org/fots/fn/load-xquery-module/external-vars/module" file="load-xquery-module/external-vars2-module.xqm"/>
-    <dependency type="feature" value="moduleImport"/>
     <test>      
       let $qn-var1 := QName("http://www.w3.org/fots/fn/load-xquery-module/external-vars/module", "var1")
       return
@@ -425,12 +427,12 @@
   <test-case name="fn-load-xquery-module-028">
     <description>Loads a module containing a function using variables from an imported module.</description>
     <created by="Debbie Lockett" on="2015-06-01"/>
+    <modified by="Debbie Lockett" on="2015-09-04" change="Use XPath syntax in test"/>
     <module uri="http://www.w3.org/fots/fn/load-xquery-module/import-vars/module" file="load-xquery-module/import-vars3-module.xqm"/>
     <module uri="http://www.w3.org/fots/fn/load-xquery-module/external-vars/module" file="load-xquery-module/external-vars-module.xqm"/>
-    <dependency type="feature" value="moduleImport"/>
     <test>      
-      let $module-ns := "http://www.w3.org/fots/fn/load-xquery-module/import-vars/module"
-      let $module-ext := "http://www.w3.org/fots/fn/load-xquery-module/external-vars/module"
+      let $module-ns := "http://www.w3.org/fots/fn/load-xquery-module/import-vars/module",
+       $module-ext := "http://www.w3.org/fots/fn/load-xquery-module/external-vars/module"
       return
       let $module := fn:load-xquery-module($module-ns, 
       map {"variables" : map {QName($module-ext, "var3") : map{}}})
@@ -447,7 +449,6 @@
     <created by="Debbie Lockett" on="2015-06-01"/>
     <modified by="Michael Kay" on="2015-07-14" change="Not an error. XQ 4.12.4 Cycles: implementations must resolve cycles..."/>
     <module uri="http://www.w3.org/fots/fn/load-xquery-module/import-self/module" file="load-xquery-module/import-self-module.xqm"/>
-    <dependency type="feature" value="moduleImport"/>
     <test>      
       let $module := fn:load-xquery-module("http://www.w3.org/fots/fn/load-xquery-module/import-self/module")
       return
@@ -464,7 +465,6 @@
     <modified by="Michael Kay" on="2015-07-13" change="make the test query actually call the function"/>
     <module uri="http://www.w3.org/TestModules/test1" file="../prod/ModuleImport/test1c1-lib.xq"/>
     <module uri="http://www.w3.org/TestModules/test2" file="../prod/ModuleImport/test2c1-lib.xq"/>
-    <dependency type="feature" value="moduleImport"/>
     <test>      
       let $module := fn:load-xquery-module("http://www.w3.org/TestModules/test1")
       return
@@ -480,7 +480,6 @@
     <created by="Debbie Lockett" on="2015-06-01"/>
     <module uri="http://www.w3.org/fots/fn/load-xquery-module/valid/module" file="load-xquery-module/valid-module.xqm"/>
     <dependency type="spec" value="XQ31+"/>
-    <dependency type="feature" value="moduleImport"/>
     <test>
         import module namespace vm="http://www.w3.org/fots/fn/load-xquery-module/valid/module"; 
         let $module-ns := "http://www.w3.org/fots/fn/load-xquery-module/valid/module"
@@ -504,7 +503,6 @@
         declared="true"/>
     </environment>
     <dependency type="spec" value="XQ31+"/>
-    <dependency type="feature" value="moduleImport"/>
     <test>
         import module namespace evm="http://www.w3.org/fots/fn/load-xquery-module/external-vars/module"; 
         let $module-ns := "http://www.w3.org/fots/fn/load-xquery-module/external-vars/module"
@@ -522,16 +520,17 @@
   <test-case name="fn-load-xquery-module-033">
     <description>Loads a module twice, setting external variables with different values.</description>
     <created by="Debbie Lockett" on="2015-06-04"/>
+    <modified by="Debbie Lockett" on="2015-09-04" change="Use XPath syntax in test"/>
     <module uri="http://www.w3.org/fots/fn/load-xquery-module/external-vars/module" file="load-xquery-module/external-vars-module.xqm"/>
     <test>
-      let $module-ns := "http://www.w3.org/fots/fn/load-xquery-module/external-vars/module"
-      let $qn-var1 := QName($module-ns, "var1")
-      let $qn-var2 := QName($module-ns, "var2")
-      let $qn-var3 := QName($module-ns, "var3")
+      let $module-ns := "http://www.w3.org/fots/fn/load-xquery-module/external-vars/module",
+       $qn-var1 := QName($module-ns, "var1"),
+       $qn-var2 := QName($module-ns, "var2"),
+       $qn-var3 := QName($module-ns, "var3")
       return
       let $module1 := fn:load-xquery-module($module-ns, 
-      map {"variables" : map { $qn-var1 : "some value", $qn-var2 : 42, $qn-var3 : map{"a":1,"b":2,"c":(3,4,5)} }})
-      let $module2 := fn:load-xquery-module($module-ns, 
+      map {"variables" : map { $qn-var1 : "some value", $qn-var2 : 42, $qn-var3 : map{"a":1,"b":2,"c":(3,4,5)} }}),
+       $module2 := fn:load-xquery-module($module-ns, 
       map {"variables" : map { $qn-var1 : "another value", $qn-var3 : map{"a":14,"b":"different"} }})
       return
       ($module1("variables")($qn-var1), $module1("variables")($qn-var2), $module1("variables")($qn-var3)("b"),
@@ -548,12 +547,13 @@
     <description>Loads a module and sets an external variable to be the result of another load-xquery-module call
       for the same module.</description>
     <created by="Debbie Lockett" on="2015-06-04"/>
+    <modified by="Debbie Lockett" on="2015-09-04" change="Use XPath syntax in test"/>
     <module uri="http://www.w3.org/fots/fn/load-xquery-module/external-vars/module" file="load-xquery-module/external-vars-module.xqm"/>
     <test>
-      let $module-ns := "http://www.w3.org/fots/fn/load-xquery-module/external-vars/module"
-      let $qn-var1 := QName($module-ns, "var1")
-      let $qn-var2 := QName($module-ns, "var2")
-      let $qn-var3 := QName($module-ns, "var3")
+      let $module-ns := "http://www.w3.org/fots/fn/load-xquery-module/external-vars/module",
+       $qn-var1 := QName($module-ns, "var1"),
+       $qn-var2 := QName($module-ns, "var2"),
+       $qn-var3 := QName($module-ns, "var3")
       return
       let $module := fn:load-xquery-module("http://www.w3.org/fots/fn/load-xquery-module/external-vars/module", 
       map {"variables" : map { $qn-var1 : "some value", $qn-var2 : 42, $qn-var3 : 
@@ -574,12 +574,13 @@
   <test-case name="fn-load-xquery-module-035">
     <description>Loads a module which itself loads a module.</description>
     <created by="Debbie Lockett" on="2015-06-04"/>
+    <modified by="Debbie Lockett" on="2015-09-04" change="Use XPath syntax in test"/>
     <module uri="http://www.w3.org/fots/fn/load-xquery-module/valid/module" file="load-xquery-module/valid-module.xqm"/>
     <module uri="http://www.w3.org/fots/fn/load-xquery-module/load/module" file="load-xquery-module/load-module.xqm"/>
     <test>
-      let $module-ns := "http://www.w3.org/fots/fn/load-xquery-module/load/module"
-      let $module-valid-ns := "http://www.w3.org/fots/fn/load-xquery-module/load/module"
-      let $module := fn:load-xquery-module($module-ns)
+      let $module-ns := "http://www.w3.org/fots/fn/load-xquery-module/load/module",
+       $module-valid-ns := "http://www.w3.org/fots/fn/load-xquery-module/load/module",
+       $module := fn:load-xquery-module($module-ns)
       return 
       $module("variables")(QName($module-ns, "var3"))("variables")
     </test>
@@ -591,12 +592,13 @@
   <test-case name="fn-load-xquery-module-036">
     <description>Loads a module which itself loads a module.</description>
     <created by="Debbie Lockett" on="2015-06-04"/>
+    <modified by="Debbie Lockett" on="2015-09-04" change="Use XPath syntax in test"/>
     <module uri="http://www.w3.org/fots/fn/load-xquery-module/valid/module" file="load-xquery-module/valid-module.xqm"/>
     <module uri="http://www.w3.org/fots/fn/load-xquery-module/load/module" file="load-xquery-module/load-module.xqm"/>
     <test>
-      let $module-ns := "http://www.w3.org/fots/fn/load-xquery-module/load/module"
-      let $module-valid-ns := "http://www.w3.org/fots/fn/load-xquery-module/valid/module"
-      let $module := fn:load-xquery-module($module-ns)
+      let $module-ns := "http://www.w3.org/fots/fn/load-xquery-module/load/module",
+       $module-valid-ns := "http://www.w3.org/fots/fn/load-xquery-module/valid/module",
+       $module := fn:load-xquery-module($module-ns)
       return 
       ($module("functions")(QName($module-ns, "get-var1"))(0)(), 
       $module("variables")(QName($module-ns, "var1")), 
@@ -611,10 +613,11 @@
   <test-case name="fn-load-xquery-module-037">
     <description>Loads a module which loads itself.</description>
     <created by="Debbie Lockett" on="2015-06-04"/>
+    <modified by="Debbie Lockett" on="2015-09-04" change="Use XPath syntax in test"/>
     <module uri="http://www.w3.org/fots/fn/load-xquery-module/load-self/module" file="load-xquery-module/load-self-module.xqm"/>
     <test>
-      let $module-ns := "http://www.w3.org/fots/fn/load-xquery-module/load-self/module"
-      let $module := fn:load-xquery-module($module-ns, 
+      let $module-ns := "http://www.w3.org/fots/fn/load-xquery-module/load-self/module",
+       $module := fn:load-xquery-module($module-ns, 
       map {"variables" : map { QName($module-ns, "b") : true()}})
       return 
       $module("variables")(QName($module-ns, "var1"))("variables")(QName($module-ns, "var1"))
@@ -635,7 +638,6 @@
         declared="true"/>
     </environment>
     <dependency type="spec" value="XQ31+"/>
-    <dependency type="feature" value="moduleImport"/>
     <test>
       import module namespace test="http://www.w3.org/fots/fn/load-xquery-module/load-self/module";  
       ($test:b, 
@@ -651,10 +653,11 @@
     <description>Loads a module that defines a decimal format, with a function that calls format-number() using
       the decimal format.</description>
     <created by="Debbie Lockett" on="2015-05-29"/>
+    <modified by="Debbie Lockett" on="2015-09-04" change="Use XPath syntax in test"/>
     <module uri="http://www.w3.org/fots/fn/load-xquery-module/decimal-format/module" file="load-xquery-module/decimal-format-module.xqm"/>
     <test>
-      let $module-ns := "http://www.w3.org/fots/fn/load-xquery-module/decimal-format/module"
-      let $module := fn:load-xquery-module($module-ns)
+      let $module-ns := "http://www.w3.org/fots/fn/load-xquery-module/decimal-format/module",
+       $module := fn:load-xquery-module($module-ns)
       return
       let $fns := $module("functions")
       return
@@ -772,12 +775,13 @@
   <test-case name="fn-load-xquery-module-050">
     <description>Loads a module that imports a schema.</description>
     <created by="Debbie Lockett" on="2015-06-02"/>
+    <modified by="Debbie Lockett" on="2015-09-04" change="Use XPath syntax in test"/>
     <environment ref="hats"/>      
     <module uri="http://www.w3.org/fots/fn/load-xquery-module/import-schema/module" file="load-xquery-module/import-schema-hats-module.xqm"/>
     <dependency type="feature" value="schemaImport"/>
     <test>
-      let $module-ns := "http://www.w3.org/fots/fn/load-xquery-module/import-schema/module"
-      let $module := fn:load-xquery-module($module-ns)
+      let $module-ns := "http://www.w3.org/fots/fn/load-xquery-module/import-schema/module",
+       $module := fn:load-xquery-module($module-ns)
       return
       $module("functions")(QName($module-ns, "hatsize"))(1)(8)
     </test>
@@ -789,13 +793,13 @@
   <test-case name="fn-load-xquery-module-051">
     <description>Loads a module that imports a schema.</description>
     <created by="Debbie Lockett" on="2015-06-02"/>
+    <modified by="Debbie Lockett" on="2015-09-04" change="Use XPath syntax in test"/>
     <environment ref="abf"/> 
     <module uri="http://www.w3.org/fots/fn/load-xquery-module/import-schema/module" file="load-xquery-module/import-schema-abf-module.xqm"/>
-    <dependency type="spec" value="XQ31+"/>
     <dependency type="feature" value="schemaImport"/> 
     <test>
-      let $module-ns := "http://www.w3.org/fots/fn/load-xquery-module/import-schema/module"
-      let $module := fn:load-xquery-module($module-ns)
+      let $module-ns := "http://www.w3.org/fots/fn/load-xquery-module/import-schema/module",
+       $module := fn:load-xquery-module($module-ns)
       return
       $module("functions")(QName($module-ns, "validate-ok"))(0)()
     </test>
@@ -946,10 +950,11 @@
   <test-case name="fn-load-xquery-module-061">
     <description>Loads a module, providing a context item which is not used.</description>
     <created by="Debbie Lockett" on="2015-06-04"/>
+    <modified by="Debbie Lockett" on="2015-09-04" change="Use XPath syntax in test"/>
     <module uri="http://www.w3.org/fots/fn/load-xquery-module/valid/module" file="load-xquery-module/valid-module.xqm"/>    
     <test>
-      let $module-ns := "http://www.w3.org/fots/fn/load-xquery-module/valid/module"
-      let $module := fn:load-xquery-module($module-ns, map{"context-item" : "item"})
+      let $module-ns := "http://www.w3.org/fots/fn/load-xquery-module/valid/module",
+       $module := fn:load-xquery-module($module-ns, map{"context-item" : "item"})
       return
       ($module("variables")(QName($module-ns, "var1")), $module("variables")(QName($module-ns, "var2")), 
       $module("functions")(QName($module-ns, "func1"))(0)(), $module("functions")(QName($module-ns, "func2"))(0)())
@@ -974,10 +979,11 @@
     <description>Loads a module, variables option map contains entries of the wrong type.</description>
     <created by="Debbie Lockett" on="2015-06-04"/>
     <modified by="Debbie Lockett" on="2015-07-15" change="Added return statement in query"/>
+    <modified by="Debbie Lockett" on="2015-09-04" change="Use XPath syntax in test"/>
     <module uri="http://www.w3.org/fots/fn/load-xquery-module/valid/module" file="load-xquery-module/valid-module.xqm"/>    
     <test>
-      let $module-ns := "http://www.w3.org/fots/fn/load-xquery-module/valid/module"
-      let $module := fn:load-xquery-module($module-ns, map{"variables" : map{"wrong":"entry"}})
+      let $module-ns := "http://www.w3.org/fots/fn/load-xquery-module/valid/module",
+       $module := fn:load-xquery-module($module-ns, map{"variables" : map{"wrong":"entry"}})
       return $module
     </test>
     <result>
@@ -988,10 +994,11 @@
   <test-case name="fn-load-xquery-module-064">
     <description>Loads a module, supplying an empty map for the variables option.</description>
     <created by="Debbie Lockett" on="2015-06-04"/>
+    <modified by="Debbie Lockett" on="2015-09-04" change="Use XPath syntax in test"/>
     <module uri="http://www.w3.org/fots/fn/load-xquery-module/valid/module" file="load-xquery-module/valid-module.xqm"/>    
     <test>
-      let $module-ns := "http://www.w3.org/fots/fn/load-xquery-module/valid/module"
-      let $module := fn:load-xquery-module($module-ns, map{"variables" : map{}})
+      let $module-ns := "http://www.w3.org/fots/fn/load-xquery-module/valid/module",
+       $module := fn:load-xquery-module($module-ns, map{"variables" : map{}})
       return
       ($module("variables")(QName($module-ns, "var1")), $module("variables")(QName($module-ns, "var2")), 
       $module("functions")(QName($module-ns, "func1"))(0)(), $module("functions")(QName($module-ns, "func2"))(0)())
@@ -1004,10 +1011,11 @@
   <test-case name="fn-load-xquery-module-065">
     <description>Loads a module, a variable value is supplied but there is no such external variable.</description>
     <created by="Debbie Lockett" on="2015-06-04"/>
+    <modified by="Debbie Lockett" on="2015-09-04" change="Use XPath syntax in test"/>
     <module uri="http://www.w3.org/fots/fn/load-xquery-module/valid/module" file="load-xquery-module/valid-module.xqm"/>    
     <test>
-      let $module-ns := "http://www.w3.org/fots/fn/load-xquery-module/valid/module"
-      let $module := fn:load-xquery-module($module-ns, map{"variables" : map{(QName($module-ns, "wrong")):"not there"}})
+      let $module-ns := "http://www.w3.org/fots/fn/load-xquery-module/valid/module",
+       $module := fn:load-xquery-module($module-ns, map{"variables" : map{(QName($module-ns, "wrong")):"not there"}})
       return
       ($module("variables")(QName($module-ns, "var1")), $module("variables")(QName($module-ns, "var2")), 
       $module("functions")(QName($module-ns, "func1"))(0)(), $module("functions")(QName($module-ns, "func2"))(0)())
@@ -1021,10 +1029,11 @@
     <description>Error loading a module, supplying a value of the wrong type for the vendor-options option.</description>
     <created by="Debbie Lockett" on="2015-06-04"/>
     <modified by="Debbie Lockett" on="2015-07-15" change="Added return statement in query"/>
+    <modified by="Debbie Lockett" on="2015-09-04" change="Use XPath syntax in test"/>
     <module uri="http://www.w3.org/fots/fn/load-xquery-module/valid/module" file="load-xquery-module/valid-module.xqm"/>    
     <test>
-      let $module-ns := "http://www.w3.org/fots/fn/load-xquery-module/valid/module"
-      let $module := fn:load-xquery-module($module-ns, map{"vendor-options" : 42})      
+      let $module-ns := "http://www.w3.org/fots/fn/load-xquery-module/valid/module",
+       $module := fn:load-xquery-module($module-ns, map{"vendor-options" : 42})      
       return $module
     </test>
     <result>
@@ -1036,10 +1045,11 @@
     <description>Error loading a module, when vendor-options option map contains entries of the wrong type.</description>
     <created by="Debbie Lockett" on="2015-06-04"/>
     <modified by="Debbie Lockett" on="2015-07-15" change="Added return statement in query"/>
+    <modified by="Debbie Lockett" on="2015-09-04" change="Use XPath syntax in test"/>
     <module uri="http://www.w3.org/fots/fn/load-xquery-module/valid/module" file="load-xquery-module/valid-module.xqm"/>    
     <test>
-      let $module-ns := "http://www.w3.org/fots/fn/load-xquery-module/valid/module"
-      let $module := fn:load-xquery-module($module-ns, map{"vendor-options" : map{"wrong":"entry"}})      
+      let $module-ns := "http://www.w3.org/fots/fn/load-xquery-module/valid/module",
+       $module := fn:load-xquery-module($module-ns, map{"vendor-options" : map{"wrong":"entry"}})      
       return $module
     </test>
     <result>
@@ -1050,10 +1060,11 @@
   <test-case name="fn-load-xquery-module-068">
     <description>Loads a module, supplying an empty map for the vendor-options option.</description>
     <created by="Debbie Lockett" on="2015-06-04"/>
+    <modified by="Debbie Lockett" on="2015-09-04" change="Use XPath syntax in test"/>
     <module uri="http://www.w3.org/fots/fn/load-xquery-module/valid/module" file="load-xquery-module/valid-module.xqm"/>    
     <test>
-      let $module-ns := "http://www.w3.org/fots/fn/load-xquery-module/valid/module"
-      let $module := fn:load-xquery-module($module-ns, map{"vendor-options" : map{}})
+      let $module-ns := "http://www.w3.org/fots/fn/load-xquery-module/valid/module",
+       $module := fn:load-xquery-module($module-ns, map{"vendor-options" : map{}})
       return
       ($module("variables")(QName($module-ns, "var1")), $module("variables")(QName($module-ns, "var2")), 
       $module("functions")(QName($module-ns, "func1"))(0)(), $module("functions")(QName($module-ns, "func2"))(0)())
@@ -1066,11 +1077,12 @@
   <test-case name="fn-load-xquery-module-069">
     <description>Loads a module, ignore vendor-options in an unrecognized namespace.</description>
     <created by="Debbie Lockett" on="2015-06-04"/>
+    <modified by="Debbie Lockett" on="2015-09-04" change="Use XPath syntax in test"/>
     <module uri="http://www.w3.org/fots/fn/load-xquery-module/valid/module" file="load-xquery-module/valid-module.xqm"/>    
     <test>
-      let $module-ns := "http://www.w3.org/fots/fn/load-xquery-module/valid/module"
-      let $module-unrec := "http://www.w3.example/unrecognised/namespace/nobody/uses"
-      let $module := fn:load-xquery-module($module-ns, map{"vendor-options" : 
+      let $module-ns := "http://www.w3.org/fots/fn/load-xquery-module/valid/module",
+       $module-unrec := "http://www.w3.example/unrecognised/namespace/nobody/uses",
+       $module := fn:load-xquery-module($module-ns, map{"vendor-options" : 
       map{(QName($module-unrec, "option")):"fake"}})
       return
       ($module("variables")(QName($module-ns, "var1")), $module("variables")(QName($module-ns, "var2")), 
@@ -1084,11 +1096,12 @@
   <test-case name="fn-load-xquery-module-070">
     <description>Loads a module, ignoring unrecognised option in second argument.</description>
     <created by="Debbie Lockett" on="2015-06-04"/>
+    <modified by="Debbie Lockett" on="2015-09-04" change="Use XPath syntax in test"/>
     <module uri="http://www.w3.org/fots/fn/load-xquery-module/valid/module" file="load-xquery-module/valid-module.xqm"/>    
     <test>
-      let $module-ns := "http://www.w3.org/fots/fn/load-xquery-module/valid/module"
-      let $module-unrec := "http://www.w3.example/unrecognised/namespace/nobody/uses"
-      let $module := fn:load-xquery-module($module-ns, map{"nonexistant-option" : "ignored"})
+      let $module-ns := "http://www.w3.org/fots/fn/load-xquery-module/valid/module",
+       $module-unrec := "http://www.w3.example/unrecognised/namespace/nobody/uses",
+       $module := fn:load-xquery-module($module-ns, map{"nonexistant-option" : "ignored"})
       return
       ($module("variables")(QName($module-ns, "var1")), $module("variables")(QName($module-ns, "var2")), 
       $module("functions")(QName($module-ns, "func1"))(0)(), $module("functions")(QName($module-ns, "func2"))(0)())
@@ -1112,10 +1125,11 @@
     <description>Error - the type of the value supplied for the option 'xquery-version' is incorrect</description>
     <created by="Debbie Lockett" on="2015-06-09"/>
     <modified by="Debbie Lockett" on="2015-07-15" change="Added return statement in query"/>
+    <modified by="Debbie Lockett" on="2015-09-04" change="Use XPath syntax in test"/>
     <module uri="http://www.w3.org/fots/fn/load-xquery-module/valid/module" file="load-xquery-module/valid-module.xqm"/>  
     <test>
-      let $module-ns := "http://www.w3.org/fots/fn/load-xquery-module/valid/module"
-      let $module := fn:load-xquery-module($module-ns, map{"xquery-version" : "3.1"})      
+      let $module-ns := "http://www.w3.org/fots/fn/load-xquery-module/valid/module",
+       $module := fn:load-xquery-module($module-ns, map{"xquery-version" : "3.1"})      
       return $module
     </test>
     <result>
@@ -1126,10 +1140,11 @@
   <test-case name="fn-load-xquery-module-073">
     <description>Loads a module, setting the xquery-version option explicitly.</description>
     <created by="Debbie Lockett" on="2015-06-09"/>
+    <modified by="Debbie Lockett" on="2015-09-04" change="Use XPath syntax in test"/>
     <module uri="http://www.w3.org/fots/fn/load-xquery-module/valid/module" file="load-xquery-module/valid-module.xqm"/>    
     <test>
-      let $module-ns := "http://www.w3.org/fots/fn/load-xquery-module/valid/module"
-      let $module := fn:load-xquery-module($module-ns, map{"xquery-version" : 3.1})
+      let $module-ns := "http://www.w3.org/fots/fn/load-xquery-module/valid/module",
+       $module := fn:load-xquery-module($module-ns, map{"xquery-version" : 3.1})
       return
       ($module("variables")(QName($module-ns, "var1")), $module("variables")(QName($module-ns, "var2")), 
       $module("functions")(QName($module-ns, "func1"))(0)(), $module("functions")(QName($module-ns, "func2"))(0)())
