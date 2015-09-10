@@ -22,12 +22,16 @@
      Source documents will be copied across only if the processor supports
      the EXPath file module                                                  -->
 
+<!-- 2015-09-10 Update: Running the converter now requires a XSLT 3.0 
+     processor (due to the introduction of the OUTPUT_VALIDATION variable)   -->
+
 <!--    Author: O'Neil Delpratt and Michael Kay, Saxonica                    -->
 <!--                                                                         -->
 <!-- History:                                                                -->
 <!--                                                                         -->
 <!--   2012-07-03    Initial release of FOTS_XSLT_Maker                      -->
 <!--   2013-03-13    Initial release of QT3toXSLT3converter                  -->
+<!--   2015-09-10    Update (Debbie Lockett, Saxonica)                       -->
 
 
 
@@ -38,7 +42,7 @@
     xmlns:file="http://expath.org/ns/file"
     xmlns:fots="http://www.w3.org/2010/09/qt-fots-catalog" 
     exclude-result-prefixes="fots xsl x saxon file"
-    version="2.0">
+    version="3.0">
     
     <!-- The principal source document is the catalog.xml file of the QT3 test suite -->
 
@@ -59,11 +63,13 @@
     <xsl:namespace-alias stylesheet-prefix="x" result-prefix="xsl"/>
 
     <xsl:variable name="globalEnvironments" select="fots:catalog/fots:environment"/>
+    
+    <xsl:variable name="OUTPUT_VALIDATION" static="yes" select="'strip'"/>
 
     <xsl:template match="fots:catalog">
         
         <!-- Create main catalog file                                   -->
-        <xsl:result-document href="{$xslt-dir}catalog.xml" validation="strict">
+        <xsl:result-document href="{$xslt-dir}catalog.xml" _validation="{$OUTPUT_VALIDATION}">
             <catalog xmlns="http://www.w3.org/2012/10/xslt-test-catalog">
                 <xsl:apply-templates select="fots:environment" mode="rename"/>
                 <xsl:for-each select="fots:test-set">
@@ -81,8 +87,13 @@
             
             <!-- Some ad-hoc copying of files that are needed, but not referenced from their local test-set -->
             
-            <xsl:sequence select="file:copy(concat($main-dir, 'fn/id'), concat($xslt-dir, 'fn/id'))"/>
-            
+            <xsl:sequence select="file:copy(concat($main-dir, 'fn/id/'), concat($xslt-dir, 'fn/'))"/>
+            <xsl:sequence select="file:copy(concat($main-dir, 'fn/parse-json/'), concat($xslt-dir, 'fn/parse-json'))"/>
+            <xsl:sequence select="file:copy(concat($main-dir, 'fn/parse-xml/'), concat($xslt-dir, 'fn/parse-xml'))"/>
+            <xsl:sequence select="file:copy(concat($main-dir, 'fn/unparsed-text/text-plain-utf-8-bom-lines-2.txt'), concat($xslt-dir, 'fn/unparsed-text/text-plain-utf-8-bom-lines-2.txt'))"/>
+            <xsl:sequence select="file:copy(concat($main-dir, 'fn/unparsed-text/text-plain-utf-8-bom-lines-3.txt'), concat($xslt-dir, 'fn/unparsed-text/text-plain-utf-8-bom-lines-3.txt'))"/>
+            <xsl:sequence select="file:copy(concat($main-dir, 'fn/transform/render.xsl'), concat($xslt-dir, 'fn/transform/transform/render.xsl'))"/>
+            <xsl:sequence select="file:copy(concat($main-dir, 'docs/atomic.xml'), concat($xslt-dir, 'fn/docs/atomic.xml'))"/>
         </xsl:if>
 
     </xsl:template>
@@ -123,6 +134,14 @@
         </xsl:element>       
     </xsl:template>
     
+    <xsl:template match="fots:environment" mode="rename">
+        <xsl:element name="{local-name()}" namespace="http://www.w3.org/2012/10/xslt-test-catalog">
+            <xsl:apply-templates select="@*"/>
+            <xsl:apply-templates mode="rename"/>
+            <xsl:apply-templates select="parent::fots:module" mode="rename"/>
+        </xsl:element>       
+    </xsl:template>
+    
     <xsl:template match="@*">
         <xsl:copy/>
     </xsl:template>
@@ -140,11 +159,31 @@
         <spec xmlns="http://www.w3.org/2012/10/xslt-test-catalog" value="XSLT30+"/>
     </xsl:template>
     
+    <xsl:template match="fots:dependency[@type='spec'][contains(@value,'XP31')]" mode="rename">
+        <spec xmlns="http://www.w3.org/2012/10/xslt-test-catalog" value="XSLT30+"/>
+        <feature xmlns="http://www.w3.org/2012/10/xslt-test-catalog" value="XPath_3.1"/>
+    </xsl:template>
+    
     <xsl:template match="fots:dependency[@type='feature'][@value='higherOrderFunctions']" mode="rename"/>
     <xsl:template match="fots:dependency[@type='feature'][@value='staticTyping']" mode="rename"/>
     <xsl:template match="fots:dependency[@type='feature'][@value='namespace-axis']" mode="rename"/>
     <xsl:template match="fots:dependency[@type='feature'][@value='collection-stability']" mode="rename"/>
     <xsl:template match="fots:dependency[@type='feature'][@value='directory-as-collection-uri']" mode="rename"/>
+    
+    <xsl:template match="fots:dependency[@type='feature'][@value='non_empty_sequence_collection']" mode="rename"/>
+    <xsl:template match="fots:dependency[@type='feature'][@value='non_unicode_codepoint_collation']" mode="rename"/>
+    <xsl:template match="fots:dependency[@type='feature'][@value='infoset-dtd']" mode="rename"/>
+    <xsl:template match="fots:dependency[@type='feature'][@value='fn-transform-XSLT']" mode="rename"/>
+    <xsl:template match="fots:dependency[@type='feature'][@value='fn-transform-XSLT30']" mode="rename"/>
+    <xsl:template match="fots:dependency[@type='feature'][@value='fn-format-integer-CLDR']" mode="rename"/>
+    <xsl:template match="fots:dependency[@type='feature'][@value='typedData']" mode="rename"/>
+    <xsl:template match="fots:dependency[@type='feature'][@value='serialization']" mode="rename"/>
+    <xsl:template match="fots:dependency[@type='feature'][@value='schema-location-hint']" mode="rename"/>
+    <xsl:template match="fots:dependency[@type='feature'][@value='moduleImport']" mode="rename"/>
+    
+    <xsl:template match="fots:dependency[@type='feature'][@value='fn-load-xquery-module']" mode="rename">
+        <feature xmlns="http://www.w3.org/2012/10/xslt-test-catalog" value="xquery_invocation"/>        
+    </xsl:template>
     
     <xsl:template match="fots:dependency[@type='feature'][@value='xpath-1.0-compatibility']" mode="rename">
         <feature xmlns="http://www.w3.org/2012/10/xslt-test-catalog" value="backwards_compatibility"/> 
@@ -182,19 +221,29 @@
         <additional_normalization_form xmlns="http://www.w3.org/2012/10/xslt-test-catalog" value="support {@value}"/>
     </xsl:template>
     
+    <xsl:template match="fots:dependency[@type='unicode-normalization-form'][@satisfied='false']" mode="rename">
+        <additional_normalization_form xmlns="http://www.w3.org/2012/10/xslt-test-catalog" value="support {@value}" satisfied="{@satisfied}"/>        
+    </xsl:template>
+    
     <xsl:template match="fots:dependency[@type='language'][@value='xib']" mode="rename"/>
     <xsl:template match="fots:dependency[@type='limits']" mode="rename"/>
     <xsl:template match="fots:dependency[@type='calendar']" mode="rename"/>
-    <xsl:template match="fots:dependency[@type='format-integer-sequence']" mode="rename"/>
+    <xsl:template match="fots:dependency[@type='format-integer-sequence']" mode="rename"/>    
+    <xsl:template match="fots:dependency[@type='unicode-version']" mode="rename"/>
     
     <xsl:template match="fots:environment/fots:static-base-uri" mode="rename"/>
     <xsl:template match="fots:environment/fots:namespace" mode="rename"/>
     <xsl:template match="fots:environment/fots:decimal-format" mode="rename"/>
     
-    <xsl:template match="fots:source | fots:schema | fots:resource" mode="rename">
-        <xsl:element name="{local-name()}" namespace="http://www.w3.org/2012/10/xslt-test-catalog">
+    <xsl:template match="fots:source | fots:schema | fots:resource | fots:module" mode="rename">
+        <xsl:element name="{if (local-name() = 'module') then 'resource' else local-name()}" namespace="http://www.w3.org/2012/10/xslt-test-catalog">
             <xsl:copy-of select="@* except @file"/>
-            <xsl:attribute name="file" select="if (ancestor::fots:catalog) then @file else concat('../', @file)"/>
+            <xsl:if test="@file">
+                <xsl:attribute name="file" select="if (ancestor::fots:catalog) then @file else concat('../', @file)"/>
+            </xsl:if>           
+            <xsl:if test="local-name() = 'module'">
+                <xsl:attribute name="media-type" select="'text-xquery'"/>                
+            </xsl:if>
             <xsl:apply-templates mode="rename"/>
         </xsl:element>
         <xsl:call-template name="copy-source-file" use-when="function-available('file:copy', 2)"/>
@@ -206,7 +255,13 @@
             <xsl:variable name="from" select="concat($main-dir, substring-before(/fots:test-set/@name, '-'), '/', @file)"/>
             <xsl:variable name="to" select="concat($xslt-dir, substring-before(/fots:test-set/@name, '-'), '/', @file)"/>
             <xsl:sequence select="file:copy($from, $to)"/>
-        </xsl:if>           
+        </xsl:if>  
+    </xsl:template>
+    
+    <xsl:template match="fots:module" mode="module-wrap-env">
+        <environment xmlns="http://www.w3.org/2012/10/xslt-test-catalog" name="{parent::node()[fots:test-case]/@name}"> 
+            <xsl:apply-templates select="." mode="rename"/>
+        </environment> 
     </xsl:template>
        
     <xsl:template match="fots:test-case">
@@ -241,8 +296,17 @@
             
             <test-case  xmlns="http://www.w3.org/2012/10/xslt-test-catalog" name="{@name}">
                 <xsl:apply-templates select="fots:description, fots:created, fots:modified, fots:environment" mode="rename"/>
+                <xsl:if test="empty(fots:environment)">
+                    <xsl:apply-templates select="fots:module" mode="module-wrap-env"/>                    
+                </xsl:if>
                 <dependencies>
-                    <spec value="XSLT30+"/>
+                    <xsl:if test="not(fots:dependency[@type='spec'])">                        
+                        <spec value="XSLT30+"/>
+                    </xsl:if>
+                    <xsl:if test="$env/fots:schema">
+                        <feature value="schema_aware"/>
+                    </xsl:if>
+                    <xsl:apply-templates select="fots:dependency[@type='spec']" mode="rename"/>
                     <xsl:apply-templates select="fots:dependency[not(@type='spec')]" mode="rename"/>
                 </dependencies>
                 <test>
@@ -286,7 +350,8 @@
                     xmlns:err="http://www.w3.org/2005/xqt-errors" 
                     xmlns:math="http://www.w3.org/2005/xpath-functions/math"
                     xmlns:map="http://www.w3.org/2005/xpath-functions/map"
-                    exclude-result-prefixes="fn err math map xs"
+                    xmlns:array="http://www.w3.org/2005/xpath-functions/array"
+                    exclude-result-prefixes="fn err math map xs array"
                     version="3.0">
                     <!-- always version='3.0' because it needs try/catch -->
                     <!-- TODO: could avoid the try/catch (and generate 2.0) if we are not expecting any errors -->
@@ -358,10 +423,17 @@
         <xsl:apply-templates mode="global"/>
     </xsl:template>
     
+    <xsl:template match="fots:source[starts-with(@role,'$')]" mode="global">
+        <x:param name="{substring(@role,2)}"/>
+    </xsl:template>
+    
+    
     <xsl:template match="*" mode="global"/>
     
     <xsl:template match="fots:param" mode="global">
-        <x:param name="{@name}" as="{@as}" select="{@select}" required="no"/>
+        <x:param required="no">
+            <xsl:copy-of select="@name, @as, @select"/>
+        </x:param>
     </xsl:template>
     
     <xsl:template match="fots:decimal-format" mode="global">
@@ -376,6 +448,7 @@
     <!-- Generate:                                                            -->
     <!--       text to handle the various types of assertions within the XSLT -->
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
+    
     <xsl:template match="fots:assert-true">
         <x:choose>
             <x:when test="count($result)=1 and $result=true()">
@@ -401,7 +474,7 @@
     <xsl:template match="fots:assert-string-value">
         <xsl:variable name="assertion" select="."/>
         <x:choose>
-            <x:when test="string-join($result!string(), ' ')  eq '{$assertion}'">
+            <x:when test="string-join($result!string(), ' ')  eq '{replace($assertion, '''', '''''')}'">
                 <ok/>
             </x:when>
             <x:otherwise>
@@ -440,8 +513,15 @@
             <x:when test="deep-equal($result, ({$assertion}))">
                 <ok/>
             </x:when>
-            <x:otherwise>
-                <fail><x:copy-of select="$result"/></fail>
+            <x:otherwise> <!-- 2015-05-14 DL: Cannot write a function item to an XML tree. But this may be too strong. -->
+                <xsl:choose>  
+                    <xsl:when test="starts-with($assertion, 'map')">                      
+                        <fail/> 
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <fail><x:copy-of select="$result"/></fail>                         
+                    </xsl:otherwise>
+                </xsl:choose>
             </x:otherwise>
         </x:choose>
     </xsl:template>
@@ -476,7 +556,14 @@
                 <ok/>
             </x:when>
             <x:otherwise>
-                <fail><x:copy-of select="$result"/></fail>
+                <xsl:choose> <!-- 2015-05-14 DL: Cannot write a function item to an XML tree. But this may be too strong. -->  
+                    <xsl:when test="starts-with($assertion, 'function')">                      
+                        <fail/> 
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <fail><x:copy-of select="$result"/></fail>                         
+                    </xsl:otherwise>
+                </xsl:choose>                
             </x:otherwise>
         </x:choose>
     </xsl:template>
@@ -485,7 +572,7 @@
         <xsl:variable name="assertion" select="."/>
         <x:variable name="expected" select="{$assertion}"/>
         <x:choose>
-            <x:when test="count($result) eq count($expected) and (every $r in $result satisfies exists(index-of($expected, $r)))">
+            <x:when test="count($result) eq count($expected) and (every $r in $result satisfies exists($expected[deep-equal(., $r)]))">
                 <ok/>
             </x:when>
             <x:otherwise>
@@ -497,7 +584,7 @@
     <xsl:template match="fots:assert-xml">
         <xsl:variable name="assertion" select="."/>
         <x:variable name="expected">
-            <xsl:value-of select="if (@file) then unparsed-text(resolve-uri(@file, base-uri(.))) else $assertion"/>
+            <xsl:value-of select="if (@file) then unparsed-text(resolve-uri(@file, base-uri(.))) else fots:trim($assertion)"/>
         </x:variable>       
         <x:variable name="expected-xml" select="parse-xml-fragment($expected)"/>
         <x:variable name="actual-xml">
@@ -512,6 +599,11 @@
             </x:otherwise>
         </x:choose>
     </xsl:template>
+    
+    <xsl:function name="fots:trim" as="xs:string">
+        <xsl:param name="string" as="xs:string"/>
+        <xsl:sequence select="replace(replace($string, '\s+$', ''), '^\s+', '')"></xsl:sequence>
+    </xsl:function>
 
     <xsl:template match="fots:assert">
         <xsl:variable name="assertion" select="."/>
@@ -557,6 +649,20 @@
         <fail reason="error not detected">
             <x:copy-of select="$result"/>
         </fail>
+    </xsl:template>
+    
+    <xsl:template match="fots:not">
+        <x:variable name="notVar" as="element()*">
+            <xsl:apply-templates select="child::*"/>
+        </x:variable>
+        <x:choose>
+            <x:when test="exists($notVar[self::fail])">
+                <ok/>
+            </x:when>
+            <x:otherwise>
+                <fail/>
+            </x:otherwise>
+        </x:choose>
     </xsl:template>
     
     <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
@@ -626,9 +732,9 @@
         <!-- no special action needed: the source doc will be the context item -->
     </xsl:template>
     
-    <xsl:template match="fots:source[starts-with(@role,'$')]" mode="local-vars">
-        <x:variable name="{substring(@role,2)}" select="doc({if (ancestor::fots:catalog) then @file else concat('../', @file)})"/>
-    </xsl:template>
+    <!--<xsl:template match="fots:source[starts-with(@role,'$')]" mode="local-vars">
+        <x:variable name="{substring(@role,2)}" select="doc('{if (ancestor::fots:catalog) then concat('../../', @file) else concat('../', @file)}')"/>        
+    </xsl:template>-->
 
     <xsl:template match="fots:param" mode="local-vars">
         <x:variable name="{@name}" select="doc('{$xslt-dir}{@select}')"/>
@@ -656,32 +762,46 @@
     or because the conversion machinery is not up to the job -->
     
     <xsl:variable name="exclusions">
+        <!-- functions that exist in XSLT but not in XPath -->
+        K-FunctionCallExpr-11 
+        K-FunctionCallExpr-14        
         K-FunctionCallExpr-22
         K-FunctionCallExpr-23
         K-FunctionCallExpr-24
-        K-FunctionCallExpr-25
+        K-FunctionCallExpr-26
         K2-FunctionCallExpr-2
         K2-FunctionCallExpr-3
         K2-FunctionCallExpr-4
         K2-FunctionCallExpr-5
         K2-FunctionCallExpr-8
         K2-FunctionCallExpr-9
-        parse-xml-001
+        <!-- no type (or function) document() in XPath, but this is a function in XSLT -->
+        K2-NodeTest-10
+        K2-NodeTest-11
+        <!-- Spec change between XPath 3.0 and 3.1 (exponent separator) -->
+        numberformat128        
+        <!-- Conversion has not worked correctly? Error or string; error thrown but assert ok failed -->
+        fn-function-arity-017 <!-- $func = concat#340282366920938463463374607431768211456 -->
+        fn-function-name-018 <!-- $func = concat#340282366920938463463374607431768211456 --> 
+        <!-- uses Q{} - not escaped by converter -->
+        fn-parse-json-943         
+        
+        <!-- 2015-09-04 DL: The tests below are now included because the required files are added ad-hoc -->
+        <!-- tests use relative paths to files (not contained in an environment); or DTD -->
+        <!--parse-xml-001
         parse-xml-008
         parse-xml-009
         parse-xml-010
-        parse-xml-fragment-001
-        fn-parse-json-101
+        parse-xml-fragment-001-->
+        <!-- tests use "real" JSON files -->
+        <!--fn-parse-json-101
         fn-parse-json-102
         fn-parse-json-103
         fn-parse-json-104
-        fn-parse-json-105
-        fn-function-arity-017
-        fn-function-name-018
-        
+        fn-parse-json-105-->
         
     </xsl:variable>
     <xsl:variable name="excluded-tests" select="tokenize($exclusions, '\s+')"/>
- 
+    
 
 </xsl:stylesheet>
