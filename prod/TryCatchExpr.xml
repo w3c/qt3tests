@@ -147,15 +147,13 @@
   <test-case name="try-012">
     <description>Use err:description local variable, implicitly declared</description>
     <created by="O'Neil Delpratt" on="2012-03-02"/>
+    <modified by="O'Neil Delpratt" on="2015-09-11" change="Fix to bug issue #29097" />
     <environment ref="err"/><test><![CDATA[
         declare function local:f($d as xs:integer) { 10 div $d };
         try { local:f(0) } catch * {$err:description}
       ]]></test>
     <result>
-      <any-of>
-        <assert-string-value>Integer division by zero</assert-string-value>
         <assert-type>xs:string</assert-type>
-      </any-of>
     </result>
   </test-case>
   
