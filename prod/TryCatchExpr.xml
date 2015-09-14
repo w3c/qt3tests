@@ -1283,8 +1283,17 @@
   <test-case name="try-catch-variable-binding-outside-4">
     <description>If a variable reference is used in a try clause, errors raised by binding a value to the variable are not caught unless the binding expression occurs within the try clause.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
+    <modified by="Josh Spiegel" on="2015-09-14" change="Bug 29099" />
     <environment ref="err"/>
-    <test>try { for $x as xs:integer in (0, 1, "") return $x } catch err:XPTY0004 { 0 }</test>
+    <test><![CDATA[
+       declare variable $str external := "";
+       try {
+          for $x as xs:integer in (0, 1, $str)
+          return $x
+       } catch err:XPTY0004 {
+          0
+       }
+    ]]></test>
     <result>
       <assert-eq>0</assert-eq>
     </result>
