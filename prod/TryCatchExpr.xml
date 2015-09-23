@@ -148,12 +148,16 @@
     <description>Use err:description local variable, implicitly declared</description>
     <created by="O'Neil Delpratt" on="2012-03-02"/>
     <modified by="O'Neil Delpratt" on="2015-09-11" change="Fix to bug issue #29097" />
+    <modified by="Josh Spiegel" on="2015-09-23" change="Fix to bug issue #29097 (allow empty)" />
     <environment ref="err"/><test><![CDATA[
         declare function local:f($d as xs:integer) { 10 div $d };
         try { local:f(0) } catch * {$err:description}
       ]]></test>
     <result>
+      <any-of>
         <assert-type>xs:string</assert-type>
+        <assert-empty/>
+      </any-of>
     </result>
   </test-case>
   
