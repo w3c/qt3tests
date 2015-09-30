@@ -121,11 +121,9 @@ return
         <employeeId>4</employeeId>
         <reportsTo>1</reportsTo>
         <name>Charles Madigen</name>
-
         <job>Chief Operating Officer</job>
         <Phone>x10962</Phone>
         <email>cmadigan@example.com</email>
-
         <department>Management</department>
         <salary>26200.00</salary>
         <gender>male</gender>
@@ -169,6 +167,7 @@ return
       <modified by="O'Neil Delpratt" on="2015-07-17" change="Added the XQuery 3.1 Use case to QT3" />
       <environment ref="employees"/>
       <test><![CDATA[
+
 for $employee in /employees/employee
 let $salary := $employee/salary
 group by $department := $employee/department
@@ -185,16 +184,14 @@ return
     <total-by-job-type type="{$job-type}">{ $totals }</total-by-job-type>]]>
       </test>
       <result>
-         <assert-xml><![CDATA[<department name="Management"><employee>
+         <assert-xml><![CDATA[<department1 name="Management"><employee>
 
         <employeeId>4</employeeId>
         <reportsTo>1</reportsTo>
         <name>Charles Madigen</name>
-
         <job>Chief Operating Officer</job>
         <Phone>x10962</Phone>
         <email>cmadigan@example.com</email>
-
         <department>Management</department>
         <salary>26200.00</salary>
         <gender>male</gender>
@@ -202,7 +199,7 @@ return
         <employeeType>full time</employeeType>
 
 
-    </employee></department>
+    </employee></department1>
 <total-by-job-type type="full time">13</total-by-job-type>
 <total-by-job-type type="contract">9</total-by-job-type>
 <total-by-job-type type="part time">5</total-by-job-type>]]></assert-xml>
@@ -798,7 +795,7 @@ return $rot]]></test>
    </test-case>
 
 
-   <test-case name="UseCaseR31-023" covers="fn-json-doc fn-map-keys fn-array-size">
+   <test-case name="UseCaseR31-023" covers="fn-json-doc map-keys array-size">
       <description>Convert a JSON data file to XML</description>
       <created by="Jonathan Robie, EMC Corporation" on="2014-04-24"/>
       <modified by="O'Neil Delpratt" on="2015-09-17" change="Added the XQuery 3.1 Use case to QT3" />
