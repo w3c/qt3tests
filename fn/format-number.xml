@@ -2908,11 +2908,13 @@
   <test-case name="cbcl-fn-format-number-017">
       <description>Check edge case with large numbers in format-number.</description>
       <created by="Tim Mills" on="2015-09-14"/>
+      <modified by="Tim Mills" on="2015-09-30" change="Reflect specificaion change in Bug #28845" />
       <test>format-number(xs:decimal('79228162514264337593543950335'), '0%')</test>
       <result>
 	 <any-of>
-	    <error code="FOAR0002" />
-	    <assert-string-value>7922816251426433759354395033500</assert-string-value>
+	    <error code="FOCA0001"/>
+	    <assert-string-value>Infinity%</assert-string-value>
+	    <assert-string-value>7922816251426433759354395033500%</assert-string-value>
 	 </any-of>
       </result>
    </test-case>
@@ -3067,12 +3069,9 @@
       <description>Check edge case in format-number.</description>
       <created by="Tim Mills" on="2015-09-14"/>
       <test>format-number(xs:double('1e308'), '0%')</test>
+      <modified by="Tim Mills" on="2015-09-30" change="Reflect specificaion change in Bug #28845" />
       <result>
-	 <any-of>
-	   <error code="*" />
-           <assert-string-value>INF%</assert-string-value>
-           <assert-string-value>1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000%</assert-string-value>
-	 </any-of>
+           <assert-string-value>Infinity%</assert-string-value>
       </result>
    </test-case>
 
@@ -3088,5 +3087,37 @@
          <assert-true />
       </result>
    </test-case>
+
+  <test-case name="cbcl-fn-format-number-036">
+      <description>Check edge case in format-number.</description>
+      <created by="Tim Mills" on="2015-09-14"/>
+      <test>format-number(xs:double('-1e308'), '0%')</test>
+      <result>
+           <assert-string-value>-Infinity%</assert-string-value>
+      </result>
+   </test-case>
+
+  <test-case name="cbcl-fn-format-number-037">
+      <description>Check edge case with large numbers in format-number.</description>
+      <created by="Tim Mills" on="2015-09-30"/>
+      <test>format-number(xs:decimal('-79228162514264337593543950335'), '0%')</test>
+      <result>
+	 <any-of>
+	    <error code="FOCA0001"/>
+	    <assert-string-value>-Infinity%</assert-string-value>
+	    <assert-string-value>7922816251426433759354395033500%</assert-string-value>
+	 </any-of>
+      </result>
+   </test-case>
+
+  <test-case name="cbcl-fn-format-number-018">
+      <description>Check grouping formating in format-number.</description>
+      <created by="Tim Mills" on="2015-09-14"/>
+      <test>format-number(xs:decimal('0'), '.#')</test>
+      <result>
+         <assert-string-value>.0</assert-string-value>
+      </result>
+   </test-case>
+
 
 </test-set>
