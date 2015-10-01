@@ -1510,12 +1510,13 @@
       PURPOSE: test format-number() with pattern in which integer part of mantissa is one optional-digit-sign
     </description>
     <created by="Debbie Lockett" on="2015-04-22"/>
+    <modified by="Debbie Lockett" on="2015-10-01" change="Bug fix related to bug #28845: Change result"/>
     <dependency type="spec" value="XP31+ XQ31+"/>
     <test>
       fn:format-number(12345.678, '#.99e99')
     </test>
     <result>
-      <assert-string-value>.12e05</assert-string-value>
+      <assert-string-value>0.12e05</assert-string-value>
     </result>
   </test-case>
   
@@ -1525,12 +1526,13 @@
       and min fractional part size of mantissa are both zero
     </description>
     <created by="Debbie Lockett" on="2015-04-22"/>
+    <modified by="Debbie Lockett" on="2015-10-01" change="Bug fix related to bug #28845: Change result"/>
     <dependency type="spec" value="XP31+ XQ31+"/>
     <test>
       fn:format-number(0045.234, '#.#e99')
     </test>
     <result>
-      <assert-string-value>.5e02</assert-string-value>
+      <assert-string-value>0.5e02</assert-string-value>
     </result>
   </test-case>
   
@@ -1567,12 +1569,13 @@
       PURPOSE: test format-number() with pattern in which fractional part has size zero, with nonempty exponent part
     </description>
     <created by="Debbie Lockett" on="2015-04-22"/>
+    <modified by="Debbie Lockett" on="2015-10-01" change="Bug fix related to bug #28845: Change result"/>
     <dependency type="spec" value="XP31+ XQ31+"/>
     <test>
       fn:format-number(0.2, '#.e9')
     </test>
     <result>
-      <assert-string-value>2e-1</assert-string-value>
+      <assert-string-value>0.2e0</assert-string-value>
     </result>
   </test-case>
   
@@ -2225,12 +2228,13 @@
       frac part empty, input number between 0 and 1, exponent part not empty
     </description>
     <created by="Debbie Lockett" on="2015-08-04"/>
+    <modified by="Debbie Lockett" on="2015-10-01" change="Bug fix related to bug #28845: Change result"/>
     <dependency type="spec" value="XP31+ XQ31+"/>
     <test>
       fn:format-number(0.2, '#e0')
     </test>
     <result>
-      <assert-string-value>2e-1</assert-string-value>
+      <assert-string-value>0.2e0</assert-string-value>
     </result>
   </test-case>
   
@@ -2240,12 +2244,13 @@
       frac part empty, exponent part not empty
     </description>
     <created by="Debbie Lockett" on="2015-08-04"/>
+    <modified by="Debbie Lockett" on="2015-10-01" change="Bug fix related to bug #28845: Change result"/>
     <dependency type="spec" value="XP31+ XQ31+"/>
     <test>
       fn:format-number(1.2, '#e0')
     </test>
     <result>
-      <assert-string-value>1e0</assert-string-value>
+      <assert-string-value>0.1e1</assert-string-value>
     </result>
   </test-case>
   
@@ -2345,12 +2350,13 @@
       frac part not empty, input number between 0 and 1, exponent part not empty
     </description>
     <created by="Debbie Lockett" on="2015-08-04"/>
+    <modified by="Debbie Lockett" on="2015-10-01" change="Bug fix related to bug #28845: Change result"/>
     <dependency type="spec" value="XP31+ XQ31+"/>
     <test>
       fn:format-number(0.2, '#.#e0')
     </test>
     <result>
-      <assert-string-value>.2e0</assert-string-value>
+      <assert-string-value>0.2e0</assert-string-value>
     </result>
   </test-case>
   
@@ -2360,12 +2366,13 @@
       frac part not empty, exponent part not empty
     </description>
     <created by="Debbie Lockett" on="2015-08-04"/>
+    <modified by="Debbie Lockett" on="2015-10-01" change="Bug fix related to bug #28845: Change result"/>
     <dependency type="spec" value="XP31+ XQ31+"/>
     <test>
       fn:format-number(1.2, '#.#e0')
     </test>
     <result>
-      <assert-string-value>.1e1</assert-string-value>
+      <assert-string-value>0.1e1</assert-string-value>
     </result>
   </test-case>
   
@@ -2435,12 +2442,13 @@
       frac part not empty, input number between 0 and 1, exponent part not empty
     </description>
     <created by="Debbie Lockett" on="2015-08-04"/>
+    <modified by="Debbie Lockett" on="2015-10-01" change="Bug fix related to bug #28845: Change result"/>
     <dependency type="spec" value="XP31+ XQ31+"/>
     <test>
       fn:format-number(0.2, '#.0e0')
     </test>
     <result>
-      <assert-string-value>.2e0</assert-string-value>
+      <assert-string-value>0.2e0</assert-string-value>
     </result>
   </test-case>
   
@@ -2450,12 +2458,13 @@
       frac part not empty, exponent part not empty
     </description>
     <created by="Debbie Lockett" on="2015-08-04"/>
+    <modified by="Debbie Lockett" on="2015-10-01" change="Bug fix related to bug #28845: Change result"/>
     <dependency type="spec" value="XP31+ XQ31+"/>
     <test>
       fn:format-number(1.2, '#.0e0')
     </test>
     <result>
-      <assert-string-value>.1e1</assert-string-value>
+      <assert-string-value>0.1e1</assert-string-value>
     </result>
   </test-case>
   
@@ -2463,15 +2472,15 @@
     <description>
       format-number() with pattern in which integer part contains no decimal-digit-family-characters, 
       frac part empty, input number between 0 and 1, exponent part not empty
-      <!-- Result depends on resolution of bug #28845  -->
     </description>
     <created by="Debbie Lockett" on="2015-08-04"/>
+    <modified by="Debbie Lockett" on="2015-10-01" change="Bug fix related to bug #28845: Change result"/>
     <dependency type="spec" value="XP31+ XQ31+"/>
     <test>
       fn:format-number(0.2, '#.e0')
     </test>
     <result>
-      <assert-string-value>2e-1</assert-string-value>
+      <assert-string-value>0.2e0</assert-string-value>
     </result>
   </test-case>
   
@@ -2479,15 +2488,15 @@
     <description>
       test format-number() with pattern in which min integer part size is zero, 
       frac part empty, exponent part not empty
-      <!-- Result depends on resolution of bug #28845  -->
     </description>
     <created by="Debbie Lockett" on="2015-08-04"/>
+    <modified by="Debbie Lockett" on="2015-10-01" change="Bug fix related to bug #28845: Change result"/>
     <dependency type="spec" value="XP31+ XQ31+"/>
     <test>
       fn:format-number(1.2, '#.e0')
     </test>
     <result>
-      <assert-string-value>1e0</assert-string-value>
+      <assert-string-value>0.1e1</assert-string-value>
     </result>
   </test-case>
   
@@ -2495,7 +2504,6 @@
     <description>
       test format-number() with pattern in which min integer part size is one, 
       frac part empty, input number between 0 and 1, exponent part not empty
-      <!-- Result depends on resolution of bug #28845  -->
     </description>
     <created by="Debbie Lockett" on="2015-08-04"/>
     <dependency type="spec" value="XP31+ XQ31+"/>
@@ -2511,7 +2519,6 @@
     <description>
       format-number() with pattern in which min integer part size is one, 
       frac part empty, exponent part not empty
-      <!-- Result depends on resolution of bug #28845  -->
     </description>
     <created by="Debbie Lockett" on="2015-08-04"/>
     <dependency type="spec" value="XP31+ XQ31+"/>
@@ -2605,7 +2612,6 @@
     <description>
       test format-number() with pattern in which min integer part size is zero, 
       for which there is a possible choice of mantissa and exponent.
-      <!-- Result depends on resolution of bug #28845  -->
     </description>
     <created by="Debbie Lockett" on="2015-08-04"/>
     <dependency type="spec" value="XP31+ XQ31+"/>
@@ -2621,7 +2627,6 @@
     <description>
       test format-number() with pattern in which min integer part size is zero, 
       for which there is a possible choice of mantissa and exponent.
-      <!-- Result depends on resolution of bug #28845  -->
     </description>
     <created by="Debbie Lockett" on="2015-08-04"/>
     <dependency type="spec" value="XP31+ XQ31+"/>
@@ -2637,15 +2642,71 @@
     <description>
       test format-number() with pattern in which min integer part size is zero, 
       for which there is a possible choice of mantissa and exponent.
-      <!-- Result depends on resolution of bug #28845  -->
     </description>
     <created by="Debbie Lockett" on="2015-08-04"/>
+    <modified by="Debbie Lockett" on="2015-10-01" change="Bug fix related to bug #28845: Change result"/>
     <dependency type="spec" value="XP31+ XQ31+"/>
     <test>
       fn:format-number(0.002, '#.###e0')
     </test>
     <result>
-      <assert-string-value>.2e-2</assert-string-value>
+      <assert-string-value>0.2e-2</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat301" covers="fn-format-number">
+    <description>
+      exponential notation: unexpected number of digits in integer part after rounding?
+    </description>
+    <created by="Debbie Lockett" on="2015-08-04"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>
+      fn:format-number(0.99999999, '.#e0')
+    </test>
+    <result>
+      <assert-string-value>1.0e0</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat302" covers="fn-format-number">
+    <description>
+      exponential notation: unexpected number of digits in integer part after rounding?
+    </description>
+    <created by="Debbie Lockett" on="2015-08-04"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>
+      fn:format-number(0.99999999, '.0e0')
+    </test>
+    <result>
+      <assert-string-value>1.0e0</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat303" covers="fn-format-number">
+    <description>
+      exponential notation: unexpected number of digits in integer part after rounding?
+    </description>
+    <created by="Debbie Lockett" on="2015-08-04"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>
+      fn:format-number(0.99999999, '#.#e0')
+    </test>
+    <result>
+      <assert-string-value>1e0</assert-string-value>
+    </result>
+  </test-case>
+  
+  <test-case name="numberformat304" covers="fn-format-number">
+    <description>
+      exponential notation: unexpected number of digits in integer part after rounding?
+    </description>
+    <created by="Debbie Lockett" on="2015-08-04"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>
+      fn:format-number(0.99999999, '0.0e0')
+    </test>
+    <result>
+      <assert-string-value>10.0e-1</assert-string-value>
     </result>
   </test-case>
 
@@ -2926,7 +2987,7 @@
       <result>
          <assert-string-value>.0</assert-string-value>
       </result>
-   </test-case>
+  </test-case>
 
   <test-case name="cbcl-fn-format-number-019">
       <description>Check grouping formating in format-number.</description>
@@ -3105,17 +3166,8 @@
 	 <any-of>
 	    <error code="FOCA0001"/>
 	    <assert-string-value>-Infinity%</assert-string-value>
-	    <assert-string-value>7922816251426433759354395033500%</assert-string-value>
+	    <assert-string-value>-7922816251426433759354395033500%</assert-string-value>
 	 </any-of>
-      </result>
-   </test-case>
-
-  <test-case name="cbcl-fn-format-number-018">
-      <description>Check grouping formating in format-number.</description>
-      <created by="Tim Mills" on="2015-09-14"/>
-      <test>format-number(xs:decimal('0'), '.#')</test>
-      <result>
-         <assert-string-value>.0</assert-string-value>
       </result>
    </test-case>
 
