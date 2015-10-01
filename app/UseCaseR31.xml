@@ -1151,6 +1151,23 @@ return map:put($dbj, "status", "credit card declined")
       </result>
    </test-case>
 
+    <test-case name="UseCaseR31-034-err" covers="map-constructor map-general map-merge fn-json-doc">
+      <description>Type error in the argument of the dynamic function</description>
+      <created by="O'Neil Delpratt" on="2015-09-17" />
+      <environment ref="json-docs"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[
+  let $mf := function($k as node(), $v) {
+                map{$k('book') : $v}
+
+             }
+
+  return $mf(json-doc("http://www.w3.org/qt3/app/UseCaseR31/bookinfo-json"), "first")]]></test>
+      <result>
+         <error code="XPTY0004" />
+      </result>
+   </test-case>
+
 <!-- <test-case name="UseCaseR31-034">
       <description>The following query creates a modified copy of the feed by removing all entries that restrict syndication</description>
       <created by="Jonathan Robie, EMC Corporation" on="2014-04-24"/>
