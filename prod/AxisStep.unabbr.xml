@@ -38,29 +38,32 @@
    <test-case name="unabbreviatedSyntax-4">
       <description> Evaluate selecting all children of the context node </description>
       <created by="Carmelo Montanez" on="2005-07-08"/>
+      <modified by="Debbie Lockett" on="2015-09-28" change="adapt assertion to eliminate whitespace issues"/>
       <environment ref="works-mod"/>
       <test>for $h in (/works/employee[1]) return $h/child::node()</test>
       <result>
-         <assert-xml><![CDATA[
-   <empnum>E1</empnum>
-   <pnum>P1</pnum>
-   <hours>40</hours>
-  ]]></assert-xml>
+         <all-of>
+            <assert>$result[self::empnum] eq 'E1'</assert>
+            <assert>$result[self::pnum] eq 'P1'</assert>
+            <assert>$result[self::hours] eq '40'</assert>
+         </all-of>
       </result>
    </test-case>
 
    <test-case name="unabbreviatedSyntax-5">
       <description> Evaluate selecting all the children the context node (child::node). </description>
       <created by="Carmelo Montanez" on="2005-07-08"/>
+      <modified by="Debbie Lockett" on="2015-09-28" change="adapt assertion to eliminate whitespace issues"/>
       <environment ref="works-mod"/>
       <test>for $h in (/works/employee[2]) return $h/child::node()</test>
       <result>
-         <assert-xml><![CDATA[
-   <empnum>E1</empnum>
-   <pnum>P2</pnum>
-   <hours>70</hours>
-   <hours>20</hours>Text data from Employee[2]
-  ]]></assert-xml>
+         <all-of>
+            <assert>$result[self::empnum] eq 'E1'</assert>
+            <assert>$result[self::pnum] eq 'P2'</assert>
+            <assert>($result[self::hours])[1] eq '70'</assert>
+            <assert>($result[self::hours])[2] eq '20'</assert>
+            <assert>contains(($result[self::text()])[last()],'Text data from Employee[2]')</assert>
+         </all-of>
       </result>
    </test-case>
 
