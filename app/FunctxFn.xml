@@ -3517,20 +3517,31 @@
    </test-case>
 
    <test-case name="functx-fn-resolve-uri-5">
-      <description/>
+      <description>resolve-uri() with an empty path.</description>
       <created by="Frans Englich" on="2008-05-16"/>
+      <modified by="Michael Kay" on="2015-10-02" change="alternative result. See bug 29169."/>
       <test>(resolve-uri( '', 'http://datypic.com'))</test>
       <result>
-         <assert-string-value>http://datypic.com</assert-string-value>
+         <any-of>
+            <assert-string-value>http://datypic.com</assert-string-value>
+            <assert-string-value>http://datypic.com/</assert-string-value>
+         </any-of>
       </result>
    </test-case>
 
    <test-case name="functx-fn-resolve-uri-all">
       <description/>
       <created by="Frans Englich" on="2008-05-16"/>
+      <modified by="Michael Kay" on="2015-10-02" change="alternative result. See bug 29169."/>
       <test>(resolve-uri('prod', 'http://datypic.com/'), resolve-uri('prod2', 'http://datypic.com/prod1'), resolve-uri( 'http://example.org','http://datypic.com'), resolve-uri( 'http://datypic.com', '../base'), resolve-uri( '', 'http://datypic.com'))</test>
       <result>
-         <assert-string-value>http://datypic.com/prod http://datypic.com/prod2 http://example.org http://datypic.com http://datypic.com</assert-string-value>
+         <all-of>
+            <assert>$result[1] eq "http://datypic.com/prod"</assert>
+            <assert>$result[2] eq "http://datypic.com/prod2"</assert>
+            <assert>$result[3] eq "http://example.org"</assert>
+            <assert>$result[4] eq "http://datypic.com"</assert>
+            <assert>$result[5] = ("http://datypic.com", "http://datypic.com/")</assert>
+         </all-of>
       </result>
    </test-case>
 
