@@ -553,6 +553,38 @@
          <assert-empty/>
       </result>
    </test-case>
+   
+   <test-case name="annotation-35" covers="array-general">
+      <description>Annotation in reserved namespace for array functions</description>
+      <created by="Debbie Lockett" on="2015-10-02"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[
+         declare namespace array = "http://www.w3.org/2005/xpath-functions/array";
+         declare %array:x function local:foo() {
+            "bar"
+         };
+         local:foo()
+      ]]></test>
+      <result>
+         <error code="XQST0045"/>
+      </result>
+   </test-case>
+   
+   <test-case name="annotation-36" covers="map-general">
+      <description>Annotation in a reserved namespace for map functions</description>
+      <created by="Debbie Lockett" on="2015-10-02"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[
+         declare namespace map = "http://www.w3.org/2005/xpath-functions/map";
+         declare %map:x function local:foo() {
+            "bar"
+         };
+         local:foo()
+      ]]></test>
+      <result>
+         <error code="XQST0045"/>
+      </result>
+   </test-case>
 
    <test-case name="annotation-assertion-1" covers-30="annotation-assertions">
       <description>
