@@ -127,7 +127,91 @@
       </result>
    </test-case>
    
+   <test-case name="string-template-009">
+      <description>Nested string template</description>
+      <created by="Michael Kay" on="2015-10-05"/>
+      <test><![CDATA[
+        declare variable $n external := <e>10</e>; 
+        ``[There were `{``[at least `{$n}`]``}` green bottles]``
+      ]]></test>
+      <result>
+         <all-of>
+            <assert-type>xs:string</assert-type>
+            <assert-eq>"There were at least 10 green bottles"</assert-eq>
+         </all-of>
+      </result>
+   </test-case>
    
+   <test-case name="string-template-010">
+      <description>String template in element constructor</description>
+      <created by="Michael Kay" on="2015-10-05"/>
+      <test><![CDATA[
+        declare variable $n external := <e>10</e>; 
+        <a>{``[There were `{$n}` green bottles]``}</a>
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<a>There were 10 green bottles</a>]]></assert-xml>
+      </result>
+   </test-case>
+   
+   <test-case name="string-template-011">
+      <description>String template in attribute constructor</description>
+      <created by="Michael Kay" on="2015-10-05"/>
+      <test><![CDATA[
+        declare variable $n external := <e>10</e>; 
+        <a text="{``[There were `{$n}` green bottles]``}"/>
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<a text="There were 10 green bottles"/>]]></assert-xml>
+      </result>
+   </test-case>
+   
+   <test-case name="string-template-012">
+      <description>String template within a conditional</description>
+      <created by="Michael Kay" on="2015-10-05"/>
+      <test><![CDATA[
+        declare variable $n as xs:integer external := 10; 
+        if ($n lt 20) then ``[There were `{$n}` green bottles]`` else ``[There were many green bottles]``
+      ]]></test>
+      <result>
+         <all-of>
+            <assert-type>xs:string</assert-type>
+            <assert-eq>"There were 10 green bottles"</assert-eq>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="string-template-013">
+      <description>String template within a filter expression</description>
+      <created by="Michael Kay" on="2015-10-05"/>
+      <test><![CDATA[
+        declare variable $n as xs:integer external := 10; 
+        ``[There were `{$n}` green bottles]``[$n lt 20]
+      ]]></test>
+      <result>
+         <all-of>
+            <assert-type>xs:string</assert-type>
+            <assert-eq>"There were 10 green bottles"</assert-eq>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="string-template-014">
+      <description>Newlines within a filter expression</description>
+      <created by="Michael Kay" on="2015-10-05"/>
+      <test><![CDATA[
+        declare variable $n as xs:integer external := 10; 
+        ``[There
+were `{$n}` green
+bottles]``
+      ]]></test>
+      <result>
+         <all-of>
+            <assert-type>xs:string</assert-type>
+            <assert-eq>"There&#xa;were 10 green&#xa;bottles"</assert-eq>
+         </all-of>
+      </result>
+   </test-case>
    
    
    
