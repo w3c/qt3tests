@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="us-ascii"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="prod-AllowingEmpty" covers="string-template">
+   <description>Tests for the "string template" expression: ``[String with `{$inserted}` expression]``</description>
+   <link type="spec" document="http://www.w3.org/TR/xquery-31/"
+         idref="prod-StringTemplate"/>
+ 
+   <dependency type="spec" value="XQ31+"/>      
+
+   <test-case name="string-template-001">
+      <description>simple case of string template </description>
+      <created by="Michael Kay" on="2015-10-05"/>
+      <test><![CDATA[
+        declare variable $n as xs:integer external := 10; 
+        ``[There were `{$n}` green bottles]``
+      ]]></test>
+      <result>
+         <all-of>
+            <assert-type>xs:string</assert-type>
+            <assert-eq>"There were 10 green bottles"</assert-eq>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="string-template-002">
+      <description>Trivial string template </description>
+      <created by="Michael Kay" on="2015-10-05"/>
+      <test><![CDATA[
+        declare variable $n as xs:integer external := 10; 
+        ``[There were 10 green bottles]``
+      ]]></test>
+      <result>
+         <all-of>
+            <assert-type>xs:string</assert-type>
+            <assert-eq>"There were 10 green bottles"</assert-eq>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="string-template-003">
+      <description>More complex string template </description>
+      <created by="Michael Kay" on="2015-10-05"/>
+      <test><![CDATA[
+        declare variable $n as xs:integer external := 10; 
+        declare variable $thing as xs:string external := ``[wall]``;
+        ``[There were `{$n}` green bottles hanging on the `{$thing}`]``
+      ]]></test>
+      <result>
+         <all-of>
+            <assert-type>xs:string</assert-type>
+            <assert-eq>"There were 10 green bottles hanging on the wall"</assert-eq>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="string-template-004">
+      <description>Entity references not recognized</description>
+      <created by="Michael Kay" on="2015-10-05"/>
+      <test><![CDATA[
+        declare variable $n as xs:integer external := 10; 
+        ``[There were &lt; `{$n}` green bottles]``
+      ]]></test>
+      <result>
+         <all-of>
+            <assert-type>xs:string</assert-type>
+            <assert-string-value>There were &amp;lt; 10 green bottles</assert-string-value>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="string-template-005">
+      <description>Special characters OK</description>
+      <created by="Michael Kay" on="2015-10-05"/>
+      <test><![CDATA[
+        declare variable $n as xs:integer external := 10; 
+        ``["{}"'[`]'\\<> `{$n}`]``
+      ]]></test>
+      <result>
+         <all-of>
+            <assert-type>xs:string</assert-type>
+            <assert-string-value><![CDATA["{}"'[`]'\\<> 10]]></assert-string-value>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="string-template-006">
+      <description>No fixed part</description>
+      <created by="Michael Kay" on="2015-10-05"/>
+      <test><![CDATA[
+        declare variable $n as xs:integer external := 10; 
+        ``[`{$n}``{$n+1}``{$n+2}`]``
+      ]]></test>
+      <result>
+         <all-of>
+            <assert-type>xs:string</assert-type>
+            <assert-string-value>101112</assert-string-value>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="string-template-007">
+      <description>Whitespace is retained</description>
+      <created by="Michael Kay" on="2015-10-05"/>
+      <test><![CDATA[
+        declare variable $n as xs:integer external := 10; 
+        ``[ `{$n}` `{$n+1}` `{$n+2}` ]``
+      ]]></test>
+      <result>
+         <all-of>
+            <assert-type>xs:string</assert-type>
+            <assert-string-value> 10 11 12 </assert-string-value>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="string-template-008">
+      <description>Enclosed expressions are atomized</description>
+      <created by="Michael Kay" on="2015-10-05"/>
+      <test><![CDATA[
+        declare variable $n external := <e>10</e>; 
+        ``[There were `{$n}` green bottles]``
+      ]]></test>
+      <result>
+         <all-of>
+            <assert-type>xs:string</assert-type>
+            <assert-eq>"There were 10 green bottles"</assert-eq>
+         </all-of>
+      </result>
+   </test-case>
+   
+   
+   
+   
+   
+   <test-case name="string-template-901">
+      <description>Unterminated string template </description>
+      <created by="Michael Kay" on="2015-10-05"/>
+      <test><![CDATA[
+        declare variable $n as xs:integer external := 10; 
+        ``[There were `{$n}` green bottles]`
+      ]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+   
+   <test-case name="string-template-902">
+      <description>Unterminated string template </description>
+      <created by="Michael Kay" on="2015-10-05"/>
+      <test><![CDATA[
+        declare variable $n as xs:integer external := 10; 
+        ``[There were `{$n}` green bottles]
+      ]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+   
+   <test-case name="string-template-903">
+      <description>Unterminated string template </description>
+      <created by="Michael Kay" on="2015-10-05"/>
+      <test><![CDATA[
+        declare variable $n as xs:integer external := 10; 
+        ``[There were `{$n}` green bottles
+      ]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+   
+   <test-case name="string-template-904">
+      <description>Unterminated string template </description>
+      <created by="Michael Kay" on="2015-10-05"/>
+      <test><![CDATA[
+        declare variable $n as xs:integer external := 10; 
+        ``[There were `{$n} green 
+      ]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+   
+   <test-case name="string-template-905">
+      <description>Unterminated string template </description>
+      <created by="Michael Kay" on="2015-10-05"/>
+      <test><![CDATA[
+        declare variable $n as xs:integer external := 10; 
+        ``[There were `{$n
+      ]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+   
+   <test-case name="string-template-906">
+      <description>Improperly started string template </description>
+      <created by="Michael Kay" on="2015-10-05"/>
+      <test><![CDATA[
+        declare variable $n as xs:integer external := 10; 
+        `[There were `{$n}` green bottles]``
+      ]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+   
+   <test-case name="string-template-907">
+      <description>Improperly started string template </description>
+      <created by="Michael Kay" on="2015-10-05"/>
+      <test><![CDATA[
+        declare variable $n as xs:integer external := 10; 
+        ``{There were `{$n}` green bottles}``
+      ]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+   
+   <test-case name="string-template-908">
+      <description>Unexpected "}`"</description>
+      <created by="Michael Kay" on="2015-10-05"/>
+      <test><![CDATA[
+        declare variable $n as xs:integer external := 10; 
+        unordered{$n}`
+      ]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+   
+   <test-case name="string-template-909">
+      <description>Unexpected "}`"</description>
+      <created by="Michael Kay" on="2015-10-05"/>
+      <test><![CDATA[
+        declare variable $n as xs:integer external := 10; 
+        }`nasty!]``
+      ]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+   
+   <test-case name="string-template-910">
+      <description>Maps can't be atomized</description>
+      <created by="Michael Kay" on="2015-10-05"/>
+      <test><![CDATA[
+        declare variable $n external := map{'a':10}; 
+        ``[There were `{$n}` green bottles]``
+      ]]></test>
+      <result>
+         <error code="FOTY0013"/>
+      </result>
+   </test-case>
+   
+   <test-case name="string-template-911">
+      <description>Maps can't be atomized</description>
+      <created by="Michael Kay" on="2015-10-05"/>
+      <test><![CDATA[
+        declare variable $n external := map{'a':10}; 
+        ``[There were `{map{'a':10}}` green bottles]``
+      ]]></test>
+      <result>
+         <error code="FOTY0013"/>
+      </result>
+   </test-case>
+
+
+</test-set>
