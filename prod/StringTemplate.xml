@@ -197,7 +197,7 @@
    </test-case>
    
    <test-case name="string-template-014">
-      <description>Newlines within a filter expression</description>
+      <description>Newlines within a string template</description>
       <created by="Michael Kay" on="2015-10-05"/>
       <test><![CDATA[
         declare variable $n as xs:integer external := 10; 
@@ -314,6 +314,24 @@ bottles]``
       </result>
    </test-case>
    
+   <test-case name="string-template-022">
+      <description>Empty string template</description>
+      <created by="Michael Kay" on="2015-10-05"/>
+      <test>``[]``</test>
+      <result>
+         <assert-eq>""</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="string-template-023">
+      <description>Effect of a misplaced space</description>
+      <created by="Michael Kay" on="2015-10-05"/>
+      <test>``[` {$n}`]``</test>
+      <result>
+         <assert-eq>"` {$n}`"</assert-eq>
+      </result>
+   </test-case>
+   
    
    
    
@@ -323,8 +341,7 @@ bottles]``
       <created by="Michael Kay" on="2015-10-05"/>
       <test><![CDATA[
         declare variable $n as xs:integer external := 10; 
-        ``[There were `{$n}` green bottles]`
-      ]]></test>
+        ``[There were `{$n}` green bottles]`]]></test>
       <result>
          <error code="XPST0003"/>
       </result>
@@ -335,8 +352,7 @@ bottles]``
       <created by="Michael Kay" on="2015-10-05"/>
       <test><![CDATA[
         declare variable $n as xs:integer external := 10; 
-        ``[There were `{$n}` green bottles]
-      ]]></test>
+        ``[There were `{$n}` green bottles]]]></test>
       <result>
          <error code="XPST0003"/>
       </result>
@@ -347,8 +363,7 @@ bottles]``
       <created by="Michael Kay" on="2015-10-05"/>
       <test><![CDATA[
         declare variable $n as xs:integer external := 10; 
-        ``[There were `{$n}` green bottles
-      ]]></test>
+        ``[There were `{$n}` green bottles]]></test>
       <result>
          <error code="XPST0003"/>
       </result>
@@ -359,8 +374,7 @@ bottles]``
       <created by="Michael Kay" on="2015-10-05"/>
       <test><![CDATA[
         declare variable $n as xs:integer external := 10; 
-        ``[There were `{$n} green 
-      ]]></test>
+        ``[There were `{$n} green ]]></test>
       <result>
          <error code="XPST0003"/>
       </result>
@@ -371,8 +385,7 @@ bottles]``
       <created by="Michael Kay" on="2015-10-05"/>
       <test><![CDATA[
         declare variable $n as xs:integer external := 10; 
-        ``[There were `{$n
-      ]]></test>
+        ``[There were `{$n]]></test>
       <result>
          <error code="XPST0003"/>
       </result>
@@ -480,6 +493,46 @@ bottles]``
         declare namespace xsl=``[http://www.w3.org/1999/XSL/Transform]``;
         <xsl:output/>
       ]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+   
+   <test-case name="string-template-915">
+      <description>Not allowed in option declaration</description>
+      <created by="Michael Kay" on="2015-10-05"/>
+      <test><![CDATA[
+        declare namespace zzz="http://example.com/options";
+        declare option zzz:synonymous = ``[http://www.w3.org/1999/XSL/Transform]``;
+        <zzz:output/>
+      ]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+   
+   <test-case name="string-template-916">
+      <description>Not allowed in processing-instruction name</description>
+      <created by="Michael Kay" on="2015-10-05"/>
+      <test>processing-instruction(``[pi-action]``)</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+   
+   <test-case name="string-template-917">
+      <description>Not allowed in decimal format declaration</description>
+      <created by="Michael Kay" on="2015-10-05"/>
+      <test>declare default decimal-format NaN = ``[not-a-number]``; 12</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+   
+   <test-case name="string-template-918">
+      <description>Not allowed in collation literal</description>
+      <created by="Michael Kay" on="2015-10-05"/>
+      <test>for $x in (1 to 10)/string() order by $x collation ``[http://www.w3.org/2005/xpath-functions/collation/codepoint]`` return xs:integer($x)</test>
       <result>
          <error code="XPST0003"/>
       </result>
