@@ -827,6 +827,7 @@
       <description>Validated map children (which should have anonymous type annotations)</description>
       <created by="Josh Spiegel" on="2015-07-29"/>
       <modified by="Debbie Lockett" on="2015-08-12" change="Added XQuery dependency"/>
+      <modified by="Michael Kay" on="2015-10-06" change="See bug 29172"/>
       <dependency type="spec" value="XQ31+"/>
       <test>
          import schema "http://www.w3.org/2005/xpath-functions";
@@ -843,12 +844,12 @@
          '
          let $xml := json-to-xml($json, map { 'validate' : true() })/fn:map
          return (
-            $xml/fn:string instance of element(fn:string, fn:stringType),
-            $xml/fn:number instance of element(fn:number, fn:numberType),
-            not($xml/fn:null instance of element(fn:null, fn:nullType)),
-            $xml/fn:boolean instance of element(fn:boolean, fn:booleanType)+,
-            $xml/fn:map instance of element(fn:map, fn:mapType),
-            $xml/fn:array instance of element(fn:array, fn:arrayType)
+            $xml/fn:string instance of element(fn:string, fn:stringWithinMapType),
+            $xml/fn:number instance of element(fn:number, fn:numberWithinMapType),
+            $xml/fn:null instance of element(fn:null, fn:nullWithinMapType),
+            $xml/fn:boolean instance of element(fn:boolean, fn:booleanWithinMapType)+,
+            $xml/fn:map instance of element(fn:map, fn:mapWithinMapType),
+            $xml/fn:array instance of element(fn:array, fn:arrayWithinMapType)
           )
       </test>
       <result>
