@@ -245,18 +245,26 @@
    <test-case name="K2-SeqDocFunc-7">
       <description> A windows file path is an invalid URI to fn:doc(). </description>
       <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="Michael Kay" on="2015-10-06" change="see bug 10795"/>
       <test>doc("example.com\example.org\does\not\exist\doesNotExist\works-mod.xml")</test>
       <result>
-         <error code="FODC0002"/>
+         <any-of>
+            <error code="FODC0002"/>
+            <error code="FODC0005"/>
+         </any-of>
       </result>
    </test-case>
 
    <test-case name="K2-SeqDocFunc-8">
       <description> A windows file path is an invalid URI to fn:doc()(#2). </description>
       <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="Michael Kay" on="2015-10-06" change="see bug 10795"/>
       <test>doc("\example.com\example.org\does\not\exist\doesNotExist\works-mod.xml")</test>
       <result>
-         <error code="FODC0002"/>
+         <any-of>
+            <error code="FODC0002"/>
+            <error code="FODC0005"/>
+         </any-of>
       </result>
    </test-case>
 
