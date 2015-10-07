@@ -93,7 +93,19 @@
 
    </environment>
 
+    <environment name="users-json">
+        <collection uri="http://www.w3.org/2010/09/qt-fots-catalog/users-json">
+            <query>unparsed-text-lines("UseCaseR31/users.json") ! parse-json(.)</query>
+        </collection>
+      <param name="users-collection-uri" as="xs:string" select="'http://www.w3.org/2010/09/qt-fots-catalog/users-json'" declared="false"/>
+    </environment>
 
+    <environment name="sales-json">
+        <collection uri="http://www.w3.org/2010/09/qt-fots-catalog/sales-json">
+            <query>unparsed-text-lines("UseCaseR31/sales.json") ! parse-json(.)</query>
+        </collection>
+      <param name="sales-collection-uri" as="xs:string" select="'http://www.w3.org/2010/09/qt-fots-catalog/sales-json'" declared="false"/>
+    </environment>
 
 
     <dependency type="spec" value="XQ30+"/>
@@ -895,39 +907,36 @@ local:deep-put(json-doc("http://www.w3.org/qt3/app/UseCaseR31/bookinfo-json"), "
    </test-case>
 
 
-  <test-case name="UseCaseR31-026" covers="fn-parse-json array-curly-constructor array-size postfix-lookup">
+  <test-case name="UseCaseR31-026" covers="fn-parse-json array-curly-constructor array-size postfix-lookup fn-collection">
       <description>The following query performs a join on Sarah's friend
           list to return the Object representing each of her friends</description>
       <created by="Jonathan Robie, EMC Corporation" on="2014-04-24"/>
       <modified by="O'Neil Delpratt" on="2015-09-17" change="Added the XQuery 3.1 Use case to QT3" />
-      <environment ref="json-docs"/>
-       <dependency type="spec" value="XQ31+"/>
+      <environment ref="users-json"/>
+      <dependency type="spec" value="XQ31+"/>
       <test><![CDATA[
-      declare variable $input := array{unparsed-text-lines("UseCaseR31/users.json") ! parse-json(.)};   (: collection("users") :)
-      for $sarah in 1 to array:size($input),
-          $friend in 1 to array:size($input)
-      where $input($sarah)?name = "Sarah"
-       and $input($friend)?name = $input($sarah)?friends?*
-      return  $input($friend)?name
+      for $sarah in collection($users-collection-uri),
+          $friend in collection($users-collection-uri)
+      where $sarah('name') = "Sarah"
+       and $friend('name') = $sarah('friends')?*
+      return $friend
       ]]></test>
       <result>
          <assert-string-value><![CDATA[Jim]]></assert-string-value>
       </result>
    </test-case>
 
-<test-case name="UseCaseR31-027" covers="fn-parse-json array-curly-constructor array-size postfix-lookup map-merge">
+<test-case name="UseCaseR31-027" covers="fn-parse-json array-curly-constructor array-size postfix-lookup map-merge fn-collection">
       <description>this test case groups sales by product, across stores</description>
       <created by="Jonathan Robie, EMC Corporation" on="2014-04-24"/>
       <modified by="O'Neil Delpratt" on="2015-09-17" change="Added the XQuery 3.1 Use case to QT3. I also had to change how the JSON document is parsed" />
-      <environment ref="json-docs"/>
+      <environment ref="sales-json"/>
        <dependency type="spec" value="XQ31+"/>
-      <test><![CDATA[
-      declare variable $input := array{unparsed-text-lines("UseCaseR31/sales.json") ! parse-json(.)};
-      map:merge(
-  for $sale in 1 to array:size($input) (: collection("sales") :)
-  let $pname := $input($sale)?product, $y := $input($sale)
+      <test><![CDATA[map:merge(
+  for $sale in collection($sales-collection-uri)
+  let $pname := $sale('product')
   group by $pname
-  return map { $pname : sum(for $s in $y return $s?quantity) })]]></test>
+  return map { $pname : sum(for $s in $sales return $s('quantity')) })]]></test>
       <result>
          <assert-deep-eq><![CDATA[map {
   "blender" : 250,

@@ -353,6 +353,8 @@
         <xs:complexType>
             <xs:sequence>
                 <xs:element ref="source" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element ref="resource" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element ref="query" minOccurs="0" maxOccurs="unbounded"/>
             </xs:sequence>
             <xs:attributeGroup ref="uriAttr"/>
         </xs:complexType>
@@ -409,6 +411,24 @@
             <xs:attribute name="prefix" />
             <xs:attribute name="uri" />
         </xs:complexType>
+    </xs:element>
+
+     <xs:element name="query" >
+        <xs:annotation>
+            <xs:documentation>
+                <div>
+                    <h3>query</h3>
+                    <p>
+                        The content of the element is an XQuery expression to be evaluated. This should return a sequence equivalent
+                        to the contents of a sequence which can used as input to test cases. Specifically used in fn:collection.
+                    The scope of the &lt;query&gt; element is the parent &lt;collection&gt; element in which it appears.
+                    </p>
+                    <p>For example: unparsed-text-lines('xxx')!parse-json()</p>
+
+                </div>
+            </xs:documentation>
+        </xs:annotation>
+
     </xs:element>
     
     <xs:element name="schema" type="schemaType" >
@@ -521,7 +541,7 @@
                         An element which provides information about a file that can be read as text, used as input to test cases.</p>
                         
                         
-                    <p> The <code>uri</code> attributes indicate how the resource is made avaiable to queries (as a URI that can be supplied to the unparsed-text(), unparsed-text-lines() and unparsed-text-available() functions.)</p>
+                    <p> The <code>uri</code> attributes indicate how the resource is made available to queries (as a URI that can be supplied to the unparsed-text(), unparsed-text-lines() and unparsed-text-available() functions.)</p>
                     
                     <p> The <code>file</code> attribute gives the relative location of the file containing the resource.</p>
 
