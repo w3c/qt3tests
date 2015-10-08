@@ -56,15 +56,18 @@
     <xsl:param name="main-dir" select="substring-before(static-base-uri(), 'tools')"/>
     
     <!-- xslt-dir is the directory where the XSLT3 tests will be generated. By default they
-    are generated in a directory that is created as a sibling of the QT3 directory -->
-    
+    are generated in a directory that is created as a sibling of the QT3 directory -->    
     <xsl:param name="xslt-dir" select="concat($main-dir,'../qt3-xslt/')"/>
+    
+    <!-- xslt-src-dir is the full XSLT 3.0 test suite directory. This path may need to be
+    adjusted to suit different users. -->
+    <xsl:param name="xslt-src-dir" select="concat($main-dir,'../../xslt30-test/')"/>
 
     <xsl:namespace-alias stylesheet-prefix="x" result-prefix="xsl"/>
 
     <xsl:variable name="globalEnvironments" select="fots:catalog/fots:environment"/>
     
-    <xsl:variable name="OUTPUT_VALIDATION" static="yes" select="'strip'"/>
+    <xsl:variable name="OUTPUT_VALIDATION" static="yes" select="'strict'"/>
 
     <xsl:template match="fots:catalog">
         
@@ -75,7 +78,34 @@
                 <xsl:for-each select="fots:test-set">
                     <test-set name="{@name}" file="{replace(@file, '/', concat('/', substring-after(@name, '-'), '/_'))}"/>
                 </xsl:for-each>
+                <test-set name="xslt3-catalog" file="catalog/xslt3-catalog/_xslt3-catalog.xml"/>
             </catalog>
+        </xsl:result-document>
+        
+        <!-- create a test set containing one test which validates the generated test suite against
+        the xslt30 catalog schema-->
+        <xsl:result-document href="{$xslt-dir}catalog/xslt3-catalog/_xslt3-catalog.xml"
+            _validation="{$OUTPUT_VALIDATION}">
+            <test-set xmlns="http://www.w3.org/2012/10/xslt-test-catalog" name="xslt3-catalog">
+                <environment name="catalog001">
+                    <source role="." file="../../catalog.xml" validation="strict"/>
+                    <schema role="source-reference" file="catalog-schema.xsd" xsd-version="1.0"/>
+                </environment>            
+                <test-case name="catalog-001">
+                    <description>Test that the test catalog is valid with respect to its schema</description>
+                    <created by="Michael Kay" on="2012-11-07"/>
+                    <environment ref="catalog001"/>
+                    <dependencies>
+                        <spec value="XSLT30+"/>
+                    </dependencies>
+                    <test>
+                        <stylesheet file="catalog-001.xsl"/>
+                    </test>
+                    <result>
+                        <assert>/ok[not(*)]</assert>
+                    </result>
+                </test-case>
+            </test-set>    
         </xsl:result-document>
         
         <xsl:apply-templates select="fots:test-set"/>
@@ -93,7 +123,13 @@
             <xsl:sequence select="file:copy(concat($main-dir, 'fn/unparsed-text/text-plain-utf-8-bom-lines-2.txt'), concat($xslt-dir, 'fn/unparsed-text/text-plain-utf-8-bom-lines-2.txt'))"/>
             <xsl:sequence select="file:copy(concat($main-dir, 'fn/unparsed-text/text-plain-utf-8-bom-lines-3.txt'), concat($xslt-dir, 'fn/unparsed-text/text-plain-utf-8-bom-lines-3.txt'))"/>
             <xsl:sequence select="file:copy(concat($main-dir, 'fn/transform/render.xsl'), concat($xslt-dir, 'fn/transform/transform/render.xsl'))"/>
-            <xsl:sequence select="file:copy(concat($main-dir, 'docs/atomic.xml'), concat($xslt-dir, 'fn/docs/atomic.xml'))"/>
+            <xsl:sequence select="file:copy(concat($main-dir, 'docs/atomic.xml'), concat($xslt-dir, 'fn/docs/atomic.xml'))"/>            
+            <xsl:sequence select="file:copy(concat($main-dir, 'prod/ModuleImport/test1c1-lib.xq'), concat($xslt-dir, 'prod/ModuleImport/test1c1-lib.xq'))"/>
+            <xsl:sequence select="file:copy(concat($main-dir, 'prod/ModuleImport/test2c1-lib.xq'), concat($xslt-dir, 'prod/ModuleImport/test2c1-lib.xq'))"/>
+            
+            <xsl:sequence select="file:copy(concat($xslt-src-dir, 'tests/misc/catalog/catalog-001.xsl'), concat($xslt-dir, 'catalog/xslt3-catalog/catalog-001.xsl'))"/>
+            <xsl:sequence select="file:copy(concat($xslt-src-dir, 'admin/catalog-schema.xsd'), concat($xslt-dir, 'catalog/xslt3-catalog/catalog-schema.xsd'))"/>
+            <xsl:sequence select="file:copy(concat($xslt-src-dir, 'admin/xml.xsd'), concat($xslt-dir, 'catalog/xslt3-catalog/xml.xsd'))"/>
         </xsl:if>
 
     </xsl:template>
@@ -103,7 +139,7 @@
         <xsl:variable name="testSetName" select="@name"/>
         
         <xsl:result-document href="{$xslt-dir}{replace(@file, '/', concat('/', substring-after(@name, '-'), '/_'))}"
-            validation="strict">
+            _validation="{$OUTPUT_VALIDATION}">
             <test-set xmlns="http://www.w3.org/2012/10/xslt-test-catalog" name="{$testSetName}">
                 <xsl:variable name="target" select="document(@file)"/>
                 <xsl:variable name="targetUri" select="document-uri($target)"/>
@@ -138,7 +174,7 @@
         <xsl:element name="{local-name()}" namespace="http://www.w3.org/2012/10/xslt-test-catalog">
             <xsl:apply-templates select="@*"/>
             <xsl:apply-templates mode="rename"/>
-            <xsl:apply-templates select="parent::fots:module" mode="rename"/>
+            <xsl:apply-templates select="following-sibling::fots:module" mode="rename"/>
         </xsl:element>       
     </xsl:template>
     
@@ -148,19 +184,34 @@
     
     <xsl:template match="@declared"/>
     <xsl:template match="fots:test-case/fots:environment/@name"/>
-    
+        
+    <xsl:template match="fots:environment" mode="module-env">
+        <xsl:param name="env"/>
+        <xsl:element name="{local-name()}" namespace="http://www.w3.org/2012/10/xslt-test-catalog">
+            <xsl:apply-templates select="@*" mode="module-env"/>
+            <xsl:apply-templates select="following-sibling::fots:module" mode="rename"/>
+            <!-- add the contents of the referenced environment -->
+            <xsl:apply-templates select="$env/*" mode="rename"/>
+            <xsl:apply-templates mode="rename"/>
+        </xsl:element>       
+    </xsl:template>
+    <xsl:template match="fots:test-case/fots:environment/@ref" mode="module-env"/>
+    <xsl:template match="@*" mode="module-env">
+        <xsl:copy/>
+    </xsl:template>
+        
     <xsl:template match="fots:dependency" mode="rename">
         <xsl:element name="{@type}" namespace="http://www.w3.org/2012/10/xslt-test-catalog">
             <xsl:copy-of select="@value"/>
         </xsl:element>
     </xsl:template>
     
-    <xsl:template match="fots:dependency[@type='spec']" mode="rename">
+    <xsl:template match="fots:dependency[@type='spec']" mode="rename" priority="4">
         <spec xmlns="http://www.w3.org/2012/10/xslt-test-catalog" value="XSLT30+"/>
     </xsl:template>
     
-    <xsl:template match="fots:dependency[@type='spec'][contains(@value,'XP31')]" mode="rename">
-        <spec xmlns="http://www.w3.org/2012/10/xslt-test-catalog" value="XSLT30+"/>
+    <xsl:template match="fots:dependency[@type='spec'][contains(@value,'XP31')]" mode="rename" priority="5">
+        <xsl:next-match/>
         <feature xmlns="http://www.w3.org/2012/10/xslt-test-catalog" value="XPath_3.1"/>
     </xsl:template>
     
@@ -209,7 +260,7 @@
         <feature xmlns="http://www.w3.org/2012/10/xslt-test-catalog" value="XML_1.1" satisfied="false"/>
     </xsl:template>
     
-    <xsl:template match="fots:dependency[@type='language']" mode="rename">
+    <xsl:template match="fots:dependency[@type='language']" mode="rename" priority="4">
         <languages_for_numbering xmlns="http://www.w3.org/2012/10/xslt-test-catalog" value="{@value}"/>
     </xsl:template>
     
@@ -217,15 +268,15 @@
         <default_language_for_numbering xmlns="http://www.w3.org/2012/10/xslt-test-catalog" value="{@value}"/>
     </xsl:template>
     
-    <xsl:template match="fots:dependency[@type='unicode-normalization-form']" mode="rename">
-        <additional_normalization_form xmlns="http://www.w3.org/2012/10/xslt-test-catalog" value="support {@value}"/>
+    <xsl:template match="fots:dependency[@type='unicode-normalization-form']" mode="rename">        
+        <additional_normalization_form xmlns="http://www.w3.org/2012/10/xslt-test-catalog" value="support {@value}">
+        <xsl:if test="@satisfied='false'">
+            <xsl:attribute name="satisfied" select="@satisfied"/>
+        </xsl:if>
+        </additional_normalization_form>
     </xsl:template>
     
-    <xsl:template match="fots:dependency[@type='unicode-normalization-form'][@satisfied='false']" mode="rename">
-        <additional_normalization_form xmlns="http://www.w3.org/2012/10/xslt-test-catalog" value="support {@value}" satisfied="{@satisfied}"/>        
-    </xsl:template>
-    
-    <xsl:template match="fots:dependency[@type='language'][@value='xib']" mode="rename"/>
+    <xsl:template match="fots:dependency[@type='language'][@value='xib']" mode="rename" priority="5"/>
     <xsl:template match="fots:dependency[@type='limits']" mode="rename"/>
     <xsl:template match="fots:dependency[@type='calendar']" mode="rename"/>
     <xsl:template match="fots:dependency[@type='format-integer-sequence']" mode="rename"/>    
@@ -235,14 +286,37 @@
     <xsl:template match="fots:environment/fots:namespace" mode="rename"/>
     <xsl:template match="fots:environment/fots:decimal-format" mode="rename"/>
     
-    <xsl:template match="fots:source | fots:schema | fots:resource | fots:module" mode="rename">
+    <xsl:template match="fots:query" mode="rename"/>
+    
+    <xsl:template match="fots:source | fots:resource | fots:module" mode="rename">
         <xsl:element name="{if (local-name() = 'module') then 'resource' else local-name()}" namespace="http://www.w3.org/2012/10/xslt-test-catalog">
             <xsl:copy-of select="@* except @file"/>
             <xsl:if test="@file">
                 <xsl:attribute name="file" select="if (ancestor::fots:catalog) then @file else concat('../', @file)"/>
             </xsl:if>           
             <xsl:if test="local-name() = 'module'">
-                <xsl:attribute name="media-type" select="'text-xquery'"/>                
+                <xsl:attribute name="media-type" select="'application/xquery'"/>                
+            </xsl:if>
+            <xsl:apply-templates mode="rename"/>
+        </xsl:element>
+        <xsl:call-template name="copy-source-file" use-when="function-available('file:copy', 2)"/>
+    </xsl:template>
+    
+    <xsl:template match="fots:schema" mode="rename">
+        <xsl:element name="{local-name()}" namespace="http://www.w3.org/2012/10/xslt-test-catalog">
+            <xsl:copy-of select="@* except (@file,@role)"/>
+            <xsl:if test="@file">
+                <xsl:attribute name="file" select="if (ancestor::fots:catalog) then @file else concat('../', @file)"/>
+            </xsl:if>
+            <xsl:if test="@role">
+                <xsl:choose>
+                    <xsl:when test="@role = 'import'">
+                        <xsl:attribute name="role" select="'stylesheet-import'"/>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:copy-of select="@role"/>
+                    </xsl:otherwise>
+                </xsl:choose>                
             </xsl:if>
             <xsl:apply-templates mode="rename"/>
         </xsl:element>
@@ -256,12 +330,6 @@
             <xsl:variable name="to" select="concat($xslt-dir, substring-before(/fots:test-set/@name, '-'), '/', @file)"/>
             <xsl:sequence select="file:copy($from, $to)"/>
         </xsl:if>  
-    </xsl:template>
-    
-    <xsl:template match="fots:module" mode="module-wrap-env">
-        <environment xmlns="http://www.w3.org/2012/10/xslt-test-catalog" name="{parent::node()[fots:test-case]/@name}"> 
-            <xsl:apply-templates select="." mode="rename"/>
-        </environment> 
     </xsl:template>
        
     <xsl:template match="fots:test-case">
@@ -295,15 +363,29 @@
         <xsl:if test="$checkForXT">
             
             <test-case  xmlns="http://www.w3.org/2012/10/xslt-test-catalog" name="{@name}">
-                <xsl:apply-templates select="fots:description, fots:created, fots:modified, fots:environment" mode="rename"/>
-                <xsl:if test="empty(fots:environment)">
-                    <xsl:apply-templates select="fots:module" mode="module-wrap-env"/>                    
+                <xsl:apply-templates select="fots:description, fots:created, fots:modified" mode="rename"/>
+                <xsl:choose>
+                    <xsl:when test="fots:environment[@ref] and fots:module">
+                        <!-- add the referenced environment to the test-case, with an additional resource for the module -->
+                        <xsl:apply-templates select="fots:environment" mode="module-env">
+                            <xsl:with-param name="env" select="$env"/>
+                        </xsl:apply-templates>                        
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:apply-templates select="fots:environment" mode="rename"/>
+                    </xsl:otherwise>
+                </xsl:choose>
+                <xsl:if test="empty(fots:environment) and exists(fots:module)">            
+                    <environment xmlns="http://www.w3.org/2012/10/xslt-test-catalog"> 
+                        <xsl:apply-templates select="fots:module" mode="rename"/>
+                    </environment> 
                 </xsl:if>
                 <dependencies>
                     <xsl:if test="not(fots:dependency[@type='spec'])">                        
                         <spec value="XSLT30+"/>
                     </xsl:if>
-                    <xsl:if test="$env/fots:schema">
+                    <xsl:if test="$env/fots:schema and not(fots:dependency[@type='feature'][@value=('schemaValidation', 'schemaImport')])">
+                        <!-- 2nd condition to avoid adding this feature element twice -->
                         <feature value="schema_aware"/>
                     </xsl:if>
                     <xsl:apply-templates select="fots:dependency[@type='spec']" mode="rename"/>
@@ -375,6 +457,9 @@
                                 <xsl:if test="fots:dependency[@type='feature'][@value='xpath-1.0-compatibility']">
                                     <xsl:attribute name="version" select="'1.0'"/>
                                 </xsl:if>
+                                <xsl:if test="fots:environment/fots:namespace[@prefix='']">
+                                    <xsl:namespace name="{fots:environment/fots:namespace/@prefix}" select="fots:environment/fots:namespace/@uri"/>
+                                </xsl:if>
                             </x:variable>    
                             <xsl:apply-templates select="fots:result"/>
                             <x:catch>
@@ -425,6 +510,10 @@
     
     <xsl:template match="fots:source[starts-with(@role,'$')]" mode="global">
         <x:param name="{substring(@role,2)}"/>
+    </xsl:template>
+    
+    <xsl:template match="fots:schema[@role='import']" mode="global">
+        <x:import-schema namespace="{@uri}"/>
     </xsl:template>
     
     
@@ -758,7 +847,7 @@
         <xsl:namespace name="{@prefix}" select="@uri"/>
     </xsl:template>
     
-    <!-- Test that are not converted because they aren't designed to work in an XSLT environment,
+    <!-- Tests that are not converted because they aren't designed to work in an XSLT environment,
     or because the conversion machinery is not up to the job -->
     
     <xsl:variable name="exclusions">
