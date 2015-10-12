@@ -315,6 +315,16 @@
          <error code="XPST0081"/>
       </result>
    </test-case>
+   
+   <test-case name="Constr-namespace-30">
+      <description> Namespace declaration attribute appears after attribute which uses function in that namespace. </description>
+      <created by="Debbie Lockett" on="2015-10-12"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[<e a="{p:count(())}" xmlns:p="http://www.w3.org/2005/xpath-functions"/>]]></test>
+      <result>
+         <assert-xml><![CDATA[<e xmlns:p="http://www.w3.org/2005/xpath-functions" a="0"/>]]></assert-xml>
+      </result>
+   </test-case>
 
    <test-case name="K2-DirectConElemNamespace-1">
       <description> A namespace declaration inside a direct element constructor is not in-scope for the next operand of the comma operator. </description>
