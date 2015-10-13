@@ -1250,11 +1250,16 @@
    </test-case>
    
    <test-case name="cbcl-numeric-idivide-008">
-      <description> Test idiv by one on an xs:double </description>
+      <description> Test idiv on an xs:float </description>
       <created by="Tim Mills" on="2008-06-17"/>      
+      <modified by="Tim Mills" on="2015-10-12"/>      
       <test>xs:float('1e38') idiv xs:float('1e-37')</test>
       <result>
-         <error code="FOAR0002"/>
+         <any-of>
+            <error code="FOAR0002"/>
+            <error code="FOCA0002"/>
+            <assert-eq>1000000000000000000000000000000000000000000000000000000000000000000000000000</assert-eq>
+         </any-of>
       </result>
    </test-case>
    
