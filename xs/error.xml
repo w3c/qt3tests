@@ -7,7 +7,9 @@
               however it is not an error for an implementation not supporting 
               XSD 1.1 to support xs:error. -->
 
+<!--
    <dependency type="xsd-version" value="1.1"/>
+-->
    <dependency type="spec" value="XP30+ XQ30+"/>
 
    <test-case name="xs-error-001">
@@ -94,55 +96,61 @@
    <test-case name="xs-error-009">
       <description>Attempts to invoke the "xs:error" function with $arg as an untyped atomic value.</description>
       <created by="Tim Mills" on="2013-03-25"/>
+      <modified by="Tim Mills" on="2015-10-12" change="Bug 29173" />
       <test>xs:error(xs:untypedAtomic(""))</test>
       <result>
-         <error code="XPTY0004"/>
+         <error code="FORG0001"/>
       </result>
    </test-case>
    
    <test-case name="xs-error-010">
       <description>Attempts to invoke the "xs:error" function with $arg as a string  value.</description>
       <created by="Tim Mills" on="2013-03-25"/>
+      <modified by="Tim Mills" on="2015-10-12" change="Bug 29173" />
       <test>xs:error("")</test>
       <result>
-         <error code="XPTY0004"/>
+         <error code="FORG0001"/>
       </result>
    </test-case>
 
    <test-case name="xs-error-011">
       <description>Attempts to invoke the "xs:error" function with $arg as a decimal value.</description>
       <created by="Tim Mills" on="2013-03-25"/>
+      <modified by="Tim Mills" on="2015-10-12" change="Bug 29173" />
       <test>xs:error(1.0)</test>
       <result>
-         <error code="XPTY0004"/>
+         <error code="FORG0001"/>
       </result>
    </test-case>
 
    <test-case name="xs-error-012">
       <description>Attempts to invoke the "xs:error" function with $arg as a double value.</description>
       <created by="Tim Mills" on="2013-03-25"/>
+      <modified by="Tim Mills" on="2015-10-12" change="Bug 29173" />
       <test>xs:error(1e0)</test>
       <result>
-         <error code="XPTY0004"/>
+         <error code="FORG0001"/>
       </result>
    </test-case>
 
    <test-case name="xs-error-013">
       <description>Attempts to invoke the "xs:error" function with $arg as an integer value.</description>
       <created by="Tim Mills" on="2013-03-25"/>
+      <modified by="Tim Mills" on="2015-10-12" change="Bug 29173" />
       <test>xs:error(1)</test>
       <result>
-         <error code="XPTY0004"/>
+         <error code="FORG0001"/>
       </result>
    </test-case>
    
    <test-case name="xs-error-014">
       <description>Check the return type of xs:error.</description>
       <created by="Tim Mills" on="2013-03-25"/>
+      <modified by="Tim Mills" on="2015-10-12" change="Bug 29173" />
       <test>xs:error(1) instance of xs:error</test>
       <result>
 	<any-of>
-	  <error code="XPTY0004"/>
+	  <error code="FORG0001"/>
 	  <assert-true />
 	</any-of>
       </result>
@@ -369,18 +377,20 @@
    <test-case name="xs-error-032">
       <description>Castablility of xs:error.</description>
       <created by="Tim Mills" on="2013-03-25"/>
+      <modified by="Tim Mills" on="2015-10-12" change="Bug 29173" />
       <test>xs:error(1) castable as xs:error</test>
       <result>
-	<error code="XPTY0004" />
+	<error code="FORG0001" />
       </result>
    </test-case>
 
    <test-case name="xs-error-033">
       <description>Castablility of xs:error.</description>
       <created by="Tim Mills" on="2013-03-25"/>
+      <modified by="Tim Mills" on="2015-10-12" change="Bug 29173" />
       <test>xs:error(1) castable as xs:integer</test>
       <result>
-	<error code="XPTY0004" />
+	<error code="FORG0001" />
       </result>
    </test-case>
 
@@ -423,24 +433,27 @@
    <test-case name="xs-error-038">
       <description>Cast to xs:error.</description>
       <created by="Tim Mills" on="2013-03-25"/>
+      <modified by="Tim Mills" on="2015-10-12" change="Bug 29173" />
       <test>xs:error(1) cast as xs:error</test>
       <result>
-	<error code="XPTY0004" />
+	<error code="FORG0001" />
       </result>
    </test-case>
 
    <test-case name="xs-error-039">
       <description>Casting xs:error.</description>
       <created by="Tim Mills" on="2013-03-25"/>
+      <modified by="Tim Mills" on="2015-10-12" change="Bug 29173" />
       <test>xs:error(1) cast as xs:integer</test>
       <result>
-	<error code="XPTY0004" />
+	<error code="FORG0001" />
       </result>
    </test-case>
 
    <test-case name="xs-error-040">
       <description>Cast to xs:error.</description>
       <created by="Tim Mills" on="2013-03-25"/>
+      <modified by="Tim Mills" on="2015-10-12" change="Bug 29173" />
       <test>xs:error(()) cast as xs:error</test>
       <result>
 	<error code="XPTY0004" />
@@ -468,11 +481,12 @@
    <test-case name="xs-error-043">
       <description>instance of xs:error.</description>
       <created by="Tim Mills" on="2013-03-25"/>
+      <modified by="Tim Mills" on="2015-10-12" change="Bug 29173" />
       <test>xs:error(1) instance of xs:error</test>
       <result>
 	<any-of>
 	  <assert-true />
-	  <error code="XPTY0004" />
+	  <error code="FORG0001" />
 	</any-of>
       </result>
    </test-case>
@@ -492,6 +506,7 @@
    <test-case name="xs-error-045">
       <description>typeswitch with xs:error.</description>
       <created by="Tim Mills" on="2013-03-25"/>
+      <modified by="Tim Mills" on="2015-10-12" change="Bug 29173" />
       <dependency type="spec" value="XQ30+"/>
       <test>typeswitch (xs:error(1)) 
             case xs:error return fn:true()
@@ -499,7 +514,7 @@
       <result>
 	<any-of>
 	  <assert-true />
-	  <error code="XPTY0004" />
+	  <error code="FORG0001" />
 	</any-of>
       </result>
    </test-case>
@@ -543,6 +558,42 @@
       <test>() treat as xs:error?</test>
       <result>
 	<assert-empty />
+      </result>
+   </test-case>
+
+   <test-case name="xs-error-050">
+      <description>cast as xs:error.</description>
+      <created by="Tim Mills" on="2015-10-12"/>
+      <test>1 cast as xs:error</test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="xs-error-051">
+      <description>cast as xs:error.</description>
+      <created by="Tim Mills" on="2015-10-12"/>
+      <test>"boo" cast as xs:error</test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="xs-error-052">
+      <description>castable as xs:error.</description>
+      <created by="Tim Mills" on="2015-10-12"/>
+      <test>1 castable as xs:error</test>
+      <result>
+	<assert-false />
+      </result>
+   </test-case>
+
+   <test-case name="xs-error-053">
+      <description>castable as xs:error.</description>
+      <created by="Tim Mills" on="2015-10-12"/>
+      <test>1 castable as xs:error</test>
+      <result>
+	<assert-false />
       </result>
    </test-case>
 
