@@ -1252,13 +1252,17 @@
    <test-case name="cbcl-numeric-idivide-008">
       <description> Test idiv on an xs:float </description>
       <created by="Tim Mills" on="2008-06-17"/>      
-      <modified by="Tim Mills" on="2015-10-12"/>      
+      <modified by="Tim Mills" on="2015-10-12" change="See bug 29171"/> 
+      <modified by="Michael Kay" on="2015-10-13" change="See bug 29171"/> 
       <test>xs:float('1e38') idiv xs:float('1e-37')</test>
       <result>
          <any-of>
             <error code="FOAR0002"/>
             <error code="FOCA0002"/>
-            <assert-eq>1000000000000000000000000000000000000000000000000000000000000000000000000000</assert-eq>
+            <all-of>
+               <assert-type>xs:integer</assert-type>
+               <assert>matches(string($result), '^[0-9]{75,76}$')</assert>
+            </all-of>
          </any-of>
       </result>
    </test-case>
