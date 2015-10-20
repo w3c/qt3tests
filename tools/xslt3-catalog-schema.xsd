@@ -1,63 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet href="xsd.xsl" type="text/xsl"?>
 
-<xs:schema targetNamespace="http://www.w3.org/2012/10/xslt-test-catalog" elementFormDefault="qualified" attributeFormDefault="unqualified" 
-    xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.w3.org/2012/10/xslt-test-catalog">
-    <xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="../xml.xsd"/>
-    
+<xs:schema targetNamespace="http://www.w3.org/2012/10/xslt-test-catalog"
+    elementFormDefault="qualified" attributeFormDefault="unqualified"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.w3.org/2012/10/xslt-test-catalog"
+    xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning" vc:minVersion="1.0" vc:maxVersion="1.10000001">
+
+    <xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="../xml.xsd"
+        xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"/>
+
     <xs:annotation>
         <xs:documentation>
-            
-                <h1>XSLT 3.0 Test Suite Schema</h1>
-                <p>
-                    This schema documentation describes the elements and attributes
-                    which are to be used in the catalog and test-set instance 
-                    documents, and belong to the XSLT 3.0 test suite.
-                </p>
-                <p>
-                    The XSLT 3.0 test suite is a collection of tests developed over a period of time
-                    in a number of different places, brought together into a common structure whose
-                    design is based closely on the QT3 test suite used for XPath 3.0 and XQuery 3.0 testing.
-                    The schema is not identical to the QT3 schema (some improvements have been made, and
-                    some adaptations to the different needs of XSLT) but the design will be familiar to
-                    anyone with experience of QT3, and it is possible to build test drivers for both
-                    test suites using common code.
-                </p>
- 
-                <p>This schema describes two kinds of file: the master catalog file, rooted at a
-                    <code>catalog</code> element, and test-set files, which are rooted at a <code>test-set</code>
-                    element. The catalog file contains a sequence of <code>test-set</code> elements which are
-                    references to the test-set files.</p>
-             
-            
+            <h1>XSLT 3.0 Test Suite Schema</h1>
+            <p> This schema documentation describes the elements and attributes which are to be used
+                in the catalog and test-set instance documents, and belong to the XSLT 3.0 test
+                suite. </p>
+            <p> The XSLT 3.0 test suite is a collection of tests developed over a period of time in
+                a number of different places, brought together into a common structure whose design
+                is based closely on the QT3 test suite used for XPath 3.0 and XQuery 3.0 testing.
+                The schema is not identical to the QT3 schema (some improvements have been made, and
+                some adaptations to the different needs of XSLT) but the design will be familiar to
+                anyone with experience of QT3, and it is possible to build test drivers for both
+                test suites using common code. </p>
+            <p>This schema describes two kinds of file: the master catalog file, rooted at a
+                    <code>catalog</code> element, and test-set files, which are rooted at a
+                    <code>test-set</code> element. The catalog file contains a sequence of
+                    <code>test-set</code> elements which are references to the test-set files.</p>
         </xs:documentation>
     </xs:annotation>
-    
+
     <xs:element name="catalog">
         <xs:annotation>
             <xs:documentation>
                 <div>
                     <h3>catalog</h3>
-                    <p>
-                        Denotes the root element of the catalog document. 
-                        The catalog lists all test-sets that are to be run and
-                        also contains an environment of assorted schemas and source documents.
-                    </p>
-                </div> 
-                              
+                    <p> Denotes the root element of the catalog document. The catalog lists all
+                        test-sets that are to be run and also contains an environment of assorted
+                        schemas and source documents. </p>
+                </div>
             </xs:documentation>
         </xs:annotation>
-        
+
         <xs:complexType>
             <xs:sequence>
                 <xs:element ref="environment" minOccurs="0" maxOccurs="unbounded"/>
-                <xs:element name="test-set" maxOccurs="unbounded">                    
+                <xs:element name="test-set" maxOccurs="unbounded">
                     <xs:complexType>
                         <xs:complexContent>
                             <xs:extension base="baseType">
-                                <xs:attributeGroup ref="nameAttr" />
-                                <xs:attributeGroup ref="fileAttr" />
-                             </xs:extension>
+                                <xs:attributeGroup ref="nameAttr"/>
+                                <xs:attributeGroup ref="fileAttr"/>
+                            </xs:extension>
                         </xs:complexContent>
                     </xs:complexType>
                 </xs:element>
@@ -69,214 +62,284 @@
                             the test suite is released.</p>
                     </xs:documentation>
                 </xs:annotation>
-            </xs:attribute>    
-            <xs:attribute name="test-suite" type="xs:string" >
-               <xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="test-suite" type="xs:string">
+                <xs:annotation>
                     <xs:documentation>
-                        <p>Identifies this test suite (in case there are several test suites using this format)</p>
+                        <p>Identifies this test suite (in case there are several test suites using
+                            this format)</p>
                     </xs:documentation>
                 </xs:annotation>
-            </xs:attribute>                   
+            </xs:attribute>
         </xs:complexType>
     </xs:element>
-    
+
     <xs:element name="environment" type="environmentType">
         <xs:annotation>
             <xs:documentation>
                 <div>
                     <h3>environment</h3>
-                    <p>
-                        Denotes an element which defines an assorted list of schemas and sources documents available to test cases.</p>
-                        
-                    <p> In addition the environment may set further information about the static context for running the test.</p>
-                    
-                    <p>    
-                        An environment can be made globally available across all test-sets, 
-                        or within a particular test-set or within a test-case.
-                        Locally-defined environments are considered to have precedence over 
-                        environments defined at some ancestor node, therefore conflicts are avoided.
-                        
-                    </p>
-                    <p><i>At present there are no global environments in the XSLT test suite.</i></p>
-                    <p>
-                        An environment that is shared between test cases always has a name (given by its <code>name</code> attribute).
-                        An environment element within a test case may either be a reference to a shared environment (identified
-                        by its <code>ref</code> attribute) or a locally-defined environment (with no <code>name</code> or <code>ref</code>
-                        attributes.</p>
-                </div> 
+                    <p> Denotes an element which defines an assorted list of schemas and sources
+                        documents available to test cases.</p>
+                    <p> In addition the environment may set further information about the static
+                        context for running the test.</p>
+                    <p> An environment can be made globally available across all test-sets, or
+                        within a particular test-set or within a test-case. Locally-defined
+                        environments are considered to have precedence over environments defined at
+                        some ancestor node, therefore conflicts are avoided. </p>
+                    <p><i>At present there are no global environments in the XSLT test
+                        suite.</i></p>
+                    <p> An environment that is shared between test cases always has a name (given by
+                        its <code>name</code> attribute). An environment element within a test case
+                        may either be a reference to a shared environment (identified by its
+                            <code>ref</code> attribute) or a locally-defined environment (with no
+                            <code>name</code> or <code>ref</code> attributes.</p>
+                </div>
             </xs:documentation>
         </xs:annotation>
-        
+
     </xs:element>
-    
+
     <xs:complexType name="environmentType">
         <xs:complexContent>
-            <xs:extension base="baseType">            
+            <xs:extension base="baseType">
                 <xs:group ref="environmentContentModel"/>
-                <xs:attributeGroup ref="nameAttr" />
-                <xs:attributeGroup ref="refAttr" />
+                <xs:attributeGroup ref="nameAttr"/>
+                <xs:attributeGroup ref="refAttr"/>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
-    
+
     <xs:group name="environmentContentModel">
         <xs:sequence>
             <xs:choice minOccurs="0" maxOccurs="unbounded">
-                <xs:element ref="schema" />
-                <xs:element ref="source" />
-                <xs:element ref="resource" />
-                <xs:element ref="param" />
-                <xs:element ref="context-item" />
-                <xs:element ref="collection" />
-                <xs:element ref="collation" />
-                <xs:element ref="stylesheet" />
+                <xs:element ref="package"/>
+                <xs:element ref="schema"/>
+                <xs:element ref="source"/>
+                <xs:element ref="resource"/>
+                <xs:element ref="param"/>
+                <xs:element ref="context-item"/>
+                <xs:element ref="collection"/>
+                <xs:element ref="collation"/>
+                <xs:element ref="stylesheet"/>
+                <xs:element ref="output"/>
             </xs:choice>
         </xs:sequence>
     </xs:group>
-    
-    
+
+    <xs:element name="package" type="packageType">
+        <xs:annotation>
+            <xs:documentation>
+                <p>Describes an XSLT package under test. Packages may be defined as part of an
+                    environment in cases where many tests use the same stylesheet, but more commonly
+                    they are described individually for each test case.</p>
+            </xs:documentation>
+        </xs:annotation>
+
+    </xs:element>
+
+
     <xs:element name="stylesheet" type="stylesheetType">
         <xs:annotation>
             <xs:documentation>
-                <p>Describes a stylesheet under test. Stylesheets may be defined as part of an environment in cases
-                where many tests use the same stylesheet, but more commonly they are described individually for
-                each test case.</p>
+                <p>Describes a stylesheet under test. Stylesheets may be defined as part of an
+                    environment in cases where many tests use the same stylesheet, but more commonly
+                    they are described individually for each test case.</p>
             </xs:documentation>
         </xs:annotation>
-        
+
     </xs:element>
-    
-    
-    
+
+
+
     <xs:element name="collation">
         <xs:annotation>
             <xs:documentation>
                 <div>
                     <h3>collation</h3>
                     <p>An element which defines a collation URI used in the query.</p>
-                        
-                    <p>The <code>uri</code>
-                        attribute is the collation URI as it actually appears in an XPath expression. There is
-                        a small enumerated set of collation URIs that may appear in tests; these have a meaning
-                        that is defined in the test suite. If the implementation cannot bind arbitrary URIs to
-                        collations, it may substitute this URI in the source expression by a different one having
-                        the same semantics. If the implementation does not support the semantics of the collation,
-                        then it should not run the test (support for collations other than the codepoint collation
-                        is not a conformance requirement. 
-                    </p>
-                    <p>The <code>default</code> attribute indicates whether this collation is to be used as the
-                    default collation.</p>
-                </div> 
+                    <p>The <code>uri</code> attribute is the collation URI as it actually appears in
+                        an XPath expression. There is a small enumerated set of collation URIs that
+                        may appear in tests; these have a meaning that is defined in the test suite.
+                        If the implementation cannot bind arbitrary URIs to collations, it may
+                        substitute this URI in the source expression by a different one having the
+                        same semantics. If the implementation does not support the semantics of the
+                        collation, then it should not run the test (support for collations other
+                        than the codepoint collation is not a conformance requirement. </p>
+                    <p>The <code>default</code> attribute indicates whether this collation is to be
+                        used as the default collation.</p>
+                </div>
             </xs:documentation>
         </xs:annotation>
         <xs:complexType>
             <xs:attribute name="uri">
                 <xs:simpleType>
-                    <xs:restriction base="xs:anyURI">
-                        <xs:enumeration value="http://www.w3.org/2005/xpath-functions/collation/codepoint">
-                            <xs:annotation>
-                                <xs:documentation>
-                                    <p>This is the standard codepoint collation which all implementations must support</p>
-                                </xs:documentation>
-                            </xs:annotation>
-                        </xs:enumeration>
-                        <xs:enumeration value="http://www.w3.org/xslts/collation/caseblind">
-                            <xs:annotation>
-                                <xs:documentation>
-                                    <p>This URI is used to represent a case-blind collation. Tests using this collation
-                                        will only use it to compare strings made up of ASCII letters (a-z, A-Z), and the
-                                        only requirement placed on the collation is that (a) the comparison is case-blind
-                                        (so "a"="A", "b"="B", etc), and different characters sort in the conventional
-                                        order of the English alphabet ("a" &lt; "b", etc).</p>
-                                </xs:documentation>
-                            </xs:annotation>
-                        </xs:enumeration>
-                        <xs:enumeration value="http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind">
-                            <xs:annotation>
-                                <xs:documentation>
-                                    <p>This URI is used to represent a case-blind collation. Tests using this collation
-                                        will only use it to compare strings made up of ASCII letters (a-z, A-Z), and the
-                                        only requirement placed on the collation is that (a) the comparison is case-blind
-                                        (so "a"="A", "b"="B", etc), and different characters sort in the conventional
-                                        order of the English alphabet ("a" &lt; "b", etc).</p>
-                                </xs:documentation>
-                            </xs:annotation>
-                        </xs:enumeration>                       
-                    </xs:restriction>
-                </xs:simpleType>
-             </xs:attribute>
-             <xs:attribute name="default" type="xs:boolean" use="optional" default="false">
+                    <xs:union> 
+                        <xs:simpleType>
+                            <xs:restriction base="xs:anyURI">
+                                <xs:enumeration value="http://www.w3.org/2005/xpath-functions/collation/codepoint">
+                                    <xs:annotation>
+                                        <xs:documentation>
+                                            <p>This is the standard codepoint collation which all implementations must support</p>
+                                        </xs:documentation>
+                                    </xs:annotation>
+                                </xs:enumeration>
+                                <xs:enumeration value="http://www.w3.org/xslts/collation/caseblind">
+                                    <xs:annotation>
+                                        <xs:documentation>
+                                            <p>This URI is used to represent a case-blind collation. Tests
+                                                using this collation will only use it to compare strings
+                                                made up of ASCII letters (a-z, A-Z), and the only
+                                                requirement placed on the collation is that (a) the
+                                                comparison is case-blind (so "a"="A", "b"="B", etc), and
+                                                different characters sort in the conventional order of the
+                                                English alphabet ("a" &lt; "b", etc).</p>
+                                        </xs:documentation>
+                                    </xs:annotation>
+                                </xs:enumeration>
+                                <xs:enumeration value="http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind">
+                                    <xs:annotation>
+                                        <xs:documentation>
+                                            <p>This URI is used to represent a case-blind collation. Tests using this collation
+                                                will only use it to compare strings made up of ASCII letters (a-z, A-Z), and the
+                                                only requirement placed on the collation is that (a) the comparison is case-blind
+                                                (so "a"="A", "b"="B", etc), and different characters sort in the conventional
+                                                order of the English alphabet ("a" &lt; "b", etc).</p>
+                                        </xs:documentation>
+                                    </xs:annotation>
+                                </xs:enumeration>
+                                <xs:enumeration value="http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive">
+                                    <xs:annotation>
+                                        <xs:documentation>
+                                            <p>This URI is used to represent the case-blind collation defined in HTML5, which
+                                                must be supported by all XPath 3.1 and XQuery 3.1 processors. It is defined only
+                                                for use in equality comparisons, not for ordering. ASCII letters are compared
+                                                case-blind; all other Unicode characters are compared by codepoint.</p>
+                                        </xs:documentation>
+                                    </xs:annotation>
+                                </xs:enumeration>
+                            </xs:restriction>
+                        </xs:simpleType>
+                        <xs:simpleType>
+                            <xs:restriction base="xs:anyURI">
+                                <xs:pattern value="http://www.w3.org/2013/collation/UCA\?.*"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:union>
+                </xs:simpleType>   
+            </xs:attribute>
+            <xs:attribute name="default" type="xs:boolean" use="optional" default="false">
                 <xs:annotation>
                     <xs:documentation>
-                        <p>The value <code>default="true"</code> indicates that this collation is to be the default collation
-                        in the static context.</p>
+                        <p>The value <code>default="true"</code> indicates that this collation is to
+                            be the default collation in the static context.</p>
                     </xs:documentation>
                 </xs:annotation>
-             </xs:attribute>
+            </xs:attribute>
         </xs:complexType>
     </xs:element>
-    
-               
-    
-    <xs:element name="param">
+
+
+    <xs:complexType name="basicParamType">
         <xs:annotation>
             <xs:documentation>
                 <div>
-                    <h3>param</h3>
-                    <p>
-                        An element within an environment that declares a variable that can be referenced
-                        within stylesheets that use this environment.
-                    </p>
-                    <p>The value to be bound to the variable is given in the select attribute, which should
-                        be a simple XPath expression - typically a literal, or a simple call on a constructor function.</p>
-                     
-                </div> 
+                    <h3>basicParamType</h3>
+                    <p> The type definition for a basic (unnamed) <code>param</code> element </p>
+                </div>
             </xs:documentation>
         </xs:annotation>
-        <xs:complexType>
+        <xs:attribute name="select" type="xs:string" use="optional"/>
+        <xs:attribute name="as" type="xs:string" use="optional"/>
+        <xs:attribute name="source" type="xs:string" use="optional"/>
+        <xs:attribute name="static" type="yesNoType" use="optional"/>
+    </xs:complexType>
+    <xs:complexType name="namedParamType">
+        <xs:annotation>
+            <xs:documentation>
+                <div>
+                    <h3>namedParamType</h3>
+                    <p> The type definition for a named <code>param</code> element </p>
+                </div>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="basicParamType">
+                <xs:attribute name="name" type="xs:QName" use="required"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="tunnelParamType">
+        <xs:annotation>
+            <xs:documentation>
+                <div>
+                    <h3>namedParamType</h3>
+                    <p> The type definition for a possibly tunnelled <code>param</code> element </p>
+                </div>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="namedParamType">
+                <xs:attribute name="tunnel" type="yesNoType" use="optional"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:element name="param" type="namedParamType">
+        <xs:annotation>
+            <xs:documentation>
+                <div>
+                    <h3>(global) param</h3>
+                    <p> An element within an environment that declares a (global) variable that can
+                        be referenced within stylesheets that use this environment. </p>
+                    <p>The value to be bound to the variable is given in the select attribute, which
+                        should be a simple XPath expression - typically a literal, or a simple call
+                        on a constructor function.</p>
+                </div>
+            </xs:documentation>
+        </xs:annotation>
+        <!--<xs:complexType>
             <xs:attribute name="name" type="xs:NCName" use="required"/>
             <xs:attribute name="select" type="xs:string" use="optional"/>
             <xs:attribute name="as" type="xs:string" use="optional"/>
             <xs:attribute name="source" type="xs:string" use="optional"/>
-        </xs:complexType>
+            <xs:attribute name="static" type="yesNoType" use="optional"/>
+        </xs:complexType>-->
     </xs:element>
-    
+
+
     <xs:element name="context-item">
         <xs:annotation>
             <xs:documentation>
                 <div>
                     <h3>context-item</h3>
-                    <p>
-                        An element within an environment that declares the value of the initial context item
-                        for a stylesheet.</p>
-                    <p>The value to be bound to the context item is given in the select attribute, which should
-                        be a simple XPath expression - typically a literal, or a simple call on a constructor function.</p>
-                     <p>   
-                        The transformation is called with the value of the select expression as the context item.
-                    </p>
-                </div> 
+                    <p> An element within an environment that declares the value of the initial
+                        context item for a stylesheet.</p>
+                    <p>The value to be bound to the context item is given in the select attribute,
+                        which should be a simple XPath expression - typically a literal, or a simple
+                        call on a constructor function.</p>
+                    <p> The transformation is called with the value of the select expression as the
+                        context item. </p>
+                </div>
             </xs:documentation>
         </xs:annotation>
         <xs:complexType>
             <xs:attribute name="select" type="xs:string" use="optional"/>
         </xs:complexType>
     </xs:element>
-    
+
     <xs:element name="collection">
         <xs:annotation>
             <xs:documentation>
                 <div>
                     <h3>collection</h3>
-                    <p>
-                        Represents a collection accessible to the collection() function.
-                    </p>
+                    <p> Represents a collection accessible to the collection() function. </p>
                     <p>The <code>uri</code> attribute identifies the collection URI. If this is
-                       absent or zero-length, the collection acts as the default collection, used
-                       when no URI is supplied to the <code>collection()</code> function.</p>
-                       
-                    <p>The contained <code>source</code> elements identify the documents making
-                    up the collection.</p>
-                </div> 
+                        absent or zero-length, the collection acts as the default collection, used
+                        when no URI is supplied to the <code>collection()</code> function.</p>
+                    <p>The contained <code>source</code> elements identify the documents making up
+                        the collection.</p>
+                </div>
             </xs:documentation>
         </xs:annotation>
         <xs:complexType>
@@ -286,182 +349,213 @@
             <xs:attributeGroup ref="uriAttr"/>
         </xs:complexType>
     </xs:element>
-         
-    
-    <xs:element name="schema" type="schemaType" >
-    <xs:annotation>
-        <xs:documentation>
-            <div>
-                <h3>schema</h3>
-                <p>
-                    An element which provides information about a schema to be used to validate a source document. 
-                    The scope of the &lt;schema&gt; element is the parent &lt;environment&gt; element in which it appears.
-                </p>
-            </div> 
-        </xs:documentation>
-    </xs:annotation>
+
+
+    <xs:element name="schema" type="schemaType">
+        <xs:annotation>
+            <xs:documentation>
+                <div>
+                    <h3>schema</h3>
+                    <p> An element which provides information about a schema to be used to validate
+                        a source document. The scope of the &lt;schema&gt; element is the parent
+                        &lt;environment&gt; element in which it appears. </p>
+                </div>
+            </xs:documentation>
+        </xs:annotation>
     </xs:element>
-    
+
     <xs:complexType name="baseType" abstract="true" mixed="false">
         <xs:attribute ref="xml:id"/>
     </xs:complexType>
-    
+
     <xs:complexType name="schemaType">
         <xs:annotation>
             <xs:documentation>
                 <div>
                     <h3>schemaType</h3>
-                    <p>
-                        The type definition for the <code>schema</code> element
-                    </p>
-                </div> 
+                    <p> The type definition for the <code>schema</code> element </p>
+                </div>
             </xs:documentation>
         </xs:annotation>
         <xs:complexContent>
             <xs:extension base="baseType">
-                <xs:sequence >
+                <xs:sequence>
                     <xs:element ref="description" minOccurs="0" maxOccurs="1"/>
                     <xs:element ref="created" minOccurs="0" maxOccurs="1"/>
                     <xs:element ref="modified" minOccurs="0" maxOccurs="unbounded"/>
                 </xs:sequence>
-                <xs:attributeGroup ref="uriAttr" />
-                <xs:attributeGroup ref="fileAttr" />
+                <xs:attributeGroup ref="uriAttr"/>
+                <xs:attributeGroup ref="fileAttr"/>
                 <xs:attribute name="xsd-version" type="xs:decimal" default="1.0"/>
                 <xs:attribute name="role" use="optional">
                     <xs:simpleType>
                         <xs:restriction base="xs:string">
                             <xs:enumeration value="source-reference"/>
                             <xs:enumeration value="stylesheet-import"/>
-                            <xs:enumeration value="secondary"/>      
+                            <xs:enumeration value="secondary"/>
                         </xs:restriction>
-                    </xs:simpleType> 
+                    </xs:simpleType>
                 </xs:attribute>
                 <!--<xs:attributeGroup ref="lastModAttr" />-->
             </xs:extension>
-            
+
         </xs:complexContent>
-        
+
     </xs:complexType>
-    
-    <xs:element name="source" type="sourceType" >
+
+    <xs:element name="source" type="sourceType">
         <xs:annotation>
             <xs:documentation>
                 <div>
                     <h3>source</h3>
-                    <p>
-                        An element which provides information about a source xml file used as input to test cases.</p>
-                        
-                        
-                    <p> The <code>role</code> and <code>uri</code> attributes indicate how the source document is made
-                    avaiable to queries (as the context item, as the value of an external variable, or as a URI that can be
-                    supplied to the doc() function.)</p>
-                    
-                    <p>Where <code>role="."</code> is specified, the <code>select</code> attribute may be present; its
-                    value is a path expression to select the initial context node within the document, so that the transformation
-                    can start at a non-document node.</p>
-                    
-                    <p> The <code>file</code> attribute gives the location of the file containing the XML source,
-                    relative to the URI of the catalog file.</p>
-                    
-                    <p>The <code>uri</code> attribute is the URI supplied to the <code>doc()</code> function to access the document.
-                    This may be an absolute URI or a URI relative to the base URI of the catalog file. In most cases it is the same
-                    as the <code>file</code> attribute.</p>
-                    
-                    <p> The scope of the &lt;source&gt; element is 
-                        the parent &lt;environment&gt; element in which it appears. A validated source 
-                        document references the schema, which maps to the @id of the Schema element. 
-                    </p>
-                </div> 
+                    <p> An element which provides information about a source xml file used as input
+                        to test cases.</p>
+                    <p> The <code>role</code> and <code>uri</code> attributes indicate how the
+                        source document is made avaiable to queries (as the context item, as the
+                        value of an external variable, or as a URI that can be supplied to the doc()
+                        function.)</p>
+                    <p>Where <code>role="."</code> is specified, the <code>select</code> attribute
+                        may be present; its value is a path expression to select the initial context
+                        node within the document, so that the transformation can start at a
+                        non-document node.</p>
+                    <p> The <code>file</code> attribute gives the location of the file containing
+                        the XML source, relative to the URI of the catalog file.</p>
+                    <p>The <code>uri</code> attribute is the URI supplied to the <code>doc()</code>
+                        function to access the document. This may be an absolute URI or a URI
+                        relative to the base URI of the catalog file. In most cases it is the same
+                        as the <code>file</code> attribute.</p>
+                    <p> The scope of the &lt;source&gt; element is the parent &lt;environment&gt;
+                        element in which it appears. A validated source document references the
+                        schema, which maps to the @id of the Schema element. </p>
+                </div>
             </xs:documentation>
         </xs:annotation>
-        
+
     </xs:element>
-    
+
     <xs:complexType name="sourceType">
         <xs:annotation>
             <xs:documentation>
                 <div>
                     <h3>sourceType</h3>
-                    <p>
-                        defines the type of the <code>source</code> element.
-                    </p>
-                </div> 
+                    <p> defines the type of the <code>source</code> element. </p>
+                </div>
             </xs:documentation>
         </xs:annotation>
         <xs:complexContent>
             <xs:extension base="baseType">
                 <xs:sequence>
-                  <xs:group ref="fileMetaData" />
-                  <xs:element name="content" type="xs:string" minOccurs="0" maxOccurs="1"/>
-                </xs:sequence>  
+                    <xs:group ref="fileMetaData"/>
+                    <xs:element name="content" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                </xs:sequence>
                 <xs:attributeGroup ref="roleAttr"/>
                 <xs:attributeGroup ref="fileAttr">
                     <xs:annotation>
                         <xs:documentation>
-                            <p>The content of the file can be given either inline in the content child, or by reference
-                            using the <code>file</code> attribute.
-                            </p>
+                            <p>The content of the file can be given either inline in the content
+                                child, or by reference using the <code>file</code> attribute. </p>
                         </xs:documentation>
                     </xs:annotation>
-                </xs:attributeGroup>     
-                <xs:attributeGroup ref="uriAttr" />
-                <xs:attributeGroup ref="validationAttr" />
+                </xs:attributeGroup>
+                <xs:attributeGroup ref="uriAttr"/>
+                <xs:attributeGroup ref="validationAttr"/>
                 <xs:attribute name="select" type="xs:string" use="optional">
                     <xs:annotation>
                         <xs:documentation>
-                            <p>If present, contains an XPath expression to select the initial context node within the source document.
-                                Used only with <code>role="."</code>
+                            <p>If present, contains an XPath expression to select the initial
+                                context node within the source document. Used only with
+                                    <code>role="."</code>
                             </p>
                         </xs:documentation>
-                    </xs:annotation> 
+                    </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="streaming" type="xs:boolean" use="optional">
                     <xs:annotation>
                         <xs:documentation>
-                            <p>If true, indicates that this source file MUST be processed in streaming mode.
-                                This option is only used in conjunction with <code>role="."</code>.</p>
+                            <p>If true, indicates that this source file MUST be processed in
+                                streaming mode. This option is only used in conjunction with
+                                    <code>role="."</code>.</p>
                         </xs:documentation>
-                    </xs:annotation> 
+                    </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="defines-stylesheet" type="xs:boolean" use="optional">
                     <xs:annotation>
                         <xs:documentation>
-                            <p>If present and true, indicates that the source document contains an xml-stylesheet processing
-                                instruction which defines the stylesheet to be used for the test case. This option is only used
-                                in conjunction with <code>role="."</code>.</p>
+                            <p>If present and true, indicates that the source document contains an
+                                xml-stylesheet processing instruction which defines the stylesheet
+                                to be used for the test case. This option is only used in
+                                conjunction with <code>role="."</code>.</p>
                         </xs:documentation>
-                    </xs:annotation> 
+                    </xs:annotation>
                 </xs:attribute>
                 <xs:attributeGroup ref="xmlVersionAttr"/>
+                <xs:attributeGroup ref="availableInContextAttr" />
             </xs:extension>
         </xs:complexContent>
-        
+
     </xs:complexType>
-    
+
+    <xs:complexType name="packageType">
+        <xs:annotation>
+            <xs:documentation>
+                <div>
+                    <h3>packageType</h3>
+                    <p> defines the type of the <code>package</code> element. </p>
+                </div>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="baseType">
+                <xs:group ref="fileMetaData"/>
+                <xs:attributeGroup ref="fileAttr"/>
+                <xs:attributeGroup ref="uriAttr"/>
+                <xs:attributeGroup ref="xmlVersionAttr"/>
+                <xs:attribute name="role">
+                    <xs:annotation>
+                        <xs:documentation>
+                            <p>The principal stylesheet module is the one acting as the entry point
+                                for the transformation. Secondary stylesheet modules are imported or
+                                included by the principal module. It is good practice to document
+                                all modules used, but test drivers cannot rely on this being done in
+                                all cases.</p>
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="principal"/>
+                            <xs:enumeration value="secondary"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:attribute>
+                <xs:attribute name="package-version" type="xs:string"/>
+            </xs:extension>
+        </xs:complexContent>
+
+    </xs:complexType>
+
     <xs:complexType name="stylesheetType">
         <xs:annotation>
             <xs:documentation>
                 <div>
                     <h3>stylesheetType</h3>
-                    <p>
-                        defines the type of the <code>stylesheet</code> element.
-                    </p>
-                </div> 
+                    <p> defines the type of the <code>stylesheet</code> element. </p>
+                </div>
             </xs:documentation>
         </xs:annotation>
         <xs:complexContent>
             <xs:extension base="baseType">
-                <xs:group ref="fileMetaData" />
-                <xs:attributeGroup ref="fileAttr" />
-                <xs:attributeGroup ref="uriAttr" />
+                <xs:group ref="fileMetaData"/>
+                <xs:attributeGroup ref="fileAttr"/>
+                <xs:attributeGroup ref="uriAttr"/>
                 <xs:attributeGroup ref="xmlVersionAttr"/>
                 <xs:attribute name="role">
                     <xs:annotation>
                         <xs:documentation>
-                            <p>The principal stylesheet module is the one acting as the entry point for the
-                            transformation. Secondary stylesheet modules are imported or included by the principal
-                            module. It is good practice to document all modules used, but test drivers cannot rely
-                            on this being done in all cases.</p>
+                            <p>The principal stylesheet module is the one acting as the entry point
+                                for the transformation. Secondary stylesheet modules are imported or
+                                included by the principal module. It is good practice to document
+                                all modules used, but test drivers cannot rely on this being done in
+                                all cases.</p>
                         </xs:documentation>
                     </xs:annotation>
                     <xs:simpleType>
@@ -473,154 +567,160 @@
                 </xs:attribute>
             </xs:extension>
         </xs:complexContent>
-        
+
     </xs:complexType>
-    
+
     <xs:group name="fileMetaData">
         <xs:sequence>
             <xs:element ref="description" minOccurs="0" maxOccurs="1"/>
             <xs:element ref="created" minOccurs="0" maxOccurs="1"/>
             <xs:element ref="modified" minOccurs="0" maxOccurs="unbounded"/>
-        </xs:sequence> 
+        </xs:sequence>
     </xs:group>
-    
-    <xs:element name="resource" type="resourceType" >
+
+    <xs:element name="resource" type="resourceType">
         <xs:annotation>
             <xs:documentation>
                 <div>
                     <h3>resource</h3>
-                    <p>
-                        An element which provides information about a file that can be read as text, used as input to test cases.</p>
-                        
-                        
-                    <p> The <code>uri</code> attributes indicate how the resource is made avaiable to queries (as a URI that can be supplied to the unparsed-text(), unparsed-text-lines() and unparsed-text-available() functions.)</p>
-                    
-                    <p> The <code>file</code> attribute gives the relative location of the file containing the resource.</p>
-
-                    <p> The optional <code>media-type</code> attribute gives the media type of the resource.</p>
-
-                    <p> The optional <code>encoding</code> attribute gives the name of the encoding of the resource.</p>
-                    
-                    <p> The scope of the &lt;resource&gt; element is 
-                        the parent &lt;environment&gt; element in which it appears. A validated source 
-                        document references the schema, which maps to the @id of the Schema element. 
-                    </p>
-                </div> 
+                    <p> An element which provides information about a file that can be read as text,
+                        used as input to test cases.</p>
+                    <p> The <code>uri</code> attributes indicate how the resource is made avaiable
+                        to queries (as a URI that can be supplied to the unparsed-text(),
+                        unparsed-text-lines() and unparsed-text-available() functions.)</p>
+                    <p> The <code>file</code> attribute gives the relative location of the file
+                        containing the resource.</p>
+                    <p> The optional <code>media-type</code> attribute gives the media type of the
+                        resource.</p>
+                    <p> The optional <code>encoding</code> attribute gives the name of the encoding
+                        of the resource.</p>
+                    <p> The scope of the &lt;resource&gt; element is the parent &lt;environment&gt;
+                        element in which it appears. A validated source document references the
+                        schema, which maps to the @id of the Schema element. </p>
+                </div>
             </xs:documentation>
         </xs:annotation>
-        
+
     </xs:element>
-    
+
     <xs:complexType name="resourceType">
         <xs:annotation>
             <xs:documentation>
                 <div>
                     <h3>resourceType</h3>
-                    <p>
-                        defines the type of the <code>resource</code> element.
-                    </p>
-                </div> 
+                    <p> defines the type of the <code>resource</code> element. </p>
+                </div>
             </xs:documentation>
         </xs:annotation>
         <xs:complexContent>
             <xs:extension base="baseType">
                 <xs:sequence>
-                    <xs:sequence >
-                    <xs:element ref="description" minOccurs="0" maxOccurs="1"/>
-                    <xs:element ref="created" minOccurs="0" maxOccurs="1"/>
-                    <xs:element ref="modified" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:sequence>
+                        <xs:element ref="description" minOccurs="0" maxOccurs="1"/>
+                        <xs:element ref="created" minOccurs="0" maxOccurs="1"/>
+                        <xs:element ref="modified" minOccurs="0" maxOccurs="unbounded"/>
+                    </xs:sequence>
                 </xs:sequence>
-                </xs:sequence>
-                <xs:attributeGroup ref="fileAttr" />
-                <xs:attributeGroup ref="uriAttr" />
+                <xs:attributeGroup ref="fileAttr"/>
+                <xs:attributeGroup ref="uriAttr"/>
                 <xs:attributeGroup ref="media-typeAttr"/>
                 <xs:attributeGroup ref="encodingAttr"/>
-           
+
             </xs:extension>
         </xs:complexContent>
-        
+
     </xs:complexType>
-    
-    
+
+
     <xs:element name="description">
         <xs:annotation>
             <xs:documentation>
                 <div>
                     <h3>description</h3>
-                    <p>
-                        An element which provides descriptive information about the
-                        resource described by its parent element.
-                    </p>
-                </div> 
+                    <p> An element which provides descriptive information about the resource
+                        described by its parent element. </p>
+                </div>
             </xs:documentation>
         </xs:annotation>
-        
+
         <xs:complexType>
             <xs:simpleContent>
-                <xs:extension base="xs:string">
-                                        
-                </xs:extension>
-                
+                <xs:extension base="xs:string"> </xs:extension>
+
             </xs:simpleContent>
-            
-            
+
+
         </xs:complexType>
     </xs:element>
-    
+
+    <xs:element name="keywords">
+        <xs:annotation>
+            <xs:documentation>
+                <div>
+                    <h3>description</h3>
+                    <p> An element containing searchable or sortable keywords that this test applies
+                        to, such as "streaming error-handling xsl:try". </p>
+                </div>
+            </xs:documentation>
+        </xs:annotation>
+
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:token"/>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+
     <xs:element name="test-set">
         <xs:annotation>
             <xs:documentation>
                 <div>
                     <h3>test-set</h3>
-                    <p>
-                        denotes an element which provides a sequence of test-case entries for a particular feature of the language. 
-                        Within this element we provide data needed to run the test for that function.
-                    </p>
-                </div> 
+                    <p> denotes an element which provides a sequence of test-case entries for a
+                        particular feature of the language. Within this element we provide data
+                        needed to run the test for that function. </p>
+                </div>
             </xs:documentation>
         </xs:annotation>
         <xs:complexType>
             <xs:sequence>
                 <xs:choice minOccurs="0" maxOccurs="unbounded">
                     <xs:element ref="description"/>
-                    <xs:element ref="link" />
+                    <xs:element ref="keywords"/>
+                    <xs:element ref="link"/>
                     <xs:element ref="environment"/>
                     <xs:element ref="dependencies"/>
                     <xs:element ref="test-case"/>
                 </xs:choice>
             </xs:sequence>
-            <xs:attributeGroup ref="nameAttr" />
-            <xs:attributeGroup ref="coversAttr" />
+            <xs:attributeGroup ref="nameAttr"/>
+            <xs:attributeGroup ref="coversAttr"/>
         </xs:complexType>
     </xs:element>
-    
-    
-    
+
+
+
     <xs:element name="dependencies">
         <xs:annotation>
             <xs:documentation>
                 <div>
                     <h3>dependency</h3>
-                    <p>Indicates a dependency which must be satisfied in order for a test to be run.</p>
-                    
-                    <p>A dependency may be associated with an individual test case or with
-                        a test-set. A dependency at the level of a test-set appplies to all test cases in
-                        that test-set.</p> 
-                        
-                    <p>The attribute setting <code>satisfied="false"</code> indicates that the test should only
-                    be run if the dependency is NOT satisfied.</p>
-                    
+                    <p>Indicates a dependency which must be satisfied in order for a test to be
+                        run.</p>
+                    <p>A dependency may be associated with an individual test case or with a
+                        test-set. A dependency at the level of a test-set appplies to all test cases
+                        in that test-set.</p>
+                    <p>The attribute setting <code>satisfied="false"</code> indicates that the test
+                        should only be run if the dependency is NOT satisfied.</p>
                     <p>The set of recognized values appearing in the <code>value</code> attribute
-                    depends on the content of the <code>type</code> attribute.</p>
-                    
-                    <p>The most commonly-used dependency is on the version of XSLT. This
-                    is represented by the <code>spec</code> element, whose corresponding
-                    value is, for example <code>XSLT30+</code> which indicates that the
-                    test can be run with XSLT 3.0 or later. A test with
-                    <code>value="XSLT20"</code> should be run with an XSLT 2.0. processor only (typically,
-                    an XSLT 3.0 processor will produce a different result, described in a separate
-                    test case.)</p>
-                </div> 
+                        depends on the content of the <code>type</code> attribute.</p>
+                    <p>The most commonly-used dependency is on the version of XSLT. This is
+                        represented by the <code>spec</code> element, whose corresponding value is,
+                        for example <code>XSLT30+</code> which indicates that the test can be run
+                        with XSLT 3.0 or later. A test with <code>value="XSLT20"</code> should be
+                        run with an XSLT 2.0. processor only (typically, an XSLT 3.0 processor will
+                        produce a different result, described in a separate test case.)</p>
+                </div>
             </xs:documentation>
         </xs:annotation>
         <xs:complexType>
@@ -629,27 +729,32 @@
             </xs:sequence>
         </xs:complexType>
     </xs:element>
-    
-    <xs:element name="dependency" abstract="true" type="dependencyType">
-    </xs:element>
-    
+
+    <xs:element name="dependency" abstract="true" type="dependencyType"> </xs:element>
+
     <xs:complexType name="dependencyType">
-        <xs:attribute name="value"  type="xs:string"/>
-        <xs:attribute name="satisfied" type="xs:boolean" default="true" />
+        <xs:attribute name="value" type="xs:string" use="optional"/>
+        <xs:attribute name="satisfied" type="xs:boolean" default="true"/>
+        <xs:attribute name="range" type="xs:string" default="unbounded"/>
     </xs:complexType>
     
-    <xs:element name="spec" substitutionGroup="dependency" >
+    <xs:complexType name="dependencyTypeTrue">
+      <xs:complexContent>
+        <xs:restriction base="dependencyType">
+          <xs:attribute name="value" type="xs:string" fixed="true"/>
+        </xs:restriction>
+      </xs:complexContent>
+    </xs:complexType>     
+
+    <xs:element name="spec" substitutionGroup="dependency">
         <xs:annotation>
             <xs:documentation>
-  
-                    <p>The most commonly-used dependency is on the version of XSLT. This
-                        is represented by the <code>spec</code> element, whose corresponding
-                        value is, for example <code>XSLT30+</code> which indicates that the
-                        test can be run with XSLT 3.0 or later. A test with
-                        <code>value="XSLT20"</code> should be run with an XSLT 2.0. processor only (typically,
-                        an XSLT 3.0 processor will produce a different result, described in a separate
-                        test case.)</p>
-                
+                <p>The most commonly-used dependency is on the version of XSLT. This is represented
+                    by the <code>spec</code> element, whose corresponding value is, for example
+                        <code>XSLT30+</code> which indicates that the test can be run with XSLT 3.0
+                    or later. A test with <code>value="XSLT20"</code> should be run with an XSLT
+                    2.0. processor only (typically, an XSLT 3.0 processor will produce a different
+                    result, described in a separate test case.)</p>
             </xs:documentation>
         </xs:annotation>
         <xs:complexType>
@@ -658,13 +763,12 @@
                     <xs:attribute name="value">
                         <xs:simpleType>
                             <xs:restriction base="xs:string">
-                               <xs:enumeration value="XSLT10" />
-                                <xs:enumeration value="XSLT10+" />
-                                <xs:enumeration value="XSLT20" />
-                                <xs:enumeration value="XSLT20+" />
-                                <xs:enumeration value="XSLT10 XSLT20" />
-                                <xs:enumeration value="XSLT30" />
-                                <xs:enumeration value="XSLT30+" />
+                                <xs:enumeration value="XSLT10"/>
+                                <xs:enumeration value="XSLT10+"/>
+                                <xs:enumeration value="XSLT20"/>
+                                <xs:enumeration value="XSLT20+"/>
+                                <xs:enumeration value="XSLT10 XSLT20"/>
+                                <xs:enumeration value="XSLT30+"/>
                             </xs:restriction>
                         </xs:simpleType>
                     </xs:attribute>
@@ -672,14 +776,12 @@
             </xs:complexContent>
         </xs:complexType>
     </xs:element>
-    
-    <xs:element name="feature" substitutionGroup="dependency" >
+
+    <xs:element name="feature" substitutionGroup="dependency">
         <xs:annotation>
             <xs:documentation>
-                
-                <p>Indicates that the test is dependent on an an optional feature defined in the XSLT
-                specification, for example schema awareness or streaming.</p>
-                
+                <p>Indicates that the test is dependent on an an optional feature defined in the
+                    XSLT specification, for example schema awareness or streaming.</p>
             </xs:documentation>
         </xs:annotation>
         <xs:complexType>
@@ -688,13 +790,18 @@
                     <xs:attribute name="value">
                         <xs:simpleType>
                             <xs:restriction base="xs:string">
-                                <xs:enumeration value="backwards_compatibility" />
-                                <xs:enumeration value="disabling_output_escaping" />
-                                <xs:enumeration value="schema_aware" />
-                                <xs:enumeration value="namespace_axis" />
-                                <xs:enumeration value="streaming" />
-                                <xs:enumeration value="XML_1.1" />
-                                <xs:enumeration value="XSD_1.1" />
+                                <xs:enumeration value="backwards_compatibility"/>
+                                <xs:enumeration value="disabling_output_escaping"/>
+                                <xs:enumeration value="dynamic_evaluation"/>
+                                <xs:enumeration value="namespace_axis"/>
+                                <xs:enumeration value="schema_aware"/>
+                                <xs:enumeration value="serialization"/>
+                                <xs:enumeration value="streaming"/>
+                                <xs:enumeration value="xquery_invocation"/>
+                                <xs:enumeration value="XML_1.1"/>
+                                <xs:enumeration value="XPath_3.1"/>
+                                <xs:enumeration value="XSD_1.1"/>
+                                <xs:enumeration value="xsl-stylesheet-processing-instruction"/>
                             </xs:restriction>
                         </xs:simpleType>
                     </xs:attribute>
@@ -702,29 +809,54 @@
             </xs:complexContent>
         </xs:complexType>
     </xs:element>
-    
+
     <xs:element name="available_documents" substitutionGroup="dependency">
         <xs:annotation>
             <xs:documentation>
-                
                 <p>Indicates that the test is dependent on the availability of external documents
-                that are not part of the test suite, for example pages on the W3C web site.</p>
-                
-                <p>This feature should be used sparingly; it is there to allow testing of features that
-                rely on HTTP protocol information such as media type and encoding.</p>
-                
+                    that are not part of the test suite, for example pages on the W3C web site.</p>
+                <p>This feature should be used sparingly; it is there to allow testing of features
+                    that rely on HTTP protocol information such as media type and encoding.</p>
+                <p>The "value" attribute holds the URI of the required document.</p>    
             </xs:documentation>
         </xs:annotation>
     </xs:element>
     
-    <xs:element name="default_language_for_numbering" substitutionGroup="dependency" >
+    <xs:complexType name="dependencyTypeLanguage">
+              <xs:complexContent>
+                <xs:restriction base="dependencyType">
+                    <xs:attribute name="value">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:language">
+                                <xs:enumeration value="en"/>
+                                <xs:enumeration value="de"/>
+                                <xs:enumeration value="fr"/>
+                                <xs:enumeration value="fr-CA"/>
+                                <xs:enumeration value="it"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                </xs:restriction>
+            </xs:complexContent>
+    </xs:complexType>        
+
+    <xs:element name="default_language_for_numbering" substitutionGroup="dependency" type="dependencyTypeLanguage">
         <xs:annotation>
             <xs:documentation>
-                
-                <p>Identifies the default language used by xsl:number and format-integer, for example en=English.</p>
-                
+                <p>Identifies the default language used by xsl:number and format-integer, for
+                    example en=English.</p>
                 <p>Used only for tests that rely on a specific default language.</p>
-                
+            </xs:documentation>
+        </xs:annotation>
+    </xs:element>
+    
+    <xs:element name="ordinal_scheme_name" substitutionGroup="dependency">
+        <xs:annotation>
+            <xs:documentation>
+                <p>Identifies the convention used for identifying variants of ordinal numbering
+                   in the "ordinal" attribute of xsl:number.</p>
+                <p>The two recognised values are "inflection" (a hyphen followed by a grammatical suffix, e.g. "-er")
+                   and "CLDR" (the name of a numbering scheme in the Common Language Data Repository, prefixed by a percent sign)</p>
             </xs:documentation>
         </xs:annotation>
         <xs:complexType>
@@ -733,9 +865,179 @@
                     <xs:attribute name="value">
                         <xs:simpleType>
                             <xs:restriction base="xs:string">
-                                <xs:enumeration value="en" />
-                                <xs:enumeration value="de" />
-                                <xs:enumeration value="fr" />
+                                <xs:enumeration value="inflection"/>
+                                <xs:enumeration value="CLDR"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                </xs:restriction>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="combinations_for_numbering" substitutionGroup="dependency">
+        <xs:annotation>
+            <xs:documentation>
+                <p>
+                    Indicates dependencies on implementation-defined aspects of xsl:number,
+                    format-number, etc. The full range of values is not yet defined. The current
+                    list uses the Unicode names of the digit one values of non-digit digits in the
+                    Number, Other category. If implementations support these numbering types
+                    it is assumed (but by no means required) that if the format string contains the 
+                    corresponding unicode character for digit one, *and* the processor supports that
+                    range, that it is rendered with that Unicode range of digits and/or numbers.
+                 </p>
+                <p>
+                    The range attribute can be used to indicate processor support for the given
+                    format. The default is unbounded. For most characters in the Number, Other 
+                    Unicode category, the range is inherently bounded by the available codepoints.
+                </p>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:restriction base="dependencyType">
+                    <xs:attribute name="value">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="CIRCLED DIGIT ONE"/>
+                                <xs:enumeration value="DOUBLE CIRCLED DIGIT ONE"/>
+                                <xs:enumeration value="DIGIT ONE FULL STOP"/>
+                                <xs:enumeration value="PARENTHESIZED DIGIT ONE"/>
+                                <xs:enumeration value="SUBSCRIPT ONE"/>
+                                <xs:enumeration value="SUPERSCRIPT ONE"/>
+                                <xs:enumeration value="TIBETAN DIGIT HALF ONE"/>
+                                <xs:enumeration value="ETHIOPIC DIGIT ONE"/>
+                                <xs:enumeration value="DINGBAT NEGATIVE CIRCLED DIGIT ONE"/>
+                                <xs:enumeration value="DINGBAT CIRCLED SANS-SERIF DIGIT ONE"/>
+                                <xs:enumeration value="DINGBAT NEGATIVE CIRCLED SANS-SERIF DIGIT ONE"/>
+                                <xs:enumeration value="PARENTHESIZED IDEOGRAPH ONE"/>
+                                <xs:enumeration value="CIRCLED IDEOGRAPH ONE"/>
+                                <xs:enumeration value="AEGEAN NUMBER ONE"/>
+                                <xs:enumeration value="COPTIC EPACT DIGIT ONE"/>
+                                <xs:enumeration value="OLD ITALIC NUMERAL ONE"/>
+                                <xs:enumeration value="RUMI DIGIT ONE"/>
+                                <xs:enumeration value="BRAHMI NUMBER ONE"/>
+                                <xs:enumeration value="SINHALA ARCHAIC DIGIT ONE"/>
+                                <xs:enumeration value="MENDE KIKAKUI DIGIT ONE"/>
+                                <xs:enumeration value="COUNTING ROD UNIT DIGIT ONE"/>
+                                <xs:enumeration value="DIGIT ONE COMMA"/>
+                                <xs:enumeration value="GREEK SMALL LETTER ALPHA (TRADITIONAL)"/>
+                                <xs:enumeration value="GREEK SMALL LETTER ALPHA (ALPHABETIC)"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                    <xs:attribute name="range">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="0 to 9" />
+                                <xs:enumeration value="1 to 9" />
+                                <xs:enumeration value="0 to 10" />
+                                <xs:enumeration value="1 to 10" />
+                                <xs:enumeration value="0 to 20" />
+                                <xs:enumeration value="1 to 20" />
+                                <xs:enumeration value="0 to 50" />
+                                <xs:enumeration value="1 to 50" />
+                                <xs:enumeration value="0 to 1000" />
+                                <xs:enumeration value="1 to 1000" />
+                                <xs:enumeration value="unbounded" />
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                </xs:restriction>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="languages_for_numbering" substitutionGroup="dependency" type="dependencyTypeLanguage">
+        <xs:annotation>
+            <xs:documentation>
+                <p>Indicates a test that depends on a particular language being supported for number
+                    or date formatting.</p>
+            </xs:documentation>
+        </xs:annotation>
+    </xs:element>
+
+    <xs:element name="supported_calendars_in_date_formatting_functions"
+        substitutionGroup="dependency">
+        <xs:annotation>
+            <xs:documentation>
+                <p>Indicates a test that depends on a particular calendar being supported for date
+                    formatting.</p>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:restriction base="dependencyType">
+                    <xs:attribute name="value">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="ISO"/>
+                                <xs:enumeration value="AD"/>
+                                <xs:enumeration value="CB"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                </xs:restriction>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="default_calendar_in_date_formatting_functions"
+        substitutionGroup="supported_calendars_in_date_formatting_functions">
+        <xs:annotation>
+            <xs:documentation>
+                <p>Indicates a test that depends on a particular calendar being the default calendar
+                    for date formatting.</p>
+            </xs:documentation>
+        </xs:annotation>
+    </xs:element>
+
+    <xs:element name="year_component_values" substitutionGroup="dependency">
+        <xs:annotation>
+            <xs:documentation>
+                <p>Indicates a test that depends on implementation-defined limits for dates and
+                    durations, notably on support for negative (i.e. BC) years.</p>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:restriction base="dependencyType">
+                    <xs:attribute name="value">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="support negative year"/>
+                                <xs:enumeration value="support year above 9999"/>
+                                <xs:enumeration value="support year zero"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                </xs:restriction>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="sweep_and_posture" substitutionGroup="dependency">
+        <xs:annotation>
+            <xs:documentation>
+                <p>
+                    Indicates a test that requires assessments or assertions of individual posture
+                    and sweep results. This is an optional feature, not specified at all in the XSLT 3.0 spec,
+                    but it is useful in testing constructs for posture and sweep results.
+                </p>
+                <p>
+                    If you support this, it means you can handle the result/assert-posture-and-sweep and 
+                    the test/posture-and-sweep elements, see there for more information.
+                </p>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:restriction base="dependencyType">
+                    <xs:attribute name="value">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:enumeration value="supports-sweep-and-posture-assessments"/>
                             </xs:restriction>
                         </xs:simpleType>
                     </xs:attribute>
@@ -744,13 +1046,33 @@
         </xs:complexType>
     </xs:element>
     
-    <xs:element name="combinations_for_numbering" substitutionGroup="dependency" >
+    <xs:element name="maximum_number_of_decimal_digits" substitutionGroup="dependency">
         <xs:annotation>
             <xs:documentation>
-                
-                <p>Indicates dependencies on implementation-defined aspects of xsl:number, format-number, etc.
-                The full range of values is not yet defined.</p>
-                
+                <p>Indicates a test that depends on more than the statutory minimum of 18 decimal
+                    digits.</p>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:restriction base="dependencyType">
+                    <xs:attribute name="value">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:pattern value="[0-9]+"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                </xs:restriction>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="collation_uri" substitutionGroup="dependency">
+        <xs:annotation>
+            <xs:documentation>
+                <p>Indicates a test that depends on a particular collation URI being available.</p>
+                <p>(Overlaps with the definition of collations in the environment...)</p>
             </xs:documentation>
         </xs:annotation>
         <xs:complexType>
@@ -765,13 +1087,12 @@
             </xs:complexContent>
         </xs:complexType>
     </xs:element>
-    
-    <xs:element name="languages_for_numbering" substitutionGroup="dependency" >
+
+    <xs:element name="statically_known_collations" substitutionGroup="dependency">
         <xs:annotation>
             <xs:documentation>
-                
-                <p>Indicates a test that depends on a particular language being supported for number or date formatting.</p>
-                
+                <p>Indicates a test that depends on particular collations being present in the
+                    static context.</p>
             </xs:documentation>
         </xs:annotation>
         <xs:complexType>
@@ -780,9 +1101,8 @@
                     <xs:attribute name="value">
                         <xs:simpleType>
                             <xs:restriction base="xs:string">
-                                <xs:enumeration value="en" />
-                                <xs:enumeration value="de" />
-                                <xs:enumeration value="fr" />
+                                <xs:enumeration value="http://www.w3.org/xslts/collation/caseblind"
+                                />
                             </xs:restriction>
                         </xs:simpleType>
                     </xs:attribute>
@@ -790,96 +1110,11 @@
             </xs:complexContent>
         </xs:complexType>
     </xs:element>
-    
-    <xs:element name="supported_calendars_in_date_formatting_functions" substitutionGroup="dependency" >
+
+    <xs:element name="default_output_encoding" substitutionGroup="dependency">
         <xs:annotation>
             <xs:documentation>
-                
-                <p>Indicates a test that depends on a particular calendar being supported for date formatting.</p>
-                
-            </xs:documentation>
-        </xs:annotation>
-        <xs:complexType>
-            <xs:complexContent>
-                <xs:restriction base="dependencyType">
-                    <xs:attribute name="value">
-                        <xs:simpleType>
-                            <xs:restriction base="xs:string">
-                                <xs:enumeration value="ISO" />
-                                <xs:enumeration value="AD" />
-                                <xs:enumeration value="CB" />
-                             </xs:restriction>
-                        </xs:simpleType>
-                    </xs:attribute>
-                </xs:restriction>
-            </xs:complexContent>
-        </xs:complexType>
-    </xs:element>
-    
-    <xs:element name="default_calendar_in_date_formatting_functions" 
-        substitutionGroup="supported_calendars_in_date_formatting_functions">
-        <xs:annotation>
-            <xs:documentation>
-                
-                <p>Indicates a test that depends on a particular calendar being the default calendar for date formatting.</p>
-                
-            </xs:documentation>
-        </xs:annotation>
-    </xs:element>
-    
-    <xs:element name="year_component_values" substitutionGroup="dependency" >
-        <xs:annotation>
-            <xs:documentation>
-                
-                <p>Indicates a test that depends on implementation-defined limits for dates and durations, notably on
-                    support for negative (i.e. BC) years.</p>
-                
-            </xs:documentation>
-        </xs:annotation>
-        <xs:complexType>
-            <xs:complexContent>
-                <xs:restriction base="dependencyType">
-                    <xs:attribute name="value">
-                        <xs:simpleType>
-                            <xs:restriction base="xs:string">
-                                <xs:enumeration value="support negative year" />
-                            </xs:restriction>
-                        </xs:simpleType>
-                    </xs:attribute>
-                </xs:restriction>
-            </xs:complexContent>
-        </xs:complexType>
-    </xs:element>
-    
-    <xs:element name="maximum_number_of_decimal_digits" substitutionGroup="dependency" >
-        <xs:annotation>
-            <xs:documentation>
-                
-                <p>Indicates a test that depends on more than the statutory minimum of 18 decimal digits.</p>
-                
-            </xs:documentation>
-        </xs:annotation>
-        <xs:complexType>
-            <xs:complexContent>
-                <xs:restriction base="dependencyType">
-                    <xs:attribute name="value">
-                        <xs:simpleType>
-                            <xs:restriction base="xs:string">
-                                <xs:pattern value="[0-9]+" />
-                            </xs:restriction>
-                        </xs:simpleType>
-                    </xs:attribute>
-                </xs:restriction>
-            </xs:complexContent>
-        </xs:complexType>
-    </xs:element>
-    
-    <xs:element name="default_output_encoding" substitutionGroup="dependency" >
-        <xs:annotation>
-            <xs:documentation>
-                
                 <p>Identifies the default encoding for serialized output.</p>
-                
             </xs:documentation>
         </xs:annotation>
         <xs:complexType>
@@ -898,20 +1133,37 @@
         </xs:complexType>
     </xs:element>
     
-    <xs:element name="unparsed_text_encoding" substitutionGroup="default_output_encoding">
+    <xs:element name="detect_accumulator_cycles" substitutionGroup="dependency" type="dependencyTypeTrue">
         <xs:annotation>
             <xs:documentation>
-                
-                <p>Identifies the default encoding assumed by the unparsed-text() function</p>
-                
+                <p>The test requires the processor to be able to detect error XTDE3400 (cyclic
+                definition of an accumulator), rather than failing catastrophically.</p>
             </xs:documentation>
         </xs:annotation>
     </xs:element>
     
-    <xs:element name="additional_normalization_form" substitutionGroup="dependency" >
+    <xs:element name="enable_assertions" substitutionGroup="dependency" type="dependencyTypeTrue">
         <xs:annotation>
             <xs:documentation>
-                <p>Indicates Unicode normalization forms accepted in addition to the standard NFC.</p>
+                <p>The test requires the processor to enable checking of assertions.
+                Assertions are disabled by default.</p>
+            </xs:documentation>
+        </xs:annotation>
+    </xs:element>
+
+    <xs:element name="unparsed_text_encoding" substitutionGroup="default_output_encoding">
+        <xs:annotation>
+            <xs:documentation>
+                <p>Identifies the default encoding assumed by the unparsed-text() function</p>
+            </xs:documentation>
+        </xs:annotation>
+    </xs:element>
+
+    <xs:element name="additional_normalization_form" substitutionGroup="dependency">
+        <xs:annotation>
+            <xs:documentation>
+                <p>Indicates Unicode normalization forms accepted in addition to the standard
+                    NFC.</p>
             </xs:documentation>
         </xs:annotation>
         <xs:complexType>
@@ -920,7 +1172,7 @@
                     <xs:attribute name="value">
                         <xs:simpleType>
                             <xs:restriction base="xs:string">
-                                <xs:pattern value="support (NFD|NFKC|NFKD|FULLY-NORMALIZED|\s)*" />
+                                <xs:pattern value="support (NFD|NFKC|NFKD|FULLY-NORMALIZED|\s)*"/>
                             </xs:restriction>
                         </xs:simpleType>
                     </xs:attribute>
@@ -928,32 +1180,20 @@
             </xs:complexContent>
         </xs:complexType>
     </xs:element>
-    
-    <xs:element name="recognize_id_as_uri_fragment" substitutionGroup="dependency" >
+
+    <xs:element name="recognize_id_as_uri_fragment" substitutionGroup="dependency" type="dependencyTypeTrue">
         <xs:annotation>
             <xs:documentation>
                 <p>Indicates whether or not the fragments in URIs are recognized as ID values.</p>
             </xs:documentation>
         </xs:annotation>
-        <xs:complexType>
-            <xs:complexContent>
-                <xs:restriction base="dependencyType">
-                    <xs:attribute name="value">
-                        <xs:simpleType>
-                            <xs:restriction base="xs:string">
-                                <xs:enumeration value="true"/>
-                            </xs:restriction>
-                        </xs:simpleType>
-                    </xs:attribute>
-                </xs:restriction>
-            </xs:complexContent>
-        </xs:complexType>
     </xs:element>
-    
-    <xs:element name="on-multiple-match" substitutionGroup="dependency" >
+
+    <xs:element name="on-multiple-match" substitutionGroup="dependency">
         <xs:annotation>
             <xs:documentation>
-                <p>Indicates (for an XSLT 2.0 processor) what happens when several template rules match a selected node</p>
+                <p>Indicates (for an XSLT 2.0 processor) what happens when several template rules
+                    match a selected node</p>
             </xs:documentation>
         </xs:annotation>
         <xs:complexType>
@@ -962,8 +1202,8 @@
                     <xs:attribute name="value">
                         <xs:simpleType>
                             <xs:restriction base="xs:string">
-                                <xs:enumeration value="recover" />
-                                <xs:enumeration value="error" />
+                                <xs:enumeration value="recover"/>
+                                <xs:enumeration value="error"/>
                             </xs:restriction>
                         </xs:simpleType>
                     </xs:attribute>
@@ -971,99 +1211,33 @@
             </xs:complexContent>
         </xs:complexType>
     </xs:element>
-    
-    <xs:element name="ignore-doc-failure" substitutionGroup="dependency" >
+
+    <xs:element name="ignore_doc_failure" substitutionGroup="dependency" type="dependencyTypeTrue">
         <xs:annotation>
             <xs:documentation>
-                <p>Indicates whether or not the document() function throws an error if the underlying call on doc() fails</p>
+                <p>Indicates whether or not the document() function throws an error if the
+                    underlying call on doc() fails</p>
             </xs:documentation>
         </xs:annotation>
-        <xs:complexType>
-            <xs:complexContent>
-                <xs:restriction base="dependencyType">
-                    <xs:attribute name="value">
-                        <xs:simpleType>
-                            <xs:restriction base="xs:string">
-                                <xs:enumeration value="false" />
-                                <xs:enumeration value="true" />
-                            </xs:restriction>
-                        </xs:simpleType>
-                    </xs:attribute>
-                </xs:restriction>
-            </xs:complexContent>
-        </xs:complexType>
     </xs:element>
-    
-    
-   <!-- <xs:element name="version-of-xml" substitutionGroup="dependency" >
-        <xs:complexType>
-            <xs:complexContent>
-                <xs:restriction base="dependencyType">
-                    <xs:attribute name="value">
-                        <xs:simpleType>
-                            <xs:restriction base="xs:string">
-                                <xs:enumeration value="1.0" />
-                                <xs:enumeration value="1.1" />
-                            </xs:restriction>
-                        </xs:simpleType>
-                    </xs:attribute>
-                </xs:restriction>
-            </xs:complexContent>
-        </xs:complexType>
-    </xs:element>-->
-    <!--
-    <xs:element name="schema-aware" substitutionGroup="dependency" >
-        <xs:complexType>
-            <xs:complexContent>
-                <xs:restriction base="dependencyType">
-                    <xs:attribute name="value">
-                        <xs:simpleType>
-                            <xs:restriction base="xs:string">
-                                <xs:enumeration value="true" />
-                                <xs:enumeration value="false" />
-                            </xs:restriction>
-                        </xs:simpleType>
-                    </xs:attribute>
-                </xs:restriction>
-            </xs:complexContent>
-        </xs:complexType>
-    </xs:element>    
-    
-    <xs:element name="streaming" substitutionGroup="dependency" >
-        <xs:complexType>
-            <xs:complexContent>
-                <xs:restriction base="dependencyType">
-                    <xs:attribute name="value">
-                        <xs:simpleType>
-                            <xs:restriction base="xs:string">
-                                <xs:enumeration value="true" />
-                                <xs:enumeration value="false" />
-                            </xs:restriction>
-                        </xs:simpleType>
-                    </xs:attribute>
-                </xs:restriction>
-            </xs:complexContent>
-        </xs:complexType>
-    </xs:element>     
-    -->
-    
+
     <xs:element name="test-case">
         <xs:annotation>
             <xs:documentation>
                 <div>
                     <h3>test-case</h3>
-                    <p>
-                        An element that contains a test that must be run in a named environment, 
-                        also contains the expected result and description of the test, including author 
-                        and creation date.
-                    </p>
-                </div> 
+                    <p> An element that contains a test that must be run in a named environment,
+                        also contains the expected result and description of the test, including
+                        author and creation date. </p>
+                </div>
             </xs:documentation>
         </xs:annotation>
         <xs:complexType>
             <xs:sequence>
-                <xs:element ref="description" />
-                <xs:element ref="created" />
+                <xs:element ref="description"/>
+                <xs:element ref="keywords" minOccurs="0"/>
+                <xs:element ref="link" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element ref="created"/>
                 <xs:element ref="modified" minOccurs="0" maxOccurs="unbounded"/>
                 <xs:element name="environment" minOccurs="0">
                     <xs:complexType>
@@ -1076,319 +1250,210 @@
                     </xs:complexType>
                 </xs:element>
                 <xs:element ref="dependencies" minOccurs="0" maxOccurs="1"/>
-                <xs:element ref="test" />
-                <xs:element ref="result" />
+                <xs:element ref="test"/>
+                <xs:element ref="result"/>
             </xs:sequence>
-            <xs:attributeGroup ref="nameAttr" />
-            <xs:attributeGroup ref="coversAttr" />
+            <xs:attributeGroup ref="nameAttr"/>
+            <xs:attributeGroup ref="coversAttr"/>
         </xs:complexType>
     </xs:element>
-    
+
     <xs:element name="test">
         <xs:annotation>
             <xs:documentation>
                 <div>
                     <h3>test</h3>
-                    <p>
-                        The content of the element identifies the stylesheet to be used for the transformation,
-                        plus entry conditions such as the values of parameters or an initial template name.                     
-                    </p>
-                    
-                </div> 
+                    <p> The content of the element identifies the stylesheet to be used for the
+                        transformation, plus entry conditions such as the values of parameters or an
+                        initial template name. </p>
+                </div>
             </xs:documentation>
         </xs:annotation>
         <xs:complexType>
             <xs:sequence>
-                <xs:element ref="stylesheet" minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="package" minOccurs="0" maxOccurs="unbounded">
                     <xs:annotation>
                         <xs:documentation>
-                            <p>If the element appears more than once, then the first occurrence should have role="principal"
-                            and the others should have role="secondary".</p>
-                            <p>Identifying the included/imported stylesheets using role="secondary" entries is good practice,
-                            but it's not guaranteed that all tests follow this practice.</p>
+                            <p>If the element appears more than once, then the first occurrence
+                                should have role="principal" and the others should have
+                                role="secondary".</p>
+                            <p>Identifying the used packages using role="secondary" entries is good
+                                practice, but it's not guaranteed that all tests follow this
+                                practice.</p>
                         </xs:documentation>
                     </xs:annotation>
                 </xs:element>
+                <xs:element ref="stylesheet" minOccurs="0" maxOccurs="unbounded">
+                    <xs:annotation>
+                        <xs:documentation>
+                            <p>If the element appears more than once, then the first occurrence
+                                should have role="principal" and the others should have
+                                role="secondary".</p>
+                            <p>Identifying the included/imported stylesheets using role="secondary"
+                                entries is good practice, but it's not guaranteed that all tests
+                                follow this practice.</p>
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element minOccurs="0" ref="posture-and-sweep"/>
                 <xs:element ref="param" minOccurs="0" maxOccurs="unbounded"/>
-                <xs:element ref="initial-template" minOccurs="0" />
-                <xs:element ref="initial-mode" minOccurs="0" />
+                <xs:element ref="initial-template" minOccurs="0"/>
+                <xs:element ref="initial-mode" minOccurs="0"/>
+                <xs:element ref="initial-function" minOccurs="0"/>
+                <xs:element ref="output" minOccurs="0"/>
             </xs:sequence>
-        </xs:complexType>        
-    </xs:element>
-    
-    <xs:element name="initial-template">
-        <xs:annotation>
-            <xs:documentation>
-                <p>Gives the name of the named template to be used as the entry point for the transformation. When this is supplied,
-                it is not necessary to supplied a source document or initial context item.</p>
-            </xs:documentation>         
-        </xs:annotation>
-        <xs:complexType>
-            <xs:attribute name="name" type="xs:QName" />
-        </xs:complexType>
-    </xs:element>
-    
-    <xs:element name="initial-mode">
-        <xs:annotation>
-            <xs:documentation>
-                <p>Gives the name of the mode to be used as the entry point for the transformation. </p>
-            </xs:documentation>         
-        </xs:annotation>
-        <xs:complexType>
-            <xs:attribute name="name" type="xs:QName" />
-        </xs:complexType>
-    </xs:element>    
-    
-    <xs:element name="created">
-        <xs:annotation>
-            <xs:documentation>
-                <div>
-                    <h3>created</h3>
-                    <p>
-                        Provides details of the author and creation date of a test case, source document, schema, etc. 
-                    </p>
-                </div> 
-            </xs:documentation>
-        </xs:annotation>
-        <xs:complexType>
-            <xs:attributeGroup ref="byAttr" />
-            <xs:attributeGroup ref="onAttr" />
-        </xs:complexType>
-    </xs:element>
-    
-    <xs:element name="modified">
-        <xs:annotation>
-            <xs:documentation>
-                <div>
-                    <h3>modified</h3>
-                    <p>
-                        Provides a record of changes made to a test case or other resource over time. 
-                    </p>
-                </div> 
-            </xs:documentation>
-        </xs:annotation>
-        <xs:complexType>
-            <xs:attributeGroup ref="byAttr" />
-            <xs:attributeGroup ref="onAttr" />
-            <xs:attributeGroup ref="changeAttr" />
         </xs:complexType>
     </xs:element>
 
-    
-    <xs:element name="result">
-        <xs:annotation>
-            <xs:documentation>
-                <div>
-                    <h3>result</h3>
-                    <p>
-                        A wrapper for the part of a test case describing the expected outcome of the test, in the form
-                        of an assertion about the results. Note that assertions about the result of the transformation
-                        relate to the principal result document unless otherwise specified.
-                    </p>
-                </div> 
-            </xs:documentation>
-        </xs:annotation>
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element ref="abstractAssertion"/>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
-    
-    
-    <xs:complexType name="SequenceOfAssertionsType">
-        <xs:annotation>
-            <xs:documentation>
-                <div>
-                    <h3>complexType for a sequence of assertions</h3>
-                    <p>
-                        Used to represent the body of an <code>any-of</code> or <code>all-of</code> element.
-                    </p>
-                </div> 
-            </xs:documentation>
-        </xs:annotation>
+    <xs:group name="tunnelParameters">
         <xs:sequence>
-            <xs:element ref="abstractAssertion" minOccurs="1" maxOccurs="unbounded"/>            
+            <xs:element name="param" type="tunnelParamType" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>
+                        <div>
+                            <h3>(local named) param</h3>
+                            <p> An element within a stylesheet invocation that declares a (possibly
+                                tunnelled) parameter that can be referenced within the stylesheet
+                                through &lt;xsl:param/&gt;. </p>
+                            <p>The value to be bound to the variable is given in the select
+                                attribute, which should be a simple XPath expression - typically a
+                                literal, or a simple call on a constructor function.</p>
+                        </div>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
         </xs:sequence>
-    </xs:complexType>
-    
-    
-    <xs:element name="any-of" type="SequenceOfAssertionsType" substitutionGroup="abstractAssertion">
+    </xs:group>
+    <xs:group name="unNamedParameters">
+        <xs:sequence>
+            <xs:element name="param" type="basicParamType" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>
+                        <div>
+                            <h3>(local unnamed) param</h3>
+                            <p> An element within a stylesheet function-call invocation that
+                                declares a positional argument for the function. </p>
+                            <p>The value to be bound to the variable is given in the select
+                                attribute, which should be a simple XPath expression - typically a
+                                literal, or a simple call on a constructor function.</p>
+                        </div>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:group>
+
+    <xs:element name="initial-template">
         <xs:annotation>
             <xs:documentation>
-                <div>
-                    <h3>any-of</h3>
-                    <p>
-                        A container for a list of assertions. 
-                        One or more of the assertions needs to prove true for the test to pass, 
-                        but if all fail then the test fails.
-                    </p>
-                </div> 
-            </xs:documentation>
-        </xs:annotation>
-    </xs:element>
-    
-    <xs:element name="all-of" type="SequenceOfAssertionsType"  substitutionGroup="abstractAssertion">
-        <xs:annotation>
-            <xs:documentation>
-                <div>
-                    <h3>all-of</h3>
-                    <p>
-                        A container for a list of assertions that must be all satisfied; 
-                        if any of the assertions proves to be false then the test fails.      
-                    </p>
-                </div> 
-            </xs:documentation>
-        </xs:annotation>
-    </xs:element>
-    
-    <xs:element name="not" substitutionGroup="abstractAssertion">
-        <xs:annotation>
-            <xs:documentation>
-                <div>
-                    <h3>not</h3>
-                    <p>
-                        Contains an assertion which must be false if the containing assertion is to succeed.      
-                    </p>
-                </div> 
+                <p>
+                    Gives the name of the named template to be used as the entry point for the
+                    transformation, with possible parameters. When this is supplied, it is not
+                    necessary to supplied a source document or initial context item.
+                </p>
+                <p>
+                    The default initial template, xsl:initial-template, can be given specifically,
+                    or by leaving out the name attribute. If none of initial-template, initial-function
+                    or initial-mode are present, the default is xsl:initial-template, regardless whether
+                    an initial match selection was specified.
+                </p>
             </xs:documentation>
         </xs:annotation>
         <xs:complexType>
             <xs:sequence>
-                <xs:element ref="abstractAssertion"/>
+                <xs:group ref="tunnelParameters"/>
             </xs:sequence>
-        </xs:complexType>    
+            <xs:attribute name="name" type="xs:QName"/>
+        </xs:complexType>
     </xs:element>
-    
-    <xs:element name="abstractAssertion" abstract="true" type="xs:anyType" >
+
+    <xs:element name="initial-function">
         <xs:annotation>
             <xs:documentation>
-                <div>
-                    <h3>abstractAssertion</h3>
-                    <p>
-                        Abstract superclass for the various kinds of assertion.
-                    </p>
-                </div> 
+                <p>Gives the name of the function to be used as the entry point for the
+                    transformation. When this is supplied, it is not necessary to supplied a source
+                    document or initial context item.</p>
             </xs:documentation>
         </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:group ref="unNamedParameters"/>
+            </xs:sequence>
+            <xs:attribute name="name" type="xs:QName" use="required"/>
+        </xs:complexType>
     </xs:element>
-    
-    
-    
-    <xs:element name="assert" substitutionGroup="abstractAssertion">
+
+    <xs:element name="initial-mode">
         <xs:annotation>
             <xs:documentation>
-                <div>
-                    <h3>assert</h3>
-                    <p>
-                        The assert element contains an XPath expression whose effective boolean
-                        value must be true. 
-                    </p>
-                    <p>The namespace context for evaluation of the expression is taken from the in-scope namespaces
-                    of the assert element in the catalog, except that the default namespace (for unprefixed element
-                    names) is always "no namespace".</p>
-                    <p>The XPath expression will be evaluated with the document node of the result document
-                    as the context item.</p>
-                    
-                </div> 
+                <p>Gives the name of the mode to be used as the entry point for the transformation,
+                    with possible parameters. </p><p>To transmit parameters for an invocation in the
+                    stylesheet's default mode, use #default, for the unnamed mode, use #unnamed.</p>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:group ref="tunnelParameters"/>
+            </xs:sequence>
+            <xs:attribute name="name" use="required">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>The name attribute is required, use #default or #unnamed for special modes</p>
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>                    
+                    <xs:union memberTypes="xs:QName specialInitialModeNames" />
+                </xs:simpleType>
+            </xs:attribute>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="posture-and-sweep">
+        <xs:annotation>
+            <xs:documentation>
+                <h3>Posture and sweep test (posture-and-sweep)</h3>
+                <p>Takes a (set of) XPath expression(s) or XSLT instruction(s), but not both, as input and
+                    can be used to assess the resulting sweep and posture, based on
+                    a given context posture and (optional) context type (defaults to "item()").
+                    Note that the context posture and the expected result sweep and posture applies to every
+                    &lt;xpath&gt; or &lt;xslt&gt; element in this element. To use another context posture or result 
+                    sweep or posture assertion, create another test.
+                </p>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:choice>
+                <xs:sequence minOccurs="0" maxOccurs="unbounded">
+                    <xs:element ref="xpath"/>
+                </xs:sequence>
+                <xs:sequence minOccurs="0" maxOccurs="unbounded">
+                    <xs:element ref="xslt"/>
+                </xs:sequence>
+            </xs:choice>
+            <xs:attributeGroup ref="attrContextPostureAndType"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="xpath">
+        <xs:annotation>
+            <xs:documentation>
+                <p>
+                    Takes an XPath as input and
+                    can be used to assess the resulting sweep and posture, based on
+                    a given input (context) posture and context type
+                </p>
             </xs:documentation>
         </xs:annotation>
         <xs:complexType>
             <xs:simpleContent>
-                <xs:extension base="xs:string" />
-            </xs:simpleContent>
-        </xs:complexType>
-    </xs:element>
-        
-    
-    <xs:element name="assert-message"  substitutionGroup="abstractAssertion">
-        <xs:annotation>
-            <xs:documentation>
-                <div>
-                    <h3>assert-message</h3>
-                    <p>This element may contain any assertion such as assert-xml or assert; the presence of this
-                    assertion asserts that the test outputs an xsl:message which (considered as an XML document)
-                    satisfies the contained assertion.</p>
-                    <p>Note: there is no way to assert the absence of a message. Tests are free to output additional
-                    messages beyond those expected. This accurately reflects the specification, which does not state
-                    that processors must only output the messages explicitly requested using xsl:message instructions.</p>                  
-                </div> 
-            </xs:documentation>
-        </xs:annotation>
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element ref="abstractAssertion"/>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
-    
-    <xs:element name="assert-result-document"  substitutionGroup="abstractAssertion">
-        <xs:annotation>
-            <xs:documentation>
-                <div>
-                    <h3>assert-result-document</h3>
-                    <p>This element may contain any assertion such as assert-xml or assert; the presence of this
-                    assertion asserts that the test outputs a secondary result document having the specified URI, 
-                    and which (considered as an XML document) satisfies the contained assertion.</p>
-                    <p>Note: there is no way to assert the absence of a result document. Tests are free to output more
-                    result documents than accounted for by the result assertions.</p>                  
-                </div> 
-            </xs:documentation>
-        </xs:annotation>
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element ref="abstractAssertion"/>
-            </xs:sequence>
-            <xs:attribute name="uri" type="xs:anyURI" use="required">
-              <xs:annotation>
-                <xs:documentation>
-                  <p>The uri corresponds to the URI used in the href attribute of the xsl:result-document instruction.
-                  It is supplied as a relative URI, interpreted as being relative to the implicit base output URI chosen
-                  by the test driver.</p>
-                </xs:documentation>  
-              </xs:annotation>    
-           </xs:attribute>
-        </xs:complexType>
-    </xs:element>
-    
-    
-    <xs:element name="assert-xml"  substitutionGroup="abstractAssertion">
-        <xs:annotation>
-            <xs:documentation>
-                <div>
-                    <h3>assert-xml</h3>
-                    <p>
-                        Asserts the result of the query by providing a serialization of the expression 
-                        result using the default serialization parameters method="xml" indent="no" 
-                        omit-xml-declaration="yes".</p>
-                        
-                    <p> The assertion is true if the result of parsing and canonicalizing the XML
-                        given in the body of the assert-xml element is the same (byte-for-byte) as
-                        the result of canonicalizing the XML result of the query. As an alternative
-                        to canonicalizing, the results may be compared using the fn:deep-equal()
-                        function.</p>    
-                        
-                     <p>The value will not necessarily be a well-formed document (it may be a fragment). 
-                        The comparison can be done by converting the string into a well-formed
-                        document by adding a wrapper element.
-                    </p>
-                </div> 
-            </xs:documentation>
-        </xs:annotation>
-        <xs:complexType>
-            <xs:simpleContent>
-                <xs:extension base="xs:string">
-                    <xs:attributeGroup ref="fileAttr"/>                    
-                    <xs:attributeGroup ref="xmlVersionAttr"/>
-                    <xs:attribute name="ignore-prefixes" type="xs:boolean">
+                <xs:extension base="xs:string" >
+                    <xs:attribute name="part" type="xs:integer">
                         <xs:annotation>
                             <xs:documentation>
-                                <p>If this attribute is present with the value "true", it indicates that
-                                the serialized result contains system-generated prefixes which can lead to
-                                ignorable differences between the actual result and the serialized result.</p>
-                                <p>This attribute is rarely used, and should be avoided for new tests. Instead,
-                                the test result should be expressed using assertions that take no account
-                                of the namespace prefixes generated.</p>
+                                <p>
+                                    Can be used to distinguish posture-and-sweep parts, i.e. for reports or analysis.
+                                    The value must be an integer.
+                                </p>
                             </xs:documentation>
                         </xs:annotation>
                     </xs:attribute>
@@ -1396,25 +1461,259 @@
             </xs:simpleContent>
         </xs:complexType>
     </xs:element>
-    
-    <xs:element name="assert-serialization"  substitutionGroup="abstractAssertion">
+
+    <xs:element name="xslt">
+        <xs:annotation>
+            <xs:documentation>
+                <p>Takes an XPath as input and
+                    can be used to assess the resulting sweep and posture, based on
+                    a given input (context) posture and context type</p>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType mixed="true">
+            <xs:sequence>
+                <xs:any namespace="http://www.w3.org/1999/XSL/Transform" processContents="lax"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="output">
+        <xs:annotation>
+            <xs:documentation>
+                <p>Provides a base output URI for the transformation. The processor may (optionally)
+                    use this as the location to which serialized output for the principal result
+                    tree is written. The location should be given as a relative URI, and should be
+                    within a subdirectory of the directory that contains the test set XML file.</p>
+                <p>Directions for output post-processing can also be declared.</p>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:attribute name="file" type="xs:anyURI" use="optional"/>
+            <xs:attribute name="tree" type="yesNoType" use="optional"/>
+            <xs:attribute name="serialize" type="yesNoType" use="optional"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="created">
         <xs:annotation>
             <xs:documentation>
                 <div>
-                    <h3>assert-serialization</h3>
-                    <p>
-                        Asserts the result of the query by providing a serialization of the expression 
-                        result.</p>
-                    
-                    <p> In principle, the serialization must match exactly. Test drivers are free
-                        to ignore differences in the serialization that are known to be irrelevant (that is,
-                        capable of being produced by a conformant implementation.</p>
-                    
-                    <p> This assertion should not be used except where the purpose of the test is to test
-                        the serializer. Even then, the <code>serialization-matches</code> assertion
-                        is preferable.</p>    
-                    
-                </div> 
+                    <h3>created</h3>
+                    <p> Provides details of the author and creation date of a test case, source
+                        document, schema, etc. </p>
+                </div>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:attributeGroup ref="byAttr"/>
+            <xs:attributeGroup ref="onAttr"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="modified">
+        <xs:annotation>
+            <xs:documentation>
+                <div>
+                    <h3>modified</h3>
+                    <p> Provides a record of changes made to a test case or other resource over
+                        time. </p>
+                </div>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:attributeGroup ref="byAttr"/>
+            <xs:attributeGroup ref="onAttr"/>
+            <xs:attributeGroup ref="changeAttr"/>
+        </xs:complexType>
+    </xs:element>
+
+
+    <xs:element name="result">
+        <xs:annotation>
+            <xs:documentation>
+                <div>
+                    <h3>result</h3>
+                    <p> A wrapper for the part of a test case describing the expected outcome of the
+                        test, in the form of an assertion about the results. Note that assertions
+                        about the result of the transformation relate to the principal result
+                        document unless otherwise specified. </p>
+                </div>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="abstractAssertion"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+
+    <xs:complexType name="SequenceOfAssertionsType">
+        <xs:annotation>
+            <xs:documentation>
+                <div>
+                    <h3>complexType for a sequence of assertions</h3>
+                    <p> Used to represent the body of an <code>any-of</code> or <code>all-of</code>
+                        element. </p>
+                </div>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element ref="abstractAssertion" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+
+    <xs:element name="any-of" type="SequenceOfAssertionsType" substitutionGroup="abstractAssertion">
+        <xs:annotation>
+            <xs:documentation>
+                <div>
+                    <h3>any-of</h3>
+                    <p> A container for a list of assertions. One or more of the assertions needs to
+                        prove true for the test to pass, but if all fail then the test fails. </p>
+                </div>
+            </xs:documentation>
+        </xs:annotation>
+    </xs:element>
+
+    <xs:element name="all-of" type="SequenceOfAssertionsType" substitutionGroup="abstractAssertion">
+        <xs:annotation>
+            <xs:documentation>
+                <div>
+                    <h3>all-of</h3>
+                    <p> A container for a list of assertions that must be all satisfied; if any of
+                        the assertions proves to be false then the test fails. </p>
+                </div>
+            </xs:documentation>
+        </xs:annotation>
+    </xs:element>
+
+    <xs:element name="not" substitutionGroup="abstractAssertion">
+        <xs:annotation>
+            <xs:documentation>
+                <div>
+                    <h3>not</h3>
+                    <p> Contains an assertion which must be false if the containing assertion is to
+                        succeed. This assertion may contain any other assertion or combination of assertions. </p>
+                </div>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="abstractAssertion"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="abstractAssertion" abstract="true" type="xs:anyType">
+        <xs:annotation>
+            <xs:documentation>
+                <div>
+                    <h3>abstractAssertion</h3>
+                    <p> Abstract superclass for the various kinds of assertion. </p>
+                </div>
+            </xs:documentation>
+        </xs:annotation>
+    </xs:element>
+
+
+
+    <xs:element name="assert" substitutionGroup="abstractAssertion">
+        <xs:annotation>
+            <xs:documentation>
+                <div>
+                    <h3>assert</h3>
+                    <p> The assert element contains an XPath expression whose effective boolean
+                        value must be true. </p>
+                    <p>The namespace context for evaluation of the expression is taken from the
+                        in-scope namespaces of the assert element in the catalog, except that the
+                        default namespace (for unprefixed element names) is always "no
+                        namespace".</p>
+                    <p>The XPath expression will be evaluated with the document node of the result
+                        document as the context item.</p>
+                </div>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:string"/>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+
+
+    <xs:element name="assert-message" substitutionGroup="abstractAssertion">
+        <xs:annotation>
+            <xs:documentation>
+                <div>
+                    <h3>assert-message</h3>
+                    <p>This element may contain any assertion such as assert-xml or assert; the
+                        presence of this assertion asserts that the test outputs an xsl:message
+                        which (considered as an XML document) satisfies the contained assertion.</p>
+                    <p>Note: there is no way to assert the absence of a message. Tests are free to
+                        output additional messages beyond those expected. This accurately reflects
+                        the specification, which does not state that processors must only output the
+                        messages explicitly requested using xsl:message instructions.</p>
+                </div>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="abstractAssertion"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="assert-result-document" substitutionGroup="abstractAssertion">
+        <xs:annotation>
+            <xs:documentation>
+                <div>
+                    <h3>assert-result-document</h3>
+                    <p>This element may contain any assertion such as assert-xml or assert; the
+                        presence of this assertion asserts that the test outputs a secondary result
+                        document having the specified URI, and which (considered as an XML document)
+                        satisfies the contained assertion.</p>
+                    <p>Note: there is no way to assert the absence of a result document. Tests are
+                        free to output more result documents than accounted for by the result
+                        assertions.</p>
+                </div>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="abstractAssertion"/>
+            </xs:sequence>
+            <xs:attribute name="uri" type="xs:anyURI" use="required">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>The uri corresponds to the URI used in the href attribute of the
+                            xsl:result-document instruction. It is supplied as a relative URI,
+                            interpreted as being relative to the implicit base output URI chosen by
+                            the test driver.</p>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+        </xs:complexType>
+    </xs:element>
+
+
+    <xs:element name="assert-xml" substitutionGroup="abstractAssertion">
+        <xs:annotation>
+            <xs:documentation>
+                <div>
+                    <h3>assert-xml</h3>
+                    <p> Asserts the result of the query by providing a serialization of the
+                        expression result using the default serialization parameters method="xml"
+                        indent="no" omit-xml-declaration="yes".</p>
+                    <p> The assertion is true if the result of parsing and canonicalizing the XML
+                        given in the body of the assert-xml element is the same (byte-for-byte) as
+                        the result of canonicalizing the XML result of the query. As an alternative
+                        to canonicalizing, the results may be compared using the fn:deep-equal()
+                        function.</p>
+                    <p>The value will not necessarily be a well-formed document (it may be a
+                        fragment). The comparison can be done by converting the string into a
+                        well-formed document by adding a wrapper element. </p>
+                </div>
             </xs:documentation>
         </xs:annotation>
         <xs:complexType>
@@ -1425,20 +1724,75 @@
                     <xs:attribute name="ignore-prefixes" type="xs:boolean">
                         <xs:annotation>
                             <xs:documentation>
-                                <p>If this attribute is present with the value "true", it indicates that
-                                    the serialized result contains system-generated prefixes which can lead to
-                                    ignorable differences between the actual result and the serialized result.</p>
-                                <p>This attribute is rarely used, and should be avoided for new tests. Instead,
-                                    the test result should be expressed using assertions that take no account
-                                    of the namespace prefixes generated.</p>
+                                <p>If this attribute is present with the value "true", it indicates
+                                    that the serialized result contains system-generated prefixes
+                                    which can lead to ignorable differences between the actual
+                                    result and the serialized result.</p>
+                                <p>This attribute is rarely used, and should be avoided for new
+                                    tests. Instead, the test result should be expressed using
+                                    assertions that take no account of the namespace prefixes
+                                    generated.</p>
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:attribute>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="assert-warning" substitutionGroup="abstractAssertion" type="emptyAssertionType">
+        <xs:annotation>
+            <xs:documentation>
+                <div>
+                    <h3>assert-warning</h3>
+                    <p> Asserts the processor has output a warning. The content of the warning
+                        cannot be tested. </p>
+                </div>
+            </xs:documentation>
+        </xs:annotation>
+    </xs:element>
+
+    <xs:element name="assert-serialization" substitutionGroup="abstractAssertion">
+        <xs:annotation>
+            <xs:documentation>
+                <div>
+                    <h3>assert-serialization</h3>
+                    <p> Asserts the result of the query by providing a serialization of the
+                        expression result.</p>
+                    <p> In principle, the serialization must match exactly. Test drivers are free to
+                        ignore differences in the serialization that are known to be irrelevant
+                        (that is, capable of being produced by a conformant implementation.</p>
+                    <p> This assertion should not be used except where the purpose of the test is to
+                        test the serializer. Even then, the <code>serialization-matches</code>
+                        assertion is preferable.</p>
+                </div>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:string">
+                    <xs:attributeGroup ref="fileAttr"/>
+                    <xs:attributeGroup ref="xmlVersionAttr"/>
+                    <xs:attribute name="ignore-prefixes" type="xs:boolean">
+                        <xs:annotation>
+                            <xs:documentation>
+                                <p>If this attribute is present with the value "true", it indicates
+                                    that the serialized result contains system-generated prefixes
+                                    which can lead to ignorable differences between the actual
+                                    result and the serialized result.</p>
+                                <p>This attribute is rarely used, and should be avoided for new
+                                    tests. Instead, the test result should be expressed using
+                                    assertions that take no account of the namespace prefixes
+                                    generated.</p>
                             </xs:documentation>
                         </xs:annotation>
                     </xs:attribute>
                     <xs:attribute name="method">
                         <xs:annotation>
                             <xs:documentation>
-                                <p>Identifies the output method used for serialization, which affects the way
-                                in which the actual results can be compared with the expected results.</p>
+                                <p>Identifies the output method used for serialization, which
+                                    affects the way in which the actual results can be compared with
+                                    the expected results.</p>
                             </xs:documentation>
                         </xs:annotation>
                         <xs:simpleType>
@@ -1447,6 +1801,8 @@
                                 <xs:enumeration value="html"/>
                                 <xs:enumeration value="xhtml"/>
                                 <xs:enumeration value="text"/>
+                                <xs:enumeration value="json"/>
+                                <xs:enumeration value="adaptive"/>
                                 <xs:enumeration value="xml-fragment"/>
                             </xs:restriction>
                         </xs:simpleType>
@@ -1454,50 +1810,50 @@
                     <xs:attribute name="encoding" type="xs:string">
                         <xs:annotation>
                             <xs:documentation>
-                                <p>Identifies the encoding used for serialization. Where the expected results are in a file,
-                                this property describes the encoding of the file. Where the expected results are inline,
-                                the property is not needed by the test driver to read the expected results, but it may
-                                be needed to read the actual results prior to comparison; the test driver should also verify
-                                that the actual results can be decoded using this encoding.</p>
+                                <p>Identifies the encoding used for serialization. Where the
+                                    expected results are in a file, this property describes the
+                                    encoding of the file. Where the expected results are inline, the
+                                    property is not needed by the test driver to read the expected
+                                    results, but it may be needed to read the actual results prior
+                                    to comparison; the test driver should also verify that the
+                                    actual results can be decoded using this encoding.</p>
                             </xs:documentation>
                         </xs:annotation>
                     </xs:attribute>
                     <xs:attribute name="bom" type="xs:boolean">
                         <xs:annotation>
                             <xs:documentation>
-                                <p>Indicates whether or not the serialized results include a byte-order-mark. Where
-                                the expected results are in a file, this property indicates whether the file includes
-                                a byte order mark. In all cases, if present, the test driver should verify that the
-                                serialized results contain a byte order mark if the value is true, or vice versa.</p>
+                                <p>Indicates whether or not the serialized results include a
+                                    byte-order-mark. Where the expected results are in a file, this
+                                    property indicates whether the file includes a byte order mark.
+                                    In all cases, if present, the test driver should verify that the
+                                    serialized results contain a byte order mark if the value is
+                                    true, or vice versa.</p>
                             </xs:documentation>
                         </xs:annotation>
                     </xs:attribute>
                 </xs:extension>
             </xs:simpleContent>
         </xs:complexType>
-    </xs:element>    
-    
-    <xs:element name="serialization-matches"  substitutionGroup="abstractAssertion">
+    </xs:element>
+
+    <xs:element name="serialization-matches" substitutionGroup="abstractAssertion">
         <xs:annotation>
             <xs:documentation>
                 <div>
                     <h3>serialization-matches</h3>
-                    <p>
-                        Asserts the result of serializing the query matches a given regular
+                    <p> Asserts the result of serializing the query matches a given regular
                         expression.</p>
-                        
-                    <p> The result of the query must be serialized using the serialization
-                        options specified within the query (if any).</p>
-                        
-                    <p> The assertion is true if the output of the serializer (as a string)
-                        matches the regular expression, when compared using the matches() function
-                        with the specified flags. Note this is not an anchored match, unless
-                        anchors are included within the regular expression itself.</p>    
-                        
-                     <p>Note that the serializer output is treated as a string; we have no way
-                        of testing the encoding of serialized output when treated as an octet stream.
+                    <p> The result of the query must be serialized using the serialization options
+                        specified within the query (if any).</p>
+                    <p> The assertion is true if the output of the serializer (as a string) matches
+                        the regular expression, when compared using the matches() function with the
+                        specified flags. Note this is not an anchored match, unless anchors are
+                        included within the regular expression itself.</p>
+                    <p>Note that the serializer output is treated as a string; we have no way of
+                        testing the encoding of serialized output when treated as an octet stream.
                     </p>
-                </div> 
+                </div>
             </xs:documentation>
         </xs:annotation>
         <xs:complexType>
@@ -1507,9 +1863,9 @@
                     <xs:attribute name="flags" type="xs:string">
                         <xs:annotation>
                             <xs:documentation>
-                                <p>If this attribute is present it indicates that the regular expression
-                                matching is to be performed with this value as the "flags" argument to
-                                the fn:matches() function.</p>
+                                <p>If this attribute is present it indicates that the regular
+                                    expression matching is to be performed with this value as the
+                                    "flags" argument to the fn:matches() function.</p>
                             </xs:documentation>
                         </xs:annotation>
                     </xs:attribute>
@@ -1517,96 +1873,263 @@
             </xs:simpleContent>
         </xs:complexType>
     </xs:element>
-    
-    <xs:element name="assert-serialization-error"  substitutionGroup="abstractAssertion">
+
+    <xs:element name="assert-serialization-error" substitutionGroup="abstractAssertion">
         <xs:annotation>
             <xs:documentation>
                 <div>
                     <h3>assert-serialization-error</h3>
-                    <p>
-                        Asserts that the transformation can be executed without error, but serializing the result
-                        produces a serialization error. The expression result is serialized using the default
-                        serialization parameters method="xml" indent="no" omit-xml-declaration="yes".
-                    </p>
-                </div> 
+                    <p> Asserts that the transformation can be executed without error, but
+                        serializing the result produces a serialization error. The expression result
+                        is serialized using the default serialization parameters method="xml"
+                        indent="no" omit-xml-declaration="yes". </p>
+                </div>
             </xs:documentation>
         </xs:annotation>
         <xs:complexType>
             <xs:simpleContent>
                 <xs:extension base="xs:string">
-                    <xs:attributeGroup ref="codeAttr" />
+                    <xs:attributeGroup ref="codeAttr"/>
                 </xs:extension>
             </xs:simpleContent>
         </xs:complexType>
     </xs:element>
-    
-    
-    
-    <xs:element name="assert-type"  substitutionGroup="abstractAssertion">
+
+
+
+    <xs:element name="assert-type" substitutionGroup="abstractAssertion">
         <xs:annotation>
             <xs:documentation>
                 <div>
                     <h3>assert-type</h3>
-                    <p>
-                        Asserts that the result of the test matches the sequence type given as the value
-                        of the assert-type element.
-                    </p>
-                </div> 
+                    <p> Asserts that the result of the test matches the sequence type given as the
+                        value of the assert-type element, using the XPath 'instance of' operator.</p>
+                    <p> For XSLT tests, the result is typically a document node, in which case the type is 
+                        always document-node(). Make sure to set the expected result to raw, or to use the 
+                        function invocation mechanism, which will return a typed sequence.</p>
+                </div>
             </xs:documentation>
         </xs:annotation>
         <xs:complexType>
             <xs:simpleContent>
-                <xs:extension base="xs:string" />
+                <xs:extension base="xs:string"/>
             </xs:simpleContent>
         </xs:complexType>
     </xs:element>
-    
-    
-    
-    
-    
-    <xs:element name="error"  substitutionGroup="abstractAssertion">
+
+    <!-- NEW -->
+    <xs:element name="assert-eq" substitutionGroup="abstractAssertion">
+        <xs:annotation>
+            <xs:documentation>
+                <div>
+                    <h3>assert-eq</h3>
+                    <p> The assert element contains an XPath expression (usually a simple string or
+                        numeric literal) which must be equal to the result of the test case under
+                        the rules of the XPath 'eq' operator. </p>
+                    <p>For example, <code>&lt;assert-eq&gt;12&lt;/assert-eq&gt;</code> asserts that
+                        the result of the test case is an atomic value that compares equal to
+                        the integer 12 (which means it might be the double value 12.0 or the float
+                        value 12.0 or the untyped atomic value "12.0", for example).</p>
+                </div>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:string"/>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="assert-count" substitutionGroup="abstractAssertion">
+        <xs:annotation>
+            <xs:documentation>
+                <div>
+                    <h3>assert-count</h3>
+                    <p> Asserts that the result of the test case must be a sequence containing a given number of
+                        items. The value of the element is an integer giving the expected length of
+                        the sequence. The test case fails if the sequence length is not matching exactly. Length
+                        can be set to zero, but it is better to use <code>&lt;assert-empty></code> instead.</p>
+                    <p> For XSLT tests, the result is typically a document node, in which case the length is always 1.
+                        Make sure to set the expected result to raw, or to use the function invocation mechanism, which
+                        will return a typed sequence.</p>
+                    <p> For example, <code>&lt;assert-count&gt;42&lt;/assert-count&gt;</code> asserts that
+                        the result of the test case exists of exactly 42 items, of any type. The test 
+                        succeeds if and only if the length of the sequence returned is 42.</p>
+                </div>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:integer"/>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="assert-deep-eq" substitutionGroup="abstractAssertion">
+        <xs:annotation>
+            <xs:documentation>
+                <div>
+                    <h3>assert-deep-eq</h3>
+                    <p> Asserts that the result must be a sequence of atomic values that is
+                        deep-equal to the supplied sequence under the rules of the deep-equal()
+                        function. </p>
+                </div>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:string"/>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="assert-permutation" substitutionGroup="abstractAssertion">
+        <xs:annotation>
+            <xs:documentation>
+                <div>
+                    <h3>assert-permutation</h3>
+                    <p> Asserts that the result must be a sequence of atomic values that has some
+                        permutation (reordering) that is deep-equal to the supplied sequence under
+                        the rules of the deep-equal() function. </p> <p>Note this implies that NaN
+                        is equal to NaN.</p>
+                </div>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:string"/>
+            </xs:simpleContent>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- for use with assertions that should have empty content model -->
+    <xs:complexType name="emptyAssertionType">
+    </xs:complexType>
+
+    <xs:element name="assert-empty" substitutionGroup="abstractAssertion" type="emptyAssertionType">
+        <xs:annotation>
+            <xs:documentation>
+                <div>
+                    <h3>assert-empty</h3>
+                    <p> Asserts that the result of the test is an empty sequence. </p>
+                </div>
+            </xs:documentation>
+        </xs:annotation>
+    </xs:element>
+
+    <xs:element name="assert-true" substitutionGroup="abstractAssertion" type="emptyAssertionType">
+        <xs:annotation>
+            <xs:documentation>
+                <div>
+                    <h3>assert-true</h3>
+                    <p> Asserts that the result of the test is the singleton boolean value true().
+                        Note, the test expression must actually evaluate to true: this is not an
+                        assertion on the effective boolean value. </p>
+                </div>
+            </xs:documentation>
+        </xs:annotation>
+    </xs:element>
+
+    <xs:element name="assert-false" substitutionGroup="abstractAssertion" type="emptyAssertionType">
+        <xs:annotation>
+            <xs:documentation>
+                <div>
+                    <h3>assert-true</h3>
+                    <p> Asserts that the result of the test is the singleton boolean value false().
+                        Note, the test expression must actually evaluate to false: this is not an
+                        assertion on the effective boolean value. </p>
+                </div>
+            </xs:documentation>
+        </xs:annotation>
+    </xs:element>
+
+    <xs:element name="assert-string-value" substitutionGroup="abstractAssertion">
+        <xs:annotation>
+            <xs:documentation>
+                <div>
+                    <h3>assert-string-value</h3>
+                    <p> Asserts that the result of the test, after conversion to a string by
+                        applying the expression string-join(for $r in $result return string($r), "
+                        ") is equal to the string value of the assert-string-value element. Note
+                        that this test cannot be used if the result includes items that do not have
+                        a string value (elements with element-only content; function items).
+                     </p>
+                    <p>
+                        If the normalize-space attribute is present with the value true (which is 
+                        the default), then both the string value of the query result and the value of 
+                        the assert-string-value element should be processed as if by the XPath 
+                        normalize-space() function before the comparison. 
+                        Otherwise, normalization does not take place.
+                    </p>
+                </div>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:simpleContent>
+                <xs:extension base="xs:string">
+                    <xs:attribute name="normalize-space" type="xs:boolean" default="true"/>
+                </xs:extension>
+            </xs:simpleContent>
+        </xs:complexType>
+
+    </xs:element>
+
+    <!-- END -->
+
+    <xs:element name="error" substitutionGroup="abstractAssertion">
         <xs:annotation>
             <xs:documentation>
                 <div>
                     <h3>error</h3>
-                    <p>
-                        Asserts that the test is expected to fail with a static or dynamic error condition. 
-                        The "code" attribute gives the expected error code.
-                    </p>
-                    <p>
-                        For the purpose of official test reporting, an implementation is considered to pass a test
-                        if the test expects and error and the implementation raises an error, regardless whether
-                        the error codes match. Implementors are advised, however, that raising the wrong error code
-                        often indicates a problem, so it is advisable to detect this situation. When reporting
-                        requirements are finalized, we will be asking implementors to indicate tests which passed
-                        but raised a different error, so that we can assess the extent to which implementations are
-                        interoperable at the level of error codes.
-                    </p>
-                </div> 
+                    <p> Asserts that the test is expected to fail with a static or dynamic error
+                        condition. The "code" attribute gives the expected error code. </p>
+                    <p> For the purpose of official test reporting, an implementation is considered
+                        to pass a test if the test expects and error and the implementation raises
+                        an error, regardless whether the error codes match. Implementors are
+                        advised, however, that raising the wrong error code often indicates a
+                        problem, so it is advisable to detect this situation. When reporting
+                        requirements are finalized, we will be asking implementors to indicate tests
+                        which passed but raised a different error, so that we can assess the extent
+                        to which implementations are interoperable at the level of error codes. </p>
+                </div>
             </xs:documentation>
         </xs:annotation>
         <xs:complexType>
-            <xs:attributeGroup ref="codeAttr" />
+            <xs:attributeGroup ref="codeAttr"/>
         </xs:complexType>
     </xs:element>
-    
+
+    <xs:element name="assert-posture-and-sweep" substitutionGroup="abstractAssertion">
+        <xs:annotation>
+            <xs:documentation>
+                <div>
+                    <h3>assert-sweep-and-posture</h3>
+                    <p> Asserts that the result of the test has a given posture and sweep </p>
+                    <p> Implementations are not required to be able to assert the sweep and posture
+                        of a single instruction, declaration or expression</p>
+                </div>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:attributeGroup ref="attrResultPostureAndSweep"/>
+        </xs:complexType>
+    </xs:element>
+
     <xs:element name="link">
-        
+
         <xs:annotation>
             <xs:documentation>
                 <div>
                     <h3>link</h3>
-                    <p>
-                        denotes an element which provides reference to documentation of the function.
-                    </p>
-                </div> 
+                    <p> denotes an element which provides reference to documentation of the
+                        function. </p>
+                </div>
             </xs:documentation>
         </xs:annotation>
         <xs:complexType>
             <!--<xs:attributeGroup ref="typeAttr" />-->
             <xs:attributeGroup ref="documentAttr"/>
-            <xs:attribute name="idref" type="xs:NCName" />
+            <xs:attribute name="idref" type="xs:NCName"/>
             <xs:attribute name="section-number">
                 <xs:simpleType>
                     <xs:restriction base="xs:string">
@@ -1616,51 +2139,74 @@
             </xs:attribute>
         </xs:complexType>
     </xs:element>
-    
+
     <xs:attributeGroup name="documentAttr">
         <xs:annotation>
-                <xs:documentation>
-                    <div>
-                        <h3>document (as an attribute name)</h3>
-                        <p>
-                            denotes an attribute which provides a URI to be used as reference to specification.
-                        </p>
-                    </div> 
-                </xs:documentation>
-            </xs:annotation>
+            <xs:documentation>
+                <div>
+                    <h3>document (as an attribute name)</h3>
+                    <p> denotes an attribute which provides a URI to be used as reference to
+                        specification. </p>
+                </div>
+            </xs:documentation>
+        </xs:annotation>
         <xs:attribute name="document" type="xs:anyURI"/>
     </xs:attributeGroup>
-    
+
     <xs:attributeGroup name="xmlVersionAttr">
-                 <xs:attribute name="xml-version" use="optional">
-                    <xs:annotation>
-                        <xs:documentation>
-                            <p>Indicates whether an XML 1.1 parser is required for this source document.</p>
-                        </xs:documentation>
-                    </xs:annotation>
-                    <xs:simpleType>
-                      <xs:restriction base="xs:decimal">
-                        <xs:enumeration value="1.0"/>
-                        <xs:enumeration value="1.1"/>
-                      </xs:restriction>
-                    </xs:simpleType> 
-                </xs:attribute>    
-    </xs:attributeGroup>
-    
-    <xs:attributeGroup name="codeAttr">
-        <xs:annotation>
+        <xs:attribute name="xml-version" use="optional">
+            <xs:annotation>
                 <xs:documentation>
-                    <div>
-                        <h3>code (as an attribute name)</h3>
-                        <p>
-                            denotes an attribute which in most cases provides a NCName to be used as an error code 
-                            in the scope of a error element. The attribute gives the local name of the
-                            error code; the code is assumed to be in the standard error namespace.</p>
-                        <p> The value "*" indicates that any error code is allowed.</p>
-                        <p> The value may also be an EQName (Q{uri}local) to allow for user-defined error codes </p>
-                    </div> 
+                    <p>Indicates whether an XML 1.1 parser is required for this source document.</p>
                 </xs:documentation>
             </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="xs:decimal">
+                    <xs:enumeration value="1.0"/>
+                    <xs:enumeration value="1.1"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+    </xs:attributeGroup>
+    
+    <xs:attributeGroup name="availableInContextAttr">
+        <xs:attribute name="context" use="optional" default="dynamic-expression-context">
+            <xs:annotation>
+                <xs:documentation>
+                    <p>Indicates whether a resource is available during compilation phase in shadow attributes
+                    or static variables or parameters. Use 'static-expression-context' if the resource
+                    should be made available for the doc() function inside the static expression context.
+                    In absence of this attribute, the value defaults to 'dynamic-expression-context'.</p>
+                    <p>The presence of this attribute does not dicate whether or not the document is available
+                    during the static phase when set to its default, however, when set to 'static-expression-context',
+                    the document <strong>must</strong> be available in the static context. Regardless of this setting
+                    the document is always available to the dynamic context (unless the <code>@role</code> attribute is used).</p>
+                </xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="dynamic-expression-context" />
+                    <xs:enumeration value="static-expression-context" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+    </xs:attributeGroup>
+
+    <xs:attributeGroup name="codeAttr">
+        <xs:annotation>
+            <xs:documentation>
+                <div>
+                    <h3>code (as an attribute name)</h3>
+                    <p> denotes an attribute which in most cases provides a NCName to be used as an
+                        error code in the scope of a error element. The attribute gives the local
+                        name of the error code; the code is assumed to be in the standard error
+                        namespace.</p>
+                    <p> The value "*" indicates that any error code is allowed.</p>
+                    <p> The value may also be an EQName (Q{uri}local) to allow for user-defined
+                        error codes </p>
+                </div>
+            </xs:documentation>
+        </xs:annotation>
         <xs:attribute name="code">
             <xs:simpleType>
                 <xs:union memberTypes="xs:NCName xs:QName EQName">
@@ -1675,316 +2221,402 @@
                         </xs:restriction>
                     </xs:simpleType>
                 </xs:union>
-            </xs:simpleType>    
+            </xs:simpleType>
         </xs:attribute>
     </xs:attributeGroup>
-    
+
     <xs:simpleType name="EQName">
-      <xs:annotation>
-        <xs:documentation>
-          <p>Allows a user-defined error code to be expressed in the form Q{uri}local</p>
-        </xs:documentation>
-      </xs:annotation>
-      <xs:restriction base="xs:string">
-        <xs:pattern value="Q\{.*\}\i\c*"/>
-      </xs:restriction>
+        <xs:annotation>
+            <xs:documentation>
+                <p>Allows a user-defined error code to be expressed in the form Q{uri}local</p>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:pattern value="Q\{.*\}\i\c*"/>
+        </xs:restriction>
     </xs:simpleType>
-    
+
     <xs:attributeGroup name="fileAttr">
         <xs:annotation>
-                <xs:documentation>
-                    <div>
-                        <h3>file</h3>
-                        <p>
-                            This attribute provides a URI to be used as location of a resource within
-                            the test suite (for example, a source document, a query, a module, or a schema).
-                        </p>
-                        <p> The URI will always be relative to the base URI of the XML document in which
-                            the attribute appears.
-                        </p>
-                    </div> 
-                </xs:documentation>
-            </xs:annotation>
+            <xs:documentation>
+                <div>
+                    <h3>file</h3>
+                    <p> This attribute provides a URI to be used as location of a resource within
+                        the test suite (for example, a source document, a query, a module, or a
+                        schema). </p>
+                    <p> The URI will always be relative to the base URI of the XML document in which
+                        the attribute appears. </p>
+                </div>
+            </xs:documentation>
+        </xs:annotation>
         <xs:attribute name="file" type="xs:anyURI" use="optional"/>
     </xs:attributeGroup>
-    
+
     <xs:attributeGroup name="roleAttr">
-                    <xs:annotation>
-                        <xs:documentation>
-                           <div>
-                            <h3>role</h3> 
-                            <p>Describes how a source document is made available to the query.</p>
-                            <p>The value "." indicates that the source document will be the context
-                            item for the query.</p>
-                            <p>A value in the form <code>$varname</code> indicates that the source document will
-                            be made available as the value of the external variable <code>$varname</code>. This variable
-                            will <i>not</i> be declared in the query (this is to allow the mechanism
-                            to be used in XPath). The query will always be such that it is possible to
-                            add <code>declare variable</code> declarations at the start before compiling the query.</p>
-                            <p>If the source document is to be made available to the query using the
-                            doc() function, the "source" element should have a "uri" attribute, and
-                            the "role" attribute should be absent.</p>
-                            <p>The "role" attribute should be omitted if the source is part of a collection
-                            definition.</p>
-                           </div>
-                        </xs:documentation>
-                    </xs:annotation>
+        <xs:annotation>
+            <xs:documentation>
+                <div>
+                    <h3>role</h3>
+                    <p>Describes how a source document is made available to the query.</p>
+                    <p>The value "." indicates that the source document will be the context item for
+                        the query.</p>
+                    <p>A value in the form <code>$varname</code> indicates that the source document
+                        will be made available as the value of the external variable
+                            <code>$varname</code>. This variable will <i>not</i> be declared in the
+                        query (this is to allow the mechanism to be used in XPath). The query will
+                        always be such that it is possible to add <code>declare variable</code>
+                        declarations at the start before compiling the query.</p>
+                    <p>If the source document is to be made available to the query using the doc()
+                        function, the "source" element should have a "uri" attribute, and the "role"
+                        attribute should be absent.</p>
+                    <p>The "role" attribute should be omitted if the source is part of a collection
+                        definition.</p>
+                </div>
+            </xs:documentation>
+        </xs:annotation>
         <xs:attribute name="role" type="xs:string" use="optional"/>
     </xs:attributeGroup>
-    
+
     <xs:attributeGroup name="nameAttr">
         <xs:annotation>
-                <xs:documentation>
-                    <div>
-                        <h3>name</h3>
-                        <p>
-                            An attribute used to provide a string that uniquely names an object within some scope.
-                        </p>
-                    </div> 
-                </xs:documentation>
-            </xs:annotation>
+            <xs:documentation>
+                <div>
+                    <h3>name</h3>
+                    <p> An attribute used to provide a string that uniquely names an object within
+                        some scope. </p>
+                </div>
+            </xs:documentation>
+        </xs:annotation>
         <xs:attribute name="name" type="xs:string"/>
     </xs:attributeGroup>
-    
+
     <xs:attributeGroup name="coversAttr">
         <xs:annotation>
             <xs:documentation>
                 <div>
                     <h3>covers</h3>
-                    <p>
-                        An attribute used to cross-reference tests or test-sets to the changes in the specification
-                        that the tests are designed to cover.
-                    </p>
-                    <p> The value is syntactically similar to an xs:IDREFS value, in that it contains a space-separated
-                    list of change identifiers; however it is not actually an xs:IDREFS value, because the identfiers are
-                    in a different XML document, specifically the identifiers of changes appearing in the changes.xml file.</p>
-
-                </div> 
+                    <p> An attribute used to cross-reference tests or test-sets to the changes in
+                        the specification that the tests are designed to cover. </p>
+                    <p> The value is syntactically similar to an xs:IDREFS value, in that it
+                        contains a space-separated list of change identifiers; however it is not
+                        actually an xs:IDREFS value, because the identfiers are in a different XML
+                        document, specifically the identifiers of changes appearing in the
+                        changes.xml file.</p>
+                </div>
             </xs:documentation>
         </xs:annotation>
         <xs:attribute name="covers" use="optional">
             <xs:simpleType>
                 <xs:list itemType="xs:NCName"/>
             </xs:simpleType>
-        </xs:attribute>    
+        </xs:attribute>
     </xs:attributeGroup>
-    
+
     <xs:attributeGroup name="creatorAttr">
         <xs:annotation>
-                <xs:documentation>
-                    <div>
-                        <h3>creator</h3>
-                        <p>
-                            An attribute used to name the creator of a test-case.
-                        </p>
-                        <p>Use of this attribute does not constitute a claim to intellectual property rights.</p>
-                        <p>The recommended form is as a personal name (first name, last name). An institutional name
-                            may be used if policy requires it.</p>
-                    </div> 
-                </xs:documentation>
-            </xs:annotation>
+            <xs:documentation>
+                <div>
+                    <h3>creator</h3>
+                    <p> An attribute used to name the creator of a test-case. </p>
+                    <p>Use of this attribute does not constitute a claim to intellectual property
+                        rights.</p>
+                    <p>The recommended form is as a personal name (first name, last name). An
+                        institutional name may be used if policy requires it.</p>
+                </div>
+            </xs:documentation>
+        </xs:annotation>
         <xs:attribute name="creator" type="xs:string"/>
     </xs:attributeGroup>
-    
+
     <xs:attributeGroup name="refAttr">
         <xs:annotation>
-                <xs:documentation>
-                    <div>
-                        <h3>ref</h3>
-                        <p>
-                            denotes an attribute which contains a reference to an object defined
-                            elsewhere in the test catalog, for example a reference to a named
-                            environment.
-                        </p>
-                        <p>Note, this is not typed as xs:IDREF because the reference might be to an
+            <xs:documentation>
+                <div>
+                    <h3>ref</h3>
+                    <p> denotes an attribute which contains a reference to an object defined
+                        elsewhere in the test catalog, for example a reference to a named
+                        environment. </p>
+                    <p>Note, this is not typed as xs:IDREF because the reference might be to an
                         object in a different XML document.</p>
-                    </div> 
-                </xs:documentation>
-            </xs:annotation>
+                </div>
+            </xs:documentation>
+        </xs:annotation>
         <xs:attribute name="ref" type="xs:string"/>
-     </xs:attributeGroup>
-    
-   
+    </xs:attributeGroup>
+
+
     <xs:attributeGroup name="validationAttr">
         <xs:annotation>
-                <xs:documentation>
-                    <div>
-                        <h3>validation</h3>
-                        <p>
-                            indicates for a source document within an environment whether the source document is to be validated against
-                            the schema defined for that environment, and if so whether validation is to be strict or lax.
-                        </p>
-                    </div> 
-                </xs:documentation>
-            </xs:annotation>
+            <xs:documentation>
+                <div>
+                    <h3>validation</h3>
+                    <p> indicates for a source document within an environment whether the source
+                        document is to be validated against the schema defined for that environment,
+                        and if so whether validation is to be strict or lax. </p>
+                </div>
+            </xs:documentation>
+        </xs:annotation>
         <xs:attribute name="validation" type="validationEnumType" use="optional"/>
     </xs:attributeGroup>
-    
+
     <xs:attributeGroup name="media-typeAttr">
-                    <xs:annotation>
-                        <xs:documentation>
-                           <div>
-                            <h3>media-type</h3> 
-                            <p>Describes the media type of a resource.</p>
-                            <p>The value should conform to RFC 2046.</p>
-                           </div>
-                        </xs:documentation>
-                    </xs:annotation>
+        <xs:annotation>
+            <xs:documentation>
+                <div>
+                    <h3>media-type</h3>
+                    <p>Describes the media type of a resource.</p>
+                    <p>The value should conform to RFC 2046.</p>
+                </div>
+            </xs:documentation>
+        </xs:annotation>
         <xs:attribute name="media-type" type="xs:string" use="optional"/>
     </xs:attributeGroup>
-    
+
     <xs:attributeGroup name="encodingAttr">
-                    <xs:annotation>
-                        <xs:documentation>
-                           <div>
-                            <h3>encoding</h3> 
-                            <p>Describes the encoding of a resource.</p>
-                            <p>The value should be that of a character set registered with the Internet Assigned Numbers Authority.</p>
-                           </div>
-                        </xs:documentation>
-                    </xs:annotation>
+        <xs:annotation>
+            <xs:documentation>
+                <div>
+                    <h3>encoding</h3>
+                    <p>Describes the encoding of a resource.</p>
+                    <p>The value should be that of a character set registered with the Internet
+                        Assigned Numbers Authority.</p>
+                </div>
+            </xs:documentation>
+        </xs:annotation>
         <xs:attribute name="encoding" type="encodingType" use="optional"/>
     </xs:attributeGroup>
-    
+
     <xs:simpleType name="encodingType">
-      <xs:restriction base="xs:string">
-	    <xs:pattern value="[A-Za-z]([A-Za-z0-9._-])*"/>
-      </xs:restriction>
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[A-Za-z]([A-Za-z0-9._-])*"/>
+        </xs:restriction>
     </xs:simpleType>
 
-    <!--<xs:attributeGroup name="typeAttr">
-        <xs:annotation>
-                <xs:documentation>
-                    <div>
-                        <h3>type</h3>
-                        <p>
-                            The <code>type</code> attribute of a <code>dependency</code> element indicates what type of dependency
-                            it is: the set of possible values is enumerated.
-                        </p>
-                        <p>
-                            The most common <code>type</code> is <code>spec</code>, which indicates a dependency on specific versions of
-                            XPath or XQuery. In this case the corresponding <code>value</code> attribute is a space-separated list
-                            whose tokens are, for example, "XQ10" indicating XQuery 1.0, "XQ10+" indicating XQuery 1.0 or later, 
-                            "XQ30+" indication XQuery 3.0 or later, or "XP20+" indicating XPath 2.0 or later. The tokens in the list
-                            are alternatives; the test may be run if any of the dependencies is satisfied.
-                        </p>
-                        <p>Similarly, if the <code>type</code> is <code>xml-version</code>, the corresponding value is a space-separated
-                        list whose tokens are "1.0" (XML 1.0), "1.1" (XML 1.1), "1.0:5+" (1.0, 5th edition or later), "1.0:4-" (1.0,
-                        fourth edition or earlier).</p>
-                    </div> 
-                </xs:documentation>
-            </xs:annotation>
-        <xs:attribute name="type" type="dependencyEnumType"/>
-    </xs:attributeGroup>
-    
-    <xs:simpleType name="dependencyEnumType">
-        <xs:restriction base="xs:normalizedString">
-            <xs:enumeration value="calendar" />
-            <xs:enumeration value="collection-stability" />
-            <xs:enumeration value="default-language" />
-            <xs:enumeration value="directory-as-collection-uri" />
-            <xs:enumeration value="feature" />
-            <xs:enumeration value="format-integer-sequence" />
-            <xs:enumeration value="language" />
-            <xs:enumeration value="limits" />
-            <xs:enumeration value="spec" />
-            <xs:enumeration value="schemaAware" />
-            <xs:enumeration value="xml-version" />
-            <xs:enumeration value="xsd-version" />
-        </xs:restriction>
-    </xs:simpleType>-->
-    
     <xs:simpleType name="validationEnumType">
         <xs:restriction base="xs:normalizedString">
-            <xs:enumeration value="strict" />
-            <xs:enumeration value="lax" />
-            <xs:enumeration value="skip" />
+            <xs:enumeration value="strict"/>
+            <xs:enumeration value="lax"/>
+            <xs:enumeration value="skip"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="yesNoType">
+        <xs:restriction base="xs:normalizedString">
+            <xs:enumeration value="yes"/>
+            <xs:enumeration value="no"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="postureType">
+        <xs:restriction base="xs:normalizedString">
+            <xs:enumeration value="grounded"/>
+            <xs:enumeration value="climbing"/>
+            <xs:enumeration value="striding"/>
+            <xs:enumeration value="crawling"/>
+            <xs:enumeration value="roaming"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="streamingContextType">
+        <xs:restriction base="xs:normalizedString">
+            <xs:enumeration value="item()"/>
+            <xs:enumeration value="node()"/>
+            <xs:enumeration value="document-node()"/>
+            <xs:enumeration value="element()"/>
+            <xs:enumeration value="atomic"/>
+            <xs:enumeration value="childless-node-kind"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="sweepType">
+        <xs:restriction base="xs:normalizedString">
+            <xs:enumeration value="motionless"/>
+            <xs:enumeration value="consuming"/>
+            <xs:enumeration value="free-ranging"/>
         </xs:restriction>
     </xs:simpleType>
     
-    
+    <xs:simpleType name="specialInitialModeNames">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="#default" >
+                <xs:annotation>
+                    <xs:documentation>
+                        <h4>#default</h4>
+                        <p>
+                            If specified, initialized the stylesheet with the explicit or implicit 
+                            default mode specified on xsl:stylesheet or xsl:package.
+                        </p>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="#unnamed">
+                <xs:annotation>
+                    <xs:documentation>
+                        <h4>#unnamed</h4>
+                        <p>
+                            If specified, initializes the stylesheet with the unnamed mode.
+                        </p>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+
     <xs:attributeGroup name="valueAttr">
         <xs:annotation>
-                <xs:documentation>
-                    <div>
-                        <h3>value</h3>
-                        <p>
-                            As an attribute of the <code>dependency</code> element,
-                            provides a string value to be used to indicate the dependency.
-                        </p>
-                    </div> 
-                </xs:documentation>
-            </xs:annotation>
+            <xs:documentation>
+                <div>
+                    <h3>value</h3>
+                    <p> As an attribute of the <code>dependency</code> element, provides a string
+                        value to be used to indicate the dependency. </p>
+                </div>
+            </xs:documentation>
+        </xs:annotation>
         <xs:attribute name="value" type="xs:string"/>
     </xs:attributeGroup>
-    
+
     <xs:attributeGroup name="uriAttr">
         <xs:annotation>
-                <xs:documentation>
-                    <div>
-                        <h3>uri (as an attribute name)</h3>
-                        <p>
-                            This attribute provides a URI to be used as an abstract identifier of a resource within
-                            the test suite (for example, a source document, or a module). The URI is designed to
-                            be independent of the location of the resource.
-                        </p>
-                        <p> The URI should always be an absolute URI.
-                        </p>
-                        <p>For source documents, the URI can be used in a call to the doc() function to retrieve
-                            this source document (so the actual query does not need to know its location.</p>
-                        <p>For modules, the URI defines the module URI and is again independent of location.</p>
-                        <p>For schemas, the URI defines the target namespace URI.</p>
-                    </div> 
-                </xs:documentation>
-            </xs:annotation>
+            <xs:documentation>
+                <div>
+                    <h3>uri (as an attribute name)</h3>
+                    <p> This attribute provides a URI to be used as an abstract identifier of a
+                        resource within the test suite (for example, a source document, or a
+                        module). The URI is designed to be independent of the location of the
+                        resource. </p>
+                    <p> The URI should always be an absolute URI. </p>
+                    <p>For source documents, the URI can be used in a call to the doc() function to
+                        retrieve this source document (so the actual query does not need to know its
+                        location.</p>
+                    <p>For modules, the URI defines the module URI and is again independent of
+                        location.</p>
+                    <p>For schemas, the URI defines the target namespace URI.</p>
+                </div>
+            </xs:documentation>
+        </xs:annotation>
         <xs:attribute name="uri" type="xs:anyURI"/>
     </xs:attributeGroup>
-    
+
     <xs:attributeGroup name="byAttr">
         <xs:annotation>
-                <xs:documentation>
-                    <div>
-                        <h3>by (as an attribute name)</h3>
-                        <p>
-                            The name of the person who created or modified a test-case or source document, schema etc.
-                        </p>
-                        
-                    </div> 
-                    
-                </xs:documentation>
-            </xs:annotation>
+            <xs:documentation>
+                <div>
+                    <h3>by (as an attribute name)</h3>
+                    <p> The name of the person who created or modified a test-case or source
+                        document, schema etc. </p>
+                </div>
+            </xs:documentation>
+        </xs:annotation>
         <xs:attribute name="by" type="xs:string"/>
     </xs:attributeGroup>
-    
+
     <xs:attributeGroup name="onAttr">
         <xs:annotation>
-                <xs:documentation>
-                    <div>
-                        <h3>on (as an attribute name)</h3>
-                        <p>
-                            The date of an event such as the creation or modification of a test-case.
-                        </p>
-                        
-                    </div> 
-                    
-                </xs:documentation>
-            </xs:annotation>
+            <xs:documentation>
+                <div>
+                    <h3>on (as an attribute name)</h3>
+                    <p> The date of an event such as the creation or modification of a test-case.
+                    </p>
+                </div>
+            </xs:documentation>
+        </xs:annotation>
         <xs:attribute name="on" type="xs:date"/>
     </xs:attributeGroup>
-    
+
     <xs:attributeGroup name="changeAttr">
         <xs:annotation>
+            <xs:documentation>
+                <div>
+                    <h3>change (as an attribute name)</h3>
+                    <p> Textual explanation of a change made to a test-case. </p>
+                </div>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="change" type="xs:string"/>
+    </xs:attributeGroup>
+
+    <xs:attributeGroup name="attrContextPostureAndType">
+        <xs:annotation>
+            <xs:documentation>
+                <div>
+                    <h3>context-posture and context-type (as attribute names)</h3>
+                    <p>The context posture and type of a sweep-and-posture test. The context-posture attribute is mandatory.</p>
+                </div>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="context-posture" type="postureType" use="required">
+            <xs:annotation>
                 <xs:documentation>
                     <div>
-                        <h3>change (as an attribute name)</h3>
-                        <p>
-                            Textual explanation of a change made to a test-case.
+                        <h3>The context posture of a posture-and-sweep test</h3>
+                        <p>The context posture needs to be set prior to a posture and sweep test is run.
+                            It can be any of grounded, climbing, striding, crawling, roaming.
+                            The context posture applies to all &lt;xpath&gt; and &lt;xslt&gt; tests in the posture-and-sweep subset.
+                            This attribute is mandatory.
                         </p>
-                        
-                    </div> 
-                    
+                    </div>
                 </xs:documentation>
             </xs:annotation>
-        <xs:attribute name="change" type="xs:string"/>
+        </xs:attribute>
+        <xs:attribute name="context-type" type="streamingContextType" use="optional"
+            default="item()">
+            <xs:annotation>
+                <xs:documentation>
+                    <div>
+                        <h3>The context type of a posture-and-sweep test</h3>
+                        <p>The context type needs to be set prior to a posture and sweep test is run.
+                            It can be any of:
+                            <ol>
+                                <li>item(): either a streamed node or an atomic item</li>
+                                <li>node(): any streamed node</li>
+                                <li>document-node(): a streamed document node</li>
+                                <li>element(): a streamed element node</li>
+                                <li>atomic: any atomic item</li>
+                                <li>childless-node-kind: any node of comment(), attribute(), text(), processing-instruction(), namespace()</li>
+                            </ol>
+                            The context posture applies to all &lt;xpath&gt; and &lt;xslt&gt; tests in the posture-and-sweep subset.
+                            This attribute is optional and defaults to "item()".
+                        </p>
+                    </div>
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:attributeGroup>
+
+    <xs:attributeGroup name="attrResultPostureAndSweep">
+        <xs:annotation>
+            <xs:documentation>
+                <div>
+                    <h3>result-posture and result-sweep (as an attribute name)</h3>
+                    <p>The result posture and sweep of a sweep-and-posture test. Both posture and sweep attributes are required.</p>
+                </div>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="result-posture" type="postureType">
+            <xs:annotation>
+                <xs:documentation>
+                    <div>
+                        <h3>The result posture of a (sequence of) posture and sweep tests</h3>
+                        <p>The result posture is the resulting posture of streaming analysis of a posture and sweep test.
+                            It applies to each of the &lt;xpath&gt; or &lt;xslt&gt; elements inside the posture-and-sweep subset individually.
+                            The test fails if the analyzed posture is not equal to the value of this attribute. 
+                        </p>
+                    </div>
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="result-sweep" type="sweepType">
+            <xs:annotation>
+                <xs:documentation>
+                    <div>
+                        <h3>The result sweep of a (sequence of) posture and sweep tests</h3>
+                        <p>The result sweep is the resulting sweep of streaming analysis of a posture and sweep test.
+                            It applies to each of the &lt;xpath&gt; or &lt;xslt&gt; elements inside the posture-and-sweep subset individually.
+                            The test fails if the analyzed posture is not equal to the value of this attribute. 
+                        </p>
+                    </div>
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
     </xs:attributeGroup>
 </xs:schema>
