@@ -95,7 +95,7 @@
 
     <environment name="users-json">
         <collection uri="http://www.w3.org/2010/09/qt-fots-catalog/users-json">
-            <query>unparsed-text-lines("UseCaseR31/users.json") ! parse-json(.)</query>
+            <query uri="http://www.w3.org/2010/09/qt-fots-catalog/users-json-1">unparsed-text-lines("UseCaseR31/users.json") ! parse-json(.)</query>
         </collection>
       <param name="users-collection-uri" as="xs:string" select="'http://www.w3.org/2010/09/qt-fots-catalog/users-json'" declared="false"/>
     </environment>
@@ -912,6 +912,7 @@ local:deep-put(json-doc("http://www.w3.org/qt3/app/UseCaseR31/bookinfo-json"), "
           list to return the Object representing each of her friends</description>
       <created by="Jonathan Robie, EMC Corporation" on="2014-04-24"/>
       <modified by="O'Neil Delpratt" on="2015-09-17" change="Added the XQuery 3.1 Use case to QT3" />
+      <modified by="O'Neil Delpratt" on="2015-10-20" change="Use collection function on JSON document" />
       <environment ref="users-json"/>
       <dependency type="spec" value="XQ31+"/>
       <test><![CDATA[
@@ -919,7 +920,7 @@ local:deep-put(json-doc("http://www.w3.org/qt3/app/UseCaseR31/bookinfo-json"), "
           $friend in collection($users-collection-uri)
       where $sarah('name') = "Sarah"
        and $friend('name') = $sarah('friends')?*
-      return $friend
+      return $friend('name)
       ]]></test>
       <result>
          <assert-string-value><![CDATA[Jim]]></assert-string-value>
@@ -930,11 +931,12 @@ local:deep-put(json-doc("http://www.w3.org/qt3/app/UseCaseR31/bookinfo-json"), "
       <description>this test case groups sales by product, across stores</description>
       <created by="Jonathan Robie, EMC Corporation" on="2014-04-24"/>
       <modified by="O'Neil Delpratt" on="2015-09-17" change="Added the XQuery 3.1 Use case to QT3. I also had to change how the JSON document is parsed" />
+      <modified by="O'Neil Delpratt" on="2015-10-20" change="Use collection function on JSON document" />
       <environment ref="sales-json"/>
        <dependency type="spec" value="XQ31+"/>
       <test><![CDATA[map:merge(
-  for $sale in collection($sales-collection-uri)
-  let $pname := $sale('product')
+  for $sales in collection($sales-collection-uri)
+  let $pname := $sales('product')
   group by $pname
   return map { $pname : sum(for $s in $sales return $s('quantity')) })]]></test>
       <result>
