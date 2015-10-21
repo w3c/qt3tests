@@ -368,8 +368,8 @@
       <created by="Michael Kay" on="2015-03-07"/>
       <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <modified by="Michael Kay" on="2015-07-17" change="Change keyword unescape->escape"/>
+      <modified by="Christian Gruen" on="2015-10-21" change="Schema import dependency removed."/>
       <environment ref="json-ns"/>
-      <dependency type="feature" value="schemaImport"/>
       <test>
          fn:json-to-xml('{"a\\":3, "b\\":4}', map{'escape':true()})
       </test>
@@ -386,8 +386,8 @@
       <created by="Michael Kay" on="2015-03-07"/>
       <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <modified by="Michael Kay" on="2015-07-17" change="Change keyword unescape->escape"/>
+      <modified by="Christian Gruen" on="2015-10-21" change="Schema import dependency removed."/>
       <environment ref="json-ns"/>
-      <dependency type="feature" value="schemaImport"/>
       <test>
          fn:json-to-xml('{"a\\":3, "b\\":4}', map{'escape':false()})
       </test>
@@ -760,8 +760,8 @@
       <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <modified by="Michael Kay" on="2015-07-17" change="Change keyword unescape->escape"/>
       <modified by="Debbie Lockett" on="2015-08-07" change="Result change (plus description edit), see bug #28998"/>
+      <modified by="Christian Gruen" on="2015-10-21" change="Schema import dependency removed."/>
       <environment ref="json-ns"/>
-      <dependency type="feature" value="schemaImport"/>
       <test>
          fn:json-to-xml('{"\n":1, "\u000A":2}', map{'escape':true(), 'duplicates':'reject'})
       </test>
@@ -788,7 +788,9 @@
       <description>Alternate validation dynamically</description>
       <created by="Josh Spiegel" on="2015-07-27"/>
       <modified by="Debbie Lockett" on="2015-08-12" change="Added XQuery dependency"/>
+      <modified by="Christian Gruen" on="2015-10-21" change="Schema import dependency added."/>
       <dependency type="spec" value="XQ31+"/>
+      <dependency type="feature" value="schemaImport"/>
       <test>
          import schema "http://www.w3.org/2005/xpath-functions";
           
@@ -808,7 +810,9 @@
       <created by="Josh Spiegel" on="2015-07-27"/>
       <modified by="Debbie Lockett" on="2015-08-07" change="Modified assertion to work in XPath as well as XQuery"/>
       <modified by="Debbie Lockett" on="2015-08-12" change="Added XQuery dependency"/>
+      <modified by="Christian Gruen" on="2015-10-21" change="Schema import dependency added."/>
       <dependency type="spec" value="XQ31+"/>
+      <dependency type="feature" value="schemaImport"/>
       <test>
          import schema "http://www.w3.org/2005/xpath-functions";
           
@@ -827,8 +831,9 @@
       <description>Validated map children (which should have anonymous type annotations)</description>
       <created by="Josh Spiegel" on="2015-07-29"/>
       <modified by="Debbie Lockett" on="2015-08-12" change="Added XQuery dependency"/>
-      <modified by="Michael Kay" on="2015-10-06" change="See bug 29172"/>
+      <modified by="Christian Gruen" on="2015-10-21" change="Schema import dependency added."/>
       <dependency type="spec" value="XQ31+"/>
+      <dependency type="feature" value="schemaImport"/>
       <test>
          import schema "http://www.w3.org/2005/xpath-functions";
          let $json := '
@@ -844,12 +849,12 @@
          '
          let $xml := json-to-xml($json, map { 'validate' : true() })/fn:map
          return (
-            $xml/fn:string instance of element(fn:string, fn:stringWithinMapType),
-            $xml/fn:number instance of element(fn:number, fn:numberWithinMapType),
-            $xml/fn:null instance of element(fn:null, fn:nullWithinMapType),
-            $xml/fn:boolean instance of element(fn:boolean, fn:booleanWithinMapType)+,
-            $xml/fn:map instance of element(fn:map, fn:mapWithinMapType),
-            $xml/fn:array instance of element(fn:array, fn:arrayWithinMapType)
+            $xml/fn:string instance of element(fn:string, fn:stringType),
+            $xml/fn:number instance of element(fn:number, fn:numberType),
+            not($xml/fn:null instance of element(fn:null, fn:nullType)),
+            $xml/fn:boolean instance of element(fn:boolean, fn:booleanType)+,
+            $xml/fn:map instance of element(fn:map, fn:mapType),
+            $xml/fn:array instance of element(fn:array, fn:arrayType)
           )
       </test>
       <result>
@@ -861,7 +866,9 @@
       <description>Validated array children (which should have global type annotations)</description>
       <created by="Josh Spiegel" on="2015-07-29"/>
       <modified by="Debbie Lockett" on="2015-08-12" change="Added XQuery dependency"/>
+      <modified by="Christian Gruen" on="2015-10-21" change="Schema import dependency added."/>
       <dependency type="spec" value="XQ31+"/>
+      <dependency type="feature" value="schemaImport"/>
       <test>
          import schema "http://www.w3.org/2005/xpath-functions";
          let $json := '["foo",123,null,true,false,[],{}]'
@@ -1455,6 +1462,7 @@
    <test-case name="json-to-xml-error-043">
       <description>Duplicates after unescaping</description>
       <created by="Michael Kay" on="2015-03-11"/>
+      <modified by="Christian Gruen" on="2015-10-21" change="Schema import dependency removed."/>
       <environment ref="json-ns"/>
       <dependency type="feature" value="schemaImport"/>
       <test>
