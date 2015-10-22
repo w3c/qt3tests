@@ -74,7 +74,7 @@
    <test-case name="FunctionCall-006" covers-30="dynamic-function-call">
       <description>Test that arguments are atomized - anonymous inline function</description>
       <created by="Michael Kay" on="2011-10-31"/>
-      <dependency type="spec" value="XQ30+"/>
+      <dependency type="spec" value="XQ30+ XP30+"/>
       <dependency type="feature" value="higherOrderFunctions"/>
       <test><![CDATA[
          let $f := function ($in as xs:boolean) as xs:boolean { $in }
@@ -678,6 +678,76 @@
           <assert-type>xs:integer</assert-type>
           <assert-eq>6</assert-eq>
         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="FunctionCall-040">
+      <description>Inline function with empty body - not allowed before 3.1</description>
+      <created by="Michael Kay" on="2015-10-22"/>
+      <dependency type="spec" value="XP30 XQ30"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <test>
+         let $f := function($x) {}
+         return $f(2)
+      </test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+   
+   <test-case name="FunctionCall-041">
+      <description>Inline function with empty body - allowed from 3.1</description>
+      <created by="Michael Kay" on="2015-10-22"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <test>
+         let $f := function($x) {}
+         return $f(2)
+      </test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+   
+   <test-case name="FunctionCall-042">
+      <description>Inline function with empty body - allowed from 3.1</description>
+      <created by="Michael Kay" on="2015-10-22"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <test>
+         let $f := function($x) { (: there's nothing here :)}
+         return $f(2)
+      </test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+   
+   <test-case name="FunctionCall-043">
+      <description>Inline function with empty body - allowed from 3.1</description>
+      <created by="Michael Kay" on="2015-10-22"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <test>
+         let $f := function($x as xs:integer) as xs:integer? { (: there's nothing here :)}
+         return $f(2)
+      </test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+   
+   <test-case name="FunctionCall-044">
+      <description>Inline function with empty body - allowed from 3.1 - causing type error</description>
+      <created by="Michael Kay" on="2015-10-22"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <test>
+         let $f := function($x as xs:integer) as xs:integer { (: there's nothing here :) }
+         return $f(2)
+      </test>
+      <result>
+         <error code="XPTY0004"/>
       </result>
    </test-case>
    

@@ -365,6 +365,54 @@
          <assert-true/>
       </result>
    </test-case>
+   
+   <test-case name="function-declaration-027">
+      <description> Empty Function Declaration, not allowed until 3.1. </description>
+      <created by="Michael Kay" on="2015-10-22"/>
+      <dependency type="spec" value="XQ10 XQ30"/>
+      <test>
+         declare function local:function() { };
+         local:function()</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+   
+   <test-case name="function-declaration-028">
+      <description> Empty Function Declaration, not allowed until 3.1. </description>
+      <created by="Michael Kay" on="2015-10-22"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test>
+         declare function local:function() { };
+         local:function()</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+   
+   <test-case name="function-declaration-029">
+      <description> Empty Function Declaration, not allowed until 3.1. </description>
+      <created by="Michael Kay" on="2015-10-22"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test>
+         declare function local:function($x) { (:there is nothing here:) };
+         local:function(3)</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+   
+   <test-case name="function-declaration-030">
+      <description> Empty Function Declaration, not allowed until 3.1. Type error if () not allowed</description>
+      <created by="Michael Kay" on="2015-10-22"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test>
+         declare function local:function($x as xs:integer) as xs:integer { (:there is nothing here:) };
+         local:function(3)</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
 
    <test-case name="K-FunctionProlog-1">
       <description> The 'XPath Data Types' namespace is not reserved anymore, although it was in older drafts. </description>

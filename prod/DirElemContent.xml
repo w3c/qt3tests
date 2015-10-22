@@ -1162,10 +1162,33 @@
    <test-case name="K2-DirectConElemContent-26">
       <description> Enclosed expressions in element content must have expressions. </description>
       <created by="Frans Englich" on="2007-11-26"/>
-      <dependency type="spec" value="XQ10+"/>
+      <modified by="Michael Kay" on="2015-10-22" change="Empty enclosed expression now allowed in 3.1"/>
+      <dependency type="spec" value="XQ10 XQ30"/>
       <test><![CDATA[<elem>content{}content</elem>]]></test>
       <result>
          <error code="XPST0003"/>
+      </result>
+   </test-case>
+   
+   <test-case name="K2-DirectConElemContent-26a">
+      <description> Enclosed expressions in element content may be empty in 3.1. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="Michael Kay" on="2015-10-22" change="Empty enclosed expression now allowed in 3.1"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[<elem>content{}content</elem>]]></test>
+      <result>
+         <assert-xml><![CDATA[<elem>contentcontent</elem>]]></assert-xml>
+      </result>
+   </test-case>
+   
+   <test-case name="K2-DirectConElemContent-26b">
+      <description> Enclosed expressions in element content may be empty in 3.1. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="Michael Kay" on="2015-10-22" change="Empty enclosed expression now allowed in 3.1"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[<elem>content{(:comment:)}content</elem>]]></test>
+      <result>
+         <assert-xml><![CDATA[<elem>contentcontent</elem>]]></assert-xml>
       </result>
    </test-case>
 

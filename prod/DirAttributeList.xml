@@ -407,6 +407,82 @@
          <assert-xml><![CDATA[<elem attr="1 23"/>]]></assert-xml>
       </result>
    </test-case>
+   
+   <test-case name="Constr-attr-enclexpr-9">
+      <description>Empty enclosed expression in attribute content. Not allowed before 3.1</description>
+      <created by="Michael Kay" on="2015-10-22"/>
+      <dependency type="spec" value="XQ10 XQ30"/>
+      <test><![CDATA[<elem attr="z{}z"/>]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+   
+   <test-case name="Constr-attr-enclexpr-10">
+      <description>Empty enclosed expression in attribute content. Allowed in 3.1</description>
+      <created by="Michael Kay" on="2015-10-22"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[<elem attr="z{}z"/>]]></test>
+      <result>
+         <assert-xml><![CDATA[<elem attr="zz"/>]]></assert-xml>
+      </result>
+   </test-case>
+   
+   <test-case name="Constr-attr-enclexpr-11">
+      <description>Empty enclosed expression in attribute content. Allowed in 3.1</description>
+      <created by="Michael Kay" on="2015-10-22"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[<elem attr="z{ }z"/>]]></test>
+      <result>
+         <assert-xml><![CDATA[<elem attr="zz"/>]]></assert-xml>
+      </result>
+   </test-case>
+   
+   <test-case name="Constr-attr-enclexpr-12">
+      <description>Empty enclosed expression in attribute content. Allowed in 3.1</description>
+      <created by="Michael Kay" on="2015-10-22"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[<elem attr="z{ (:comment:) }z"/>]]></test>
+      <result>
+         <assert-xml><![CDATA[<elem attr="zz"/>]]></assert-xml>
+      </result>
+   </test-case>
+   
+   <test-case name="Constr-attr-enclexpr-13">
+      <description> Comments in an enclosed expression containing an attribute delimiter. </description>
+      <created by="Michael Kay" on="2015-10-22"/>
+      <test><![CDATA[<e attr="abc{ 23 (:":) }xyz"/>]]></test>
+      <result>
+         <assert-xml><![CDATA[<e attr="abc23xyz"/>]]></assert-xml>
+      </result>
+   </test-case>
+   
+   <test-case name="Constr-attr-enclexpr-14">
+      <description> Comments in an enclosed expression containing an open curly. </description>
+      <created by="Michael Kay" on="2015-10-22"/>
+      <test><![CDATA[<e attr="abc{ 23 (:{:) }xyz"/>]]></test>
+      <result>
+         <assert-xml><![CDATA[<e attr="abc23xyz"/>]]></assert-xml>
+      </result>
+   </test-case>
+   
+   <test-case name="Constr-attr-enclexpr-15">
+      <description> Comments in an enclosed expression containing a close curly. </description>
+      <created by="Michael Kay" on="2015-10-22"/>
+      <test><![CDATA[<e attr="abc{ 23 (:}:) }xyz"/>]]></test>
+      <result>
+         <assert-xml><![CDATA[<e attr="abc23xyz"/>]]></assert-xml>
+      </result>
+   </test-case>
+   
+   <test-case name="Constr-attr-enclexpr-16">
+      <description> Unrecognized pragma in an enclosed expression. </description>
+      <created by="Michael Kay" on="2015-10-22"/>
+      <test><![CDATA[<e attr="abc{ (# }xyz"/>]]></test>
+      <result>
+         <assert-xml><![CDATA[<e attr="abc23xyz"/>]]></assert-xml>
+      </result>
+   </test-case>
 
    <test-case name="Constr-attr-id-1">
       <description> attribute xml:id - content is ncname </description>
