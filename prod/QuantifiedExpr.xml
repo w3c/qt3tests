@@ -596,6 +596,59 @@
       </result>
    </test-case>
    
+   <test-case name="quantexpr-66">
+      <description> Error cose (omitted "or" operator) which crashed Saxon </description>
+      <created by="Michael Kay (after Gunther Rademacher)" on="2015-09-02"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+        declare function local:f($x, $y) {
+          let $a := $x
+          where empty($y)   (every $i in $x satisfies $i = $y)
+          return $a
+        };
+        local:f("x", ())
+      ]]></test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+   <test-case name="quantexpr-67">
+      <description> Another cose (added "or" operator) which crashed Saxon </description>
+      <created by="Michael Kay (after Gunther Rademacher)" on="2015-09-02"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        declare function local:f($x, $y) {
+            let $a := $x
+            where (every $i in $x satisfies $i = $y) or empty($y)
+            return $a
+        };
+        local:f("x", ())
+      ]]></test>
+      <result>
+         <assert-string-value>x</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="quantexpr-68">
+      <description> A variant of a case (added "or" operator) which crashed Saxon </description>
+      <created by="Michael Kay (after Gunther Rademacher)" on="2015-09-02"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        declare function local:f($x, $y) {
+            let $a := $x
+            where (every $i in $x satisfies $i = $y) or empty($y)
+            return true()
+        };
+        local:f((current-date(), current-date(), current-date()), (current-date()))
+      ]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   
+   
    <test-case name="K-QuantExprWithout-1">
       <description> 'every': EBV can't be extracted from xs:QName. </description>
       <created by="Frans Englich" on="2007-11-26"/>
