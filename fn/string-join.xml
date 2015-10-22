@@ -290,12 +290,30 @@
    <test-case name="fn-string-join-26" covers-30="fn-string-join">
       <description> Default second argument is zero-length string in 3.0 </description>
       <created by="Michael Kay" on="2012-07-09"/>
-      <dependency type="spec" value="XQ30+"/>
-      <test><![CDATA[
-         fn:string-join((1 to 9)!string())
-      ]]></test>
+      <dependency type="spec" value="XQ30+ XP30+"/>
+      <test>fn:string-join((1 to 9)!string())</test>
       <result>
          <assert-string-value>123456789</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-string-join-27" covers-30="fn-string-join">
+      <description> First arg is xs:string* in 2.0 and 3.0 </description>
+      <created by="Michael Kay" on="2015-10-21"/>
+      <dependency type="spec" value="XP20 XQ10 XP30 XQ30"/>
+      <test>fn:string-join(1 to 5, "")</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-string-join-28" covers-30="fn-string-join">
+      <description> First arg is xs:anyAtomicType* in 3.1 (bug 29184)</description>
+      <created by="Michael Kay" on="2015-10-21"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>fn:string-join(1 to 5, "")</test>
+      <result>
+         <assert-string-value>12345</assert-string-value>
       </result>
    </test-case>
 
