@@ -114,6 +114,7 @@
       <description>Find the highest earning employee in each department</description>
       <created by="Jonathan Robie, EMC Corporation" on="2014-04-24"/>
       <modified by="O'Neil Delpratt" on="2015-07-17" change="Added the XQuery 3.1 Use case to QT3" />
+      <modified by="O'Neil Delpratt" on="2015-11-03" change="Changed assertion types to fix bug #27908" />
       <environment ref="employees"/>
       <test><![CDATA[
         for $e in /employees/employee,
@@ -128,22 +129,11 @@ return
    </department>
       ]]></test>
       <result>
-         <assert-xml><![CDATA[<department name="Management"><employee>
-
-        <employeeId>4</employeeId>
-        <reportsTo>1</reportsTo>
-        <name>Charles Madigen</name>
-        <job>Chief Operating Officer</job>
-        <Phone>x10962</Phone>
-        <email>cmadigan@example.com</email>
-        <department>Management</department>
-        <salary>26200.00</salary>
-        <gender>male</gender>
-        <maritalStatus>married</maritalStatus>
-        <employeeType>full time</employeeType>
-
-
-    </employee></department>]]></assert-xml>
+          <all-of>
+            <assert>$result/@name='Management'</assert>
+            <assert>count($result) = 1</assert>
+            <assert>$result//name = 'Charles Madigen'</assert>
+          </all-of>
       </result>
    </test-case>
 
@@ -177,9 +167,9 @@ return
       <description>Find the highest earning employee in each department</description>
       <created by="Jonathan Robie, EMC Corporation" on="2014-04-24"/>
       <modified by="O'Neil Delpratt" on="2015-07-17" change="Added the XQuery 3.1 Use case to QT3" />
+      <modified by="O'Neil Delpratt" on="2015-11-03" change="Changed assertion types to fix bug #27908" />
       <environment ref="employees"/>
-      <test><![CDATA[
-
+      <test><![CDATA[   <out>  {
 for $employee in /employees/employee
 let $salary := $employee/salary
 group by $department := $employee/department
@@ -193,28 +183,18 @@ let $salary := $employee/salary
 group by $job-type := $employee/employeeType
 let $totals := count($employee)
 return
-    <total-by-job-type type="{$job-type}">{ $totals }</total-by-job-type>]]>
+    <total-by-job-type type="{$job-type}">{ $totals }</total-by-job-type>
+    }</out>]]>
       </test>
       <result>
-         <assert-xml><![CDATA[<department1 name="Management"><employee>
-
-        <employeeId>4</employeeId>
-        <reportsTo>1</reportsTo>
-        <name>Charles Madigen</name>
-        <job>Chief Operating Officer</job>
-        <Phone>x10962</Phone>
-        <email>cmadigan@example.com</email>
-        <department>Management</department>
-        <salary>26200.00</salary>
-        <gender>male</gender>
-        <maritalStatus>married</maritalStatus>
-        <employeeType>full time</employeeType>
-
-
-    </employee></department1>
-<total-by-job-type type="full time">13</total-by-job-type>
-<total-by-job-type type="contract">9</total-by-job-type>
-<total-by-job-type type="part time">5</total-by-job-type>]]></assert-xml>
+          <all-of>
+                <assert>$result/department/@name='Management'</assert>
+                <assert>count($result/department) = 1</assert>
+                <assert>$result//name = 'Charles Madigen'</assert>
+                <assert>$result/total-by-job-type[@type='full time'] = 13</assert>
+                <assert>$result/total-by-job-type[@type='contract'] = 9</assert>
+                <assert>$result/total-by-job-type[@type='part time'] = 5</assert>
+          </all-of>
       </result>
    </test-case>
 
@@ -270,6 +250,7 @@ return map {
       <created by="Jonathan Robie, EMC Corporation" on="2014-04-24"/>
       <modified by="O'Neil Delpratt" on="2015-07-17" change="Added the XQuery 3.1 Use case to QT3" />
       <modified by="Michael Dyck" on="2015-10-21" change="Added the dependency on XQ31+ due to the MapConstructor" />
+      <modified by="O'Neil Delpratt" on="2015-11-03" change="Changed assertion types to fix bug #27908" />
       <dependency type="spec" value="XQ31+"/>
       <test><![CDATA[
       declare variable $book:= (<book>
@@ -295,10 +276,10 @@ declare variable $author := (<author>
 }</table>
       ]]></test>
       <result>
-         <assert-xml><![CDATA[<table><tr>
-      <td>Michael H. Kay</td>
-      <td>XSLT 2.0 and XPath 2.0 Programmer's Reference</td>
-   </tr></table>]]></assert-xml>
+          <all-of>
+              <assert>$result//td[1]='Michael H. Kay'</assert>
+              <assert>$result//td[2]="XSLT 2.0 and XPath 2.0 Programmer's Reference"</assert>
+          </all-of>
       </result>
    </test-case>
 
