@@ -1569,6 +1569,7 @@
    <test-case name="function-call-reserved-function-names-018">
       <description>Check that reserved function name namespace-node is handled correctly. </description>
       <created by="Tim Mills" on="2013-01-24"/>
+      <modified by="O'Neil Delpratt" on="2015-11-04" change="Resolution to bug #29193: Added error code" />
       <dependency type="spec" value="XQ30+"/>
       <test>
 	declare default function namespace "http://www.w3.org/2005/xquery-local-functions";
@@ -1576,7 +1577,10 @@
 	namespace-node(1)
       </test>
       <result>
-         <error code="XPST0003" />
+          <any-of>
+            <error code="XPST0003" />
+            <error code="XQST0134" />
+          </any-of>
       </result>
    </test-case>
 
