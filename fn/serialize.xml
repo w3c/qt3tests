@@ -1684,12 +1684,21 @@
     <test-case name="serialize-json-113" covers="fn-serialize json-output">
         <description>Nested maps</description>
         <created by="Debbie Lockett, Saxonica" on="2015-08-20"/>
+        <modified by="Debbie Lockett" on="2015-11-09" change="Adapt result assertions, bug #29267"/>
         <dependency type="spec" value="XP31+ XQ31+"/>
         <test>let $r :=
             serialize(map{"abc": map{"abc":map{"abc":1}, "def": map{"def":2}}},
             map{'method':'json'}) return translate($r,' &#x9;&#xa;&#xd;', '')</test>
         <result>
-            <assert-string-value>{"abc":{"abc":{"abc":1},"def":{"def":2}}}</assert-string-value>
+            <all-of>
+                <assert>starts-with($result, '{"abc":{')</assert>
+                <assert>contains($result, '"abc":{"abc":1}')</assert>
+                <assert>contains($result, '"def":{"def":2}')</assert>
+                <assert>ends-with($result, '}}')</assert>
+                <assert-type>xs:string</assert-type>
+                <assert>parse-json($result)("abc")("abc")("abc") = 1</assert>
+                <assert>parse-json($result)("abc")("def")("def") = 2</assert>
+            </all-of>
         </result>
     </test-case>
 
@@ -1816,11 +1825,23 @@
     <test-case name="serialize-json-124" covers="fn-serialize json-output">
         <description>sparse array</description>
         <created by="Debbie Lockett, Saxonica" on="2015-08-20"/>
+        <modified by="Debbie Lockett" on="2015-11-09" change="Adapt result assertions, bug #29267"/>
         <dependency type="spec" value="XP31+ XQ31+"/>
         <test>let $r := serialize(map{1:"a",2:"b",4:"d",10:"j",7:"g"}, map{'method':'json'}) return
             translate($r,' &#x9;&#xa;&#xd;', '')</test>
         <result>
-            <assert-string-value>{"1":"a","2":"b","4":"d","7":"g","10":"j"}</assert-string-value>
+            <all-of>
+                <assert>starts-with($result, '{')</assert>
+                <assert>contains($result, '"1":"a"')</assert>
+                <assert>contains($result, '"2":"b"')</assert>
+                <assert>contains($result, '"4":"d"')</assert>
+                <assert>contains($result, '"10":"j"')</assert>
+                <assert>contains($result, '"7":"g"')</assert>
+                <assert>ends-with($result, '}')</assert>
+                <assert-type>xs:string</assert-type>
+                <assert-count>1</assert-count>
+                <assert>parse-json($result)("1") = "a"</assert>
+            </all-of>
         </result>
     </test-case>
 
