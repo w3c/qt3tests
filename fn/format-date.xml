@@ -686,6 +686,69 @@
          <assert-string-value>18 05 2012</assert-string-value>
       </result>
    </test-case>
+   
+   <test-case name="format-date-029">
+      <description>test format-date(): semicolon as grouping separator</description>
+      <created by="Debbie Lockett, Saxonica" on="2015-11-16"/>
+      <test>format-date(xs:date('2012-05-18'), '[Y9;999]')</test>
+      <result>
+         <assert-string-value>2;012</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="format-date-030">
+      <description>test format-date(): comma as grouping separator</description>
+      <created by="Debbie Lockett, Saxonica" on="2015-11-16"/>
+      <test>format-date(xs:date('2012-05-18'), '[Y9,999,*]')</test>
+      <result>
+         <assert-string-value>2,012</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="format-date-031">
+      <description>test format-date(): grouping separators</description>
+      <created by="Debbie Lockett, Saxonica" on="2015-11-16"/>
+      <test>format-date(xs:date('2012-05-18'), '[Y9,99-9,*]')</test>
+      <result>
+         <assert-string-value>2,01-2</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="format-date-032">
+      <description>test format-date(): optional digit symbols in picture</description>
+      <created by="Debbie Lockett, Saxonica" on="2015-11-16"/>
+      <test>format-date(xs:date("1200-01-01"),"[Y###9]")</test>
+      <result>
+         <assert-string-value>1200</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="format-date-033">
+      <description>test format-date(): optional digit symbols in picture</description>
+      <created by="Debbie Lockett, Saxonica" on="2015-11-16"/>
+      <test>format-date(xs:date("0900-01-01"),"[Y###9]")</test>
+      <result>
+         <assert-string-value>900</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="format-date-034">
+      <description>test format-date(): large width modifier</description>
+      <created by="Debbie Lockett, Saxonica" on="2015-11-16"/>
+      <test>format-date(xs:date('2012-05-18'), '[Y9999,25]')</test>
+      <result>
+         <assert-string-value>0000000000000000000002012</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="format-date-035">
+      <description>test format-date(): large width modifier, Thai digits</description>
+      <created by="Debbie Lockett, Saxonica" on="2015-11-16"/>
+      <test>format-date(xs:date('2012-05-18'), '[Y&#3664;&#3664;&#3664;&#3665;,10]')</test>
+      <result>
+         <assert-string-value>&#3664;&#3664;&#3664;&#3664;&#3664;&#3664;&#3666;&#3664;&#3665;&#3666;</assert-string-value>
+      </result>
+   </test-case>
 
    <test-case name="format-date-801err">
       <description>Error XTDE1340 incorrect picture string</description>
@@ -781,6 +844,24 @@
          <error code="XTDE1340"/>
          <error code="FOFD1340"/>
         </any-of>
+      </result>
+   </test-case>
+   
+   <test-case name="format-date-809err">
+      <description>Error FOFD1340 incorrect use of optional digit symbol in picture</description>
+      <created by="Debbie Lockett, Saxonica" on="2015-11-16"/>
+      <test>format-date(xs:date("2012-05-18"),"[Y999#]")</test>
+      <result>
+         <error code="FOFD1340"/>
+      </result>
+   </test-case>
+   
+   <test-case name="format-date-810err">
+      <description>Error FOFD1340 incorrect use of optional digit symbol in picture</description>
+      <created by="Debbie Lockett, Saxonica" on="2015-11-16"/>
+      <test>format-date(xs:date("2012-05-18"),"[Y##9#]")</test>
+      <result>
+         <error code="FOFD1340"/>
       </result>
    </test-case>
 

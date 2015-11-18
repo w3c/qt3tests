@@ -360,6 +360,24 @@
          </assert-string-value>
       </result>
    </test-case>
+   
+   <test-case name="format-time-019">
+      <description>Test format-time: fractional seconds in Thai digits</description>
+      <created by="Debbie Lockett, Saxonica" on="2015-11-16"/>
+      <test>format-time(xs:time('09:15:06.456'),"[f&#3664;&#3664;&#3664;]")</test>
+      <result>
+         <assert-string-value>&#3668;&#3669;&#3670;</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="format-time-020">
+      <description>Test format-time: non-ASCII digits</description>
+      <created by="Debbie Lockett, Saxonica" on="2015-11-16"/>
+      <test>format-time(xs:time('09:15:06.456'),"[H&#x660;]:[m&#x660;]:[s&#x660;&#x660;]:[f&#x660;&#x660;&#x660;]")</test>
+      <result>
+         <assert-string-value>&#x669;:&#x661;&#x665;:&#x660;&#x666;:&#x664;&#x665;&#x666;</assert-string-value>
+      </result>
+   </test-case>
 
    <test-case name="format-time-809err">
       <description>Error XTDE1350 component in picture string not available in value</description>
