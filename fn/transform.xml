@@ -224,6 +224,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
     <test-case name="fn-transform-6">
         <description>Transform with minimal options: stylesheet-text, source-node</description>
         <created by="Debbie Lockett" on="2015-03-03"/>
+        <modified by="Michael Kay" on="2015-11-26" change="avoid HOF dependency in assertions"/>
         <dependency type="spec" value="XQ31+"/>
         <test><![CDATA[
             declare variable $xsl as xs:string :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' version='2.0'>
@@ -239,7 +240,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
             <all-of>
                 <assert-type>map(*)</assert-type>
                 <assert>map:contains($result, "output")</assert>
-                <assert>$result("output") instance of node()</assert>
+                <assert>$result?output instance of node()</assert>
                 <assert>$result?output//out = 'this'</assert>
             </all-of>
         </result>        
@@ -248,6 +249,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
     <test-case name="fn-transform-7">
         <description>Transform with minimal options: stylesheet-node, source-node</description>
         <created by="Debbie Lockett" on="2015-03-03"/>
+        <modified by="Michael Kay" on="2015-11-26" change="avoid HOF dependency in assertions"/>
         <dependency type="spec" value="XQ31+"/>
         <test><![CDATA[
             declare variable $xsl as xs:string :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' version='2.0'>
@@ -263,7 +265,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
             <all-of>
                 <assert-type>map(*)</assert-type>
                 <assert>map:contains($result, "output")</assert>
-                <assert>$result("output") instance of node()</assert>
+                <assert>$result?output instance of node()</assert>
                 <assert>$result?output//out = 'this'</assert>
             </all-of>
         </result>        
@@ -272,6 +274,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
     <test-case name="fn-transform-8">
         <description>Transform with minimal options: stylesheet-node, source-node</description>
         <created by="Debbie Lockett" on="2015-03-03"/>
+        <modified by="Michael Kay" on="2015-11-26" change="avoid HOF dependency in assertions"/>
         <dependency type="spec" value="XQ31+"/>
         <test><![CDATA[
             transform(map{"stylesheet-node":fn:parse-xml("<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' version='2.0'>
@@ -286,7 +289,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
             <all-of>
                 <assert-type>map(*)</assert-type>
                 <assert>map:contains($result, "output")</assert>
-                <assert>$result("output") instance of node()</assert>
+                <assert>$result?output instance of node()</assert>
                 <assert>$result?output//out = 'this'</assert>
             </all-of>
         </result>        
@@ -295,6 +298,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
     <test-case name="fn-transform-9">
         <description>Transform using option initial-template</description>
         <created by="Debbie Lockett" on="2015-03-03"/>
+        <modified by="Michael Kay" on="2015-11-26" change="avoid HOF dependency in assertions"/>
         <dependency type="spec" value="XQ31+"/>
         <test><![CDATA[
             declare variable $xsl as xs:string :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' version='2.0'>
@@ -311,7 +315,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
             <all-of>
                 <assert-type>map(*)</assert-type>
                 <assert>map:contains($result, "output")</assert>
-                <assert>$result("output") instance of node()</assert>
+                <assert>$result?output instance of node()</assert>
                 <assert>$result?output//out = 'this'</assert>
             </all-of>
         </result>
@@ -320,6 +324,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
     <test-case name="fn-transform-10">
         <description>Transform using option initial-template</description>
         <created by="Debbie Lockett" on="2015-03-03"/>
+        <modified by="Michael Kay" on="2015-11-26" change="avoid HOF dependency in assertions"/>
         <dependency type="spec" value="XQ31+"/>
         <test><![CDATA[
             declare variable $xsl as xs:string :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' version='2.0'
@@ -340,7 +345,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
             <all-of>
                 <assert-type>map(*)</assert-type>
                 <assert>map:contains($result, "output")</assert>
-                <assert>$result("output") instance of node()</assert>
+                <assert>$result?output instance of node()</assert>
                 <assert>$result?output//out = 'this'</assert>
             </all-of>
         </result>
@@ -349,6 +354,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
     <test-case name="fn-transform-11">
         <description>Transform using option initial-template, without source-node</description>
         <created by="Debbie Lockett" on="2015-03-03"/>
+        <modified by="Michael Kay" on="2015-11-26" change="avoid HOF dependency in assertions"/>
         <dependency type="spec" value="XQ31+"/>
         <test><![CDATA[
             declare variable $xsl as xs:string :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' version='2.0'
@@ -367,7 +373,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
             <all-of>
                 <assert-type>map(*)</assert-type>
                 <assert>map:contains($result, "output")</assert>
-                <assert>$result("output") instance of node()</assert>
+                <assert>$result?output instance of node()</assert>
                 <assert>$result?output//out = 'that'</assert>
             </all-of>
         </result>
@@ -376,6 +382,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
     <test-case name="fn-transform-12">
         <description>Transform using option initial-mode</description>
         <created by="Debbie Lockett" on="2015-03-03"/>
+        <modified by="Michael Kay" on="2015-11-26" change="avoid HOF dependency in assertions"/>
         <dependency type="spec" value="XQ31+"/>
         <test><![CDATA[
             declare variable $xsl as xs:string :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' version='2.0'>
@@ -395,7 +402,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
             <all-of>
                 <assert-type>map(*)</assert-type>
                 <assert>map:contains($result, "output")</assert>
-                <assert>$result("output") instance of node()</assert>
+                <assert>$result?output instance of node()</assert>
                 <assert>$result?output//out = 'this'</assert>
             </all-of>
         </result>
@@ -529,6 +536,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
     <test-case name="fn-transform-17">
         <description>Transform using option base-output-uri</description>
         <created by="Debbie Lockett" on="2015-03-09"/>
+        <modified by="Michael Kay" on="2015-11-26" change="avoid HOF dependency in assertions"/>
         <environment ref="works-mod-uri2"/>
         <test>fn:transform(map {"stylesheet-location" : $render, "source-node" : fn:doc($uri), "delivery-format" : "document", "base-output-uri" : $base-uri})</test>
         <result>
@@ -536,8 +544,8 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
                 <assert-type>map(*)</assert-type>
                 <assert>not(map:contains($result, "output"))</assert>
                 <assert>map:contains($result, "http://www.w3.org/fots/fn/transform/output-doc.xml")</assert>
-                <assert>$result("http://www.w3.org/fots/fn/transform/output-doc.xml") instance of node()</assert>
-                <assert>count($result("http://www.w3.org/fots/fn/transform/output-doc.xml")//employee) > 0</assert>
+                <assert>$result?("http://www.w3.org/fots/fn/transform/output-doc.xml") instance of node()</assert>
+                <assert>count($result?("http://www.w3.org/fots/fn/transform/output-doc.xml")//employee) > 0</assert>
             </all-of>
         </result>
     </test-case>   
@@ -1183,6 +1191,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
     <test-case name="fn-transform-48">
         <description>Transform with additional unrecognised option which is ignored</description>
         <created by="Debbie Lockett" on="2015-04-15"/>
+        <modified by="Michael Kay" on="2015-11-26" change="avoid HOF dependency in assertions"/>
         <dependency type="spec" value="XQ31+"/>
         <test><![CDATA[
             declare variable $xsl as xs:string :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' version='2.0'>
@@ -1201,7 +1210,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
             <all-of>
                 <assert-type>map(*)</assert-type>
                 <assert>map:contains($result, "output")</assert>
-                <assert>$result("output") instance of node()</assert>
+                <assert>$result?output instance of node()</assert>
                 <assert>$result?output//out = 'this'</assert>
             </all-of>
         </result>
