@@ -232,14 +232,15 @@
       <description>Nested empty arrays</description>
       <created by="Michael Kay, Saxonica" on="2011-03-31"/>
       <modified by="Michael Kay, Saxonica" on="2015-01-30" change="return an array"/>
+      <modified by="Michael Kay, Saxonica" on="2015-11-26" change="avoid HOF dependency in assertions"/>
       <test>parse-json("[[[],[]]]")</test>
       <result>
         <all-of>
             <assert-type>array(array(array(*)))</assert-type>
             <assert-count>1</assert-count>
             <assert>array:size($result) eq 1</assert>
-            <assert>array:size($result(1)) eq 2</assert>
-            <assert>array:size($result(1)(2)) eq 0</assert>
+            <assert>array:size($result?1) eq 2</assert>
+            <assert>array:size($result?1?2) eq 0</assert>
          </all-of>
       </result>
    </test-case>
@@ -247,13 +248,14 @@
       <description>Nested non-empty arrays</description>
       <created by="Michael Kay, Saxonica" on="2011-03-31"/>
       <modified by="Michael Kay, Saxonica" on="2015-01-30" change="return an array"/>
+      <modified by="Michael Kay, Saxonica" on="2015-11-26" change="avoid HOF dependency in assertions"/>
       <test>parse-json('[1, 2, [], [1], [1,2], [1,2,3]]')</test>
       <result>        
          <all-of>
             <assert-type>array(*)</assert-type>
             <assert-count>1</assert-count>
             <assert>array:size($result) = 6</assert>
-            <assert>$result(6)(3) = 3</assert>
+            <assert>$result?6?3 = 3</assert>
          </all-of>
       </result>
    </test-case>
@@ -261,88 +263,97 @@
       <description>Array of objects</description>
       <created by="Michael Kay, Saxonica" on="2011-03-31"/>
       <modified by="Michael Kay, Saxonica" on="2015-01-30" change="return an array"/>
+      <modified by="Michael Kay, Saxonica" on="2015-11-26" change="avoid HOF dependency in assertions"/>
       <test>parse-json('[{"x":12,"y":5}, {"x":13,"y":6}]')</test>
       <result>
          <all-of>
            <assert>array:size($result) = 2</assert>
-           <assert>$result(2)("y") = 6</assert>
+           <assert>$result?2?y = 6</assert>
          </all-of>
       </result>
    </test-case>
    <test-case name="fn-parse-json-022">
       <description>Object containing arrays</description>
       <created by="Michael Kay, Saxonica" on="2011-03-31"/>
+      <modified by="Michael Kay, Saxonica" on="2015-11-26" change="avoid HOF dependency in assertions"/>
       <test>parse-json('{"x":[12,3], "y":[14,9]}')</test>
       <result>
          <all-of>
            <assert>map:size($result) = 2</assert>
-           <assert>$result("y")(2) = 9</assert>
+           <assert>$result?y?2 = 9</assert>
          </all-of>
       </result>
    </test-case>
    <test-case name="fn-parse-json-023">
       <description>Number formats</description>
       <created by="Michael Kay, Saxonica" on="2011-03-31"/>
+      <modified by="Michael Kay, Saxonica" on="2015-11-26" change="avoid HOF dependency in assertions"/>
       <test>parse-json('[0.123]')</test>
       <result>
          <all-of>
-           <assert>$result(1) = 0.123e0</assert>
-           <assert>$result(1) instance of xs:double</assert>
+           <assert>$result?1 = 0.123e0</assert>
+           <assert>$result?1 instance of xs:double</assert>
          </all-of>
       </result>
    </test-case>
    <test-case name="fn-parse-json-024">
       <description>Number formats</description>
       <created by="Michael Kay, Saxonica" on="2011-03-31"/>
+      <modified by="Michael Kay, Saxonica" on="2015-11-26" change="avoid HOF dependency in assertions"/>
       <test>parse-json('[-0.123]')</test>
       <result>
-         <all-of><assert>$result(1) = -0.123e0</assert>
-         <assert>$result(1) instance of xs:double</assert></all-of>
+         <all-of><assert>$result?1 = -0.123e0</assert>
+         <assert>$result?1 instance of xs:double</assert></all-of>
       </result>
    </test-case>
    <test-case name="fn-parse-json-025">
       <description>Number formats</description>
       <created by="Michael Kay, Saxonica" on="2011-03-31"/>
+      <modified by="Michael Kay, Saxonica" on="2015-11-26" change="avoid HOF dependency in assertions"/>
       <test>parse-json('[-0.123e2]')</test>
       <result>
-         <all-of><assert>$result(1) = -0.123e2</assert>
-         <assert>$result(1) instance of xs:double</assert></all-of>
+         <all-of><assert>$result?1 = -0.123e2</assert>
+         <assert>$result?1 instance of xs:double</assert></all-of>
       </result>
    </test-case>
    <test-case name="fn-parse-json-026">
       <description>Number formats</description>
       <created by="Michael Kay, Saxonica" on="2011-03-31"/>
+      <modified by="Michael Kay, Saxonica" on="2015-11-26" change="avoid HOF dependency in assertions"/>
       <test>parse-json('[-0.123e+2]')</test>
       <result>
-         <all-of><assert>$result(1) = -0.123e+2</assert>
-         <assert>$result(1) instance of xs:double</assert></all-of>
+         <all-of><assert>$result?1 = -0.123e+2</assert>
+         <assert>$result?1 instance of xs:double</assert></all-of>
       </result>
    </test-case>
    <test-case name="fn-parse-json-027">
       <description>Number formats</description>
       <created by="Michael Kay, Saxonica" on="2011-03-31"/>
+      <modified by="Michael Kay, Saxonica" on="2015-11-26" change="avoid HOF dependency in assertions"/>
       <test>parse-json('[-0.123e-2]')</test>
       <result>
-         <all-of><assert>$result(1) = -0.123e-2</assert>
-         <assert>$result(1) instance of xs:double</assert></all-of>
+         <all-of><assert>$result?1 = -0.123e-2</assert>
+         <assert>$result?1 instance of xs:double</assert></all-of>
       </result>
    </test-case>
    <test-case name="fn-parse-json-028">
       <description>String formats</description>
       <created by="Michael Kay, Saxonica" on="2011-03-31"/>
+      <modified by="Michael Kay, Saxonica" on="2015-11-26" change="avoid HOF dependency in assertions"/>
       <test>parse-json('["\\"]')</test>
       <result>
-         <all-of><assert>$result(1) = "\"</assert>
-         <assert>$result(1) instance of xs:string</assert></all-of>
+         <all-of><assert>$result?1 = "\"</assert>
+         <assert>$result?1 instance of xs:string</assert></all-of>
       </result>
    </test-case>
    <test-case name="fn-parse-json-029">
       <description>String formats</description>
       <created by="Michael Kay, Saxonica" on="2011-03-31"/>
+      <modified by="Michael Kay, Saxonica" on="2015-11-26" change="avoid HOF dependency in assertions"/>
       <test>parse-json('["\""]')</test>
       <result>
-         <all-of><assert>$result(1) = '"'</assert>
-         <assert>$result(1) instance of xs:string</assert></all-of>
+         <all-of><assert>$result?1 = '"'</assert>
+         <assert>$result?1 instance of xs:string</assert></all-of>
       </result>
    </test-case>
    <test-case name="fn-parse-json-030">
@@ -350,10 +361,11 @@
       <created by="Michael Kay, Saxonica" on="2011-03-31"/>
       <modified by="Christian Gruen" on="2015-01-31" change="Additional encoding of entity"/>
       <modified by="Michael Kay" on="2015-03-11" change="Avoid using character reference, so the assertion works in both XPath and XQuery"/>
+      <modified by="Michael Kay, Saxonica" on="2015-11-26" change="avoid HOF dependency in assertions"/>
       <test>parse-json('["\r"]')</test>
       <result>
-         <all-of><assert>$result(1) = codepoints-to-string(13)</assert>
-         <assert>$result(1) instance of xs:string</assert></all-of>
+         <all-of><assert>$result?1 = codepoints-to-string(13)</assert>
+         <assert>$result?1 instance of xs:string</assert></all-of>
       </result>
    </test-case>
    <test-case name="fn-parse-json-031">
@@ -361,38 +373,42 @@
       <created by="Michael Kay, Saxonica" on="2011-03-31"/>
       <modified by="Christian Gruen" on="2015-01-31" change="Additional encoding of entity"/>
       <modified by="Michael Kay" on="2015-03-11" change="Avoid using character reference, so the assertion works in both XPath and XQuery"/>
+      <modified by="Michael Kay, Saxonica" on="2015-11-26" change="avoid HOF dependency in assertions"/>
       <test>parse-json('["\n"]')</test>
       <result>
-         <all-of><assert>$result(1) = codepoints-to-string(10)</assert>
-         <assert>$result(1) instance of xs:string</assert></all-of>
+         <all-of><assert>$result?1 = codepoints-to-string(10)</assert>
+         <assert>$result?1 instance of xs:string</assert></all-of>
       </result>
    </test-case>
    <test-case name="fn-parse-json-032">
       <description>String formats</description>
       <created by="Michael Kay, Saxonica" on="2011-03-31"/>
+      <modified by="Michael Kay, Saxonica" on="2015-11-26" change="avoid HOF dependency in assertions"/>
       <test>parse-json('["\/"]')</test>
       <result>
-         <all-of><assert>$result(1) = '/'</assert>
-         <assert>$result(1) instance of xs:string</assert></all-of>
+         <all-of><assert>$result?1 = '/'</assert>
+         <assert>$result?1 instance of xs:string</assert></all-of>
       </result>
    </test-case>
    <test-case name="fn-parse-json-033">
       <description>String formats</description>
       <created by="Michael Kay, Saxonica" on="2011-03-31"/>
+      <modified by="Michael Kay, Saxonica" on="2015-11-26" change="avoid HOF dependency in assertions"/>
       <test>parse-json('["aa\u0030aa"]')</test>
       <result>
-         <all-of><assert>$result(1) = 'aa0aa'</assert>
-         <assert>$result(1) instance of xs:string</assert></all-of>
+         <all-of><assert>$result?1 = 'aa0aa'</assert>
+         <assert>$result?1 instance of xs:string</assert></all-of>
       </result>
    </test-case>
    <test-case name="fn-parse-json-034">
       <description>String formats - surrogate pair</description>
       <created by="Michael Kay, Saxonica" on="2011-03-31"/>
       <modified by="Michael Kay" on="2015-03-11" change="Avoid using character reference, so the assertion works in both XPath and XQuery"/>
+      <modified by="Michael Kay, Saxonica" on="2015-11-26" change="avoid HOF dependency in assertions"/>
       <test>parse-json('["\uD834\udD1E"]')</test>
       <result>
-         <all-of><assert>$result(1) = codepoints-to-string(119070)</assert>
-         <assert>$result(1) instance of xs:string</assert></all-of>
+         <all-of><assert>$result?1 = codepoints-to-string(119070)</assert>
+         <assert>$result?1 instance of xs:string</assert></all-of>
       </result>
    </test-case>
    <test-case name="fn-parse-json-035">
@@ -400,9 +416,10 @@
       <created by="Michael Kay, Saxonica" on="2011-03-31"/>
       <modified by="Josh Spiegel" on="2015-01-21" change="Fix map constructor syntax"/>
       <modified by="Michael Kay" on="2015-07-17" change="Change keyword unescape->escape"/>
+      <modified by="Michael Kay, Saxonica" on="2015-11-26" change="avoid HOF dependency in assertions"/>
       <test>parse-json('["\r"]', map{'escape':true()})</test>
       <result>
-         <assert>$result(1) = '\r'</assert>
+         <assert>$result?1 = '\r'</assert>
       </result>
    </test-case>
    <test-case name="fn-parse-json-036">
@@ -412,9 +429,10 @@
       <modified by="Christian Gruen" on="2015-01-31" change="Additional encoding of entity"/>
       <modified by="Michael Kay" on="2015-03-11" change="Avoid using character reference, so the assertion works in both XPath and XQuery"/>
       <modified by="Michael Kay" on="2015-07-17" change="Change keyword unescape->escape"/>
+      <modified by="Michael Kay, Saxonica" on="2015-11-26" change="avoid HOF dependency in assertions"/>
       <test>parse-json('["\r"]', map{'escape':false()})</test>
       <result>
-         <assert>$result(1) = codepoints-to-string(13)</assert>
+         <assert>$result?1 = codepoints-to-string(13)</assert>
       </result>
    </test-case>
    <test-case name="fn-parse-json-037">
@@ -422,9 +440,10 @@
       <created by="Michael Kay, Saxonica" on="2011-03-31"/>
       <modified by="Josh Spiegel" on="2015-01-21" change="Fix map constructor syntax"/>
       <modified by="Michael Kay" on="2015-07-17" change="Change keyword unescape->escape"/>
+      <modified by="Michael Kay, Saxonica" on="2015-11-26" change="avoid HOF dependency in assertions"/>
       <test>parse-json('["\u0000"]', map{'escape':true()})</test>
       <result>
-         <assert>$result(1) = '\u0000'</assert>
+         <assert>$result?1 = '\u0000'</assert>
       </result>
    </test-case>
    <test-case name="fn-parse-json-038">
