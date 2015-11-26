@@ -1394,6 +1394,7 @@
         <description>serialize test - params supplied as map, json output method, first argument is a map</description>
         <created by="Debbie Lockett, Saxonica" on="2015-06-23"/>
         <modified by="Debbie Lockett, Saxonica" on="2015-08-06" change="Adapted result assertions, see bug #29029"/>
+        <modified by="Michael Kay" on="2015-11-26" change="avoid HOF dependency in assertions"/>
         <dependency type="spec" value="XP31+ XQ31+"/>
         <test>let $params := map {
             "method" : "json",
@@ -1404,8 +1405,8 @@
         <result>
             <all-of>
                 <assert-type>xs:string</assert-type>
-                <assert>parse-json($result)("method") eq "json"</assert>
-                <assert>parse-json($result)("indent")</assert>
+                <assert>parse-json($result)?method eq "json"</assert>
+                <assert>parse-json($result)?indent</assert>
             </all-of>
         </result>
     </test-case>
@@ -1415,6 +1416,7 @@
         <created by="Debbie Lockett, Saxonica" on="2015-06-23"/>
         <modified by="Debbie Lockett, Saxonica" on="2015-08-06" change="Adapted result assertions, see bug #29029"/>
         <modified by="Debbie Lockett" on="2015-08-12" change="Edit test to use XPath let expression syntax"/>
+        <modified by="Michael Kay" on="2015-11-26" change="avoid HOF dependency in assertions"/>
         <dependency type="spec" value="XP31+ XQ31+"/>
         <test>let $params := map {
             "method" : "json",
@@ -1426,7 +1428,7 @@
         <result>
             <all-of>
                 <assert-type>xs:string</assert-type>
-                <assert>parse-json($result)("abc")</assert>
+                <assert>parse-json($result)?abc</assert>
             </all-of>
         </result>
     </test-case>
@@ -1610,6 +1612,7 @@
     <test-case name="serialize-json-107" covers="fn-serialize json-output">
         <description>Two-entry object</description>
         <created by="Debbie Lockett, Saxonica" on="2015-08-20"/>
+        <modified by="Michael Kay" on="2015-11-26" change="avoid HOF dependency in assertions"/>
         <dependency type="spec" value="XP31+ XQ31+"/>
         <test>let $r := serialize(map{'abc':23, 'xyz':49}, map{'method':'json'}) return
             translate($r,' &#x9;&#xa;&#xd;', '')</test>
@@ -1621,7 +1624,7 @@
                 <assert>ends-with($result, '}')</assert>
                 <assert-type>xs:string</assert-type>
                 <assert-count>1</assert-count>
-                <assert>parse-json($result)("abc") = 23</assert>
+                <assert>parse-json($result)?abc = 23</assert>
             </all-of>
         </result>
     </test-case>
@@ -1685,6 +1688,7 @@
         <description>Nested maps</description>
         <created by="Debbie Lockett, Saxonica" on="2015-08-20"/>
         <modified by="Debbie Lockett" on="2015-11-09" change="Adapt result assertions, bug #29267"/>
+        <modified by="Michael Kay" on="2015-11-26" change="avoid HOF dependency in assertions"/>
         <dependency type="spec" value="XP31+ XQ31+"/>
         <test>let $r :=
             serialize(map{"abc": map{"abc":map{"abc":1}, "def": map{"def":2}}},
@@ -1696,8 +1700,8 @@
                 <assert>contains($result, '"def":{"def":2}')</assert>
                 <assert>ends-with($result, '}}')</assert>
                 <assert-type>xs:string</assert-type>
-                <assert>parse-json($result)("abc")("abc")("abc") = 1</assert>
-                <assert>parse-json($result)("abc")("def")("def") = 2</assert>
+                <assert>parse-json($result)?("abc")?("abc")?("abc") = 1</assert>
+                <assert>parse-json($result)?("abc")?("def")?("def") = 2</assert>
             </all-of>
         </result>
     </test-case>
@@ -1826,6 +1830,7 @@
         <description>sparse array</description>
         <created by="Debbie Lockett, Saxonica" on="2015-08-20"/>
         <modified by="Debbie Lockett" on="2015-11-09" change="Adapt result assertions, bug #29267"/>
+        <modified by="Michael Kay" on="2015-11-26" change="avoid HOF dependency in assertions"/>
         <dependency type="spec" value="XP31+ XQ31+"/>
         <test>let $r := serialize(map{1:"a",2:"b",4:"d",10:"j",7:"g"}, map{'method':'json'}) return
             translate($r,' &#x9;&#xa;&#xd;', '')</test>
@@ -1840,7 +1845,7 @@
                 <assert>ends-with($result, '}')</assert>
                 <assert-type>xs:string</assert-type>
                 <assert-count>1</assert-count>
-                <assert>parse-json($result)("1") = "a"</assert>
+                <assert>parse-json($result)?("1") = "a"</assert>
             </all-of>
         </result>
     </test-case>
