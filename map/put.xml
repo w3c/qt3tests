@@ -109,6 +109,7 @@
     <test-case name="map-put-008">
         <description>map:put() doesn't modify its input maps</description>
         <created by="Michael Kay, Saxonica" on="2014-05-13"/>
+        <modified by="Michael Kay" on="2015-11-26" change="avoid HOF dependency in assertions"/>
         <test>let $foo := map:merge(for $i in 1 to 20 return map:entry($i, $i*$i)), $foobar := map:put($foo, 8, 63)
               return ($foobar, $foo)[2]</test>
         <result>
@@ -117,13 +118,14 @@
                 <assert-type>map(*)</assert-type>
                 <assert-type>map(xs:integer, xs:integer)</assert-type>
                 <assert>map:size($result) eq 20</assert>
-                <assert>$result(8) eq 64</assert>
+                <assert>$result?8 eq 64</assert>
             </all-of>
         </result>
     </test-case>
     <test-case name="map-put-010">
         <description>map:put() with an empty map in the input</description>
         <created by="Michael Kay, Saxonica" on="2014-05-13"/>
+        <modified by="Michael Kay" on="2015-11-26" change="avoid HOF dependency in assertions"/>
         <test>map:put(map{}, 1, 2)</test>
         <result>
             <all-of>
@@ -131,13 +133,14 @@
                 <assert-type>map(*)</assert-type>
                 <assert-type>map(xs:integer, xs:integer)</assert-type>
                 <assert>map:size($result) eq 1</assert>
-                <assert>$result(1) eq 2</assert>
+                <assert>$result?1 eq 2</assert>
             </all-of>
         </result>
     </test-case>
     <test-case name="map-put-011">
         <description>map:put() with assorted keys that compare equal</description>
         <created by="Michael Kay, Saxonica" on="2014-05-13"/>
+        <modified by="Michael Kay" on="2015-11-26" change="avoid HOF dependency in assertions"/>
         <test>map:put(map{3 : "three"},  xs:float('3.0'), "threeF")</test>
         <result>
             <all-of>
@@ -145,7 +148,7 @@
                 <assert-type>map(*)</assert-type>
                 <assert-type>map(xs:float, xs:string)</assert-type>
                 <assert>map:size($result) eq 1</assert>
-                <assert>$result(3.0) eq "threeF"</assert>
+                <assert>$result?(3.0) eq "threeF"</assert>
             </all-of>
         </result>
     </test-case>
@@ -167,6 +170,7 @@
     <test-case name="map-put-013">
         <description>map:put() with maps as values</description>
         <created by="Michael Kay, Saxonica" on="2014-05-13"/>
+        <modified by="Michael Kay" on="2015-11-26" change="avoid HOF dependency in assertions"/>
         <test>map:put(
             map:merge(for $n in 1 to 20 return map:entry($n, map{$n : string($n), $n+1 : string($n+1), $n+2 : string($n+2)})),
             21, map{21 : '21'})
@@ -174,8 +178,8 @@
         <result>
             <all-of>
                 <assert-type>map(xs:integer, map(xs:integer, xs:string))</assert-type>
-                <assert>$result(1)(3) eq "3"</assert>
-                <assert>$result(21)(21) eq "21"</assert>
+                <assert>$result?1?3 eq "3"</assert>
+                <assert>$result?21?21 eq "21"</assert>
             </all-of>
         </result>
     </test-case>
