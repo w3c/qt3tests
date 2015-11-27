@@ -130,6 +130,7 @@
         <description>A mix of empty and non-empty arrays</description>
         <created by="Josh Spiegel" on="2015-04-09"/>
         <modified by="Debbie Lockett" on="2015-05-01" change="Added XQ31+ spec dependency"/>
+        <modified by="Michael Kay" on="2015-11-27" change="Remove HOF dependency from assertion"/>
         <dependency type="spec" value="XQ31+"/>
         <test><![CDATA[
            array:join(([], [()], [], [4], [], [<e>f</e>, <!-- 234 -->], [], [] ))
@@ -138,7 +139,7 @@
             <all-of>
                 <assert-type>array(*)</assert-type>
                 <assert>array:size($result) eq 4</assert>
-                <assert>$result(3)/data() eq "f"</assert>
+                <assert>$result?3/data() eq "f"</assert>
             </all-of>
         </result>
     </test-case>
@@ -146,6 +147,7 @@
     <test-case name="array-join-211">
         <description>A mix of nesting arrays</description>
         <created by="Josh Spiegel" on="2015-04-09"/>
+        <modified by="Michael Kay" on="2015-11-27" change="Remove HOF dependency from assertion"/>
         <test><![CDATA[
            array:join((
               [[(1,2)]],
@@ -158,7 +160,7 @@
             <all-of>
                 <assert-type>array(*)</assert-type>
                 <assert>array:size($result) eq 4</assert>
-                <assert>$result(1)(1)[2] eq 2</assert>
+                <assert>$result?1?1[2] eq 2</assert>
             </all-of>
         </result>
     </test-case>

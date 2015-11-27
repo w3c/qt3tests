@@ -170,6 +170,7 @@ declare variable $deptinfo := map {
    <test-case name="d1e41054b" covers="map-constructor">
       <description>24-16b</description>
       <created by="Priscilla Walmsley" on="2015-06-10"/>
+      <modified by="Michael Kay" on="2015-11-27" change="remove HOF dependency in assertions"/>
       <environment ref="all"/>
       <test><![CDATA[
  declare variable $deptnames := map {
@@ -177,7 +178,7 @@ declare variable $deptinfo := map {
   "WMN" : "Women's",
   "MEN" : "Men's"
 };
- $deptnames("ACC")]]></test>
+ $deptnames?("ACC")]]></test>
       <result>
          <assert-deep-eq>"Accessories"</assert-deep-eq>
       </result>
@@ -185,6 +186,7 @@ declare variable $deptinfo := map {
    <test-case name="d1e41094" covers="map-constructor">
       <description>Example 24-5</description>
       <created by="Priscilla Walmsley" on="2015-06-10"/>
+      <modified by="Michael Kay" on="2015-11-27" change="remove HOF dependency"/>
       <environment ref="all"/>
       <test><![CDATA[
  declare variable $deptnames := map {
@@ -194,7 +196,7 @@ declare variable $deptinfo := map {
 };
 for $prod in doc("catalog.xml")//product
 return <product num="{$prod/number}" 
-                dept-name="{$deptnames($prod/@dept)}"/>]]></test>
+                dept-name="{$deptnames?($prod/@dept)}"/>]]></test>
       <result>
          <assert-xml><![CDATA[<product num="557" dept-name="Women's"/>
 <product num="563" dept-name="Accessories"/>
@@ -205,6 +207,7 @@ return <product num="{$prod/number}"
    <test-case name="d1e41148" covers="map-constructor">
       <description>Example 24-6</description>
       <created by="Priscilla Walmsley" on="2015-06-10"/>
+      <modified by="Michael Kay" on="2015-11-27" change="remove HOF dependency"/>
       <environment ref="all"/>
       <test><![CDATA[
 declare variable $deptinfo := map {
@@ -220,8 +223,8 @@ declare variable $deptinfo := map {
 };
 for $prod in doc("catalog.xml")//product
 return <product num="{$prod/number}"
-                dept-name="{$deptinfo($prod/@dept)("deptname")}"
-                dept-code="{$deptinfo($prod/@dept)("deptnum")}"/>]]></test>
+                dept-name="{$deptinfo?($prod/@dept)?("deptname")}"
+                dept-code="{$deptinfo?($prod/@dept)?("deptnum")}"/>]]></test>
       <result>
          <assert-xml><![CDATA[<product num="557" dept-name="Women's" dept-code="310"/>
 <product num="563" dept-name="Accessories" dept-code="300"/>
@@ -262,6 +265,7 @@ return <product num="{$prod/number}"
    <test-case name="d1e41190" covers="map-constructor">
       <description>24-11</description>
       <created by="Priscilla Walmsley" on="2015-06-10"/>
+      <modified by="Michael Kay" on="2015-11-27" change="remove HOF dependency"/>
       <environment ref="all"/>
       <test><![CDATA[
  declare variable $deptnames := map {
@@ -269,7 +273,7 @@ return <product num="{$prod/number}"
   "WMN" : "Women's",
   "MEN" : "Men's"
 };
- for $d in ("ACC","MEN") return $deptnames($d)]]></test>
+ for $d in ("ACC","MEN") return $deptnames?($d)]]></test>
       <result>
          <assert-deep-eq>("Accessories","Men's")</assert-deep-eq>
       </result>
@@ -555,6 +559,8 @@ $deptinfo instance of map(xs:string,map(xs:string,xs:anyAtomicType)) ]]></test>
    <test-case name="d1e41255c" covers="map-general">
       <description>Example xc</description>
       <created by="Priscilla Walmsley" on="2015-06-10"/>
+      <modified by="Michael Kay" on="2015-11-27" change="add HOF dependency"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
       <environment ref="all"/>
       <test><![CDATA[
 declare variable $deptinfo := map {
@@ -737,11 +743,12 @@ array:get($array-of-ints, 2)]]></test>
    <test-case name="d1e41709b" covers="array-general">
       <description>Example 24-10b</description>
       <created by="Priscilla Walmsley" on="2015-06-10"/>
+      <modified by="Michael Kay" on="2015-11-27" change="remove HOF dependency"/>
       <environment ref="all"/>
       <test><![CDATA[
  declare variable $array-of-ints := [10,20,30];
 declare variable $array-of-arrays := [ ["a","b","c"], ["d","e","f"] ]; 
-$array-of-ints(2)]]></test>
+$array-of-ints?2]]></test>
       <result>
          <assert-deep-eq>20</assert-deep-eq>
       </result>
@@ -749,11 +756,12 @@ $array-of-ints(2)]]></test>
    <test-case name="d1e41709c" covers="array-general">
       <description>Example 24-10c</description>
       <created by="Priscilla Walmsley" on="2015-06-10"/>
+      <modified by="Michael Kay" on="2015-11-27" change="remove HOF dependency"/>
       <environment ref="all"/>
       <test><![CDATA[
  declare variable $array-of-ints := [10,20,30];
 declare variable $array-of-arrays := [ ["a","b","c"], ["d","e","f"] ]; 
-let $pos := 2 return $array-of-ints($pos)]]></test>
+let $pos := 2 return $array-of-ints?($pos)]]></test>
       <result>
          <assert-deep-eq>20</assert-deep-eq>
       </result>
@@ -761,11 +769,12 @@ let $pos := 2 return $array-of-ints($pos)]]></test>
    <test-case name="d1e41709d" covers="array-general">
       <description>Example 24-10d</description>
       <created by="Priscilla Walmsley" on="2015-06-10"/>
+      <modified by="Michael Kay" on="2015-11-27" change="remove HOF dependency"/>
       <environment ref="all"/>
       <test><![CDATA[
  declare variable $array-of-ints := [10,20,30];
 declare variable $array-of-arrays := [ ["a","b","c"], ["d","e","f"] ]; 
-$array-of-arrays(2)(1)]]></test>
+$array-of-arrays?2?1]]></test>
       <result>
          <assert-deep-eq>"d"</assert-deep-eq>
       </result>
@@ -795,10 +804,11 @@ $array-of-arrays(2)(1)]]></test>
    <test-case name="d1e41799" covers="array-general">
       <description>24-34</description>
       <created by="Priscilla Walmsley" on="2015-06-10"/>
+      <modified by="Michael Kay" on="2015-11-27" change="remove HOF dependency"/>
       <environment ref="all"/>
       <test><![CDATA[
  declare variable $array-of-ints := [10,20,30];
- for $i in (2,3) return $array-of-ints($i)]]></test>
+ for $i in (2,3) return $array-of-ints?($i)]]></test>
       <result>
          <assert-deep-eq>20,30</assert-deep-eq>
       </result>
@@ -1045,7 +1055,9 @@ $array-of-arrays instance of array(array(xs:string))]]></test>
    <test-case name="d1e41709v" covers="array-general">
       <description>Example 24-10v</description>
       <created by="Priscilla Walmsley" on="2015-06-10"/>
+      <modified by="Michael Kay" on="2015-11-27" change="add HOF dependency"/>
       <environment ref="all"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
       <test><![CDATA[
  declare variable $array-of-ints := [10,20,30];
 declare variable $array-of-arrays := [ ["a","b","c"], ["d","e","f"] ]; 
@@ -2211,7 +2223,9 @@ map {
    <test-case name="d1e71246" covers="fn-random-number-generator">
       <description>random-number-generator row 1</description>
       <created by="Priscilla Walmsley" on="2015-06-10"/>
+      <modified by="Michael Kay" on="2015-11-27" change="add HOF dependency"/>
       <environment ref="all"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
       <test><![CDATA[
  random-number-generator()?number]]></test>
       <result>
@@ -2224,7 +2238,9 @@ map {
    <test-case name="d1e71254" covers="fn-random-number-generator">
       <description>random-number-generator row 2</description>
       <created by="Priscilla Walmsley" on="2015-06-10"/>
+      <modified by="Michael Kay" on="2015-11-27" change="add HOF dependency"/>
       <environment ref="all"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
       <test><![CDATA[
  random-number-generator()?permute(1 to 100)]]></test>
       <result>
@@ -2237,7 +2253,9 @@ map {
    <test-case name="d1e71262" covers="fn-random-number-generator">
       <description>random-number-generator row 3</description>
       <created by="Priscilla Walmsley" on="2015-06-10"/>
+      <modified by="Michael Kay" on="2015-11-27" change="add HOF dependency"/>
       <environment ref="all"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
       <test><![CDATA[
  for $seq in 1 to 100 return random-number-generator()?number]]></test>
       <result>
@@ -2251,7 +2269,9 @@ map {
    <test-case name="d1e71270" covers="fn-random-number-generator">
       <description>random-number-generator row 4</description>
       <created by="Priscilla Walmsley" on="2015-06-10"/>
+      <modified by="Michael Kay" on="2015-11-27" change="add HOF dependency"/>
       <environment ref="all"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
       <test><![CDATA[
  for $seq in 1 to 100 return random-number-generator($seq)?number]]></test>
       <result>
@@ -2264,7 +2284,9 @@ map {
    <test-case name="d1e71288" covers="fn-random-number-generator">
       <description>A-215</description>
       <created by="Priscilla Walmsley" on="2015-06-10"/>
+      <modified by="Michael Kay" on="2015-11-27" change="add HOF dependency"/>
       <environment ref="all"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
       <test><![CDATA[
  declare function local:random-sequence($length as xs:integer,
                                        $rng as map(xs:string, item())) {
@@ -2748,6 +2770,8 @@ document {<p>Note: Hi!. There are 4 products.</p>}
    <test-case name="d1e78807d" covers="fn-json-to-xml">
       <description>json-to-xml complex</description>
       <created by="Priscilla Walmsley" on="2015-07-14"/>
+      <modified by="Michael Kay" on="2015-11-27" change="add HOF dependency"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
       <test><![CDATA[
  json-to-xml('{
    "number": 557,
