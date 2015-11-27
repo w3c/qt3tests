@@ -75,8 +75,10 @@
       <created by="Carla Spruit" on="2014-12-23"/>
       <modified by="Michael Dyck" on="2015-01-02" change="Remove XP31+ from spec-dependency due to DirectConstructors"/>
       <modified by="Michael Kay" on="2015-01-19" change="see bug 27848"/>
+      <modified by="Michael Kay" on="2015-11-26" change="dependency (uses dynamic function call syntax)"/>
       <environment ref="employees.json"/>
-      <dependency type="spec" value="XQ31+"/>      
+      <dependency type="spec" value="XQ31+"/>
+      <dependency type="feature" value="higherOrderFunctions"/>      
       <test><![CDATA[
         let $input := json-doc('employees.json')
 				for $k in map:keys($input)
@@ -144,15 +146,16 @@
    <test-case name="UseCaseJSON-005" covers="fn-json-doc">
       <description>Grouping Queries for JSON</description>
       <created by="Carla Spruit" on="2014-12-23"/>
+      <modified by="Michael Kay" on="2015-11-26" change="avoid HOF dependency"/>
       <environment ref="sales.json"/>
       <dependency type="spec" value="XQ31+"/>            
       <test><![CDATA[
         let $products := json-doc('sales.json')?*
         return map:merge((
           for $sales in $products
-          let $pname := $sales("product")
+          let $pname := $sales?product
           group by $pname
-          return map { $pname : sum(for $s in $sales return $s("quantity")) }
+          return map { $pname : sum(for $s in $sales return $s?quantity) }
         ))    
 		  ]]></test>
       <result>
@@ -203,8 +206,10 @@
       <description>JSON to JSON Transformations</description>
       <created by="Carla Spruit" on="2014-12-23"/>
       <modified by="Michael Kay" on="2015-01-19" change="see bug 27848"/>
+      <modified by="Michael Kay" on="2015-11-26" change="dependency (uses dynamic function call syntax)"/>
       <environment ref="satellites.json"/>
       <dependency type="spec" value="XP31+ XQ31+"/>            
+      <dependency type="feature" value="higherOrderFunctions"/>      
       <test><![CDATA[
         let $sats := json-doc("satellites.json")("satellites")
         return map { "visible" : array { map:keys($sats)[$sats(.)("visible")] }, "invisible" : array { map:keys($sats)[not($sats(.)("visible"))] } }
@@ -242,7 +247,9 @@
       <description>Transforming JSON to SVG</description>
       <created by="Carla Spruit" on="2014-12-23"/>
       <modified by="Michael Dyck" on="2015-01-02" change="Remove XP31+ from spec-dependency due to VariableDeclarations"/>
+      <modified by="Michael Kay" on="2015-11-26" change="dependency (uses dynamic function call syntax)"/>
       <dependency type="spec" value="XQ31+"/>            
+      <dependency type="feature" value="higherOrderFunctions"/>      
       <test><![CDATA[   
         declare variable $data := map {
           "color" : "blue",
@@ -263,8 +270,10 @@
       <description>Transforming Arrays to HTML Tables</description>
       <created by="Carla Spruit" on="2014-12-23"/>
       <modified by="Michael Dyck" on="2015-01-02" change="Remove XP31+ from spec-dependency due to DirectConstructors"/>
+      <modified by="Michael Kay" on="2015-11-26" change="dependency (uses dynamic function call syntax)"/>
       <environment ref="table.json"/>
       <dependency type="spec" value="XQ31+"/>            
+      <dependency type="feature" value="higherOrderFunctions"/>      
       <test><![CDATA[
         <html>
 				  <body>				
@@ -318,7 +327,9 @@
    <test-case name="UseCaseJSON-012" covers="map-constructor array-curly-constructor">
       <description>JSON views in middleware</description>
       <created by="Carla Spruit" on="2014-12-23"/>
+      <modified by="Michael Kay" on="2015-11-26" change="dependency (uses dynamic function call syntax)"/>
       <dependency type="spec" value="XQ31+"/>            
+      <dependency type="feature" value="higherOrderFunctions"/>      
       <test><![CDATA[
         let $users := [map { "userid" : "W0342", "firstname" : "Walter", "lastname" : "Denisovich" }, map { "userid" : "M0535", "firstname" : "Mick", "lastname" : "Goulish" }]?* 
         let $holdings := [map { "userid" : "W0342", "ticker" : "DIS", "shares" : 153212312 }, map { "userid" : "M0535", "ticker" : "DIS", "shares" : 10 }, map { "userid" : "M0535", "ticker" : "AIG", "shares" : 23412 }]?*   
@@ -347,8 +358,10 @@
       <description>Data Transformations</description>
       <created by="Carla Spruit" on="2014-12-23"/>
       <modified by="Michael Dyck" on="2015-01-02" change="Use syntax that also works in XPath"/>
+      <modified by="Michael Kay" on="2015-11-26" change="dependency (uses dynamic function call syntax)"/>
       <environment ref="incoming.json"/>
       <dependency type="spec" value="XP31+ XQ31+"/>            
+      <dependency type="feature" value="higherOrderFunctions"/>      
       <test><![CDATA[
 				let $feed := json-doc("incoming.json")("feed")
 				  , $entry := $feed("entry")

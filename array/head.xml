@@ -66,13 +66,14 @@
     <test-case name="array-head-606">
         <description>Return head of array - nested arrays</description>
         <created by="Josh Spiegel" on="2015-04-10"/>
+        <modified by="Michael Kay" on="2015-11-26" change="remove dependency on HOF in assertions"/>
         <environment ref="array"/>
         <test>array:head([[1,[2],3], [4,5,6]])</test>
         <result>
             <all-of>
                 <assert-type>array(*)</assert-type>
                 <assert>array:size($result) eq 3</assert>
-                <assert>$result(2)(1) eq 2</assert>
+                <assert>$result?2?1 eq 2</assert>
             </all-of>
         </result>
     </test-case>
@@ -81,6 +82,7 @@
         <description>Return head of array - head is sequence, only member</description>
         <created by="Josh Spiegel" on="2015-04-10"/>
         <modified by="Debbie Lockett" on="2015-05-01" change="Added XQ31+ spec dependency"/>
+        <modified by="Michael Kay" on="2015-11-26" change="remove dependency on HOF in assertions"/>
         <dependency type="spec" value="XQ31+"/>
         <environment ref="array"/>
         <test><![CDATA[
@@ -89,7 +91,7 @@
         <result>
             <all-of>
                 <assert>count($result) eq 3</assert>
-                <assert>$result[2](2) eq "b"</assert>
+                <assert>$result[2]?2 eq "b"</assert>
             </all-of>
         </result>
     </test-case>

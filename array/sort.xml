@@ -305,6 +305,7 @@
     <test-case name="array-sort-021">
         <description>Sort NaN values.  Result may depend on the outcome of bug 29044</description>
         <created by="Josh Spiegel" on="2015-08-10"/>
+        <modified by="Michael Kay" on="2015-11-26" change="remove dependency on HOF in assertions"/>
         <modified by="Debbie Lockett" on="2015-08-12" change="Edit test to use XPath let expression syntax"/>
         <test><![CDATA[
           let $a := [xs:float("NaN"), 1],     
@@ -314,9 +315,9 @@
         ]]></test>
         <result>
             <all-of>                
-                <assert>every $x in 1 to 4 satisfies deep-equal($result($x)(1), xs:float("NaN"))</assert>
-                <assert>$result(1)(2) eq 1 and $result(2)(2) eq 1</assert>
-                <assert>$result(3)(2) eq 2 and $result(4)(2) eq 2</assert>
+                <assert>every $x in 1 to 4 satisfies deep-equal($result?($x)?(1), xs:float("NaN"))</assert>
+                <assert>$result?1?2 eq 1 and $result?2?2 eq 1</assert>
+                <assert>$result?3?2 eq 2 and $result?4?2 eq 2</assert>
             </all-of>
         </result>
     </test-case>              
