@@ -363,6 +363,21 @@
          <error code="XQST0089"/>
       </result>
    </test-case>
+   
+   <test-case name="ForExpr032">
+      <description> FLOWR expression with positional binding </description>
+      <created by="Michael Kay after Gunther Rademacher" on="2015-11-28"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+         declare variable $j external := 1;
+         for $x at $i in (2, 3)
+         where $i = $j
+         return $x
+      </test>
+      <result>
+         <assert-eq>2</assert-eq>
+      </result>
+   </test-case>
 
    <test-case name="K-ForExprWithout-1">
       <description> Syntactically invalid for-expression. </description>
