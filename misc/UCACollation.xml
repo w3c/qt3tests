@@ -32,10 +32,16 @@
   <test-case name="UCA-collation-001">
       <description>unknown fallback</description>
       <created by="John Lumley" on="2014-05-02"/>
+      <modified by="Michael Kay" on="2015-12-02" change="allow success: effect of unknown values is implementation-defined. Bug 29308."/>
       <environment ref="UCA-collation"/>
       <test>compare('abc','aBC',concat($collation,'fallback=unknown'))</test>
       <result>
-         <error code="FOCH0002"/>
+         <any-of>
+            <error code="FOCH0002"/>
+            <assert-eq>0</assert-eq>
+            <assert-eq>-1</assert-eq>
+            <assert-eq>1</assert-eq>
+         </any-of>        
       </result>
    </test-case>
    <test-case name="UCA-collation-002">
@@ -114,8 +120,10 @@
    <test-case name="UCA-collation-011">
       <description>unknown keyword - lax</description>
       <created by="John Lumley" on="2014-05-02"/>
+      <modified by="Michael Kay" on="2015-12-02" change="Bug 29308: document dependency on simple fallback behaviour"/>
       <environment ref="UCA-collation"/>
-      <test>compare('abc','aBC',concat($collation,'keyword=unknown'))</test>
+      <dependency type="feature" value="simple-uca-fallback"/>
+      <test>compare('abc','def',concat($collation,'keyword=unknown'))</test>
       <result>
          <assert-eq>-1</assert-eq>
       </result>
@@ -123,8 +131,10 @@
    <test-case name="UCA-collation-012">
       <description>unknown strength - lax</description>
       <created by="John Lumley" on="2014-05-02"/>
+      <modified by="Michael Kay" on="2015-12-02" change="Bug 29308: document dependency on simple fallback behaviour"/>
       <environment ref="UCA-collation"/>
-      <test>compare('abc','aBC',concat($collation,'strength=unknown'))</test>
+      <dependency type="feature" value="simple-uca-fallback"/>
+      <test>compare('abc','def',concat($collation,'strength=unknown'))</test>
       <result>
          <assert-eq>-1</assert-eq>
       </result>
@@ -132,8 +142,10 @@
    <test-case name="UCA-collation-013">
       <description>unknown alternate - lax</description>
       <created by="John Lumley" on="2014-05-02"/>
+      <modified by="Michael Kay" on="2015-12-02" change="Bug 29308: document dependency on simple fallback behaviour"/>
       <environment ref="UCA-collation"/>
-      <test>compare('abc','aBC',concat($collation,'alternate=unknown'))</test>
+      <dependency type="feature" value="simple-uca-fallback"/>
+      <test>compare('abc','def',concat($collation,'alternate=unknown'))</test>
       <result>
          <assert-eq>-1</assert-eq>
       </result>
@@ -141,8 +153,10 @@
    <test-case name="UCA-collation-014">
       <description>unknown backwards - lax</description>
       <created by="John Lumley" on="2014-05-02"/>
+      <modified by="Michael Kay" on="2015-12-02" change="Bug 29308: document dependency on simple fallback behaviour"/>
       <environment ref="UCA-collation"/>
-      <test>compare('abc','aBC',concat($collation,'backwards=unknown'))</test>
+      <dependency type="feature" value="simple-uca-fallback"/>
+      <test>compare('abc','def',concat($collation,'backwards=unknown'))</test>
       <result>
          <assert-eq>-1</assert-eq>
       </result>
@@ -150,8 +164,10 @@
    <test-case name="UCA-collation-015">
       <description>unknown normalization - lax</description>
       <created by="John Lumley" on="2014-05-02"/>
+      <modified by="Michael Kay" on="2015-12-02" change="Bug 29308: document dependency on simple fallback behaviour"/>
       <environment ref="UCA-collation"/>
-      <test>compare('abc','aBC',concat($collation,'normalization=unknown'))</test>
+      <dependency type="feature" value="simple-uca-fallback"/>
+      <test>compare('abc','def',concat($collation,'normalization=unknown'))</test>
       <result>
          <assert-eq>-1</assert-eq>
       </result>
@@ -159,8 +175,10 @@
    <test-case name="UCA-collation-016">
       <description>unknown caseLevel - lax</description>
       <created by="John Lumley" on="2014-05-02"/>
+      <modified by="Michael Kay" on="2015-12-02" change="Bug 29308: document dependency on simple fallback behaviour"/>
       <environment ref="UCA-collation"/>
-      <test>compare('abc','aBC',concat($collation,'caseLevel=unknown'))</test>
+      <dependency type="feature" value="simple-uca-fallback"/>
+      <test>compare('abc','def',concat($collation,'caseLevel=unknown'))</test>
       <result>
          <assert-eq>-1</assert-eq>
       </result>
@@ -168,8 +186,10 @@
    <test-case name="UCA-collation-017">
       <description>unknown caseFirst - lax</description>
       <created by="John Lumley" on="2014-05-02"/>
+      <modified by="Michael Kay" on="2015-12-02" change="Bug 29308: document dependency on simple fallback behaviour"/>
       <environment ref="UCA-collation"/>
-      <test>compare('abc','aBC',concat($collation,'caseFirst=unknown'))</test>
+      <dependency type="feature" value="simple-uca-fallback"/>
+      <test>compare('abc','def',concat($collation,'caseFirst=unknown'))</test>
       <result>
          <assert-eq>-1</assert-eq>
       </result>
@@ -177,8 +197,10 @@
    <test-case name="UCA-collation-018">
       <description>unknown hiraganaQuaternary - lax</description>
       <created by="John Lumley" on="2014-05-02"/>
+      <modified by="Michael Kay" on="2015-12-02" change="Bug 29308: document dependency on simple fallback behaviour"/>
       <environment ref="UCA-collation"/>
-      <test>compare('abc','aBC',concat($collation,'hiraganaQuaternary=unknown'))</test>
+      <dependency type="feature" value="simple-uca-fallback"/>
+      <test>compare('abc','def',concat($collation,'hiraganaQuaternary=unknown'))</test>
       <result>
          <assert-eq>-1</assert-eq>
       </result>
@@ -186,8 +208,10 @@
    <test-case name="UCA-collation-019">
       <description>unknown numeric - lax</description>
       <created by="John Lumley" on="2014-05-02"/>
+      <modified by="Michael Kay" on="2015-12-02" change="Bug 29308: document dependency on simple fallback behaviour"/>
       <environment ref="UCA-collation"/>
-      <test>compare('abc','aBC',concat($collation,'numeric=unknown'))</test>
+      <dependency type="feature" value="simple-uca-fallback"/>
+      <test>compare('abc','def',concat($collation,'numeric=unknown'))</test>
       <result>
          <assert-eq>-1</assert-eq>
       </result>
@@ -195,8 +219,10 @@
    <test-case name="UCA-collation-020">
       <description>version</description>
       <created by="John Lumley" on="2014-05-02"/>
+      <modified by="Michael Kay" on="2015-12-02" change="Bug 29308: document dependency on simple fallback behaviour"/>
       <environment ref="UCA-collation"/>
-      <test>compare('abc','aBC',concat($collation,'version=5.0'))</test>
+      <dependency type="feature" value="simple-uca-fallback"/>
+      <test>compare('abc','def',concat($collation,'version=5.0'))</test>
       <result>
          <assert-eq>-1</assert-eq>
       </result>
@@ -204,8 +230,10 @@
    <test-case name="UCA-collation-021">
       <description>version</description>
       <created by="John Lumley" on="2014-05-02"/>
+      <modified by="Michael Kay" on="2015-12-02" change="Bug 29308: document dependency on simple fallback behaviour"/>
       <environment ref="UCA-collation"/>
-      <test>compare('abc','aBC',concat($collation,'version=6.0'))</test>
+      <dependency type="feature" value="simple-uca-fallback"/>
+      <test>compare('abc','def',concat($collation,'version=6.0'))</test>
       <result>
          <assert-eq>-1</assert-eq>
       </result>
@@ -215,7 +243,9 @@
       <created by="John Lumley" on="2014-05-02"/>
       <modified by="O'Neil Delpratt" on="2014-12-16" change="Bug fix relating #27180: Change error code" />
       <modified by="O'Neil Delpratt" on="2015-07-30" change="Bug fix 28944: Change 'aBC' to 'xyz'" />
+      <modified by="Michael Kay" on="2015-12-02" change="Bug 29308: document dependency on simple fallback behaviour"/>
       <environment ref="UCA-collation"/>
+      <dependency type="feature" value="simple-uca-fallback"/>
       <test>compare('abc','xyz',concat($collation,'version=7.0'))</test>
       <result>
          <assert-eq>-1</assert-eq>
@@ -226,7 +256,9 @@
       <created by="O'Neil Delpratt" on="2014-12-18"/>
       <modified by="Christian Gruen" on="2015-01-27" change="minor version number limited to smaller value"/>
       <modified by="O'Neil Delpratt" on="2015-07-30" change="Bug fix 28944: Change aBC to xyz" />
+      <modified by="Michael Kay" on="2015-12-02" change="Bug 29308: document dependency on simple fallback behaviour"/>
       <environment ref="UCA-collation"/>
+      <dependency type="feature" value="simple-uca-fallback"/>
       <test>compare('abc','xyz',concat($collation,'version=1.255'))</test>
       <result>
          <assert-eq>-1</assert-eq>
@@ -238,7 +270,9 @@
       <created by="John Lumley" on="2014-05-02"/>
       <modified by="Michael Kay" on="2015-07-13" change="should use fallback. (But see bug 28944)"/>
       <modified by="O'Neil Delpratt" on="2015-07-30" change="Bug fix 28944: Change aBC to xyz" />
+      <modified by="Michael Kay" on="2015-12-02" change="Bug 29308: document dependency on simple fallback behaviour"/>
       <environment ref="UCA-collation"/>
+      <dependency type="feature" value="simple-uca-fallback"/>
       <test>compare('abc','xyz',concat($collation,'version=unknown'))</test>
       <result>
          <assert-eq>-1</assert-eq>
@@ -267,8 +301,10 @@
    <test-case name="UCA-reorder-codes-002">
       <description>Reorder with unknown code - lax</description>
       <created by="John Lumley" on="2014-05-02"/>
+      <modified by="Michael Kay" on="2015-12-02" change="Bug 29308: document dependency on simple fallback behaviour"/>
       <environment ref="UCA-collation.en.primary"/>
-      <test>compare('.123','123',concat($collation,'reorder=Z,digit'))</test>
+      <dependency type="feature" value="simple-uca-fallback"/>
+      <test>compare('ab123','ab456',concat($collation,'reorder=Z,digit'))</test>
       <result>
          <assert-eq>-1</assert-eq>
       </result>
@@ -276,8 +312,10 @@
    <test-case name="UCA-reorder-codes-003">
       <description>Reorder with unknown code - fallback</description>
       <created by="John Lumley" on="2014-05-02"/>
+      <modified by="Michael Kay" on="2015-12-02" change="Bug 29308: document dependency on simple fallback behaviour"/>
       <environment ref="UCA-collation.en.primary"/>
-      <test>compare('.123','123',concat($collation,'fallback=yes;reorder=Z,digit'))</test>
+      <dependency type="feature" value="simple-uca-fallback"/>
+      <test>compare('ab123','ab456',concat($collation,'fallback=yes;reorder=Z,digit'))</test>
       <result>
          <assert-eq>-1</assert-eq>
       </result>
@@ -285,408 +323,587 @@
    <test-case name="UCA-reorder-codes-004">
       <description>Reorder reorder=punct,digit</description>
       <created by="John Lumley" on="2014-05-02"/>
+      <modified by="Michael Kay" on="2015-12-02" change="Bug 29308: disallow fallback behaviour"/>
       <environment ref="UCA-collation.en.primary"/>
-      <test>compare('.123','123',concat($collation,'reorder=punct,digit'))</test>
+      <test>compare('.123','123',concat($collation,'reorder=punct,digit;fallback=no'))</test>
       <result>
-         <assert-eq>-1</assert-eq>
+         <any-of>
+            <assert-eq>-1</assert-eq>
+            <error code="FOCH0002"/>
+         </any-of> 
       </result>
    </test-case>
    <test-case name="UCA-reorder-codes-005">
       <description>Reorder reorder=digit,punct</description>
       <created by="John Lumley" on="2014-05-02"/>
+      <modified by="Michael Kay" on="2015-12-02" change="Bug 29308: disallow fallback behaviour"/>
       <environment ref="UCA-collation.en.primary"/>
-      <test>compare('.123','123',concat($collation,'reorder=digit,punct'))</test>
+      <test>compare('.123','123',concat($collation,'reorder=digit,punct;fallback=no'))</test>
       <result>
-         <assert-eq>1</assert-eq>
+         <any-of>
+            <assert-eq>1</assert-eq>
+            <error code="FOCH0002"/>
+         </any-of>       
       </result>
    </test-case>
    <test-case name="UCA-reorder-codes-006">
       <description>Reorder reorder=space,digit</description>
       <created by="John Lumley" on="2014-05-02"/>
+      <modified by="Michael Kay" on="2015-12-02" change="Bug 29308: disallow fallback behaviour"/>
       <environment ref="UCA-collation.en.primary"/>
-      <test>compare(' 123','123',concat($collation,'reorder=space,digit'))</test>
+      <test>compare(' 123','123',concat($collation,'reorder=space,digit;fallback=no'))</test>
       <result>
-         <assert-eq>-1</assert-eq>
+         <any-of>
+            <assert-eq>-1</assert-eq>
+            <error code="FOCH0002"/>
+         </any-of>
       </result>
    </test-case>
    <test-case name="UCA-reorder-codes-007">
       <description>Reorder reorder=digit,space</description>
       <created by="John Lumley" on="2014-05-02"/>
+      <modified by="Michael Kay" on="2015-12-02" change="Bug 29308: disallow fallback behaviour"/>
       <environment ref="UCA-collation.en.primary"/>
-      <test>compare(' 123','123',concat($collation,'reorder=digit,space'))</test>
+      <test>compare(' 123','123',concat($collation,'reorder=digit,space;fallback=no'))</test>
       <result>
-         <assert-eq>1</assert-eq>
+         <any-of>
+            <assert-eq>1</assert-eq>
+            <error code="FOCH0002"/>
+         </any-of>
       </result>
    </test-case>
    <test-case name="UCA-reorder-codes-008">
       <description>Reorder reorder=currency,digit</description>
       <created by="John Lumley" on="2014-05-02"/>
+      <modified by="Michael Kay" on="2015-12-02" change="Bug 29308: disallow fallback behaviour"/>
       <environment ref="UCA-collation.en.primary"/>
-      <test>compare('£123','123',concat($collation,'reorder=currency,digit'))</test>
+      <test>compare('£123','123',concat($collation,'reorder=currency,digit;fallback=no'))</test>
       <result>
-         <assert-eq>-1</assert-eq>
+         <any-of>
+            <assert-eq>-1</assert-eq>
+            <error code="FOCH0002"/>
+         </any-of>
       </result>
    </test-case>
    <test-case name="UCA-reorder-codes-009">
       <description>Reorder reorder=digit,currency</description>
       <created by="John Lumley" on="2014-05-02"/>
+      <modified by="Michael Kay" on="2015-12-02" change="Bug 29308: disallow fallback behaviour"/>
       <environment ref="UCA-collation.en.primary"/>
-      <test>compare('£123','123',concat($collation,'reorder=digit,currency'))</test>
+      <test>compare('£123','123',concat($collation,'reorder=digit,currency;fallback=no'))</test>
       <result>
-         <assert-eq>1</assert-eq>
+         <any-of>
+            <assert-eq>1</assert-eq>
+            <error code="FOCH0002"/>
+         </any-of>
       </result>
    </test-case>
    <test-case name="UCA-reorder-codes-010">
       <description>Reorder reorder=Latn,digit</description>
       <created by="John Lumley" on="2014-05-02"/>
+      <modified by="Michael Kay" on="2015-12-02" change="Bug 29308: disallow fallback behaviour"/>
       <environment ref="UCA-collation.en.primary"/>
-      <test>compare('a123','123',concat($collation,'reorder=Latn,digit'))</test>
+      <test>compare('a123','123',concat($collation,'reorder=Latn,digit;fallback=no'))</test>
       <result>
-         <assert-eq>-1</assert-eq>
+         <any-of>
+            <assert-eq>-1</assert-eq>
+            <error code="FOCH0002"/>
+         </any-of>
       </result>
    </test-case>
    <test-case name="UCA-reorder-codes-011">
       <description>Reorder reorder=digit,Latn</description>
       <created by="John Lumley" on="2014-05-02"/>
+      <modified by="Michael Kay" on="2015-12-02" change="Bug 29308: disallow fallback behaviour"/>
       <environment ref="UCA-collation.en.primary"/>
-      <test>compare('a123','123',concat($collation,'reorder=digit,Latn'))</test>
+      <test>compare('a123','123',concat($collation,'reorder=digit,Latn;fallback=no'))</test>
       <result>
-         <assert-eq>1</assert-eq>
+         <any-of>
+            <assert-eq>1</assert-eq>
+            <error code="FOCH0002"/>
+         </any-of>
       </result>
    </test-case>
 
   <test-case name="UCA-params-001">
       <description>strength Primary</description>
       <created by="John Lumley" on="2014-05-02"/>
+      <modified by="Michael Kay" on="2015-12-02" change="Bug 29308: disallow fallback behaviour"/>
       <environment ref="UCA-collation.en"/>
-      <test>compare('abc','aBC',concat($collation,'strength=primary'))</test>
+     <test>compare('abc','aBC',concat($collation,'strength=primary;fallback=no'))</test>
       <result>
-         <assert-eq>0</assert-eq>
+         <any-of>
+            <assert-eq>0</assert-eq>
+            <error code="FOCH0002"/>
+         </any-of>
       </result>
    </test-case>
    <test-case name="UCA-params-002">
       <description>strength Secondary</description>
       <created by="John Lumley" on="2014-05-02"/>
+      <modified by="Michael Kay" on="2015-12-02" change="Bug 29308: disallow fallback behaviour"/>
       <environment ref="UCA-collation.en"/>
-      <test>compare('abc','aBC',concat($collation,'strength=secondary'))</test>
+      <test>compare('abc','aBC',concat($collation,'strength=secondary;fallback=no'))</test>
       <result>
-         <assert-eq>0</assert-eq>
+         <any-of>
+            <assert-eq>0</assert-eq>
+            <error code="FOCH0002"/>
+         </any-of>
       </result>
    </test-case>
    <test-case name="UCA-params-003">
       <description>strength Tertiary</description>
       <created by="John Lumley" on="2014-05-02"/>
+      <modified by="Michael Kay" on="2015-12-02" change="Bug 29308: disallow fallback behaviour"/>
       <environment ref="UCA-collation.en"/>
-      <test>compare('abc','aBC',concat($collation,'strength=tertiary'))</test>
+      <test>compare('abc','aBC',concat($collation,'strength=tertiary;fallback=no'))</test>
       <result>
-         <assert-eq>-1</assert-eq>
+         <any-of>
+            <assert-eq>-1</assert-eq>
+            <error code="FOCH0002"/>
+         </any-of>
       </result>
    </test-case>
    <test-case name="UCA-params-004">
       <description>strength Quaternary</description>
       <created by="John Lumley" on="2014-05-02"/>
+      <modified by="Michael Kay" on="2015-12-02" change="Bug 29308: disallow fallback behaviour"/>
       <environment ref="UCA-collation.en"/>
-      <test>compare('abc','aBC',concat($collation,'strength=quaternary'))</test>
+      <test>compare('abc','aBC',concat($collation,'strength=quaternary;fallback=no'))</test>
       <result>
-         <assert-eq>-1</assert-eq>
+         <any-of>
+            <assert-eq>-1</assert-eq>
+            <error code="FOCH0002"/>
+         </any-of>
       </result>
    </test-case>
    <test-case name="UCA-params-005">
       <description>strength Identical</description>
       <created by="John Lumley" on="2014-05-02"/>
+      <modified by="Michael Kay" on="2015-12-02" change="Bug 29308: disallow fallback behaviour"/>
       <environment ref="UCA-collation.en"/>
-      <test>compare('abc','aBC',concat($collation,'strength=identical'))</test>
+      <test>compare('abc','aBC',concat($collation,'strength=identical;fallback=no'))</test>
       <result>
-         <assert-eq>-1</assert-eq>
+         <any-of>
+            <assert-eq>-1</assert-eq>
+            <error code="FOCH0002"/>
+         </any-of>
       </result>
    </test-case>
    <test-case name="UCA-params-006">
       <description>strength 1</description>
       <created by="John Lumley" on="2014-05-02"/>
+      <modified by="Michael Kay" on="2015-12-02" change="Bug 29308: disallow fallback behaviour"/>
       <environment ref="UCA-collation.en"/>
-      <test>compare('abc','aBC',concat($collation,'strength=1'))</test>
+      <test>compare('abc','aBC',concat($collation,'strength=1;fallback=no'))</test>
       <result>
-         <assert-eq>0</assert-eq>
+         <any-of>
+            <assert-eq>0</assert-eq>
+            <error code="FOCH0002"/>
+         </any-of>
       </result>
    </test-case>
    <test-case name="UCA-params-007">
       <description>strength 2</description>
       <created by="John Lumley" on="2014-05-02"/>
+      <modified by="Michael Kay" on="2015-12-02" change="Bug 29308: disallow fallback behaviour"/>
       <environment ref="UCA-collation.en"/>
-      <test>compare('abc','aBC',concat($collation,'strength=2'))</test>
+      <test>compare('abc','aBC',concat($collation,'strength=2;fallback=no'))</test>
       <result>
-         <assert-eq>0</assert-eq>
+         <any-of>
+            <assert-eq>0</assert-eq>
+            <error code="FOCH0002"/>
+         </any-of>
       </result>
    </test-case>
    <test-case name="UCA-params-008">
       <description>strength 3</description>
       <created by="John Lumley" on="2014-05-02"/>
+      <modified by="Michael Kay" on="2015-12-02" change="Bug 29308: disallow fallback behaviour"/>
       <environment ref="UCA-collation.en"/>
-      <test>compare('abc','aBC',concat($collation,'strength=3'))</test>
+      <test>compare('abc','aBC',concat($collation,'strength=3;fallback=no'))</test>
       <result>
-         <assert-eq>-1</assert-eq>
+         <any-of>
+            <assert-eq>-1</assert-eq>
+            <error code="FOCH0002"/>
+         </any-of>
       </result>
    </test-case>
    <test-case name="UCA-params-009">
       <description>strength 4</description>
       <created by="John Lumley" on="2014-05-02"/>
+      <modified by="Michael Kay" on="2015-12-02" change="Bug 29308: disallow fallback behaviour"/>
       <environment ref="UCA-collation.en"/>
-      <test>compare('abc','aBC',concat($collation,'strength=4'))</test>
+      <test>compare('abc','aBC',concat($collation,'strength=4;fallback=no'))</test>
       <result>
-         <assert-eq>-1</assert-eq>
+         <any-of>
+            <assert-eq>-1</assert-eq>
+            <error code="FOCH0002"/>
+         </any-of>
       </result>
    </test-case>
    <test-case name="UCA-params-010">
       <description>strength 5</description>
       <created by="John Lumley" on="2014-05-02"/>
+      <modified by="Michael Kay" on="2015-12-02" change="Bug 29308: disallow fallback behaviour"/>
       <environment ref="UCA-collation.en"/>
-      <test>compare('abc','aBC',concat($collation,'strength=5'))</test>
+      <test>compare('abc','aBC',concat($collation,'strength=5;fallback=no'))</test>
       <result>
-         <assert-eq>-1</assert-eq>
+         <any-of>
+            <assert-eq>-1</assert-eq>
+            <error code="FOCH0002"/>
+         </any-of>
       </result>
    </test-case>
    <test-case name="UCA-params-011">
       <description>Ignore punctuation - primary</description>
       <created by="John Lumley" on="2014-05-02"/>
+      <modified by="Michael Kay" on="2015-12-02" change="Bug 29308: disallow fallback behaviour"/>
       <environment ref="UCA-collation.en"/>
-      <test>compare('a-bc','abc',concat($collation,'strength=1;alternate=shifted'))</test>
+      <test>compare('a-bc','abc',concat($collation,'strength=1;alternate=shifted;fallback=no'))</test>
       <result>
-         <assert-eq>0</assert-eq>
+         <any-of>
+            <assert-eq>0</assert-eq>
+            <error code="FOCH0002"/>
+         </any-of>
       </result>
    </test-case>
    <test-case name="UCA-params-012">
       <description>Ignore punctuation - secondary</description>
       <created by="John Lumley" on="2014-05-02"/>
+      <modified by="Michael Kay" on="2015-12-02" change="Bug 29308: disallow fallback behaviour"/>
       <environment ref="UCA-collation.en"/>
-      <test>compare('a-bc','abc',concat($collation,'strength=2;alternate=shifted'))</test>
+      <test>compare('a-bc','abc',concat($collation,'strength=2;alternate=shifted;fallback=no'))</test>
       <result>
-         <assert-eq>0</assert-eq>
+         <any-of>
+            <assert-eq>0</assert-eq>
+            <error code="FOCH0002"/>
+         </any-of>
       </result>
    </test-case>
    <test-case name="UCA-params-013">
       <description>Ignore punctuation - tertiary</description>
       <created by="John Lumley" on="2014-05-02"/>
+      <modified by="Michael Kay" on="2015-12-02" change="Bug 29308: disallow fallback behaviour"/>
       <environment ref="UCA-collation.en"/>
-      <test>compare('a-bc','abc',concat($collation,'strength=3;alternate=shifted'))</test>
+      <test>compare('a-bc','abc',concat($collation,'strength=3;alternate=shifted;fallback=no'))</test>
       <result>
-         <assert-eq>0</assert-eq>
+         <any-of>
+            <assert-eq>0</assert-eq>
+            <error code="FOCH0002"/>
+         </any-of>
       </result>
    </test-case>
    <test-case name="UCA-params-014">
       <description>Ignore punctuation - quaternary</description>
       <created by="John Lumley" on="2014-05-02"/>
+      <modified by="Michael Kay" on="2015-12-02" change="Bug 29308: disallow fallback behaviour"/>
       <environment ref="UCA-collation.en"/>
-      <test>compare('a-bc','abc',concat($collation,'strength=4;alternate=shifted'))</test>
+      <test>compare('a-bc','abc',concat($collation,'strength=4;alternate=shifted;fallback=no'))</test>
       <result>
-         <assert-eq>-1</assert-eq>
+         <any-of>
+            <assert-eq>-1</assert-eq>
+            <error code="FOCH0002"/>
+         </any-of>
       </result>
    </test-case>
    <test-case name="UCA-params-015">
       <description>Ignore punctuation - identical</description>
       <created by="John Lumley" on="2014-05-02"/>
+      <modified by="Michael Kay" on="2015-12-02" change="Bug 29308: disallow fallback behaviour"/>
       <environment ref="UCA-collation.en"/>
-      <test>compare('a-bc','abc',concat($collation,'strength=5;alternate=shifted'))</test>
+      <test>compare('a-bc','abc',concat($collation,'strength=5;alternate=shifted;fallback=no'))</test>
       <result>
-         <assert-eq>-1</assert-eq>
+         <any-of>
+            <assert-eq>-1</assert-eq>
+            <error code="FOCH0002"/>
+         </any-of>
       </result>
    </test-case>
    <test-case name="UCA-params-016">
       <description>Check not backwards - primary</description>
       <created by="John Lumley" on="2014-05-02"/>
+      <modified by="Michael Kay" on="2015-12-02" change="Bug 29308: disallow fallback behaviour"/>
       <environment ref="UCA-collation.en"/>
-      <test>compare('pêche','péché',concat($collation,'strength=primary'))</test>
+      <test>compare('pêche','péché',concat($collation,'strength=primary;fallback=no'))</test>
       <result>
-         <assert-eq>0</assert-eq>
+         <any-of>
+            <assert-eq>0</assert-eq>
+            <error code="FOCH0002"/>
+         </any-of>
       </result>
    </test-case>
    <test-case name="UCA-params-017">
       <description>Check not backwards - secondary</description>
       <created by="John Lumley" on="2014-05-02"/>
       <environment ref="UCA-collation.en"/>
-      <test>compare('pêche','péché',concat($collation,'strength=secondary'))</test>
+      <test>compare('pêche','péché',concat($collation,'strength=secondary;fallback=no'))</test>
       <result>
-         <assert-eq>1</assert-eq>
+         <any-of>
+            <assert-eq>1</assert-eq>
+            <error code="FOCH0002"/>
+         </any-of>
       </result>
    </test-case>
    <test-case name="UCA-params-018">
       <description>Check backwards - primary</description>
       <created by="John Lumley" on="2014-05-02"/>
+      <modified by="Michael Kay" on="2015-12-02" change="Bug 29308: disallow fallback behaviour"/>
       <environment ref="UCA-collation.en"/>
-      <test>compare('pêche','péché',concat($collation,'strength=secondary;backwards=yes'))</test>
+      <test>compare('pêche','péché',concat($collation,'strength=secondary;backwards=yes;fallback=no'))</test>
       <result>
-         <assert-eq>-1</assert-eq>
+         <any-of>
+            <assert-eq>-1</assert-eq>
+            <error code="FOCH0002"/>
+         </any-of>
       </result>
    </test-case>
    <test-case name="UCA-params-019">
       <description>Check backwards - secondary</description>
       <created by="John Lumley" on="2014-05-02"/>
+      <modified by="Michael Kay" on="2015-12-02" change="Bug 29308: disallow fallback behaviour"/>
       <environment ref="UCA-collation.en"/>
-      <test>compare('pêche','péché',concat($collation,'strength=secondary;backwards=no'))</test>
+      <test>compare('pêche','péché',concat($collation,'strength=secondary;backwards=no;fallback=no'))</test>
       <result>
-         <assert-eq>1</assert-eq>
+         <any-of>
+            <assert-eq>1</assert-eq>
+            <error code="FOCH0002"/>
+         </any-of>
       </result>
    </test-case>
    <test-case name="UCA-params-020">
       <description>Check normalization - no</description>
       <created by="John Lumley" on="2014-05-02"/>
+      <modified by="Michael Kay" on="2015-12-02" change="Bug 29308: disallow fallback behaviour"/>
       <environment ref="UCA-collation.en"/>
-      <test>compare('pêche','péché',concat($collation,'strength=secondary;normalization=no'))</test>
+      <test>compare('pêche','péché',concat($collation,'strength=secondary;normalization=no;fallback=no'))</test>
       <result>
-         <assert-eq>1</assert-eq>
+         <any-of>
+            <assert-eq>1</assert-eq>
+            <error code="FOCH0002"/>
+         </any-of>
       </result>
    </test-case>
    <test-case name="UCA-params-021">
       <description>Check normalization - yes</description>
       <created by="John Lumley" on="2014-05-02"/>
+      <modified by="Michael Kay" on="2015-12-02" change="Bug 29308: disallow fallback behaviour"/>
       <environment ref="UCA-collation.en"/>
-      <test>compare('pêche','péché',concat($collation,'strength=secondary;normalization=yes'))</test>
+      <test>compare('pêche','péché',concat($collation,'strength=secondary;normalization=yes;fallback=no'))</test>
       <result>
-         <assert-eq>1</assert-eq>
+         <any-of>
+            <assert-eq>1</assert-eq>
+            <error code="FOCH0002"/>
+         </any-of>
       </result>
    </test-case>
    <test-case name="UCA-params-022">
       <description>Check caseLevel - primary</description>
       <created by="John Lumley" on="2014-05-02"/>
+      <modified by="Michael Kay" on="2015-12-02" change="Bug 29308: disallow fallback behaviour"/>
       <environment ref="UCA-collation.en"/>
-      <test>compare('Epee','épee',concat($collation,'strength=primary;caseLevel=yes'))</test>
+      <test>compare('Epee','épee',concat($collation,'strength=primary;caseLevel=yes;fallback=no'))</test>
       <result>
-         <assert-eq>1</assert-eq>
+         <any-of>
+            <assert-eq>1</assert-eq>
+            <error code="FOCH0002"/>
+         </any-of>
       </result>
    </test-case>
    <test-case name="UCA-params-023">
       <description>Check caseLevel - primary</description>
       <created by="John Lumley" on="2014-05-02"/>
+      <modified by="Michael Kay" on="2015-12-02" change="Bug 29308: disallow fallback behaviour"/>
       <environment ref="UCA-collation.en"/>
-      <test>compare('Epee','épee',concat($collation,'strength=primary;caseLevel=no'))</test>
+      <test>compare('Epee','épee',concat($collation,'strength=primary;caseLevel=no;fallback=no'))</test>
       <result>
-         <assert-eq>0</assert-eq>
+         <any-of>
+            <assert-eq>0</assert-eq>
+            <error code="FOCH0002"/>
+         </any-of>
       </result>
    </test-case>
    <test-case name="UCA-params-024">
       <description>Check caseLevel - primary</description>
       <created by="John Lumley" on="2014-05-02"/>
+      <modified by="Michael Kay" on="2015-12-02" change="Bug 29308: disallow fallback behaviour"/>
       <environment ref="UCA-collation.en"/>
-      <test>compare('Epee','Épee',concat($collation,'strength=primary;caseLevel=yes'))</test>
+      <test>compare('Epee','Épee',concat($collation,'strength=primary;caseLevel=yes;fallback=no'))</test>
       <result>
-         <assert-eq>0</assert-eq>
+         <any-of>
+            <assert-eq>0</assert-eq>
+            <error code="FOCH0002"/>
+         </any-of>
       </result>
    </test-case>
    <test-case name="UCA-params-025">
       <description>Check caseLevel - primary</description>
       <created by="John Lumley" on="2014-05-02"/>
+      <modified by="Michael Kay" on="2015-12-02" change="Bug 29308: disallow fallback behaviour"/>
       <environment ref="UCA-collation.en"/>
-      <test>compare('Epee','Épee',concat($collation,'strength=primary;caseLevel=no'))</test>
+      <test>compare('Epee','Épee',concat($collation,'strength=primary;caseLevel=no;fallback=no'))</test>
       <result>
-         <assert-eq>0</assert-eq>
+         <any-of>
+            <assert-eq>0</assert-eq>
+            <error code="FOCH0002"/>
+         </any-of>
       </result>
    </test-case>
    <test-case name="UCA-params-026">
       <description>Check caseLevel - secondary - no effect</description>
       <created by="John Lumley" on="2014-05-02"/>
+      <modified by="Michael Kay" on="2015-12-02" change="Bug 29308: disallow fallback behaviour"/>
       <environment ref="UCA-collation.en"/>
-      <test>compare('Epee','épee',concat($collation,'strength=secondary;caseLevel=yes'))</test>
+      <test>compare('Epee','épee',concat($collation,'strength=secondary;caseLevel=yes;fallback=no'))</test>
       <result>
-         <assert-eq>-1</assert-eq>
+         <any-of>
+            <assert-eq>-1</assert-eq>
+            <error code="FOCH0002"/>
+         </any-of>
       </result>
    </test-case>
    <test-case name="UCA-params-027">
       <description>Check caseLevel - secondary - no effect</description>
       <created by="John Lumley" on="2014-05-02"/>
+      <modified by="Michael Kay" on="2015-12-02" change="Bug 29308: disallow fallback behaviour"/>
       <environment ref="UCA-collation.en"/>
-      <test>compare('Epee','épee',concat($collation,'strength=secondary;caseLevel=no'))</test>
+      <test>compare('Epee','épee',concat($collation,'strength=secondary;caseLevel=no;fallback=no'))</test>
       <result>
-         <assert-eq>-1</assert-eq>
+         <any-of>
+            <assert-eq>-1</assert-eq>
+            <error code="FOCH0002"/>
+         </any-of>
       </result>
    </test-case>
    <test-case name="UCA-params-028">
       <description>Check caseLevel - secondary - no effect</description>
       <created by="John Lumley" on="2014-05-02"/>
+      <modified by="Michael Kay" on="2015-12-02" change="Bug 29308: disallow fallback behaviour"/>
       <environment ref="UCA-collation.en"/>
-      <test>compare('Epee','Épee',concat($collation,'strength=secondary;caseLevel=yes'))</test>
+      <test>compare('Epee','Épee',concat($collation,'strength=secondary;caseLevel=yes;fallback=no'))</test>
       <result>
-         <assert-eq>-1</assert-eq>
+         <any-of>
+            <assert-eq>-1</assert-eq>
+            <error code="FOCH0002"/>
+         </any-of>
       </result>
    </test-case>
    <test-case name="UCA-params-029">
       <description>Check caseLevel - secondary - no effect</description>
       <created by="John Lumley" on="2014-05-02"/>
+      <modified by="Michael Kay" on="2015-12-02" change="Bug 29308: disallow fallback behaviour"/>
       <environment ref="UCA-collation.en"/>
-      <test>compare('Epee','Épee',concat($collation,'strength=secondary;caseLevel=no'))</test>
+      <test>compare('Epee','Épee',concat($collation,'strength=secondary;caseLevel=no;fallback=no'))</test>
       <result>
-         <assert-eq>-1</assert-eq>
+         <any-of>
+            <assert-eq>-1</assert-eq>
+            <error code="FOCH0002"/>
+         </any-of>
       </result>
    </test-case>
    <test-case name="UCA-params-030">
       <description>Check caseFirst - upper</description>
       <created by="John Lumley" on="2014-05-02"/>
+      <modified by="Michael Kay" on="2015-12-02" change="Bug 29308: disallow fallback behaviour"/>
       <environment ref="UCA-collation.en"/>
-      <test>compare('ab','Ab',concat($collation,'caseFirst=upper'))</test>
+      <test>compare('ab','Ab',concat($collation,'caseFirst=upper;fallback=no'))</test>
       <result>
-         <assert-eq>1</assert-eq>
+         <any-of>
+            <assert-eq>1</assert-eq>
+            <error code="FOCH0002"/>
+         </any-of>
       </result>
    </test-case>
    <test-case name="UCA-params-031">
       <description>Check caseFirst - lower</description>
       <created by="John Lumley" on="2014-05-02"/>
+      <modified by="Michael Kay" on="2015-12-02" change="Bug 29308: disallow fallback behaviour"/>
       <environment ref="UCA-collation.en"/>
-      <test>compare('ab','Ab',concat($collation,'caseFirst=lower'))</test>
+      <test>compare('ab','Ab',concat($collation,'caseFirst=lower;fallback=no'))</test>
       <result>
-         <assert-eq>-1</assert-eq>
+         <any-of>
+            <assert-eq>-1</assert-eq>
+            <error code="FOCH0002"/>
+         </any-of>
       </result>
    </test-case>
    <test-case name="UCA-params-032">
       <description>Check numeric - yes</description>
       <created by="John Lumley" on="2014-05-02"/>
+      <modified by="Michael Kay" on="2015-12-02" change="Bug 29308: disallow fallback behaviour"/>
       <environment ref="UCA-collation.en"/>
-      <test>compare('ab1a','ab12a',concat($collation,'numeric=yes'))</test>
+      <test>compare('ab1a','ab12a',concat($collation,'numeric=yes;fallback=no'))</test>
       <result>
-         <assert-eq>-1</assert-eq>
+         <any-of>
+            <assert-eq>-1</assert-eq>
+            <error code="FOCH0002"/>
+         </any-of>
       </result>
    </test-case>
    <test-case name="UCA-params-033">
       <description>Check numeric - no</description>
       <created by="John Lumley" on="2014-05-02"/>
+      <modified by="Michael Kay" on="2015-12-02" change="Bug 29308: disallow fallback behaviour"/>
       <environment ref="UCA-collation.en"/>
-      <test>compare('ab1a','ab12a',concat($collation,'numeric=no'))</test>
+      <test>compare('ab1a','ab12a',concat($collation,'numeric=no;fallback=no'))</test>
       <result>
-         <assert-eq>1</assert-eq>
+         <any-of>
+            <assert-eq>1</assert-eq>
+            <error code="FOCH0002"/>
+         </any-of>
       </result>
    </test-case>
 
   <test-case name="UCA-misc-lang-001">
       <description>Check fr accent - primary</description>
       <created by="John Lumley" on="2014-05-02"/>
-      <environment ref="UCA-collation"/>
-      <test>compare('pêche','péché',concat($collation,'strength=primary;lang=fr'))</test>
+     <modified by="Michael Kay" on="2015-12-02" change="Bug 29308: disallow fallback behaviour"/>
+     <environment ref="UCA-collation"/>
+     <test>compare('pêche','péché',concat($collation,'strength=primary;lang=fr;fallback=no'))</test>
       <result>
-         <assert-eq>0</assert-eq>
+         <any-of>
+            <assert-eq>0</assert-eq>
+            <error code="FOCH0002"/>
+         </any-of>
       </result>
    </test-case>
    <test-case name="UCA-misc-lang-002">
       <description>Check fr accent - secondary</description>
       <created by="John Lumley" on="2014-05-02"/>
+      <modified by="Michael Kay" on="2015-12-02" change="Bug 29308: disallow fallback behaviour"/>
       <environment ref="UCA-collation"/>
-      <test>compare('pêche','péché',concat($collation,'strength=secondary;lang=fr'))</test>
+      <test>compare('pêche','péché',concat($collation,'strength=secondary;lang=fr;fallback=no'))</test>
       <result>
-         <assert-eq>1</assert-eq>
+         <any-of>
+            <assert-eq>1</assert-eq>
+            <error code="FOCH0002"/>
+         </any-of>
       </result>
    </test-case>
    <test-case name="UCA-misc-lang-003">
       <description>Check fr-CA accent - secondary</description>
       <created by="John Lumley" on="2014-05-02"/>
+      <modified by="Michael Kay" on="2015-12-02" change="Bug 29308: disallow fallback behaviour"/>
       <environment ref="UCA-collation"/>
-      <test>compare('pêche','péché',concat($collation,'strength=secondary;lang=fr-CA'))</test>
+      <test>compare('pêche','péché',concat($collation,'strength=secondary;lang=fr-CA;fallback=no'))</test>
       <result>
-         <assert-eq>-1</assert-eq>
+         <any-of>
+            <assert-eq>-1</assert-eq>
+            <error code="FOCH0002"/>
+         </any-of>
       </result>
    </test-case>
    <test-case name="UCA-misc-lang-004">
       <description>Check en-US accent - primary</description>
       <created by="John Lumley" on="2014-05-02"/>
+      <modified by="Michael Kay" on="2015-12-02" change="Bug 29308: disallow fallback behaviour"/>
       <environment ref="UCA-collation"/>
-      <test>compare('pêche','péché',concat($collation,'strength=primary;lang=en-US'))</test>
+      <test>compare('pêche','péché',concat($collation,'strength=primary;lang=en-US;fallback=no'))</test>
       <result>
-         <assert-eq>0</assert-eq>
+         <any-of>
+            <assert-eq>0</assert-eq>
+            <error code="FOCH0002"/>
+         </any-of>
       </result>
    </test-case>
 

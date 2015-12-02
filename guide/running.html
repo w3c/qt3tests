@@ -301,7 +301,18 @@ section of the test metadata list features or properties that must be present fo
   <td>non_unicode_codepoint_collation</td>
   <td>11</td>
   <td>Indicates that the test uses a collation URI other than those which the specification requires every processor to support</td>
-</tr>  
+</tr> 
+  <tr>
+    <td>simple-uca-fallback</td>
+    <td>50</td>
+    <td>Indicates that the test uses a UCA collation URI with the option fallback=yes (or fallback omitted), 
+    and the test results assume that the implementation
+    falls back to a "sensible" default if UCA collation is not supported. The only assumptions made about what constitutes a "sensible"
+    default are that the sequences 0-9, a-z, and A-Z are collated as in codepoint collation; the strings to be sorted will not contain
+    any characters outside these ranges, and will not require characters in one of these ranges to be compared with characters in another.
+    For example, a sensible default would sort "abc" before "def"; a fallback collation that sorted "def" before "abc", while legal
+    according to the language specification, would not satisfy this dependency.</td>
+  </tr>   
 </tbody>
 </table>
   
