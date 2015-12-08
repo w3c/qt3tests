@@ -152,12 +152,17 @@
    <test-case name="Serialization-text-11" >
       <description> Ensure a new-line character is NOT escaped. </description>
       <created by="Michael Kay" on="2015-04-09"/>
+      <modified by="O'Neil Delpratt" on="2015-12-08" change="Bug fix relating to #29249" />
       <test><![CDATA[
         declare option Q{http://www.w3.org/2010/xslt-xquery-serialization}method  "text";
         "a&#xD;aa&#xD;&#xA;a&#xD;&#xA;"]]></test>
-      <result>
-        <serialization-matches><![CDATA[^a\raa\r?\na\r?\n$]]></serialization-matches>
-      </result>
+        <result>
+            <any-of>
+                <serialization-matches>^a\raa\r\na\r\n$</serialization-matches>
+                <serialization-matches>^a\raa\r\r\na\r\r\n$</serialization-matches>
+                <serialization-matches>^a\raa\r\ra\r\r$</serialization-matches>
+            </any-of>
+        </result>
    </test-case>
    
    <test-case name="Serialization-text-13" >
