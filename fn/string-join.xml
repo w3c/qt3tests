@@ -316,6 +316,48 @@
          <assert-string-value>12345</assert-string-value>
       </result>
    </test-case>
+   
+   <test-case name="fn-string-join-29" covers="fn-string-join">
+      <description> First arg is xs:anyAtomicType* in 3.1 (bug 29184)</description>
+      <created by="Michael Kay" on="2015-12-03"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>fn:string-join((current-date(), current-time(), current-dateTime()), '#')</test>
+      <result>
+         <assert>matches($result, '.+#.+#.+')</assert>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-string-join-30" covers="fn-string-join">
+      <description> First arg is xs:anyAtomicType* in 3.1 (bug 29184)</description>
+      <created by="Michael Kay" on="2015-12-03"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>fn:string-join((xs:string#1, xs:gYear#1, xs:float#1, xs:double#1, xs:integer#1)!'1900', ',')</test>
+      <result>
+         <assert-string-value>1900,1900,1900,1900,1900</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-string-join-31" covers="fn-string-join">
+      <description> First arg is xs:anyAtomicType* in 3.1 (bug 29184)</description>
+      <created by="Michael Kay" on="2015-12-03"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>fn:string-join(string-to-codepoints('abc'), '-')</test>
+      <result>
+         <assert-string-value>97-98-99</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-string-join-32" covers="fn-string-join">
+      <description> First arg is xs:anyAtomicType* in 3.1 (bug 29184)</description>
+      <created by="Michael Kay" on="2015-12-03"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[
+         let $x := <a xmlns="http://sj31/"><b/><c/><d/></a> return fn:string-join($x//*/node-name(), '-')
+      ]]></test>
+      <result>
+         <assert-string-value>b-c-d</assert-string-value>
+      </result>
+   </test-case>
 
    <test-case name="K-StringJoinFunc-1">
       <description> A test whose essence is: `string-join("a string")`. </description>
