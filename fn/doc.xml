@@ -298,19 +298,14 @@
    <test-case name="fn-doc-32">
       <description> Open an XML document that has ISO-8859-1 as encoding. </description>
       <created by="Frans Englich" on="2008-01-15"/>
+      <modified by="Michael Kay" on="2015-12-03" change="fix whitespace problems in expected result"/>
       <environment>
          <source file="id/Books2.xml" uri="id/Books2.xml"/>
          <param name="uri" as="xs:string" select="'id/Books2.xml'"/>
       </environment>
-      <test>string(fn:doc($uri)), string(exactly-one(fn:doc($uri)/*))</test>
+      <test>normalize-space(string(fn:doc($uri))), normalize-space(string(exactly-one(fn:doc($uri)/*)))</test>
       <result>
-         <assert-string-value>
-            Everyday Italian
-            Giada De Laurentiis
-            
-            Everyday Italian
-            Giada De Laurentiis
-         </assert-string-value>
+         <assert-deep-eq>"Everyday Italian Giada De Laurentiis", "Everyday Italian Giada De Laurentiis"</assert-deep-eq>
       </result>
    </test-case>
    
