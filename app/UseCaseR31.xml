@@ -954,7 +954,8 @@ local:deep-put(json-doc("http://www.w3.org/qt3/app/UseCaseR31/bookinfo-json"), "
       <description>The following query groups by state, then by category,
           then lists individual products and the sales associated with each.</description>
       <created by="Jonathan Robie, EMC Corporation" on="2014-04-24"/>
-      <modified by="O'Neil Delpratt" on="2015-09-17" change="Added the XQuery 3.1 Use case to QT3. Also had to change how the JSON document is parsed " />
+      <modified by="O'Neil Delpratt" on="2015-09-17" change="Added the XQuery 3.1 Use case to QT3. Also had to change how the JSON document is parsed" />
+      <modified  by="O'Neil Delpratt" on="2016-01-06" change="Bug fix relating to issue #29337: Added order by clauses" />
        <dependency type="spec" value="XQ31+"/>
       <test><![CDATA[
       declare variable $storesVar := array { unparsed-text-lines("UseCaseR31/stores.json") ! parse-json(.) };
@@ -964,12 +965,14 @@ local:deep-put(json-doc("http://www.w3.org/qt3/app/UseCaseR31/bookinfo-json"), "
   for $store in $storesVar ? *
   let $state := $store?state
   group by $state
+  order by $state
   return
     map {
       $state :  array {
         for $product in $productsVar ? *
         let $category := $product?category
         group by $category
+        order by $category
         return
           map {
             $category :  map:merge((
