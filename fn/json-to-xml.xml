@@ -651,15 +651,17 @@
       <created by="Michael Kay" on="2015-03-10"/>
       <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <modified by="Michael Kay" on="2015-09-11" change="Fix according to bug 28997"/>
+      <modified by="Josh Spiegel" on="2016-01-11" change="bug 28997"/>
       <environment ref="json-ns"/>
       <dependency type="feature" value="schemaImport"/>
       <dependency type="spec" value="XP31+"/>
       <test>
-         fn:json-to-xml('{"a":3, "b":true, "c":null, "d":[], "e":[1E2, ""], "f":{"1":true, "2":false}, "g\n":"h\n"}',
-            map{'validate':true()})
+         (fn:json-to-xml('{"a":3, "b":true, "c":null, "d":[], "e":[1E2, ""], "f":{"1":true, "2":false}, "g\n":"h\n"}',
+            map{'validate':true()}))
+         instance of document-node(schema-element(Q{http://www.w3.org/2005/xpath-functions}map))
       </test>
       <result>
-         <assert-type>document-node(schema-element(Q{http://www.w3.org/2005/xpath-functions}map))</assert-type>
+         <assert-true/>
       </result>
    </test-case>
 
@@ -667,15 +669,17 @@
       <description>Validate a more complex example. Test created from json-to-xml-037 in accordance to bug 28997</description>
       <created by="Michael Kay" on="2015-03-10"/>
       <modified by="O'Neil Delpratt" on="2015-09-11" change="Added test case according to bug 28997"/>
+      <modified by="Josh Spiegel" on="2016-01-11" change="bug 28997"/>
       <dependency type="feature" value="schemaImport"/>
       <dependency type="spec" value="XQ31+"/>
       <test><![CDATA[
          import schema namespace j="http://www.w3.org/2005/xpath-functions";
-         fn:json-to-xml('{"a":3, "b":true, "c":null, "d":[], "e":[1E2, ""], "f":{"1":true, "2":false}, "g\n":"h\n"}',
-            map{'validate':true()})
+         (fn:json-to-xml('{"a":3, "b":true, "c":null, "d":[], "e":[1E2, ""], "f":{"1":true, "2":false}, "g\n":"h\n"}',
+            map{'validate':true()}))
+         instance of document-node(schema-element(Q{http://www.w3.org/2005/xpath-functions}map))
       ]]></test>
       <result>
-         <assert-type>document-node(schema-element(Q{http://www.w3.org/2005/xpath-functions}map))</assert-type>
+         <assert-true/>
       </result>
    </test-case>
    
@@ -684,15 +688,17 @@
       <created by="Michael Kay" on="2015-03-10"/>
       <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <modified by="Michael Kay" on="2015-07-17" change="Change keyword unescape->escape"/>
+      <modified by="Josh Spiegel" on="2016-01-11" change="bug 28997"/>
       <environment ref="json-ns"/>
       <dependency type="feature" value="schemaImport"/>
       <dependency type="spec" value="XP31+"/>
       <test>
-         fn:json-to-xml('{"a":3, "b":true, "c":null, "d":[], "e":[1E2, ""], "f":{"1":true, "2":false}, "g\n":"h\n"}', 
-            map{'validate':true(), 'escape':true()})
+         (fn:json-to-xml('{"a":3, "b":true, "c":null, "d":[], "e":[1E2, ""], "f":{"1":true, "2":false}, "g\n":"h\n"}', 
+            map{'validate':true(), 'escape':true()})) instance of 
+         document-node(schema-element(Q{http://www.w3.org/2005/xpath-functions}map))
       </test>
       <result>
-         <assert-type>document-node(schema-element(Q{http://www.w3.org/2005/xpath-functions}map))</assert-type>
+         <assert-true/>
       </result>
    </test-case>
 
@@ -700,15 +706,17 @@
       <description>Validate a more complex example</description>
       <created by="Michael Kay" on="2015-03-10"/>
       <modified by="O'Neil Delpratt" on="2015-09-11" change="Added test case according to bug 28997"/>
+      <modified by="Josh Spiegel" on="2016-01-11" change="bug 28997"/>
       <dependency type="feature" value="schemaImport"/>
       <dependency type="spec" value="XQ31+"/>
       <test><![CDATA[
          import schema namespace j="http://www.w3.org/2005/xpath-functions";
-         fn:json-to-xml('{"a":3, "b":true, "c":null, "d":[], "e":[1E2, ""], "f":{"1":true, "2":false}, "g\n":"h\n"}',
-            map{'validate':true(), 'escape':true()})
+         (fn:json-to-xml('{"a":3, "b":true, "c":null, "d":[], "e":[1E2, ""], "f":{"1":true, "2":false}, "g\n":"h\n"}',
+            map{'validate':true(), 'escape':true()})) instance of 
+         document-node(schema-element(Q{http://www.w3.org/2005/xpath-functions}map))
       ]]></test>
       <result>
-         <assert-type>document-node(schema-element(Q{http://www.w3.org/2005/xpath-functions}map))</assert-type>
+         <assert-true/>
       </result>
    </test-case>
    

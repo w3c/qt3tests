@@ -956,6 +956,7 @@ local:deep-put(json-doc("http://www.w3.org/qt3/app/UseCaseR31/bookinfo-json"), "
       <created by="Jonathan Robie, EMC Corporation" on="2014-04-24"/>
       <modified by="O'Neil Delpratt" on="2015-09-17" change="Added the XQuery 3.1 Use case to QT3. Also had to change how the JSON document is parsed" />
       <modified  by="O'Neil Delpratt" on="2016-01-06" change="Bug fix relating to issue #29337: Added order by clauses" />
+      <modified  by="Josh Spiegel" on="2016-01-11" change="Bug fix relating to issue #29337: Added order by clauses" />
        <dependency type="spec" value="XQ31+"/>
       <test><![CDATA[
       declare variable $storesVar := array { unparsed-text-lines("UseCaseR31/stores.json") ! parse-json(.) };
@@ -987,7 +988,7 @@ local:deep-put(json-doc("http://www.w3.org/qt3/app/UseCaseR31/bookinfo-json"), "
     }
 }]]></test>
       <result>
-         <assert-deep-eq>[map{"CA":[map{"kitchen":map{"broiler":20,"toaster":150}},map{"clothes":map{"socks":510}}]},map{"MA":[map{"kitchen":map{"toaster":50,"blender":250}},map{"clothes":map{"shirt":10}}]}]</assert-deep-eq>
+         <assert-deep-eq>[map{"CA":[map{"clothes":map{"socks":510}},map{"kitchen":map{"broiler":20,"toaster":150}}]},map{"MA":[map{"clothes":map{"shirt":10}},map{"kitchen":map{"toaster":50,"blender":250}}]}]</assert-deep-eq>
       </result>
    </test-case>
 
