@@ -660,6 +660,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
         <!-- Test attempts to check that caching has actually taken place, but fails to do so 
             (static variable is re-evaluated at run-time)  -->
         <created by="Debbie Lockett" on="2015-03-11"/>
+        <modified by="Michael Kay" on="2015-12-14" change="result now indicates whether caching took place"/>
         <dependency type="spec" value="XQ31+"/>
         <test><![CDATA[
             declare variable $xsl as xs:string :="<xsl:stylesheet version='3.0' xmlns:xsl='http://www.w3.org/1999/XSL/Transform'>
@@ -670,10 +671,13 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
             </xsl:stylesheet>";  
             let $output1 := fn:transform(map {"stylesheet-text" : $xsl, "source-node" : parse-xml("<doc1/>"), "cache":true()})?output//x
             let $output2 := fn:transform(map {"stylesheet-text" : $xsl, "source-node" : parse-xml("<doc2/>")})?output//x
-            return concat(string($output1), ' ', string($output2))
+            return $output1 eq $output2
             ]]></test>
         <result>
-            <assert>true()</assert> 
+            <any-of>
+                <assert>true()</assert>  <!-- caching seems to have taken place -->
+                <assert>false()</assert> <!-- caching seems not to have taken place -->
+            </any-of>
         </result>
     </test-case>
     
