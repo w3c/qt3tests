@@ -274,6 +274,86 @@
          <error code="XPDY0002"/>
       </result>
    </test-case>
+   
+   <test-case name="fn-lang-23">
+      <description> Evaluation of the fn:lang function using one part of a three-part tag</description>
+      <created by="Michael Kay" on="2016-01-11"/>
+      <environment ref="lang"/>
+      <test>fn:lang("de",fn:exactly-one(/langs/para[4]))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-lang-24">
+      <description> Evaluation of the fn:lang function using two parts of a three-part tag</description>
+      <created by="Michael Kay" on="2016-01-11"/>
+      <environment ref="lang"/>
+      <test>fn:lang("de-DE",fn:exactly-one(/langs/para[4]))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-lang-25">
+      <description> Evaluation of the fn:lang function using two parts of a three-part tag ignoring case</description>
+      <created by="Michael Kay" on="2016-01-11"/>
+      <environment ref="lang"/>
+      <test>fn:lang("DE-de",fn:exactly-one(/langs/para[4]))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-lang-26">
+      <description> Evaluation of the fn:lang function using three parts of a three-part tag</description>
+      <created by="Michael Kay" on="2016-01-11"/>
+      <environment ref="lang"/>
+      <test>fn:lang("de-DE-1996",fn:exactly-one(/langs/para[4]))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-lang-27">
+      <description> Evaluation of the fn:lang function using three parts of a three-part tag, no match</description>
+      <created by="Michael Kay" on="2016-01-11"/>
+      <environment ref="lang"/>
+      <test>fn:lang("de-DE-1998",fn:exactly-one(/langs/para[4]))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-lang-28">
+      <description> Evaluation of the fn:lang function using leading substring of a three-part tag, no match</description>
+      <created by="Michael Kay" on="2016-01-11"/>
+      <environment ref="lang"/>
+      <test>fn:lang("de-D",fn:exactly-one(/langs/para[4]))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-lang-29">
+      <description> Evaluation of the fn:lang function using leading substring of a three-part tag, no match</description>
+      <created by="Michael Kay" on="2016-01-11"/>
+      <environment ref="lang"/>
+      <test>fn:lang("de-DE-",fn:exactly-one(/langs/para[4]))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-lang-30">
+      <description> Evaluation of the fn:lang function using four parts of a three-part tag, no match</description>
+      <created by="Michael Kay" on="2016-01-11"/>
+      <environment ref="lang"/>
+      <test>fn:lang("de-DE-1996-x",fn:exactly-one(/langs/para[4]))</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
 
    <test-case name="K-NodeLangFunc-1">
       <description> A test whose essence is: `lang()`. </description>
