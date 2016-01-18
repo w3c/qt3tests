@@ -12,7 +12,8 @@
 <!--   2013-01-13    Revision (MHK)                                          -->
 <!--   2013-06-12    Revision - Changes relating to bug issue #21568 (OND)   -->
 <!--   2013-06-24    Revision - Changes relating to bug issue #22796 (OND)   -->
-<!--   2013-11-22    Revision - Updates relating to XQueryX reporting OND)   -->
+<!--   2013-11-22    Revision - Updates relating to XQueryX reporting (OND)   -->
+<!--   2016-01-18    Revision - Added depedency report including combinations (OND & Kay)   -->
 <!--                                                                         -->
 
 
@@ -164,6 +165,12 @@
             </blockquote>
 
             <hr/>
+            
+            
+           
+            
+            
+            
 
             <!-- Generate a list of implementations in this report -->
 
@@ -212,19 +219,31 @@
             
             <!-- Generate the detailed results -->
            
-            <xsl:apply-templates mode="detail"/>        
+            <xsl:apply-templates mode="detail"/>  
+            
+            <blockquote>
+               <b>Sub-Sections:</b><br/>
+               <a href="#optFeatures">Optional Features</a> | <a href="#optComboFeatures">Combination of Optional Features</a> | <a href="#spec31Facilities">New 3.1 Specification Facilities</a>
+               
+            </blockquote>
             
             <!-- Generate analysis by feature name -->
             
             <blockquote>
-               <h2>Results for Optional Features</h2>
+               <h2><a name="optFeatures">Results for Optional Features</a></h2> (<a href="#top">Top of page</a>)
                <blockquote>
                   <xsl:call-template name="dependencyList" />
                </blockquote>
+               
+               <h2><a name="optComboFeatures">Results for Optional Features in Combination</a></h2> (<a href="#top">Top of page</a>)
+               <blockquote>
+                  <xsl:call-template name="featureDependencyCombList" />
+               </blockquote>
+               
                              
                <!-- Generate analysis by new facility name -->
                
-               <h2>Results for New 3.1 Facilities</h2>
+               <h2><a name="spec31Facilities">Results for New 3.1 Facilities</a></h2> (<a href="#top">Top of page</a>)
                <blockquote>
                   <xsl:call-template name="changeList" />
                </blockquote>
@@ -460,6 +479,7 @@
                </xsl:if>
             </xsl:value-of>
          </blockquote>
+
          
          <xsl:result-document href="spec/{current-grouping-key()}.html">           
             <html>
@@ -834,6 +854,109 @@
             </xsl:result-document>
             
          </xsl:for-each-group>
+      </xsl:for-each-group>    
+      
+   </xsl:template>
+   
+   <xsl:function name="t:combDependency">
+      <xsl:param name="testCase" as="element(t:test-case)" />
+      
+      <xsl:variable name="dependencies" as="xs:string*">
+         <xsl:for-each select="$testCase/(.|..)/(t:dependency[@type='feature'], t:dependency[not(@type=('spec', 'feature'))])">
+            <xsl:value-of>
+               <xsl:if test="@satisfied='false'"> not (</xsl:if>
+               <xsl:if test="not(@type='feature')"><xsl:value-of select="@type"/>=</xsl:if><xsl:value-of select="@value"/>
+               <xsl:if test="@satisfied='false'">) </xsl:if>
+            </xsl:value-of>
+         </xsl:for-each>
+      </xsl:variable>
+      
+      
+      <xsl:variable name="sorted-dependencies" as="xs:string*" >
+         <xsl:perform-sort select="distinct-values($dependencies)">
+            <xsl:sort select="."></xsl:sort>
+         </xsl:perform-sort>
+      </xsl:variable>
+      <xsl:sequence select="string-join($sorted-dependencies, ' + ')" />
+      
+   </xsl:function>
+   
+   <xsl:template name="featureDependencyCombList">
+      <xsl:for-each-group select="$testCases" group-by="t:combDependency(.)">
+         <xsl:sort select="current-grouping-key()"/>
+         <xsl:variable name="sequence" select="position()"/>
+         <xsl:variable name="primaryKey" select="current-grouping-key()"/>
+         <h3><a href="dependencyCombo/{$sequence}p{position()}.html"><xsl:value-of select="current-grouping-key()"/></a> (<xsl:value-of select="count(current-group())"/> tests)</h3>
+         <!--<xsl:for-each-group select="current-group()" 
+            group-by="(.|..)/t:dependency[(@type='feature' and @value=current-grouping-key()) or @type=current-grouping-key()]/concat(@value[not(.=current-grouping-key())], '[', (@satisfied, 'true')[1], ']')">-->
+            
+           
+            <xsl:variable name="dependencyKey" select="replace(concat($primaryKey, '=', substring-before(current-grouping-key(), '[')), '=$', '')"/>
+            <xsl:variable name="satisfied" select="substring-before(substring-after(current-grouping-key(), '['), ']')"/>
+            <blockquote>
+<!--               <p>
+                  
+                     <xsl:value-of select="$dependencyKey"/>
+                  </a>
+                  <i><xsl:value-of select="if ($satisfied='true') then ' satisfied ' else ' not satisfied '"/></i>
+                  <xsl:value-of select="'(', count(current-group()), ' test', 's'[count(current-group()) gt 1], ')'" separator=""/>
+               </p>-->
+               
+               <xsl:variable name="minPasses" select="min(for $t in current-group()/@name return count($resultsDocs/key('testCaseByName', $t)[@result=('pass', 'wrongError')]))"/>
+               <xsl:if test="$minPasses lt 2">
+                  <xsl:variable name="sparseTests" select="for $t in current-group() 
+                     return (if (count($resultsDocs/key('testCaseByName', $t/@name)[@result=('pass', 'wrongError')]) = $minPasses) then $t else ())"/>
+                  <p style="color:red">
+                     <xsl:number value="count($sparseTests)" format="Ww"/>
+                     <xsl:value-of select="if (count($sparseTests) = 1) then ' test was' else ' tests were'"/>
+                     passed by <xsl:value-of select="if ($minPasses = 0) then 'no implementations' else 'only one implementation' "/>
+                  </p>
+               </xsl:if>
+            </blockquote>
+            
+            <xsl:result-document href="dependencyCombo/{$sequence}p{position()}.html">
+               <html>
+                  <head>
+                     <title>Test results for dependency: <xsl:value-of select="$dependencyKey"/></title>
+                     <xsl:call-template name="add-script"/>
+                  </head>
+                  <body>
+                     <p>
+                        <button type="button" onclick="window.location='../report.html'">Main Report</button>
+                        <xsl:text>&#xa0;&#xa0;</xsl:text>
+                        <button type="button" onclick="window.location='javascript:javascript:history.go(-1)'">Back</button>
+                     </p>
+                     <h1><xsl:value-of select="current-grouping-key()"/></h1>
+                     <blockquote>Results for tests requiring that dependency <i><xsl:value-of select="replace($dependencyKey, '=', ' = ')"/></i> is 
+                        <b><xsl:value-of select="if ($satisfied='true') then '' else 'not'"/></b> satisfied</blockquote>
+                     
+                     <table frame="hsides" rules="groups" border="1" bordercolor="black"
+                        bgcolor="{$backgroundcolor}" cellpadding="2">
+                        <xsl:call-template name="headings">
+                           <xsl:with-param name="testType" select="'Test-sets'"/>
+                        </xsl:call-template>
+                        
+                        
+                        
+                        <tbody>
+                           <xsl:apply-templates select="current-group()" />
+                           
+                           <!--<xsl:choose>
+                              <xsl:when test="contains($dependencyKey, '=')">
+                                 <xsl:apply-templates select="$testCases[(.|..)/t:dependency[@type = substring-before($dependencyKey, '=') and @value = substring-after($dependencyKey, '=') and ((@satisfied, 'true')[1] = $satisfied)]]"/>
+                              </xsl:when>
+                              <xsl:otherwise>
+                                 <xsl:apply-templates select="$testCases[(.|..)/t:dependency[@type = 'feature' and @value = $dependencyKey and ((@satisfied, 'true')[1] = $satisfied)]]"/>
+                              </xsl:otherwise>
+                           </xsl:choose>-->
+                        </tbody>
+                     </table>
+                     
+                  </body>
+               </html>  
+            </xsl:result-document>
+            
+         <!--</xsl:for-each-group>-->
       </xsl:for-each-group>    
       
    </xsl:template>
