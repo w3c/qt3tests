@@ -223,6 +223,52 @@
          <assert-string-value>http://example.com/examples</assert-string-value>
       </result>
    </test-case>
+   
+   <test-case name="fn-resolve-qname-23">
+      <description> Test resolve-QName in an XPath environment  </description>
+      <created by="Michael Kay" on="2016-01-25"/>
+      <environment ref="auction"/>
+      <dependency type="spec" value="XP20+"/>
+      <test>namespace-uri-from-QName(resolve-QName("dt:integer", (//*:Close)[1]))</test>
+      <result>
+         <assert-string-value>http://www.w3.org/2001/XMLSchema</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-resolve-qname-24">
+      <description> Test resolve-QName in an XPath environment. Use the implicitly-declared XML namespace </description>
+      <created by="Michael Kay" on="2016-01-25"/>
+      <environment ref="auction"/>
+      <dependency type="spec" value="XP20+"/>
+      <test>namespace-uri-from-QName(resolve-QName("xml:space", (//*:Close)[1]))</test>
+      <result>
+         <assert-string-value>http://www.w3.org/XML/1998/namespace</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-resolve-qname-25">
+      <description> Test resolve-QName in an XPath environment. Use the default namespace </description>
+      <created by="Michael Kay" on="2016-01-25"/>
+      <environment ref="auction"/>
+      <dependency type="spec" value="XP20+"/>
+      <test>namespace-uri-from-QName(resolve-QName("artist", (//*:artist)[1]))</test>
+      <result>
+         <assert-string-value>http://www.example.org/music/records</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-resolve-qname-26">
+      <description> Test resolve-QName in an XPath environment. Use a no-namespace name. </description>
+      <created by="Michael Kay" on="2016-01-25"/>
+      <environment ref="auction"/>
+      <dependency type="spec" value="XP20+"/>
+      <test>namespace-uri-from-QName(resolve-QName("artist", (//*:Close)[1]))</test>
+      <result>
+         <assert-string-value/>
+      </result>
+   </test-case>
+
+
 
    <test-case name="K-ResolveQNameConstructFunc-1">
       <description> A test whose essence is: `resolve-QName()`. </description>
