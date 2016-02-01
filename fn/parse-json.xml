@@ -551,6 +551,8 @@
    <test-case name="fn-parse-json-056">
       <description>Invalid XML char, no fallback</description>
       <created by="Michael Kay, Saxonica" on="2015-03-11"/>
+      <modified by="O'Neil Delpratt" on="2016-02-01" change="Bug fix #29412: Removed XT30+ dependency."/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
       <test>parse-json('{"\uFFFF":""}') => map:keys()</test>
       <result>
         <assert-eq>codepoints-to-string(65533)</assert-eq>
@@ -559,6 +561,8 @@
    <test-case name="fn-parse-json-057">
       <description>Unpaired surrogate, no fallback</description>
       <created by="Michael Kay, Saxonica" on="2015-03-11"/>
+      <modified by="O'Neil Delpratt" on="2016-02-01" change="Bug fix #29412: Removed XT30+ dependency."/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
       <test>parse-json('{"\uDEAD":""}') => map:keys()</test>
       <result>
         <assert-eq>codepoints-to-string(65533)</assert-eq>
@@ -567,6 +571,8 @@
    <test-case name="fn-parse-json-058">
       <description>Character not in XML 1.0, no fallback</description>
       <created by="Michael Kay, Saxonica" on="2015-03-11"/>
+      <modified by="O'Neil Delpratt" on="2016-02-01" change="Bug fix #29412: Removed XT30+ dependency."/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
       <dependency type="xml-version" value="1.0"/>
       <test>parse-json('{"\b":""}') => map:keys()</test>
       <result>
@@ -608,6 +614,8 @@
    <test-case name="fn-parse-json-062">
       <description>Invalid XML char, no fallback</description>
       <created by="Michael Kay, Saxonica" on="2015-03-11"/>
+      <modified by="O'Neil Delpratt" on="2016-02-01" change="Bug fix #29412: Removed XT30+ dependency."/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
       <dependency type="feature" value="higherOrderFunctions"/>
       <test>parse-json('{"\uFFFF":""}', map{'fallback':lower-case#1}) => map:keys()</test>
       <result>
@@ -617,6 +625,8 @@
    <test-case name="fn-parse-json-063">
       <description>Unpaired surrogate, no fallback</description>
       <created by="Michael Kay, Saxonica" on="2015-03-11"/>
+      <modified by="O'Neil Delpratt" on="2016-02-01" change="Bug fix #29412: Removed XT30+ dependency."/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
       <dependency type="feature" value="higherOrderFunctions"/>
       <test>parse-json('{"\uDEAD":""}', map{'fallback':lower-case#1}) => map:keys()</test>
       <result>
@@ -627,6 +637,8 @@
       <description>Character not in XML 1.0, no fallback</description>
       <created by="Michael Kay, Saxonica" on="2015-03-11"/>
       <modified by="Debbie Lockett" on="2015-08-07" change="Add alternate result"/>
+      <modified by="O'Neil Delpratt" on="2016-02-01" change="Bug fix #29412: Removed XT30+ dependency."/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
       <dependency type="xml-version" value="1.0"/>
       <dependency type="feature" value="higherOrderFunctions"/>
       <test>parse-json('{"\b":""}', map{'fallback':lower-case#1}) => map:keys()</test>
@@ -1336,6 +1348,8 @@
       <description>Fallback is not a function</description>
       <created by="Michael Kay, Saxonica" on="2015-03-11"/>
       <modified by="Debbie Lockett" on="2015-08-04" change="Error code change for bug 28994"/>
+      <modified by="O'Neil Delpratt" on="2016-02-01" change="Bug fix #29412: Removed XT30+ dependency."/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
       <dependency type="xml-version" value="1.0"/>
       <dependency type="feature" value="higherOrderFunctions"/>
       <test>parse-json('{"\b":""}', map{'fallback':lower-case('a')}) => map:keys()</test>
@@ -1347,6 +1361,8 @@
       <description>Fallback is a function with wrong arity</description>
       <created by="Michael Kay, Saxonica" on="2015-03-11"/>
       <modified by="Debbie Lockett" on="2015-08-04" change="Error code change for bug 28994"/>
+      <modified by="O'Neil Delpratt" on="2016-02-01" change="Bug fix #29412: Removed XT30+ dependency."/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
       <dependency type="xml-version" value="1.0"/>
       <dependency type="feature" value="higherOrderFunctions"/>
       <test>parse-json('{"\b":""}', map{'fallback':substring#2}) => map:keys()</test>
@@ -1357,6 +1373,8 @@
    <test-case name="fn-parse-json-943">
       <description>Fallback throws an error</description>
       <created by="Michael Kay, Saxonica" on="2015-03-11"/>
+      <modified by="O'Neil Delpratt" on="2016-02-01" change="Bug fix #29412: Removed XT30+ dependency."/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
       <dependency type="xml-version" value="1.0"/>
       <dependency type="feature" value="higherOrderFunctions"/>
       <test>parse-json('{"\b":""}', map{'fallback':error(QName("","USER9999"), ?)}) => map:keys()</test>
@@ -1367,6 +1385,8 @@
    <test-case name="fn-parse-json-944">
       <description>Fallback is not called for invalid escape sequences</description>
       <created by="Michael Kay, Saxonica" on="2015-03-11"/>
+      <modified by="O'Neil Delpratt" on="2016-02-01" change="Bug fix #29412: Removed XT30+ dependency."/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
       <dependency type="feature" value="higherOrderFunctions"/>
       <test>parse-json('{"\xaa":""}', map{'fallback':upper-case#1}) => map:keys()</test>
       <result>
@@ -1377,6 +1397,8 @@
       <description>Fallback function does not accept a string (Note: awaits outcome of bug 28196)</description>
       <created by="Michael Kay, Saxonica" on="2015-03-11"/>
       <modified by="Debbie Lockett" on="2015-08-04" change="Error code change for bug 28994"/>
+      <modified by="O'Neil Delpratt" on="2016-02-01" change="Bug fix #29412: Removed XT30+ dependency."/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
       <dependency type="feature" value="higherOrderFunctions"/>
       <test>parse-json('{"\uFFFF":""}', map{'fallback':abs#1}) => map:keys()</test>
       <result>
