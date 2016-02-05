@@ -254,7 +254,7 @@
         let $relevant-testcases := $testsets/fots:test-case[tokenize(@covers, ' ') = $token]
         let $count := count($relevant-testsets/fots:test-case) + count($relevant-testcases)
         where $count lt 5
-        return <out spec="{$changes[@id=$token]/../@name}" change="{$token}" tests="{$count}">
+        return <out spec="{$changes[@id=$token]/../@name}" change="{$token}" tests="{$count}" names="{$relevant-testcases/@name}">
         {$changes[@id=$token]/text()}
         </out>
      }</r>
