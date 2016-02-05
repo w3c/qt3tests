@@ -233,7 +233,9 @@
         <feature xmlns="http://www.w3.org/2012/10/xslt-test-catalog" value="XPath_3.1"/>
     </xsl:template>
     
-    <xsl:template match="fots:dependency[@type='feature'][@value='higherOrderFunctions']" mode="rename"/>
+    <xsl:template match="fots:dependency[@type='feature'][@value='higherOrderFunctions']" mode="rename">
+        <feature xmlns="http://www.w3.org/2012/10/xslt-test-catalog" value="higher_order_functions"/>
+    </xsl:template>
     <xsl:template match="fots:dependency[@type='feature'][@value='staticTyping']" mode="rename"/>
     <xsl:template match="fots:dependency[@type='feature'][@value='namespace-axis']" mode="rename"/>
     <xsl:template match="fots:dependency[@type='feature'][@value='collection-stability']" mode="rename"/>
