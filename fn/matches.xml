@@ -588,6 +588,15 @@ defg
          <assert>empty($result//fail)</assert>
       </result>
    </test-case>
+   
+   <test-case name="fn-matches-51">
+      <description> Unescaped left parens inside a charClass are allowed and don't affect the subexpression count</description>
+      <created by="Michael Kay" on="2016-02-09"/>
+      <test>fn:matches("ab()cd()ef()gh", "^(ab)([()]*)(cd)([)(]*)ef\4gh$")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
 
    <test-case name="caselessmatch01">
       <description> Simple call of matches() with "i" flag </description>
