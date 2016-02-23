@@ -230,6 +230,20 @@
          <error code="XPTY0004"/>
       </result>
    </test-case>
+   
+   <test-case name="MapConstructor-025" covers="map-constructor map-general">
+      <description>
+         Colon here is questionable. We are testing the rule in A.2:
+         "When tokenizing, the longest possible match that is consistent with the EBNF is used."
+         After a lookup operator, an NCName is consistent with the EBNF but a QName (containing a colon)
+         is not, so the tokenizer should extract the NCName "a".
+      </description>
+      <created by="Michael Kay" on="2016-02-08"/>
+      <test>let $m := map{'a':1} return map:size(map{$m?a:true()})</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
 
 
 </test-set>
