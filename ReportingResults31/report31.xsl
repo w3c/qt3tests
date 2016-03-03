@@ -19,8 +19,7 @@
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0"
    xmlns:t="http://www.w3.org/2010/09/qt-fots-catalog"
-   xmlns:r="http://www.w3.org/2012/08/qt-fots-results"
-   xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   xmlns:r="http://www.w3.org/2012/08/qt-fots-results" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
    <xsl:output method="html" indent="yes"/>
 
@@ -39,8 +38,9 @@
 
    <!-- Document that contains URLs of result reports -->
    <!-- <results><result>url</result>...</results> -->
-   <xsl:param name="resultsDocs" select="collection('../results/result-submissions-31/?select=results*.xml')"/>
-   
+   <xsl:param name="resultsDocs"
+      select="collection('../results/result-submissions-31/?select=results*.xml')"/>
+
 
    <!-- Generate Implementation-defined items, Static Context Properties,   -->
    <!-- and Dynamic Context Properties                                      -->
@@ -58,7 +58,8 @@
 
    <xsl:variable name="catalog" select="."/>
    <xsl:variable name="changesDoc" select="document('changes.xml', $catalog)"/>
-   <xsl:variable name="testSets" select="$catalog//t:test-set/doc(resolve-uri(@file,base-uri(..)))/t:test-set" />
+   <xsl:variable name="testSets"
+      select="$catalog//t:test-set/doc(resolve-uri(@file, base-uri(..)))/t:test-set"/>
    <xsl:variable name="testCases" select="$testSets/t:test-case"/>
 
 
@@ -66,8 +67,19 @@
 
 
    <xsl:variable name="includeSummaryColumn" as="xs:boolean" select="count($resultsDocs) gt 1"/>
- 
+
    <xsl:variable name="FOTSversion" select="t:catalog/@version"/>
+
+   <xsl:variable name="optional-features31"
+      select="
+         ('schemaImport',
+         'schemaValidation',
+         'staticTyping',
+         'typedData',
+         'moduleImport',
+         'serialization',
+         'higherOrderFunctions',
+         'putFeature')"/>
 
 
    <!-- colors -->
@@ -78,16 +90,21 @@
    <xsl:variable name="untestedcolor" select="'white'"/>
    <xsl:variable name="backgroundcolor" select="'lightcyan'"/>
    <xsl:variable name="groupcolor" select="'paleturquoise'"/>
-   
+
    <xsl:function name="r:status-color" as="xs:string">
       <xsl:param name="status" as="xs:string?"/>
-      
+
       <xsl:choose>
          <xsl:when test="empty($status)">salmon</xsl:when>
          <xsl:when test="$status = 'pass'">palegreen</xsl:when>
          <xsl:when test="$status = 'wrongError'">lightgreen</xsl:when>
          <xsl:when test="$status = 'fail'">tomato</xsl:when>
-         <xsl:when test="$status = ('n/a', 'tooBig', 'disputed')">white</xsl:when>
+         <xsl:when
+            test="
+               $status = ('n/a',
+               'tooBig',
+               'disputed')"
+            >white</xsl:when>
          <xsl:when test="$status = 'notRun'">salmon</xsl:when>
          <xsl:otherwise>yellow</xsl:otherwise>
       </xsl:choose>
@@ -125,7 +142,7 @@
 
 
          <body>
-            <a name="top"></a>
+            <a name="top"/>
             <center>
                <h1>
                   <xsl:text>QT3 Test Suite Result Summary</xsl:text>
@@ -141,8 +158,8 @@
             <p/>
             <blockquote>
                <p> This document contains the results of running the <a
-                     href="http://dev.w3.org/2011/QT3-test-suite/">QT3 Test
-                     Suite</a> on <xsl:number value="count($resultsDocs)" format="w"/> implementations of XQuery and XPath. </p>
+                     href="http://dev.w3.org/2011/QT3-test-suite/">QT3 Test Suite</a> on <xsl:number
+                     value="count($resultsDocs)" format="w"/> implementations of XQuery and XPath. </p>
 
                <p>
                   <xsl:text>The latest version of this test suite is QT3 </xsl:text>
@@ -151,26 +168,24 @@
                </p>
 
                <p> When results are listed as number/number/number, then indicate pass/failed/total.
-                  Passed and failed together may not equal total, due to tests
-                  not run or not reported. </p>
+                  Passed and failed together may not equal total, due to tests not run or not
+                  reported. </p>
 
                <p>The latest version of our files is available at <a
                      href="http://dev.w3.org/cvsweb/2011/QT3-test-suite/"
-                     >http://dev.w3.org/cvsweb/2011/QT3-test-suite/</a>. 
-                     The "catalog" and "query" links found with each test case are links to this
-                     version. 
-               </p>
+                     >http://dev.w3.org/cvsweb/2011/QT3-test-suite/</a>. The "catalog" and "query"
+                  links found with each test case are links to this version. </p>
 
- 
+
             </blockquote>
 
             <hr/>
-            
-            
-           
-            
-            
-            
+
+
+
+
+
+
 
             <!-- Generate a list of implementations in this report -->
 
@@ -180,15 +195,17 @@
                <xsl:result-document href="{$resultsFilename}">
                   <html>
                      <head>
-                        <title>Test submission for <xsl:value-of select="r:test-suite-result/r:product/concat(@name, ' ', @version)"/></title>
+                        <title>Test submission for <xsl:value-of
+                              select="r:test-suite-result/r:product/concat(@name, ' ', @version)"
+                           /></title>
                      </head>
                      <body>
-                        <button type="button" onclick="window.location='report.html'">Main Report</button>
+                        <button type="button" onclick="window.location='report.html'">Main
+                           Report</button>
                         <h1>Test submission for <xsl:value-of select="r:productLabel(.)"/></h1>
                         <hr/>
                         <!-- <xsl:sort select="./r:FOTS-test-suite-result/r:implementation/@name"/>-->
-                        <xsl:variable name="product"
-                           select="./r:test-suite-result/r:product"/>
+                        <xsl:variable name="product" select="./r:test-suite-result/r:product"/>
                         <xsl:variable name="test-run"
                            select="./r:test-suite-result/r:submission/r:test-run"/>
 
@@ -196,7 +213,8 @@
 
                         <xsl:if test="not(xs:boolean(r:test-suite-result/r:submission/@anonymous))">
                            <h3>
-                              <xsl:value-of select="$product/@name"/> version <xsl:value-of select="$product/@version"/>
+                              <xsl:value-of select="$product/@name"/> version <xsl:value-of
+                                 select="$product/@version"/>
                            </h3>
                            <blockquote>
                               <xsl:apply-templates select="$test-run"/>
@@ -209,43 +227,41 @@
             </xsl:for-each>
 
             <!-- Generate the summarized results -->
-           
+
             <h2><a name="summary"/>Summarized Results:</h2>
             <blockquote>
                <p>Total number of test cases: <xsl:value-of select="count($testCases)"/></p>
-               <p>Total number of implementation reports: <xsl:value-of select="count($resultsDocs)"/></p>
+               <p>Total number of implementation reports: <xsl:value-of select="count($resultsDocs)"
+                  /></p>
                <xsl:apply-templates mode="summary"/>
             </blockquote>
-            
+
             <!-- Generate the detailed results -->
-           
-            <xsl:apply-templates mode="detail"/>  
-            
+
+            <xsl:apply-templates mode="detail"/>
+
             <blockquote>
                <b>Sub-Sections:</b><br/>
-               <a href="#optFeatures">Optional Features</a> | <a href="#optComboFeatures">Combination of Optional Features</a> | <a href="#spec31Facilities">New 3.1 Specification Facilities</a>
-               
+               <a href="#optFeatures">Optional Features</a> | <a href="#optComboFeatures"
+                  >Combination of Optional Features</a> | <a href="#spec31Facilities">New 3.1
+                  Specification Facilities</a>
             </blockquote>
-            
+
             <!-- Generate analysis by feature name -->
-            
+
             <blockquote>
-               <h2><a name="optFeatures">Results for Optional Features</a></h2> (<a href="#top">Top of page</a>)
-               <blockquote>
-                  <xsl:call-template name="dependencyList" />
+               <h2><a name="optFeatures">Results for Optional Features</a></h2> (<a href="#top">Top
+                  of page</a>) <blockquote>
+                  <xsl:call-template name="dependencyList"/>
                </blockquote>
-               
-               <h2><a name="optComboFeatures">Results for Optional Features in Combination</a></h2> (<a href="#top">Top of page</a>)
-               <blockquote>
-                  <xsl:call-template name="featureDependencyCombList" />
+               <h2><a name="optComboFeatures">Results for Optional Features in Combination</a></h2>
+                  (<a href="#top">Top of page</a>) <blockquote>
+                  <xsl:call-template name="featureDependencyCombList"/>
                </blockquote>
-               
-                             
                <!-- Generate analysis by new facility name -->
-               
-               <h2><a name="spec31Facilities">Results for New 3.1 Facilities</a></h2> (<a href="#top">Top of page</a>)
-               <blockquote>
-                  <xsl:call-template name="changeList" />
+               <h2><a name="spec31Facilities">Results for New 3.1 Facilities</a></h2> (<a
+                  href="#top">Top of page</a>) <blockquote>
+                  <xsl:call-template name="changeList"/>
                </blockquote>
             </blockquote>
 
@@ -269,9 +285,9 @@
          </body>
 
       </html>
-      
-      
-      
+
+
+
 
    </xsl:template>
 
@@ -330,7 +346,7 @@
 
    <xsl:template name="headings">
       <xsl:param name="testType">Test-sets</xsl:param>
-      <xsl:param name="resultsDocsGrouped" select="$resultsDocs" />
+      <xsl:param name="resultsDocsGrouped" select="$resultsDocs"/>
       <thead>
          <!-- Generate column heads for XQuery and XQueryX groups -->
 
@@ -346,7 +362,7 @@
                <!--<xsl:value-of select="$testType"/>-->
                <xsl:text>Tests</xsl:text>
             </th>
- 
+
             <!-- Generate a column head for each result report -->
 
             <xsl:for-each select="$resultsDocsGrouped">
@@ -355,10 +371,18 @@
                <xsl:variable name="resultsFilename" select="r:productLink(.)"/>
                <xsl:variable name="productLabel" select="r:productLabel(.)"/>
                <th valign="top">
-                  <a href="../{$resultsFilename}"><xsl:value-of select="$productLabel"/></a>
+                  <a href="../{$resultsFilename}">
+                     <xsl:value-of select="$productLabel"/>
+                  </a>
                   <br/>
-                  <xsl:value-of select="if(r:test-suite-result/r:syntax='XQueryX') then concat('XQX', substring(r:test-suite-result/r:product/@language, 3)) else r:test-suite-result/r:product/@language"/>
-                  <xsl:variable name="testRunVersion" select="string(r:test-suite-result/r:submission/r:test-run/@test-suite-version)"/>
+                  <xsl:value-of
+                     select="
+                        if (r:test-suite-result/r:syntax = 'XQueryX') then
+                           concat('XQX', substring(r:test-suite-result/r:product/@language, 3))
+                        else
+                           r:test-suite-result/r:product/@language"/>
+                  <xsl:variable name="testRunVersion"
+                     select="string(r:test-suite-result/r:submission/r:test-run/@test-suite-version)"/>
                   <xsl:if test="$testRunVersion != $FOTSversion">
                      <br/>
                      <font size="-1">
@@ -367,7 +391,12 @@
                               <xsl:text>(unspecified)</xsl:text>
                            </xsl:when>
                            <xsl:otherwise>
-                              <xsl:value-of select="'(QT3 v', $testRunVersion, ')'" separator=""/>
+                              <xsl:value-of
+                                 select="
+                                    '(QT3 v',
+                                    $testRunVersion,
+                                    ')'"
+                                 separator=""/>
                            </xsl:otherwise>
                         </xsl:choose>
                      </font>
@@ -378,7 +407,7 @@
       </thead>
 
    </xsl:template>
-   
+
    <!-- 
       Generate a link to the page containing details
       for a particular submission
@@ -391,11 +420,13 @@
             <xsl:sequence select="concat('results_anonymous_', generate-id($sourceDoc), '.html')"/>
          </xsl:when>
          <xsl:otherwise>
-            <xsl:sequence select="$sourceDoc/r:test-suite-result/r:product/concat('results_', @name, '_', @version, '_', generate-id(/), '.html')"/>
+            <xsl:sequence
+               select="$sourceDoc/r:test-suite-result/r:product/concat('results_', @name, '_', @version, '_', generate-id(/), '.html')"
+            />
          </xsl:otherwise>
       </xsl:choose>
    </xsl:function>
-   
+
    <xsl:function name="r:productLabel" as="xs:string">
       <xsl:param name="sourceDoc" as="document-node()"/>
       <xsl:choose>
@@ -403,7 +434,8 @@
             <xsl:sequence select="'Anonymous'"/>
          </xsl:when>
          <xsl:otherwise>
-            <xsl:sequence select="$sourceDoc/r:test-suite-result/r:product/concat(@name, ' ', @version)"/>
+            <xsl:sequence
+               select="$sourceDoc/r:test-suite-result/r:product/concat(@name, ' ', @version)"/>
          </xsl:otherwise>
       </xsl:choose>
    </xsl:function>
@@ -419,28 +451,34 @@
    <!--                                                                      -->
    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
 
-   <xsl:template match="t:catalog" mode="summary">          
-      <xsl:variable name="test-sets" select="t:test-set" />
-      
+   <xsl:template match="t:catalog" mode="summary">
+      <xsl:variable name="test-sets" select="t:test-set"/>
+
       <h2>Results by Specification</h2>
       <xsl:for-each-group select="$resultsDocs" group-by="r:test-suite-result/r:product/@language">
          <xsl:sort select="current-grouping-key()"/>
-         
+
          <xsl:variable name="specName">
             <xsl:choose>
                <xsl:when test="current-grouping-key() = 'XP20'">XPath 2.0</xsl:when>
                <xsl:when test="current-grouping-key() = 'XP30'">XPath 3.0</xsl:when>
-               <xsl:when test="current-grouping-key() = 'XP31'">XPath 3.1</xsl:when>               
+               <xsl:when test="current-grouping-key() = 'XP31'">XPath 3.1</xsl:when>
                <xsl:when test="current-grouping-key() = 'XQ10'">XQuery 1.0</xsl:when>
                <xsl:when test="current-grouping-key() = 'XQ30'">XQuery 3.0</xsl:when>
                <xsl:when test="current-grouping-key() = 'XQ31'">XQuery 3.1</xsl:when>
             </xsl:choose>
          </xsl:variable>
-         
+
          <blockquote>
             <p>
                <a href="spec/{current-grouping-key()}.html">
-                  <xsl:value-of select="$specName, ' (', count($testCases[r:testCaseAppliesToSpec(., current-grouping-key())]), ' tests)'" separator=""/>
+                  <xsl:value-of
+                     select="
+                        $specName,
+                        ' (',
+                        count($testCases[r:testCaseAppliesToSpec(., current-grouping-key())]),
+                        ' tests)'"
+                     separator=""/>
                </a>
             </p>
             <table frame="hsides" rules="groups" border="1" bordercolor="black"
@@ -456,95 +494,134 @@
                   </tr>
                </thead>
                <tbody>
-                  <xsl:for-each select="$resultsDocs[*/r:product/@language = current-grouping-key()]">
+                  <xsl:for-each
+                     select="$resultsDocs[*/r:product/@language = current-grouping-key()]">
                      <xsl:sort select="*/r:product/@name"/>
-                     <xsl:variable name="run" select="count(.//r:test-case[not(@result=('n/a', 'disputed', 'tooBig'))])"/>
-                     <xsl:variable name="passes" select="count(.//r:test-case[@result=('pass', 'wrongError')])"/>
+                     <xsl:variable name="run"
+                        select="
+                           count(.//r:test-case[not(@result = ('n/a',
+                           'disputed',
+                           'tooBig'))])"/>
+                     <xsl:variable name="passes"
+                        select="
+                           count(.//r:test-case[@result = ('pass',
+                           'wrongError')])"/>
                      <xsl:variable name="fails" select="$run - $passes"/>
-                     <xsl:variable name="syntax" select="if(*/r:syntax/text()='XQueryX') then '*' else ''"></xsl:variable>
+                     <xsl:variable name="syntax"
+                        select="
+                           if (*/r:syntax/text() = 'XQueryX') then
+                              '*'
+                           else
+                              ''"/>
                      <tr>
-                        <td bgcolor="{$groupcolor}"><xsl:value-of select="if (*/r:submission/@anonymous='true') then 'Anonymous' else */r:product/@name"/><xsl:value-of select="$syntax"/></td>
-                        <td bgcolor="{$groupcolor}"><xsl:value-of select="*/r:product/@version"/></td>
-                        <td><xsl:value-of select="$passes"/></td>
-                        <td><xsl:value-of select="$fails"/></td>
-                        <td><xsl:value-of select="$run"/></td>
-                        <td><xsl:value-of select="if ($run=0) then 'N/A' else format-number(($passes div $run)*100, '##0.00')"/></td>
+                        <td bgcolor="{$groupcolor}">
+                           <xsl:value-of
+                              select="
+                                 if (*/r:submission/@anonymous = 'true') then
+                                    'Anonymous'
+                                 else
+                                    */r:product/@name"/>
+                           <xsl:value-of select="$syntax"/>
+                        </td>
+                        <td bgcolor="{$groupcolor}">
+                           <xsl:value-of select="*/r:product/@version"/>
+                        </td>
+                        <td>
+                           <xsl:value-of select="$passes"/>
+                        </td>
+                        <td>
+                           <xsl:value-of select="$fails"/>
+                        </td>
+                        <td>
+                           <xsl:value-of select="$run"/>
+                        </td>
+                        <td>
+                           <xsl:value-of
+                              select="
+                                 if ($run = 0) then
+                                    'N/A'
+                                 else
+                                    format-number(($passes div $run) * 100, '##0.00')"
+                           />
+                        </td>
                      </tr>
                   </xsl:for-each>
                </tbody>
             </table>
             <xsl:value-of>
-               <xsl:if test="$resultsDocs[*/r:product/@language = current-grouping-key()]/*/r:syntax/text()='XQueryX'">
+               <xsl:if
+                  test="$resultsDocs[*/r:product/@language = current-grouping-key()]/*/r:syntax/text() = 'XQueryX'">
                   <b>*Implementation results on XQueryX Syntax.</b>
                </xsl:if>
             </xsl:value-of>
          </blockquote>
 
-         
-         <xsl:result-document href="spec/{current-grouping-key()}.html">           
+
+         <xsl:result-document href="spec/{current-grouping-key()}.html">
             <html>
                <head>
                   <title>Summary of results for <xsl:value-of select="$specName"/></title>
                </head>
                <body>
-                  <button type="button" onclick="window.location='../index.html'">Main Report</button>
-                  
+                  <button type="button" onclick="window.location='../index.html'">Main
+                     Report</button>
+
                   <h1>Summary of results for <xsl:value-of select="$specName"/></h1>
-                  
+
                   <xsl:call-template name="legend"/>
-                  
+
                   <table frame="hsides" rules="groups" border="1" bordercolor="black"
                      bgcolor="{$backgroundcolor}" cellpadding="2">
                      <tbody>
                         <colgroup align="left"/>
-                        
+
                         <xsl:if test="$includeSummaryColumn">
                            <colgroup align="left"/>
-                           
+
                            <xsl:call-template name="headings">
-                              <xsl:with-param name="resultsDocsGrouped" select="current-group()" />  
+                              <xsl:with-param name="resultsDocsGrouped" select="current-group()"/>
                            </xsl:call-template>
-                                                     
+
                            <xsl:apply-templates select="$test-sets">
                               <xsl:with-param name="detail" select="false()"/>
-                              <xsl:with-param name="resultsDocsGrouped" select="current-group()" />
+                              <xsl:with-param name="resultsDocsGrouped" select="current-group()"/>
                            </xsl:apply-templates>
                         </xsl:if>
                      </tbody>
                   </table>
                </body>
-            </html>   
+            </html>
          </xsl:result-document>
-      </xsl:for-each-group>            
+      </xsl:for-each-group>
    </xsl:template>
 
    <xsl:template match="t:catalog" mode="detail">
-        <xsl:for-each select="t:test-set">
-            <xsl:result-document href="testSets/{@name}.html">
-               <html>
-                  <head>
-                     <xsl:call-template name="add-script"/>
-                  </head>
-                  <body>
-                     <button type="button" onclick="window.location='../report.html'"
-                        >Back to Main Report</button>
-                     <xsl:call-template name="legend"/>
-                     <table frame="hsides" rules="groups" border="1" bordercolor="black"
-                        bgcolor="{$backgroundcolor}" cellpadding="2">
+      <xsl:for-each select="t:test-set">
+         <xsl:result-document href="testSets/{@name}.html">
+            <html>
+               <head>
+                  <xsl:call-template name="add-script"/>
+               </head>
+               <body>
+                  <button type="button" onclick="window.location='../report.html'">Back to Main
+                     Report</button>
+                  <xsl:call-template name="legend"/>
+                  <table frame="hsides" rules="groups" border="1" bordercolor="black"
+                     bgcolor="{$backgroundcolor}" cellpadding="2">
 
-                        <xsl:call-template name="headings">
-                           <xsl:with-param name="testType">Test-cases</xsl:with-param>
-                        </xsl:call-template>
+                     <xsl:call-template name="headings">
+                        <xsl:with-param name="testType">Test-cases</xsl:with-param>
+                     </xsl:call-template>
 
-                        <xsl:apply-templates select=".">
-                           <xsl:with-param name="detail" select="true()"/>
-                           <xsl:with-param name="resultsDocsGrouped" select="$resultsDocs" />
-                        </xsl:apply-templates>
-                     </table>
-                  </body>
-               </html>
-            </xsl:result-document>
-        </xsl:for-each>
+                     <xsl:apply-templates select=".">
+                        <xsl:with-param name="detail" select="true()"/>
+                        <xsl:with-param name="resultsDocsGrouped" select="$resultsDocs"/>
+                     </xsl:apply-templates>
+                  </table>
+               </body>
+            </html>
+         </xsl:result-document>
+      </xsl:for-each>
    </xsl:template>
 
    <xsl:template name="add-script">
@@ -555,7 +632,7 @@
          if (obj.style.display=="none") { obj.style.display="block"; col.innerHTML="[-]"; }
          else { obj.style.display="none"; col.innerHTML="[+]"; } }
       </script>
-           
+
       <script language="JavaScript" type="text/javascript">
           (document.getElementById) ? domNode = true: domNode = false;
           var current = null;
@@ -600,14 +677,14 @@
       <xsl:variable name="rawtotal" select="count($tests)"/>
       <xsl:variable name="title" select="@name"/>
       <xsl:variable name="parseErrors" select="key('byscenario', 'parse-error')"/>
-      <xsl:variable name="totalNotPE" select="count($tests[.=$parseErrors])"/>
+      <xsl:variable name="totalNotPE" select="count($tests[. = $parseErrors])"/>
 
 
       <xsl:choose>
-         <xsl:when test="t:dependency[@type='spec' and @value='XT30+']">
+         <xsl:when test="t:dependency[@type = 'spec' and @value = 'XT30+']">
             <!-- ignore XSLT-only tests -->
          </xsl:when>
-         <xsl:when test="(count($immediate-tests) = 0 and $grandSummary='false')">
+         <xsl:when test="(count($immediate-tests) = 0 and $grandSummary = 'false')">
             <tr bgcolor="{$groupcolor}">
                <td>
                   <xsl:choose>
@@ -642,7 +719,9 @@
                   <xsl:choose>
                      <xsl:when test="$detail">
                         <xsl:value-of select="@name"/>
-                        <xsl:if test="$testSetFile/t:test-set/@covers"><b>*</b></xsl:if>
+                        <xsl:if test="$testSetFile/t:test-set/@covers">
+                           <b>*</b>
+                        </xsl:if>
                      </xsl:when>
                      <xsl:otherwise>
                         <a href="../testSets/{@name}.html">
@@ -654,34 +733,52 @@
 
                <!-- summary for each group -->
 
-               <xsl:for-each select="$resultsDocsGrouped" >
+               <xsl:for-each select="$resultsDocsGrouped">
                   <xsl:sort select="./r:FOTS-test-suite-result/r:syntax"/>
                   <xsl:sort select="./r:test-suite-result/r:product/@name"/>
                   <xsl:sort select="./r:test-suite-result/r:product/@version"/>
                   <xsl:variable name="spec" select="r:test-suite-result/r:product/@language"/>
                   <xsl:variable name="syntax" select="./r:test-suite-result/r:syntax"/>
-                  <xsl:variable name="testApplicableToSpec" select="$tests[r:testCaseAppliesToSpec(., $spec)]/@name" as="xs:string*" />
-                  <xsl:variable name="rawtotali" select="count($tests[r:testCaseAppliesToSpec(., $spec)])" />
-                  
+                  <xsl:variable name="testApplicableToSpec"
+                     select="$tests[r:testCaseAppliesToSpec(., $spec)]/@name" as="xs:string*"/>
+                  <xsl:variable name="rawtotali"
+                     select="count($tests[r:testCaseAppliesToSpec(., $spec)])"/>
+
                   <td align="center">
 
                      <xsl:variable name="results" select="key('testSetByName', $testSetName)"
                         as="element(r:test-set)?"/>
 
                      <xsl:variable name="passed"
-                        select="count($results/r:test-case[@result=('pass', 'wrongError')])"/>
+                        select="
+                           count($results/r:test-case[@result = ('pass',
+                           'wrongError')])"/>
                      <xsl:variable name="failed"
-                        select="count($results/r:test-case[@result=('fail', 'notRun')])"/>
+                        select="
+                           count($results/r:test-case[@result = ('fail',
+                           'notRun')])"/>
                      <xsl:variable name="total">
-                        <xsl:value-of select="$rawtotali - count($results/r:test-case[@name=$testApplicableToSpec and @result = ('n/a','tooBig', 'disputed')])"/>
+                        <xsl:value-of
+                           select="
+                              $rawtotali - count($results/r:test-case[@name = $testApplicableToSpec and @result = ('n/a',
+                              'tooBig',
+                              'disputed')])"
+                        />
                      </xsl:variable>
-                     <xsl:message>spec: <xsl:value-of select="$spec" />, Test-set: <xsl:value-of select="$testSetName" />: <xsl:value-of select="$rawtotal" />. notrun: <xsl:value-of select="count($results/r:test-case[@result = ('n/a', 'tooBig', 'disputed')])" /></xsl:message>
+                     <xsl:message>spec: <xsl:value-of select="$spec"/>, Test-set: <xsl:value-of
+                           select="$testSetName"/>: <xsl:value-of select="$rawtotal"/>. notrun:
+                           <xsl:value-of
+                           select="
+                              count($results/r:test-case[@result = ('n/a',
+                              'tooBig',
+                              'disputed')])"
+                        /></xsl:message>
                      <xsl:attribute name="bgcolor">
                         <xsl:choose>
-                           <xsl:when test="$passed=$total and $passed != 0">
+                           <xsl:when test="$passed = $total and $passed != 0">
                               <xsl:value-of select="$perfectcolor"/>
                            </xsl:when>
-                           <xsl:when test="(100 * $passed) &gt; (98 * $total)">
+                           <xsl:when test="(100 * $passed) > (98 * $total)">
                               <xsl:value-of select="$passcolor"/>
                            </xsl:when>
                            <xsl:when test="$passed = 0">
@@ -693,7 +790,7 @@
                         </xsl:choose>
                      </xsl:attribute>
                      <xsl:choose>
-                        <xsl:when test="$grandSummary='true'">
+                        <xsl:when test="$grandSummary = 'true'">
                            <xsl:text>&#xA0;</xsl:text>
                            <xsl:value-of select="$passed"/>
                            <xsl:text>&#xA0;/&#xA0;</xsl:text>
@@ -701,10 +798,10 @@
                            <xsl:text>&#xA0;/&#xA0;</xsl:text>
                            <xsl:value-of select="$total"/>
                            <xsl:text>&#xA0;</xsl:text>
-                           <xsl:if test="$title='Minimal Conformance'">
+                           <xsl:if test="$title = 'Minimal Conformance'">
                               <br/>
                               <xsl:value-of
-                                 select="concat(round((1000*$passed) div $total) div 10, '%')"/>
+                                 select="concat(round((1000 * $passed) div $total) div 10, '%')"/>
                            </xsl:if>
                         </xsl:when>
                         <xsl:otherwise>
@@ -721,19 +818,27 @@
                      <xsl:variable name="totalresults" select="count($resultsDocsGrouped)"/>
                      <xsl:variable name="passresults">
                         <xsl:for-each select="$resultsDocsGrouped">
-                           <xsl:variable name="spec" select="r:test-suite-result/r:product/@language"/>
-                           <xsl:variable name="testApplicableToSpec" select="$tests[r:testCaseAppliesToSpec(., $spec)]/@name" as="xs:string*" />
-                           <xsl:variable name="rawtotali" select="count($tests[r:testCaseAppliesToSpec(., $spec)])" />
+                           <xsl:variable name="spec"
+                              select="r:test-suite-result/r:product/@language"/>
+                           <xsl:variable name="testApplicableToSpec"
+                              select="$tests[r:testCaseAppliesToSpec(., $spec)]/@name"
+                              as="xs:string*"/>
+                           <xsl:variable name="rawtotali"
+                              select="count($tests[r:testCaseAppliesToSpec(., $spec)])"/>
                            <xsl:variable name="results" select="key('testSetByName', $testSetName)"
                               as="element(r:test-set)?"/>
                            <xsl:variable name="total">
-                              <xsl:value-of select="$rawtotali - count($results/r:test-case[@name=$testApplicableToSpec and @result = ('n/a','tooBig', 'disputed')])"/>
+                              <xsl:value-of
+                                 select="
+                                    $rawtotali - count($results/r:test-case[@name = $testApplicableToSpec and @result = ('n/a',
+                                    'tooBig',
+                                    'disputed')])"
+                              />
                            </xsl:variable>
-                           <xsl:variable name="syntax"
-                              select="./r:test-suite-result/r:syntax"/>
+                           <xsl:variable name="syntax" select="./r:test-suite-result/r:syntax"/>
                            <xsl:variable name="total">
                               <xsl:choose>
-                                 <xsl:when test="$syntax='XQueryX'">
+                                 <xsl:when test="$syntax = 'XQueryX'">
                                     <xsl:value-of select="$rawtotali - $totalNotPE"/>
                                  </xsl:when>
                                  <xsl:otherwise>
@@ -742,7 +847,12 @@
                               </xsl:choose>
                            </xsl:variable>
                            <xsl:if
-                              test="$total = count($results/r:test-case[@result=('pass', 'wrongError', 'n/a', 'tooBig', 'disputed')]) and $total != 0">
+                              test="
+                                 $total = count($results/r:test-case[@result = ('pass',
+                                 'wrongError',
+                                 'n/a',
+                                 'tooBig',
+                                 'disputed')]) and $total != 0">
                               <xsl:value-of select="1"/>
                            </xsl:if>
                         </xsl:for-each>
@@ -777,171 +887,291 @@
          <xsl:apply-templates select="$testSetFile//t:test-case">
             <xsl:with-param name="detail" select="true()"/>
          </xsl:apply-templates>
-         
+
       </xsl:if>
 
       <!-- Generate rows for the test groups that are contained -->
    </xsl:template>
-   
+
    <xsl:template name="dependencyList">
-      <xsl:for-each-group select="$testCases" group-by="(.|..)/(t:dependency[@type='feature']/string(@value), t:dependency[not(@type=('spec', 'feature'))]/string(@type))">
+      <xsl:for-each-group select="$testCases"
+         group-by="
+            (. | ..)/(t:dependency[@type = 'feature']/string(@value),
+            t:dependency[not(@type = ('spec',
+            'feature'))]/string(@type))">
          <xsl:sort select="current-grouping-key()"/>
+
+
          <xsl:variable name="sequence" select="position()"/>
          <xsl:variable name="primaryKey" select="current-grouping-key()"/>
-         <h3><xsl:value-of select="current-grouping-key()"/></h3>
-         <xsl:for-each-group select="current-group()" 
-                group-by="(.|..)/t:dependency[(@type='feature' and @value=current-grouping-key()) or @type=current-grouping-key()]/concat(@value[not(.=current-grouping-key())], '[', (@satisfied, 'true')[1], ']')">
-            
-            <xsl:variable name="dependencyKey" select="replace(concat($primaryKey, '=', substring-before(current-grouping-key(), '[')), '=$', '')"/>
-            <xsl:variable name="satisfied" select="substring-before(substring-after(current-grouping-key(), '['), ']')"/>
-            <blockquote>
-               <p>
-                  <a href="dependency/{$sequence}p{position()}.html">
-                     <xsl:value-of select="$dependencyKey"/>
-                  </a>
-                  <i><xsl:value-of select="if ($satisfied='true') then ' satisfied ' else ' not satisfied '"/></i>
-                  <xsl:value-of select="'(', count(current-group()), ' test', 's'[count(current-group()) gt 1], ')'" separator=""/>
-               </p>
-               
-               <xsl:variable name="minPasses" select="min(for $t in current-group()/@name return count($resultsDocs/key('testCaseByName', $t)[@result=('pass', 'wrongError')]))"/>
-               <xsl:if test="$minPasses lt 2">
-                  <xsl:variable name="sparseTests" select="for $t in current-group() 
-                                                           return (if (count($resultsDocs/key('testCaseByName', $t/@name)[@result=('pass', 'wrongError')]) = $minPasses) then $t else ())"/>
-                  <p style="color:red">
-                     <xsl:number value="count($sparseTests)" format="Ww"/>
-                     <xsl:value-of select="if (count($sparseTests) = 1) then ' test was' else ' tests were'"/>
-                     passed by <xsl:value-of select="if ($minPasses = 0) then 'no implementations' else 'only one implementation' "/>
+         <xsl:if test="current-grouping-key() = $optional-features31">
+
+            <h3>
+               <xsl:value-of select="current-grouping-key()"/>
+            </h3>
+            <xsl:for-each-group select="current-group()"
+               group-by="
+                  (. | ..)/t:dependency[(@type = 'feature' and @value = current-grouping-key()) or @type = current-grouping-key()]/concat(@value[not(. = current-grouping-key())], '[', (@satisfied,
+                  'true')[1], ']')">
+
+               <xsl:variable name="dependencyKey"
+                  select="replace(concat($primaryKey, '=', substring-before(current-grouping-key(), '[')), '=$', '')"/>
+               <xsl:variable name="satisfied"
+                  select="substring-before(substring-after(current-grouping-key(), '['), ']')"/>
+               <blockquote>
+                  <p>
+                     <a href="dependency/{$sequence}p{position()}.html">
+                        <xsl:value-of select="$dependencyKey"/>
+                     </a>
+                     <i>
+                        <xsl:value-of
+                           select="
+                              if ($satisfied = 'true') then
+                                 ' satisfied '
+                              else
+                                 ' not satisfied '"
+                        />
+                     </i>
+                     <xsl:value-of
+                        select="
+                           '(',
+                           count(current-group()),
+                           ' test',
+                           's'[count(current-group()) gt 1],
+                           ')'"
+                        separator=""/>
                   </p>
-               </xsl:if>
-            </blockquote>
-            
-            <xsl:result-document href="dependency/{$sequence}p{position()}.html">
-               <html>
-                  <head>
-                     <title>Test results for dependency: <xsl:value-of select="$dependencyKey"/></title>
-                     <xsl:call-template name="add-script"/>
-                  </head>
-                  <body>
-                     <p>
-                        <button type="button" onclick="window.location='../report.html'">Main Report</button>
-                        <xsl:text>&#xa0;&#xa0;</xsl:text>
-                        <button type="button" onclick="window.location='javascript:javascript:history.go(-1)'">Back</button>
+
+                  <xsl:variable name="minPasses"
+                     select="
+                        min(for $t in current-group()/@name
+                        return
+                           count($resultsDocs/key('testCaseByName', $t)[@result = ('pass',
+                           'wrongError')]))"/>
+                  <xsl:if test="$minPasses lt 2">
+                     <xsl:variable name="sparseTests"
+                        select="
+                           for $t in current-group()
+                           return
+                              (if (count($resultsDocs/key('testCaseByName', $t/@name)[@result = ('pass',
+                              'wrongError')]) = $minPasses) then
+                                 $t
+                              else
+                                 ())"/>
+                     <p style="color:red">
+                        <xsl:number value="count($sparseTests)" format="Ww"/>
+                        <xsl:value-of
+                           select="
+                              if (count($sparseTests) = 1) then
+                                 ' test was'
+                              else
+                                 ' tests were'"
+                        /> passed by <xsl:value-of
+                           select="
+                              if ($minPasses = 0) then
+                                 'no implementations'
+                              else
+                                 'only one implementation'"
+                        />
                      </p>
-                     <h1><xsl:value-of select="current-grouping-key()"/></h1>
-                     <blockquote>Results for tests requiring that dependency <i><xsl:value-of select="replace($dependencyKey, '=', ' = ')"/></i> is 
-                        <b><xsl:value-of select="if ($satisfied='true') then '' else 'not'"/></b> satisfied</blockquote>
-                                      
-                     <table frame="hsides" rules="groups" border="1" bordercolor="black"
-                        bgcolor="{$backgroundcolor}" cellpadding="2">
-                        <xsl:call-template name="headings">
-                           <xsl:with-param name="testType" select="'Test-sets'"/>
-                        </xsl:call-template>
-                        
-                        <tbody>
-                           <xsl:choose>
-                              <xsl:when test="contains($dependencyKey, '=')">
-                                 <xsl:apply-templates select="$testCases[(.|..)/t:dependency[@type = substring-before($dependencyKey, '=') and @value = substring-after($dependencyKey, '=') and ((@satisfied, 'true')[1] = $satisfied)]]"/>
-                              </xsl:when>
-                              <xsl:otherwise>
-                                 <xsl:apply-templates select="$testCases[(.|..)/t:dependency[@type = 'feature' and @value = $dependencyKey and ((@satisfied, 'true')[1] = $satisfied)]]"/>
-                              </xsl:otherwise>
-                           </xsl:choose>
-                        </tbody>
-                     </table>
-                     
-                  </body>
-               </html>  
-            </xsl:result-document>
-            
-         </xsl:for-each-group>
-      </xsl:for-each-group>    
-      
+                  </xsl:if>
+               </blockquote>
+
+               <xsl:result-document href="dependency/{$sequence}p{position()}.html">
+                  <html>
+                     <head>
+                        <title>Test results for dependency: <xsl:value-of select="$dependencyKey"
+                           /></title>
+                        <xsl:call-template name="add-script"/>
+                     </head>
+                     <body>
+                        <p>
+                           <button type="button" onclick="window.location='../report.html'">Main
+                              Report</button>
+                           <xsl:text>&#xa0;&#xa0;</xsl:text>
+                           <button type="button"
+                              onclick="window.location='javascript:javascript:history.go(-1)'"
+                              >Back</button>
+                        </p>
+                        <h1>
+                           <xsl:value-of select="current-grouping-key()"/>
+                        </h1>
+                        <blockquote>Results for tests requiring that dependency <i><xsl:value-of
+                                 select="replace($dependencyKey, '=', ' = ')"/></i> is
+                                 <b><xsl:value-of
+                                 select="
+                                    if ($satisfied = 'true') then
+                                       ''
+                                    else
+                                       'not'"
+                              /></b> satisfied</blockquote>
+
+                        <table frame="hsides" rules="groups" border="1" bordercolor="black"
+                           bgcolor="{$backgroundcolor}" cellpadding="2">
+                           <xsl:call-template name="headings">
+                              <xsl:with-param name="testType" select="'Test-sets'"/>
+                           </xsl:call-template>
+
+                           <tbody>
+                              <xsl:choose>
+                                 <xsl:when test="contains($dependencyKey, '=')">
+                                    <xsl:apply-templates
+                                       select="
+                                          $testCases[(. | ..)/t:dependency[@type = substring-before($dependencyKey, '=') and @value = substring-after($dependencyKey, '=') and ((@satisfied,
+                                          'true')[1] = $satisfied)]]"
+                                    />
+                                 </xsl:when>
+                                 <xsl:otherwise>
+                                    <xsl:apply-templates
+                                       select="
+                                          $testCases[(. | ..)/t:dependency[@type = 'feature' and @value = $dependencyKey and ((@satisfied,
+                                          'true')[1] = $satisfied)]]"
+                                    />
+                                 </xsl:otherwise>
+                              </xsl:choose>
+                           </tbody>
+                        </table>
+
+                     </body>
+                  </html>
+               </xsl:result-document>
+
+            </xsl:for-each-group>
+         </xsl:if>
+      </xsl:for-each-group>
+
    </xsl:template>
-   
+
    <xsl:function name="t:combDependency">
-      <xsl:param name="testCase" as="element(t:test-case)" />
-      
+      <xsl:param name="testCase" as="element(t:test-case)"/>
+
       <xsl:variable name="dependencies" as="xs:string*">
-         <xsl:for-each select="$testCase/(.|..)/(t:dependency[@type='feature'], t:dependency[not(@type=('spec', 'feature'))])">
+         <xsl:for-each
+            select="
+               $testCase/(. | ..)/(t:dependency[@type = 'feature'],
+               t:dependency[not(@type = ('spec',
+               'feature'))])">
+            <xsl:if test="@value = $optional-features31">
             <xsl:value-of>
-               <xsl:if test="@satisfied='false'"> not (</xsl:if>
-               <xsl:if test="not(@type='feature')"><xsl:value-of select="@type"/>=</xsl:if><xsl:value-of select="@value"/>
-               <xsl:if test="@satisfied='false'">) </xsl:if>
+               <xsl:if test="@satisfied = 'false'"> not (</xsl:if>
+               <xsl:if test="not(@type = 'feature')"><xsl:value-of select="@type"/>=</xsl:if>
+               <xsl:value-of select="@value"/>
+               <xsl:if test="@satisfied = 'false'">) </xsl:if>
             </xsl:value-of>
+            </xsl:if>
          </xsl:for-each>
       </xsl:variable>
-      
-      
-      <xsl:variable name="sorted-dependencies" as="xs:string*" >
+
+
+      <xsl:variable name="sorted-dependencies" as="xs:string*">
          <xsl:perform-sort select="distinct-values($dependencies)">
-            <xsl:sort select="."></xsl:sort>
+            <xsl:sort select="."/>
          </xsl:perform-sort>
       </xsl:variable>
-      <xsl:sequence select="string-join($sorted-dependencies, ' + ')" />
-      
+      <xsl:sequence select="string-join($sorted-dependencies, ' + ')"/>
+
    </xsl:function>
-   
+
    <xsl:template name="featureDependencyCombList">
       <xsl:for-each-group select="$testCases" group-by="t:combDependency(.)">
          <xsl:sort select="current-grouping-key()"/>
          <xsl:variable name="sequence" select="position()"/>
          <xsl:variable name="primaryKey" select="current-grouping-key()"/>
-         <h3><a href="dependencyCombo/{$sequence}p{position()}.html"><xsl:value-of select="current-grouping-key()"/></a> (<xsl:value-of select="count(current-group())"/> tests)</h3>
+         <h3><a href="dependencyCombo/{$sequence}p{position()}.html"><xsl:value-of
+                  select="current-grouping-key()"/></a> (<xsl:value-of
+               select="count(current-group())"/> tests)</h3>
          <!--<xsl:for-each-group select="current-group()" 
             group-by="(.|..)/t:dependency[(@type='feature' and @value=current-grouping-key()) or @type=current-grouping-key()]/concat(@value[not(.=current-grouping-key())], '[', (@satisfied, 'true')[1], ']')">-->
-            
-           
-            <xsl:variable name="dependencyKey" select="replace(concat($primaryKey, '=', substring-before(current-grouping-key(), '[')), '=$', '')"/>
-            <xsl:variable name="satisfied" select="substring-before(substring-after(current-grouping-key(), '['), ']')"/>
-            <blockquote>
-<!--               <p>
+
+
+         <xsl:variable name="dependencyKey"
+            select="replace(concat($primaryKey, '=', substring-before(current-grouping-key(), '[')), '=$', '')"/>
+         <xsl:variable name="satisfied"
+            select="substring-before(substring-after(current-grouping-key(), '['), ']')"/>
+         <blockquote>
+            <!--               <p>
                   
                      <xsl:value-of select="$dependencyKey"/>
                   </a>
                   <i><xsl:value-of select="if ($satisfied='true') then ' satisfied ' else ' not satisfied '"/></i>
                   <xsl:value-of select="'(', count(current-group()), ' test', 's'[count(current-group()) gt 1], ')'" separator=""/>
                </p>-->
-               
-               <xsl:variable name="minPasses" select="min(for $t in current-group()/@name return count($resultsDocs/key('testCaseByName', $t)[@result=('pass', 'wrongError')]))"/>
-               <xsl:if test="$minPasses lt 2">
-                  <xsl:variable name="sparseTests" select="for $t in current-group() 
-                     return (if (count($resultsDocs/key('testCaseByName', $t/@name)[@result=('pass', 'wrongError')]) = $minPasses) then $t else ())"/>
-                  <p style="color:red">
-                     <xsl:number value="count($sparseTests)" format="Ww"/>
-                     <xsl:value-of select="if (count($sparseTests) = 1) then ' test was' else ' tests were'"/>
-                     passed by <xsl:value-of select="if ($minPasses = 0) then 'no implementations' else 'only one implementation' "/>
+
+            <xsl:variable name="minPasses"
+               select="
+                  min(for $t in current-group()/@name
+                  return
+                     count($resultsDocs/key('testCaseByName', $t)[@result = ('pass',
+                     'wrongError')]))"/>
+            <xsl:if test="$minPasses lt 2">
+               <xsl:variable name="sparseTests"
+                  select="
+                     for $t in current-group()
+                     return
+                        (if (count($resultsDocs/key('testCaseByName', $t/@name)[@result = ('pass',
+                        'wrongError')]) = $minPasses) then
+                           $t
+                        else
+                           ())"/>
+               <p style="color:red">
+                  <xsl:number value="count($sparseTests)" format="Ww"/>
+                  <xsl:value-of
+                     select="
+                        if (count($sparseTests) = 1) then
+                           ' test was'
+                        else
+                           ' tests were'"
+                  /> passed by <xsl:value-of
+                     select="
+                        if ($minPasses = 0) then
+                           'no implementations'
+                        else
+                           'only one implementation'"
+                  />
+               </p>
+            </xsl:if>
+         </blockquote>
+
+         <xsl:result-document href="dependencyCombo/{$sequence}p{position()}.html">
+            <html>
+               <head>
+                  <title>Test results for dependency: <xsl:value-of select="$dependencyKey"
+                     /></title>
+                  <xsl:call-template name="add-script"/>
+               </head>
+               <body>
+                  <p>
+                     <button type="button" onclick="window.location='../report.html'">Main
+                        Report</button>
+                     <xsl:text>&#xa0;&#xa0;</xsl:text>
+                     <button type="button"
+                        onclick="window.location='javascript:javascript:history.go(-1)'"
+                        >Back</button>
                   </p>
-               </xsl:if>
-            </blockquote>
-            
-            <xsl:result-document href="dependencyCombo/{$sequence}p{position()}.html">
-               <html>
-                  <head>
-                     <title>Test results for dependency: <xsl:value-of select="$dependencyKey"/></title>
-                     <xsl:call-template name="add-script"/>
-                  </head>
-                  <body>
-                     <p>
-                        <button type="button" onclick="window.location='../report.html'">Main Report</button>
-                        <xsl:text>&#xa0;&#xa0;</xsl:text>
-                        <button type="button" onclick="window.location='javascript:javascript:history.go(-1)'">Back</button>
-                     </p>
-                     <h1><xsl:value-of select="current-grouping-key()"/></h1>
-                     <blockquote>Results for tests requiring that dependency <i><xsl:value-of select="replace($dependencyKey, '=', ' = ')"/></i> is 
-                        <b><xsl:value-of select="if ($satisfied='true') then '' else 'not'"/></b> satisfied</blockquote>
-                     
-                     <table frame="hsides" rules="groups" border="1" bordercolor="black"
-                        bgcolor="{$backgroundcolor}" cellpadding="2">
-                        <xsl:call-template name="headings">
-                           <xsl:with-param name="testType" select="'Test-sets'"/>
-                        </xsl:call-template>
-                        
-                        
-                        
-                        <tbody>
-                           <xsl:apply-templates select="current-group()" />
-                           
-                           <!--<xsl:choose>
+                  <h1>
+                     <xsl:value-of select="current-grouping-key()"/>
+                  </h1>
+                  <blockquote>Results for tests requiring that dependency <i><xsl:value-of
+                           select="replace($dependencyKey, '=', ' = ')"/></i> is <b><xsl:value-of
+                           select="
+                              if ($satisfied = 'true') then
+                                 ''
+                              else
+                                 'not'"
+                        /></b> satisfied</blockquote>
+
+                  <table frame="hsides" rules="groups" border="1" bordercolor="black"
+                     bgcolor="{$backgroundcolor}" cellpadding="2">
+                     <xsl:call-template name="headings">
+                        <xsl:with-param name="testType" select="'Test-sets'"/>
+                     </xsl:call-template>
+
+
+
+                     <tbody>
+                        <xsl:apply-templates select="current-group()"/>
+
+                        <!--<xsl:choose>
                               <xsl:when test="contains($dependencyKey, '=')">
                                  <xsl:apply-templates select="$testCases[(.|..)/t:dependency[@type = substring-before($dependencyKey, '=') and @value = substring-after($dependencyKey, '=') and ((@satisfied, 'true')[1] = $satisfied)]]"/>
                               </xsl:when>
@@ -949,48 +1179,73 @@
                                  <xsl:apply-templates select="$testCases[(.|..)/t:dependency[@type = 'feature' and @value = $dependencyKey and ((@satisfied, 'true')[1] = $satisfied)]]"/>
                               </xsl:otherwise>
                            </xsl:choose>-->
-                        </tbody>
-                     </table>
-                     
-                  </body>
-               </html>  
-            </xsl:result-document>
-            
+                     </tbody>
+                  </table>
+
+               </body>
+            </html>
+         </xsl:result-document>
+
          <!--</xsl:for-each-group>-->
-      </xsl:for-each-group>    
-      
+      </xsl:for-each-group>
+
    </xsl:template>
-   
+
    <xsl:template name="changeList">
-      <xsl:variable name="changes" select="distinct-values($changesDoc//change[contains(../@name,'31')]/@id)" />
-      
+      <xsl:variable name="changes"
+         select="distinct-values($changesDoc//change[contains(../@name, '31')]/@id)"/>
+
       <xsl:for-each select="$changes">
          <!--<xsl:sort select="$changesDoc//change[@id = current()]/translate(., '&quot;', '')" lang="en"/>-->
-         <xsl:variable name="changei" select="." />
+         <xsl:variable name="changei" select="."/>
          <xsl:variable name="desc" select="$changesDoc//change[@id = current()]/string()"/>
-         <xsl:variable name="relevant-test-cases" 
-            select="$testSets[tokenize(@covers, ' ') = $changei]/t:test-case |
-            $testSets/t:test-case[tokenize(@covers, ' ') = $changei]" />
+         <xsl:variable name="relevant-test-cases"
+            select="
+               $testSets[tokenize(@covers, ' ') = $changei]/t:test-case |
+               $testSets/t:test-case[tokenize(@covers, ' ') = $changei]"/>
          <p>
             <a href="new/{.}.html">
                <xsl:value-of select="$desc"/>
             </a>
             <xsl:value-of select="concat(' (', count($relevant-test-cases), ' tests)')"/>
          </p>
-         
-         <xsl:variable name="minPasses" select="min(for $t in $relevant-test-cases/@name return count($resultsDocs/key('testCaseByName', $t)[@result=('pass', 'wrongError')]))"/>
+
+         <xsl:variable name="minPasses"
+            select="
+               min(for $t in $relevant-test-cases/@name
+               return
+                  count($resultsDocs/key('testCaseByName', $t)[@result = ('pass',
+                  'wrongError')]))"/>
          <xsl:if test="$minPasses lt 2">
-            <xsl:variable name="sparseTests" select="for $t in $relevant-test-cases 
-               return (if (count($resultsDocs/key('testCaseByName', $t/@name)[@result=('pass', 'wrongError')]) = $minPasses) then $t else ())"/>
+            <xsl:variable name="sparseTests"
+               select="
+                  for $t in $relevant-test-cases
+                  return
+                     (if (count($resultsDocs/key('testCaseByName', $t/@name)[@result = ('pass',
+                     'wrongError')]) = $minPasses) then
+                        $t
+                     else
+                        ())"/>
             <blockquote>
                <p style="color:red">
                   <xsl:number value="count($sparseTests)" format="Ww"/>
-                  <xsl:value-of select="if (count($sparseTests) = 1) then ' test was' else ' tests were'"/>
-                  passed by <xsl:value-of select="if ($minPasses = 0) then 'no implementations' else 'only one implementation' "/>
+                  <xsl:value-of
+                     select="
+                        if (count($sparseTests) = 1) then
+                           ' test was'
+                        else
+                           ' tests were'"
+                  /> passed by <xsl:value-of
+                     select="
+                        if ($minPasses = 0) then
+                           'no implementations'
+                        else
+                           'only one implementation'"
+                  />
                </p>
             </blockquote>
          </xsl:if>
-         
+
          <xsl:result-document href="new/{if(contains(., '#')) then replace(.,'#','-') else .}.html">
             <html>
                <head>
@@ -999,14 +1254,19 @@
                </head>
                <body>
                   <p>
-                  <button type="button" onclick="window.location='../report.html'">Main Report</button>
-                  <xsl:text>&#xa0;&#xa0;</xsl:text>
-                  <button type="button" onclick="window.location='javascript:javascript:history.go(-1)'">Back</button>
-                  </p>   
+                     <button type="button" onclick="window.location='../report.html'">Main
+                        Report</button>
+                     <xsl:text>&#xa0;&#xa0;</xsl:text>
+                     <button type="button"
+                        onclick="window.location='javascript:javascript:history.go(-1)'"
+                        >Back</button>
+                  </p>
                   <h1>Test results covering change: <i><xsl:value-of select="$desc"/></i></h1>
 
-                  <p><b>Change id: <xsl:value-of select="." /></b></p>
- 
+                  <p>
+                     <b>Change id: <xsl:value-of select="."/></b>
+                  </p>
+
                   <table frame="hsides" rules="groups" border="1" bordercolor="black"
                      bgcolor="{$backgroundcolor}" cellpadding="2">
                      <xsl:call-template name="headings">
@@ -1014,14 +1274,14 @@
                      </xsl:call-template>
                      <tbody>
                         <xsl:apply-templates select="$relevant-test-cases"/>
-                     </tbody>   
+                     </tbody>
                   </table>
- 
+
                </body>
-            </html>  
+            </html>
          </xsl:result-document>
       </xsl:for-each>
-      
+
    </xsl:template>
 
 
@@ -1043,7 +1303,7 @@
    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
 
    <xsl:template match="t:test-case">
- 
+
       <xsl:variable name="test-name" select="@name"/>
       <xsl:variable name="creator" select="./t:created/@by"/>
       <xsl:variable name="test-casei" select="./t:test"/>
@@ -1052,7 +1312,7 @@
       <xsl:variable name="failedresults">
          <xsl:for-each select="$resultsDocs">
             <xsl:variable name="results" select="key('testCaseByName', $test-name)"/>
-            <xsl:if test="count($results[@result='fail']) > 0">
+            <xsl:if test="count($results[@result = 'fail']) > 0">
                <xsl:value-of select="1"/>
             </xsl:if>
          </xsl:for-each>
@@ -1063,15 +1323,14 @@
       <xsl:if test="not($failures) or $failed > 0">
          <tr>
             <td valign="top">
-               <xsl:for-each select="ancestor::t:test-set"
-                  >&#xA0;&#xA0;&#xA0;&#xA0;</xsl:for-each>
+               <xsl:for-each select="ancestor::t:test-set">&#xA0;&#xA0;&#xA0;&#xA0;</xsl:for-each>
 
                <a name="#x{$test-name}">
                   <xsl:value-of select="$test-name"/>
                </a>
                <a href="#x{$test-name}" onmousedown="makeVisible('{$test-name}');"
                   onmouseover="makeVisible('{$test-name}');" id="x{$test-name}">[+]</a>
-               
+
                <font size="-1">
                   <div id="{$test-name}"
                      style="position:absolute; left:20; width:410px; height:10; visibility:hidden">
@@ -1111,13 +1370,14 @@
             <xsl:for-each select="$resultsDocs">
                <xsl:sort select="./r:test-suite-result/r:product/@name"/>
 
-               <xsl:variable name="test" select="key('testCaseByName', $test-name)" as="element(r:test-case)?"/>
+               <xsl:variable name="test" select="key('testCaseByName', $test-name)"
+                  as="element(r:test-case)?"/>
 
                <!-- Long text causes horizaontal scrolling                          -->
                <!-- IE solution style="word-break:break-all; word-wrap:break-word;" -->
                <!-- Another solution is to add <wbr> tags inside the text           -->
                <!-- Some suggest  style="overflow-x:hidden;"                        -->
-               
+
                <td valign="top">
                   <xsl:attribute name="bgcolor" select="r:status-color($test/@result)"/>
                   <xsl:choose>
@@ -1151,31 +1411,44 @@
      Returns three integers, the number of passes, the number of fails,
      and the total number of tests
    -->
-   
+
    <xsl:function name="r:testCaseStats" as="xs:integer*">
       <xsl:param name="testName" as="xs:string"/>
       <xsl:param name="testCases" as="element(t:test-case)*"/>
       <xsl:variable name="runs" select="$resultsDocs/key('testCaseByName', $testName)"/>
-      <xsl:variable name="inapplicable" select="count($runs[@result = ('n/a', 'disputed', 'tooBig')])"/>
-      <xsl:sequence select="count($runs[@result = ('pass', 'wrongError')]), count($testCases) - $inapplicable, count($testCases)"/>
+      <xsl:variable name="inapplicable"
+         select="
+            count($runs[@result = ('n/a',
+            'disputed',
+            'tooBig')])"/>
+      <xsl:sequence
+         select="
+            count($runs[@result = ('pass',
+            'wrongError')]),
+            count($testCases) - $inapplicable,
+            count($testCases)"
+      />
    </xsl:function>
-   
+
    <!-- 
      Determine whether a particular test case in the catalog is applicable
      to a given specification
    -->
-   
+
    <xsl:function name="r:testCaseAppliesToSpec" as="xs:boolean">
       <xsl:param name="testCase" as="element(t:test-case)"/>
       <xsl:param name="spec" as="xs:string"/>
-      <xsl:variable name="dependency" select="$testCase/((.|..)/t:dependency[@type='spec'])[last()]/@value"/>
-      <xsl:sequence select="empty($dependency) or 
-                            contains($dependency, $spec) or
-                            ($spec = 'XQ31' and contains($dependency, 'XQ10+')) or
-                            ($spec = 'XQ31' and contains($dependency, 'XQ11+')) or
-                            ($spec = 'XQ31' and contains($dependency, 'XQ30+')) or
-                            ($spec = 'XP31' and contains($dependency, 'XP30+')) or
-                            ($spec = 'XP31' and contains($dependency, 'XP21+'))"/>
+      <xsl:variable name="dependency"
+         select="$testCase/((. | ..)/t:dependency[@type = 'spec'])[last()]/@value"/>
+      <xsl:sequence
+         select="
+            empty($dependency) or
+            contains($dependency, $spec) or
+            ($spec = 'XQ31' and contains($dependency, 'XQ10+')) or
+            ($spec = 'XQ31' and contains($dependency, 'XQ11+')) or
+            ($spec = 'XQ31' and contains($dependency, 'XQ30+')) or
+            ($spec = 'XP31' and contains($dependency, 'XP30+')) or
+            ($spec = 'XP31' and contains($dependency, 'XP21+'))"/>
 
    </xsl:function>
 
@@ -1224,7 +1497,7 @@
                      <xsl:sort select="@satisfied" order="descending"/>
                      <xsl:sort select="@type"/>
                      <tr>
-                        <td>name:  <xsl:value-of select="@type"/></td>
+                        <td>name: <xsl:value-of select="@type"/></td>
                         <td>&#xA0;</td>
                         <td>value: <xsl:value-of select="@value"/></td>
                         <td>&#xA0;</td>
@@ -1267,16 +1540,16 @@
             </td>
          </tr>
          <tr>
-               <td valign="top">Syntax:</td>
-               <td valign="top">
-                  <xsl:choose>
-                     <xsl:when test="exists(../../r:syntax)">
-                        <xsl:value-of select="../../r:syntax"/>       
-                     </xsl:when>
-                     <xsl:otherwise>XQuery</xsl:otherwise>
-                  </xsl:choose>
-                 </td>
-            </tr>
+            <td valign="top">Syntax:</td>
+            <td valign="top">
+               <xsl:choose>
+                  <xsl:when test="exists(../../r:syntax)">
+                     <xsl:value-of select="../../r:syntax"/>
+                  </xsl:when>
+                  <xsl:otherwise>XQuery</xsl:otherwise>
+               </xsl:choose>
+            </td>
+         </tr>
 
          <!-- <xsl:if test='r:transformation'>
                <tr>
@@ -1332,7 +1605,7 @@
 
    <xsl:template match="p | table | tr | th | td | ol | ul | li | br">
       <xsl:copy>
-         <xsl:apply-templates select="@*|node()"/>
+         <xsl:apply-templates select="@* | node()"/>
       </xsl:copy>
    </xsl:template>
 
@@ -1368,8 +1641,8 @@
          </td>
       </tr>
    </xsl:template>
-   
- 
+
+
 
 
 </xsl:stylesheet>
