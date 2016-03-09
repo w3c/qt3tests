@@ -395,7 +395,7 @@ abracadabra", "\n","with")</test>
    <test-case name="fn-replace-34" covers-30="regex-q-flag">
       <description>Evaluation of replace function with q flag.</description>
       <created by="Michael Kay" on="2012-01-08"/>
-      <dependency type="spec" value="XP30+"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
       <test>fn:replace("abracadabra", "a", "$1", "q")</test>
       <result>
          <assert-string-value>$1br$1c$1d$1br$1</assert-string-value>
@@ -405,7 +405,7 @@ abracadabra", "\n","with")</test>
    <test-case name="fn-replace-35" covers-30="regex-q-flag">
       <description>Evaluation of replace function with q flag.</description>
       <created by="Michael Kay" on="2012-01-08"/>
-      <dependency type="spec" value="XP30+"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
       <test>fn:replace("a?bracadabra?", "a?", "\$1", "q")</test>
       <result>
          <assert-string-value>\$1bracadabr\$1</assert-string-value>
@@ -415,7 +415,7 @@ abracadabra", "\n","with")</test>
    <test-case name="fn-replace-36" covers-30="regex-non-capturing">
       <description>Evaluation of replace function with non-capturing groups.</description>
       <created by="Michael Kay" on="2012-01-08"/>
-      <dependency type="spec" value="XP30+"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
       <test>fn:replace("abracadabra", "([aA])(?:br)([aA])", "$1**$2")</test>
       <result>
          <assert-string-value>a**acada**a</assert-string-value>
@@ -527,6 +527,58 @@ abracadabra", "\n","with")</test>
       <test>replace('abcd', '^a(.).$|^a...$', '$1')</test>
       <result>
          <assert-eq>""</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-replace-49" covers-30="regex-q-flag">
+      <description>Evaluation of replace function with q flag, with pattern set to "\".</description>
+      <created by="Debbie Lockett, Saxonica" on="2016-03-09"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:replace("a/b/c", "/", "\", "q")</test>
+      <result>
+         <assert-string-value>a\b\c</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-replace-50" covers-30="regex-q-flag">
+      <description>Evaluation of replace function with q flag, with pattern set to "\\", example
+         from spec. (See bug #29522)</description>
+      <created by="Debbie Lockett, Saxonica" on="2016-03-09"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:replace("a\b\c", "\", "\\", "q")</test>
+      <result>
+         <assert-string-value>a\\b\\c</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-replace-51" covers-30="regex-q-flag">
+      <description>Evaluation of replace function with q flag, with pattern set to "$", example from
+         spec. (See bug #29522)</description>
+      <created by="Debbie Lockett, Saxonica" on="2016-03-09"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:replace("a/b/c", "/", "$", "q")</test>
+      <result>
+         <assert-string-value>a$b$c</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-replace-52" covers-30="regex-q-flag">
+      <description>Evaluation of replace function with q flag, with pattern set to "$'". (See bug #29522)</description>
+      <created by="Debbie Lockett, Saxonica" on="2016-03-09"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:replace("a/b/c", "/", "$'", "q")</test>
+      <result>
+         <assert-string-value>a$'b$'c</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-replace-53" covers-30="regex-q-flag">
+      <description>Evaluation of replace function with q flag, with pattern set to "$`". (See bug #29522)</description>
+      <created by="Debbie Lockett, Saxonica" on="2016-03-09"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:replace("a/b/c", "/", "$`", "q")</test>
+      <result>
+         <assert-string-value>a$`b$`c</assert-string-value>
       </result>
    </test-case>
 
