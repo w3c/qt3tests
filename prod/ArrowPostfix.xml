@@ -337,5 +337,66 @@
         <result>
             <assert-deep-eq>("ONE", "TWO", "THREE", "FOUR", "FIVE")</assert-deep-eq>
         </result>
-    </test-case>    
+    </test-case>
+
+    <test-case name="ArrowPostfix-101">
+           <description>Bug 29346</description>
+           <created by="Abel Braaksma" on="2016-02-27"/>
+           <dependency type="spec" value="XP31+ XQ31+"/>
+           <test>("one two three four five" => Q{http://www.w3.org/2005/xpath-functions}tokenize(" ")) ! upper-case(.)</test>
+           <result>
+               <assert-deep-eq>("ONE", "TWO", "THREE", "FOUR", "FIVE")</assert-deep-eq>
+           </result>
+       </test-case>
+
+       <test-case name="ArrowPostfix-102">
+           <description>Bug 29346</description>
+           <created by="Abel Braaksma" on="2016-02-27"/>
+           <dependency type="spec" value="XP31+ XQ31+"/>
+           <test>1 => Q{http://www.w3.org/2005/xpath-functions}sum()</test>
+           <result>
+               <assert-eq>1</assert-eq>
+           </result>
+       </test-case>
+
+       <test-case name="ArrowPostfix-103">
+           <description>Bug 29346</description>
+           <created by="Abel Braaksma" on="2016-02-27"/>
+           <dependency type="spec" value="XP31+ XQ31+"/>
+           <test>(1, 2, 3, 4) => Q{http://www.w3.org/2005/xpath-functions}sum()</test>
+           <result>
+               <assert-eq>10</assert-eq>
+           </result>
+       </test-case>
+
+       <test-case name="ArrowPostfix-104">
+           <description>Bug 29346</description>
+           <created by="Abel Braaksma" on="2016-02-27"/>
+           <dependency type="spec" value="XP31+ XQ31+"/>
+           <test>(1, 2, 3, 4) => (Q{http://www.w3.org/2005/xpath-functions}sum#1)()</test>
+           <result>
+               <assert-eq>10</assert-eq>
+           </result>
+       </test-case>
+
+       <test-case name="ArrowPostfix-105">
+           <description>Bug 29346</description>
+           <created by="Abel Braaksma" on="2016-02-27"/>
+           <dependency type="spec" value="XP31+ XQ31+"/>
+           <test>(1, 2, 3, 4) => (Q{http://www.w3.org/2005/xpath-functions}sum#2)(?, 'foo')()</test>
+           <result>
+               <assert-eq>10</assert-eq>
+           </result>
+       </test-case>
+
+       <test-case name="ArrowPostfix-106">
+           <description>Bug 29346</description>
+           <created by="Abel Braaksma" on="2016-02-27"/>
+           <dependency type="spec" value="XP31+ XQ31+"/>
+           <test>() => (Q{http://www.w3.org/2005/xpath-functions}sum#2)(?, 'foo')()</test>
+           <result>
+               <assert-eq>"foo"</assert-eq>
+           </result>
+       </test-case>
+
 </test-set>
