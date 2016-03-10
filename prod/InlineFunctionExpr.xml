@@ -360,6 +360,103 @@
       </result>
    </test-case>
    
+   <test-case name="inline-fn-028">
+      <description>Inline function has no string value</description>
+      <created by="Michael Kay" on="2016-03-09"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>
+         string(function($a, $b) {$a + $b})
+      </test>
+      <result>
+         <error code="FOTY0014"/>
+      </result>
+   </test-case>
+   
+   <test-case name="inline-fn-029">
+      <description>deep-equal() comparing inline functions</description>
+      <created by="Michael Kay" on="2016-03-09"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>
+         deep-equal(function($a, $b) {$a + $b}, function($a, $b) {$a - $b})
+      </test>
+      <result>
+         <error code="FOTY0015"/>
+      </result>
+   </test-case>
+   
+   <test-case name="inline-fn-030">
+      <description>Inline function has no typed value</description>
+      <created by="Michael Kay" on="2016-03-09"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>
+         data(function($a, $b) {$a + $b})
+      </test>
+      <result>
+         <error code="FOTY0013"/>
+      </result>
+   </test-case>
+   
+   <test-case name="inline-fn-031">
+      <description>Inline function has no typed value</description>
+      <created by="Michael Kay" on="2016-03-09"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>
+         let $x := function($a, $b) {$a + $b}, 
+             $y := function($a, $b) {$a - $b},
+             $c := function($x, $y) {$x = $y}
+         return $c($x, $y)
+      </test>
+      <result>
+         <error code="FOTY0013"/>
+      </result>
+   </test-case>
+   
+   <test-case name="inline-fn-032">
+      <description>Type of an inline function</description>
+      <created by="Michael Kay" on="2016-03-09"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>
+         function($a, $b) {$a + $b}
+      </test>
+      <result>
+         <all-of>
+            <assert-type>item()</assert-type>
+            <assert-type>function(*)</assert-type>
+            <assert-type>function(item()*, item()*) as item()*</assert-type>
+            <assert-type>function(xs:integer, xs:integer) as item()*</assert-type>
+            <not>
+               <assert-type>function(item()*, item()*) as xs:integer</assert-type>
+            </not>
+            <not>
+               <assert-type>function(item()*, item()*, item()*) as item()*</assert-type>
+            </not>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="inline-fn-033">
+      <description>Type of an inline function</description>
+      <created by="Michael Kay" on="2016-03-09"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>
+         function($a as xs:integer, $b as xs:integer) as xs:integer {$a + $b}
+      </test>
+      <result>
+         <all-of>
+            <assert-type>item()</assert-type>
+            <assert-type>function(*)</assert-type>
+            <assert-type>function(xs:integer, xs:integer) as item()*</assert-type>
+            <assert-type>function(xs:long, xs:long) as xs:integer+</assert-type>
+            <not>
+               <assert-type>function(item()*, item()*) as xs:integer</assert-type>
+            </not>
+            <not>
+               <assert-type>function(xs:integer, xs:decimal) as xs:integer</assert-type>
+            </not>
+         </all-of>
+      </result>
+   </test-case>
+   
 
    
 </test-set>
