@@ -658,4 +658,52 @@
             <assert-eq>'Quinto;Quinta'</assert-eq>
         </result>    
     </test-case>
+    <test-case name="format-integer-067">
+        <description>format-integer - mismatched parens in picture</description>
+        <created by="Josh Spiegel" on="2016-03-18"/>
+        <test>format-integer(1234, 'Ww;o(')</test>
+        <result>
+            <error code="FODF1310"/>
+        </result>
+    </test-case>
+    <test-case name="format-integer-068">
+        <description>format-integer - zeroth</description>
+        <created by="Josh Spiegel" on="2016-03-18"/>
+        <test>format-integer(0, 'w;o')</test>
+        <result>
+          <assert-eq>'zeroth'</assert-eq>
+        </result>
+    </test-case>
+    <test-case name="format-integer-069">
+        <description>format-integer - hundredth</description>
+        <created by="Josh Spiegel" on="2016-03-18"/>
+        <test>format-integer(100, 'w;o')</test>
+        <result>
+          <assert-eq>'one hundredth'</assert-eq>
+        </result>
+    </test-case>
+    <test-case name="format-integer-070">
+        <description>format-integer - no pattern</description>
+        <created by="Josh Spiegel" on="2016-03-18"/>
+        <test>format-integer(123456789, '0,0,00,0')</test>
+        <result>
+            <assert-eq>'12345,6,78,9'</assert-eq>
+        </result>
+    </test-case>
+    <test-case name="format-integer-071">
+        <description>format-integer - pattern</description>
+        <created by="Josh Spiegel" on="2016-03-18"/>
+        <test>format-integer(123456789, '00,00,00')</test>
+        <result>
+            <assert-eq>'1,23,45,67,89'</assert-eq>
+        </result>
+    </test-case>
+    <test-case name="format-integer-072">
+        <description>format-integer - no pattern</description>
+        <created by="Josh Spiegel" on="2016-03-18"/>
+        <test>format-integer(123456789, '000,00,00')</test>
+        <result>
+            <assert-eq>'12345,67,89'</assert-eq>
+        </result>
+    </test-case>
 </test-set>
