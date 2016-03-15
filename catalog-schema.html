@@ -92,7 +92,9 @@
             <li><a href="#elem_modified">Element <em>modified</em></a></li>
             <li><a href="#elem_module">Element <em>module</em></a></li>
             <li><a href="#elem_namespace">Element <em>namespace</em></a></li>
+            <li><a href="#elem_not">Element <em>not</em></a></li>
             <li><a href="#elem_param">Element <em>param</em></a></li>
+            <li><a href="#elem_query">Element <em>query</em></a></li>
             <li><a href="#elem_resource">Element <em>resource</em></a></li>
             <li><a href="#elem_result">Element <em>result</em></a></li>
             <li><a href="#elem_schema">Element <em>schema</em></a></li>
@@ -217,7 +219,7 @@
             &lt;/xs:attribute&gt;    
             &lt;xs:attribute name="test-suite" type="<span class="external-link diff-ns">xs:string</span>"&gt;
                
-            &lt;/xs:attribute&gt;                   
+            &lt;/xs:attribute&gt;                     
         &lt;/xs:complexType&gt;
     &lt;/xs:element&gt;</pre></div>
          </div>
@@ -235,6 +237,7 @@
                   <p>
                      Denotes an element which defines an assorted list of schemas and sources documents
                      available to test cases.
+                     For definition of schemas the test drivers should assume a dependency on schema-awareness.
                   </p>
                   
                   
@@ -343,8 +346,9 @@
                      attribute is the collation URI as it actually appears in the XPath expression. There
                      is
                      a small enumerated set of collation URIs that may appear in tests; these have a meaning
-                     that is defined in the test suite. If the implementation cannot bind arbitrary URIs
-                     to
+                     that is defined in the test suite. In addition, from 3.1 onwards, URIs in the Unicode
+                     Collation Algorithm family can be used. If the implementation cannot bind arbitrary
+                     URIs to
                      collations, it may substitute this URI in the source expression by a different one
                      having
                      the same semantics. If the implementation does not support the semantics of the collation,
@@ -366,6 +370,8 @@
         
         &lt;xs:complexType&gt;
             &lt;xs:attribute name="uri"&gt;
+             &lt;xs:simpleType&gt;
+              &lt;xs:union&gt; 
                 &lt;xs:simpleType&gt;
                     &lt;xs:restriction base="<span class="external-link diff-ns">xs:anyURI</span>"&gt;
                         &lt;xs:enumeration value="http://www.w3.org/2005/xpath-functions/collation/codepoint"&gt;
@@ -380,6 +386,13 @@
                         &lt;/xs:enumeration&gt;
                     &lt;/xs:restriction&gt;
                 &lt;/xs:simpleType&gt;
+                &lt;xs:simpleType&gt;
+                  &lt;xs:restriction base="<span class="external-link diff-ns">xs:anyURI</span>"&gt;
+                    &lt;xs:pattern value="http://www.w3.org/2013/collation/UCA\?.*"/&gt;
+                  &lt;/xs:restriction&gt;
+                &lt;/xs:simpleType&gt;
+               &lt;/xs:union&gt;
+              &lt;/xs:simpleType&gt;   
              &lt;/xs:attribute&gt;
              &lt;xs:attribute name="default" type="<span class="external-link diff-ns">xs:boolean</span>" use="optional" default="false"&gt;
                 
@@ -514,7 +527,7 @@
     &lt;xs:element name="param"&gt;
         
         &lt;xs:complexType&gt;
-            &lt;xs:attribute name="name" type="<span class="external-link diff-ns">xs:NCName</span>" use="required"/&gt;
+            &lt;xs:attribute name="name" type="<span class="external-link diff-ns">xs:QName</span>" use="required"/&gt;
             &lt;xs:attribute name="select" type="<span class="external-link diff-ns">xs:string</span>" use="optional"/&gt;
             &lt;xs:attribute name="as" type="<span class="external-link diff-ns">xs:string</span>" use="optional"/&gt;
             &lt;xs:attribute name="source" type="<span class="external-link diff-ns">xs:string</span>" use="optional"/&gt;
@@ -596,6 +609,8 @@
         &lt;xs:complexType&gt;
             &lt;xs:sequence&gt;
                 &lt;xs:element ref="<a href="#elem_source">source</a>" minOccurs="0" maxOccurs="unbounded"/&gt;
+                &lt;xs:element ref="<a href="#elem_resource">resource</a>" minOccurs="0" maxOccurs="unbounded"/&gt;
+                &lt;xs:element ref="<a href="#elem_query">query</a>" minOccurs="0" maxOccurs="unbounded"/&gt;
             &lt;/xs:sequence&gt;
             &lt;xs:attributeGroup ref="<a href="#attgrp_uriAttr">uriAttr</a>"/&gt;
         &lt;/xs:complexType&gt;
@@ -691,6 +706,39 @@
       </div>
       
       
+      <div id="elem_query">
+         <h3><a name="elem_query">Element <em>query</em></a></h3>
+         <div class="bodytext">
+            <div>
+               <div xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.w3.org/2010/09/qt-fots-catalog">
+                  
+                  <h3>query</h3>
+                  
+                  <p>
+                     The content of the element is an XQuery expression to be evaluated. This should return
+                     a sequence equivalent
+                     to the contents of a sequence which can used as input to test cases. Specifically
+                     used in fn:collection.
+                     The scope of the &lt;query&gt; element is the parent &lt;collection&gt; element in which it appears.
+                     
+                  </p>
+                  
+                  <p>For example: unparsed-text-lines('xxx')!parse-json()</p>
+                  
+                  
+               </div>
+            </div>
+            <div>
+               <h4>Formal declaration in XSD source form</h4><pre>
+
+     &lt;xs:element name="query"&gt;
+        
+
+    &lt;/xs:element&gt;</pre></div>
+         </div>
+      </div>
+      
+      
       <div id="elem_schema">
          <h3><a name="elem_schema">Element <em>schema</em></a></h3>
          <div class="bodytext">
@@ -704,6 +752,7 @@
                      document. 
                      The scope of the &lt;schema&gt; element is the parent &lt;environment&gt; element in which it
                      appears.
+                     The test drivers should assume a dependency on schema-awareness.
                      
                   </p>
                   
@@ -762,6 +811,7 @@
                 &lt;xs:attributeGroup ref="<a href="#attgrp_uriAttr">uriAttr</a>"/&gt;
                 &lt;xs:attributeGroup ref="<a href="#attgrp_fileAttr">fileAttr</a>"/&gt;
                 &lt;xs:attribute name="xsd-version" type="<span class="external-link diff-ns">xs:decimal</span>" default="1.0"/&gt;
+                &lt;xs:attributeGroup ref="<a href="#attgrp_roleAttr">roleAttr</a>"/&gt;
                 
             &lt;/xs:extension&gt;
             
@@ -872,8 +922,8 @@
                   
                   
                   
-                  <p> The <code>uri</code> attributes indicate how the resource is made avaiable to queries (as a URI that can
-                     be supplied to the unparsed-text(), unparsed-text-lines() and unparsed-text-available()
+                  <p> The <code>uri</code> attributes indicate how the resource is made available to queries (as a URI that
+                     can be supplied to the unparsed-text(), unparsed-text-lines() and unparsed-text-available()
                      functions.)
                   </p>
                   
@@ -1113,9 +1163,11 @@
                 &lt;xs:element ref="<a href="#elem_description">description</a>"/&gt;
                 &lt;xs:element ref="<a href="#elem_created">created</a>"/&gt;
                 &lt;xs:element ref="<a href="#elem_modified">modified</a>" minOccurs="0" maxOccurs="unbounded"/&gt;
-                &lt;xs:element ref="<a href="#elem_environment">environment</a>" minOccurs="0"/&gt;
-                &lt;xs:element ref="<a href="#elem_module">module</a>" minOccurs="0" maxOccurs="unbounded"/&gt;
-                &lt;xs:element ref="<a href="#elem_dependency">dependency</a>" minOccurs="0" maxOccurs="unbounded"/&gt;
+                &lt;xs:choice minOccurs="0" maxOccurs="unbounded"&gt;
+                  &lt;xs:element ref="<a href="#elem_environment">environment</a>"/&gt; 
+                  &lt;xs:element ref="<a href="#elem_module">module</a>"/&gt;
+                  &lt;xs:element ref="<a href="#elem_dependency">dependency</a>"/&gt;
+                &lt;/xs:choice&gt;  
                 &lt;xs:element ref="<a href="#elem_test">test</a>"/&gt;
                 &lt;xs:element ref="<a href="#elem_result">result</a>"/&gt;
             &lt;/xs:sequence&gt;
@@ -1321,8 +1373,7 @@
     &lt;xs:complexType name="SequenceOfAssertionsType"&gt;
         
         &lt;xs:sequence&gt;
-            &lt;xs:element ref="<a href="#elem_abstractAssertion">abstractAssertion</a>" minOccurs="1" maxOccurs="unbounded"/&gt;
-            
+            &lt;xs:element ref="<a href="#elem_abstractAssertion">abstractAssertion</a>" minOccurs="1" maxOccurs="unbounded"/&gt;          
         &lt;/xs:sequence&gt;
     &lt;/xs:complexType&gt;</pre></div>
          </div>
@@ -1386,6 +1437,37 @@
       type="<a href="#type_SequenceOfAssertionsType">SequenceOfAssertionsType</a>"
       substitutionGroup="<a href="#elem_abstractAssertion">abstractAssertion</a>"&gt;
         
+    &lt;/xs:element&gt;</pre></div>
+         </div>
+      </div>
+      
+      
+      <div id="elem_not">
+         <h3><a name="elem_not">Element <em>not</em></a></h3>
+         <div class="bodytext">
+            <div>
+               <div xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.w3.org/2010/09/qt-fots-catalog">
+                  
+                  <h3>all-of</h3>
+                  
+                  <p>
+                     Negates an assertion: this assertion is satisfied if the contained assertion fails,
+                     and vice versa. Particularly useful with assert-serialization-matches.      
+                     
+                  </p>
+                  
+               </div>
+            </div>
+            <div>
+               <h4>Formal declaration in XSD source form</h4><pre>
+    
+    &lt;xs:element name="not" substitutionGroup="<a href="#elem_abstractAssertion">abstractAssertion</a>"&gt;
+        
+        &lt;xs:complexType&gt;
+          &lt;xs:sequence&gt;
+            &lt;xs:element ref="<a href="#elem_abstractAssertion">abstractAssertion</a>"/&gt;         
+          &lt;/xs:sequence&gt;
+        &lt;/xs:complexType&gt;  
     &lt;/xs:element&gt;</pre></div>
          </div>
       </div>
@@ -2202,7 +2284,7 @@
         
         &lt;xs:attribute name="covers" use="optional"&gt;
             &lt;xs:simpleType&gt;
-                &lt;xs:list itemType="<span class="external-link diff-ns">xs:NCName</span>"/&gt;
+                &lt;xs:list itemType="<span class="external-link diff-ns">xs:token</span>"/&gt;
             &lt;/xs:simpleType&gt;
         &lt;/xs:attribute&gt;    
     &lt;/xs:attributeGroup&gt;</pre></div>
@@ -2576,6 +2658,8 @@
       </div>
       
       
+      
+      
       <div id="attgrp_byAttr">
          <h3><a name="attgrp_byAttr">Attribute group <em>byAttr</em></a></h3>
          <div class="bodytext">
@@ -2595,6 +2679,8 @@
             </div>
             <div>
                <h4>Formal declaration in XSD source form</h4><pre>
+    
+   
     
     &lt;xs:attributeGroup name="byAttr"&gt;
         
