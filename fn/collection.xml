@@ -90,9 +90,13 @@
    <test-case name="fn-collection-3">
       <description> Evaluation of ana fn:collection with argument set to an invalid URI. </description>
       <created by="Carmelo Montanez" on="2006-01-25"/>
+      <modified by="Michael Kay" on="2016-03-21" change="see bug 29404"/>
       <test>fn:collection("invalidURI%gg")</test>
       <result>
-         <error code="FODC0004"/>
+         <any-of>
+            <error code="FODC0002"/>
+            <error code="FODC0004"/>
+         </any-of>
       </result>
    </test-case>
 
@@ -235,18 +239,26 @@
    <test-case name="K2-SeqCollectionFunc-1">
       <description> Pass an invalid xs:anyURI to fn:collection(). </description>
       <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="Michael Kay" on="2016-03-21" change="see bug 29404"/>
       <test>collection("http:\\invalidURI\someURI%gg")</test>
       <result>
-         <error code="FODC0004"/>
+         <any-of>
+            <error code="FODC0004"/>
+            <error code="FODC0002"/>
+         </any-of>
       </result>
    </test-case>
 
    <test-case name="K2-SeqCollectionFunc-2">
       <description> ':/ is an invalid URI. </description>
       <created by="Frans Englich" on="2008-01-15"/>
+      <modified by="Michael Kay" on="2016-03-21" change="see bug 29404"/>
       <test>collection(":/")</test>
       <result>
-         <error code="FODC0004"/>
+         <any-of>
+            <error code="FODC0004"/>
+            <error code="FODC0002"/>
+         </any-of>
       </result>
    </test-case>
     
@@ -435,9 +447,13 @@
    <test-case name="collection-902">
       <description>Invalid collection URI</description>
       <created by="Michael Kay" on="2010-12-21"/>
+      <modified by="Michael Kay" on="2016-03-21" change="see bug 29404"/>
       <test>collection("##invalid")</test>
       <result>
-         <error code="FODC0004"/>
+         <any-of>
+            <error code="FODC0004"/>
+            <error code="FODC0002"/>
+         </any-of>
       </result>
    </test-case>
    <test-case name="collection-903">
@@ -451,10 +467,14 @@
    
    <test-case name="cbcl-collection-001">
       <description> test fn:collection with invalid input </description>
-      <created by="Tim Mills" on="2008-04-11"/>      
+      <created by="Tim Mills" on="2008-04-11"/>
+      <modified by="Michael Kay" on="2016-03-21" change="see bug 29404"/>      
       <test>fn:collection('%gg')</test>
       <result>
-         <error code="FODC0004"/>
+         <any-of>
+            <error code="FODC0004"/>
+            <error code="FODC0002"/>
+         </any-of>
       </result>
    </test-case>
 

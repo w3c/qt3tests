@@ -27,27 +27,39 @@
    <test-case name="fn-uri-collection-3">
       <description> Evaluation of ana fn:uri-collection with argument set to an invalid URI. Inspired by fn-collection-3.</description>
       <created by="Josh Spiegel" on="2012-10-02"/>
+      <modified by="Michael Kay" on="2016-03-21" change="see bug 29404"/>
       <test>fn:uri-collection("invalidURI%gg")</test>
       <result>
-         <error code="FODC0004"/>
+         <any-of>
+            <error code="FODC0004"/>
+            <error code="FODC0002"/>
+         </any-of>
       </result>
    </test-case>
 
    <test-case name="K2-SeqUriCollectionFunc-1">
       <description> Pass an invalid xs:anyURI to fn:uri-collection(). Inspired by K2-SeqCollectionFunc-1.</description>
       <created by="Josh Spiegel" on="2012-10-02"/>
+      <modified by="Michael Kay" on="2016-03-21" change="see bug 29404"/>
       <test>uri-collection("http:\\invalidURI\someURI%gg")</test>
       <result>
-         <error code="FODC0004"/>
+         <any-of>
+            <error code="FODC0004"/>
+            <error code="FODC0002"/>
+         </any-of>
       </result>
    </test-case>
 
    <test-case name="K2-SeqUriCollectionFunc-2">
       <description> ':/ is an invalid URI. Inspired by K2-SeqCollectionFunc-2.</description>
       <created by="Josh Spiegel" on="2012-10-02"/>
+      <modified by="Michael Kay" on="2016-03-21" change="see bug 29404"/>
       <test>uri-collection(":/")</test>
       <result>
-         <error code="FODC0004"/>
+         <any-of>
+            <error code="FODC0004"/>
+            <error code="FODC0002"/>
+         </any-of>
       </result>
    </test-case>
     

@@ -92,14 +92,28 @@
    </test-case>
 
    <test-case name="K2-SeqDocAvailableFunc-1">
-      <description> ':/' is an invalid URI, no scheme. Under erratum FO.E26, this may either throw FODC0005, or return false </description>
+      <description> ':/' is an invalid URI, no scheme. Under erratum FO.E26, this may either throw FODC0005, or return false.
+      In XP31 it is defined to return false.</description>
       <created by="Frans Englich" on="2008-01-15"/>
+      <dependency type="spec" value="XP20 XP30 XQ10 XQ30"/>
       <test>doc-available(':/')</test>
       <result>
          <any-of>
             <assert-false/>
             <error code="FODC0005"/>
          </any-of>
+      </result>
+   </test-case>
+   
+   <test-case name="K2-SeqDocAvailableFunc-1a">
+      <description> ':/' is an invalid URI, no scheme. Under erratum FO.E26, this may either throw FODC0005, or return false.
+         In XP31 it is defined to return false.</description>
+      <created by="Frans Englich" on="2008-01-15"/>
+      <modified by="Michael Kay" on="2016-03-21" change="see bug 29404"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>doc-available(':/')</test>
+      <result>
+            <assert-false/>
       </result>
    </test-case>
    
@@ -117,7 +131,22 @@
    <test-case name="cbcl-doc-available-002">
       <description> test fn:doc-available on invalid input </description>
       <created by="Tim Mills" on="2008-04-10"/>
-      <modified by="Michael Kay" on="2012-12-31" change="implementations are not required to report invalid URI"/>      
+      <modified by="Michael Kay" on="2012-12-31" change="implementations are not required to report invalid URI"/>
+      <dependency type="spec" value="XP20 XP30 XQ10 XQ30"/>      
+      <test>fn:doc-available( '%gg' )</test>
+      <result>
+         <any-of>
+            <error code="FODC0005"/>
+            <assert-false/>
+         </any-of>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-doc-available-002a">
+      <description> test fn:doc-available on invalid input </description>
+      <created by="Tim Mills" on="2008-04-10"/>
+      <modified by="Michael Kay" on="2016-03-21" change="invalid URI now returns false: bug 29404"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>      
       <test>fn:doc-available( '%gg' )</test>
       <result>
          <any-of>
@@ -138,17 +167,4 @@
    </test-case>
    
 
-   <test-case name="cbcl-doc-available-004">
-      <description> Test doc-available with a URL </description>
-      <created by="Nick Jones" on="2008-06-12"/>      
-      <modified by="Michael Kay" on="2012-12-31" change="implementations are not required to report invalid URI"/>      
-      <test>doc-available("%gg")</test>
-      <result>
-         <any-of>
-            <error code="FODC0005"/>
-            <assert-false/>
-         </any-of>
-      </result>
-   </test-case>
-   
 </test-set>
