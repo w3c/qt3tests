@@ -707,4 +707,30 @@
             <assert-eq>'12345,67,89'</assert-eq>
         </result>
     </test-case>
+    <test-case name="format-integer-073">
+        <description>format-integer - picture grouping, non-ASCII grouping separator</description>
+        <created by="Debbie Lockett, Saxonica" on="2016-03-24"/>
+        <test>format-integer(150000, '##&#x58a;000')</test>
+        <result>
+            <assert-eq>'150&#x58a;000'</assert-eq>
+        </result>
+    </test-case>
+    <test-case name="format-integer-074">
+        <description>format-integer - decimal-digit-pattern with grouping separators, negative ordinal</description>
+        <created by="Debbie Lockett, Saxonica" on="2016-03-24"/>
+        <dependency type="default-language" value="en"/>
+        <test>format-integer(-8500, '#,##1;o')</test>
+        <result>
+            <assert-eq>'-8,500th'</assert-eq>
+        </result>    
+    </test-case>
+    <test-case name="format-integer-075">
+        <description>format-integer - combination of token 'A' with modifier 'o' not recognised; default to 'A;c'</description>
+        <created by="Debbie Lockett, Saxonica" on="2016-03-24"/>
+        <dependency type="default-language" value="en"/>
+        <test>format-integer(85, 'A;o')</test>
+        <result>
+            <assert-eq>'CG'</assert-eq>
+        </result>    
+    </test-case>
 </test-set>
