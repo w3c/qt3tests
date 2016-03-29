@@ -6617,6 +6617,24 @@
          </any-of>
       </result>
    </test-case>
+   
+   <test-case name="CastAs677">
+      <description> Whitespace behaviour casting to xs:normalizedString </description>
+      <created by="Michael Kay" on="2016-03-29"/>
+      <test>string-to-codepoints(xs:normalizedString(codepoints-to-string((32, 09, 48, 13, 10, 48, 160, 32, 09))))</test>
+      <result>
+         <assert-deep-eq>32, 32, 48, 32, 32, 48, 160, 32, 32</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="CastAs678">
+      <description> Whitespace behaviour casting to xs:token </description>
+      <created by="Michael Kay" on="2016-03-29"/>
+      <test>string-to-codepoints(xs:token(codepoints-to-string((32, 09, 48, 13, 10, 48, 160, 32, 09))))</test>
+      <result>
+         <assert-deep-eq>48, 32, 48, 160</assert-deep-eq>
+      </result>
+   </test-case>
 
   <test-case name="CastAsNamespaceSensitiveType-1" covers-30="cast-to-qname-errors">
     <description>Implicit cast to a namespace-sensitive type during a function call is not allowed.</description>
