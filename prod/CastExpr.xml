@@ -24404,11 +24404,13 @@
       <description> Serialize a set of xs:QName instances.</description>
       <created by="Frans Englich" on="2007-11-26"/>
       <modified by="Michael Kay" on="2016-03-30" change="avoid use of ill-formed XML result"/>
+      <modified by="Michael Kay" on="2016-04-04" change="fix bug 29553"/>
       <test>string-join(("START", 
-      		QName("http://example.com", "prefix:localName"), 
-      		QName("http://example.com", "localName"), 
-      		QName("http://example.com", "localName"), 
-      		QName("", "localName"), QName((), "localName"), 
+      		string(QName("http://example.com", "prefix:localName")), 
+      		string(QName("http://example.com", "localName")), 
+      		string(QName("http://example.com", "localName")), 
+      		string(QName("", "localName")), 
+      		string(QName((), "localName")), 
       		"END"), " ")</test>
       <result>
          <assert-eq>"START prefix:localName localName localName localName localName END"</assert-eq>
