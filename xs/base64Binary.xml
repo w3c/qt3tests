@@ -326,6 +326,24 @@
       </result>
    </test-case>
    
+   <test-case name="base64-908">
+      <description> Invalid input: astral character </description>
+      <created by="Michael Kay" on="2016-04-08"/>
+      <test>xs:base64Binary(codepoints-to-string((119070, 119070, 119070, 119070) (:treble clef:)))</test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+   
+   <test-case name="base64-909">
+      <description> Invalid input: astral character </description>
+      <created by="Michael Kay" on="2016-04-08"/>
+      <test>codepoints-to-string((119070, 119070, 119070, 119070) (:treble clef:)) castable as xs:base64Binary</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
    <test-case name="cbcl-base64binary-001">
       <description>Tests for the xs:base64Binary constructor</description>
       <created by="Oliver Hallam" on="2008-04-14"/>
