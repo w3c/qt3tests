@@ -6613,7 +6613,337 @@
        </test>
        <result><assert-true /></result>
    </test-case>
-   
+
+   <test-case name="Castable-UnionType-2" covers-30="cast-to-union">
+       <description>Test castability of xs:string to union type.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+      "2001-01-01" castable as s:myUnionType1]]>
+       </test>
+       <result><assert-true /></result>
+   </test-case>
+
+   <test-case name="Castable-UnionType-3" covers-30="cast-to-union">
+       <description>Test castability of xs:string to union type.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+      "string" castable as s:myUnionType1]]>
+       </test>
+       <result><assert-false /></result>
+   </test-case>
+
+   <test-case name="Castable-UnionType-4" covers-30="cast-to-union">
+       <description>Test castability of xs:untypedAtomic to union type.</description>
+       <created by="O'Neil Delpratt" on="2011-10-27"/>
+       <modified by="Michael Kay" on="2015-01-06" change="drop version declaration from query"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+      xs:untypedAtomic("123") castable as s:myUnionType1]]>
+       </test>
+       <result><assert-true /></result>
+   </test-case>
+
+   <test-case name="Castable-UnionType-5" covers-30="cast-to-union">
+       <description>Test castability of xs:untypedAtomic to union type.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+      xs:untypedAtomic("2001-01-01") castable as s:myUnionType1]]>
+       </test>
+       <result><assert-true /></result>
+   </test-case>
+
+   <test-case name="Castable-UnionType-6" covers-30="cast-to-union">
+       <description>Test castability of xs:untypedAtomic to union type.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+      xs:untypedAtomic("string") castable as s:myUnionType1]]>
+       </test>
+       <result><assert-false /></result>
+   </test-case>
+
+   <test-case name="Castable-UnionType-7" covers-30="cast-to-union">
+       <description>Test castability of a value that is an instance of one of the atomic types in the transitive membership of the union type</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+      s:unrestrictedInteger(123) castable as s:myUnionType1]]>
+       </test>
+       <result><assert-true /></result>
+   </test-case>
+
+   <test-case name="Castable-UnionType-8" covers-30="cast-to-union">
+       <description>Test castability of a value that is an instance of one of the atomic types in the transitive membership of the union type</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+      s:unrestrictedDate("2001-01-01") castable as s:myUnionType1]]>
+       </test>
+       <result><assert-true /></result>
+   </test-case>
+
+   <test-case name="Castable-UnionType-9" covers-30="cast-to-union">
+       <description>Test castability of a value that is not an instance of one of the atomic types in the transitive membership of the union type</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+      xs:gYear("2001") castable as s:myUnionType1]]>
+       </test>
+       <result><assert-false /></result>
+   </test-case>
+
+   <test-case name="Castable-UnionType-10" covers-30="cast-to-union">
+       <description>Test castability of a value that is an instance of the union type itself</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+      s:myUnionType1("2001-01-01") castable as s:myUnionType1]]>
+       </test>
+       <result><assert-true /></result>
+   </test-case>
+
+   <test-case name="Castable-UnionType-11" covers-30="cast-to-union">
+       <description>Test castability of a value that is an instance of one of the atomic types in the transitive membership of the union type</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+      xs:integer(123) castable as s:myUnionType1]]>
+       </test>
+       <result><assert-true /></result>
+   </test-case>
+
+   <test-case name="Castable-UnionType-12" covers-30="cast-to-union">
+       <description>Test castability of a value that is castable to one or more of the atomic types in the transitive membership of the union type.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+      xs:date("2001-01-01") castable as s:myUnionType1]]>
+       </test>
+       <result><assert-true /></result>
+   </test-case>
+
+   <test-case name="Castable-UnionType-13" covers-30="cast-to-union">
+       <description>Test castability of empty sequence to a union type</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+      () castable as s:myUnionType1]]>
+       </test>
+       <result><assert-false /></result>
+   </test-case>
+
+   <test-case name="Castable-UnionType-14" covers-30="cast-to-union">
+       <description>Test the union type that should return an xs:integer value</description>
+       <created by="O'Neil Delpratt" on="2011-10-27"/>
+       <modified by="Michael Kay" on="2015-01-06" change="drop version declaration from query"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+      "123" castable as s:myUnionType1?]]>
+       </test>
+       <result><assert-true /></result>
+   </test-case>
+
+   <test-case name="Castable-UnionType-15" covers-30="cast-to-union">
+       <description>Test castability of xs:string to union type.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+      "2001-01-01" castable as s:myUnionType1?]]>
+       </test>
+       <result><assert-true /></result>
+   </test-case>
+
+   <test-case name="Castable-UnionType-16" covers-30="cast-to-union">
+       <description>Test castability of xs:string to union type.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+      "string" castable as s:myUnionType1?]]>
+       </test>
+       <result><assert-false /></result>
+   </test-case>
+
+   <test-case name="Castable-UnionType-17" covers-30="cast-to-union">
+       <description>Test castability of xs:untypedAtomic to union type.</description>
+       <created by="O'Neil Delpratt" on="2011-10-27"/>
+       <modified by="Michael Kay" on="2015-01-06" change="drop version declaration from query"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+      xs:untypedAtomic("123") castable as s:myUnionType1?]]>
+       </test>
+       <result><assert-true /></result>
+   </test-case>
+
+   <test-case name="Castable-UnionType-18" covers-30="cast-to-union">
+       <description>Test castability of xs:untypedAtomic to union type.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+      xs:untypedAtomic("2001-01-01") castable as s:myUnionType1?]]>
+       </test>
+       <result><assert-true /></result>
+   </test-case>
+
+   <test-case name="Castable-UnionType-19" covers-30="cast-to-union">
+       <description>Test castability of xs:untypedAtomic to union type.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+      xs:untypedAtomic("string") castable as s:myUnionType1?]]>
+       </test>
+       <result><assert-false /></result>
+   </test-case>
+
+   <test-case name="Castable-UnionType-20" covers-30="cast-to-union">
+       <description>Test castability of a value that is an instance of one of the atomic types in the transitive membership of the union type</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+      s:unrestrictedInteger(123) castable as s:myUnionType1?]]>
+       </test>
+       <result><assert-true /></result>
+   </test-case>
+
+   <test-case name="Castable-UnionType-21" covers-30="cast-to-union">
+       <description>Test castability of a value that is an instance of one of the atomic types in the transitive membership of the union type</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+      s:unrestrictedDate("2001-01-01") castable as s:myUnionType1?]]>
+       </test>
+       <result><assert-true /></result>
+   </test-case>
+
+   <test-case name="Castable-UnionType-22" covers-30="cast-to-union">
+       <description>Test castability of a value that is not an instance of one of the atomic types in the transitive membership of the union type</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+      xs:gYear("2001") castable as s:myUnionType1?]]>
+       </test>
+       <result><assert-false /></result>
+   </test-case>
+
+   <test-case name="Castable-UnionType-23" covers-30="cast-to-union">
+       <description>Test castability of a value that is an instance of the union type itself</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+      s:myUnionType1("2001-01-01") castable as s:myUnionType1?]]>
+       </test>
+       <result><assert-true /></result>
+   </test-case>
+
+   <test-case name="Castable-UnionType-24" covers-30="cast-to-union">
+       <description>Test castability of a value that is an instance of one of the atomic types in the transitive membership of the union type</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+      xs:integer(123) castable as s:myUnionType1?]]>
+       </test>
+       <result><assert-true /></result>
+   </test-case>
+
+   <test-case name="Castable-UnionType-25" covers-30="cast-to-union">
+       <description>Test castability of a value that is castable to one or more of the atomic types in the transitive membership of the union type.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+      xs:date("2001-01-01") castable as s:myUnionType1?]]>
+       </test>
+       <result><assert-true /></result>
+   </test-case>
+
+   <test-case name="Castable-UnionType-26" covers-30="cast-to-union">
+       <description>Test castability of empty sequence to a union type</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+      () castable as s:myUnionType1?]]>
+       </test>
+       <result><assert-true /></result>
+   </test-case>
+
+
+
    <test-case name="Castable-UnionType-36" covers-30="type-derivation-with-unions">
        <description>Castable from a union type to string</description>
        <created by="Michael Kay" on="2014-05-04"/>
@@ -6673,6 +7003,227 @@
        <test><![CDATA[
        import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
         "1.1 2.1 3.1" castable as s:intListType1]]>
+       </test>
+       <result><assert-false /></result>
+   </test-case>
+
+   <test-case name="Castable-ListType-3" covers-30="cast-to-list">
+       <description>Test castability of xs:string to list type.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+        "1 2 3" castable as s:intListType1]]>
+       </test>
+       <result><assert-true /></result>
+   </test-case>
+
+   <test-case name="Castable-ListType-4" covers-30="cast-to-list">
+       <description>Test castability of xs:string to list type.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+        "" castable as s:intListType1]]>
+       </test>
+       <result><assert-true /></result>
+   </test-case>
+   
+   <test-case name="Castable-ListType-5" covers-30="cast-to-list">
+       <description>Test castability of xs:untypedAtomic to list type.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+        xs:untypedAtomic("1.1 2.1 3.1") castable as s:intListType1]]>
+       </test>
+       <result><assert-false /></result>
+   </test-case>
+
+   <test-case name="Castable-ListType-6" covers-30="cast-to-list">
+       <description>Test castability of xs:untypedAtomic to list type.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+        xs:untypedAtomic("1 2 3") castable as s:intListType1]]>
+       </test>
+       <result><assert-true /></result>
+   </test-case>
+
+   <test-case name="Castable-ListType-7" covers-30="cast-to-list">
+       <description>Test castability of xs:untypedAtomic to list type.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+        xs:untypedAtomic("") castable as s:intListType1]]>
+       </test>
+       <result><assert-true /></result>
+   </test-case>
+
+   <test-case name="Castable-ListType-8" covers-30="cast-to-list">
+       <description>Test castability of xs:integer sequence to list type.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+        (1, 2, 3) castable as s:intListType1]]>
+       </test>
+       <result><assert-false /></result>
+   </test-case>
+
+   <test-case name="Castable-ListType-9" covers-30="cast-to-list">
+       <description>Test castability of empty sequence to list type.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+        () castable as s:intListType1]]>
+       </test>
+       <result><assert-true /></result>
+   </test-case>
+
+   <test-case name="Castable-ListType-10" covers-30="cast-to-list">
+       <description>Test castability of s:intListType1 sequence to list type.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+        s:intListType1("1 2 3") castable as s:intListType1]]>
+       </test>
+       <result><assert-false /></result>
+   </test-case>
+   
+   <test-case name="Castable-ListType-11" covers-30="cast-to-list">
+       <description>Test castability of xs:string to list type. The test should fail as the base type for the list is decimal</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+        "1.1 2.1 3.1" castable as s:intListType1?]]>
+       </test>
+       <result><assert-false /></result>
+   </test-case>
+
+   <test-case name="Castable-ListType-12" covers-30="cast-to-list">
+       <description>Test castability of xs:string to list type.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+        "1 2 3" castable as s:intListType1?]]>
+       </test>
+       <result><assert-true /></result>
+   </test-case>
+
+   <test-case name="Castable-ListType-13" covers-30="cast-to-list">
+       <description>Test castability of xs:string to list type.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+        "" castable as s:intListType1?]]>
+       </test>
+       <result><assert-true /></result>
+   </test-case>
+   
+   <test-case name="Castable-ListType-14" covers-30="cast-to-list">
+       <description>Test castability of xs:untypedAtomic to list type.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+        xs:untypedAtomic("1.1 2.1 3.1") castable as s:intListType1?]]>
+       </test>
+       <result><assert-false /></result>
+   </test-case>
+
+   <test-case name="Castable-ListType-15" covers-30="cast-to-list">
+       <description>Test castability of xs:untypedAtomic to list type.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+        xs:untypedAtomic("1 2 3") castable as s:intListType1?]]>
+       </test>
+       <result><assert-true /></result>
+   </test-case>
+
+   <test-case name="Castable-ListType-16" covers-30="cast-to-list">
+       <description>Test castability of xs:untypedAtomic to list type.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+        xs:untypedAtomic("") castable as s:intListType1?]]>
+       </test>
+       <result><assert-true /></result>
+   </test-case>
+
+   <test-case name="Castable-ListType-17" covers-30="cast-to-list">
+       <description>Test castability of xs:integer sequence to list type.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+        (1, 2, 3) castable as s:intListType1?]]>
+       </test>
+       <result><assert-false /></result>
+   </test-case>
+
+   <test-case name="Castable-ListType-18" covers-30="cast-to-list">
+       <description>Test castability of empty sequence to list type.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+        () castable as s:intListType1?]]>
+       </test>
+       <result><assert-true /></result>
+   </test-case>
+
+   <test-case name="Castable-ListType-19" covers-30="cast-to-list">
+       <description>Test castability of s:intListType1 sequence to list type.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+        s:intListType1("1 2 3") castable as s:intListType1?]]>
        </test>
        <result><assert-false /></result>
    </test-case>
@@ -7552,4 +8103,674 @@
          <assert-false/>
       </result>
    </test-case>
+
+   <test-case name="cbcl-castable-ENTITIES-001" covers-30="cast-to-list">
+       <description>Test castability of xs:string to built-in list type xs:ENTITIES.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+        "a b c" castable as xs:ENTITIES]]>
+       </test>
+       <result><assert-true /></result>
+   </test-case>
+
+   <test-case name="cbcl-castable-ENTITIES-002" covers-30="cast-to-list">
+       <description>Test castability of xs:string to built-in list type xs:ENTITIES.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+        "1 2 3" castable as xs:ENTITIES]]>
+       </test>
+       <result><assert-false /></result>
+   </test-case>
+
+   <test-case name="cbcl-castable-ENTITIES-003" covers-30="cast-to-list">
+       <description>Test castability of xs:string to built-in list type xs:ENTITIES.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+        "" castable as xs:ENTITIES]]>
+       </test>
+       <result><assert-false /></result>
+   </test-case>
+
+   <test-case name="cbcl-castable-ENTITIES-004" covers-30="cast-to-list">
+       <description>Test castability of xs:untypedAtomic to built-in list type xs:ENTITIES.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+        xs:untypedAtomic("a b c") castable as xs:ENTITIES]]>
+       </test>
+       <result><assert-true /></result>
+   </test-case>
+
+   <test-case name="cbcl-castable-ENTITIES-005" covers-30="cast-to-list">
+       <description>Test castability of xs:untypedAtomic to built-in list type xs:ENTITIES.</description>
+
+       <created by="Tim Mills" on="2016-04-11"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+        xs:untypedAtomic("1 2 3") castable as xs:ENTITIES]]>
+       </test>
+       <result><assert-false /></result>
+   </test-case>
+
+   <test-case name="cbcl-castable-ENTITIES-006" covers-30="cast-to-list">
+       <description>Test castability of xs:untypedAtomic to built-in list type xs:ENTITIES.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+        xs:untypedAtomic("") castable as xs:ENTITIES]]>
+       </test>
+       <result><assert-false /></result>
+   </test-case>
+
+   <test-case name="cbcl-castable-ENTITIES-007" covers-30="cast-to-list">
+       <description>Test castability of xs:ENTITY sequence to built-in list type xs:ENTITIES.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+        (xs:ENTITY("a"), xs:ENTITY("B"), xs:ENTITY("C")) castable as xs:ENTITIES]]>
+       </test>
+       <result><assert-false /></result>
+   </test-case>
+
+   <test-case name="cbcl-castable-ENTITIES-008" covers-30="cast-to-list">
+       <description>Test castability of empty sequence to built-in list type xs:ENTITIES.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+        () castable as xs:ENTITIES]]>
+       </test>
+       <result><assert-false /></result>
+   </test-case>
+
+   <test-case name="cbcl-castable-ENTITIES-009" covers-30="cast-to-list">
+       <description>Test castability of xs:ENTITY to built-in list type xs:ENTITIES.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+        xs:ENTITY("a") castable as xs:ENTITIES]]>
+       </test>
+       <result><assert-true /></result>
+   </test-case>
+
+   <test-case name="cbcl-castable-ENTITIES-010" covers-30="cast-to-list">
+       <description>Test castability of xs:ENTITIES to built-in list type xs:ENTITIES.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+        xs:ENTITIES("a b c") castable as xs:ENTITIES]]>
+       </test>
+       <result><assert-false /></result>
+   </test-case>
+
+   <test-case name="cbcl-castable-ENTITIES-011" covers-30="cast-to-list">
+       <description>Test castability of xs:string to built-in list type xs:ENTITIES?.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+        "a b c" castable as xs:ENTITIES?]]>
+       </test>
+       <result><assert-true /></result>
+   </test-case>
+
+   <test-case name="cbcl-castable-ENTITIES-012" covers-30="cast-to-list">
+       <description>Test castability of xs:string to built-in list type xs:ENTITIES?.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+        "1 2 3" castable as xs:ENTITIES?]]>
+       </test>
+       <result><assert-false /></result>
+   </test-case>
+
+   <test-case name="cbcl-castable-ENTITIES-013" covers-30="cast-to-list">
+       <description>Test castability of xs:string to built-in list type xs:ENTITIES?.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+        "" castable as xs:ENTITIES?]]>
+       </test>
+       <result><assert-false /></result>
+   </test-case>
+
+   <test-case name="cbcl-castable-ENTITIES-014" covers-30="cast-to-list">
+       <description>Test castability of xs:untypedAtomic to built-in list type xs:ENTITIES?.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+        xs:untypedAtomic("a b c") castable as xs:ENTITIES?]]>
+       </test>
+       <result><assert-true /></result>
+   </test-case>
+
+   <test-case name="cbcl-castable-ENTITIES-015" covers-30="cast-to-list">
+       <description>Test castability of xs:untypedAtomic to built-in list type xs:ENTITIES?.</description>
+
+       <created by="Tim Mills" on="2016-04-11"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+        xs:untypedAtomic("1 2 3") castable as xs:ENTITIES?]]>
+       </test>
+       <result><assert-false /></result>
+   </test-case>
+
+   <test-case name="cbcl-castable-ENTITIES-016" covers-30="cast-to-list">
+       <description>Test castability of xs:untypedAtomic to built-in list type xs:ENTITIES?.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+        xs:untypedAtomic("") castable as xs:ENTITIES?]]>
+       </test>
+       <result><assert-false /></result>
+   </test-case>
+
+   <test-case name="cbcl-castable-ENTITIES-017" covers-30="cast-to-list">
+       <description>Test castability of xs:ENTITY sequence to built-in list type xs:ENTITIES?.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+        (xs:ENTITY("a"), xs:ENTITY("B"), xs:ENTITY("C")) castable as xs:ENTITIES?]]>
+       </test>
+       <result><assert-false /></result>
+   </test-case>
+
+   <test-case name="cbcl-castable-ENTITIES-018" covers-30="cast-to-list">
+       <description>Test castability of empty sequence to built-in list type xs:ENTITIES?.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+        () castable as xs:ENTITIES?]]>
+       </test>
+       <result><assert-true /></result>
+   </test-case>
+
+   <test-case name="cbcl-castable-ENTITIES-019" covers-30="cast-to-list">
+       <description>Test castability of xs:ENTITY to built-in list type xs:ENTITIES?.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+        xs:ENTITY("a") castable as xs:ENTITIES?]]>
+       </test>
+       <result><assert-true /></result>
+   </test-case>
+
+   <test-case name="cbcl-castable-ENTITIES-020" covers-30="cast-to-list">
+       <description>Test castability of xs:ENTITIES to built-in list type xs:ENTITIES?.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+        xs:ENTITIES("a b c") castable as xs:ENTITIES?]]>
+       </test>
+       <result><assert-false /></result>
+   </test-case>
+
+
+   <test-case name="cbcl-castable-NMTOKENS-001" covers-30="cast-to-list">
+       <description>Test castability of xs:string to built-in list type xs:NMTOKENS.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+        "a b c" castable as xs:NMTOKENS]]>
+       </test>
+       <result><assert-true /></result>
+   </test-case>
+
+   <test-case name="cbcl-castable-NMTOKENS-002" covers-30="cast-to-list">
+       <description>Test castability of xs:string to built-in list type xs:NMTOKENS.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+        "1 2 3" castable as xs:NMTOKENS]]>
+       </test>
+       <result><assert-false /></result>
+   </test-case>
+
+   <test-case name="cbcl-castable-NMTOKENS-003" covers-30="cast-to-list">
+       <description>Test castability of xs:string to built-in list type xs:NMTOKENS.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+        "" castable as xs:NMTOKENS]]>
+       </test>
+       <result><assert-false /></result>
+   </test-case>
+
+   <test-case name="cbcl-castable-NMTOKENS-004" covers-30="cast-to-list">
+       <description>Test castability of xs:untypedAtomic to built-in list type xs:NMTOKENS.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+        xs:untypedAtomic("a b c") castable as xs:NMTOKENS]]>
+       </test>
+       <result><assert-true /></result>
+   </test-case>
+
+   <test-case name="cbcl-castable-NMTOKENS-005" covers-30="cast-to-list">
+       <description>Test castability of xs:untypedAtomic to built-in list type xs:NMTOKENS.</description>
+
+       <created by="Tim Mills" on="2016-04-11"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+        xs:untypedAtomic("1 2 3") castable as xs:NMTOKENS]]>
+       </test>
+       <result><assert-false /></result>
+   </test-case>
+
+   <test-case name="cbcl-castable-NMTOKENS-006" covers-30="cast-to-list">
+       <description>Test castability of xs:untypedAtomic to built-in list type xs:NMTOKENS.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+        xs:untypedAtomic("") castable as xs:NMTOKENS]]>
+       </test>
+       <result><assert-false /></result>
+   </test-case>
+
+   <test-case name="cbcl-castable-NMTOKENS-007" covers-30="cast-to-list">
+       <description>Test castability of xs:NMTOKEN sequence to built-in list type xs:NMTOKENS.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+        (xs:NMTOKEN("a"), xs:NMTOKEN("B"), xs:NMTOKEN("C")) castable as xs:NMTOKENS]]>
+       </test>
+       <result><assert-false /></result>
+   </test-case>
+
+   <test-case name="cbcl-castable-NMTOKENS-008" covers-30="cast-to-list">
+       <description>Test castability of empty sequence to built-in list type xs:NMTOKENS.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+        () castable as xs:NMTOKENS]]>
+       </test>
+       <result><assert-false /></result>
+   </test-case>
+
+   <test-case name="cbcl-castable-NMTOKENS-009" covers-30="cast-to-list">
+       <description>Test castability of xs:NMTOKEN to built-in list type xs:NMTOKENS.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+        xs:NMTOKEN("a") castable as xs:NMTOKENS]]>
+       </test>
+       <result><assert-true /></result>
+   </test-case>
+
+   <test-case name="cbcl-castable-NMTOKENS-010" covers-30="cast-to-list">
+       <description>Test castability of xs:NMTOKENS to built-in list type xs:NMTOKENS.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+        xs:NMTOKENS("a b c") castable as xs:NMTOKENS]]>
+       </test>
+       <result><assert-false /></result>
+   </test-case>
+
+   <test-case name="cbcl-castable-NMTOKENS-011" covers-30="cast-to-list">
+       <description>Test castability of xs:string to built-in list type xs:NMTOKENS?.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+        "a b c" castable as xs:NMTOKENS?]]>
+       </test>
+       <result><assert-true /></result>
+   </test-case>
+
+   <test-case name="cbcl-castable-NMTOKENS-012" covers-30="cast-to-list">
+       <description>Test castability of xs:string to built-in list type xs:NMTOKENS?.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+        "1 2 3" castable as xs:NMTOKENS?]]>
+       </test>
+       <result><assert-false /></result>
+   </test-case>
+
+   <test-case name="cbcl-castable-NMTOKENS-013" covers-30="cast-to-list">
+       <description>Test castability of xs:string to built-in list type xs:NMTOKENS?.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+        "" castable as xs:NMTOKENS?]]>
+       </test>
+       <result><assert-false /></result>
+   </test-case>
+
+   <test-case name="cbcl-castable-NMTOKENS-014" covers-30="cast-to-list">
+       <description>Test castability of xs:untypedAtomic to built-in list type xs:NMTOKENS?.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+        xs:untypedAtomic("a b c") castable as xs:NMTOKENS?]]>
+       </test>
+       <result><assert-true /></result>
+   </test-case>
+
+   <test-case name="cbcl-castable-NMTOKENS-015" covers-30="cast-to-list">
+       <description>Test castability of xs:untypedAtomic to built-in list type xs:NMTOKENS?.</description>
+
+       <created by="Tim Mills" on="2016-04-11"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+        xs:untypedAtomic("1 2 3") castable as xs:NMTOKENS?]]>
+       </test>
+       <result><assert-false /></result>
+   </test-case>
+
+   <test-case name="cbcl-castable-NMTOKENS-016" covers-30="cast-to-list">
+       <description>Test castability of xs:untypedAtomic to built-in list type xs:NMTOKENS?.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+        xs:untypedAtomic("") castable as xs:NMTOKENS?]]>
+       </test>
+       <result><assert-false /></result>
+   </test-case>
+
+   <test-case name="cbcl-castable-NMTOKENS-017" covers-30="cast-to-list">
+       <description>Test castability of xs:NMTOKEN sequence to built-in list type xs:NMTOKENS?.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+        (xs:NMTOKEN("a"), xs:NMTOKEN("B"), xs:NMTOKEN("C")) castable as xs:NMTOKENS?]]>
+       </test>
+       <result><assert-false /></result>
+   </test-case>
+
+   <test-case name="cbcl-castable-NMTOKENS-018" covers-30="cast-to-list">
+       <description>Test castability of empty sequence to built-in list type xs:NMTOKENS?.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+        () castable as xs:NMTOKENS?]]>
+       </test>
+       <result><assert-true /></result>
+   </test-case>
+
+   <test-case name="cbcl-castable-NMTOKENS-019" covers-30="cast-to-list">
+       <description>Test castability of xs:NMTOKEN to built-in list type xs:NMTOKENS?.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+        xs:NMTOKEN("a") castable as xs:NMTOKENS?]]>
+       </test>
+       <result><assert-true /></result>
+   </test-case>
+
+   <test-case name="cbcl-castable-NMTOKENS-020" covers-30="cast-to-list">
+       <description>Test castability of xs:NMTOKENS to built-in list type xs:NMTOKENS?.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+        xs:NMTOKENS("a b c") castable as xs:NMTOKENS?]]>
+       </test>
+       <result><assert-false /></result>
+   </test-case>
+
+
+   <test-case name="cbcl-castable-IDREFS-001" covers-30="cast-to-list">
+       <description>Test castability of xs:string to built-in list type xs:IDREFS.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+        "a b c" castable as xs:IDREFS]]>
+       </test>
+       <result><assert-true /></result>
+   </test-case>
+
+   <test-case name="cbcl-castable-IDREFS-002" covers-30="cast-to-list">
+       <description>Test castability of xs:string to built-in list type xs:IDREFS.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+        "1 2 3" castable as xs:IDREFS]]>
+       </test>
+       <result><assert-false /></result>
+   </test-case>
+
+   <test-case name="cbcl-castable-IDREFS-003" covers-30="cast-to-list">
+       <description>Test castability of xs:string to built-in list type xs:IDREFS.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+        "" castable as xs:IDREFS]]>
+       </test>
+       <result><assert-false /></result>
+   </test-case>
+
+   <test-case name="cbcl-castable-IDREFS-004" covers-30="cast-to-list">
+       <description>Test castability of xs:untypedAtomic to built-in list type xs:IDREFS.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+        xs:untypedAtomic("a b c") castable as xs:IDREFS]]>
+       </test>
+       <result><assert-true /></result>
+   </test-case>
+
+   <test-case name="cbcl-castable-IDREFS-005" covers-30="cast-to-list">
+       <description>Test castability of xs:untypedAtomic to built-in list type xs:IDREFS.</description>
+
+       <created by="Tim Mills" on="2016-04-11"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+        xs:untypedAtomic("1 2 3") castable as xs:IDREFS]]>
+       </test>
+       <result><assert-false /></result>
+   </test-case>
+
+   <test-case name="cbcl-castable-IDREFS-006" covers-30="cast-to-list">
+       <description>Test castability of xs:untypedAtomic to built-in list type xs:IDREFS.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+        xs:untypedAtomic("") castable as xs:IDREFS]]>
+       </test>
+       <result><assert-false /></result>
+   </test-case>
+
+   <test-case name="cbcl-castable-IDREFS-007" covers-30="cast-to-list">
+       <description>Test castability of xs:IDREF sequence to built-in list type xs:IDREFS.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+        (xs:IDREF("a"), xs:IDREF("B"), xs:IDREF("C")) castable as xs:IDREFS]]>
+       </test>
+       <result><assert-false /></result>
+   </test-case>
+
+   <test-case name="cbcl-castable-IDREFS-008" covers-30="cast-to-list">
+       <description>Test castability of empty sequence to built-in list type xs:IDREFS.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+        () castable as xs:IDREFS]]>
+       </test>
+       <result><assert-false /></result>
+   </test-case>
+
+   <test-case name="cbcl-castable-IDREFS-009" covers-30="cast-to-list">
+       <description>Test castability of xs:IDREF to built-in list type xs:IDREFS.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+        xs:IDREF("a") castable as xs:IDREFS]]>
+       </test>
+       <result><assert-true /></result>
+   </test-case>
+
+   <test-case name="cbcl-castable-IDREFS-010" covers-30="cast-to-list">
+       <description>Test castability of xs:IDREFS to built-in list type xs:IDREFS.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+        xs:IDREFS("a b c") castable as xs:IDREFS]]>
+       </test>
+       <result><assert-false /></result>
+   </test-case>
+
+   <test-case name="cbcl-castable-IDREFS-011" covers-30="cast-to-list">
+       <description>Test castability of xs:string to built-in list type xs:IDREFS?.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+        "a b c" castable as xs:IDREFS?]]>
+       </test>
+       <result><assert-true /></result>
+   </test-case>
+
+   <test-case name="cbcl-castable-IDREFS-012" covers-30="cast-to-list">
+       <description>Test castability of xs:string to built-in list type xs:IDREFS?.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+        "1 2 3" castable as xs:IDREFS?]]>
+       </test>
+       <result><assert-false /></result>
+   </test-case>
+
+   <test-case name="cbcl-castable-IDREFS-013" covers-30="cast-to-list">
+       <description>Test castability of xs:string to built-in list type xs:IDREFS?.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+        "" castable as xs:IDREFS?]]>
+       </test>
+       <result><assert-false /></result>
+   </test-case>
+
+   <test-case name="cbcl-castable-IDREFS-014" covers-30="cast-to-list">
+       <description>Test castability of xs:untypedAtomic to built-in list type xs:IDREFS?.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+        xs:untypedAtomic("a b c") castable as xs:IDREFS?]]>
+       </test>
+       <result><assert-true /></result>
+   </test-case>
+
+   <test-case name="cbcl-castable-IDREFS-015" covers-30="cast-to-list">
+       <description>Test castability of xs:untypedAtomic to built-in list type xs:IDREFS?.</description>
+
+       <created by="Tim Mills" on="2016-04-11"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+        xs:untypedAtomic("1 2 3") castable as xs:IDREFS?]]>
+       </test>
+       <result><assert-false /></result>
+   </test-case>
+
+   <test-case name="cbcl-castable-IDREFS-016" covers-30="cast-to-list">
+       <description>Test castability of xs:untypedAtomic to built-in list type xs:IDREFS?.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+        xs:untypedAtomic("") castable as xs:IDREFS?]]>
+       </test>
+       <result><assert-false /></result>
+   </test-case>
+
+   <test-case name="cbcl-castable-IDREFS-017" covers-30="cast-to-list">
+       <description>Test castability of xs:IDREF sequence to built-in list type xs:IDREFS?.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+        (xs:IDREF("a"), xs:IDREF("B"), xs:IDREF("C")) castable as xs:IDREFS?]]>
+       </test>
+       <result><assert-false /></result>
+   </test-case>
+
+   <test-case name="cbcl-castable-IDREFS-018" covers-30="cast-to-list">
+       <description>Test castability of empty sequence to built-in list type xs:IDREFS?.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+        () castable as xs:IDREFS?]]>
+       </test>
+       <result><assert-true /></result>
+   </test-case>
+
+   <test-case name="cbcl-castable-IDREFS-019" covers-30="cast-to-list">
+       <description>Test castability of xs:IDREF to built-in list type xs:IDREFS?.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+        xs:IDREF("a") castable as xs:IDREFS?]]>
+       </test>
+       <result><assert-true /></result>
+   </test-case>
+
+   <test-case name="cbcl-castable-IDREFS-020" covers-30="cast-to-list">
+       <description>Test castability of xs:IDREFS to built-in list type xs:IDREFS?.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <dependency type="spec" value="XP30+ XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+        xs:IDREFS("a b c") castable as xs:IDREFS?]]>
+       </test>
+       <result><assert-false /></result>
+   </test-case>
+
 </test-set>
+
