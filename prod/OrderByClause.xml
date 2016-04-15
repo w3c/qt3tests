@@ -1051,6 +1051,21 @@
          <assert-deep-eq>100, 99, 98, 97, 96, 95, 94, 93, 92, 91</assert-deep-eq>
       </result>
    </test-case>
+   
+   <test-case name="orderBy67">
+      <description>A test case from Gunther Rademacher that crashes Saxon</description>
+      <created by="Michael Kay" on="2016-04-15"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>
+         for $j in (text{'Az'}, text{'Bx'}, text{'Cy'}) 
+         order by $j/substring(., $j/string-length(.)) 
+         return $j/string()
+      </test>
+      <result>
+         <assert-deep-eq>"Bx", "Cy", "Az"</assert-deep-eq>
+      </result>
+   </test-case>
+   
 
    <test-case name="orderbylocal-1">
       <description> Evaluation of "order by" clause with the "order by" clause of a FLWR expression set to "$x ", where $x is a set of Strings and the ordering mode set to ascending Uses a locally defined sequence. </description>
