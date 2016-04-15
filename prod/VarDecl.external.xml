@@ -326,6 +326,7 @@
       <description> Evaluates an external variable that evaluates avg function. </description>
       <created by="Carmelo Montanez" on="2006-02-10"/>
       <modified by="Michael Kay" on="2013-01-17" change="simplify the param, see bug 20694"/>
+      <modified by="Michael Kay" on="2016-04-15" change="precision of result, see bug 29408"/>
       <environment>
          <param name="x"
                 select="avg((1,2,4))"
@@ -333,11 +334,10 @@
       </environment>
       <test>declare variable $x external; $x</test>
       <result>
-         <any-of>
-            <assert-string-value>2.333333333333333333</assert-string-value>
-            <assert-string-value>2.333333333333</assert-string-value>
-            <error code="XPTY0004"/>
-         </any-of>
+         <all-of>
+            <assert>$result ge 2.33333333333333</assert>
+            <assert>$result lt 2.33333333333334</assert>
+         </all-of>
       </result>
    </test-case>
 
