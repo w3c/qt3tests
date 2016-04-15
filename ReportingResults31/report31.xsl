@@ -60,7 +60,7 @@
    <xsl:variable name="changesDoc" select="document('changes.xml', $catalog)"/>
    <xsl:variable name="testSets"
       select="$catalog//t:test-set/doc(resolve-uri(@file, base-uri(..)))/t:test-set"/>
-   <xsl:variable name="testCases" select="$testSets/t:test-case"/>
+   <xsl:variable name="testCases" select="$testSets/t:test-case[r:testCaseAppliesToSpec(., 'XQ31') or r:testCaseAppliesToSpec(., 'XP31')]"/>
 
 
    <!-- Some global variables -->
@@ -765,14 +765,14 @@
                               'disputed')])"
                         />
                      </xsl:variable>
-                     <xsl:message>spec: <xsl:value-of select="$spec"/>, Test-set: <xsl:value-of
+                     <!--<xsl:message>spec: <xsl:value-of select="$spec"/>, Test-set: <xsl:value-of
                            select="$testSetName"/>: <xsl:value-of select="$rawtotal"/>. notrun:
                            <xsl:value-of
                            select="
                               count($results/r:test-case[@result = ('n/a',
                               'tooBig',
                               'disputed')])"
-                        /></xsl:message>
+                        /></xsl:message> -->
                      <xsl:attribute name="bgcolor">
                         <xsl:choose>
                            <xsl:when test="$passed = $total and $passed != 0">
@@ -894,6 +894,7 @@
    </xsl:template>
 
    <xsl:template name="dependencyList">
+      
       <xsl:for-each-group select="$testCases"
          group-by="
             (. | ..)/(t:dependency[@type = 'feature']/string(@value),
@@ -1333,7 +1334,7 @@
 
                <font size="-1">
                   <div id="{$test-name}"
-                     style="position:absolute; left:20; width:410px; height:10; visibility:hidden">
+                     style="position:absolute; left:20; width:410px; visibility:hidden">
                      <font face="verdana, arial, helvetica, sans-serif" size="2">
                         <div
                            style="float:left; background-color:white; padding:3px; border:1px solid black">
@@ -1343,7 +1344,13 @@
                            <b><xsl:value-of select="$test-name"/>:</b>
                            <br/>
                            <br/>
-                           <xsl:value-of select="r:escape($test-casei)"/>
+                           <b>Spec Dependencies</b>:<br/>
+                           <xsl:for-each select="t:dependency, ../t:dependency">
+                              <xsl:value-of select="@type"/> = <xsl:value-of select="@value"/> <br/>
+                              
+                           </xsl:for-each>
+                           <br/>
+                           <b>Test</b>: <xsl:value-of select="r:escape($test-casei)"/>
                         </div>
                      </font>
                   </div>
