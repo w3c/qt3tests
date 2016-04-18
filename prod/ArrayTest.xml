@@ -136,8 +136,8 @@
       <description>key must be an integer value</description>
       <created by="Carla Spruit" on="2014-10-28"/>
       <modified by="Michael Kay" on="2015-11-26" change="add HOF dependency (dynamic function call)"/>
+      <modified by="Debbie Lockett" on="2016-04-18" change="remove HOF dependency (dynamic function call allowed for arrays/maps)"/>
       <dependency type="spec" value="XP31+ XQ31+"/>
-      <dependency type="feature" value="higherOrderFunctions"/>
       <test>[1, 2, 3](1.1)</test>
       <result>
         <error code="XPTY0004"/>
@@ -573,6 +573,36 @@
       <test><![CDATA[element a {[<z x='3'/>/@x, <a>22</a>, [<b>33</b>, <c>44</c>], <d>55</d>]}]]></test>
       <result>
          <assert-xml><![CDATA[<a x='3'><a>22</a><b>33</b><c>44</c><d>55</d></a>]]></assert-xml>
+      </result>
+   </test-case>
+   
+   <test-case name="ArrayTest-052" covers="array-general">
+      <description>Dynamic function call with operand an array</description>
+      <created by="Debbie Lockett" on="2016-04-18"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>[1, 2, 3](2)</test>
+      <result>
+         <assert-eq>2</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="ArrayTest-053" covers="array-general">
+      <description>Dynamic function call with operand an array</description>
+      <created by="Debbie Lockett" on="2016-04-18"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>array{1, 2, 3}(2)</test>
+      <result>
+         <assert-eq>2</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="ArrayTest-054" covers="array-general">
+      <description>Dynamic function call with operand an array</description>
+      <created by="Debbie Lockett" on="2016-04-18"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>let $array:= ['a','b','c','d','e'] return $array(3)</test>
+      <result>
+         <assert-deep-eq>'c'</assert-deep-eq>
       </result>
    </test-case>
 </test-set>

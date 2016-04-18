@@ -143,6 +143,7 @@
         <description>Arrow operator used with ceiling function; syntax error</description>
         <created by="Debbie Lockett" on="2015-01-05"/>
         <dependency type="spec" value="XP31+ XQ31+"/>
+        <dependency type="feature" value="higherOrderFunctions"/>
         <test>4.54=>(head((ceiling#1, floor#1, round#1, abs#1)))</test>
         <result>
             <error code="XPST0003"/>
@@ -203,8 +204,8 @@
     <test-case name="ArrowPostfix-020">
         <description>Arrow operator used with a map; variable reference</description>
         <created by="Debbie Lockett" on="2015-01-07"/>
+        <modified by="Debbie Lockett" on="2016-04-18" change="remove HOF dependency (dynamic function call allowed for arrays/maps)"/>
         <dependency type="spec" value="XP31+ XQ31+"/>
-        <dependency type="feature" value="higherOrderFunctions"/>
         <test>let $m:= map{1:2, 2:4, 3:6} return 2=>$m()</test>
         <result>
             <assert-deep-eq>4</assert-deep-eq>
@@ -215,7 +216,7 @@
         <description>Arrow operator used with a map; parenthesized expression</description>
         <created by="Debbie Lockett" on="2015-01-07"/>
         <modified by="Michael Kay" on="2015-11-26" change="add HOF dependency (dynamic function call)"/>
-        <dependency type="feature" value="higherOrderFunctions"/>
+        <modified by="Debbie Lockett" on="2016-04-18" change="remove HOF dependency (dynamic function call allowed for arrays/maps)"/>
         <dependency type="spec" value="XP31+ XQ31+"/>
         <test>2=>(map{1:2, 2:4, 3:6})()</test>
         <result>
@@ -226,8 +227,8 @@
     <test-case name="ArrowPostfix-022">
         <description>Arrow operator used with an array; variable reference</description>
         <created by="Debbie Lockett" on="2015-01-07"/>
+        <modified by="Debbie Lockett" on="2016-04-18" change="remove HOF dependency (dynamic function call allowed for arrays/maps)"/>
         <dependency type="spec" value="XP31+ XQ31+"/>
-        <dependency type="feature" value="higherOrderFunctions"/>
         <test>let $array:= ['a','b','c','d','e'] return 3=>$array()</test>
         <result>
             <assert-deep-eq>'c'</assert-deep-eq>
@@ -238,8 +239,8 @@
         <description>Arrow operator used with an array; parenthesized expression</description>
         <created by="Debbie Lockett" on="2015-01-07"/>
         <modified by="Michael Kay" on="2015-11-26" change="add HOF dependency (dynamic function call)"/>
+        <modified by="Debbie Lockett" on="2016-04-18" change="remove HOF dependency (dynamic function call allowed for arrays/maps)"/>
         <dependency type="spec" value="XP31+ XQ31+"/>
-        <dependency type="feature" value="higherOrderFunctions"/>
         <test>3=>(['a','b','c','d','e'])()</test>
         <result>
             <assert-deep-eq>'c'</assert-deep-eq>
@@ -340,63 +341,70 @@
     </test-case>
 
     <test-case name="ArrowPostfix-101">
-           <description>Bug 29346</description>
-           <created by="Abel Braaksma" on="2016-02-27"/>
-           <dependency type="spec" value="XP31+ XQ31+"/>
-           <test>("one two three four five" => Q{http://www.w3.org/2005/xpath-functions}tokenize(" ")) ! upper-case(.)</test>
-           <result>
-               <assert-deep-eq>("ONE", "TWO", "THREE", "FOUR", "FIVE")</assert-deep-eq>
-           </result>
-       </test-case>
-
-       <test-case name="ArrowPostfix-102">
-           <description>Bug 29346</description>
-           <created by="Abel Braaksma" on="2016-02-27"/>
-           <dependency type="spec" value="XP31+ XQ31+"/>
-           <test>1 => Q{http://www.w3.org/2005/xpath-functions}sum()</test>
-           <result>
-               <assert-eq>1</assert-eq>
-           </result>
-       </test-case>
-
-       <test-case name="ArrowPostfix-103">
-           <description>Bug 29346</description>
-           <created by="Abel Braaksma" on="2016-02-27"/>
-           <dependency type="spec" value="XP31+ XQ31+"/>
-           <test>(1, 2, 3, 4) => Q{http://www.w3.org/2005/xpath-functions}sum()</test>
-           <result>
-               <assert-eq>10</assert-eq>
-           </result>
-       </test-case>
-
-       <test-case name="ArrowPostfix-104">
-           <description>Bug 29346</description>
-           <created by="Abel Braaksma" on="2016-02-27"/>
-           <dependency type="spec" value="XP31+ XQ31+"/>
-           <test>(1, 2, 3, 4) => (Q{http://www.w3.org/2005/xpath-functions}sum#1)()</test>
-           <result>
-               <assert-eq>10</assert-eq>
-           </result>
-       </test-case>
+        <description>Bug 29346</description>
+        <created by="Abel Braaksma" on="2016-02-27"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>("one two three four five" => Q{http://www.w3.org/2005/xpath-functions}tokenize(" ")) ! upper-case(.)</test>
+        <result>
+            <assert-deep-eq>("ONE", "TWO", "THREE", "FOUR", "FIVE")</assert-deep-eq>
+        </result>
+    </test-case>
+    
+    <test-case name="ArrowPostfix-102">
+        <description>Bug 29346</description>
+        <created by="Abel Braaksma" on="2016-02-27"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>1 => Q{http://www.w3.org/2005/xpath-functions}sum()</test>
+        <result>
+            <assert-eq>1</assert-eq>
+        </result>
+    </test-case>
+    
+    <test-case name="ArrowPostfix-103">
+        <description>Bug 29346</description>
+        <created by="Abel Braaksma" on="2016-02-27"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>(1, 2, 3, 4) => Q{http://www.w3.org/2005/xpath-functions}sum()</test>
+        <result>
+            <assert-eq>10</assert-eq>
+        </result>
+    </test-case>
+    
+    <test-case name="ArrowPostfix-104">
+        <description>Bug 29346</description>
+        <created by="Abel Braaksma" on="2016-02-27"/>
+        <modified by="Debbie Lockett" on="2016-04-18" change="add HOF dependency (named function reference)"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <dependency type="feature" value="higherOrderFunctions"/>
+        <test>(1, 2, 3, 4) => (Q{http://www.w3.org/2005/xpath-functions}sum#1)()</test>
+        <result>
+            <assert-eq>10</assert-eq>
+        </result>
+    </test-case>
 
     <test-case name="ArrowPostfix-105">
-           <description>Bug 29346</description>
-           <created by="Abel Braaksma" on="2016-02-27"/>
-           <dependency type="spec" value="XP31+ XQ31+"/>
-           <test>(1, 2, 3, 4) => (Q{http://www.w3.org/2005/xpath-functions}sum#2(?, 'foo'))()</test>
-           <result>
-               <assert-eq>10</assert-eq>
-           </result>
-       </test-case>
-
-       <test-case name="ArrowPostfix-106">
-           <description>Bug 29346</description>
-           <created by="Abel Braaksma" on="2016-02-27"/>
-           <dependency type="spec" value="XP31+ XQ31+"/>
-           <test>() => (Q{http://www.w3.org/2005/xpath-functions}sum#2(?, 'foo'))()</test>
-           <result>
-               <assert-eq>"foo"</assert-eq>
-           </result>
-       </test-case>
+        <description>Bug 29346</description>
+        <created by="Abel Braaksma" on="2016-02-27"/>
+        <modified by="Debbie Lockett" on="2016-04-18" change="add HOF dependency (named function reference)"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <dependency type="feature" value="higherOrderFunctions"/>
+        <test>(1, 2, 3, 4) => (Q{http://www.w3.org/2005/xpath-functions}sum#2(?, 'foo'))()</test>
+        <result>
+            <assert-eq>10</assert-eq>
+        </result>
+    </test-case>
+    
+    <test-case name="ArrowPostfix-106">
+        <description>Bug 29346</description>
+        <created by="Abel Braaksma" on="2016-02-27"/>
+        <modified by="Debbie Lockett" on="2016-04-18" change="add HOF dependency (named function reference)"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <dependency type="feature" value="higherOrderFunctions"/>
+        <test>() => (Q{http://www.w3.org/2005/xpath-functions}sum#2(?, 'foo'))()</test>
+        <result>
+            <assert-eq>"foo"</assert-eq>
+        </result>
+    </test-case>
+           
 
 </test-set>
