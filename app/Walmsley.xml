@@ -4,10 +4,13 @@
    <environment name="all">
       <namespace prefix="array" uri="http://www.w3.org/2005/xpath-functions/array"/>
       <namespace prefix="map" uri="http://www.w3.org/2005/xpath-functions/map"/>
-      <source role="." file="Walmsley/catalog.xml" uri="catalog.xml"/>
-      <resource file="Walmsley/render.xsl" uri="render.xsl"/>
-      <resource file="Walmsley/render2.xsl" uri="render2.xsl"/>
-      <resource file="Walmsley/product.json" media-type="application/json" uri="product.json"/>
+      <!-- Modified by Debbie Lockett on 2016-04-21, to add and use static-base-uri, in response to
+         bug 29582 -->
+      <static-base-uri uri="http://www.w3.org/2010/09/qt-fots-catalog/Walmsley/" />
+      <source role="." file="Walmsley/catalog.xml" uri="http://www.w3.org/2010/09/qt-fots-catalog/Walmsley/catalog.xml"/>
+      <source file="Walmsley/render.xsl" uri="http://www.w3.org/2010/09/qt-fots-catalog/Walmsley/render.xsl"/>
+      <resource file="Walmsley/product.json" media-type="application/json"
+         uri="http://www.w3.org/2010/09/qt-fots-catalog/Walmsley/product.json"/>
    </environment>
    <dependency type="spec" value="XQ31+"/>
    <test-case name="d1e11215" covers="fn-sort">
@@ -2708,13 +2711,15 @@ declare variable $map2 := map {};
    </test-case>
    <test-case name="d1e78807" covers="fn-transform">
       <description>A-268</description>
-      <created by="Priscilla Walmsley" on="2015-06-10"/> 
+      <created by="Priscilla Walmsley" on="2015-06-10"/>
+      <modified by="Debbie Lockett, Saxonica" on="2016-04-21" change="edit relative
+         stylesheet-location, in response to bug 29582"/>
       <environment ref="all"/>
       <test><![CDATA[
          deep-equal(
  let $result := transform(
   map {
-    "stylesheet-location" : "Walmsley/render.xsl",
+    "stylesheet-location" : "render.xsl",
     "source-node"    : doc("catalog.xml")
   })
 return $result?output ,
@@ -2726,17 +2731,22 @@ document {<p>There are 4 products in the catalog.</p>}
    </test-case>
    <test-case name="d1e78807b" covers="fn-transform">
       <description>A-268b</description>
-      <created by="Priscilla Walmsley" on="2015-07-14"/> 
-      <environment ref="all"/>
+      <created by="Priscilla Walmsley" on="2015-07-14"/>
+      <modified by="Debbie Lockett, Saxonica" on="2016-04-21" change="edit environment and relative
+         URIs, in response to bug 29582"/>
+      <environment>
+         <source file="Walmsley/catalog.xml" uri="Walmsley/catalog.xml"/>
+         <source file="Walmsley/render2.xsl" uri="Walmsley/render2.xsl"/>
+      </environment>
       <test><![CDATA[
          deep-equal(
  let $result := transform(
   map {
     "stylesheet-location" : "Walmsley/render2.xsl",
-    "source-node" : doc("catalog.xml"),
+    "source-node" : doc("Walmsley/catalog.xml"),
     "stylesheet-params": map { QName("","label"): "Note",
                                 QName("","msg"): "Hi!"},
-    "base-output-uri" : resolve-uri("out.xml"),
+    "base-output-uri" : resolve-uri("Walmsley/out.xml"),
     "delivery-format" : "saved"
   })
 return doc($result?*) ,
