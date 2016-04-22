@@ -866,6 +866,18 @@
          </all-of>
       </result>
    </test-case>
+   
+   <test-case name="parse-ietf-date-62">
+      <description>single digit hour (bug 29496)</description>
+      <created by="Debbie Lockett, Saxonica" on="2016-04-23"/>
+      <test>parse-ietf-date("Aug 20 4:36:01 -500 2014")</test>
+      <result>
+         <all-of>                
+            <assert-type>xs:dateTime</assert-type>
+            <assert-eq>xs:dateTime('2014-08-20T04:36:01-05:00')</assert-eq>
+         </all-of>
+      </result>
+   </test-case>
 
 
    <!--* error conditions *-->
@@ -909,9 +921,13 @@
    <test-case name="parse-ietf-date-errs5">
       <description>Error FORG0010 hours must be 2 digits, only 1 supplied</description>
       <created by="Liam Quin" on="2014-08-22"/>
+      <modified by="Debbie Lockett, Saxonica" on="2016-04-23" change="no longer an error, see bug 29496"/>
       <test>parse-ietf-date("Wed, 20 Aug 2014 9:36:01 GMT")</test>
       <result>
-         <error code="FORG0010"/>
+         <all-of>                
+            <assert-type>xs:dateTime</assert-type>
+            <assert-eq>xs:dateTime('2014-08-20T09:36:01Z')</assert-eq>
+         </all-of>
       </result>
    </test-case>
 
@@ -1117,9 +1133,13 @@
    <test-case name="parse-ietf-date-errs28">
       <description>Error FORG0010 timezone offset must be 2 or 4 digits</description>
       <created by="Debbie Lockett, Saxonica" on="2015-01-16"/>
+      <modified by="Debbie Lockett, Saxonica" on="2016-04-23" change="no longer an error, see bug 29496"/>
       <test>parse-ietf-date("Aug 20 19:36:01 -5 2014")</test>
       <result>
-         <error code="FORG0010"/>
+         <all-of>                
+            <assert-type>xs:dateTime</assert-type>
+            <assert-eq>xs:dateTime('2014-08-20T19:36:01-05:00')</assert-eq>
+         </all-of>
       </result>
    </test-case>
    
