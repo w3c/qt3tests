@@ -878,6 +878,30 @@
          </all-of>
       </result>
    </test-case>
+   
+   <test-case name="parse-ietf-date-61">
+      <description>supplied time is 24:00:00</description>
+      <created by="Debbie Lockett, Saxonica" on="2016-04-25"/>
+      <test>parse-ietf-date("Aug 20 24:00:00 2014")</test>
+      <result>
+         <all-of>                
+            <assert-type>xs:dateTime</assert-type>
+            <assert-eq>xs:dateTime('2014-08-21T00:00:00Z')</assert-eq>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="parse-ietf-date-62">
+      <description>supplied time is 24:00</description>
+      <created by="Debbie Lockett, Saxonica" on="2016-04-25"/>
+      <test>parse-ietf-date("Aug 20 24:00 2014")</test>
+      <result>
+         <all-of>                
+            <assert-type>xs:dateTime</assert-type>
+            <assert-eq>xs:dateTime('2014-08-21T00:00:00Z')</assert-eq>
+         </all-of>
+      </result>
+   </test-case>
 
 
    <!--* error conditions *-->
@@ -1196,5 +1220,49 @@
          <error code="FORG0010"/>
       </result>
    </test-case>
-
+   
+   <test-case name="parse-ietf-date-errs35">
+      <description>Error FORG0010 invalid time</description>
+      <created by="Debbie Lockett, Saxonica" on="2016-04-25"/>
+      <test>parse-ietf-date("Aug 20 29:36:01GMT 2014")</test>
+      <result>
+         <error code="FORG0010"/>
+      </result>
+   </test-case>
+   
+   <test-case name="parse-ietf-date-errs36">
+      <description>Error FORG0010 invalid time</description>
+      <created by="Debbie Lockett, Saxonica" on="2016-04-25"/>
+      <test>parse-ietf-date("Aug 20 19:66:01GMT 2014")</test>
+      <result>
+         <error code="FORG0010"/>
+      </result>
+   </test-case>
+   
+   <test-case name="parse-ietf-date-errs37">
+      <description>Error FORG0010 invalid time</description>
+      <created by="Debbie Lockett, Saxonica" on="2016-04-25"/>
+      <test>parse-ietf-date("Aug 20 19:36:71GMT 2014")</test>
+      <result>
+         <error code="FORG0010"/>
+      </result>
+   </test-case>
+   
+   <test-case name="parse-ietf-date-errs38">
+      <description>Error FORG0010 invalid timezone offset</description>
+      <created by="Debbie Lockett, Saxonica" on="2016-04-25"/>
+      <test>parse-ietf-date("Aug 20 19:36:01 -15:00 2014")</test>
+      <result>
+         <error code="FORG0010"/>
+      </result>
+   </test-case>
+   
+   <test-case name="parse-ietf-date-errs39">
+      <description>Error FORG0010 invalid timezone offset</description>
+      <created by="Debbie Lockett, Saxonica" on="2016-04-25"/>
+      <test>parse-ietf-date("Aug 20 19:36:01 -05:60 2014")</test>
+      <result>
+         <error code="FORG0010"/>
+      </result>
+   </test-case>
 </test-set>
