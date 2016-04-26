@@ -576,18 +576,20 @@
    <test-case name="op-numeric-unary-minus-1">
       <description> Check dynamic type of unary plus on argument of union of numeric types and untypedAtomic. </description>
       <created by="Oliver Hallam" on="2010-03-16"/>
-      <modified by="Michael Kay" on="2016-01-31" change="see bug 29401"/>
+      <modified by="Michael Kay" on="2016-01-31" change="see bugs 29401, 29572"/>
       <dependency type="spec" value="XQ10+"/>
       <test>
         for $x in (1, xs:decimal(2.5), xs:float(3), xs:double(4), xs:untypedAtomic(5)) 
-        return typeswitch (-$x) 
-        case xs:integer return "integer" 
-        case xs:decimal return "decimal" 
-        case xs:float return "float" 
-        case xs:double return "double" 
-        default return error()</test>
+        return (-$x) 
+      </test>
       <result>
-         <assert-string-value>integer decimal float double double</assert-string-value>
+         <all-of>
+            <assert>$result[1] instance of xs:integer</assert>
+            <assert>$result[2] instance of xs:decimal</assert>
+            <assert>$result[3] instance of xs:float</assert>
+            <assert>$result[4] instance of xs:double</assert>
+            <assert>$result[5] instance of xs:double</assert>
+         </all-of>
       </result>
    </test-case>
    
