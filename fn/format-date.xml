@@ -1527,26 +1527,28 @@
    <test-case name="format-date-en151">
       <description>test format-date: fallback to English for unsupported language. Test assumes (a) that Iberian (xib) is not supported, and (b) that the fallback language is English. Changed from lang="fo" to lang="xib": See bug 862.</description>
       <created by="Michael Kay, Saxonica" on="2011-07-01"/>
+      <modified by="Michael Kay, Saxonica" on="2016-04-26" change="see bug 29573"/>
       <environment>
          <param name="b" as="xs:date" select="xs:date('2006-03-01')"/>
       </environment>
       <dependency type="language" value="xib" satisfied="false"/>
       <test>format-date($b, '[MNn]', 'xib', (), ())</test>
       <result>
-         <assert-string-value>[Language: en]March</assert-string-value>
+         <assert>matches($result, ".*en.+March</assert>
       </result>
    </test-case>
 
    <test-case name="format-date-en152">
       <description/>
       <created by="Michael Kay, Saxonica" on="2011-07-01"/>
+      <modified by="Michael Kay, Saxonica" on="2016-04-26" change="see bug 29573"/>
       <environment>
          <param name="b" as="xs:date" select="xs:date('2006-03-01')"/>
       </environment>
       <dependency type="calendar" value="CB" satisfied="false"/>
       <test>format-date($b, '[M01]', 'en', 'CB', ())</test>
       <result>
-         <assert-string-value>[Calendar: AD]03</assert-string-value>
+         <assert>matches($result, ".*AD.+03</assert>
       </result>
    </test-case>
    

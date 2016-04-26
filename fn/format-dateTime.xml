@@ -1175,26 +1175,34 @@
       Test assumes (a) that Iberian (xib) is not supported, and (b) that the fallback language is English. 
       Changed from lang="fo" to lang="xib": See bug 862.</description>
       <created by="Michael Kay, Saxonica" on="2011-07-01"/>
+      <modified by="Michael Kay, Saxonica" on="2016-04-26" change="see bug 29573"/>
       <environment>
          <param name="b" as="xs:dateTime" select="xs:dateTime('2006-03-01T12:00:00')"/>
       </environment>
       <dependency type="language" value="xib" satisfied="false"/>
       <test>format-dateTime($b, '[MNn]', 'xib', (), ())</test>
       <result>
-         <assert-string-value>[Language: en]March</assert-string-value>
+         <all-of>
+            <assert>matches($result, "en")</assert>
+            <assert>matches($result, "March")</assert>
+         </all-of>
       </result>
    </test-case>
 
    <test-case name="format-dateTime-en152">
       <description/>
       <created by="Michael Kay, Saxonica" on="2011-07-01"/>
+      <modified by="Michael Kay, Saxonica" on="2016-04-26" change="see bug 29573"/>
       <environment>
          <param name="b" as="xs:dateTime" select="xs:dateTime('2006-03-01T12:00:00')"/>
       </environment>
       <dependency type="calendar" value="CB" satisfied="false"/>
       <test>format-dateTime($b, '[M01]', 'en', 'CB', ())</test>
       <result>
-         <assert-string-value>[Calendar: AD]03</assert-string-value>
+         <all-of>
+            <assert>matches($result, "AD")</assert>
+            <assert>matches($result, "03")</assert>
+         </all-of>
       </result>
    </test-case>
 
