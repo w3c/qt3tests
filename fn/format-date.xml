@@ -1534,7 +1534,7 @@
       <dependency type="language" value="xib" satisfied="false"/>
       <test>format-date($b, '[MNn]', 'xib', (), ())</test>
       <result>
-         <assert>matches($result, ".*en.+March</assert>
+         <assert>matches($result, ".*en.+March")</assert>
       </result>
    </test-case>
 
@@ -1548,7 +1548,7 @@
       <dependency type="calendar" value="CB" satisfied="false"/>
       <test>format-date($b, '[M01]', 'en', 'CB', ())</test>
       <result>
-         <assert>matches($result, ".*AD.+03</assert>
+         <assert>matches($result, ".*AD.+03")</assert>
       </result>
    </test-case>
    
@@ -1663,6 +1663,15 @@
       <test>format-date(current-date(), '[bla]', 'en', (), 5)</test>
       <result>
          <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+   <test-case name="format-date-inpt-er4">
+      <description>wrong number of args</description>
+      <created by="Debbie Lockett, Saxonica" on="2016-04-27"/>
+      <test>format-date(current-date(), "[D01]", "")</test>
+      <result>
+         <error code="XPST0017"/>
       </result>
    </test-case>
 
