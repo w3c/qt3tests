@@ -88,9 +88,13 @@
    <test-case name="fn-year-from-date-7">
       <description> Evaluates The "year-from-date" function that returns a negative number </description>
       <created by="Carmelo Montanez" on="2005-06-06"/>
+      <modified by="O'Neil Delpratt" on="2016-04-28" change="Added error code as alternative. see bug issue #29546"/>
       <test>fn:year-from-date(xs:date("-1999-05-31Z"))</test>
       <result>
-         <assert-string-value>-1999</assert-string-value>
+         <any-of>
+            <assert-string-value>-1999</assert-string-value>
+            <error code="FODT0001"/>
+         </any-of>
       </result>
    </test-case>
 
