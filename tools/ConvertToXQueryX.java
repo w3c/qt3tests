@@ -212,10 +212,14 @@ public final class ConvertToXQueryX {
     }
 
     private XQItem item(String file) throws FileNotFoundException, XQException, IOException {
-        FileInputStream in = new FileInputStream(file);
-        XQItem item = con.createItemFromDocument(in, null, null);
-        in.close();
-        return item;
+        try {
+	    FileInputStream in = new FileInputStream(file);
+            XQItem item = con.createItemFromDocument(in, null, null);
+            in.close();
+            return item;
+        } catch (Throwable t) {
+            throw new IOException("Error reading " + file, t);
+        }
     }
 
     private String queryAsString(String query, XQItem context) throws XQException {
