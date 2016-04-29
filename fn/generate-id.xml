@@ -229,6 +229,17 @@
          <assert-true/>
       </result>
    </test-case>
+   
+   <test-case name="generate-id-019">
+      <description>All generated IDs are ASCII alphanumeric</description>
+      <created by="Michael Kay" on="2016-03-27"/>
+      <environment ref="auction"/>
+      <test>let $nodes := (/ | //*/(.|@*|comment()|processing-instruction()|text())) 
+         return every $id in $nodes/generate-id() satisfies matches($id, '^[A-Za-z][A-Za-z0-9]*$')</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
       
    <test-case name="generate-id-901">
       <description>generate-id() with no context item</description>
