@@ -6,7 +6,16 @@
    
    <environment name="xml-to-json-C">
       <source role="." file="xml-to-json/xml-to-json-C.xsl">
+         <!-- Taken from the XSLT30 test file of the same name. Although this is XSLT code, it is used here simply as data -->
          <created by="Michael Kay" on="2016-04-22"/>
+      </source>
+   </environment>
+   
+   <environment name="xml-to-json-D">
+      <source role="." file="xml-to-json/xml-to-json-D.xsl">
+         <!-- Taken from the XSLT30 test file of the same name, with modifications when testing comments and PIs.
+              Although this is XSLT code, it is used here simply as data-->
+         <created by="Michael Kay" on="2016-04-29"/>
       </source>
    </environment>
 
@@ -1082,6 +1091,512 @@
       <test>xml-to-json(//*:template[@name="t018"]/*:variable/*)</test>
       <result>
          <error code="FOJS0007"/>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-001">
+      <description>Valid input - strings</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>xml-to-json(//*:template[@name="t001"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'"a"'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-002">
+      <description>Valid input - strings</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>xml-to-json(//*:template[@name="t002"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'"a"'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-003">
+      <description>Valid input - strings</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>xml-to-json(//*:template[@name="t003"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'"\""'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-004">
+      <description>Valid input - strings</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>xml-to-json(//*:template[@name="t004"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'"\\"'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-005">
+      <description>Valid input - strings</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>xml-to-json(//*:template[@name="t005"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'"\uD834\uDD1E"'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-006">
+      <description>Valid input - strings</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>xml-to-json(//*:template[@name="t006"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'"\\\""'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-007">
+      <description>Valid input - strings</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>xml-to-json(//*:template[@name="t007"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'"\\\\"'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-008">
+      <description>Valid input - strings</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>xml-to-json(//*:template[@name="t008"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'"\\uD834\\uDD1E"'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-009">
+      <description>Valid input - strings</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>xml-to-json(//*:template[@name="t009"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'"  "'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-010">
+      <description>Valid input - strings</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>xml-to-json(//*:template[@name="t010"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'"-\"-"'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-011">
+      <description>Valid input - strings</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>xml-to-json(//*:template[@name="t011"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'"-\n-"'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-012">
+      <description>Valid input - strings</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>xml-to-json(//*:template[@name="t012"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'"-\r-"'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-013">
+      <description>Valid input - strings</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>xml-to-json(//*:template[@name="t013"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'"-\t-"'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-014">
+      <description>Valid input - strings</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>xml-to-json(//*:template[@name="t014"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'"-\u007F-"'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-016">
+      <description>Valid input - strings</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>xml-to-json(//*:template[@name="t014"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'"-\u007F-"'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-101">
+      <description>Valid input - booleans</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>xml-to-json(//*:template[@name="t101"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'false'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-102">
+      <description>Valid input - booleans</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>xml-to-json(//*:template[@name="t102"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'true'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-103">
+      <description>Valid input - booleans</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>xml-to-json(//*:template[@name="t103"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'false'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-104">
+      <description>Valid input - booleans</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>xml-to-json(//*:template[@name="t104"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'true'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-201">
+      <description>Valid input - numbers</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>xml-to-json(//*:template[@name="t201"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'7'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-202">
+      <description>Valid input - numbers</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>xml-to-json(//*:template[@name="t202"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'-0'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-203">
+      <description>Valid input - numbers</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>xml-to-json(//*:template[@name="t203"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'1.0E6'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-204">
+      <description>Valid input - numbers</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>xml-to-json(//*:template[@name="t204"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'-0.000001'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-205">
+      <description>Valid input - numbers</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>xml-to-json(//*:template[@name="t205"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'0.001'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-206">
+      <description>Valid input - numbers</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>xml-to-json(//*:template[@name="t206"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'23'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-301">
+      <description>Valid input - null</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>xml-to-json(//*:template[@name="t301"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'null'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-302">
+      <description>Valid input - null</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>xml-to-json(//*:template[@name="t302"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'null'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-303">
+      <description>Valid input - null</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>xml-to-json(//*:template[@name="t303"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'null'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-401">
+      <description>Valid input - arrays</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>xml-to-json(//*:template[@name="t401"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'[]'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-402">
+      <description>Valid input - arrays</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>xml-to-json(//*:template[@name="t402"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'[]'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-403">
+      <description>Valid input - arrays</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>xml-to-json(//*:template[@name="t403"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'[]'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-404">
+      <description>Valid input - arrays</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>xml-to-json(//*:template[@name="t404"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'[null]'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-405">
+      <description>Valid input - arrays</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>xml-to-json(//*:template[@name="t405"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'["(",null,null,")"]'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-406">
+      <description>Valid input - arrays</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>xml-to-json(//*:template[@name="t406"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'["(",null,null,")"]'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-407">
+      <description>Valid input - arrays</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>xml-to-json(//*:template[@name="t407"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'[null]'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-501">
+      <description>Valid input - maps</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>xml-to-json(//*:template[@name="t501"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'{"1":"1","\u0031":"1"}'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-502">
+      <description>Valid input - maps</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>xml-to-json(//*:template[@name="t502"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'{"\n":"1","\u000a":"2"}'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-503">
+      <description>Valid input - maps</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>xml-to-json(//*:template[@name="t503"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'{"\u000A":"1","\u000a":"2"}'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-504">
+      <description>Valid input - maps</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>xml-to-json(//*:template[@name="t504"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'{"\"":"1"}'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-505">
+      <description>Valid input - maps</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>xml-to-json(//*:template[@name="t505"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'{"\\":"1"}'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-506">
+      <description>Valid input - maps</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>xml-to-json(//*:template[@name="t506"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'{"\uD834\uDD1E":"1"}'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-507">
+      <description>Valid input - maps</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>xml-to-json(//*:template[@name="t507"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'{"\n":"1","\n":"2"}'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-508">
+      <description>Valid input - maps</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>xml-to-json(//*:template[@name="t508"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'{"A":"1","B":"  "}'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-509">
+      <description>Valid input - maps</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>xml-to-json(//*:template[@name="t509"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'{"-\n-":"1"}'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-510">
+      <description>Valid input - maps</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>xml-to-json(//*:template[@name="t510"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'{"-\r-":"1"}'</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-D-511">
+      <description>Valid input - maps</description>
+      <created by="Michael Kay" on="2016-04-22"/>
+      <environment ref="xml-to-json-D"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>xml-to-json(//*:template[@name="t511"]/*:variable/*)</test>
+      <result>
+         <assert-eq>'{"-\t-":"1"}'</assert-eq>
       </result>
    </test-case>
    

@@ -100,6 +100,16 @@
         <t018><xsl:sequence select="xml-to-json($in)"/></t018>
     </xsl:template>
     
+    <xsl:template name="t019">
+        <xsl:variable name="in"><j:boolean>maybe</j:boolean></xsl:variable>
+        <t019><xsl:sequence select="xml-to-json($in)"/></t019>
+    </xsl:template>
+    
+    <xsl:template name="t020">
+        <xsl:variable name="in"><j:boolean/></xsl:variable>
+        <t020><xsl:sequence select="xml-to-json($in)"/></t020>
+    </xsl:template>
+    
   
     
 </xsl:stylesheet>
