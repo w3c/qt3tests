@@ -672,10 +672,13 @@
    <test-case name="K2-InternalVariablesWithout-1a" covers-30="declaration-cycles">
       <description>Test case based on K2-InterVariablesWithout-1 with XQuery 3.0 error code</description>
       <created by="O'Neil Delpratt" on="2012-10-08"/>
+      <modified by="O'Neil Delpratt" on="2016-05-03" change="Bug fix relating to #29590"/>
       <dependency type="spec" value="XQ30+"/>
       <test>
         declare variable $local:myVar := local:myFunction();
-        declare function local:myFunction() { local:myFunction(), 1, $local:myVar };
+        declare function local:myFunction() {
+            if (current-date() lt xs:date('1990-01-01') then local:myFunction() else (), 1, $local:myVar
+                                             };
         $local:myVar
       </test>
       <result>
