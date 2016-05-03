@@ -63,11 +63,17 @@
     </test-case>
     <test-case name="parse-xml-fragment-007">
         <description>parse-xml-fragment test - multiple elements are OK</description>
-        <created by="Michael Kay, Saxonica" on="2012-07-05"/>        
+        <created by="Michael Kay, Saxonica" on="2012-07-05"/>
+        <modified by="Michael Kay" on="2016-05-03" change="avoid assert-xml on ill-formed fragments"/>        
         <environment name="empty"/>
         <test><![CDATA[parse-xml-fragment("<a/><b/><c/>")]]></test>
         <result>
-            <assert-xml well-formed="no"><![CDATA[<a/><b/><c/>]]></assert-xml>
+            <all-of>
+                <assert>$result/*[1][self::a][not(has-children(.))]</assert>
+                <assert>$result/*[2][self::b][not(has-children(.))]</assert>
+                <assert>$result/*[3][self::c][not(has-children(.))]</assert>
+                <assert>count($result/node()) = 3</assert>
+            </all-of>
         </result>
     </test-case>
     <test-case name="parse-xml-fragment-008">
@@ -81,20 +87,33 @@
     </test-case>
     <test-case name="parse-xml-fragment-009">
         <description>parse-xml-fragment test - whitespace is preserved</description>
-        <created by="Michael Kay, Saxonica" on="2012-07-05"/>        
+        <created by="Michael Kay, Saxonica" on="2012-07-05"/>
+        <modified by="Michael Kay" on="2016-05-03" change="avoid assert-xml on ill-formed fragments"/>         
         <environment name="empty"/>
         <test><![CDATA[parse-xml-fragment("<a> </a> <b> </b>")]]></test>
         <result>
-            <assert-xml well-formed="no"><![CDATA[<a> </a> <b> </b>]]></assert-xml>
+            <all-of>
+                <assert>$result/node()[1][self::a][. = ' ']</assert>
+                <assert>$result/node()[2][self::text()][. = ' ']</assert>
+                <assert>$result/node()[3][self::b][. = ' ']</assert>
+                <assert>count($result/node()) = 3</assert>
+            </all-of>
         </result>
     </test-case>
     <test-case name="parse-xml-fragment-010">
         <description>parse-xml-fragment test - comments and PIs are OK</description>
-        <created by="Michael Kay, Saxonica" on="2012-07-05"/>        
+        <created by="Michael Kay, Saxonica" on="2012-07-05"/>
+        <modified by="Michael Kay" on="2016-05-03" change="avoid assert-xml on ill-formed fragments"/>         
         <environment name="empty"/>
         <test><![CDATA[parse-xml-fragment("<a/><!--comment--><?PI?><b/>")]]></test>
         <result>
-            <assert-xml well-formed="no"><![CDATA[<a/><!--comment--><?PI?><b/>]]></assert-xml>
+            <all-of>
+                <assert>$result/node()[1][self::a][. = '']</assert>
+                <assert>$result/node()[2][self::comment()][. = 'comment']</assert>
+                <assert>$result/node()[3][self::processing-instruction(PI)][. = '']</assert>
+                <assert>$result/node()[4][self::b][. = '']</assert>
+                <assert>count($result/node()) = 4</assert>
+            </all-of>
         </result>
     </test-case>
     <test-case name="parse-xml-fragment-011">
