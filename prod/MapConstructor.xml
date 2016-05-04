@@ -256,5 +256,163 @@
       </result>
    </test-case>
 
+  <test-case name="MapConstructor-027" covers="map-constructor map-general">
+      <description>Bug 29501</description>
+      <created by="Josh Spiegel" on="2016-05-04"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[
+
+        declare namespace a = "http://example.com";
+
+        <dot>
+          <a:b>key</a:b>
+          <c>value</c>
+        </dot>
+        !
+        map{a:b:c}
+
+      ]]></test>
+      <result>
+         <assert-deep-eq><![CDATA[map{"key":<c>value</c>}]]></assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="MapConstructor-028" covers="map-constructor map-general">
+      <description>Bug 29501</description>
+      <created by="Josh Spiegel" on="2016-05-04"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[
+
+        declare namespace a = "http://example.com";
+
+        <dot>
+          <a:b>key</a:b>
+          <c>value</c>
+        </dot>
+        !
+        map{a:*:c}
+
+      ]]></test>
+      <result>
+         <assert-deep-eq><![CDATA[map{"key":<c>value</c>}]]></assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="MapConstructor-029" covers="map-constructor map-general">
+      <description>Bug 29501</description>
+      <created by="Josh Spiegel" on="2016-05-04"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[
+
+        declare namespace a = "http://example.com";
+
+        <dot>
+          <a:b>key</a:b>
+          <c>value</c>
+        </dot>
+        !
+        map{*:b:c}
+
+      ]]></test>
+      <result>
+         <assert-deep-eq><![CDATA[map{"key":<c>value</c>}]]></assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="MapConstructor-030" covers="map-constructor map-general">
+      <description>Bug 29501</description>
+      <created by="Josh Spiegel" on="2016-05-04"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[
+
+        declare namespace a = "http://example.com";
+
+        <dot>
+          <a:b>key</a:b>
+        </dot>
+        !
+        map{a:b:*}
+
+      ]]></test>
+      <result>
+         <assert-deep-eq><![CDATA[map{"key":<a:b xmlns:a="http://example.com">key</a:b>}]]></assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="MapConstructor-031" covers="map-constructor map-general">
+      <description>Bug 29501</description>
+      <created by="Josh Spiegel" on="2016-05-04"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[
+
+        declare namespace a = "http://example.com";
+
+        <dot>
+          <a:b>key</a:b>
+        </dot>
+        !
+        map{a:*:*}
+
+      ]]></test>
+      <result>
+         <assert-deep-eq><![CDATA[map{"key":<a:b xmlns:a="http://example.com">key</a:b>}]]></assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="MapConstructor-032" covers="map-constructor map-general">
+      <description>Bug 29501</description>
+      <created by="Josh Spiegel" on="2016-05-04"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[
+
+        declare namespace a = "http://example.com";
+
+        <dot>
+          <a:b>key</a:b>
+        </dot>
+        !
+        map{*:b:*}
+
+      ]]></test>
+      <result>
+         <assert-deep-eq><![CDATA[map{"key":<a:b xmlns:a="http://example.com">key</a:b>}]]></assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="MapConstructor-033" covers="map-constructor map-general">
+      <description>Bug 29501</description>
+      <created by="Josh Spiegel" on="2016-05-04"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[
+        <e><f>foo</f></e> ! map{*:*}
+      ]]></test>
+      <result>
+         <assert-deep-eq><![CDATA[map{"foo":<f>foo</f>}]]></assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="MapConstructor-034" covers="map-constructor map-general">
+      <description>Bug 29501</description>
+      <created by="Josh Spiegel" on="2016-05-04"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[
+        <e><f>foo</f></e> ! map{*:f:*:f}
+      ]]></test>
+      <result>
+         <assert-deep-eq><![CDATA[map{"foo":<f>foo</f>}]]></assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="MapConstructor-035" covers="map-constructor map-general">
+      <description>Bug 29501</description>
+      <created by="Josh Spiegel" on="2016-05-04"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[
+         <e><f>4</f></e>!map{*:*div*,*||*:*}
+      ]]></test>
+      <result>
+         <assert-deep-eq><![CDATA[map{"44":<f>4</f>,"4":1}]]></assert-deep-eq>
+      </result>
+   </test-case>
 
 </test-set>
