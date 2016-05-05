@@ -581,6 +581,15 @@ abracadabra", "\n","with")</test>
          <assert-string-value>a$`b$`c</assert-string-value>
       </result>
    </test-case>
+   
+   <test-case name="fn-replace-54">
+      <description>Evaluation of replace with single-digit capture at end of replacement string. Saxon bug 2735.</description>
+      <created by="Michael Kay" on="2016-05-05"/>
+      <test>fn:replace("abracadabra", "((((( ((((( (((((a))))) ))))) )))))", "$1$1", "x")</test>
+      <result>
+         <assert-string-value>aabraacaadaabraa</assert-string-value>
+      </result>
+   </test-case>
 
    <test-case name="K-ReplaceFunc-1">
       <description> The flags argument cannot contain whitespace. </description>
