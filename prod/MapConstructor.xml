@@ -297,9 +297,11 @@
         !
         map{a:b:c}
 
+        =>
+        deep-equal(map{"key":<c>value</c>})
       ]]></test>
       <result>
-         <assert-deep-eq><![CDATA[map{"key":<c>value</c>}]]></assert-deep-eq>
+         <assert-true/>
       </result>
    </test-case>
 
@@ -318,9 +320,12 @@
         !
         map{a:*:c}
 
+        =>
+        deep-equal(map{"key":<c>value</c>})
+
       ]]></test>
       <result>
-         <assert-deep-eq><![CDATA[map{"key":<c>value</c>}]]></assert-deep-eq>
+         <assert-true/>
       </result>
    </test-case>
 
@@ -339,9 +344,11 @@
         !
         map{*:b:c}
 
+        =>
+        deep-equal(map{"key":<c>value</c>})
       ]]></test>
       <result>
-         <assert-deep-eq><![CDATA[map{"key":<c>value</c>}]]></assert-deep-eq>
+         <assert-true/>
       </result>
    </test-case>
 
@@ -359,9 +366,11 @@
         !
         map{a:b:*}
 
+        =>
+        deep-equal(map{"key":<a:b xmlns:a="http://example.com">key</a:b>})
       ]]></test>
       <result>
-         <assert-deep-eq><![CDATA[map{"key":<a:b xmlns:a="http://example.com">key</a:b>}]]></assert-deep-eq>
+         <assert-true/>
       </result>
    </test-case>
 
@@ -379,9 +388,11 @@
         !
         map{a:*:*}
 
+        =>
+        deep-equal(map{"key":<a:b xmlns:a="http://example.com">key</a:b>})
       ]]></test>
       <result>
-         <assert-deep-eq><![CDATA[map{"key":<a:b xmlns:a="http://example.com">key</a:b>}]]></assert-deep-eq>
+         <assert-true/>
       </result>
    </test-case>
 
@@ -399,9 +410,12 @@
         !
         map{*:b:*}
 
+        => 
+        deep-equal(map{"key":<a:b xmlns:a="http://example.com">key</a:b>})
+
       ]]></test>
       <result>
-         <assert-deep-eq><![CDATA[map{"key":<a:b xmlns:a="http://example.com">key</a:b>}]]></assert-deep-eq>
+         <assert-true/>
       </result>
    </test-case>
 
@@ -411,9 +425,11 @@
       <dependency type="spec" value="XQ31+"/>
       <test><![CDATA[
         <e><f>foo</f></e> ! map{*:*}
+        =>
+        deep-equal(map{"foo":<f>foo</f>})
       ]]></test>
       <result>
-         <assert-deep-eq><![CDATA[map{"foo":<f>foo</f>}]]></assert-deep-eq>
+         <assert-true/>
       </result>
    </test-case>
 
@@ -423,9 +439,11 @@
       <dependency type="spec" value="XQ31+"/>
       <test><![CDATA[
         <e><f>foo</f></e> ! map{*:f:*:f}
+        =>
+        deep-equal(map{"foo":<f>foo</f>})
       ]]></test>
       <result>
-         <assert-deep-eq><![CDATA[map{"foo":<f>foo</f>}]]></assert-deep-eq>
+         <assert-true/>
       </result>
    </test-case>
 
@@ -435,9 +453,11 @@
       <dependency type="spec" value="XQ31+"/>
       <test><![CDATA[
          <e><f>4</f></e>!map{*:*div*,*||*:*}
+         =>
+         deep-equal(map{"44":<f>4</f>,"4":1})
       ]]></test>
       <result>
-         <assert-deep-eq><![CDATA[map{"44":<f>4</f>,"4":1}]]></assert-deep-eq>
+         <assert-true/>
       </result>
    </test-case>
 
