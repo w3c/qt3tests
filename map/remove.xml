@@ -8,6 +8,7 @@
     <test-case name="map-remove-001">
         <description>Remove from empty map</description>
         <created by="Michael Kay, Saxonica" on="2011-03-27"/>
+        <environment ref="map"/>
         <test>map:remove(map{}, 1)</test>
         <result>
             <assert>map:size($result) eq 0</assert>
@@ -17,6 +18,7 @@
         <description>Keys in empty map</description>
         <created by="Michael Kay, Saxonica" on="2011-03-27"/>
         <modified by="Michael Kay, Saxonica" on="2011-03-25" change="new => merge"/>
+        <environment ref="map"/>
         <test>map:remove(map:merge(()), "abcd")</test>
         <result>
             <assert>map:size($result) eq 0</assert>
@@ -26,6 +28,7 @@
         <description>Remove from singleton map</description>
         <created by="Michael Kay, Saxonica" on="2011-03-27"/>
         <modified by="Michael Kay, Saxonica" on="2014-09-11" change="bug 26747"/>
+        <environment ref="map"/>
         <test>map:remove(map{"a":1}, "a")</test>
         <result>
             <assert>map:size($result) eq 0</assert>
@@ -34,6 +37,7 @@
     <test-case name="map-remove-005">
         <description>Remove from singleton map</description>
         <created by="Michael Kay, Saxonica" on="2011-03-27"/>
+        <environment ref="map"/>
         <test>map:remove(map:entry("a", "1"), "b")</test>
         <result>
             <all-of>
@@ -46,6 +50,7 @@
         <description>Remove from two-entry map</description>
         <created by="Michael Kay, Saxonica" on="2011-03-27"/>
         <modified by="Michael Kay, Saxonica" on="2011-03-25" change="new => merge"/>
+        <environment ref="map"/>
         <test>map:remove(map:merge((map:entry("a", "1"), map:entry("b", 2))), "b")</test>
         <result>
             <all-of>
@@ -58,6 +63,7 @@
         <description>Null remove from two-entry map</description>
         <created by="Michael Kay, Saxonica" on="2011-03-27"/>
         <modified by="Michael Kay, Saxonica" on="2011-03-25" change="new => merge"/>
+        <environment ref="map"/>
         <test>map:remove(map:merge((map:entry("a", "1"), map:entry("b", 2))), "c")</test>
         <result>
             <all-of>
@@ -71,6 +77,7 @@
         <description>Remove match of numeric values</description>
         <created by="Michael Kay, Saxonica" on="2011-03-27"/>
         <modified by="Michael Kay, Saxonica" on="2011-03-25" change="new => merge"/>
+        <environment ref="map"/>
         <test>map:remove(map:merge((map:entry(12, 1), map:entry(13, 2))), 12e0)</test>
         <result>
             <all-of>
@@ -84,6 +91,7 @@
         <description>Remove match of untypedAtomic</description>
         <created by="Michael Kay, Saxonica" on="2011-03-27"/>
         <modified by="Michael Kay, Saxonica" on="2011-03-25" change="new => merge"/>
+        <environment ref="map"/>
         <test>map:remove(map:merge((map:entry("a",1), map:entry("b",2))), xs:untypedAtomic("b"))</test>
         <result>
             <all-of>
@@ -97,6 +105,7 @@
         <description>Type after removing an entry</description>
         <created by="Michael Kay, Saxonica" on="2011-03-27"/>
         <modified by="Michael Kay, Saxonica" on="2014-09-11" change="bug 26747"/>
+        <environment ref="map"/>
         <test>map:remove(map{"a":1,"b":"xyz"}, "b")</test>
         <result>
             <assert-type>map(xs:string, xs:integer)</assert-type>
@@ -115,6 +124,7 @@
         <description>Remove from a large map</description>
         <created by="Michael Kay, Saxonica" on="2011-03-27"/>
         <modified by="Michael Kay, Saxonica" on="2011-03-25" change="new => merge"/>
+        <environment ref="map"/>
         <test>map:remove(map:merge(for $n in 1 to 500000 return map:entry($n, $n+1)), 123456)</test>
         <result>
             <all-of>
@@ -129,6 +139,7 @@
         <description>Deep equal after removing an entry</description>
         <created by="Michael Kay, Saxonica" on="2011-03-27"/>
         <modified by="Michael Kay, Saxonica" on="2014-09-11" change="bug 26747"/>
+        <environment ref="map"/>
         <test>deep-equal(map:remove(map{"a":1,"b":(2,3)}, "a"), map:entry("b", (2,3)))</test>
         <result>
             <assert-true/>
@@ -138,6 +149,7 @@
         <description>Remove from map containing dates with and without timezone</description>
         <created by="Michael Kay, Saxonica" on="2015-06-10"/>
         <modified by="O'Neil Delpratt" on="2016-02-01" change="Bug fix #29412: Removed XT30+ dependency."/>
+        <environment ref="map"/>
         <dependency type="spec" value="XP31+ XQ31+"/>
         <test>
             map{current-dateTime():100, current-dateTime()=>adjust-dateTime-to-timezone(()):101} 
@@ -152,6 +164,7 @@
         <description>Float and double are (in this case) equal </description>
         <created by="Michael Kay, Saxonica" on="2015-06-10"/>
         <modified by="O'Neil Delpratt" on="2016-02-01" change="Bug fix #29412: Removed XT30+ dependency."/>
+        <environment ref="map"/>
         <dependency type="spec" value="XP31+ XQ31+"/>
         <test>
             map{xs:double('1.25'):0}
@@ -166,6 +179,7 @@
         <description>Edge case with numerics: decimal not promoted to double</description>
         <created by="Michael Kay, Saxonica" on="2015-06-10"/>
         <modified by="O'Neil Delpratt" on="2016-02-01" change="Bug fix #29412: Removed XT30+ dependency."/>
+        <environment ref="map"/>
         <dependency type="spec" value="XP31+ XQ31+"/>
         <test>
             map{xs:float('1.0'):0, xs:double('1.00000000001'):1} 

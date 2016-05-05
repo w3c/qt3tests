@@ -8,6 +8,7 @@
     <test-case name="map-size-001">
         <description>Size of empty map</description>
         <created by="Michael Kay, Saxonica" on="2011-03-27"/>
+        <environment ref="map"/>
         <test>map:size(map{})</test>
         <result>
             <all-of>
@@ -20,6 +21,7 @@
         <description>Size of empty map</description>
         <created by="Michael Kay, Saxonica" on="2011-03-27"/>
         <modified by="Michael Kay, Saxonica" on="2011-03-25" change="new => merge"/>
+        <environment ref="map"/>
         <test>map:size(map:merge(()))</test>
         <result>
             <all-of>
@@ -32,6 +34,7 @@
         <description>Size of singleton map</description>
         <created by="Michael Kay, Saxonica" on="2011-03-27"/>
         <modified by="Michael Kay, Saxonica" on="2014-09-11" change="bug 26747"/>
+        <environment ref="map"/>
         <test>map:size(map{"a":1})</test>
         <result>
             <all-of>
@@ -43,6 +46,7 @@
     <test-case name="map-size-004">
         <description>Size of singleton map</description>
         <created by="Michael Kay, Saxonica" on="2011-03-27"/>
+        <environment ref="map"/>
         <test>map:size(map:entry("a", "1"))</test>
         <result>
             <all-of>
@@ -55,6 +59,7 @@
         <description>Size of two-entry map</description>
         <created by="Michael Kay, Saxonica" on="2011-03-27"/>
         <modified by="Michael Kay, Saxonica" on="2011-03-25" change="new => merge"/>
+        <environment ref="map"/>
         <test>map:size(map:merge((map:entry("a", "1"), map:entry("b", 2))))</test>
         <result>
             <all-of>
@@ -67,6 +72,7 @@
         <description>Size of two-entry map</description>
         <created by="Michael Kay, Saxonica" on="2011-03-27"/>
         <modified by="Michael Kay, Saxonica" on="2014-09-11" change="bug 26747"/>
+        <environment ref="map"/>
         <test>map:size(map{"a":1, "b":2})</test>
         <result>
             <all-of>
@@ -80,6 +86,7 @@
         <created by="Michael Kay, Saxonica" on="2011-03-27"/>
         <modified by="Michael Kay, Saxonica" on="2014-09-11" change="bug 26747"/>
         <modified by="O'Neil Delpratt, Saxonica" on="2014-12-16" change="bug 27180"/>
+        <environment ref="map"/>
         <test>map:size(map{"a":1, "a":2})</test>
         <result>
             <error code="XQDY0137"/>
@@ -89,6 +96,7 @@
         <description>Elimination of duplicates</description>
         <created by="Michael Kay, Saxonica" on="2011-03-27"/>
         <modified by="Michael Kay, Saxonica" on="2011-03-25" change="new => merge"/>
+        <environment ref="map"/>
         <test>map:size(map:merge((map:entry("a",1), map:entry("a",2))))</test>
         <result>
             <all-of>
@@ -101,6 +109,7 @@
         <description>Size after removing an entry</description>
         <created by="Michael Kay, Saxonica" on="2011-03-27"/>
         <modified by="Michael Kay, Saxonica" on="2014-09-11" change="bug 26747"/>
+        <environment ref="map"/>
         <test>map:size(map:remove(map{"a":1,"b":2}, "b"))</test>
         <result>
             <all-of>
@@ -113,6 +122,7 @@
         <description>Size after removing the only entry</description>
         <created by="Michael Kay, Saxonica" on="2011-03-27"/>
         <modified by="Michael Kay, Saxonica" on="2014-09-11" change="bug 26747"/>
+        <environment ref="map"/>
         <test>map:size(map:remove(map:entry(1,2),1))</test>
         <result>
             <all-of>
@@ -124,6 +134,7 @@
     <test-case name="map-size-011">
         <description>Size after removing the only two entries</description>
         <created by="Michael Kay, Saxonica" on="2011-03-27"/>
+        <environment ref="map"/>
         <test>map:size(map:remove(map:remove(map{"a":1,"b":2},"b"),"a"))</test>
         <result>
             <all-of>
@@ -137,6 +148,7 @@
         <created by="Michael Kay, Saxonica" on="2011-03-27"/>
         <modified by="Michael Kay, Saxonica" on="2014-03-28" change="NaN is now allowed as a key value"/>
         <modified by="Michael Kay, Saxonica" on="2014-09-11" change="bug 26747"/>
+        <environment ref="map"/>
         <test>map:size(map{number('NaN'):1,"b":2})</test>
         <result>
             <all-of>
@@ -149,6 +161,7 @@
         <description>Size after a null remove operation</description>
         <created by="Michael Kay, Saxonica" on="2011-03-27"/>
         <modified by="Michael Kay, Saxonica" on="2014-09-11" change="bug 26747"/>
+        <environment ref="map"/>
         <test>map:size(map:remove(map{"a":1,"b":2}, "c"))</test>
         <result>
             <all-of>
@@ -162,6 +175,7 @@
         <created by="Michael Kay, Saxonica" on="2015-06-10"/>
         <modified by="O'Neil Delpratt" on="2016-02-01" change="Bug fix #29412: Removed XT30+ dependency."/>
         <dependency type="spec" value="XP31+ XQ31+"/>
+        <environment ref="map"/>
         <test>map{current-dateTime():100, current-dateTime()=>adjust-dateTime-to-timezone(()):101} => map:size()</test>
         <result>
             <assert-eq>2</assert-eq>

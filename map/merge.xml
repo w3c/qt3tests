@@ -9,6 +9,7 @@
         <description>Evaluate the function map:merge() with no argument</description>
         <created by="Michael Kay, Saxonica" on="2011-03-23"/>
         <modified by="Michael Kay, Saxonica" on="2014-05-13" change="spec change and function renaming"/>
+        <environment ref="map"/>
         <test>map:merge()</test>
         <result>
             <error code="XPST0017"/>
@@ -18,6 +19,7 @@
         <description>Evaluate the function map:merge() with argument ()</description>
         <created by="Michael Kay, Saxonica" on="2011-03-23"/>
         <modified by="Michael Kay, Saxonica" on="2014-05-13" change="spec change and function renaming"/>
+        <environment ref="map"/>
         <test>map:merge(())</test>
         <result>
             <all-of>
@@ -34,6 +36,7 @@
         <modified by="Michael Kay, Saxonica" on="2014-05-13" change="spec change and function renaming"/>
         <modified by="Debbie Lockett, Saxonica" on="2015-02-27" change="function signature correction, bug 28063"/>
         <modified by="Josh Spiegel" on="2015-08-04" change="Split into two tests based on support of HOF feature"/>
+        <environment ref="map"/>
         <dependency type="feature" value="higherOrderFunctions"/>
         <test>map:merge(map:entry("foo", 1 to 5))</test>
         <result>
@@ -52,6 +55,7 @@
         <modified by="Michael Kay, Saxonica" on="2014-05-13" change="spec change and function renaming"/>
         <modified by="Debbie Lockett, Saxonica" on="2015-02-27" change="function signature correction, bug 28063"/>
         <modified by="Josh Spiegel" on="2015-08-04" change="Split into two tests based on support of HOF feature"/>
+        <environment ref="map"/>
         <test>map:merge(map:entry("foo", 1 to 5))</test>
         <result>
             <all-of>
@@ -66,6 +70,7 @@
         <description>Evaluate the function map:merge() with two singleton maps</description>
         <created by="Michael Kay, Saxonica" on="2011-03-23"/>
         <modified by="Michael Kay, Saxonica" on="2014-05-13" change="spec change and function renaming"/>
+        <environment ref="map"/>
         <test>map:merge((map:entry("foo", 1 to 5), map:entry("bar", 6 to 10)))</test>
         <result>
             <all-of>
@@ -80,6 +85,7 @@
         <description>Evaluate the function map:merge() with a larger set of singleton maps</description>
         <created by="Michael Kay, Saxonica" on="2011-03-23"/>
         <modified by="Michael Kay, Saxonica" on="2014-05-13" change="spec change and function renaming"/>
+        <environment ref="map"/>
         <test>map:merge(for $i in 1 to 20 return map:entry($i, $i*$i))</test>
         <result>
             <all-of>
@@ -95,6 +101,7 @@
         <description>Evaluate the function map:merge() with duplicates in the input maps</description>
         <created by="Michael Kay, Saxonica" on="2011-03-23"/>
         <modified by="Michael Kay, Saxonica" on="2014-05-13" change="spec change and function renaming"/>
+        <environment ref="map"/>
         <test>map:merge((map:entry("foo", 3), map:entry("foo", 4)))</test>
         <result>
             <all-of>
@@ -110,6 +117,7 @@
         <description>map:merge() doesn't modify its input maps</description>
         <created by="Michael Kay, Saxonica" on="2011-03-23"/>
         <modified by="Michael Kay, Saxonica" on="2014-05-13" change="spec change and function renaming"/>
+        <environment ref="map"/>
         <test>let $foo := map:entry("foo", 3), $bar := map:entry("foo", 4), $foobar := map:merge(($foo, $bar))
               return ($foobar, $bar, $foo)[3]</test>
         <result>
@@ -127,6 +135,7 @@
         <created by="Michael Kay, Saxonica" on="2011-03-23"/>
         <modified by="Michael Kay, Saxonica" on="2014-05-13" change="spec change and function renaming"/>
         <modified by="Michael Kay" on="2015-11-26" change="avoid HOF dependency in assertions"/>
+        <environment ref="map"/>
         <test>let $foo := map:merge(for $i in 1 to 20 return map:entry($i, $i*$i)), $bar := map:entry(8, 63), $foobar := map:merge(($foo, $bar))
               return ($foobar, $bar, $foo)[3]</test>
         <result>
@@ -144,6 +153,7 @@
         <created by="Michael Kay, Saxonica" on="2011-03-23"/>
         <modified by="Michael Kay, Saxonica" on="2014-05-13" change="spec change and function renaming"/>
         <modified by="Michael Kay" on="2015-11-26" change="avoid HOF dependency in assertions"/>
+        <environment ref="map"/>
         <test>let $foo := map:merge(for $i in 1 to 20 return map:entry($i, $i*$i)), $bar := map:entry(8, 63), $foobar := map:merge(($foo, $bar))
               return ($foobar, $bar, $foo)[2]</test>
         <result>
@@ -161,6 +171,7 @@
         <created by="Michael Kay, Saxonica" on="2011-03-23"/>
         <modified by="Michael Kay, Saxonica" on="2014-05-13" change="spec change and function renaming"/>
         <modified by="Michael Kay" on="2015-11-26" change="avoid HOF dependency in assertions"/>
+        <environment ref="map"/>
         <test>let $foo := map:merge(for $i in 1 to 20 return map:entry($i, $i*$i)), $bar := map:merge(()), $foobar := map:merge(($foo, $bar))
               return $foobar</test>
         <result>
@@ -178,6 +189,7 @@
         <created by="Michael Kay, Saxonica" on="2011-03-23"/>
         <modified by="Michael Kay, Saxonica" on="2014-05-13" change="spec change and function renaming"/>
         <modified by="Michael Kay" on="2015-11-26" change="avoid HOF dependency in assertions"/>
+        <environment ref="map"/>
         <test>map:merge((map:entry(3, "three"), map:entry(3.0e0, "threeD"), map:entry(xs:float('3.0'), "threeF")))</test>
         <result>
             <all-of>
@@ -193,6 +205,7 @@
         <description>map:merge() with nodes as values</description>
         <created by="Michael Kay, Saxonica" on="2011-03-23"/>
         <modified by="Michael Kay, Saxonica" on="2014-05-13" change="spec change and function renaming"/>
+        <environment ref="map"/>
         <environment ref="auction"/>
         <test>map:merge(for $n in distinct-values(//*/node-name()) 
                       return map:entry($n, //*[node-name() eq $n]))</test>
@@ -209,6 +222,7 @@
         <created by="Michael Kay, Saxonica" on="2011-03-23"/>
         <modified by="Michael Kay, Saxonica" on="2014-05-13" change="spec change and function renaming"/>
         <modified by="Michael Kay, Saxonica" on="2014-09-11" change="bug 26747"/>
+        <environment ref="map"/>
         <test>map:merge(for $n in 1 to 20 return map:entry($n, map{$n :string($n), $n+1:string($n+1), $n+2:string($n+2)}))</test>
         <result>
             <all-of>
@@ -221,6 +235,7 @@
         <description>Deep equal of empty maps</description>
         <created by="Michael Kay, Saxonica" on="2011-03-27"/>
         <modified by="Michael Kay, Saxonica" on="2014-05-13" change="spec change and function renaming"/>
+        <environment ref="map"/>
         <test>deep-equal(map{}, map:merge(()))</test>
         <result>
             <assert-true/>
@@ -231,6 +246,7 @@
         <created by="Michael Kay, Saxonica" on="2011-03-27"/>
         <modified by="Michael Kay, Saxonica" on="2014-05-13" change="spec change and function renaming"/>
         <modified by="Michael Kay, Saxonica" on="2014-09-11" change="bug 26747"/>
+        <environment ref="map"/>
         <test>deep-equal(map{"a":1}, map:entry("a", 1))</test>
         <result>
             <assert-true/>
@@ -240,6 +256,7 @@
         <description>Deep equal of larger maps</description>
         <created by="Michael Kay, Saxonica" on="2011-03-27"/>
         <modified by="Michael Kay, Saxonica" on="2014-05-13" change="spec change and function renaming"/>
+        <environment ref="map"/>
         <test>deep-equal(map{"a":1,"b":2,"c":(3,4,5)}, map{"c":(3,4,5),"a":1,"b":2})</test>
         <result>
             <assert-true/>
@@ -249,6 +266,7 @@
         <description>Deep equal of empty maps</description>
         <created by="Michael Kay, Saxonica" on="2011-03-27"/>
         <modified by="Michael Kay, Saxonica" on="2014-05-13" change="spec change and function renaming"/>
+        <environment ref="map"/>
         <test>deep-equal(map{"a":1}, map:merge(()))</test>
         <result>
             <assert-false/>
@@ -257,6 +275,7 @@
     <test-case name="map-merge-020">
         <description>Deep equal of larger maps</description>
         <created by="Michael Kay, Saxonica" on="2011-03-27"/>
+        <environment ref="map"/>
         <test>deep-equal(map:merge(for $i in 1 to 1000 return map:entry($i, $i+1)),
                          map:merge(for $i in 2 to 1001 return map:entry($i, $i+1)))</test>
         <result>
@@ -267,6 +286,7 @@
         <description>Deep equal of larger maps</description>
         <created by="Michael Kay, Saxonica" on="2011-03-27"/>
         <modified by="Michael Kay, Saxonica" on="2014-05-13" change="spec change and function renaming"/>
+        <environment ref="map"/>
         <test>deep-equal(map:merge(for $i in 1 to 1000 return map:entry($i, $i+1)),
                          map:merge(((for $i in 1 to 1000 return map:entry($i, $i+1)), map:entry(400, 402))))</test>
         <result>
@@ -276,6 +296,7 @@
     <test-case name="map-merge-022">
         <description>Deep equal: first operand is a submap</description>
         <created by="Michael Kay, Saxonica" on="2011-03-27"/>
+        <environment ref="map"/>
         <test>deep-equal(map:merge(for $i in 1 to 1000 return map:entry($i, $i+1)),
                          map:merge(for $i in 0 to 1000 return map:entry($i, $i+1)))</test>
         <result>
@@ -286,6 +307,7 @@
         <description>Deep equal: second operand is a submap</description>
         <created by="Michael Kay, Saxonica" on="2011-03-27"/>
         <modified by="Michael Kay, Saxonica" on="2014-05-13" change="spec change and function renaming"/>
+        <environment ref="map"/>
         <test>deep-equal(map:merge(for $i in 1 to 1000 return map:entry($i, $i+1)),
                          map:merge(for $i in 2 to 1000 return map:entry($i, $i+1)))</test>
         <result>
@@ -296,6 +318,7 @@
         <description>Evaluate the function map:merge() with a single singleton map (map-merge-003 adapted)</description>
         <created by="Debbie Lockett, Saxonica" on="2015-02-27"/>
         <modified by="Josh Spiegel" on="2015-08-04" change="Split into two tests based on support of HOF feature"/>
+        <environment ref="map"/>
         <dependency type="feature" value="higherOrderFunctions"/>
         <test>map:merge(map:entry("foo", 1 to 5))</test>
         <result>
@@ -311,6 +334,7 @@
         <description>Evaluate the function map:merge() with a single singleton map (map-merge-003 adapted)</description>
         <created by="Debbie Lockett, Saxonica" on="2015-02-27"/>
         <modified by="Josh Spiegel" on="2015-08-04" change="Split into two tests based on support of HOF feature"/>
+        <environment ref="map"/>
         <test>map:merge(map:entry("foo", 1 to 5))</test>
         <result>
             <all-of>
