@@ -64,14 +64,15 @@
     <test-case name="parse-xml-fragment-007">
         <description>parse-xml-fragment test - multiple elements are OK</description>
         <created by="Michael Kay, Saxonica" on="2012-07-05"/>
-        <modified by="Michael Kay" on="2016-05-03" change="avoid assert-xml on ill-formed fragments"/>        
+        <modified by="Michael Kay" on="2016-05-03" change="avoid assert-xml on ill-formed fragments"/> 
+        <modified by="Michael Kay" on="2016-05-05" change="avoid XPath 3.0 dependency in assertions"/> 
         <environment name="empty"/>
         <test><![CDATA[parse-xml-fragment("<a/><b/><c/>")]]></test>
         <result>
             <all-of>
-                <assert>$result/*[1][self::a][not(has-children(.))]</assert>
-                <assert>$result/*[2][self::b][not(has-children(.))]</assert>
-                <assert>$result/*[3][self::c][not(has-children(.))]</assert>
+                <assert>$result/*[1][self::a][not(child::node())]</assert>
+                <assert>$result/*[2][self::b][not(child::node())]</assert>
+                <assert>$result/*[3][self::c][not(child::node())]</assert>
                 <assert>count($result/node()) = 3</assert>
             </all-of>
         </result>
