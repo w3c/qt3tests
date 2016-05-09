@@ -3,6 +3,13 @@
    <description>Tests for the numeric-add() function</description>
    <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/"
          idref="func-numeric-add"/>
+   
+   <environment name="user-defined-types">
+      <schema uri="http://www.w3.org/XQueryTest/userDefinedTypes" file="../docs/userdefined.xsd">
+         <description>A schema user defined types and constructor tests</description>
+         <created by="Anonymous" on="2006-04-03"/>
+      </schema>   
+   </environment>
 
    <test-case name="op-numeric-addint2args-1">
       <description> Evaluates The "op:numeric-add" operator with the arguments set as follows: $arg1 = xs:int(mid range) $arg2 = xs:int(lower bound) </description>
@@ -1363,6 +1370,234 @@
             float float float double double 
             double double double double double 
             double double double double double</assert-string-value>-->
+      </result>
+   </test-case>
+   
+   <test-case name="op-numeric-add-2">
+      <description> Numeric addition on schema-validated input. </description>
+      <created by="Michael Kay" on="2016-05-09"/>
+      <environment ref="atomic"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaValidation"/>
+      <test>
+         declare namespace atomic="http://www.w3.org/XQueryTest";
+         /*/atomic:integer + /*/atomic:integer
+      </test>
+      <result>
+         <assert-type>xs:integer</assert-type>
+      </result>
+   </test-case>
+   
+   <test-case name="op-numeric-add-3">
+      <description> Numeric addition on schema-validated input. </description>
+      <created by="Michael Kay" on="2016-05-09"/>
+      <environment ref="atomic"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaValidation"/>
+      <test>
+         declare namespace atomic="http://www.w3.org/XQueryTest";
+         /*/atomic:decimal + /*/atomic:integer
+      </test>
+      <result>
+         <assert-type>xs:decimal</assert-type>
+      </result>
+   </test-case>
+   
+   <test-case name="op-numeric-add-4">
+      <description> Numeric addition on schema-validated input. </description>
+      <created by="Michael Kay" on="2016-05-09"/>
+      <environment ref="atomic"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaValidation"/>
+      <test>
+         declare namespace atomic="http://www.w3.org/XQueryTest";
+         /*/atomic:decimal + /*/atomic:float
+      </test>
+      <result>
+         <assert-type>xs:float</assert-type>
+      </result>
+   </test-case>
+   
+   <test-case name="op-numeric-add-5">
+      <description> Numeric addition on schema-validated input. </description>
+      <created by="Michael Kay" on="2016-05-09"/>
+      <environment ref="atomic"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaValidation"/>
+      <test>
+         declare namespace atomic="http://www.w3.org/XQueryTest";
+         /*/atomic:float + /*/atomic:float
+      </test>
+      <result>
+         <assert-type>xs:float</assert-type>
+      </result>
+   </test-case>
+   
+   <test-case name="op-numeric-add-5">
+      <description> Numeric addition on schema-validated input. </description>
+      <created by="Michael Kay" on="2016-05-09"/>
+      <environment ref="atomic"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaValidation"/>
+      <test>
+         declare namespace atomic="http://www.w3.org/XQueryTest";
+         /*/atomic:float + /*/atomic:double
+      </test>
+      <result>
+         <assert-type>xs:double</assert-type>
+      </result>
+   </test-case>
+   
+   <test-case name="op-numeric-add-6">
+      <description> Numeric addition on schema-validated input. </description>
+      <created by="Michael Kay" on="2016-05-09"/>
+      <environment ref="atomic"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaValidation"/>
+      <test>
+         declare namespace atomic="http://www.w3.org/XQueryTest";
+         /*/atomic:decimal/@* + /*/atomic:double
+      </test>
+      <result>
+         <assert-type>xs:double</assert-type>
+      </result>
+   </test-case>
+   
+   <test-case name="op-numeric-add-7">
+      <description> Numeric addition on schema-validated input. </description>
+      <created by="Michael Kay" on="2016-05-09"/>
+      <environment ref="atomic"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaValidation"/>
+      <test>
+         declare namespace atomic="http://www.w3.org/XQueryTest";
+         /*/atomic:double + /*/atomic:double
+      </test>
+      <result>
+         <assert-type>xs:double</assert-type>
+      </result>
+   </test-case>
+   
+   <test-case name="op-numeric-add-8">
+      <description> Numeric addition on schema-validated input. </description>
+      <created by="Michael Kay" on="2016-05-09"/>
+      <environment ref="atomic"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaValidation"/>
+      <test>
+         declare namespace atomic="http://www.w3.org/XQueryTest";
+         /*/atomic:integer + xs:untypedAtomic('123')
+      </test>
+      <result>
+         <assert-type>xs:double</assert-type>
+      </result>
+   </test-case>
+   
+   <test-case name="op-numeric-add-9">
+      <description> Numeric addition on schema-validated input. </description>
+      <created by="Michael Kay" on="2016-05-09"/>
+      <environment ref="atomic"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaValidation"/>
+      <test>
+         declare namespace atomic="http://www.w3.org/XQueryTest";
+         /*/atomic:decimal + xs:untypedAtomic('123')
+      </test>
+      <result>
+         <assert-type>xs:double</assert-type>
+      </result>
+   </test-case>
+   
+   <test-case name="op-numeric-add-10">
+      <description> Numeric addition on schema-validated input. </description>
+      <created by="Michael Kay" on="2016-05-09"/>
+      <environment ref="atomic"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaValidation"/>
+      <test>
+         declare namespace atomic="http://www.w3.org/XQueryTest";
+         /*/atomic:float + xs:untypedAtomic('123')
+      </test>
+      <result>
+         <assert-type>xs:double</assert-type>
+      </result>
+   </test-case>
+   
+   <test-case name="op-numeric-add-11">
+      <description> Numeric addition on schema-validated input. </description>
+      <created by="Michael Kay" on="2016-05-09"/>
+      <environment ref="atomic"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaValidation"/>
+      <test>
+         declare namespace atomic="http://www.w3.org/XQueryTest";
+         /*/atomic:double + xs:untypedAtomic('123')
+      </test>
+      <result>
+         <assert-type>xs:double</assert-type>
+      </result>
+   </test-case>
+   
+   <test-case name="op-numeric-add-12">
+      <description> Numeric addition on schema-validated input with user-defined types. </description>
+      <created by="Michael Kay" on="2016-05-09"/>
+      <environment ref="user-defined-types"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>
+         import schema namespace t="http://www.w3.org/XQueryTest/userDefinedTypes";
+         15 cast as t:sizeType + 15 cast as t:floatBased
+      </test>
+      <result>
+         <assert-type>xs:float</assert-type>
+         <assert-eq>30</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="op-numeric-add-13">
+      <description> Numeric addition on schema-validated input with union types. </description>
+      <created by="Michael Kay" on="2016-05-09"/>
+      <environment ref="user-defined-types"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>
+         import schema namespace t="http://www.w3.org/XQueryTest/userDefinedTypes";
+         15 cast as t:sizeType + 15 cast as t:integer-or-nothing
+      </test>
+      <result>
+         <assert-type>xs:integer</assert-type>
+         <assert-eq>30</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="op-numeric-add-13">
+      <description> Numeric addition on schema-validated input with union types. </description>
+      <created by="Michael Kay" on="2016-05-09"/>
+      <environment ref="user-defined-types"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>
+         import schema namespace t="http://www.w3.org/XQueryTest/userDefinedTypes";
+         15 cast as t:floatBased + 15 cast as t:integer-or-nothing
+      </test>
+      <result>
+         <assert-type>xs:float</assert-type>
+         <assert-eq>30</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="op-numeric-add-14">
+      <description> Numeric addition on schema-validated input with union types. </description>
+      <created by="Michael Kay" on="2016-05-09"/>
+      <environment ref="user-defined-types"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>
+         import schema namespace t="http://www.w3.org/XQueryTest/userDefinedTypes";
+         15 cast as t:floatBased + '' cast as t:integer-or-nothing
+      </test>
+      <result>
+         <error code="XPTY0004"/>
       </result>
    </test-case>
 </test-set>
