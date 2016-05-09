@@ -539,6 +539,34 @@
       </result>
    </test-case>
    
+   <test-case name="value-comparison-13">
+      <description> Value comparison involving union type.</description>
+      <created by="Michael Kay" on="2016-07-09"/>
+      <environment ref="user-defined-types"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>
+         import schema namespace myType="http://www.w3.org/XQueryTest/userDefinedTypes"; 
+         myType:hatsize(5) = myType:integer-or-nothing(5)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="value-comparison-14">
+      <description> Value comparison involving union type.</description>
+      <created by="Michael Kay" on="2016-07-09"/>
+      <environment ref="user-defined-types"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>
+         import schema namespace myType="http://www.w3.org/XQueryTest/userDefinedTypes"; 
+         myType:hatsize(5) = myType:integer-or-nothing("")</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
    <test-case name="value-comp-eq-string-1">
       <description> Value comparison on strings. </description>
       <created by="Michael Kay" on="2014-10-15"/>
