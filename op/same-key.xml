@@ -499,4 +499,135 @@
           </all-of>       
        </result>
    </test-case>
+
+   <test-case name="same-key-023">
+       <description>op:same-key over strings.</description>
+       <created by="Josh Spiegel" on="2016-05-18"/>
+       <dependency type="spec" value="XQ31+"/>    
+       <test>
+         let $keys :=
+           let $range := 48 to 122
+           for $c1 in $range, $c2 in $range, $c3 in $range
+           return codepoints-to-string(($c1, $c2, $c3))
+         
+         let $map := 
+           map:merge(($keys,$keys) ! map:entry(.,.))
+         
+         return
+           map:size($map) eq count($keys) and 
+           (
+             every $key in $keys 
+             satisfies 
+               $map($key) eq $key and 
+               not(map:contains(map:remove($map, $key), $key)) and
+               map:get(map:put($map, $key, "x"), $key) eq "x"      
+           )
+       </test>
+       <result>
+          <assert-true/>
+       </result>
+   </test-case>
+
+   <test-case name="same-key-024">
+       <description>op:same-key over strings and numeric.</description>
+       <created by="Josh Spiegel" on="2016-05-18"/>
+       <dependency type="spec" value="XQ31+"/>    
+       <test>
+         let $keys :=
+           let $range := 48 to 122
+           for $c1 in $range, $c2 in $range
+           let $i := $c1*1000 + $c2
+           return (
+             codepoints-to-string(($c1, $c2)),
+             switch($i mod 3)
+               case 0 return xs:integer($i)
+               case 1 return xs:decimal($i)
+               case 2 return xs:double($i)
+               default return error()
+           )
+
+         let $map :=
+           map:merge(($keys,$keys) ! map:entry(.,.))
+         
+         return
+           map:size($map) eq count($keys) and
+           (
+             every $key in $keys
+             satisfies
+               $map($key) eq $key and
+               not(map:contains(map:remove($map, $key), $key)) and
+               map:get(map:put($map, $key, "x"), $key) eq "x"
+           )
+         
+       </test>
+       <result>
+          <assert-true/>
+       </result>
+   </test-case>
+
+   <test-case name="same-key-025">
+       <description>op:same-key over numeric values.</description>
+       <created by="Josh Spiegel" on="2016-05-18"/>
+       <dependency type="spec" value="XQ31+"/>    
+       <test>
+         let $keys := (1 to 10000) ! xs:float(1 div .)
+         let $map := map:merge(
+           $keys ! (
+              map:entry(.,.), 
+              map:entry(-.,-.)
+           )
+         )
+         return 
+            map:size($map) eq 20000 and
+            (
+             every $key in $keys 
+             satisfies $map($key) eq $key and
+                       $map(xs:double($key)) eq $key and
+                       $map(xs:decimal($key)) eq $key
+            )
+       </test>
+       <result>
+          <assert-true/>
+       </result>
+   </test-case>
+
+   <test-case name="same-key-026">
+       <description>op:same-key over numeric values.</description>
+       <created by="Josh Spiegel" on="2016-05-18"/>
+       <dependency type="spec" value="XQ31+"/>    
+       <test>
+         declare function local:type($n) {
+            if ($n instance of xs:integer) then "integer"
+            else if ($n instance of xs:double) then "double" 
+            else if ($n instance of xs:float) then "float"
+            else error()
+         };
+
+         let $values := (
+           xs:integer("9223372036854773760"), xs:double("9.223372036854774E18"), 
+           xs:integer("9223372036854773761"),
+           xs:integer("9223372036854774784"), xs:double("9.223372036854775E18"), 
+           xs:integer("9223372036854774785"),
+           xs:integer("9223372036854775808"), xs:double("9.223372036854776E18"), xs:float("9.223372E18"), 
+           xs:integer("9223372036854775809"),
+           xs:integer("9223372036854777856"), xs:double("9.223372036854778E18")
+         )
+         let $m := map:merge(
+                     for $i in $values
+                     return
+                       map:entry($i,$i)
+                   )
+         let $contents := 
+            string-join(for $v at $p in $values return
+              ($p || " $m(" || local:type($v) || ") == " || local:type($m($v))), 
+              ", "
+            )
+         return
+            ("Size: " || map:size($m) || ", " || $contents)
+       </test>
+       <result>
+          <assert-string-value>Size: 7, 1 $m(integer) == double, 2 $m(double) == double, 3 $m(integer) == integer, 4 $m(integer) == double, 5 $m(double) == double, 6 $m(integer) == integer, 7 $m(integer) == float, 8 $m(double) == float, 9 $m(float) == float, 10 $m(integer) == integer, 11 $m(integer) == double, 12 $m(double) == double</assert-string-value>
+       </result>
+   </test-case>
+
 </test-set>
