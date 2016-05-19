@@ -953,13 +953,14 @@
             these specifications, or an xs:QName (with non-absent namespace) in the case of 
             implementation-defined serialization parameters. -->
         <created by="Debbie Lockett, Saxonica" on="2015-05-19"/>
-        <environment ref="atomic"/>
+        <modified by="Josh Spiegel" on="2016-05-19" comment="bug 29373"/>
         <dependency type="spec" value="XP31+ XQ31+"/>
-        <test>let $params := map { QName("","indent") : true() }
-            return serialize(., $params)
+        <test><![CDATA[let $params := map { QName("","indent") : true() }
+            return contains(serialize(<e><f/></e>, $params), " ")
+        ]]>
         </test>
         <result>
-            <error code="SEPM0017"/> 
+            <assert-false/>
         </result>
     </test-case>
     
