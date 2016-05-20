@@ -765,4 +765,32 @@
       </result>
    </test-case>
 
+   <test-case name="Serialization-035">
+      <description>EQNames in parameter document</description>
+      <created by="Josh Spiegel" on="2016-05-20"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[
+         declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+         declare option output:parameter-document "Serialization/serialization-eqnames.xml";
+         <result>
+           <e xmlns="http://example.com/a">ta</e>
+           <e xmlns="http://example.com/b">tb</e>
+           <e xmlns="http://example.com/c">tc</e>
+           <e xmlns="http://example.com/d">td</e>
+           <e xmlns="http://example.com/e">te</e>
+           <e>tt</e>
+         </result>
+        ]]></test>
+      <result>
+         <all-of>
+            <serialization-matches>CDATA\[ta\]</serialization-matches>
+            <serialization-matches>CDATA\[tb\]</serialization-matches>
+            <serialization-matches>CDATA\[tc\]</serialization-matches>
+            <serialization-matches>CDATA\[td\]</serialization-matches>
+            <not><serialization-matches>CDATA\[te\]</serialization-matches></not>
+            <not><serialization-matches>CDATA\[tt\]</serialization-matches></not>
+         </all-of>
+      </result>
+   </test-case>
+
 </test-set>
