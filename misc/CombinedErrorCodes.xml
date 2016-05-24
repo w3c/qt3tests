@@ -819,20 +819,27 @@
    <test-case name="FODC0004">
       <description> check that fn:collection throws FODC0004 </description>
       <created by="Tim Mills" on="2008-05-16"/>
-      
+      <modified by="O'Neil Delpratt" on="2016-05-24" change="Added error code FODC002 according to bug issue #29404"/>
       <test>collection('%gg')</test>
       <result>
-         <error code="FODC0004"/>
+         <any-of>
+            <error code="FODC0004"/>
+            <error code="FODC0002"/>
+         </any-of>
       </result>
    </test-case>
    
 
    <test-case name="FODC0005-1">
       <description> check that fn:doc throws FODC0005 </description>
-      <created by="Tim Mills" on="2008-05-16"/>      
+      <created by="Tim Mills" on="2008-05-16"/>
+      <modified by="O'Neil Delpratt" on="2016-05-24" change="Added error code FODC002 according to bug issue #29404"/>
       <test>doc('%gg')</test>
       <result>
-         <error code="FODC0005"/>
+         <any-of>
+            <error code="FODC0005"/>
+            <error code="FODC0002"/>
+         </any-of>
       </result>
    </test-case>
    
@@ -2890,7 +2897,7 @@
       <description> check that unrecognised pragma is reported correctly </description>
       <created by="Tim Mills" on="2008-05-16"/>
       <modified by="Josh Spiegel" on="2016-01-11" change="bug 29225"/>
-      <modified by="Josh Spiegel" on="2016-05-18" change="bug 29526"/>
+      <dependency type="spec" value="XQ10 XQ30"/>
       <test>declare namespace prefix = "http://www.w3.org/"; (# prefix:pragma #) { }</test>
       <result>
          <error code="XQST0079"/>
