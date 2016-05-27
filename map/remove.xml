@@ -191,6 +191,36 @@
         </result>
     </test-case>
     
+    <test-case name="map-remove-017">
+        <description>Remove multiple items from a map (spec change bug 29660)</description>
+        <created by="Michael Kay, Saxonica" on="2016-05-27"/>
+        <environment ref="map"/>
+        <test>deep-equal(map:remove(map{"a":1,"b":(2,3), "c":1 to 5}, ("a", "c")), map:entry("b", (2,3)))</test>
+        <result>
+            <assert-true/>
+        </result>
+    </test-case>
+    
+    <test-case name="map-remove-018">
+        <description>Remove nothing from a map (spec change bug 29660)</description>
+        <created by="Michael Kay, Saxonica" on="2016-05-27"/>
+        <environment ref="map"/>
+        <test>map:size(map:remove(map{"a":1,"b":(2,3), "c":1 to 5}, ())) = 3</test>
+        <result>
+            <assert-true/>
+        </result>
+    </test-case>
+    
+    <test-case name="map-remove-019">
+        <description>Remove multiple items from a map (spec change bug 29660)</description>
+        <created by="Michael Kay, Saxonica" on="2016-05-27"/>
+        <environment ref="map"/>
+        <test>deep-equal(map:remove(map{"a":1,"b":(2,3), "c":1 to 5}, ("a", "c", "d")), map:entry("b", (2,3)))</test>
+        <result>
+            <assert-true/>
+        </result>
+    </test-case>
+    
 
 
 </test-set>

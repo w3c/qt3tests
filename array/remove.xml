@@ -134,4 +134,42 @@
             <error code="FOAY0001"/>
         </result>
     </test-case>
+    
+    <test-case name="array-remove-413">
+        <description>Remove multiple members from array. Spec change bug 29660</description>
+        <created by="Michael Kay, Saxonica" on="2016-05-27"/>
+        <environment ref="array"/>
+        <test>array:remove(["a", "b", "c", "d"], (1 to 3))</test>
+        <result>
+            <all-of>
+                <assert-type>array(*)</assert-type>
+                <assert>array:size($result) eq 1</assert>
+                <assert-deep-eq>["d"]</assert-deep-eq>
+            </all-of>
+        </result>
+    </test-case>
+    
+    <test-case name="array-remove-414">
+        <description>Remove nothing from an array. Spec change bug 29660</description>
+        <created by="Michael Kay, Saxonica" on="2016-05-27"/>
+        <environment ref="array"/>
+        <test>array:remove(["a", "b", "c", "d"], ())</test>
+        <result>
+            <all-of>
+                <assert-type>array(*)</assert-type>
+                <assert>array:size($result) eq 4</assert>
+                <assert-deep-eq>["a", "b", "c", "d"]</assert-deep-eq>
+            </all-of>
+        </result>
+    </test-case>
+    
+    <test-case name="array-remove-415">
+        <description>One of the to-be-removed items is out of range. Spec change bug 29660</description>
+        <created by="Michael Kay, Saxonica" on="2016-05-27"/>
+        <environment ref="array"/>
+        <test>array:remove(["a", "b", "c", "d"], (4 to 5))</test>
+        <result>
+            <error code="FOAY0001"/>
+        </result>
+    </test-case>
 </test-set>
