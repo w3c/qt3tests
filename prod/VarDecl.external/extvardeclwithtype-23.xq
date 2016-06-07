@@ -38,7 +38,8 @@ declare function local:report() as element()+
                          <ol xmlns="http://www.w3.org/1999/xhtml/">
                             {
                                 (: For each Variable in $complexVariables... :)
-                                $complexVariables/<li><span class="variableName">{string(@name)}</span> in {local:location(.)}</li>
+                                for $ v in $complexVariables
+                                return <li><span class="variableName">{string(@name)}</span> in {local:location(.)}</li>
                             }
                          </ol>)
 
@@ -54,7 +55,8 @@ declare function local:report() as element()+
                          <ol xmlns="http://www.w3.org/1999/xhtml/">
                             {
                                 (: For each Variable in $complexVariables... :)
-                                $primitiveVariables/<li><span class="variableName">{string(@name)}</span> in {local:location(.)}</li>
+                                for $v in $primitiveVariables
+                                return <li><span class="variableName">{string(@name)}</span> in {local:location(.)}</li>
                             }
                          </ol>)
 
