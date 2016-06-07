@@ -614,6 +614,7 @@
    <test-case name="same-key-026">
        <description>op:same-key over numeric values.</description>
        <created by="Josh Spiegel" on="2016-05-18"/>
+       <modified by="O'Neil Delpratt" on="2016-06-07" change="Bug fix relating to issue 29659 - Added error codes as alternative results"/>
        <environment ref="map" />
        <dependency type="spec" value="XQ31+"/>    
        <test>
@@ -647,7 +648,11 @@
             ("Size: " || map:size($m) || ", " || $contents)
        </test>
        <result>
-          <assert-string-value>Size: 7, 1 $m(integer) == double, 2 $m(double) == double, 3 $m(integer) == integer, 4 $m(integer) == double, 5 $m(double) == double, 6 $m(integer) == integer, 7 $m(integer) == float, 8 $m(double) == float, 9 $m(float) == float, 10 $m(integer) == integer, 11 $m(integer) == double, 12 $m(double) == double</assert-string-value>
+           <any-of>
+               <assert-string-value>Size: 7, 1 $m(integer) == double, 2 $m(double) == double, 3 $m(integer) == integer, 4 $m(integer) == double, 5 $m(double) == double, 6 $m(integer) == integer, 7 $m(integer) == float, 8 $m(double) == float, 9 $m(float) == float, 10 $m(integer) == integer, 11 $m(integer) == double, 12 $m(double) == double</assert-string-value>
+               <error code="FORG0001"/>
+               <error code="FOAR0002"/>
+           </any-of>
        </result>
    </test-case>
 
