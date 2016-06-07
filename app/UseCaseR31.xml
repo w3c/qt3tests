@@ -1049,14 +1049,12 @@ return map {
       <description>Convert Arrays to HTML</description>
       <created by="Jonathan Robie, EMC Corporation" on="2014-04-24"/>
       <modified by="O'Neil Delpratt" on="2015-09-17" change="Added the XQuery 3.1 Use case to QT3" />
+        <modified by="O'Neil Delpratt" on="2016-06-07" change="Bug fix relating to issue #29652" />
       <environment ref="json-docs"/>
        <dependency type="spec" value="XQ31+"/>
       <test><![CDATA[
-  <html>
-  <body>
-
-    <table>
-      <tr> (: Column headings :)
+  <html><body><table>
+    <tr> (: Column headings :)
          {
             <th> </th>,
             for $th in json-doc('http://www.w3.org/qt3/app/UseCaseR31/table-json')?col-labels?*
@@ -1080,32 +1078,13 @@ return map {
 </html>
    ]]></test>
       <result>
-          <assert-xml><![CDATA[<html>
-   <body>
-      <table>
-         <tr> (: Column headings :)
-         <th/>
-            <th>singular</th>
-            <th>plural</th>
-         </tr>
-         <tr>
-            <th>1p 2p 3p</th>
-            <td>spinne</td>
-            <td>spinnen</td>
-         </tr>
-         <tr>
-            <th/>
-            <td>spinnst</td>
-            <td>spinnt</td>
-         </tr>
-         <tr>
-            <th/>
-            <td>spinnt</td>
-            <td>spinnen</td>
-         </tr>
-      </table>
-   </body>
-</html>]]></assert-xml>
+          <all-of>
+              <assert>count($result//td[text()='spinnen'])=2</assert>
+              <assert>count($result//td[text()='spinne'])=1</assert>
+              <assert>count($result//td[text()='spinnst'])=1</assert>
+              <assert>count($result//td[text()='spinnt'])=2</assert>
+              <assert>count($result//th[text()='1p 2p 3p'])=1</assert>
+          </all-of>
       </result>
    </test-case>
 
