@@ -788,7 +788,16 @@
       <description>Test case based on K2-InterVariablesWithout-6 with XQuery 3.0 error code</description>
       <created by="O'Neil Delpratt" on="2012-10-08"/>
       <dependency type="spec" value="XQ30+"/>
-      <test>declare variable $local:myVar := local:myFunction(); declare function local:myFunction2() { local:myFunction(), $local:myVar }; declare function local:myFunction() { local:myFunction2() }; local:myFunction()</test>
+      <modified by="O'Neil Delpratt" on="2016-06-07" change="Bug fix relating to #29590"/>
+      <test>declare variable $local:myVar := local:myFunction();
+
+         declare function local:myFunction2() {
+            if (current-date() lt xs:date('1990-01-01')) then local:myFunction() else (), $local:myVar };
+
+         declare function local:myFunction() {
+         local:myFunction2() };
+
+         local:myFunction()</test>
       <result>
          <error code="XQDY0054"/>
       </result>
@@ -807,8 +816,22 @@
    <test-case name="K2-InternalVariablesWithout-7a" covers-30="declaration-cycles">
       <description>Test case based on K2-InterVariablesWithout-7 with XQuery 3.0 error code</description>
       <created by="O'Neil Delpratt" on="2012-10-08"/>
+      <modified by="O'Neil Delpratt" on="2016-05-03" change="Bug fix relating to #29590"/>
       <dependency type="spec" value="XQ30+"/>
-      <test>declare variable $local:myVar := local:myFunction(); declare function local:myFunction2() { local:myFunction(), $local:myVar }; declare function local:myFunction4() { local:myFunction2() }; declare function local:myFunction3() { local:myFunction4() }; declare function local:myFunction() { local:myFunction3() }; local:myFunction()</test>
+      <test>declare variable $local:myVar := local:myFunction();
+         declare function local:myFunction2() {
+         if (current-date() lt xs:date('1990-01-01')) then local:myFunction() else (), $local:myVar };
+
+         declare function local:myFunction4() {
+            local:myFunction2() };
+
+         declare function local:myFunction3() {
+            local:myFunction4() };
+
+         declare function local:myFunction() {
+            local:myFunction3() };
+
+         local:myFunction()</test>
       <result>
          <error code="XQDY0054"/>
       </result>
@@ -827,8 +850,20 @@
    <test-case name="K2-InternalVariablesWithout-8a" covers-30="declaration-cycles">
       <description>Test case based on K2-InterVariablesWithout-8 with XQuery 3.0 error code</description>
       <created by="O'Neil Delpratt" on="2012-10-08"/>
+      <modified by="O'Neil Delpratt" on="2016-05-03" change="Bug fix relating to #29590"/>
       <dependency type="spec" value="XQ30+"/>
-      <test>declare variable $local:myVar := local:myFunction(); declare function local:myFunction2() { local:myFunction4() }; declare function local:myFunction4() { local:myFunction2(), $local:myVar }; declare function local:myFunction3() { local:myFunction4() }; declare function local:myFunction() { local:myFunction3() }; local:myFunction()</test>
+      <test>declare variable $local:myVar := local:myFunction();
+
+         declare function local:myFunction2() { local:myFunction4() };
+
+         declare function local:myFunction4() {
+         if (current-date() lt xs:date('1990-01-01')) then local:myFunction2() else (), $local:myVar };
+
+         declare function local:myFunction3() { local:myFunction4() };
+
+         declare function local:myFunction() { local:myFunction3() };
+
+         local:myFunction()</test>
       <result>
          <error code="XQDY0054"/>
       </result>
