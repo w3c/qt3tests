@@ -8,11 +8,15 @@
 <!--    JM/2014-07-11 : Added support for anyMapText and typedMapTest                   -->
 <!--    JM/2014-07-11 : Added support for anyArrayText and typedArrayTest               -->
 <!--    JM/2014-07-13 : Added support for new alternatives in stepExpr                  -->
-<!--    JM/2014-07-13 : Added support for lookup (formerly mapLookup) and arrowPostfix  -->
+<!--    JM/2014-07-13 : Added support for lookup (formerly mapLookup)                   -->
 <!--    JM/2014-07-13 : Added support for unaryLookup (formerly unaryMapLookup)         -->
 <!--    JM/2014-07-13 : Added support for new alternatives in filterExpr                -->
 <!--    JM/2014-07-13 : Added support for mapConstructor and arrayConstructor           -->
 <!--    JM/2014-08-28 : Fixed [unary]Lookup replacing stringLiteral w/integerLiteral    -->
+<!--    JM/2015-02-11 : Replaced arrowPostfix with arrowExpr per bug 27537              -->
+<!--    JS/2015-11-05 : Added support for stringConstructor                             -->
+<!--    JS/2016-01-20 : Added support for unaryLookup per bug 29364                     -->
+<!--    JS/2016-01-20 : Added xqx:EQName to renderEQName per bug 29365                  -->
 <!--  ================================================================================  -->
 <xsl:stylesheet version="2.0"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -28,7 +32,7 @@
   <xsl:output method="text"/>
   <xsl:strip-space elements="*"/>
   <xsl:preserve-space elements="xqx:value xqx:attributeValue xqx:pragmaContents
-                                xqx:optionContents xqx:xquery"/>
+                                xqx:optionContents xqx:xquery xqx:stringConstructorChars"/>
 
   <xsl:variable name="DOT" select="'.'"/>
   <xsl:variable name="SPACE" select="' '"/>
@@ -180,7 +184,7 @@
 
 
   <xsl:template name="renderEQName"
-                match="xqx:QName | xqx:pragmaName | xqx:typeName | xqx:varName |
+                match="xqx:QName | xqx:EQName | xqx:pragmaName | xqx:typeName | xqx:varName |
                        xqx:functionName | xqx:optionName | xqx:annotationName |
                        xqx:atomicType | xqx:tagName | xqx:name | xqx:decimalFormatName">
     <xsl:choose>
@@ -277,7 +281,7 @@
   </xsl:template>
 
 
-<!-- 2014-07-13/JM Added variiableRef for use in arrowPostfix -->
+<!-- 2014-07-13/JM Added variableRef for use in arrowExpr -->
   <xsl:template match="xqx:varRef | xqx:variableRef">
     <xsl:value-of select="$DOLLAR"/>
     <xsl:apply-templates select="xqx:name"/>
@@ -806,6 +810,31 @@
   </xsl:template>
 
 
+<!-- 2015-02-11/JM For new expr arrowExpr -->
+  <xsl:template match="xqx:arrowExpr">
+    <xsl:value-of select="$LPAREN"/>
+    <xsl:value-of select="$SPACE"/>
+    <xsl:apply-templates select="xqx:argExpr"/>
+    <xsl:for-each select="*[not(self::xqx:argExpr) and not(self::xqx:arguments)]">
+      <xsl:text> =&gt; </xsl:text>
+      <xsl:apply-templates select="."/>
+      <xsl:choose>
+        <xsl:when test="following-sibling::*[1][self::xqx:arguments]">
+          <xsl:for-each select="following-sibling::*[1][self::xqx:arguments]">
+            <xsl:call-template name="parenthesizedList"/>
+          </xsl:for-each>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="$LPAREN"/>
+          <xsl:value-of select="$RPAREN"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:for-each>
+    <xsl:value-of select="$SPACE"/>
+    <xsl:value-of select="$RPAREN"/>
+  </xsl:template>
+
+
   <xsl:template match="xqx:castableExpr">
     <xsl:value-of select="$LPAREN"/>
     <xsl:apply-templates select="xqx:argExpr"/>
@@ -972,7 +1001,7 @@
   </xsl:template>
 
 
-<!-- 2014-07-13/JM Used in revised stepExpr to support new alternatives lookup (formerly mapLookup) and arrowPostfix -->
+<!-- 2014-07-13/JM Used in revised stepExpr to support new alternative lookup (formerly mapLookup) -->
   <xsl:template match="xqx:predicate">
     <xsl:value-of select="$LBRACKET"/>
     <xsl:apply-templates/>
@@ -1052,7 +1081,24 @@
     <xsl:text> } </xsl:text>
   </xsl:template>
 
+<!-- 2015-11-05/JS Added stringConstructor                                             -->
+  <xsl:template match="xqx:stringConstructor">
+    <xsl:text>``[</xsl:text>
+    <xsl:apply-templates/>
+    <xsl:text>]``</xsl:text>
+  </xsl:template>
 
+<!-- 2015-11-05/JS Added stringConstructorInterpolation                                -->
+  <xsl:template match="xqx:stringConstructorInterpolation">
+    <xsl:text>`{</xsl:text>
+    <xsl:apply-templates/>
+    <xsl:text>}`</xsl:text>
+  </xsl:template>
+
+<!-- 2015-11-05/JS Added stringConstructorChars                                        -->
+  <xsl:template match="xqx:stringConstructorChars">
+    <xsl:value-of select="."/>
+  </xsl:template>
 
 
   <xsl:template match="xqx:star">
@@ -1226,23 +1272,20 @@
 
 
 <!-- 2014-07-13/JM For new stepExpr alternative lookup (formerly mapLookup) -->
-  <xsl:template match="xqx:lookup">
+<!-- 2016-01-20/JS Add support for unaryLookup (bug 29364) -->
+  <xsl:template match="xqx:lookup | xqx:unaryLookup">
     <xsl:text> ?</xsl:text>
-    <xsl:apply-templates/>
+    <xsl:choose>
+      <xsl:when test="xqx:star | xqx:NCName | xqx:integerLiteral">
+        <xsl:apply-templates/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="$LPAREN"/>
+        <xsl:apply-templates/>
+	<xsl:value-of select="$RPAREN"/>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
-
-
-<!-- 2014-07-13/JM For new stepExpr alternative arrowPostfix -->
-  <xsl:template match="xqx:arrowPostfix ">
-    <xsl:text> => </xsl:text>
-    <xsl:apply-templates select="*[not(self::xqx:arguments)]"/>
-    <xsl:if test="xqx:arguments">
-      <xsl:for-each select="xqx:arguments">
-        <xsl:call-template name="parenthesizedList"/>
-      </xsl:for-each>
-    </xsl:if>
-  </xsl:template>
-
 
 <!-- 2014-07-11/JM For new ArrayTest -->
   <xsl:template match="xqx:anyArrayTest">

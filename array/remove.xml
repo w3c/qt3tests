@@ -172,4 +172,18 @@
             <error code="FOAY0001"/>
         </result>
     </test-case>
+    
+    <test-case name="array-remove-413">
+        <description>Remove multiple members from array. Spec change bug 29660</description>
+        <created by="Michael Kay, Saxonica" on="2016-05-28"/>
+        <environment ref="array"/>
+        <test>array:remove(["a", "b", "c", "d"], (3, 2, 1, 2))</test>
+        <result>
+            <all-of>
+                <assert-type>array(*)</assert-type>
+                <assert>array:size($result) eq 1</assert>
+                <assert-deep-eq>["d"]</assert-deep-eq>
+            </all-of>
+        </result>
+    </test-case>
 </test-set>

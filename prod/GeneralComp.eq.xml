@@ -6,7 +6,13 @@
    <link type="spec" document="XQuery" section-number="3.5.2"
          idref="id-general-comparisons"/>
    
-   
+   <environment name="user-defined-types">
+      <schema uri="http://www.w3.org/XQueryTest/userDefinedTypes" file="../docs/userdefined.xsd">
+         <description>A schema user defined types and constructor tests</description>
+         <created by="Anonymous" on="2006-04-03"/>
+      </schema>   
+   </environment>   
+    
    <test-case name="generalexpression1">
       <description> Test of a General Expression with the operands set as follows operand1 = Empty sequence operator = = operand2 = Empty sequence </description>
       <created by="Carmelo Montanez (Automatic Generation)" on="2005-06-01"/>
@@ -1907,6 +1913,34 @@
       <test>((true() = true()) = true()) = true()</test>
       <result>
          <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="GenCompEq-26">
+      <description> General comparison involving union type.</description>
+      <created by="Michael Kay" on="2016-07-09"/>
+      <environment ref="user-defined-types"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>
+         import schema namespace myType="http://www.w3.org/XQueryTest/userDefinedTypes"; 
+         myType:hatsize(5) = myType:integer-or-nothing(5)</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="GenCompEq-27">
+      <description> Value comparison involving union type.</description>
+      <created by="Michael Kay" on="2016-07-09"/>
+      <environment ref="user-defined-types"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>
+         import schema namespace myType="http://www.w3.org/XQueryTest/userDefinedTypes"; 
+         myType:hatsize(5) = myType:integer-or-nothing("")</test>
+      <result>
+         <error code="XPTY0004"/>
       </result>
    </test-case>
 </test-set>

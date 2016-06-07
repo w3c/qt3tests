@@ -49,6 +49,12 @@
 
     <xsl:output indent="yes"/>
     
+    <!-- Override the xsl:strip-space rules in the XQueryX stylesheet -->
+    <xsl:preserve-space elements="*"/>
+    <xsl:strip-space elements="xqx:*"/>
+    <xsl:preserve-space elements="xqx:value xqx:attributeValue xqx:pragmaContents
+        xqx:optionContents xqx:xquery xqx:stringConstructorChars"/>
+    
     <!-- Apply validation to the result documents (but not the source documents) -->
     
     <xsl:import-schema namespace="http://www.w3.org/2012/10/xslt-test-catalog" schema-location="xslt3-catalog-schema.xsd"/>
@@ -77,6 +83,9 @@
     
     <!-- xqueryx-dir is the directory containing the XQueryX tests -->
     <xsl:param name="xqueryx-dir" select="concat($main-dir, 'xqueryx/')"/>
+    
+    <!-- test-set is the name of a test-set to be converted. By default, all test-sets are converted -->
+    <xsl:param name="test-set" select="'*'"/>
 
     <xsl:namespace-alias stylesheet-prefix="x" result-prefix="xsl"/>
 
@@ -150,8 +159,10 @@
         </xsl:if>
 
     </xsl:template>
+    
+    <xsl:template match="fots:catalog/fots:test-set" priority="7"/>
 
-    <xsl:template match="fots:catalog/fots:test-set">
+    <xsl:template match="fots:catalog/fots:test-set[@name = $test-set or $test-set='*']" priority="8">
         <xsl:variable name="testSetFile" select="concat($main-dir,@file)"/>
         <xsl:variable name="testSetName" select="@name"/>
         
@@ -577,7 +588,7 @@
                 <ok/>
             </x:when>
             <x:otherwise>
-                <fail><x:copy-of select="$result"/></fail>
+                <fail assertion="assert-true"><x:copy-of select="$result"/></fail>
             </x:otherwise>
         </x:choose>
     </xsl:template>
@@ -588,7 +599,7 @@
                 <ok/>
             </x:when>
             <x:otherwise>
-                <fail><x:copy-of select="$result"/></fail>
+                <fail assertion="assert-true"><x:copy-of select="$result"/></fail>
             </x:otherwise>
         </x:choose>
     </xsl:template>
@@ -600,7 +611,7 @@
                 <ok/>
             </x:when>
             <x:otherwise>
-                <fail><x:copy-of select="$result"/></fail>
+                <fail assertion="assert-string-value"><x:copy-of select="$result"/></fail>
             </x:otherwise>
         </x:choose>
     </xsl:template>
@@ -612,7 +623,7 @@
                 <ok/>
             </x:when>
             <x:otherwise>
-                <fail><x:copy-of select="$result"/></fail>
+                <fail assertion="assert-string-value"><x:copy-of select="$result"/></fail>
             </x:otherwise>
         </x:choose>
     </xsl:template>
@@ -624,7 +635,7 @@
                 <ok/>
             </x:when>
             <x:otherwise>
-                <fail><x:copy-of select="$result"/></fail>
+                <fail assertion="assert-eq"><x:copy-of select="$result"/></fail>
             </x:otherwise>
         </x:choose>
     </xsl:template>
@@ -636,14 +647,11 @@
                 <ok/>
             </x:when>
             <x:otherwise> <!-- 2015-05-14 DL: Cannot write a function item to an XML tree. But this may be too strong. -->
-                <xsl:choose>  
-                    <xsl:when test="starts-with($assertion, 'map')">                      
-                        <fail/> 
-                    </xsl:when>
-                    <xsl:otherwise>
-                        <fail><x:copy-of select="$result"/></fail>                         
-                    </xsl:otherwise>
-                </xsl:choose>
+                    <fail assertion="assert-deep-eq">
+                        <xsl:if test="not(starts-with($assertion, 'map'))">                      
+                            <x:copy-of select="$result"/> 
+                        </xsl:if>
+                    </fail>          
             </x:otherwise>
         </x:choose>
     </xsl:template>
@@ -654,7 +662,7 @@
                 <ok/>
             </x:when>
             <x:otherwise>
-                <fail><x:copy-of select="$result"/></fail>
+                <fail assertion="assert-empty"><x:copy-of select="$result"/></fail>
             </x:otherwise>
         </x:choose>
     </xsl:template>
@@ -666,7 +674,7 @@
                 <ok/>
             </x:when>
             <x:otherwise>
-                <fail><x:copy-of select="$result"/></fail>
+                <fail assertion="assert-count"><x:copy-of select="$result"/></fail>
             </x:otherwise>
         </x:choose>
     </xsl:template>
@@ -678,14 +686,8 @@
                 <ok/>
             </x:when>
             <x:otherwise>
-                <xsl:choose> <!-- 2015-05-14 DL: Cannot write a function item to an XML tree. But this may be too strong. -->  
-                    <xsl:when test="starts-with($assertion, 'function')">                      
-                        <fail/> 
-                    </xsl:when>
-                    <xsl:otherwise>
-                        <fail><x:copy-of select="$result"/></fail>                         
-                    </xsl:otherwise>
-                </xsl:choose>                
+                <!-- 2015-05-14 DL: Cannot write a function item to an XML tree. But this may be too strong. -->  
+                <fail assertion="assert-type"><x:copy-of select="$result[not(. instance of function(*))]"/></fail>                                               
             </x:otherwise>
         </x:choose>
     </xsl:template>
@@ -698,7 +700,7 @@
                 <ok/>
             </x:when>
             <x:otherwise>
-                <fail><x:copy-of select="$result"/></fail>
+                <fail assertion="assert-permutation"><x:copy-of select="$result"/></fail>
             </x:otherwise>
         </x:choose>
     </xsl:template>
@@ -717,7 +719,7 @@
                 <ok/>
             </x:when>
             <x:otherwise>
-                <fail><x:copy-of select="$result"/></fail>
+                <fail assertion="assert-xml"><x:copy-of select="$result"/></fail>
             </x:otherwise>
         </x:choose>
     </xsl:template>
@@ -734,7 +736,7 @@
                 <ok/>
             </x:when>
             <x:otherwise>
-                <fail><x:copy-of select="$result"/></fail>
+                <fail assertion="assert {$assertion}"><x:copy-of select="$result"/></fail>
             </x:otherwise>
         </x:choose>
     </xsl:template>
@@ -907,15 +909,17 @@
     
     <xsl:import href="xqueryx.xsl" use-when="$unfolded"/>
     
-    <xsl:template match="xqx:stringConstantExpr" use-when="$unfolded">
+    <xsl:template match="xqx:stringConstantExpr[not(parent::xqx:lookup)]" use-when="$unfolded">
         <xsl:text>unfolded:literal(</xsl:text>
-        <xsl:call-template name="quote">
+        <!--<xsl:call-template name="quote">
             <xsl:with-param name="item" select="xqx:value"/>
-        </xsl:call-template>
+        </xsl:call-template>-->
+        <xsl:variable name="quot" as="xs:string">"</xsl:variable>
+        <xsl:value-of select="concat($quot, replace(xqx:value, $quot, concat($quot, $quot)), $quot)"/>
         <xsl:text>)</xsl:text>
     </xsl:template>
     
-    <xsl:template match="xqx:integerConstantExpr |
+    <xsl:template match="xqx:integerConstantExpr[not(parent::xqx:lookup)] |
         xqx:integerLiteral      |
         xqx:decimalConstantExpr |
         xqx:doubleConstantExpr" use-when="$unfolded">
