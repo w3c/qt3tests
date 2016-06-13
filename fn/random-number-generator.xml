@@ -363,13 +363,142 @@ r:random-sequence(200)]]></test>
         </result>
     </test-case>
     
-    <test-case name="fn-random-number-generator-err-1">
-        <description>Empty sequence not allowed as seed</description>
-        <created by="Michael Kay" on="2015-04-22"/>
-        <dependency type="spec" value="XP31+ XQ31+"/>
-        <test>fn:random-number-generator(())?permute((1 to 100)[. lt 0])</test>
+    <test-case name="fn-random-number-generator-32">
+        <description>Test function is present</description>
+        <created by="Tim Mills" on="2016-06-13"/>
+        <test>fn:random-number-generator( () )</test>
         <result>
-            <error code="XPTY0004"/>
+            <all-of>
+                <assert-type>map(*)</assert-type>
+                <assert-type>map(xs:string, item())</assert-type>
+            </all-of>            
         </result>
     </test-case>
+    
+    <test-case name="fn-random-number-generator-33">
+        <description>Test for 'number' generator</description>
+        <created by="Tim Mills" on="2016-06-13"/>
+        <test>fn:random-number-generator( () )?number</test>
+        <result>
+            <assert-type>xs:double</assert-type>
+        </result>
+    </test-case>
+            
+    <test-case name="fn-random-number-generator-34">
+        <description>Test that random-number-generator with empty sequence is equivalent to unary function.</description>
+        <created by="Tim Mills" on="2016-06-13"/>
+        <test>random-number-generator()?number eq
+              random-number-generator( () )?number</test>
+        <result>
+            <assert-true/>
+        </result>
+    </test-case>
+    
+    <test-case name="fn-random-number-generator-35">
+        <description>Test for 'next' generator</description>
+        <created by="Tim Mills" on="2016-06-13"/>
+        <test>fn:random-number-generator()?next</test>
+        <result>
+            <all-of>
+                <assert-type>function(*)</assert-type>
+                <assert-type>function() as map(xs:string, item())</assert-type>
+            </all-of>  
+        </result>
+    </test-case>
+    
+    <test-case name="fn-random-number-generator-36">
+        <description>Test for 'next' generator</description>
+        <created by="Tim Mills" on="2016-06-13"/>
+        <test>fn:random-number-generator( () )?next</test>
+        <result>
+            <all-of>
+                <assert-type>function(*)</assert-type>
+                <assert-type>function() as map(xs:string, item())</assert-type>
+            </all-of>  
+        </result>
+    </test-case>
+    
+    <test-case name="fn-random-number-generator-37">
+        <description>Test for 'next' generator</description>
+        <created by="Tim Mills" on="2016-06-13"/>
+        <test>fn:random-number-generator( 0 )?next</test>
+        <result>
+            <all-of>
+                <assert-type>function(*)</assert-type>
+                <assert-type>function() as map(xs:string, item())</assert-type>
+            </all-of>  
+        </result>
+    </test-case>
+    
+    <test-case name="fn-random-number-generator-38">
+        <description>'next' function</description>
+        <created by="Tim Mills" on="2016-06-13"/>
+        <test>fn:random-number-generator( () )?next()</test>
+        <result>
+            <all-of>
+                <assert-type>map(*)</assert-type>
+                <assert-type>map(xs:string, item())</assert-type>
+            </all-of>  
+        </result>
+    </test-case>
+    
+    <test-case name="fn-random-number-generator-39">
+        <description>Test that random-number-generator with empty sequence is equivalent to unary function.</description>
+        <created by="Tim Mills" on="2016-06-13"/>
+        <test>fn:random-number-generator()?next()?number eq
+              fn:random-number-generator( () )?next()?number</test>
+        <result>
+            <assert-true />
+        </result>
+    </test-case>
+    
+    <test-case name="fn-random-number-generator-40">
+        <description>Test for 'permute' generator</description>
+xxx
+        <created by="Tim Mills" on="2016-06-13"/>
+        <test>fn:random-number-generator()?permute</test>
+        <result>
+            <all-of>
+                <assert-type>function(*)</assert-type>
+                <assert-type>function(item()*) as item()*</assert-type>
+            </all-of>  
+        </result>
+    </test-case>
+    
+    <test-case name="fn-random-number-generator-41">
+        <description>Test for 'permute' generator</description>
+xxx
+        <created by="Tim Mills" on="2016-06-13"/>
+        <test>fn:random-number-generator( () )?permute</test>
+        <result>
+            <all-of>
+                <assert-type>function(*)</assert-type>
+                <assert-type>function(item()*) as item()*</assert-type>
+            </all-of>  
+        </result>
+    </test-case>
+
+    <test-case name="fn-random-number-generator-42">
+        <description>Test for 'permute' generator</description>
+xxx
+        <created by="Tim Mills" on="2016-06-13"/>
+        <test>fn:random-number-generator( 0 )?permute</test>
+        <result>
+            <all-of>
+                <assert-type>function(*)</assert-type>
+                <assert-type>function(item()*) as item()*</assert-type>
+            </all-of>  
+        </result>
+    </test-case>
+
+    <test-case name="fn-random-number-generator-43">
+        <description>Permute sequence of integers</description>
+        <created by="Tim Mills" on="2016-06-13"/>
+        <test>deep-equal(fn:random-number-generator()?permute(1 to 100),
+                         fn:random-number-generator( () )?permute(1 to 100))</test>
+        <result>
+            <assert-true />
+        </result>
+    </test-case>
+    
 </test-set>
