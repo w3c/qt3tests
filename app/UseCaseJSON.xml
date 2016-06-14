@@ -11,13 +11,11 @@
       <resource file="UseCaseJSON/employees.json" media-type="application/json" uri="employees.json">      
          <created by="Carla Spruit" on="2014-12-23"/>
       </resource> 
-      <namespace prefix="map" uri="http://www.w3.org/2005/xpath-functions/map"/>
    </environment>      
    <environment name="bookinfo.json">            
       <resource file="UseCaseJSON/bookinfo.json" media-type="application/json" uri="bookinfo.json">
          <created by="Carla Spruit" on="2014-12-23"/>
       </resource> 
-      <namespace prefix="map" uri="http://www.w3.org/2005/xpath-functions/map"/>
    </environment>      
    <environment name="users.json">      
       <resource file="UseCaseJSON/users.json" media-type="application/json" uri="users.json">
@@ -34,7 +32,6 @@
       <resource file="UseCaseJSON/stores.json" media-type="application/json" uri="stores.json">
          <created by="Carla Spruit" on="2014-12-23"/>
       </resource>       
-      <namespace prefix="map" uri="http://www.w3.org/2005/xpath-functions/map"/>
    </environment>      
    <environment name="satellites.json">                  
       <resource file="UseCaseJSON/satellites.json" media-type="application/json" uri="satellites.json">
@@ -86,6 +83,8 @@
       <dependency type="spec" value="XQ31+"/>
       <dependency type="feature" value="higherOrderFunctions"/>      
       <test><![CDATA[
+        declare namespace array="http://www.w3.org/2005/xpath-functions/array";
+        declare namespace map="http://www.w3.org/2005/xpath-functions/map";
         let $input := json-doc('employees.json')
 				for $k in map:keys($input)
 				return 
@@ -116,6 +115,7 @@
       <dependency type="spec" value="XQ31+"/>
       <dependency type="feature" value="higherOrderFunctions"/>            
       <test><![CDATA[
+        declare namespace map="http://www.w3.org/2005/xpath-functions/map";
 				declare function local:deep-put($input as item()*, $key as xs:string, $value as item()*) as item()* {
 				   for $i in $input return
 				     if ($i instance of map(*))
@@ -156,6 +156,7 @@
       <environment ref="sales.json"/>
       <dependency type="spec" value="XQ31+"/>            
       <test><![CDATA[
+        declare namespace map="http://www.w3.org/2005/xpath-functions/map";
         let $products := json-doc('sales.json')?*
         return map:merge((
           for $sales in $products
@@ -176,6 +177,7 @@
       <environment ref="sales.json"/>
       <dependency type="spec" value="XQ31+"/>            
       <test><![CDATA[
+        declare namespace map="http://www.w3.org/2005/xpath-functions/map";
 				array {
 				  for $store in json-doc('stores.json')?*
 				  let $state := $store?state
@@ -254,10 +256,10 @@
       <created by="Carla Spruit" on="2014-12-23"/>
       <modified by="Michael Dyck" on="2015-01-02" change="Remove XP31+ from spec-dependency due to VariableDeclarations"/>
       <modified by="Michael Kay" on="2015-11-26" change="dependency (uses dynamic function call syntax)"/>
-      <environment ref="array" />
       <dependency type="spec" value="XQ31+"/>            
       <dependency type="feature" value="higherOrderFunctions"/>      
       <test><![CDATA[   
+        declare namespace array="http://www.w3.org/2005/xpath-functions/array";
         declare variable $data := map {
           "color" : "blue",
           "closed" : true(),
