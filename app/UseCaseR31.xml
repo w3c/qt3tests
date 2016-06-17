@@ -12,6 +12,7 @@
          <description>Data for various NIST tests</description>
          <created by="O'Neil Delpratt" on="2015-07-17"/>
       </source>
+      <namespace prefix="map" uri="http://www.w3.org/2005/xpath-functions/map"/>
    </environment>
 
    <environment name="gnt">
@@ -84,6 +85,7 @@
 
       </resource>
 
+      <namespace prefix="map" uri="http://www.w3.org/2005/xpath-functions/map"/>
    </environment>
 
     <environment name="users-json">
@@ -204,6 +206,8 @@ return
       <environment ref="employees"/>
       <dependency type="spec" value="XQ31+" />
       <test><![CDATA[
+        declare namespace map="http://www.w3.org/2005/xpath-functions/map";
+
         for $employee in /employees/employee
 let $salary := $employee/salary
 group by $department := $employee/department
@@ -245,9 +249,11 @@ return map {
       <modified by="Michael Dyck" on="2015-10-21" change="Added the dependency on XQ31+ due to the MapConstructor" />
       <modified by="O'Neil Delpratt" on="2015-11-03" change="Changed assertion types to fix bug #29158" />
       <modified by="Michael Kay" on="2015-11-26" change="Add dependency on HOF (uses dynamic function call)" />
+      <environment ref="map" />
       <dependency type="feature" value="higherOrderFunctions"/>
       <dependency type="spec" value="XQ31+"/>
       <test><![CDATA[
+      declare namespace map="http://www.w3.org/2005/xpath-functions/map";
       declare variable $book:= (<book>
 <isbn>0470192747</isbn>
 <publisher>Wiley</publisher>
@@ -379,41 +385,7 @@ local:play(76, 86, map {
 
       ]]></test>
       <result>
-         <assert-xml><![CDATA[<s>
-  <w pos="DT">A</w>
-  <w pos="NN">bride</w>
-  <w pos=",">,</w>
-  <w pos="PRP">you</w>
-  <w pos="VBP">know</w>
-  <w pos=",">,</w>
-  <w pos="MD">must</w>
-  <w pos="VB">appear</w>
-  <w pos="IN">like</w>
-  <w pos="DT">a</w>
-  <w pos="NN">bride</w>
-  <w pos=",">,</w>
-  <w pos="CC">but</w>
-  <w pos="PRP$">my</w>
-  <w pos="JJ">natural</w>
-  <w pos="NN">taste</w>
-  <w pos="VBZ">is</w>
-  <w pos="DT">all</w>
-  <w pos="IN">for</w>
-  <w pos="NN">simplicity</w>
-  <w pos=":">;</w>
-  <w pos="DT">a</w>
-  <w pos="JJ">simple</w>
-  <w pos="NN">style</w>
-  <w pos="IN">of</w>
-  <w pos="NN">dress</w>
-  <w pos="VBZ">is</w>
-  <w pos="RB">so</w>
-  <w pos="RB">infinitely</w>
-  <w pos="JJ">preferable</w>
-  <w pos="TO">to</w>
-  <w pos="VB">finery</w>
-  <w pos=".">.</w>
-</s>]]></assert-xml>
+         <assert-xml><![CDATA[<s><w pos="DT">A</w><w pos="NN">bride</w><w pos=",">,</w><w pos="PRP">you</w><w pos="VBP">know</w><w pos=",">,</w><w pos="MD">must</w><w pos="VB">appear</w><w pos="IN">like</w><w pos="DT">a</w><w pos="NN">bride</w><w pos=",">,</w><w pos="CC">but</w><w pos="PRP$">my</w><w pos="JJ">natural</w><w pos="NN">taste</w><w pos="VBZ">is</w><w pos="DT">all</w><w pos="IN">for</w><w pos="NN">simplicity</w><w pos=":">;</w><w pos="DT">a</w><w pos="JJ">simple</w><w pos="NN">style</w><w pos="IN">of</w><w pos="NN">dress</w><w pos="VBZ">is</w><w pos="RB">so</w><w pos="RB">infinitely</w><w pos="JJ">preferable</w><w pos="TO">to</w><w pos="VB">finery</w><w pos=".">.</w></s>]]></assert-xml>
       </result>
    </test-case>
 
@@ -441,41 +413,7 @@ declare variable $index := map { "pos" : 2, "lemma" : 1 };
  }
 </s>]]></test>
       <result>
-         <assert-xml><![CDATA[<s>
-  <w pos="DT">A</w>
-  <w pos="NN">bride</w>
-  <w pos=",">,</w>
-  <w pos="PRP">you</w>
-  <w pos="VBP">know</w>
-  <w pos=",">,</w>
-  <w pos="MD">must</w>
-  <w pos="VB">appear</w>
-  <w pos="IN">like</w>
-  <w pos="DT">a</w>
-  <w pos="NN">bride</w>
-  <w pos=",">,</w>
-  <w pos="CC">but</w>
-  <w pos="PRP$">my</w>
-  <w pos="JJ">natural</w>
-  <w pos="NN">taste</w>
-  <w pos="VBZ">is</w>
-  <w pos="DT">all</w>
-  <w pos="IN">for</w>
-  <w pos="NN">simplicity</w>
-  <w pos=":">;</w>
-  <w pos="DT">a</w>
-  <w pos="JJ">simple</w>
-  <w pos="NN">style</w>
-  <w pos="IN">of</w>
-  <w pos="NN">dress</w>
-  <w pos="VBZ">is</w>
-  <w pos="RB">so</w>
-  <w pos="RB">infinitely</w>
-  <w pos="JJ">preferable</w>
-  <w pos="TO">to</w>
-  <w pos="VB">finery</w>
-  <w pos=".">.</w>
-</s>]]></assert-xml>
+         <assert-xml><![CDATA[<s><w pos="DT">A</w><w pos="NN">bride</w><w pos=",">,</w><w pos="PRP">you</w><w pos="VBP">know</w><w pos=",">,</w><w pos="MD">must</w><w pos="VB">appear</w><w pos="IN">like</w><w pos="DT">a</w><w pos="NN">bride</w><w pos=",">,</w><w pos="CC">but</w><w pos="PRP$">my</w><w pos="JJ">natural</w><w pos="NN">taste</w><w pos="VBZ">is</w><w pos="DT">all</w><w pos="IN">for</w><w pos="NN">simplicity</w><w pos=":">;</w><w pos="DT">a</w><w pos="JJ">simple</w><w pos="NN">style</w><w pos="IN">of</w><w pos="NN">dress</w><w pos="VBZ">is</w><w pos="RB">so</w><w pos="RB">infinitely</w><w pos="JJ">preferable</w><w pos="TO">to</w><w pos="VB">finery</w><w pos=".">.</w></s>]]></assert-xml>
       </result>
    </test-case>
 
@@ -511,26 +449,7 @@ return
     }
   </pos>]]></test>
       <result>
-         <assert-xml><![CDATA[<pos name="JJ">
-<lexeme>natural</lexeme>
-<lexeme>simple</lexeme>
-<lexeme>preferable</lexeme>
-</pos>
-<pos name="NN">
-  <lexeme>bride</lexeme>
-  <lexeme>taste</lexeme>
-  <lexeme>simplicity</lexeme>
-  <lexeme>style</lexeme>
-  <lexeme>dress</lexeme>
-</pos>
-<pos name="RB">
-  <lexeme>so</lexeme>
-  <lexeme>infinitely</lexeme>
-</pos>
-<pos name="VB">
-  <lexeme>appear</lexeme>
-  <lexeme>finery</lexeme>
-</pos>]]></assert-xml>
+         <assert-xml><![CDATA[<pos name="JJ"><lexeme>natural</lexeme><lexeme>simple</lexeme><lexeme>preferable</lexeme></pos><pos name="NN"><lexeme>bride</lexeme><lexeme>taste</lexeme><lexeme>simplicity</lexeme><lexeme>style</lexeme><lexeme>dress</lexeme></pos><pos name="RB"><lexeme>so</lexeme><lexeme>infinitely</lexeme></pos><pos name="VB"><lexeme>appear</lexeme><lexeme>finery</lexeme></pos>]]></assert-xml>
       </result>
    </test-case>
 
@@ -807,7 +726,11 @@ return $rot]]></test>
       <environment ref="json-docs"/>
       <dependency type="feature" value="higherOrderFunctions"/>
       <dependency type="spec" value="XQ31+"/>
-      <test><![CDATA[let $input := json-doc('http://www.w3.org/qt3/app/UseCaseR31/employees-json')
+      <test><![CDATA[
+declare namespace map = "http://www.w3.org/2005/xpath-functions/map";
+declare namespace array = "http://www.w3.org/2005/xpath-functions/array";
+
+let $input := json-doc('http://www.w3.org/qt3/app/UseCaseR31/employees-json')
 for $k in map:keys($input)
 return
   <department name="{ $k }">
@@ -824,30 +747,7 @@ return
     }
   </department>]]></test>
       <result>
-         <assert-xml><![CDATA[<department name="sales">
-  <employee>
-    <firstName>Sally</firstName>
-    <lastName>Green</lastName>
-    <age>27</age>
-  </employee>
-  <employee>
-    <firstName>Jim</firstName>
-    <lastName>Galley</lastName>
-    <age>41</age>
-  </employee>
-</department><department name="accounting">
-  <employee>
-    <firstName>John</firstName>
-    <lastName>Doe</lastName>
-    <age>23</age>
-  </employee>
-  <employee>
-    <firstName>Mary</firstName>
-    <lastName>Smith</lastName>
-    <age>32</age>
-  </employee>
-</department>
-]]></assert-xml>
+         <assert-xml><![CDATA[<department name="sales"><employee><firstName>Sally</firstName><lastName>Green</lastName><age>27</age></employee><employee><firstName>Jim</firstName><lastName>Galley</lastName><age>41</age></employee></department><department name="accounting"><employee><firstName>John</firstName><lastName>Doe</lastName><age>23</age></employee><employee><firstName>Mary</firstName><lastName>Smith</lastName><age>32</age></employee></department>]]></assert-xml>
       </result>
    </test-case>
 
@@ -859,7 +759,9 @@ return
      <environment ref="json-docs"/>
      <dependency type="feature" value="higherOrderFunctions"/>
        <dependency type="spec" value="XQ31+"/>
-      <test><![CDATA[declare function local:deep-put($input as item()*, $key as xs:string, $value as item()*) as item()*
+      <test><![CDATA[declare namespace map="http://www.w3.org/2005/xpath-functions/map";
+
+declare function local:deep-put($input as item()*, $key as xs:string, $value as item()*) as item()*
 {
   let $mf := function($k, $v) {
                 if ($k eq $key)
@@ -934,7 +836,8 @@ local:deep-put(json-doc("http://www.w3.org/qt3/app/UseCaseR31/bookinfo-json"), "
       <environment ref="sales-json"/>
       <dependency type="feature" value="higherOrderFunctions"/>
        <dependency type="spec" value="XQ31+"/>
-      <test><![CDATA[map:merge(
+      <test><![CDATA[declare namespace map="http://www.w3.org/2005/xpath-functions/map";
+map:merge(
   for $sales in collection($sales-collection-uri)
   let $pname := $sales('product')
   group by $pname
@@ -959,6 +862,7 @@ local:deep-put(json-doc("http://www.w3.org/qt3/app/UseCaseR31/bookinfo-json"), "
       <modified  by="Josh Spiegel" on="2016-01-11" change="Bug fix relating to issue #29337: Added order by clauses" />
        <dependency type="spec" value="XQ31+"/>
       <test><![CDATA[
+      declare namespace map="http://www.w3.org/2005/xpath-functions/map";
       declare variable $storesVar := array { unparsed-text-lines("UseCaseR31/stores.json") ! parse-json(.) };
       declare variable $productsVar := array { unparsed-text-lines("UseCaseR31/products.json") ! parse-json(.) };
       declare variable $salesVar := array { unparsed-text-lines("UseCaseR31/sales.json") ! parse-json(.) };
@@ -1109,21 +1013,7 @@ return map {
 }</table>
    ]]></test>
       <result>
-          <assert-xml><![CDATA[<table>
-  <tr>
-    <td>Green</td>
-    <td>Pink</td>
-    <td>Lilac</td>
-  </tr>
-  <tr>
-    <td>Turquoise</td>
-    <td>Peach</td>
-    <td>Opal</td>
-  </tr>
-  <tr>
-    <td>Champagne</td>
-  </tr>
-</table>]]></assert-xml>
+          <assert-xml><![CDATA[<table><tr><td>Green</td><td>Pink</td><td>Lilac</td></tr><tr><td>Turquoise</td><td>Peach</td><td>Opal</td></tr><tr><td>Champagne</td></tr></table>]]></assert-xml>
       </result>
    </test-case>
 
@@ -1136,6 +1026,7 @@ return map {
        <dependency type="feature" value="higherOrderFunctions"/>
       <dependency type="spec" value="XQ31+"/>
       <test><![CDATA[
+        declare namespace map="http://www.w3.org/2005/xpath-functions/map";
   let $dbj := json-doc("http://www.w3.org/qt3/app/UseCaseR31/users2-json")[ .("name") = "Deadbeat Jim" ]
 return map:put($dbj, "status", "credit card declined")
    ]]></test>
