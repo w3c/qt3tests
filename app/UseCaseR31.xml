@@ -903,7 +903,8 @@ map:merge(
       <environment ref="json-docs"/>
        <dependency type="feature" value="higherOrderFunctions"/>
       <dependency type="spec" value="XQ31+"/>
-      <test><![CDATA[let $sats := json-doc("http://www.w3.org/qt3/app/UseCaseR31/satellites-json")("satellites")
+      <test><![CDATA[declare namespace map="http://www.w3.org/2005/xpath-functions/map";
+let $sats := json-doc("http://www.w3.org/qt3/app/UseCaseR31/satellites-json")("satellites")
 return map {
   "visible" : array {
      map:keys($sats)[$sats(.)("visible")]
