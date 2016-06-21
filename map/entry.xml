@@ -10,6 +10,7 @@
         <created by="Michael Kay, Saxonica" on="2011-03-27"/>
         <modified by="Debbie Lockett, Saxonica" on="2015-02-27" change="function signature correction, bug 28063"/>
         <modified by="Josh Spiegel" on="2015-08-04" change="Split into two tests based on support of HOF feature"/>
+        <modified by="Tim Mills" on="2016-06-21" change="See Bug 29676" />
         <environment ref="map"/>
         <dependency type="feature" value="higherOrderFunctions"/>
         <test>map:entry(3, 5)</test>
@@ -18,7 +19,7 @@
                 <assert-count>1</assert-count>
                 <assert-type>map(*)</assert-type>
                 <assert-type>map(xs:integer, xs:integer)</assert-type>
-                <not><assert-type>function(xs:anyAtomicType) as xs:integer?</assert-type></not>
+                <assert-type>function(xs:anyAtomicType) as xs:integer?</assert-type>
                 <assert>$result(3) eq 5</assert>
                 <assert>map:size($result) eq 1</assert>
                 <assert>map:size(map:remove($result, 3)) eq 0</assert>
