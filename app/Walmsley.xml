@@ -17,13 +17,13 @@
       <description>7-13</description>
       <created by="Priscilla Walmsley" on="2015-06-10"/>
       <environment ref="all"/>
-      <test><![CDATA[
- sort(doc("catalog.xml")//product/number)]]></test>
+      <test><![CDATA[sort(doc("catalog.xml")//product/number)]]></test>
       <result>
-         <assert-xml><![CDATA[<number>443</number>
-<number>557</number>
-<number>563</number>
-<number>784</number>]]></assert-xml>
+         <assert-xml><![CDATA[<number
+         >443</number><number
+         >557</number><number
+         >563</number><number
+         >784</number>]]></assert-xml>
       </result>
    </test-case>
    <test-case name="d1e13012" covers="arrow-operator">
@@ -201,10 +201,11 @@ for $prod in doc("catalog.xml")//product
 return <product num="{$prod/number}" 
                 dept-name="{$deptnames?($prod/@dept)}"/>]]></test>
       <result>
-         <assert-xml><![CDATA[<product num="557" dept-name="Women's"/>
-<product num="563" dept-name="Accessories"/>
-<product num="443" dept-name="Accessories"/>
-<product num="784" dept-name="Men's"/>]]></assert-xml>
+         <assert-xml><![CDATA[<product num="557"
+         dept-name="Women's"/><product num="563"
+         dept-name="Accessories"/><product num="443"
+         dept-name="Accessories"/><product num="784"
+         dept-name="Men's"/>]]></assert-xml>
       </result>
    </test-case>
    <test-case name="d1e41148" covers="map-constructor">
@@ -229,10 +230,11 @@ return <product num="{$prod/number}"
                 dept-name="{$deptinfo?($prod/@dept)?("deptname")}"
                 dept-code="{$deptinfo?($prod/@dept)?("deptnum")}"/>]]></test>
       <result>
-         <assert-xml><![CDATA[<product num="557" dept-name="Women's" dept-code="310"/>
-<product num="563" dept-name="Accessories" dept-code="300"/>
-<product num="443" dept-name="Accessories" dept-code="300"/>
-<product num="784" dept-name="Men's" dept-code="320"/>]]></assert-xml>
+         <assert-xml><![CDATA[<product num="557"
+         dept-name="Women's" dept-code="310"/><product num="563"
+         dept-name="Accessories" dept-code="300"/><product num="443"
+         dept-name="Accessories" dept-code="300"/><product num="784"
+         dept-name="Men's" dept-code="320"/>]]></assert-xml>
       </result>
    </test-case>
    <test-case name="d1e41173" covers="postfix-lookup">
@@ -357,10 +359,11 @@ return <product num="{$prod/number}"
                 dept-name="{$deptinfo?($prod/@dept)?deptname}"
                 dept-code="{$deptinfo?($prod/@dept)?deptnum}"/>]]></test>
       <result>
-         <assert-xml><![CDATA[<product num="557" dept-name="Women's" dept-code="310"/>
-<product num="563" dept-name="Accessories" dept-code="300"/>
-<product num="443" dept-name="Accessories" dept-code="300"/>
-<product num="784" dept-name="Men's" dept-code="320"/>]]></assert-xml>
+         <assert-xml><![CDATA[<product num="557"
+         dept-name="Women's" dept-code="310"/><product num="563"
+         dept-name="Accessories" dept-code="300"/><product num="443"
+         dept-name="Accessories" dept-code="300"/><product num="784"
+         dept-name="Men's" dept-code="320"/>]]></assert-xml>
       </result>
    </test-case>
    <test-case name="d1e41271" covers="postfix-lookup unary-lookup">
@@ -2518,17 +2521,14 @@ declare variable $map2 := map {};
          <assert-xml><![CDATA[<product dept="ACC">
   <number>443</number>
   <name language="en">Deluxe Travel Bag</name>
- </product>
-<product dept="WMN">
+ </product><product dept="WMN">
   <number>557</number>
   <name language="en">Fleece Pullover</name>
   <colorChoices>navy black</colorChoices>
- </product>
- <product dept="ACC">
+ </product><product dept="ACC">
   <number>563</number>
   <name language="en">Floppy Sun Hat</name>
- </product>
- <product dept="MEN">
+ </product><product dept="MEN">
   <number>784</number>
   <name language="en">Cotton Dress Shirt</name>
   <colorChoices>white gray</colorChoices>
@@ -2549,17 +2549,14 @@ declare variable $map2 := map {};
   <name language="en">Cotton Dress Shirt</name>
   <colorChoices>white gray</colorChoices>
   <desc>Our <i>favorite</i> shirt!</desc>
- </product>
- <product dept="ACC">
+ </product><product dept="ACC">
   <number>443</number>
   <name language="en">Deluxe Travel Bag</name>
- </product>
-<product dept="WMN">
+ </product><product dept="WMN">
   <number>557</number>
   <name language="en">Fleece Pullover</name>
   <colorChoices>navy black</colorChoices>
- </product>
- <product dept="ACC">
+ </product><product dept="ACC">
   <number>563</number>
   <name language="en">Floppy Sun Hat</name>
  </product>
