@@ -2489,16 +2489,7 @@
 	</any-of>
       </result>
    </test-case>
-   
 
-   <test-case name="XQST0046_08">
-      <description> check that bad namespace declarations are reported correctly </description>
-      <created by="Tim Mills" on="2008-05-16"/>
-      <test>import schema "%gg" at "http://www.w3.org/"; 1</test>
-      <result>
-         <error code="XQST0046"/>
-      </result>
-   </test-case>
    
 
    <test-case name="XQST0046_09">
@@ -2550,38 +2541,17 @@
       <description> check that invalid collation URIs are reported correctly </description>
       <created by="Tim Mills" on="2008-05-16"/>
       <modified by="Tim Mills" on="2011-11-06" change="Resolved Bug 19868"/>
+      <modified by="O'Neil Delpratt" on="2016-06-23" change="Resolved Bug #29625"/>
       <test>for $x in ("a", "a", "a") order by $x collation "%gg" return $x</test>
       <result>
 	<any-of>
 	  <!-- %gg is not a valid URI -->
 	  <error code="XQST0046"/>
 	  <!-- %gg is not known a statically known collation -->
-	  <error code="XQST0038"/>
+	  <error code="XQST0076"/>
 	  <!-- %gg is a statically known collation (unlikely) -->
 	  <assert-string-value>aaa</assert-string-value>
 	</any-of>
-      </result>
-   </test-case>
-   
-
-   <test-case name="XQST0046_13">
-      <description> check that bad namespace declarations are reported correctly </description>
-      <created by="Tim Mills" on="2008-05-16"/>     
-      <dependency type="spec" value="XQ10+"/>
-      <test><![CDATA[<a xmlns="%gg" />]]></test>
-      <result>
-         <error code="XQST0046"/>
-      </result>
-   </test-case>
-   
-
-   <test-case name="XQST0046_14">
-      <description> check that bad namespace declarations are reported correctly </description>
-      <created by="Tim Mills" on="2008-05-16"/>     
-      <dependency type="spec" value="XQ10+"/>
-      <test><![CDATA[<a xmlns:foo="%gg" />]]></test>
-      <result>
-         <error code="XQST0046"/>
       </result>
    </test-case>
    
