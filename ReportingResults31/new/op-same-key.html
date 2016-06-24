@@ -42,7 +42,7 @@
             </tr>
             <tr>
                <th>Tests</th>
-               <th valign="top"><a href="../results_BaseX_8.4 beta_d2.html">BaseX 8.4 beta</a><br>XQ31<br><font size="-1">(QT3 vCVS)</font></th>
+               <th valign="top"><a href="../results_BaseX_8.5 beta_d2.html">BaseX 8.5 beta</a><br>XQ31<br><font size="-1">(QT3 vCVS)</font></th>
                <th valign="top"><a href="../results_Saxon-EE_9.7.0.1_d4.html">Saxon-EE 9.7.0.1</a><br>XP31
                </th>
                <th valign="top"><a href="../results_Saxon-EE_9.7.0.1_d5.html">Saxon-EE 9.7.0.1</a><br>XQ31
@@ -473,6 +473,137 @@
                <td valign="top" bgcolor="palegreen">pass</td>
                <td valign="top" bgcolor="palegreen">pass</td>
                <td valign="top" bgcolor="palegreen">pass</td>
+               <td valign="top" bgcolor="salmon">no result</td>
+            </tr>
+            <tr>
+               <td valign="top">&nbsp;&nbsp;&nbsp;&nbsp;<a name="#xsame-key-023">same-key-023</a><a href="#xsame-key-023" onmousedown="makeVisible('same-key-023');" onmouseover="makeVisible('same-key-023');" id="xsame-key-023">[+]</a><font size="-1">
+                     <div id="same-key-023" style="position:absolute; left:20; width:410px; visibility:hidden"><font face="verdana, arial, helvetica, sans-serif" size="2">
+                           <div style="float:left; background-color:white; padding:3px; border:1px solid black"><span style="float:right; background-color:gray; color:white; font-weight:bold; width='20px'; text-align:center; cursor:pointer" onclick="makeInvisible('same-key-023')">&nbsp;X&nbsp;</span><b>same-key-023:</b><br><br><b>Spec Dependencies</b>:<br>spec = XQ31+<br>spec = XP31+ XQ31+ XT30+<br><br><b>Test</b>: 
+                              let $keys :=
+                              let $range := 48 to 122
+                              for $c1 in $range, $c2 in $range, $c3 in $range
+                              return codepoints-to-string(($c1, $c2, $c3))
+                              
+                              let $map := 
+                              map:merge(($keys,$keys) ! map:entry(.,.))
+                              
+                              return
+                              map:size($map) eq count($keys) and 
+                              (
+                              every $key in $keys 
+                              satisfies 
+                              $map($key) eq $key and 
+                              not(map:contains(map:remove($map, $key), $key)) and
+                              map:get(map:put($map, $key, "x"), $key) eq "x"      
+                              )
+                              
+                           </div></font></div></font></td>
+               <td valign="top" bgcolor="palegreen">pass</td>
+               <td valign="top" bgcolor="salmon">no result</td>
+               <td valign="top" bgcolor="salmon">no result</td>
+               <td valign="top" bgcolor="salmon">no result</td>
+            </tr>
+            <tr>
+               <td valign="top">&nbsp;&nbsp;&nbsp;&nbsp;<a name="#xsame-key-024">same-key-024</a><a href="#xsame-key-024" onmousedown="makeVisible('same-key-024');" onmouseover="makeVisible('same-key-024');" id="xsame-key-024">[+]</a><font size="-1">
+                     <div id="same-key-024" style="position:absolute; left:20; width:410px; visibility:hidden"><font face="verdana, arial, helvetica, sans-serif" size="2">
+                           <div style="float:left; background-color:white; padding:3px; border:1px solid black"><span style="float:right; background-color:gray; color:white; font-weight:bold; width='20px'; text-align:center; cursor:pointer" onclick="makeInvisible('same-key-024')">&nbsp;X&nbsp;</span><b>same-key-024:</b><br><br><b>Spec Dependencies</b>:<br>spec = XQ31+<br>spec = XP31+ XQ31+ XT30+<br><br><b>Test</b>: 
+                              let $keys :=
+                              let $range := 48 to 122
+                              for $c1 in $range, $c2 in $range
+                              let $i := $c1*1000 + $c2
+                              return (
+                              codepoints-to-string(($c1, $c2)),
+                              switch($i mod 3)
+                              case 0 return xs:integer($i)
+                              case 1 return xs:decimal($i)
+                              case 2 return xs:double($i)
+                              default return error()
+                              )
+                              
+                              let $map :=
+                              map:merge(($keys,$keys) ! map:entry(.,.))
+                              
+                              return
+                              map:size($map) eq count($keys) and
+                              (
+                              every $key in $keys
+                              satisfies
+                              $map($key) eq $key and
+                              not(map:contains(map:remove($map, $key), $key)) and
+                              map:get(map:put($map, $key, "x"), $key) eq "x"
+                              )
+                              
+                              
+                           </div></font></div></font></td>
+               <td valign="top" bgcolor="palegreen">pass</td>
+               <td valign="top" bgcolor="salmon">no result</td>
+               <td valign="top" bgcolor="salmon">no result</td>
+               <td valign="top" bgcolor="salmon">no result</td>
+            </tr>
+            <tr>
+               <td valign="top">&nbsp;&nbsp;&nbsp;&nbsp;<a name="#xsame-key-025">same-key-025</a><a href="#xsame-key-025" onmousedown="makeVisible('same-key-025');" onmouseover="makeVisible('same-key-025');" id="xsame-key-025">[+]</a><font size="-1">
+                     <div id="same-key-025" style="position:absolute; left:20; width:410px; visibility:hidden"><font face="verdana, arial, helvetica, sans-serif" size="2">
+                           <div style="float:left; background-color:white; padding:3px; border:1px solid black"><span style="float:right; background-color:gray; color:white; font-weight:bold; width='20px'; text-align:center; cursor:pointer" onclick="makeInvisible('same-key-025')">&nbsp;X&nbsp;</span><b>same-key-025:</b><br><br><b>Spec Dependencies</b>:<br>spec = XQ31+<br>spec = XP31+ XQ31+ XT30+<br><br><b>Test</b>: 
+                              let $keys := (1 to 10000) ! xs:float(1 div .)
+                              let $map := map:merge(
+                              $keys ! (
+                              map:entry(.,.), 
+                              map:entry(-.,-.)
+                              )
+                              )
+                              return 
+                              map:size($map) eq 20000 and
+                              (
+                              every $key in $keys 
+                              satisfies $map($key) eq $key and
+                              $map(xs:double($key)) eq $key and
+                              $map(xs:decimal($key)) eq $key
+                              )
+                              
+                           </div></font></div></font></td>
+               <td valign="top" bgcolor="palegreen">pass</td>
+               <td valign="top" bgcolor="salmon">no result</td>
+               <td valign="top" bgcolor="salmon">no result</td>
+               <td valign="top" bgcolor="salmon">no result</td>
+            </tr>
+            <tr>
+               <td valign="top">&nbsp;&nbsp;&nbsp;&nbsp;<a name="#xsame-key-026">same-key-026</a><a href="#xsame-key-026" onmousedown="makeVisible('same-key-026');" onmouseover="makeVisible('same-key-026');" id="xsame-key-026">[+]</a><font size="-1">
+                     <div id="same-key-026" style="position:absolute; left:20; width:410px; visibility:hidden"><font face="verdana, arial, helvetica, sans-serif" size="2">
+                           <div style="float:left; background-color:white; padding:3px; border:1px solid black"><span style="float:right; background-color:gray; color:white; font-weight:bold; width='20px'; text-align:center; cursor:pointer" onclick="makeInvisible('same-key-026')">&nbsp;X&nbsp;</span><b>same-key-026:</b><br><br><b>Spec Dependencies</b>:<br>spec = XQ31+<br>spec = XP31+ XQ31+ XT30+<br><br><b>Test</b>: 
+                              declare function local:type($n) {
+                              if ($n instance of xs:integer) then "integer"
+                              else if ($n instance of xs:double) then "double" 
+                              else if ($n instance of xs:float) then "float"
+                              else error()
+                              };
+                              
+                              let $values := (
+                              xs:integer("9223372036854773760"), xs:double("9.223372036854774E18"), 
+                              xs:integer("9223372036854773761"),
+                              xs:integer("9223372036854774784"), xs:double("9.223372036854775E18"), 
+                              xs:integer("9223372036854774785"),
+                              xs:integer("9223372036854775808"), xs:double("9.223372036854776E18"), xs:float("9.223372E18"),
+                              
+                              xs:integer("9223372036854775809"),
+                              xs:integer("9223372036854777856"), xs:double("9.223372036854778E18")
+                              )
+                              let $m := map:merge(
+                              for $i in $values
+                              return
+                              map:entry($i,$i)
+                              )
+                              let $contents := 
+                              string-join(for $v at $p in $values return
+                              ($p || " $m(" || local:type($v) || ") == " || local:type($m($v))), 
+                              ", "
+                              )
+                              return
+                              ("Size: " || map:size($m) || ", " || $contents)
+                              
+                           </div></font></div></font></td>
+               <td valign="top" bgcolor="palegreen">pass</td>
+               <td valign="top" bgcolor="salmon">no result</td>
+               <td valign="top" bgcolor="salmon">no result</td>
                <td valign="top" bgcolor="salmon">no result</td>
             </tr>
          </tbody>
