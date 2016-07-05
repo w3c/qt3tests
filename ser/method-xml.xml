@@ -601,9 +601,77 @@
       </result>
    </test-case>
 
+  <test-case name="K2-Serialization-36" >
+    <description>Test that indent = true is accepted (bug 29703)</description>
+    <created by="Michael Kay" on="2016-07-05"/>
+    <dependency type="feature" value="serialization" satisfied="true"/>
+    <dependency type="spec" value="XQ31+"/>
+    <test><![CDATA[
+      	declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "xml";
+        declare option output:indent "true";
+        declare option output:suppress-indentation "para";
+        <chapter><section><para><b>bold</b>{" "}<i>italic</i></para></section></chapter>
+      ]]></test>
+    <result>
+      <all-of>
+        <serialization-matches><![CDATA[<chapter>\s+<section>]]></serialization-matches>
+        <serialization-matches><![CDATA[<para><b>bold</b> <i>italic</i></para>]]></serialization-matches>
+      </all-of>  
+    </result>
+  </test-case>
+  
+  <test-case name="K2-Serialization-37" >
+    <description>Test that indent = 1 is accepted (bug 29703)</description>
+    <created by="Michael Kay" on="2016-07-05"/>
+    <dependency type="feature" value="serialization" satisfied="true"/>
+    <dependency type="spec" value="XQ31+"/>
+    <test><![CDATA[
+      	declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "xml";
+        declare option output:indent " 1 ";
+        declare option output:suppress-indentation "para";
+        <chapter><section><para><b>bold</b>{" "}<i>italic</i></para></section></chapter>
+      ]]></test>
+    <result>
+      <all-of>
+        <serialization-matches><![CDATA[<chapter>\s+<section>]]></serialization-matches>
+        <serialization-matches><![CDATA[<para><b>bold</b> <i>italic</i></para>]]></serialization-matches>
+      </all-of>  
+    </result>
+  </test-case>
 
-
-
+  <test-case name="K2-Serialization-38" >
+    <description>Test omit-xml-declaration property set to "false" (bug 29703)</description>
+    <created by="Michael Kay" on="2016-07-05"/>
+    <dependency type="feature" value="serialization" satisfied="true"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test><![CDATA[
+      	declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "xml";
+        declare option output:omit-xml-declaration " false ";
+        <a/>
+      ]]></test>
+    <result>
+      <serialization-matches><![CDATA[<?xml]]></serialization-matches>
+    </result>
+  </test-case>
+  
+  <test-case name="K2-Serialization-39" >
+    <description>Test omit-xml-declaration property set to "0" (bug 29703)</description>
+    <created by="Michael Kay" on="2016-07-05"/>
+    <dependency type="feature" value="serialization" satisfied="true"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test><![CDATA[
+      	declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "xml";
+        declare option output:omit-xml-declaration "0";
+        <a/>
+      ]]></test>
+    <result>
+      <serialization-matches><![CDATA[<?xml]]></serialization-matches>
+    </result>
+  </test-case>
 
 
 
