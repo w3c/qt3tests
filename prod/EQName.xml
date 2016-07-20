@@ -242,10 +242,11 @@
    <test-case name="eqname-020">
       <description> EQName - allowed spaces in EQName, leading spaces are collapsed, Bug 29708</description>
       <created by="Abel Braaksma" on="2016-06-27"/>
+      <modified by="Tim Mills" on="2016-07-20" change="Bug fix relating to issue #29720" />
       <dependency type="spec" value="XP30+ XQ30+"/>
       <test>Q{  http://www.w3.org/2005/xpath-functions/math}pi()</test>
       <result>
-         <assert-eq>pi()</assert-eq>
+         <assert-eq>math:pi()</assert-eq>
       </result>
    </test-case>
 
@@ -263,12 +264,13 @@
    <test-case name="eqname-022">
       <description> EQName - allowed spaces in EQName, leading and trailing spaces are collapsed, Bug 29708</description>
       <created by="Abel Braaksma" on="2016-06-27"/>
+      <modified by="Tim Mills" on="2016-07-20" change="Bug fix relating to issue #29720" />
       <dependency type="spec" value="XP30+ XQ30+"/>
       <test>Q{  
          http://www.w3.org/2005/xpath-functions/math
          }pi()</test>
       <result>
-         <assert-eq>pi()</assert-eq>
+         <assert-eq>math:pi()</assert-eq>
       </result>
    </test-case>
 
@@ -345,11 +347,12 @@
       <environment ref="auction"/>
       <dependency type="spec" value="XP30+ XQ30+"/>
       <modified by="O'Neil Delpratt" on="2016-07-19" change="Bug fix relating to issue #29726" />
-      <test>string(
+      <modified by="Tim Mills" on="2016-07-20" change="Bug fix relating to issue #29726" />
+      <test>
          /Q{  http://www.example.com/AuctionWatch}AuctionWatchList/
          Q{   http://www.example.com/AuctionWatch}Auction[2]/
          @Q{  http://www.example.com/auctioneers
-         #yabadoo}ID)</test>
+         #yabadoo}ID</test>
       <result>
          <assert-empty />
       </result>
@@ -526,11 +529,12 @@
    <test-case name="eqname-910">
       <description>It is illegal to use the namespace URI http://www.w3.org/2000/xmlns/ as part of an EQName (regardless of the leading whitespace)</description>
       <created by="Abel Braaksma" on="2016-06-27"/>
+      <modified by="Tim Mills" on="2016-07-20" change="See bug 29744" />
       <environment ref="auction"/>
       <dependency type="spec" value="XP30+ XQ30+"/>
       <test>/Q{ http://www.w3.org/2000/xmlns/}AuctionWatchList/</test>
       <result>
-         <error code="XPST0133"/>
+         <error code="XQST0070"/>
       </result>
    </test-case>
 
@@ -551,9 +555,11 @@
    <test-case name="eqname-912">
       <description>A processor MAY raise an error on an invalid URI</description>
       <created by="Abel Braaksma" on="2016-06-27"/>
+      <created by="Abel Braaksma" on="2016-06-27"/>
+      <modified by="Tim Mills" on="2016-07-20" change="See bug 29725"/>
       <environment ref="auction"/>
       <dependency type="spec" value="XP30+ XQ30+"/>
-      <test>/Q{%00}SomeElement/</test>
+      <test>/Q{%gg}SomeElement</test>
       <result>
          <any-of>
             <assert-empty />
