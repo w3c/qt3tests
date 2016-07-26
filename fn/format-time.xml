@@ -81,36 +81,42 @@
    <test-case name="format-time-002g">
       <description>Test format-time: basic numeric formats</description>
       <created by="Michael Kay, Saxonica" on="2011-07-01"/>
+      <modified by="Michael Kay, Saxonica" on="2016-07-26" change="bug 29749 changes from rounding to truncation"/>
       <environment>
          <param name="t" as="xs:time" select="xs:time('09:15:06.456')"/>
       </environment>
+      <dependency type="spec" value="XP31+ XQ31+"/>
       <test>format-time($t,"[H]:[m]:[s].[f,1-1]")</test>
       <result>
-         <assert-string-value>9:15:06.5</assert-string-value>
+         <assert-string-value>9:15:06.4</assert-string-value>
       </result>
    </test-case>
 
    <test-case name="format-time-002h">
       <description>Test format-time: basic numeric formats</description>
       <created by="Michael Kay, Saxonica" on="2011-07-01"/>
+      <modified by="Michael Kay, Saxonica" on="2016-07-26" change="bug 29749 changes from rounding to truncation"/>
       <environment>
          <param name="t" as="xs:time" select="xs:time('09:15:06.456')"/>
       </environment>
+      <dependency type="spec" value="XP31+ XQ31+"/>
       <test>format-time($t,"[H]:[m]:[s].[f1,1-1]")</test>
       <result>
-         <assert-string-value>9:15:06.5</assert-string-value>
+         <assert-string-value>9:15:06.4</assert-string-value>
       </result>
    </test-case>
 
    <test-case name="format-time-002i">
       <description>Test format-time: basic numeric formats</description>
       <created by="Michael Kay, Saxonica" on="2011-07-01"/>
+      <modified by="Michael Kay, Saxonica" on="2016-07-26" change="bug 29749 changes from rounding to truncation"/>
       <environment>
          <param name="t" as="xs:time" select="xs:time('09:15:06.456')"/>
       </environment>
+      <dependency type="spec" value="XP31+ XQ31+"/>
       <test>format-time($t,"[H]:[m]:[s].[f01]")</test>
       <result>
-         <assert-string-value>9:15:06.46</assert-string-value>
+         <assert-string-value>9:15:06.45</assert-string-value>
       </result>
    </test-case>
 
@@ -194,12 +200,14 @@
    <test-case name="format-time-013s">
       <description>test format-time(): effect of width specifiers </description>
       <created by="Michael Kay, Saxonica" on="2011-07-01"/>
+      <modified by="Michael Kay, Saxonica" on="2016-07-26" change="bug 29749 changes from rounding to truncation"/>
       <environment>
          <param name="t" as="xs:time" select="xs:time('09:15:06.456')"/>
       </environment>
+      <dependency type="spec" value="XP31+ XQ31+"/>
       <test>format-time($t, '[f,2-2]')</test>
       <result>
-         <assert-string-value>46</assert-string-value>
+         <assert-string-value>45</assert-string-value>
       </result>
    </test-case>
 
@@ -218,12 +226,14 @@
    <test-case name="format-time-013u">
       <description>test format-time(): effect of width specifiers </description>
       <created by="Michael Kay, Saxonica" on="2011-07-01"/>
+      <modified by="Michael Kay, Saxonica" on="2016-07-26" change="bug 29749 changes from rounding to truncation"/>
       <environment>
          <param name="t" as="xs:time" select="xs:time('09:15:06.456')"/>
       </environment>
+      <dependency type="spec" value="XP31+ XQ31+"/>
       <test>format-time($t, '[f,*-2]')</test>
       <result>
-         <assert-string-value>46</assert-string-value>
+         <assert-string-value>45</assert-string-value>
       </result>
    </test-case>
 
@@ -444,12 +454,14 @@
    <test-case name="format-time-023s">
       <description>test format-time(): effect of width specifiers </description>
       <created by="Debbie Lockett, Saxonica" on="2016-03-24"/>
+      <modified by="Michael Kay, Saxonica" on="2016-07-26" change="bug 29749 changes from rounding to truncation"/>
       <environment>
          <param name="t" as="xs:time" select="xs:time('09:15:06.006')"/>
       </environment>
+      <dependency type="spec" value="XP31+ XQ31+"/>
       <test>format-time($t, '[f,2-2]')</test>
       <result>
-         <assert-string-value>01</assert-string-value>
+         <assert-string-value>00</assert-string-value>
       </result>
    </test-case>
    
@@ -468,12 +480,14 @@
    <test-case name="format-time-023u">
       <description>test format-time(): effect of width specifiers </description>
       <created by="Debbie Lockett, Saxonica" on="2016-03-24"/>
+      <modified by="Michael Kay, Saxonica" on="2016-07-26" change="bug 29749 changes from rounding to truncation"/>
       <environment>
          <param name="t" as="xs:time" select="xs:time('09:15:06.006')"/>
       </environment>
+      <dependency type="spec" value="XP31+ XQ31+"/>
       <test>format-time($t, '[f,*-2]')</test>
       <result>
-         <assert-string-value>01</assert-string-value>
+         <assert-string-value>0</assert-string-value>
       </result>
    </test-case>
    
@@ -796,16 +810,17 @@
    </test-case>
    
    <test-case name="millisecs-008">
-      <description>Fractional seconds: round up  </description>
+      <description>Fractional seconds: truncation  </description>
       <created by="Michael Kay" on="2016-07-21"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
       <test>format-time(xs:time('12:01:01.127'), '[f01]')</test>
       <result>
-         <assert-eq>"13"</assert-eq>
+         <assert-eq>"12"</assert-eq>
       </result>
    </test-case>
    
    <test-case name="millisecs-009">
-      <description>Fractional seconds: round half to even  </description>
+      <description>Fractional seconds: truncation  </description>
       <created by="Michael Kay" on="2016-07-21"/>
       <test>format-time(xs:time('12:01:01.125'), '[f01]')</test>
       <result>
@@ -814,11 +829,12 @@
    </test-case>
    
    <test-case name="millisecs-010">
-      <description>Fractional seconds: round half to even  </description>
+      <description>Fractional seconds: truncation </description>
       <created by="Michael Kay" on="2016-07-21"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
       <test>format-time(xs:time('12:01:01.135'), '[f01]')</test>
       <result>
-         <assert-eq>"14"</assert-eq>
+         <assert-eq>"13"</assert-eq>
       </result>
    </test-case>
    
@@ -894,7 +910,7 @@
       </result>
    </test-case>
    
-   <test-case name="millisecs-018">
+   <test-case name="millisecs-019">
       <description>Fractional seconds: non-digit presentation modifier  </description>
       <created by="Michael Kay" on="2016-07-21"/>
       <test>format-time(xs:time('12:01:01.123'), "[fi]")</test>
@@ -903,7 +919,7 @@
       </result>
    </test-case>
    
-   <test-case name="millisecs-019">
+   <test-case name="millisecs-020">
       <description>Fractional seconds: non-ascii digits  </description>
       <created by="Michael Kay" on="2016-07-21"/>
       <test>format-time(xs:time('12:01:01.123'), "[f&#x660;&#x660;&#x660;]")</test>
@@ -912,21 +928,30 @@
       </result>
    </test-case>
    
-   <test-case name="millisecs-020">
+   <test-case name="millisecs-021">
       <description>Fractional seconds: non-ascii digits with grouping separators </description>
       <created by="Michael Kay" on="2016-07-21"/>
-      <test>format-time(xs:time('12:01:01.123'), "[f&#x660; &#x660; &#x660;]")</test>
+      <test>format-time(xs:time('12:01:01.123'), "[f&#x660;~&#x660;~&#x660;]")</test>
       <result>
-         <assert-eq>"&#x661; &#x662; &#x663;"</assert-eq>
+         <assert-eq>"&#x661;~&#x662;~&#x663;"</assert-eq>
       </result>
    </test-case>
    
-   <test-case name="millisecs-021">
+   <test-case name="millisecs-022">
       <description>Fractional seconds: rounding edge case - bug 29749 </description>
       <created by="Michael Kay" on="2016-07-21"/>
       <test>format-time(xs:time('12:01:01.999'), "[f99]")</test>
       <result>
          <assert-eq>"99"</assert-eq> <!-- to be confirmed -->
+      </result>
+   </test-case>
+   
+   <test-case name="millisecs-023">
+      <description>Fractional seconds: whitespace within a variable marker is ignored </description>
+      <created by="Michael Kay" on="2016-07-21"/>
+      <test>format-time(xs:time('12:01:01.123'), "[ f 0 0 0 ]")</test>
+      <result>
+         <assert-eq>"123"</assert-eq>
       </result>
    </test-case>
    
@@ -939,7 +964,7 @@
       </result>
    </test-case>
    
-   <test-case name="millisecs-901">
+   <test-case name="millisecs-902">
       <description>Fractional seconds: invalid width modifier </description>
       <created by="Michael Kay" on="2016-07-21"/>
       <test>format-time(xs:time('12:01:01.123'), "[f1,0-3]")</test>
@@ -948,7 +973,7 @@
       </result>
    </test-case>
    
-   <test-case name="millisecs-902">
+   <test-case name="millisecs-903">
       <description>Fractional seconds: invalid width modifier </description>
       <created by="Michael Kay" on="2016-07-21"/>
       <test>format-time(xs:time('12:01:01.123'), "[f1,*-0]")</test>
@@ -957,7 +982,7 @@
       </result>
    </test-case>
    
-   <test-case name="millisecs-903">
+   <test-case name="millisecs-904">
       <description>Fractional seconds: invalid width modifier </description>
       <created by="Michael Kay" on="2016-07-21"/>
       <test>format-time(xs:time('12:01:01.123'), "[f1,3-2]")</test>
@@ -966,8 +991,8 @@
       </result>
    </test-case>
    
-   <test-case name="millisecs-904">
-      <description>Fractional seconds: invalid picture </description>
+   <test-case name="millisecs-905">
+      <description>Fractional seconds: invalid picture (mixed Unicode families)</description>
       <created by="Michael Kay" on="2016-07-21"/>
       <test>format-time(xs:time('12:01:01.123'), "[f#9&#x660;]")</test>
       <result>
