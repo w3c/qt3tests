@@ -1489,6 +1489,7 @@
         <description>serialize test - params supplied as map, json output method, $arg is an array of nodes</description>
         <created by="Debbie Lockett, Saxonica" on="2015-06-23"/>
         <modified by="Debbie Lockett" on="2015-08-12" change="Edit dependency to XQuery only"/>
+	<modified by="Tim Mills" on="2016-07-27" change="Bug 29746"/>
         <dependency type="spec" value="XQ31+"/>
         <test>let $params := map {
             "method" : "json",
@@ -1501,7 +1502,7 @@
             element {"a"} {"b"},
             document { element {"a"}{"b"} }
             }, $params)
-            return matches($s, '\["a","&lt;\?a b\?&gt;","&lt;!--a--&gt;","&lt;a&gt;b&lt;/a&gt;","&lt;a&gt;b&lt;/a&gt;"\]')
+            return matches($s, '\["a","&lt;\?a b\?&gt;","&lt;!--a--&gt;","&lt;a&gt;b&lt;\\/a&gt;","&lt;a&gt;b&lt;\\/a&gt;"\]')
         </test>
         <result>
             <assert-true/>
@@ -1877,6 +1878,7 @@
     <test-case name="serialize-json-127" covers="fn-serialize json-output">
         <description>JSON serialization converts nodes to lexical XML</description>
         <created by="Debbie Lockett, Saxonica" on="2015-08-20"/>
+	<modified by="Tim Mills" on="2016-07-27" change="Bug 29746"/>
         <dependency type="spec" value="XP31+ XQ31+"/>
         <environment>
             <source file="serialize/doc001.xml"
@@ -1887,17 +1889,18 @@
         <test>let $r := serialize(map{"a":doc($uri)}, map{'method':'json'}) 
             return translate($r,' &#x9;&#xa;&#xd;', '')</test>
         <result>
-            <assert-string-value><![CDATA[{"a":"<a>text</a>"}]]></assert-string-value>
+            <assert-string-value><![CDATA[{"a":"<a>text<\/a>"}]]></assert-string-value>
         </result>
     </test-case>
     
     <test-case name="serialize-json-128" covers="fn-serialize json-output">
         <description>JSON serialization converts URI value to a string</description>
         <created by="Debbie Lockett, Saxonica" on="2015-08-20"/>
+	<modified by="Tim Mills" on="2016-07-27" change="Bug 29746"/>
         <dependency type="spec" value="XP31+ XQ31+"/>
         <test>serialize(map{"uri":xs:anyURI('http://www.w3.org/')}, map{'method':'json'})</test>
         <result>
-            <assert-string-value>{"uri":"http://www.w3.org/"}</assert-string-value>
+            <assert-string-value>{"uri":"http:\/\/www.w3.org\/"}</assert-string-value>
         </result>
     </test-case>
     
