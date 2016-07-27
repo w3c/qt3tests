@@ -420,6 +420,7 @@
    <test-case name="Serialization-json-27" covers="json-output">
       <description>Test the JSON serialization output method - nodes </description>
       <created by="Josh Spiegel" on="2014-11-02"/>
+      <modified by="Tim Mills" on="2016-07-27" change="Bug 29746"/>
       <test><![CDATA[
  
         declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
@@ -429,7 +430,7 @@
 
       ]]></test>
       <result>
-        <serialization-matches><![CDATA[<e/>]]></serialization-matches>
+        <serialization-matches><![CDATA[<e\\/>]]></serialization-matches>
       </result>
    </test-case>
    
@@ -452,6 +453,7 @@
    <test-case name="Serialization-json-29" covers="json-output">
       <description>Test the JSON serialization output method - nodes </description>
       <created by="Josh Spiegel" on="2014-11-02"/>
+      <modified by="Tim Mills" on="2016-07-27" change="Bug 29746"/>
       <test><![CDATA[
  
         declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
@@ -467,7 +469,7 @@
 
       ]]></test>
       <result>
-        <serialization-matches><![CDATA[\["a","<\?a b\?>","<!--a-->","<a>b</a>","<a>b</a>"\]]]></serialization-matches>
+        <serialization-matches><![CDATA[\["a","<\?a b\?>","<!--a-->","<a>b<\\/a>","<a>b<\\/a>"\]]]></serialization-matches>
       </result>
    </test-case>     
    
@@ -836,6 +838,7 @@
    <test-case name="Serialization-json-51" covers="json-output">
       <description>Test the JSON serialization output method - json-node-output-method </description>
       <created by="Josh Spiegel" on="2014-11-02"/>
+      <modified by="Tim Mills" on="2016-07-27" change="Bug 29746"/>
       <test><![CDATA[
  
         declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
@@ -846,7 +849,7 @@
 
       ]]></test>
       <result>
-        <serialization-matches><![CDATA["<e>hi</e>"]]></serialization-matches>
+        <serialization-matches><![CDATA["<e>hi<\\/e>"]]></serialization-matches>
       </result>   
    </test-case>
    
@@ -925,6 +928,7 @@
    <test-case name="Serialization-json-56" covers="json-output">
       <description>Test the JSON serialization output method - nulls </description>
       <created by="Josh Spiegel" on="2014-11-02"/>
+      <modified by="Tim Mills" on="2016-07-27" change="Bug 29746"/>
       <test><![CDATA[
  
         declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
@@ -932,7 +936,7 @@
         [(),(),<e><f>a</f></e>,()]
       ]]></test>
       <result>
-        <serialization-matches><![CDATA[\[null,null,"<e><f>a</f></e>",null\]]]></serialization-matches>
+        <serialization-matches><![CDATA[\[null,null,"<e><f>a<\\/f><\\/e>",null\]]]></serialization-matches>
       </result>
    </test-case>   
    
@@ -1077,6 +1081,7 @@ parse-json(unparsed-text('json/data002.json'))
       <modified by="Christian Gruen" on="2015-01-27" change="regular expressions; bug #27608"/>
       <modified by="Michael Kay" on="2015-04-13" change="Moved file location"/>
       <modified by="Josh Spiegel" on="2016-05-11" change="regular expressions; bug #27608"/>
+      <modified by="Tim Mills" on="2016-07-27" change="Bug 29746"/>
       <test><![CDATA[
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare option output:method  "json";
@@ -1100,11 +1105,11 @@ parse-json(unparsed-text('json/data003.json'))
          <serialization-matches><![CDATA["window":\{.*"name":"main_window".*\}]]></serialization-matches>
          <serialization-matches><![CDATA["window":\{.*"width":500.*\}]]></serialization-matches>
          <serialization-matches><![CDATA["window":\{.*"height":500.*\}]]></serialization-matches>
-         <serialization-matches><![CDATA["image":\{.*"src":"Images/Sun.png".*\}]]></serialization-matches>
+         <serialization-matches><![CDATA["image":\{.*"src":"Images\\/Sun.png".*\}]]></serialization-matches>
          <serialization-matches><![CDATA["image":\{.*"name":"sun1".*\}]]></serialization-matches>
          <serialization-matches><![CDATA["image":\{.*"hOffset":250.*\}]]></serialization-matches>
          <serialization-matches><![CDATA["image":\{.*"vOffset":250.*\}]]></serialization-matches>
-         <serialization-matches><![CDATA["image":\{.*"src":"Images/Sun.png".*\}]]></serialization-matches>
+         <serialization-matches><![CDATA["image":\{.*"src":"Images\\/Sun.png".*\}]]></serialization-matches>
          <serialization-matches><![CDATA["image":\{.*"alignment":"center".*\}]]></serialization-matches>
          <serialization-matches><![CDATA["text":\{.*"data":"Click Here".*\}]]></serialization-matches>
          <serialization-matches><![CDATA["text":\{.*"size":36.*\}]]></serialization-matches>
@@ -1113,7 +1118,7 @@ parse-json(unparsed-text('json/data003.json'))
          <serialization-matches><![CDATA["text":\{.*"hOffset":250.*\}]]></serialization-matches>
          <serialization-matches><![CDATA["text":\{.*"vOffset":100.*\}]]></serialization-matches>
          <serialization-matches><![CDATA["text":\{.*"alignment":"center".*\}]]></serialization-matches>
-         <serialization-matches><![CDATA["text":\{.*"onMouseUp":"sun1\.opacity = \(sun1\.opacity / 100\) \* 90;".*\}]]></serialization-matches>
+         <serialization-matches><![CDATA["text":\{.*"onMouseUp":"sun1\.opacity = \(sun1\.opacity \\/ 100\) \* 90;".*\}]]></serialization-matches>
         </all-of>
       </result>
    </test-case>
@@ -1176,6 +1181,7 @@ parse-json(unparsed-text('json/data005.json'))
       <description>Test json output method - maps and arrays with embedded node</description>
       <created by="Andrew Coleman" on="2014-09-26"/>
       <modified by="Christian Gruen" on="2015-01-27" change="regular expressions; bug #27608"/>
+      <modified by="Tim Mills" on="2016-07-27" change="Bug 29746"/>
       <test><![CDATA[
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare option output:method  "json";
@@ -1216,7 +1222,7 @@ map {
          <serialization-matches><![CDATA[\{"book":\{.*"title":"Data on the Web".*\}\}]]></serialization-matches>
          <serialization-matches><![CDATA[\{"book":\{.*"year":2000.*\}\}]]></serialization-matches>
          <serialization-matches><![CDATA[\{"book":\{.*"author":\[\{[^}]*\},\{[^}]*\},\{[^}]*\}\].*\}\}]]></serialization-matches>
-         <serialization-matches><![CDATA[\{"book":\{.*"xml-content":"<simple>text-value</simple>".*\}\}]]></serialization-matches>
+         <serialization-matches><![CDATA[\{"book":\{.*"xml-content":"<simple>text-value<\\/simple>".*\}\}]]></serialization-matches>
          <serialization-matches><![CDATA[\{"book":\{.*"publisher":"Morgan Kaufmann Publishers".*\}\}]]></serialization-matches>
          <serialization-matches><![CDATA[\{"book":\{.*"price":39.95.*\}\}]]></serialization-matches>
         </all-of>
@@ -1227,6 +1233,7 @@ map {
       <description>Test json output method - maps and arrays with embedded node</description>
       <created by="Andrew Coleman" on="2014-09-26"/>
       <modified by="Christian Gruen" on="2015-01-27" change="regular expressions; bug #27608"/>
+      <modified by="Tim Mills" on="2016-07-27" change="Bug 29746"/>
       <test><![CDATA[
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare option output:method  "json";
@@ -1267,7 +1274,7 @@ map {
          <serialization-matches><![CDATA[\{"book":\{.*"title":"Data on the Web".*\}\}]]></serialization-matches>
          <serialization-matches><![CDATA[\{"book":\{.*"year":2000.*\}\}]]></serialization-matches>
          <serialization-matches><![CDATA[\{"book":\{.*"author":\[\{[^}]*\},\{[^}]*\},\{[^}]*\}\].*\}\}]]></serialization-matches>
-         <serialization-matches><![CDATA[\{"book":\{.*"xml-content":"<simple>text-value</simple>".*\}\}]]></serialization-matches>
+         <serialization-matches><![CDATA[\{"book":\{.*"xml-content":"<simple>text-value<\\/simple>".*\}\}]]></serialization-matches>
          <serialization-matches><![CDATA[\{"book":\{.*"publisher":"Morgan Kaufmann Publishers".*\}\}]]></serialization-matches>
          <serialization-matches><![CDATA[\{"book":\{.*"price":39.95.*\}\}]]></serialization-matches>
         </all-of>
@@ -1278,6 +1285,7 @@ map {
       <description>Test json output method - maps and arrays with embedded node</description>
       <created by="Andrew Coleman" on="2014-09-26"/>
       <modified by="Christian Gruen" on="2015-01-27" change="regular expressions; bug #27608"/>
+      <modified by="Tim Mills" on="2016-07-27" change="Bug 29746"/>
       <test><![CDATA[
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare option output:method  "json";
@@ -1318,7 +1326,7 @@ map {
          <serialization-matches><![CDATA[\{"book":\{.*"title":"Data on the Web".*\}\}]]></serialization-matches>
          <serialization-matches><![CDATA[\{"book":\{.*"year":2000.*\}\}]]></serialization-matches>
          <serialization-matches><![CDATA[\{"book":\{.*"author":\[\{[^}]*\},\{[^}]*\},\{[^}]*\}\].*\}\}]]></serialization-matches>
-         <serialization-matches><![CDATA[\{"book":\{.*"xml-content":"<simple>2</simple>".*\}\}]]></serialization-matches>
+         <serialization-matches><![CDATA[\{"book":\{.*"xml-content":"<simple>2<\\/simple>".*\}\}]]></serialization-matches>
          <serialization-matches><![CDATA[\{"book":\{.*"publisher":"Morgan Kaufmann Publishers".*\}\}]]></serialization-matches>
          <serialization-matches><![CDATA[\{"book":\{.*"price":39.95.*\}\}]]></serialization-matches>
         </all-of>
@@ -1329,6 +1337,7 @@ map {
       <description>Test json output method - maps and arrays with embedded node</description>
       <created by="Andrew Coleman" on="2014-09-26"/>
       <modified by="Christian Gruen" on="2015-01-27" change="regular expressions; bug #27608"/>
+      <modified by="Tim Mills" on="2016-07-27" change="Bug 29746"/>
       <test><![CDATA[
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare option output:method  "json";
@@ -1368,7 +1377,7 @@ map {
         <all-of>
          <serialization-matches><![CDATA[\{"book":\{.*"title":"Data on the Web".*\}\}]]></serialization-matches>
          <serialization-matches><![CDATA[\{"book":\{.*"year":2000.*\}\}]]></serialization-matches>
-         <serialization-matches><![CDATA[\{"book":\{.*"author":\[\{[^}]*\},\{[^}]*\},"<simple>2</simple>",\{[^}]*\}\].*\}\}]]></serialization-matches>
+         <serialization-matches><![CDATA[\{"book":\{.*"author":\[\{[^}]*\},\{[^}]*\},"<simple>2<\\/simple>",\{[^}]*\}\].*\}\}]]></serialization-matches>
          <serialization-matches><![CDATA[\{"book":\{.*"publisher":"Morgan Kaufmann Publishers".*\}\}]]></serialization-matches>
          <serialization-matches><![CDATA[\{"book":\{.*"price":39.95.*\}\}]]></serialization-matches>
         </all-of>
@@ -1379,6 +1388,7 @@ map {
       <description>Test json output method - maps and arrays with embedded node</description>
       <created by="Andrew Coleman" on="2014-09-26"/>
       <modified by="Christian Gruen" on="2015-01-27" change="regular expressions; bug #27608"/>
+      <modified by="Tim Mills" on="2016-07-27" change="Bug 29746"/>
       <test><![CDATA[
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare option output:method  "json";
@@ -1419,7 +1429,7 @@ map {
          <serialization-matches><![CDATA[\{"book":\{.*"title":"Data on the Web".*\}\}]]></serialization-matches>
          <serialization-matches><![CDATA[\{"book":\{.*"year":2000.*\}\}]]></serialization-matches>
          <serialization-matches><![CDATA[\{"book":\{.*"author":\[\{[^}]*\},\{[^}]*\},\{[^}]*\}\].*\}\}]]></serialization-matches>
-         <serialization-matches><![CDATA[\{"book":\{.*"strange":"<simple>2</simple>".*\}\}]]></serialization-matches>
+         <serialization-matches><![CDATA[\{"book":\{.*"strange":"<simple>2<\\/simple>".*\}\}]]></serialization-matches>
          <serialization-matches><![CDATA[\{"book":\{.*"publisher":"Morgan Kaufmann Publishers".*\}\}]]></serialization-matches>
          <serialization-matches><![CDATA[\{"book":\{.*"price":39.95.*\}\}]]></serialization-matches>
         </all-of>
@@ -1430,6 +1440,7 @@ map {
       <description>Test json output method - maps and arrays with embedded node</description>
       <created by="Andrew Coleman" on="2014-09-26"/>
       <modified by="Christian Gruen" on="2015-01-27" change="regular expressions; bug #27608"/>
+      <modified by="Tim Mills" on="2016-07-27" change="Bug 29746"/>
       <test><![CDATA[
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare option output:method  "json";
@@ -1470,7 +1481,7 @@ map {
          <serialization-matches><![CDATA[\{"book":\{.*"title":"Data on the Web".*\}\}]]></serialization-matches>
          <serialization-matches><![CDATA[\{"book":\{.*"year":2000.*\}\}]]></serialization-matches>
          <serialization-matches><![CDATA[\{"book":\{.*"author":\[\{[^}]*\},\{[^}]*\},\{[^}]*\}\].*\}\}]]></serialization-matches>
-         <serialization-matches><![CDATA[\{"book":\{.*"xml-content":"<complex><simple>text-value</simple></complex>".*\}\}]]></serialization-matches>
+         <serialization-matches><![CDATA[\{"book":\{.*"xml-content":"<complex><simple>text-value<\\/simple><\\/complex>".*\}\}]]></serialization-matches>
          <serialization-matches><![CDATA[\{"book":\{.*"publisher":"Morgan Kaufmann Publishers".*\}\}]]></serialization-matches>
          <serialization-matches><![CDATA[\{"book":\{.*"price":39.95.*\}\}]]></serialization-matches>
         </all-of>
@@ -1481,6 +1492,7 @@ map {
       <description>Test default value of json-node-output-method is xml</description>
       <created by="Andrew Coleman" on="2014-09-26"/>
       <modified by="Christian Gruen" on="2015-01-27" change="regular expressions; bug #27608"/>
+      <modified by="Tim Mills" on="2016-07-27" change="Bug 29746"/>
       <test><![CDATA[
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare option output:method  "json";
@@ -1520,7 +1532,7 @@ map {
          <serialization-matches><![CDATA[\{"book":\{.*"title":"Data on the Web".*\}\}]]></serialization-matches>
          <serialization-matches><![CDATA[\{"book":\{.*"year":2000.*\}\}]]></serialization-matches>
          <serialization-matches><![CDATA[\{"book":\{.*"author":\[\{[^}]*\},\{[^}]*\},\{[^}]*\}\].*\}\}]]></serialization-matches>
-         <serialization-matches><![CDATA[\{"book":\{.*"xml-content":"<complex><simple>text-value</simple></complex>".*\}\}]]></serialization-matches>
+         <serialization-matches><![CDATA[\{"book":\{.*"xml-content":"<complex><simple>text-value<\\/simple><\\/complex>".*\}\}]]></serialization-matches>
          <serialization-matches><![CDATA[\{"book":\{.*"publisher":"Morgan Kaufmann Publishers".*\}\}]]></serialization-matches>
          <serialization-matches><![CDATA[\{"book":\{.*"price":39.95.*\}\}]]></serialization-matches>
         </all-of>
@@ -1532,6 +1544,7 @@ map {
       <created by="Andrew Coleman" on="2014-09-26"/>
       <modified by="Christian Gruen" on="2015-01-27" change="regular expressions; bug #27608"/>
       <modified by="Michael Kay" on="2015-04-13" change="regular expressions; bug #27608"/>
+      <modified by="Tim Mills" on="2016-07-27" change="Bug 29746"/>
       <test><![CDATA[
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare option output:method  "json";
@@ -1558,7 +1571,7 @@ map {
         <all-of>
          <serialization-matches><![CDATA[\{.*"string-value":"a string".*\}]]></serialization-matches>
          <serialization-matches><![CDATA[\{.*"numeric-value":123.456.*\}]]></serialization-matches>
-         <serialization-matches><![CDATA[\{.*"node-value":"<el1><el2>simple content</el2></el1>".*\}]]></serialization-matches>
+         <serialization-matches><![CDATA[\{.*"node-value":"<el1><el2>simple content<\\/el2><\\/el1>".*\}]]></serialization-matches>
          <serialization-matches><![CDATA[\{.*"123456":123456.*\}]]></serialization-matches>
          <serialization-matches><![CDATA[\{.*"2014-09-30":"date-key".*\}]]></serialization-matches>
          <serialization-matches><![CDATA[\{.*"array":\[123456,"2014-09-30",true,false\].*\}]]></serialization-matches>
@@ -1572,6 +1585,7 @@ map {
       <created by="Andrew Coleman" on="2014-09-26"/>
       <modified by="Christian Gruen" on="2015-01-27" change="regular expressions; bug #27608"/>
       <modified by="Michael Kay" on="2015-04-13" change="regular expressions; bug #27608"/>
+      <modified by="Tim Mills" on="2016-07-27" change="Bug 29746"/>
       <test><![CDATA[
 declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
 declare option output:method  "json";
@@ -1600,7 +1614,7 @@ map {
         <all-of>
          <serialization-matches><![CDATA[\{.*"string-value":"a string".*\}]]></serialization-matches>
          <serialization-matches><![CDATA[\{.*"numeric-value":123.456.*\}]]></serialization-matches>
-         <serialization-matches><![CDATA[\{.*"node-value":"<el1><el2>simple content</el2></el1>".*\}]]></serialization-matches>
+         <serialization-matches><![CDATA[\{.*"node-value":"<el1><el2>simple content<\\/el2><\\/el1>".*\}]]></serialization-matches>
          <serialization-matches><![CDATA[\{.*"123456":123456.*\}]]></serialization-matches>
          <serialization-matches><![CDATA[\{.*"2014-09-30":"date-key".*\}]]></serialization-matches>
          <serialization-matches><![CDATA[\{.*"2014-09-30":"string date key".*\}]]></serialization-matches>
