@@ -7,6 +7,7 @@
        <description>op:same-key over xs:string, xs:anyURI, and xs:untypedAtomic</description>
        <created by="Josh Spiegel" on="2015-07-22"/>
        <modified by="Michael Kay" on="2015-11-26" change="avoid HOF dependency in assertions"/>
+       <modified by="Michael Kay" on="2016-07-28" change="test assumed last duplicate wins"/>
        <environment ref="map" />
        <test>
            map:merge((
@@ -16,7 +17,7 @@
               map:entry(xs:string("xyz"), 1),
               map:entry(xs:untypedAtomic("xyz"), 1),
               map:entry(QName((),"abc"), 1)
-           ))
+           ), map{"duplicates":"use-last"})
        </test>
        <result>
           <all-of>
@@ -72,6 +73,7 @@
        <description>op:same-key over numerics</description>
        <created by="Josh Spiegel" on="2015-07-22"/>
        <modified by="Michael Kay" on="2015-11-26" change="avoid HOF dependency in assertions"/>
+       <modified by="Michael Kay" on="2016-07-28" change="test assumes last duplicate wins"/>
        <environment ref="map" />
        <test>
             map:merge((
@@ -81,7 +83,7 @@
               map:entry(xs:float('NaN'), 1),
               map:entry(xs:float('INF'), 2),
               map:entry(xs:float('-INF'), 3)
-            ))
+            ), map{"duplicates":"use-last"})
        </test>
        <result>
           <all-of>
@@ -98,6 +100,7 @@
        <description>op:same-key over numerics</description>
        <created by="Josh Spiegel" on="2015-07-22"/>
        <modified by="Michael Kay" on="2015-11-26" change="avoid HOF dependency in assertions"/>
+       <modified by="Michael Kay" on="2016-07-28" change="test assumed last duplicate wins"/>
        <environment ref="map" />
        <test>
             map:merge((
@@ -107,7 +110,7 @@
               map:entry(xs:float('NaN'), 1),
               map:entry(xs:float('INF'), 2),
               map:entry(xs:float('-INF'), 3)
-            ))
+              ), map{"duplicates":"use-last"})
        </test>
        <result>
           <all-of>
@@ -504,12 +507,13 @@
        <description>op:same-key over xs:QName</description>
        <created by="Josh Spiegel" on="2015-07-22"/>
        <modified by="Debbie Lockett" on="2015-08-13" change="Edit test to use XPath let expression syntax"/>
+       <modified by="Michael Kay" on="2016-07-28" change="test assumes last duplicate wins"/>
        <environment ref="map" />
        <test>
           let $ns := "http://example.org",
            $keys := (QName($ns, "foo"), QName($ns, "ns:foo"), QName($ns, "ns2:foo"))
           return
-             map:merge($keys ! map:entry(., position()))
+             map:merge($keys ! map:entry(., position()), map{"duplicates":"use-last"})
        </test>
        <result>
           <all-of>
@@ -551,6 +555,7 @@
    <test-case name="same-key-024">
        <description>op:same-key over strings and numeric.</description>
        <created by="Josh Spiegel" on="2016-05-18"/>
+       <modified by="Michael Kay" on="2016-07-28" change="test assumes last duplicate wins"/>
        <environment ref="map" />
        <dependency type="spec" value="XQ31+"/>    
        <test>
@@ -568,7 +573,7 @@
            )
 
          let $map :=
-           map:merge(($keys,$keys) ! map:entry(.,.))
+           map:merge(($keys,$keys) ! map:entry(.,.), map{"duplicates":"use-last"})
          
          return
            map:size($map) eq count($keys) and
@@ -618,6 +623,7 @@
        <description>op:same-key over numeric values.</description>
        <created by="Josh Spiegel" on="2016-05-18"/>
        <modified by="O'Neil Delpratt" on="2016-06-07" change="Bug fix relating to issue 29659 - Added error codes as alternative results"/>
+       <modified by="Michael Kay" on="2016-07-28" change="test assumes last duplicate wins"/>
        <environment ref="map" />
        <dependency type="spec" value="XQ31+"/>    
        <test>
@@ -641,7 +647,7 @@
                      for $i in $values
                      return
                        map:entry($i,$i)
-                   )
+                   , map{"duplicates":"use-last"})
          let $contents := 
             string-join(for $v at $p in $values return
               ($p || " $m(" || local:type($v) || ") == " || local:type($m($v))), 
@@ -658,5 +664,18 @@
            </any-of>
        </result>
    </test-case>
+    
+    <test-case name="same-key-027">
+        <description>op:same-key values, times equal but in different timezones</description>
+        <created by="Michael Kay" on="2016-07-28" change="avoid HOF dependency in assertions"/>
+        <environment ref="map" />
+        <dependency type="spec" value="XP31+ XQ31"/>
+        <test>
+            map{ xs:time('17:00:00Z'):1, xs:time('12:00:00-05:00'):2 }
+        </test>
+        <result>
+            <error code="XQDY0137"/>
+        </result>
+    </test-case>
 
 </test-set>
