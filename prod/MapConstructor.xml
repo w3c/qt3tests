@@ -460,5 +460,75 @@
          <assert-true/>
       </result>
    </test-case>
+   
+   <test-case name="MapConstructor-036" covers="map-constructor map-general">
+      <description>Duplicate keys</description>
+      <created by="Michael Kay" on="2016-07-28"/>
+      <environment ref="map"/>
+      <test>map{2+2: "a", 5-1: "b"}</test>
+      <result>
+         <error code="XQDY0137"/>
+      </result>
+   </test-case>
+   
+   <test-case name="MapConstructor-037" covers="map-constructor map-general">
+      <description>Duplicate keys</description>
+      <created by="Michael Kay" on="2016-07-28"/>
+      <environment ref="map"/>
+      <test>map{xs:integer(2): 5, xs:float("2.0"): 8}</test>
+      <result>
+         <error code="XQDY0137"/>
+      </result>
+   </test-case>
+   
+   <test-case name="MapConstructor-038" covers="map-constructor map-general">
+      <description>Duplicate keys</description>
+      <created by="Michael Kay" on="2016-07-28"/>
+      <environment ref="map"/>
+      <test>map{xs:double("NaN"): true(), xs:float("NaN"): false()}</test>
+      <result>
+         <error code="XQDY0137"/>
+      </result>
+   </test-case>
+   
+   <test-case name="MapConstructor-039" covers="map-constructor map-general">
+      <description>Duplicate keys</description>
+      <created by="Michael Kay" on="2016-07-28"/>
+      <environment ref="map"/>
+      <test>map{xs:double("INF"): true(), xs:float("INF"): false()}</test>
+      <result>
+         <error code="XQDY0137"/>
+      </result>
+   </test-case>
+   
+   <test-case name="MapConstructor-040" covers="map-constructor map-general">
+      <description>Duplicate keys</description>
+      <created by="Michael Kay" on="2016-07-28"/>
+      <environment ref="map"/>
+      <test>map{xs:double("-INF"): true(), xs:float("-INF"): false()}</test>
+      <result>
+         <error code="XQDY0137"/>
+      </result>
+   </test-case>
+   
+   <test-case name="MapConstructor-041" covers="map-constructor map-general">
+      <description>Duplicate keys</description>
+      <created by="Michael Kay" on="2016-07-28"/>
+      <environment ref="map"/>
+      <test>map{xs:time("24:00:00"): true(), xs:time("00:00:00"): false()}</test>
+      <result>
+         <error code="XQDY0137"/>
+      </result>
+   </test-case>
+   
+   <test-case name="MapConstructor-042" covers="map-constructor map-general">
+      <description>Duplicate keys</description>
+      <created by="Michael Kay" on="2016-07-28"/>
+      <environment ref="map"/>
+      <test>map{xs:time("05:00:00+05:00"): true(), xs:time("00:00:00Z"): false()}</test>
+      <result>
+         <error code="XQDY0137"/>
+      </result>
+   </test-case>
 
 </test-set>
