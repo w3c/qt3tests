@@ -1746,10 +1746,11 @@
         <description>Nested maps with indent="yes" - (we can't check that it's actually
             indented)</description>
         <created by="Debbie Lockett, Saxonica" on="2015-08-20"/>
+        <modified by="Tim Mills" on="2017-07-29" change="Bug 29753"/>
         <dependency type="spec" value="XP31+ XQ31+"/>
         <test>let $r :=
             serialize([map{"abc":map{"abc":1}},map{"def":map{"def":2}},map{"ghi":map{"ghi":3}}],
-            map{'method':'json', "indent":true()}) return translate($r,' &#x9;&#xa;&#xd;', '')</test>
+            map{'method':'json', "indent":true()}) return translate($r, codepoints-to-string((32, 9, 10, 13)), '')</test>
         <result>
             <assert-string-value>[{"abc":{"abc":1}},{"def":{"def":2}},{"ghi":{"ghi":3}}]</assert-string-value>
         </result>
@@ -1879,6 +1880,7 @@
         <description>JSON serialization converts nodes to lexical XML</description>
         <created by="Debbie Lockett, Saxonica" on="2015-08-20"/>
 	<modified by="Tim Mills" on="2016-07-27" change="Bug 29746"/>
+        <modified by="Tim Mills" on="2017-07-29" change="Bug 29753"/>
         <dependency type="spec" value="XP31+ XQ31+"/>
         <environment>
             <source file="serialize/doc001.xml"
@@ -1887,7 +1889,7 @@
                 select="'http://www.w3.org/fots/serialize-json/doc001.xml'"/>
         </environment>
         <test>let $r := serialize(map{"a":doc($uri)}, map{'method':'json'}) 
-            return translate($r,' &#x9;&#xa;&#xd;', '')</test>
+            return translate($r, codepoints-to-string((32, 9, 10, 13)), '')</test>
         <result>
             <assert-string-value><![CDATA[{"a":"<a>text<\/a>"}]]></assert-string-value>
         </result>
