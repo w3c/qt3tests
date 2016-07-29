@@ -1149,7 +1149,7 @@
       <test>parse-json('["\b"]')</test>
       <result>
          <any-of>
-            <assert-eq>'&#xFFFD;'</assert-eq>
+            <assert-deep-eq>['&#xFFFD;']</assert-deep-eq>
             <error code="FOJS0001"/>
          </any-of>
       </result>
@@ -1174,24 +1174,20 @@
       <description>String formats - unpaired surrogate</description>
       <created by="Michael Kay, Saxonica" on="2011-03-31"/>
       <modified by="Christian Gruen" on="2015-01-31" change="Encode as xFFFD"/>
+      <modified by="Tim Mills" on="2016-07-29" change="Bug 29759"/>
       <test>parse-json('["\uD834"]')</test>
       <result>
-         <any-of>
-            <assert-eq>'&#xFFFD;'</assert-eq>
-            <error code="FOJS0001"/>
-         </any-of>
+            <assert-deep-eq>['&#xFFFD;']</assert-deep-eq>
       </result>
    </test-case>
    <test-case name="fn-parse-json-923">
       <description>String formats - surrogate pair</description>
       <created by="Michael Kay, Saxonica" on="2011-03-31"/>
       <modified by="Christian Gruen" on="2015-01-31" change="Encode as xFFFD"/>
+      <modified by="Tim Mills" on="2016-07-29" change="Bug 29759"/>
       <test>parse-json('["\udD1E"]')</test>
       <result>
-         <any-of>
-            <assert-eq>'&#xFFFD;'</assert-eq>
-            <error code="FOJS0001"/>
-         </any-of>
+            <assert-deep-eq>['&#xFFFD;']</assert-deep-eq>
       </result>
    </test-case>
    <test-case name="fn-parse-json-924">
@@ -1200,12 +1196,10 @@
       <modified by="Josh Spiegel" on="2015-01-21" change="Fix map constructor syntax"/>
       <modified by="Christian Gruen" on="2015-01-31" change="Encode as xFFFD"/>
       <modified by="Michael Kay" on="2015-07-17" change="Change keyword unescape->escape"/>
+      <modified by="Tim Mills" on="2016-07-29" change="Bug 29759"/>
       <test>parse-json('["\u0000"]', map{'escape':false()})</test>
       <result>
-         <any-of>
-            <assert-eq>'&#xFFFD;'</assert-eq>
-            <error code="FOJS0001"/>
-         </any-of>
+            <assert-deep-eq>['&#xFFFD;']</assert-deep-eq>
       </result>
    </test-case>
    <test-case name="fn-parse-json-925">
