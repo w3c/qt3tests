@@ -852,9 +852,10 @@
    <test-case name="cbcl-group-by-key-003">
       <description> A group-by-key that has to be careful about errors </description>
       <created by="Oliver Hallam" on="2008-07-11"/>      
-      <test>let $items := for $x in 1 to 100 return $x mod 10, $distinct-items := distinct-values($items) for $dist in $distinct-items return min( if ($dist = 0) then 0 else for $item in $items where $item = $dist return 1 div $item )</test>
+      <modified by="Tim Mills" on="2016-07-29" change="remove dependency on number of digits used to represent xs:decimal" />      
+      <test>let $items := for $x in 1 to 100 return $x mod 10, $distinct-items := distinct-values($items) for $dist in $distinct-items return min( if ($dist = 0) then 0 else for $item in $items where $item = $dist return fn:round(1 div $item, 3))</test>
       <result>
-         <assert-string-value>1 0.5 0.333333333333333333 0.25 0.2 0.166666666666666667 0.142857142857142857 0.125 0.111111111111111111 0</assert-string-value>
+         <assert-string-value>1 0.5 0.333 0.25 0.2 0.167 0.143 0.125 0.111 0</assert-string-value>
       </result>
    </test-case>
    
@@ -862,9 +863,10 @@
    <test-case name="cbcl-group-by-key-004">
       <description> A group by that has to be careful about errors </description>
       <created by="Oliver Hallam" on="2008-07-11"/>      
-      <test>let $items := for $x in 1 to 100 return $x mod 10, $distinct-items := distinct-values($items) for $dist in $distinct-items return min( for $item in $items where $item = $dist return if ($dist = 0) then 0 else 1 div $item )</test>
+      <modified by="Tim Mills" on="2016-07-29" change="remove dependency on number of digits used to represent xs:decimal" />      
+      <test>let $items := for $x in 1 to 100 return $x mod 10, $distinct-items := distinct-values($items) for $dist in $distinct-items return min( for $item in $items where $item = $dist return if ($dist = 0) then 0 else fn:round(1 div $item, 3))</test>
       <result>
-         <assert-string-value>1 0.5 0.333333333333333333 0.25 0.2 0.166666666666666667 0.142857142857142857 0.125 0.111111111111111111 0</assert-string-value>
+         <assert-string-value>1 0.5 0.333 0.25 0.2 0.167 0.143 0.125 0.111 0</assert-string-value>
       </result>
    </test-case>
    
@@ -872,9 +874,10 @@
    <test-case name="cbcl-left-outer-join-001">
       <description> A left outer join with some tricky error avoidance </description>
       <created by="Oliver Hallam" on="2008-07-15"/>      
-      <test>let $items := for $x in 1 to 100 return $x mod 10, $distinct-items := for $y in 1 to (count($items) idiv 10) return $y mod 10 for $dist in $distinct-items return if ($dist = 0) then 0 else min( for $item in $items where $item = $dist return 1 div $item )</test>
+      <modified by="Tim Mills" on="2016-07-29" change="remove dependency on number of digits used to represent xs:decimal" />      
+      <test>let $items := for $x in 1 to 100 return $x mod 10, $distinct-items := for $y in 1 to (count($items) idiv 10) return $y mod 10 for $dist in $distinct-items return if ($dist = 0) then 0 else min( for $item in $items where $item = $dist return fn:round(1 div $item, 3))</test>
       <result>
-         <assert-string-value>1 0.5 0.333333333333333333 0.25 0.2 0.166666666666666667 0.142857142857142857 0.125 0.111111111111111111 0</assert-string-value>
+         <assert-string-value>1 0.5 0.333 0.25 0.2 0.167 0.143 0.125 0.111 0</assert-string-value>
       </result>
    </test-case>
    
