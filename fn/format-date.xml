@@ -759,112 +759,120 @@
       </result>
    </test-case>
 
-   <test-case name="format-date-037">                                                                                                                                                                                                                                                
-      <description>test format-date(): day in year</description>                                                                                                                                                                                                                     
-      <created by="Josh Spiegel" on="2016-05-04"/>                                                                                                                                                                                                                                   
-      <test>format-date(xs:date('2016-01-01'), '[Y# $ 0,3-3]')</test>                                                                                                                                                                                                                
-      <result>                                                                                                                                                                                                                                                                       
-         <assert-string-value>01$6</assert-string-value>                                                                                                                                                                                                                             
-      </result>                                                                                                                                                                                                                                                                      
-   </test-case>                                                                                                                                                                                                                                                                      
-                                                                                                                                                                                                                                                                                     
-   <test-case name="format-date-038">                                                                                                                                                                                                                                                
-      <description>test format-date(): year component</description>                                                                                                                                                                                                                  
-      <created by="Josh Spiegel" on="2016-05-04"/>                                                                                                                                                                                                                                   
-      <test>format-date(xs:date('654321-01-01'), '[Y#0 ' || codepoints-to-string(10) || '00            0]')</test>                                                                                                                                                                   
-      <result>                                                                                                                                                                                                                                                                       
-         <assert-string-value>54321</assert-string-value>                                                                                                                                                                                                                            
-      </result>                                                                                                                                                                                                                                                                      
-   </test-case>                                                                                                                                                                                                                                                                      
-                                                                                                                                                                                                                                                                                     
-   <test-case name="format-date-039">                                                                                                                                                                                                                                                
-      <description>test format-date(): year component</description>                                                                                                                                                                                                                  
-      <created by="Josh Spiegel" on="2016-05-04"/>                                                                                                                                                                                                                                   
-      <test>format-date(xs:date('654321-01-01'), '[Y#0,2-5]')</test>                                                                                                                                                                                                                 
-      <result>                                                                                                                                                                                                                                                                       
-         <assert-string-value>54321</assert-string-value>                                                                                                                                                                                                                            
-      </result>                                                                                                                                                                                                                                                                      
-   </test-case>                                                                                                                                                                                                                                                                      
-                                                                                                                                                                                                                                                                                     
-   <test-case name="format-date-040">                                                                                                                                                                                                                                                
-      <description>test format-date(): year component</description>                                                                                                                                                                                                                  
-      <created by="Josh Spiegel" on="2016-05-04"/>                                                                                                                                                                                                                                   
-      <test>format-date(xs:date('654321-01-01'), '[Y#!0!0,5-5]')</test>                                                                                                                                                                                                              
-      <result>                                                                                                                                                                                                                                                                       
-         <assert-string-value>543!2!1</assert-string-value>                                                                                                                                                                                                                          
-      </result>                                                                                                                                                                                                                                                                      
-   </test-case>                                                                                                                                                                                                                                                                      
-                                                                                                                                                                                                                                                                                     
-   <test-case name="format-date-041">                                                                                                                                                                                                                                                
-      <description>test format-date(): year component</description>                                                                                                                                                                                                                  
-      <created by="Josh Spiegel" on="2016-01-01"/>                                                                                                                                                                                                                                   
-      <test>format-date(xs:date('2016-01-01'), '[Y#.0]')</test>                                                                                                                                                                                                                      
-      <result>                                                                                                                                                                                                                                                                       
-         <assert-string-value>1.6</assert-string-value>                                                                                                                                                                                                                              
-      </result>                                                                                                                                                                                                                                                                      
-   </test-case>                                                                                                                                                                                                                                                                      
-                                                                                                                                                                                                                                                                                     
-   <test-case name="format-date-042">                                                                                                                                                                                                                                                
-      <description>test format-date(): year component</description>                                                                                                                                                                                                                  
-      <created by="Josh Spiegel" on="2016-01-01"/>                                                                                                                                                                                                                                   
-      <test>format-date(xs:date('2016-01-01'), '[Y#.0,2-4]')</test>                                                                                                                                                                                                                  
-      <result>                                                                                                                                                                                                                                                                       
-         <assert-string-value>2.0.1.6</assert-string-value>                                                                                                                                                                                                                          
-      </result>                                                                                                                                                                                                                                                                      
+   <test-case name="format-date-037">
+      <description>test format-date(): day in year</description>
+      <created by="Josh Spiegel" on="2016-05-04"/>
+      <modified by="Tim Mills" on="2016-08-05" change="Bug 29762"/>
+      <test>format-date(xs:date('2016-01-01'), '[Y# $ 0,3-3]')</test>
+      <result>
+         <assert-type>xs:string</assert-type>
+      </result>
    </test-case>
 
-   <test-case name="format-date-043">                                                                                                                                                                                                                                                
-      <description>test format-date(): year component</description>                                                                                                                                                                                                                  
-      <created by="Josh Spiegel" on="2016-01-01"/>                                                                                                                                                                                                                                   
-      <test>format-date(xs:date('2016-01-01'), '[Y#.0,2-*]')</test>                                                                                                                                                                                                                  
-      <result>                                                                                                                                                                                                                                                                       
-         <assert-string-value>2.0.1.6</assert-string-value>                                                                                                                                                                                                                          
-      </result>                                                                                                                                                                                                                                                                      
-   </test-case>                                                                                                                                                                                                                                                                      
-                                                                                                                                                                                                                                                                                     
-   <test-case name="format-date-044">                                                                                                                                                                                                                                                
-      <description>test format-date(): year component</description>                                                                                                                                                                                                                  
-      <created by="Josh Spiegel" on="2016-01-01"/>                                                                                                                                                                                                                                   
-      <test>format-date(xs:date('2016-01-01'), '[Y#.0,2]')</test>                                                                                                                                                                                                                    
-      <result>                                                                                                                                                                                                                                                                       
-         <assert-string-value>1.6</assert-string-value>                                                                                                                                                                                                                              
-      </result>                                                                                                                                                                                                                                                                      
-   </test-case>                                                                                                                                                                                                                                                                      
-                                                                                                                                                                                                                                                                                     
-   <test-case name="format-date-045">                                                                                                                                                                                                                                                
-      <description>test format-date(): year component</description>                                                                                                                                                                                                                  
-      <created by="Josh Spiegel" on="2016-01-01"/>                                                                                                                                                                                                                                   
-      <test>format-date(xs:date('2016-01-01'), '[Y#.0,1-4]')</test>                                                                                                                                                                                                                  
-      <result>                                                                                                                                                                                                                                                                       
-         <assert-string-value>2.0.1.6</assert-string-value>                                                                                                                                                                                                                          
-      </result>                                                                                                                                                                                                                                                                      
-   </test-case>                                                                                                                                                                                                                                                                      
-                                                                                                                                                                                                                                                                                     
-   <test-case name="format-date-046">                                                                                                                                                                                                                                                
-      <description>test format-date(): year component</description>                                                                                                                                                                                                                  
-      <created by="Josh Spiegel" on="2016-01-01"/>                                                                                                                                                                                                                                   
-      <test>format-date(xs:date('2016-01-01'), '[Y#.0,3-4]')</test>                                                                                                                                                                                                                  
-      <result>                                                                                                                                                                                                                                                                       
-         <assert-string-value>201.6</assert-string-value>                                                                                                                                                                                                                            
-      </result>                                                                                                                                                                                                                                                                      
-   </test-case>                                                                                                                                                                                                                                                                      
-                                                                                                                                                                                                                                                                                     
-   <test-case name="format-date-047">                                                                                                                                                                                                                                                
-      <description>test format-date(): year component</description>                                                                                                                                                                                                                  
-      <created by="Josh Spiegel" on="2016-01-01"/>                                                                                                                                                                                                                                   
-      <test>format-date(xs:date('2016-01-01'), '[Y#.0,3-3]')</test>                                                                                                                                                                                                                  
-      <result>                                                                                                                                                                                                                                                                       
-         <assert-string-value>01.6</assert-string-value>                                                                                                                                                                                                                             
-      </result>                                                                                                                                                                                                                                                                      
-   </test-case>                                                                                                                                                                                                                                                                      
-                                                                                                                                                                                                                                                                                     
-   <test-case name="format-date-048">                                                                                                                                                                                                                                                
-      <description>test format-date(): width modifier, min greater than max</description>                                                                                                                                                                                            
-      <created by="Josh Spiegel" on="2016-01-01"/>                                                                                                                                                                                                                                   
-      <test>format-date(xs:date('2016-01-01'), '[Y#.0,4-3]')</test>                                                                                                                                                                                                                  
-      <result>                                                                                                                                                                                                                                                                       
-         <error code="FOFD1340"/>                                                                                                                                                                                                                                                    
-      </result>                                                                                                                                                                                                                                                                      
+   <test-case name="format-date-038">
+      <description>test format-date(): year component</description>
+      <created by="Josh Spiegel" on="2016-05-04"/>
+      <test>format-date(xs:date('654321-01-01'), '[Y#0 ' || codepoints-to-string(10) || '00            0]')</test>
+      <result>
+         <assert-string-value>54321</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="format-date-039">
+      <description>test format-date(): year component</description>
+      <created by="Josh Spiegel" on="2016-05-04"/>
+      <test>format-date(xs:date('654321-01-01'), '[Y#0,2-5]')</test>
+      <result>
+         <assert-string-value>54321</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="format-date-040">
+      <description>test format-date(): year component</description>
+      <created by="Josh Spiegel" on="2016-05-04"/>
+      <modified by="Tim Mills" on="2016-08-05" change="Bug 29762"/>
+      <test>format-date(xs:date('654321-01-01'), '[Y#!0!0,5-5]')</test>
+      <result>
+         <assert-type>xs:string</assert-type>
+      </result>
+   </test-case>
+
+   <test-case name="format-date-041">
+      <description>test format-date(): year component</description>
+      <created by="Josh Spiegel" on="2016-01-01"/>
+      <test>format-date(xs:date('2016-01-01'), '[Y#.0]')</test>
+      <result>
+         <assert-string-value>1.6</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="format-date-042">
+      <description>test format-date(): year component</description>
+      <created by="Josh Spiegel" on="2016-01-01"/>
+      <modified by="Tim Mills" on="2016-08-05" change="Bug 29762"/>
+      <test>format-date(xs:date('2016-01-01'), '[Y#.0,2-4]')</test>
+      <result>
+         <assert-type>xs:string</assert-type>
+      </result>
+   </test-case>
+
+   <test-case name="format-date-043">
+      <description>test format-date(): year component</description>
+      <created by="Josh Spiegel" on="2016-01-01"/>
+      <modified by="Tim Mills" on="2016-08-05" change="Bug 29762"/>
+      <test>format-date(xs:date('2016-01-01'), '[Y#.0,2-*]')</test>
+      <result>
+         <assert-type>xs:string</assert-type>
+      </result>
+   </test-case>
+
+   <test-case name="format-date-044">
+      <description>test format-date(): year component</description>
+      <created by="Josh Spiegel" on="2016-01-01"/>
+      <modified by="Tim Mills" on="2016-08-05" change="Bug 29762"/>
+      <test>format-date(xs:date('2016-01-01'), '[Y#.0,2]')</test>
+      <result>
+         <assert-type>xs:string</assert-type>
+      </result>
+   </test-case>
+
+   <test-case name="format-date-045">
+      <description>test format-date(): year component</description>
+      <created by="Josh Spiegel" on="2016-01-01"/>
+      <modified by="Tim Mills" on="2016-08-05" change="Bug 29762"/>
+      <test>format-date(xs:date('2016-01-01'), '[Y#.0,1-4]')</test>
+      <result>
+         <assert-type>xs:string</assert-type>
+      </result>
+   </test-case>
+
+   <test-case name="format-date-046">
+      <description>test format-date(): year component</description>
+      <created by="Josh Spiegel" on="2016-01-01"/>
+      <modified by="Tim Mills" on="2016-08-05" change="Bug 29762"/>
+      <test>format-date(xs:date('2016-01-01'), '[Y#.0,3-4]')</test>
+      <result>
+         <assert-type>xs:string</assert-type>
+      </result>
+   </test-case>
+
+   <test-case name="format-date-047">
+      <description>test format-date(): year component</description>
+      <created by="Josh Spiegel" on="2016-01-01"/>
+      <modified by="Tim Mills" on="2016-08-05" change="Bug 29762"/>
+      <test>format-date(xs:date('2016-01-01'), '[Y#.0,3-3]')</test>
+      <result>
+         <assert-type>xs:string</assert-type>
+      </result>
+   </test-case>
+
+   <test-case name="format-date-048">
+      <description>test format-date(): width modifier, min greater than max</description>
+      <created by="Josh Spiegel" on="2016-01-01"/>
+      <test>format-date(xs:date('2016-01-01'), '[Y#.0,4-3]')</test>
+      <result>
+         <error code="FOFD1340"/>
+      </result>
    </test-case>  
 
    <test-case name="format-date-801err">
