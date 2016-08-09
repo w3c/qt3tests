@@ -1265,12 +1265,16 @@
         <description>Strange key in a character mapping (option parameter conventions apply) </description>
         <created by="Josh Spiegel" on="2015-08-06"/>
         <modified by="Debbie Lockett" on="2015-08-12" change="Edited dependency to XQuery only"/>
+        <modified by="Tim Mills" on="2016-08-09" change="Bug 29740"/>
         <dependency type="spec" value="XQ31+"/>
         <test><![CDATA[   
                serialize(<e>xml</e>, map { 'use-character-maps' : map { QName("http://example.org","xyz") : "abc" } })
         ]]></test>
         <result>
-            <assert>parse-xml($result)/e/string() eq "xml"</assert>
+	    <any-of>
+	      <error code="XPTY0004" />
+	      <assert>parse-xml($result)/e/string() eq "xml"</assert>
+	    </any-of>
         </result>
     </test-case>
     
@@ -1278,6 +1282,7 @@
         <description>Character mappings and option parameter conventions </description>
         <created by="Josh Spiegel" on="2015-08-06"/>
         <modified by="Debbie Lockett" on="2015-08-12" change="Edited dependency to XQuery only"/>
+        <modified by="Tim Mills" on="2016-08-09" change="Bug 29740"/>
         <dependency type="spec" value="XQ31+"/>
         <test><![CDATA[  
                let $options := map {
@@ -1291,7 +1296,10 @@
                   serialize(<e>[xml]</e>, $options)
         ]]></test>
         <result>
+	    <any-of>
+	      <error code="XPTY0004" />
             <assert>parse-xml($result)/e/string() eq "[json]"</assert>
+	    </any-of>
         </result>
     </test-case>     
       
