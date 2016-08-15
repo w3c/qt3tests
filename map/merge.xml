@@ -133,13 +133,14 @@
     <test-case name="map-merge-006c">
         <description>Evaluate the function map:merge() with duplicates in the input maps</description>
         <created by="Michael Kay, Saxonica" on="2016-07-26"/>
+        <modified by="Tim Mills" on="2016-08-15" change="Bug 29772" />
         <environment ref="map"/>
         <test>map:merge((map:entry("foo", 3), map:entry("foo", 4)), map{"duplicates": "combine"})</test>
         <result>
             <all-of>
                 <assert-count>1</assert-count>
                 <assert-type>map(*)</assert-type>
-                <assert-type>map(xs:string, xs:integer)</assert-type>
+                <assert-type>map(xs:string, xs:integer+)</assert-type>
                 <assert>map:size($result) eq 1</assert>
                 <assert>deep-equal(map:get($result, "foo"), (3,4))</assert>
             </all-of>
