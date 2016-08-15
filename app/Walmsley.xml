@@ -1984,13 +1984,14 @@ declare variable $map3 := map {};
    <test-case name="d1e66015" covers="map-merge">
       <description>map:merge row 1</description>
       <created by="Priscilla Walmsley" on="2015-06-10"/>
+      <modified by="Tim Mills" on="2016-08-15" change="Bug 29723"/>
       <environment ref="all"/>
       <test><![CDATA[declare variable $map1 := map {1:"first", 2:"second"};
 declare variable $map2 := map {1:"ONE", "abc":"def"};
 declare variable $map3 := map {"1":"first", "2":"second"};
 deep-equal(
  map:merge( ($map1, $map2) ),
- map {1:"ONE", 2:"second", "abc":"def"}
+ map {1:"first", 2:"second", "abc":"def"}
  )]]></test>
       <result>
          <assert-true/>
@@ -1999,13 +2000,14 @@ deep-equal(
    <test-case name="d1e66026" covers="map-merge">
       <description>map:merge row 2</description>
       <created by="Priscilla Walmsley" on="2015-06-10"/>
+      <modified by="Tim Mills" on="2016-08-15" change="Bug 29723"/>
       <environment ref="all"/>
       <test><![CDATA[declare variable $map1 := map {1:"first", 2:"second"};
 declare variable $map2 := map {1:"ONE", "abc":"def"};
 declare variable $map3 := map {"1":"first", "2":"second"};
 deep-equal(
  map:merge( ($map2, $map1) ),
- map {1:"first", 2:"second", "abc":"def"}
+ map {1:"ONE", 2:"second", "abc":"def"}
  )]]></test>
       <result>
          <assert-true/>
@@ -2029,6 +2031,8 @@ deep-equal(
    <test-case name="d1e66048" covers="map-merge">
       <description>map:merge row 4</description>
       <created by="Priscilla Walmsley" on="2015-06-10"/>
+      <modified by="Tim Mills" on="2016-08-15" change="Bug 29723"/>
+      <description>map:merge row 2</description>
       <environment ref="all"/>
       <test><![CDATA[declare variable $map1 := map {1:"first", 2:"second"};
 declare variable $map2 := map {1:"ONE", "abc":"def"};
@@ -2038,7 +2042,7 @@ deep-equal(
  map {1:"ONE", 2:"second", "abc":"def", "1":"first", "2":"second"}
  )]]></test>
       <result>
-         <assert-true/>
+         <assert-false/>
       </result>
    </test-case>
    <test-case name="d1e66059" covers="map-merge">
@@ -2059,13 +2063,14 @@ deep-equal(
    <test-case name="d1e66070" covers="map-merge">
       <description>map:merge row 6</description>
       <created by="Priscilla Walmsley" on="2015-06-10"/>
+      <modified by="Tim Mills" on="2016-08-15" change="Bug 29723"/>
       <environment ref="all"/>
       <test><![CDATA[declare variable $map1 := map {1:"first", 2:"second"};
 declare variable $map2 := map {1:"ONE", "abc":"def"};
 declare variable $map3 := map {"1":"first", "2":"second"};
 deep-equal(
  map:merge( ($map1, map{2:"second-new"}) ),
- map {1:"first", 2:"second-new"}
+ map {1:"first", 2:"second"}
  )]]></test>
       <result>
          <assert-true/>
@@ -2074,13 +2079,14 @@ deep-equal(
    <test-case name="d1e66081" covers="map-merge">
       <description>map:merge row 7</description>
       <created by="Priscilla Walmsley" on="2015-06-10"/>
+      <modified by="Tim Mills" on="2016-08-15" change="Bug 29723"/>
       <environment ref="all"/>
       <test><![CDATA[declare variable $map1 := map {1:"first", 2:"second"};
 declare variable $map2 := map {1:"ONE", "abc":"def"};
 declare variable $map3 := map {"1":"first", "2":"second"};
 deep-equal(
  map:merge( ($map1, map:entry(2,"second-new")) ),
- map {1:"first", 2:"second-new"}
+ map {1:"first", 2:"second"}
  )]]></test>
       <result>
          <assert-true/>

@@ -137,10 +137,11 @@
       <description>Use maps with HTML5 collation</description>
       <created by="Michael Kay" on="2014-12-04"/>
       <modified by="Michael Kay" on="2015-11-26" change="avoid HOF dependency"/>
+      <modified by="Tim Mills" on="2016-08-15" change="Bug 29723" />
       <environment ref="html5"/>
       <test>
         let $C := "http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive" return
-        map:merge((map{collation-key("A", $C):1}, map{collation-key("a", $C):2}))?(collation-key("A", $C))
+        map:merge((map{collation-key("A", $C):1}, map{collation-key("a", $C):2}), map{ "duplicates": "use-last"})?(collation-key("A", $C))
       </test>
       <result>
          <assert-eq>2</assert-eq>
@@ -211,10 +212,11 @@
       <description>Use maps with UCA collation</description>
       <created by="Michael Kay" on="2014-12-04"/>
       <modified by="Michael Kay" on="2015-11-26" change="avoid HOF dependency"/>
+      <modified by="Tim Mills" on="2016-08-15" change="Bug 29723" />
       <environment ref="primary"/>
       <test>
         let $C := "http://www.w3.org/2013/collation/UCA?strength=primary" return
-        map:merge((map{collation-key("A", $C):1}, map{collation-key("a", $C):2}))?(collation-key("A", $C))
+        map:merge((map{collation-key("A", $C):1}, map{collation-key("a", $C):2}), map{ "duplicates":"use-last"} )?(collation-key("A", $C))
       </test>
       <result>
          <assert-eq>2</assert-eq>
