@@ -2519,10 +2519,11 @@ declare variable $map2 := map {};
    <test-case name="d1e74596" covers="fn-sort">
       <description>sort row 4</description>
       <created by="Priscilla Walmsley" on="2015-06-10"/>
+      <modified by="Tim Mills" on="2016-08-18" change="See Bug 29722"/>
       <dependency type="feature" value="higherOrderFunctions"/>
       <environment ref="all"/>
       <test><![CDATA[
- sort(doc("catalog.xml")//product, function($prod) {$prod/number})]]></test>
+ sort(doc("catalog.xml")//product, (), function($prod) {$prod/number})]]></test>
       <result>
          <assert-xml><![CDATA[<product dept="ACC">
   <number>443</number>
@@ -2545,10 +2546,11 @@ declare variable $map2 := map {};
    <test-case name="d1e74610" covers="fn-sort">
       <description>sort row 5</description>
       <created by="Priscilla Walmsley" on="2015-06-10"/>
+      <modified by="Tim Mills" on="2016-08-18" change="See Bug 29722"/>
       <dependency type="feature" value="higherOrderFunctions"/>
       <environment ref="all"/>
       <test><![CDATA[
- sort(doc("catalog.xml")//product, function($prod) {$prod/name, $prod/number})]]></test>
+ sort(doc("catalog.xml")//product, (), function($prod) {$prod/name, $prod/number})]]></test>
       <result>
          <assert-xml><![CDATA[<product dept="MEN">
   <number>784</number>
@@ -2572,10 +2574,11 @@ declare variable $map2 := map {};
    <test-case name="d1e74627" covers="fn-sort">
       <description>sort row 6</description>
       <created by="Priscilla Walmsley" on="2015-06-10"/>
+      <modified by="Tim Mills" on="2016-08-18" change="See Bug 29722"/>
       <dependency type="feature" value="higherOrderFunctions"/>
       <environment ref="all"/>
       <test><![CDATA[
- sort((-6,-2,4),abs#1)]]></test>
+ sort((-6,-2,4),(),abs#1)]]></test>
       <result>
          <assert-deep-eq>(-2,4,-6)</assert-deep-eq>
       </result>
