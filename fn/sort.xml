@@ -266,6 +266,16 @@
          <assert-deep-eq>([()], 1)</assert-deep-eq>
       </result>
    </test-case>
+   
+   <test-case name="fn-sort-22">
+      <description>Sort maps</description>
+      <created by="Michael Kay" on="2016-08-18"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <test>fn:sort( (map{"key":1, "value":89}, map{"key":6, "value":21}, map{"key":2, "value":33}), (), map:get(?, "key"))?value</test>
+      <result>
+         <assert-deep-eq>89, 33, 21</assert-deep-eq>
+      </result>
+   </test-case>
 
    <!--* ##fractions *-->
 
@@ -360,8 +370,18 @@
        <created by="Liam R E Quin" on="2015-01-18"/>
        <test>fn:sort( (1, "a") )</test>
        <result>
-	   <error code="XPTY0004"/>
+	        <error code="XPTY0004"/>
        </result>
+   </test-case>
+   
+   <test-case name="fn-sort-error-2">
+      <description>check for type error</description>
+      <created by="Michael Kay" on="2016-08-18"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <test>fn:sort( (map{"key":1}, map{"key":"a"}), (), map:get(?, "key"))</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
    </test-case>
 
    <!--* the examples from the spec *-->
