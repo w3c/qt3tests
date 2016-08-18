@@ -339,6 +339,28 @@
         </result>
     </test-case>
     
+    <test-case name="array-sort-022">
+        <description>Variable length sort keys</description>
+        <created by="Michael Kay" on="2016-08-18"/>
+        <dependency type="spec" value="XQ31+"/>
+        <dependency type="feature" value="higherOrderFunctions"/>
+        <test><![CDATA[let
+	  $employees := [
+	    <emp id='1'><name><last>Cawcutt</last></name></emp>,
+	    <emp id='2'><name><first>Hans</first><last>Gro&#xeb;r</last></name></emp>,
+	    <emp id='3'><name><first>Domingo</first><last>De Silveira</last></name></emp>,
+	    <emp id='4'><name><first>Keith</first><last>O'Brien</last></name></emp>,
+	    <emp id='5'><name><first>Susan</first><last>Cawcutt</last></name></emp>,
+	    <emp id='6'><name><first>Martin</first><last>Cawcutt</last></name></emp>,
+	    <emp id='7'><name><first>Martin</first><first>James</first><last>Cawcutt</last></name></emp>
+	    ]
+	    return array:sort($employees, default-collation(), function($emp) {$emp/name/last, $emp/name/first})?* ! number(@id)
+     ]]></test>
+        <result>
+            <assert-deep-eq>1, 6, 7, 5, 3, 2, 4</assert-deep-eq>
+        </result>
+    </test-case>
+    
     <test-case name="array-sort-collation-1">
         <description>array:sort#1 uses the default collation</description>
         <created by="Michael Kay" on="2016-08-18"/>
