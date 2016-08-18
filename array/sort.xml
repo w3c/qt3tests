@@ -21,9 +21,10 @@
     <test-case name="array-sort-002">
         <description>Apply sort function to array with number members, sort by fn:abs</description>
         <created by="Debbie Lockett, Saxonica" on="2014-11-24"/>
+        <modified by="Michael Kay" on="2016-07-26" change="add collation argument, bug 29722"/>
         <dependency type="feature" value="higherOrderFunctions"/>
         <environment ref="array"/>
-        <test>array:sort([1, -2, 5, 10, -10, 10, 8], fn:abs#1)</test>
+        <test>array:sort([1, -2, 5, 10, -10, 10, 8], (), fn:abs#1)</test>
         <result>
             <all-of>                
                 <assert-type>array(*)</assert-type>
@@ -61,9 +62,10 @@
     <test-case name="array-sort-005">
         <description>Apply sort function to array with sequence members, sort by fn:count</description>
         <created by="Debbie Lockett, Saxonica" on="2014-11-24"/>
+        <modified by="Michael Kay" on="2016-07-26" change="add collation argument, bug 29722"/>
         <dependency type="feature" value="higherOrderFunctions"/>
         <environment ref="array"/>
-        <test>array:sort([(1,0), (1,1), (0,1), (0,0), (), (1), (0,0,1)], count#1)</test>
+        <test>array:sort([(1,0), (1,1), (0,1), (0,0), (), (1), (0,0,1)], default-collation(), count#1)</test>
         <result>
             <all-of>                
                 <assert-type>array(*)</assert-type>
@@ -97,9 +99,10 @@
     <test-case name="array-sort-008">
         <description>Apply sort function to array with string members, sort by composite function</description>
         <created by="Debbie Lockett, Saxonica" on="2014-11-25"/>
+        <modified by="Michael Kay" on="2016-07-26" change="add collation argument, bug 29722"/>
         <dependency type="feature" value="higherOrderFunctions"/>
         <environment ref="array"/>
-        <test>array:sort(["one", "two", "three", "four", "five", "fourteen"], function($x) {string-length($x), data($x)})</test>
+        <test>array:sort(["one", "two", "three", "four", "five", "fourteen"], (), function($x) {string-length($x), data($x)})</test>
         <result>
             <all-of>                
                 <assert-type>array(*)</assert-type>
@@ -111,9 +114,10 @@
     <test-case name="array-sort-009">
         <description>Apply sort function to array with array members</description>
         <created by="Debbie Lockett, Saxonica" on="2014-11-25"/>
+        <modified by="Michael Kay" on="2016-07-26" change="add collation argument, bug 29722"/>
         <dependency type="feature" value="higherOrderFunctions"/>
         <environment ref="array"/>
-        <test>array:sort([[2,3],[],[4,5,6,7],[6,7],[3]], array:size#1)</test>
+        <test>array:sort([[2,3],[],[4,5,6,7],[6,7],[3]], default-collation(), array:size#1)</test>
         <result>
             <all-of>                
                 <assert-type>array(*)</assert-type>
@@ -125,9 +129,10 @@
     <test-case name="array-sort-010">
         <description>Apply sort function to array with array members</description>
         <created by="Debbie Lockett, Saxonica" on="2014-11-25"/>
+        <modified by="Michael Kay" on="2016-07-26" change="add collation argument, bug 29722"/>
         <dependency type="feature" value="higherOrderFunctions"/>
         <environment ref="array"/>
-        <test>array:sort([[2,3],[],[4,5,6,7],[6,7],[3]], fn:data#1)</test>
+        <test>array:sort([[2,3],[],[4,5,6,7],[6,7],[3]], default-collation(), fn:data#1)</test>
         <result>
             <all-of>                
                 <assert-type>array(*)</assert-type>
@@ -139,9 +144,10 @@
     <test-case name="array-sort-011">
         <description>Apply sort function to array with array members</description>
         <created by="Debbie Lockett, Saxonica" on="2014-11-25"/>
+        <modified by="Michael Kay" on="2016-07-26" change="add collation argument, bug 29722"/>
         <dependency type="feature" value="higherOrderFunctions"/>
         <environment ref="array"/>
-        <test>array:sort([[1,0], [1,1], [0,1], [0,0], [], [1], [0,0,1]], fn:data#1)</test>
+        <test>array:sort([[1,0], [1,1], [0,1], [0,0], [], [1], [0,0,1]], (), fn:data#1)</test>
         <result>
             <all-of>                
                 <assert-type>array(*)</assert-type>
@@ -153,9 +159,10 @@
     <test-case name="array-sort-012">
         <description>Apply sort function to array with string members</description>
         <created by="Debbie Lockett, Saxonica" on="2014-11-25"/>
+        <modified by="Michael Kay" on="2016-07-26" change="add collation argument, bug 29722"/>
         <dependency type="feature" value="higherOrderFunctions"/>
         <environment ref="array"/>
-        <test>array:sort(["the cat", "sat", "on the mat"], function($x) {count(tokenize($x, " "))})</test>
+        <test>array:sort(["the cat", "sat", "on the mat"], "http://www.w3.org/2005/xpath-functions/collation/codepoint", function($x) {count(tokenize($x, " "))})</test>
         <result>
             <all-of>                
                 <assert-type>array(*)</assert-type>
@@ -167,9 +174,10 @@
     <test-case name="array-sort-012a" covers="fn-tokenize#1">
         <description>Apply sort function to array with string members. The use of tokenize with one argument</description>
         <created by="O'Neil Delpratt, Saxonica" on="2015-01-20"/>
+        <modified by="Michael Kay" on="2016-07-26" change="add collation argument, bug 29722"/>
         <dependency type="feature" value="higherOrderFunctions"/>
         <environment ref="array"/>
-        <test>array:sort(["the cat", "sat", "on the mat"], function($x) {count(tokenize($x))})</test>
+        <test>array:sort(["the cat", "sat", "on the mat"], (), function($x) {count(tokenize($x))})</test>
         <result>
             <all-of>
                 <assert-type>array(*)</assert-type>
@@ -181,9 +189,10 @@
     <test-case name="array-sort-013" covers="fn-data">
         <description>Apply sort function to array with array members</description>
         <created by="Debbie Lockett, Saxonica" on="2014-11-26"/>
+        <modified by="Michael Kay" on="2016-07-26" change="add collation argument, bug 29722"/>
         <dependency type="feature" value="higherOrderFunctions"/>
         <environment ref="array"/>
-        <test>array:sort([["John","Smith"], ["John","Brown"], ["Fred","Brown"], ["Fred","Smith"]], function($emp) {fn:data(array:get($emp, 1))})</test>
+        <test>array:sort([["John","Smith"], ["John","Brown"], ["Fred","Brown"], ["Fred","Smith"]], (), function($emp) {fn:data(array:get($emp, 1))})</test>
         <result>
             <all-of>                
                 <assert-type>array(*)</assert-type>
@@ -195,9 +204,10 @@
     <test-case name="array-sort-014"  covers="fn-data">
         <description>Apply sort function to array with array members, sort by composite function</description>
         <created by="Debbie Lockett, Saxonica" on="2014-11-26"/>
+        <modified by="Michael Kay" on="2016-07-26" change="add collation argument, bug 29722"/>
         <dependency type="feature" value="higherOrderFunctions"/>
         <environment ref="array"/>
-        <test>array:sort([["John","Smith"], ["John","Brown"], ["Fred","Brown"], ["Fred","Smith"]], function($emp) {fn:data(array:get($emp, 2)), fn:data(array:get($emp, 1))})</test>
+        <test>array:sort([["John","Smith"], ["John","Brown"], ["Fred","Brown"], ["Fred","Smith"]], (), function($emp) {fn:data(array:get($emp, 2)), fn:data(array:get($emp, 1))})</test>
         <result>
             <all-of>                
                 <assert-type>array(*)</assert-type>
@@ -209,9 +219,10 @@
     <test-case name="array-sort-015">
         <description>Apply sort function to array with array members, sort by composite function with implicit atomization</description>
         <created by="Debbie Lockett, Saxonica" on="2014-11-26"/>
+        <modified by="Michael Kay" on="2016-07-26" change="add collation argument, bug 29722"/>
         <dependency type="feature" value="higherOrderFunctions"/>
         <environment ref="array"/>
-        <test>array:sort([["John","Smith"], ["John","Brown"], ["Fred","Brown"], ["Fred","Smith"]], function($emp) {array:get($emp, 2), array:get($emp, 1)})</test>
+        <test>array:sort([["John","Smith"], ["John","Brown"], ["Fred","Brown"], ["Fred","Smith"]], (), function($emp) {array:get($emp, 2), array:get($emp, 1)})</test>
         <result>
             <all-of>                
                 <assert-type>array(*)</assert-type>
@@ -223,9 +234,10 @@
     <test-case name="array-sort-016">
         <description>Apply sort function to array with array members, sort by composite function</description>
         <created by="Debbie Lockett, Saxonica" on="2014-11-26"/>
+        <modified by="Michael Kay" on="2016-07-26" change="add collation argument, bug 29722"/>
         <dependency type="feature" value="higherOrderFunctions"/>
         <environment ref="array"/>
-        <test>array:sort([[1,0], [1,1], [0,1], [0,0], [], [1], [0,0,1]], function($x) {array:size(array:filter($x, function($y) {$y eq 1}))})</test>
+        <test>array:sort([[1,0], [1,1], [0,1], [0,0], [], [1], [0,0,1]], (), function($x) {array:size(array:filter($x, function($y) {$y eq 1}))})</test>
         <result>
             <all-of>                
                 <assert-type>array(*)</assert-type>
@@ -237,9 +249,10 @@
     <test-case name="array-sort-017">
         <description>Apply sort function to array with array members</description>
         <created by="Debbie Lockett, Saxonica" on="2014-11-26"/>
+        <modified by="Michael Kay" on="2016-07-26" change="add collation argument, bug 29722"/>
         <dependency type="feature" value="higherOrderFunctions"/>
         <environment ref="array"/>
-        <test>array:sort([[1,0], [1,1], [0,1], [0,0], [], [1], [0,0,1]], function($x) {array:size($x), array:size(array:filter($x, function($y) {$y eq 1}))})</test>
+        <test>array:sort([[1,0], [1,1], [0,1], [0,0], [], [1], [0,0,1]], (), function($x) {array:size($x), array:size(array:filter($x, function($y) {$y eq 1}))})</test>
         <result>
             <all-of>                
                 <assert-type>array(*)</assert-type>
@@ -324,5 +337,102 @@
                 <assert>$result?3?2 eq 2 and $result?4?2 eq 2</assert>
             </all-of>
         </result>
-    </test-case>              
+    </test-case>
+    
+    <test-case name="array-sort-collation-1">
+        <description>array:sort#1 uses the default collation</description>
+        <created by="Michael Kay" on="2016-08-18"/>
+        <dependency type="spec" value="XQ31+"/>
+        <test><![CDATA[
+         declare default collation "http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive";
+         array:sort(["Red", "green", "blUE", "PINK", "ORanGE"])
+     ]]></test>
+        <result>
+            <assert-deep-eq>["blUE", "green", "ORanGE", "PINK", "Red"]</assert-deep-eq>
+        </result>
+    </test-case>
+    
+    <test-case name="array-sort-collation-2">
+        <description>array:sort#2 uses the default collation by default</description>
+        <created by="Michael Kay" on="2016-08-18"/>
+        <dependency type="spec" value="XQ31+"/>
+        <test><![CDATA[
+         declare default collation "http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive";
+         array:sort(["Red", "green", "blUE", "PINK", "ORanGE"], ())
+     ]]></test>
+        <result>
+            <assert-deep-eq>["blUE", "green", "ORanGE", "PINK", "Red"]</assert-deep-eq>
+        </result>
+    </test-case>
+    
+    <test-case name="array-sort-collation-3">
+        <description>array:sort#3 uses the default collation by default</description>
+        <created by="Michael Kay" on="2016-08-18"/>
+        <dependency type="spec" value="XQ31+"/>
+        <test><![CDATA[
+         declare default collation "http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive";
+         array:sort(["Red", "green", "blUE", "PINK", "ORanGE"], (), string#1)
+     ]]></test>
+        <result>
+            <assert-deep-eq>["blUE", "green", "ORanGE", "PINK", "Red"]</assert-deep-eq>
+        </result>
+    </test-case>
+    
+    <test-case name="array-sort-collation-4">
+        <description>array:sort#2 with an explicit collation</description>
+        <created by="Michael Kay" on="2016-08-18"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>array:sort(["Red", "green", "blUE", "PINK", "ORanGE"], "http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive")</test>
+        <result>
+            <assert-deep-eq>["blUE", "green", "ORanGE", "PINK", "Red"]</assert-deep-eq>
+        </result>
+    </test-case>
+    
+    <test-case name="array-sort-collation-5">
+        <description>array:sort#3 with an explicit collation</description>
+        <created by="Michael Kay" on="2016-08-18"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <dependency type="feature" value="higherOrderFunctions"/>
+        <test>array:sort(["Red", "green", "blUE", "PINK", "ORanGE"], "http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive", fn:string#1)</test>
+        <result>
+            <assert-deep-eq>["blUE", "green", "ORanGE", "PINK", "Red"]</assert-deep-eq>
+        </result>
+    </test-case>
+    
+    <test-case name="array-sort-collation-6">
+        <description>array:sort#2 with explicit codepoint collation</description>
+        <created by="Michael Kay" on="2016-08-18"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>array:sort(["Red", "green", "blUE", "PINK", "ORanGE"], "http://www.w3.org/2005/xpath-functions/collation/codepoint")</test>
+        <result>
+            <assert-deep-eq>["ORanGE", "PINK", "Red", "blUE", "green"]</assert-deep-eq>
+        </result>
+    </test-case>
+    
+    <test-case name="array-sort-collation-7">
+        <description>array:sort#3 with explicit codepoint collation</description>
+        <created by="Michael Kay" on="2016-08-18"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <dependency type="feature" value="higherOrderFunctions"/>
+        <test>array:sort(["Red", "green", "blUE", "PINK", "ORanGE"], "http://www.w3.org/2005/xpath-functions/collation/codepoint", fn:string#1)</test>
+        <result>
+            <assert-deep-eq>["ORanGE", "PINK", "Red", "blUE", "green"]</assert-deep-eq>
+        </result>
+    </test-case>
+    
+    <test-case name="array-sort-collation-8">
+        <description>array:sort#3 with explicit collation, sorting numbers</description>
+        <created by="Michael Kay" on="2016-08-18"/>
+        <dependency type="spec" value="XQ31+"/>
+        <dependency type="feature" value="higherOrderFunctions"/>
+        <test><![CDATA[
+         declare function local:key($n as xs:integer) as xs:string {
+             ("Red", "green", "blUE", "PINK", "ORanGE")[$n]
+         };
+         array:sort([1,2,3,4,5], "http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive", local:key#1)
+         ]]></test>
+        <result>
+            <assert-deep-eq>[3, 2, 5, 4, 1]</assert-deep-eq>
+        </result>
+    </test-case>
 </test-set>
