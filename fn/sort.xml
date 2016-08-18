@@ -308,9 +308,10 @@
    <test-case name="fn-sort2-str-1">
       <description>Simple sequence of strings with fn</description>
       <created by="Liam R E Quin" on="2015-01-08"/>
+      <modified by="Michael Kay" on="2016-07-26" change="add collation argument, bug 29722"/>
       <dependency type="feature" value="higherOrderFunctions"/>
       <test>let $r := fn:sort(
-	  ("boy","for","new","chosen","black","pope"),
+	  ("boy","for","new","chosen","black","pope"), (),
 	  fn:data#1
 	  )
 	  return (count($r) eq 6
@@ -330,9 +331,10 @@
    <test-case name="fn-sort2-str-2">
       <description>Simple sequence of strings with user-defined fn</description>
       <created by="Liam R E Quin" on="2015-01-08"/>
+      <modified by="Michael Kay" on="2016-07-26" change="add collation argument, bug 29722"/>
       <dependency type="feature" value="higherOrderFunctions"/>
       <test>let $r := fn:sort(
-	  ("boy","for","new","chosen","black","pope"),
+	  ("boy","for","new","chosen","black","pope"), (),
 	  function($input as xs:anyAtomicType *) as item()* {
 	      fn:data($input)
 	    }
@@ -367,8 +369,9 @@
       <description>spec example 1</description>
       <created by="Liam R E Quin" on="2015-01-08"/>
       <modified by="Josh Spiegel" on="2015-01-21" change="Fix typo"/>
+      <modified by="Michael Kay" on="2016-07-26" change="add collation argument, bug 29722"/>
       <dependency type="feature" value="higherOrderFunctions"/>
-      <test>let $r := fn:sort((1, 4, 6, 5, 3),
+      <test>let $r := fn:sort((1, 4, 6, 5, 3), (),
 	  fn:data#1
 	  )
 	  return (count($r) eq 5
@@ -388,8 +391,9 @@
       <description>spec example 1 but check numeric, not lexical</description>
       <created by="Liam R E Quin" on="2015-01-08"/>
       <modified by="Josh Spiegel" on="2015-01-21" change="Fix typo"/>
+      <modified by="Michael Kay" on="2016-07-26" change="add collation argument, bug 29722"/>
       <dependency type="feature" value="higherOrderFunctions"/>
-      <test>let $r := fn:sort((10, 4, 6, 5, 3),
+      <test>let $r := fn:sort((10, 4, 6, 5, 3), (),
 	  fn:data#1
 	  )
 	  return (count($r) eq 5
@@ -409,8 +413,9 @@
       <description>spec example 2</description>
       <created by="Liam R E Quin" on="2015-01-08"/>
       <modified by="Josh Spiegel" on="2015-01-21" change="Fix typo"/>
+      <modified by="Michael Kay" on="2016-07-26" change="add collation argument, bug 29722"/>
       <dependency type="feature" value="higherOrderFunctions"/>
-      <test>let $r := fn:sort((1, -2, 5, 10, -10, 10, 8), fn:abs#1)
+      <test>let $r := fn:sort((1, -2, 5, 10, -10, 10, 8), (), fn:abs#1)
 	  return (count($r) eq 7
 	  and $r[1] eq 1
 	  and $r[2] eq -2
@@ -442,6 +447,7 @@
       <created by="Liam R E Quin" on="2015-01-08"/>
       <modified by="Josh Spiegel" on="2015-01-21" change="Add CDATA to test element (otherwise element constructors are treated as xml)"/>
       <modified by="Debbie Lockett" on="2015-02-27" change="Change dependency"/>
+      <modified by="Michael Kay" on="2016-07-26" change="add collation argument, bug 29722"/>
       <dependency type="spec" value="XQ31+"/>
       <dependency type="feature" value="higherOrderFunctions"/>
       <test><![CDATA[let
@@ -453,7 +459,7 @@
 	    <emp><name><first>Susan</first><last>Cawcutt</last></name></emp>,
 	    <emp><name><first>Martin</first><last>Cawcutt</last></name></emp>
 	    ),
-	  $r := fn:sort($employees, function($emp) {$emp/name/last, $emp/name/first})
+	  $r := fn:sort($employees, default-collation(), function($emp) {$emp/name/last, $emp/name/first})
 	  return (count($r) eq 6
 	  and fn:data($r[1]/name/first) eq "Martin"
 	  and fn:data($r[2]/name/first) eq "Reginald"
@@ -465,6 +471,103 @@
      ]]></test>
       <result>
 	 <assert-true />
+      </result>
+   </test-case>
+   
+   <test-case name="fn-sort-collation-1">
+      <description>fn:sort#1 uses the default collation</description>
+      <created by="Michael Kay" on="2016-08-18"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[
+         declare default collation "http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive";
+         fn:sort(("Red", "green", "blUE", "PINK", "ORanGE"))
+     ]]></test>
+      <result>
+         <assert-deep-eq>"blUE", "green", "ORanGE", "PINK", "Red"</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-sort-collation-2">
+      <description>fn:sort#2 uses the default collation by default</description>
+      <created by="Michael Kay" on="2016-08-18"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[
+         declare default collation "http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive";
+         fn:sort(("Red", "green", "blUE", "PINK", "ORanGE"), ())
+     ]]></test>
+      <result>
+         <assert-deep-eq>"blUE", "green", "ORanGE", "PINK", "Red"</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-sort-collation-3">
+      <description>fn:sort#3 uses the default collation by default</description>
+      <created by="Michael Kay" on="2016-08-18"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[
+         declare default collation "http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive";
+         fn:sort(("Red", "green", "blUE", "PINK", "ORanGE"), (), string#1)
+     ]]></test>
+      <result>
+         <assert-deep-eq>"blUE", "green", "ORanGE", "PINK", "Red"</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-sort-collation-4">
+      <description>fn:sort#2 with an explicit collation</description>
+      <created by="Michael Kay" on="2016-08-18"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>fn:sort(("Red", "green", "blUE", "PINK", "ORanGE"), "http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive")</test>
+      <result>
+         <assert-deep-eq>"blUE", "green", "ORanGE", "PINK", "Red"</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-sort-collation-5">
+      <description>fn:sort#3 with an explicit collation</description>
+      <created by="Michael Kay" on="2016-08-18"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <test>fn:sort(("Red", "green", "blUE", "PINK", "ORanGE"), "http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive", fn:string#1)</test>
+      <result>
+         <assert-deep-eq>"blUE", "green", "ORanGE", "PINK", "Red"</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-sort-collation-6">
+      <description>fn:sort#2 with explicit codepoint collation</description>
+      <created by="Michael Kay" on="2016-08-18"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>fn:sort(("Red", "green", "blUE", "PINK", "ORanGE"), "http://www.w3.org/2005/xpath-functions/collation/codepoint")</test>
+      <result>
+         <assert-deep-eq>"ORanGE", "PINK", "Red", "blUE", "green"</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-sort-collation-7">
+      <description>fn:sort#3 with explicit codepoint collation</description>
+      <created by="Michael Kay" on="2016-08-18"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <test>fn:sort(("Red", "green", "blUE", "PINK", "ORanGE"), "http://www.w3.org/2005/xpath-functions/collation/codepoint", fn:string#1)</test>
+      <result>
+         <assert-deep-eq>"ORanGE", "PINK", "Red", "blUE", "green"</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-sort-collation-8">
+      <description>fn:sort#3 with explicit collation, sorting numbers</description>
+      <created by="Michael Kay" on="2016-08-18"/>
+      <dependency type="spec" value="XQ31+"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <test><![CDATA[
+         declare function local:key($n as xs:integer) as xs:string {
+             ("Red", "green", "blUE", "PINK", "ORanGE")[$n]
+         };
+         fn:sort((1 to 5), "http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive", local:key#1)
+         ]]></test>
+      <result>
+         <assert-deep-eq>3, 2, 5, 4, 1</assert-deep-eq>
       </result>
    </test-case>
 
