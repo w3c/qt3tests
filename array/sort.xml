@@ -5,6 +5,11 @@
     <link type="spec" document="http://www.w3.org/TR/xpath-functions-31/" idref="func-array-sort"/>
     <dependency type="spec" value="XP31+ XQ31+"/>
     
+    <environment name="array-with-collation">
+        <namespace prefix="array" uri="http://www.w3.org/2005/xpath-functions/array"/>
+        <collation uri="http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind"/>
+    </environment>
+    
     <test-case name="array-sort-001">
         <description>Apply sort function to array with number members</description>
         <created by="Debbie Lockett, Saxonica" on="2014-11-24"/>
@@ -384,9 +389,11 @@
     <test-case name="array-sort-collation-1">
         <description>array:sort#1 uses the default collation</description>
         <created by="Michael Kay" on="2016-08-18"/>
+        <modified by="Michael Kay" on="2016-08-18" change="see bug 29779"/>
+        <environment ref="array-with-collation"/>
         <dependency type="spec" value="XQ31+"/>
         <test><![CDATA[
-         declare default collation "http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive";
+         declare default collation "http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind";
          array:sort(["Red", "green", "blUE", "PINK", "ORanGE"])
      ]]></test>
         <result>
@@ -397,9 +404,11 @@
     <test-case name="array-sort-collation-2">
         <description>array:sort#2 uses the default collation by default</description>
         <created by="Michael Kay" on="2016-08-18"/>
+        <modified by="Michael Kay" on="2016-08-18" change="see bug 29779"/>
+        <environment ref="array-with-collation"/>
         <dependency type="spec" value="XQ31+"/>
         <test><![CDATA[
-         declare default collation "http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive";
+         declare default collation "http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind";
          array:sort(["Red", "green", "blUE", "PINK", "ORanGE"], ())
      ]]></test>
         <result>
@@ -410,9 +419,11 @@
     <test-case name="array-sort-collation-3">
         <description>array:sort#3 uses the default collation by default</description>
         <created by="Michael Kay" on="2016-08-18"/>
+        <modified by="Michael Kay" on="2016-08-18" change="see bug 29779"/>
+        <environment ref="array-with-collation"/>
         <dependency type="spec" value="XQ31+"/>
         <test><![CDATA[
-         declare default collation "http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive";
+         declare default collation "http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind";
          array:sort(["Red", "green", "blUE", "PINK", "ORanGE"], (), string#1)
      ]]></test>
         <result>
@@ -423,8 +434,10 @@
     <test-case name="array-sort-collation-4">
         <description>array:sort#2 with an explicit collation</description>
         <created by="Michael Kay" on="2016-08-18"/>
+        <modified by="Michael Kay" on="2016-08-18" change="see bug 29779"/>
+        <environment ref="array-with-collation"/>
         <dependency type="spec" value="XP31+ XQ31+"/>
-        <test>array:sort(["Red", "green", "blUE", "PINK", "ORanGE"], "http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive")</test>
+        <test>array:sort(["Red", "green", "blUE", "PINK", "ORanGE"], "http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind")</test>
         <result>
             <assert-deep-eq>["blUE", "green", "ORanGE", "PINK", "Red"]</assert-deep-eq>
         </result>
@@ -433,9 +446,11 @@
     <test-case name="array-sort-collation-5">
         <description>array:sort#3 with an explicit collation</description>
         <created by="Michael Kay" on="2016-08-18"/>
+        <modified by="Michael Kay" on="2016-08-18" change="see bug 29779"/>
+        <environment ref="array-with-collation"/>
         <dependency type="spec" value="XP31+ XQ31+"/>
         <dependency type="feature" value="higherOrderFunctions"/>
-        <test>array:sort(["Red", "green", "blUE", "PINK", "ORanGE"], "http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive", fn:string#1)</test>
+        <test>array:sort(["Red", "green", "blUE", "PINK", "ORanGE"], "http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind", fn:string#1)</test>
         <result>
             <assert-deep-eq>["blUE", "green", "ORanGE", "PINK", "Red"]</assert-deep-eq>
         </result>
@@ -444,6 +459,8 @@
     <test-case name="array-sort-collation-6">
         <description>array:sort#2 with explicit codepoint collation</description>
         <created by="Michael Kay" on="2016-08-18"/>
+        <modified by="Michael Kay" on="2016-08-18" change="see bug 29779"/>
+        <environment ref="array-with-collation"/>
         <dependency type="spec" value="XP31+ XQ31+"/>
         <test>array:sort(["Red", "green", "blUE", "PINK", "ORanGE"], "http://www.w3.org/2005/xpath-functions/collation/codepoint")</test>
         <result>
@@ -454,6 +471,8 @@
     <test-case name="array-sort-collation-7">
         <description>array:sort#3 with explicit codepoint collation</description>
         <created by="Michael Kay" on="2016-08-18"/>
+        <modified by="Michael Kay" on="2016-08-18" change="see bug 29779"/>
+        <environment ref="array-with-collation"/>
         <dependency type="spec" value="XP31+ XQ31+"/>
         <dependency type="feature" value="higherOrderFunctions"/>
         <test>array:sort(["Red", "green", "blUE", "PINK", "ORanGE"], "http://www.w3.org/2005/xpath-functions/collation/codepoint", fn:string#1)</test>
@@ -465,13 +484,15 @@
     <test-case name="array-sort-collation-8">
         <description>array:sort#3 with explicit collation, sorting numbers</description>
         <created by="Michael Kay" on="2016-08-18"/>
+        <modified by="Michael Kay" on="2016-08-18" change="see bug 29779"/>
+        <environment ref="array-with-collation"/>
         <dependency type="spec" value="XQ31+"/>
         <dependency type="feature" value="higherOrderFunctions"/>
         <test><![CDATA[
          declare function local:key($n as xs:integer) as xs:string {
              ("Red", "green", "blUE", "PINK", "ORanGE")[$n]
          };
-         array:sort([1,2,3,4,5], "http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive", local:key#1)
+         array:sort([1,2,3,4,5], "http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind", local:key#1)
          ]]></test>
         <result>
             <assert-deep-eq>[3, 2, 5, 4, 1]</assert-deep-eq>
