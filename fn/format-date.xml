@@ -1243,12 +1243,32 @@
    <test-case name="format-date-en122">
       <description>English ordinal numbers 1990-2020</description>
       <created by="Michael Kay, Saxonica" on="2011-07-01"/>
+      <modified by="Tim Mills" on="2011-07-01" change="Bug 29769" />
       <environment>
          <param name="d" as="xs:date" select="xs:date('1990-12-01')"/>
       </environment>
       <dependency type="language" value="en"/>
       <test>for $i in 0 to 30 return let $d2 := $d + xs:yearMonthDuration('P1Y')*$i return
          format-date($d2, '[Y1o]', 'en', (), ()) </test>
+      <result>
+         <assert-string-value normalize-space="true">
+            90th 91st 92nd 93rd 94th 95th 96th 97th 98th 99th
+            0th 1st 2nd 3rd 4th 5th 6th 7th 8th 9th 10th 11th
+            12th 13th 14th 15th 16th 17th 18th 19th 20th
+         </assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="format-date-en122b">
+      <description>English ordinal numbers 1990-2020</description>
+      <created by="Michael Kay, Saxonica" on="2011-07-01"/>
+      <modified by="Tim Mills" on="2011-07-01" change="Bug 29769" />
+      <environment>
+         <param name="d" as="xs:date" select="xs:date('1990-12-01')"/>
+      </environment>
+      <dependency type="language" value="en"/>
+      <test>for $i in 0 to 30 return let $d2 := $d + xs:yearMonthDuration('P1Y')*$i return
+         format-date($d2, '[Y0001o]', 'en', (), ()) </test>
       <result>
          <assert-string-value normalize-space="true">
             1990th 1991st 1992nd 1993rd 1994th 1995th 1996th 1997th 1998th 1999th
