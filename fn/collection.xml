@@ -68,6 +68,24 @@
       <param name="collection-uri" as="xs:string" select="'http://www.w3.org/2010/09/qt-fots-catalog/collection2'" declared="false"/>          
    </environment>    
 
+    <environment name="integer-collection">
+      <collection uri="http://www.w3.org/2010/09/qt-fots-catalog/integers">
+	<query>1 to 10</query>
+      </collection>
+    </environment>
+
+    <environment name="atomic-collection">
+      <collection uri="http://www.w3.org/2010/09/qt-fots-catalog/atomics">
+	<query>(1, "hello", 1e0)</query>
+      </collection>
+    </environment>
+
+    <environment name="default-string-collection">
+      <collection uri="">
+	<query>("goodbye", "cruel", "world")</query>
+      </collection>
+    </environment>
+
    <test-case name="fn-collection-1">
       <description> Evaluation of an fn:collection function with wrong arity. </description>
       <created by="Carmelo Montanez" on="2005-12-02"/>
@@ -475,6 +493,42 @@
             <error code="FODC0004"/>
             <error code="FODC0002"/>
          </any-of>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-collection-002" change="fn-collection">
+      <description> test fn:collection with non-node collection.</description>
+      <created by="Tim Mills" on="2016-08-19"/>
+      <environment ref="integer-collection"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test>fn:collection('http://www.w3.org/2010/09/qt-fots-catalog/integers')</test>
+      <result>
+	<assert-deep-eq>(1 to 10)</assert-deep-eq>
+	<assert-type>xs:integer+</assert-type>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-collection-003" change="fn-collection">
+      <description> test fn:collection with non-node collection.</description>
+      <created by="Tim Mills" on="2016-08-19"/>
+      <environment ref="atomic-collection"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test>fn:collection('http://www.w3.org/2010/09/qt-fots-catalog/atomics')</test>
+      <result>
+	<assert-type>xs:anyAtomicType+</assert-type>
+	<assert-deep-eq>(1, 'hello', 1e0)</assert-deep-eq>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-collection-004" change="fn-collection">
+      <description> test fn:collection with default non-node collection.</description>
+      <created by="Tim Mills" on="2016-08-19"/>
+      <environment ref="default-string-collection"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test>fn:collection()</test>
+      <result>
+	<assert-type>xs:string+</assert-type>
+	<assert-deep-eq>('goodbye', 'cruel', 'world')</assert-deep-eq>
       </result>
    </test-case>
 
