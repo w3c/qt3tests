@@ -793,4 +793,30 @@
       </result>
    </test-case>
 
+   <test-case name="Serialization-036" covers="serialization-general">
+      <description>Serialization parameter values may contain whitespace</description>
+      <created by="Tim Mills" on="2016-08-19"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+         declare option output:indent " 0 ";
+         <result>ok</result>
+        ]]></test>
+      <result>
+         <assert-xml>&lt;result&gt;ok&lt;/result&gt;</assert-xml>
+      </result>
+   </test-case>
+
+   <test-case name="Serialization-037" covers="serialization-general">
+      <description> Indentation may add whitespace characters </description>
+      <created by="Tim Mills" on="2016-08-19"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+         declare option output:indent "1";
+         <result>ok</result>
+        ]]></test>
+      <result>
+         <assert-xml>&lt;result&gt;ok&lt;/result&gt;</assert-xml>
+      </result>
+   </test-case>
+
 </test-set>
