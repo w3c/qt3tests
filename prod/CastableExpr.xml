@@ -8821,7 +8821,6 @@
        <result><assert-false /></result>
    </test-case>
 
-
    <test-case name="cbcl-castable-impure-001" covers-30="cast-to-list">
        <description>Test castability of xs:date to impure union type s:impureUnionType.</description>
        <created by="Tim Mills" on="2016-04-11"/>
@@ -9083,5 +9082,269 @@
        </test>
        <result><assert-false /></result>
    </test-case>
+
+   <test-case name="cbcl-castable-restricted-union-001" covers-30="cast-to-union">
+       <description>Test castability of xs:date to restricted union type s:restrictedUnion.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+        xs:date("2001-01-01") castable as s:restrictedUnion]]>
+       </test>
+       <result><assert-true /></result>
+   </test-case>
+
+   <test-case name="cbcl-castable-restricted-union-002" covers-30="cast-to-union">
+       <description>Test castability of xs:date to restricted union type s:restrictedUnion.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+        xs:date("1970-01-01") castable as s:restrictedUnion]]>
+       </test>
+       <result><assert-false /></result>
+   </test-case>
+
+   <test-case name="cbcl-castable-restricted-union-003" covers-30="cast-to-union">
+       <description>Test castability of xs:string to restricted union type s:restrictedUnion.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+        "2001-01-01" castable as s:restrictedUnion]]>
+       </test>
+       <result><assert-true /></result>
+   </test-case>
+
+   <test-case name="cbcl-castable-restricted-union-004" covers-30="cast-to-union">
+       <description>Test castability of xs:string to restricted union type s:restrictedUnion.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+        "1970-01-01" castable as s:restrictedUnion]]>
+       </test>
+       <result><assert-false /></result>
+   </test-case>
+
+   <test-case name="cbcl-castable-restricted-union-005" covers-30="cast-to-union">
+       <description>Test castability of xs:untypedAtomic to restricted union type s:restrictedUnion.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+        xs:untypedAtomic("2001-01-01") castable as s:restrictedUnion]]>
+       </test>
+       <result><assert-true /></result>
+   </test-case>
+
+   <test-case name="cbcl-castable-restricted-union-006" covers-30="cast-to-union">
+       <description>Test castability of xs:untypedAtomic to restricted union type s:restrictedUnion.</description>
+
+       <created by="Tim Mills" on="2016-04-11"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+        xs:untypedAtomic("1970-01-01") castable as s:restrictedUnion]]>
+       </test>
+       <result><assert-false /></result>
+   </test-case>
+
+   <test-case name="cbcl-castable-restricted-union-007" covers-30="cast-to-union">
+       <description>Test castability of xs:gYear to restricted union type s:restrictedUnion.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+        xs:gYear("2001") castable as s:restrictedUnion]]>
+       </test>
+       <result><assert-true /></result>
+   </test-case>
+
+   <test-case name="cbcl-castable-restricted-union-008" covers-30="cast-to-union">
+       <description>Test castability of xs:gYear to restricted union type s:restrictedUnion.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+        xs:gYear("1970") castable as s:restrictedUnion]]>
+       </test>
+       <result><assert-false /></result>
+   </test-case>
+
+   <test-case name="cbcl-castable-restricted-union-009" covers-30="cast-to-union">
+       <description>Test castability of empty sequence to restricted union type s:restrictedUnion.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+        () castable as s:restrictedUnion]]>
+       </test>
+       <result><assert-false /></result>
+   </test-case>
+
+   <test-case name="cbcl-castable-restricted-union-010" covers-30="cast-to-union">
+       <description>Test castability of s:restrictedUnion to restricted union type s:restrictedUnion.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+        s:restrictedUnion("2001-01-01") castable as s:restrictedUnion]]>
+       </test>
+       <result><assert-true /></result>
+   </test-case>
+
+
+   <test-case name="cbcl-castable-restricted-union-011" covers-30="cast-to-union">
+       <description>Test castability of xs:date to restricted union type s:restrictedUnion.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+        xs:date("2001-01-01") castable as s:restrictedUnion?]]>
+       </test>
+       <result><assert-true /></result>
+   </test-case>
+
+   <test-case name="cbcl-castable-restricted-union-012" covers-30="cast-to-union">
+       <description>Test castability of xs:date to restricted union type s:restrictedUnion.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+        xs:date("1970-01-01") castable as s:restrictedUnion?]]>
+       </test>
+       <result><assert-false /></result>
+   </test-case>
+
+   <test-case name="cbcl-castable-restricted-union-013" covers-30="cast-to-union">
+       <description>Test castability of xs:string to restricted union type s:restrictedUnion.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+        "2001-01-01" castable as s:restrictedUnion?]]>
+       </test>
+       <result><assert-true /></result>
+   </test-case>
+
+   <test-case name="cbcl-castable-restricted-union-014" covers-30="cast-to-union">
+       <description>Test castability of xs:string to restricted union type s:restrictedUnion.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+        "1970-01-01" castable as s:restrictedUnion?]]>
+       </test>
+       <result><assert-false /></result>
+   </test-case>
+
+   <test-case name="cbcl-castable-restricted-union-015" covers-30="cast-to-union">
+       <description>Test castability of xs:untypedAtomic to restricted union type s:restrictedUnion.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+        xs:untypedAtomic("2001-01-01") castable as s:restrictedUnion?]]>
+       </test>
+       <result><assert-true /></result>
+   </test-case>
+
+   <test-case name="cbcl-castable-restricted-union-016" covers-30="cast-to-union">
+       <description>Test castability of xs:untypedAtomic to restricted union type s:restrictedUnion.</description>
+
+       <created by="Tim Mills" on="2016-04-11"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+        xs:untypedAtomic("1970-01-01") castable as s:restrictedUnion?]]>
+       </test>
+       <result><assert-false /></result>
+   </test-case>
+
+   <test-case name="cbcl-castable-restricted-union-017" covers-30="cast-to-union">
+       <description>Test castability of xs:gYear to restricted union type s:restrictedUnion.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+        xs:gYear("2001") castable as s:restrictedUnion?]]>
+       </test>
+       <result><assert-true /></result>
+   </test-case>
+
+   <test-case name="cbcl-castable-restricted-union-018" covers-30="cast-to-union">
+       <description>Test castability of xs:gYear to restricted union type s:restrictedUnion.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+        xs:gYear("1970") castable as s:restrictedUnion?]]>
+       </test>
+       <result><assert-false /></result>
+   </test-case>
+
+   <test-case name="cbcl-castable-restricted-union-019" covers-30="cast-to-union">
+       <description>Test castability of empty sequence to restricted union type s:restrictedUnion.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+        () castable as s:restrictedUnion?]]>
+       </test>
+       <result><assert-true /></result>
+   </test-case>
+
+   <test-case name="cbcl-castable-restricted-union-020" covers-30="cast-to-union">
+       <description>Test castability of s:restrictedUnion to restricted union type s:restrictedUnion.</description>
+       <created by="Tim Mills" on="2016-04-11"/>
+       <environment ref="union-List-defined-Types"/>
+       <dependency type="spec" value="XQ30+"/>
+       <dependency type="feature" value="schemaImport"/>
+       <test><![CDATA[
+       import schema namespace s="http://www.w3.org/XQueryTest/unionListDefined";
+        s:restrictedUnion("2001-01-01") castable as s:restrictedUnion?]]>
+       </test>
+       <result><assert-true /></result>
+   </test-case>
+
 
 </test-set>
