@@ -291,9 +291,22 @@
    <test-case name="K-ExtensionExpression-4">
       <description> A pragma expression cannot be in the empty namespace. </description>
       <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="Michael Kay" on="2016-08-31" change="Spec change in XQ 3.1:  If the EQName is an unprefixed NCName, it is interpreted as a name in no namespace (and the pragma is therefore ignored)."/>
+      <dependency type="spec" value="XQ10 XQ30"/>
       <test>(#name content #) {1}</test>
       <result>
          <error code="XPST0081"/>
+      </result>
+   </test-case>
+   
+   <test-case name="K-ExtensionExpression-4a">
+      <description> A pragma expression can be in the empty namespace in XQ 3.1. </description>
+      <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="Michael Kay" on="2016-08-31" change="Spec change in XQ 3.1:  If the EQName is an unprefixed NCName, it is interpreted as a name in no namespace (and the pragma is therefore ignored)."/>
+      <dependency type="spec" value="XQ31+"/>
+      <test>(#name content #) {1}</test>
+      <result>
+         <assert-eq>1</assert-eq>
       </result>
    </test-case>
 
