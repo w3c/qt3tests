@@ -1321,4 +1321,18 @@
     </result>
   </test-case>
   
+  <test-case name="fn-load-xquery-module-915">
+    <description>Error - no XQuery version 93.7 processor available</description>
+    <created by="Michael Kay" on="2016-09-07"/>
+    <module uri="http://www.w3.org/fots/fn/load-xquery-module/valid/module" file="load-xquery-module/valid-module.xqm"/>  
+    <test>
+      let $module-ns := "http://www.w3.org/fots/fn/load-xquery-module/valid/module",
+      $module := fn:load-xquery-module($module-ns, map{"xquery-version" : 93.7})      
+      return $module
+    </test>
+    <result>
+      <error code="FOQM0006"/>
+    </result>       
+  </test-case>
+  
 </test-set>
