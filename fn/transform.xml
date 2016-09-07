@@ -5,7 +5,6 @@
          idref="func-transform"/>
 
     <dependency type="spec" value="XQ31+ XP31+"/>
-    <dependency type="feature" value="fn-transform-XSLT"/>
 
    <environment name="works-mod-uri2">
       <source role="." file="../docs/works-mod.xml" uri="http://www.w3.org/fots/docs/works-mod.xml">
@@ -55,6 +54,7 @@
       <description>Loads a stylesheet from the location render.xsl, applies it to a document loaded from works-mod.xml, and uses an XPath expression to examine the result</description>
       <created by="O'Neil Delpratt" on="2014-12-09"/>
       <modified by="Debbie Lockett" on="2015-03-05" change="Rename stylesheet-uri as stylesheet-location"/>
+      <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
       <environment ref="works-mod-uri2"/>
       <test>let $result := fn:transform(map {"stylesheet-location" : $render, "source-node" : fn:doc($uri)})return $result?output</test>
       <result>
@@ -67,6 +67,7 @@
       <created by="O'Neil Delpratt" on="2014-12-09"/>
       <modified by="Michael Kay" on="2015-01-03" change="change 'castable as' to 'instance of'"/>
       <modified by="Debbie Lockett" on="2015-03-05" change="Rename stylesheet-uri as stylesheet-location"/>
+      <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
       <environment ref="works-mod-uri2"/>
       <test>let $result := fn:transform(map {"stylesheet-location" : $render, "source-node" : fn:doc($uri), "delivery-format" : "serialized"})return $result?output instance of xs:string</test>
       <result>
@@ -79,6 +80,7 @@
       <created by="O'Neil Delpratt" on="2014-12-09"/>
       <modified by="Michael Kay" on="2015-01-03" change="change 'castable as' to 'instance of'"/>
        <modified by="Debbie Lockett" on="2015-03-05" change="Rename stylesheet-uri as stylesheet-location"/>
+      <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
       <environment ref="works-mod-uri2"/>
        <test>let $result := fn:transform(map {"stylesheet-location" : $render, "source-node" : fn:doc($uri), "delivery-format" : "document"})return $result?output instance of node()</test>
       <result>
@@ -93,7 +95,8 @@
         <modified by="Debbie Lockett" on="2015-04-13" change="Add base-output-uri option"/>
         <modified by="Michael Kay" on="2015-11-27" change="Add dependency on XSLT 3.0"/>
         <dependency type="spec" value="XQ31+"/>
-        <dependency type="feature" value="fn-transform-XSLT30"/>
+	<dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
+        <dependency type="feature" value="fn-transform-XSLT30" satisfied="true"/>
         <test>
             <![CDATA[
                     declare variable $xsl as xs:string :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' version='3.0'
@@ -126,6 +129,7 @@
         <created by="O'Neil Delpratt" on="2014-12-09"/>
         <modified by="Debbie Lockett" on="2015-03-05" change="Fix variable $in, use of fn:QName(), and result assertions; and change test-case description"/>
         <dependency type="spec" value="XQ31+"/>
+	<dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <environment ref="variable-uri"/>
         <test>
             <![CDATA[
@@ -147,6 +151,7 @@
         <created by="O'Neil Delpratt" on="2014-12-09"/>
         <modified by="Debbie Lockett" on="2015-03-05" change="Fix stylesheet, use of fn:QName(), and result assertion"/>
         <dependency type="spec" value="XQ31+"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <test>
             <![CDATA[
                     let $in := xs:string("<books>
@@ -187,6 +192,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         <description>Outputs the result as html; input source and stylesheet as strings</description>
         <created by="Debbie Lockett" on="2015-03-05"/>
         <dependency type="spec" value="XQ31+"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <test>
             <![CDATA[
                     let $in := xs:string("<books>
@@ -228,6 +234,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
         <created by="Debbie Lockett" on="2015-03-03"/>
         <modified by="Michael Kay" on="2015-11-26" change="avoid HOF dependency in assertions"/>
         <dependency type="spec" value="XQ31+"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <test><![CDATA[
             declare variable $xsl as xs:string :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' version='2.0'>
                 <xsl:template match='/'>
@@ -253,6 +260,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
         <created by="Debbie Lockett" on="2015-03-03"/>
         <modified by="Michael Kay" on="2015-11-26" change="avoid HOF dependency in assertions"/>
         <dependency type="spec" value="XQ31+"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <test><![CDATA[
             declare variable $xsl as xs:string :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' version='2.0'>
                 <xsl:template match='/'>
@@ -278,6 +286,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
         <created by="Debbie Lockett" on="2015-03-03"/>
         <modified by="Michael Kay" on="2015-11-26" change="avoid HOF dependency in assertions"/>
         <dependency type="spec" value="XQ31+"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <test><![CDATA[
             transform(map{"stylesheet-node":fn:parse-xml("<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' version='2.0'>
                 <xsl:template match='/'>
@@ -302,6 +311,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
         <created by="Debbie Lockett" on="2015-03-03"/>
         <modified by="Michael Kay" on="2015-11-26" change="avoid HOF dependency in assertions"/>
         <dependency type="spec" value="XQ31+"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <test><![CDATA[
             declare variable $xsl as xs:string :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' version='2.0'>
                 <xsl:template name='main'>
@@ -328,6 +338,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
         <created by="Debbie Lockett" on="2015-03-03"/>
         <modified by="Michael Kay" on="2015-11-26" change="avoid HOF dependency in assertions"/>
         <dependency type="spec" value="XQ31+"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <test><![CDATA[
             declare variable $xsl as xs:string :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' version='2.0'
             xmlns:app='http://www.example.com'>
@@ -358,6 +369,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
         <created by="Debbie Lockett" on="2015-03-03"/>
         <modified by="Michael Kay" on="2015-11-26" change="avoid HOF dependency in assertions"/>
         <dependency type="spec" value="XQ31+"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <test><![CDATA[
             declare variable $xsl as xs:string :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' version='2.0'
             xmlns:app='http://www.example.com'>
@@ -386,6 +398,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
         <created by="Debbie Lockett" on="2015-03-03"/>
         <modified by="Michael Kay" on="2015-11-26" change="avoid HOF dependency in assertions"/>
         <dependency type="spec" value="XQ31+"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <test><![CDATA[
             declare variable $xsl as xs:string :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' version='2.0'>
             <xsl:template match='/'>
@@ -415,6 +428,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
         <created by="Debbie Lockett" on="2015-03-09"/>
         <modified by="Debbie Lockett" on="2015-04-13" change="Add base-output-uri option"/>
         <dependency type="spec" value="XQ31+"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <test><![CDATA[
                     declare variable $xsl as xs:string :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' version='3.0'>
                                                 <xsl:template match='/'> <xsl:for-each select='//section'>
@@ -443,6 +457,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
         <description>Transform producing multiple result documents (with content)</description>
         <created by="Debbie Lockett" on="2015-04-13"/>
         <dependency type="spec" value="XQ31+"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <test><![CDATA[
                     declare variable $xsl as xs:string :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' version='3.0'>
                                                 <xsl:template match='/'> <xsl:for-each select='//section'>
@@ -485,6 +500,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
     <test-case name="fn-transform-14">
         <description>Transform producing multiple result documents, with base-output-uri option</description>
         <created by="Debbie Lockett" on="2015-03-09"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <environment ref="multiple-result-docs"/>
         <test>fn:transform(map {"stylesheet-node":$multipledocs, "source-node":$sections, "base-output-uri": "http://www.w3.org/fots/fn/transform/output-doc.xml"}) => map:keys()</test>
         <result>
@@ -496,6 +512,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
         <description>Transform using option stylesheet-params with multiple params</description>
         <created by="Debbie Lockett" on="2015-03-10"/>
         <dependency type="spec" value="XQ31+"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <environment ref="variable-uri"/>
         <test>
             <![CDATA[
@@ -528,6 +545,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
     <test-case name="fn-transform-16">
         <description>Transform using option base-output-uri</description>
         <created by="Debbie Lockett" on="2015-03-09"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <environment ref="works-mod-uri2"/>
         <test>fn:transform(map {"stylesheet-location" : $render, "source-node" : fn:doc($uri), "delivery-format" : "document", "base-output-uri" : $base-uri})?($base-uri)</test>
         <result>
@@ -539,6 +557,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
         <description>Transform using option base-output-uri</description>
         <created by="Debbie Lockett" on="2015-03-09"/>
         <modified by="Michael Kay" on="2015-11-26" change="avoid HOF dependency in assertions"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <environment ref="works-mod-uri2"/>
         <test>fn:transform(map {"stylesheet-location" : $render, "source-node" : fn:doc($uri), "delivery-format" : "document", "base-output-uri" : $base-uri})</test>
         <result>
@@ -556,6 +575,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
         <description>Transform using options stylesheet-text and stylesheet-base-uri</description>
         <created by="Debbie Lockett" on="2015-03-11"/>
         <dependency type="spec" value="XQ31+"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <test><![CDATA[
             declare variable $xsl as xs:string :="<xsl:stylesheet version='2.0' xmlns:xsl='http://www.w3.org/1999/XSL/Transform'>
                     <xsl:template name='main'>
@@ -573,6 +593,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
         <description>Transform using options stylesheet-node and stylesheet-base-uri</description>
         <created by="Debbie Lockett" on="2015-03-11"/>
         <dependency type="spec" value="XQ31+"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <test><![CDATA[
             declare variable $xsl as xs:string :="<xsl:stylesheet version='2.0' xmlns:xsl='http://www.w3.org/1999/XSL/Transform'>
                     <xsl:template name='main'>
@@ -589,6 +610,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
     <test-case name="fn-transform-20">
         <description>Transform using options stylesheet-location and stylesheet-base-uri</description>
         <created by="Debbie Lockett" on="2015-03-11"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <environment>
             <source role="$staticbaseuri" file="transform/staticbaseuri.xsl"  uri="http://www.w3.org/fots/fn/transform/staticbaseuri.xsl"/>
         </environment>
@@ -601,6 +623,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
     <test-case name="fn-transform-21">
         <description>Transform using static base URI default from option stylesheet-location</description>
         <created by="Debbie Lockett" on="2015-03-11"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <environment>
             <source role="$staticbaseuri" file="transform/staticbaseuri.xsl"  uri="http://www.w3.org/fots/fn/transform/staticbaseuri.xsl"/>
         </environment>
@@ -614,6 +637,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
         <description>Transform using xsl:include with relative href, using options stylesheet-text and stylesheet-base-uri</description>
         <created by="Debbie Lockett" on="2015-03-11"/>
         <dependency type="spec" value="XQ31+"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <test><![CDATA[
             declare variable $xsl as xs:string :="<xsl:stylesheet version='2.0' xmlns:xsl='http://www.w3.org/1999/XSL/Transform'>
                     <xsl:include href='transform/staticbaseuri.xsl'/>
@@ -628,6 +652,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
     <test-case name="fn-transform-23">
         <description>Transform using xsl:include with relative href, using options stylesheet-node and stylesheet-base-uri</description>
         <created by="Debbie Lockett" on="2015-03-11"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <environment ref="works-mod-local"/>
         <test>fn:transform(map {"stylesheet-node" : $include, "source-node" : $works, "stylesheet-base-uri": string(base-uri($include))})?output</test>
         <result>
@@ -638,6 +663,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
     <test-case name="fn-transform-24">
         <description>Transform using xsl:include with relative href, with static base URI default from option stylesheet-node</description>
         <created by="Debbie Lockett" on="2015-03-11"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <environment ref="works-mod-local"/>
         <test>fn:transform(map {"stylesheet-node" : $include, "source-node" : $works})?output</test>
         <result>
@@ -648,6 +674,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
     <test-case name="fn-transform-25">
         <description>Transform using stylesheet-location (with a relative URI)</description>
         <created by="Debbie Lockett" on="2015-03-11"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <environment ref="works-mod-local"/>
         <test>fn:transform(map {"stylesheet-location" : "transform/render.xsl", "source-node" : $works})?output</test>
         <result>
@@ -662,6 +689,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
         <created by="Debbie Lockett" on="2015-03-11"/>
         <modified by="Michael Kay" on="2015-12-14" change="result now indicates whether caching took place"/>
         <dependency type="spec" value="XQ31+"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <test><![CDATA[
             declare variable $xsl as xs:string :="<xsl:stylesheet version='3.0' xmlns:xsl='http://www.w3.org/1999/XSL/Transform'>
                 <xsl:variable name='dateTime' static='yes' select='current-dateTime()'/>
@@ -687,6 +715,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
             (static variable is re-evaluated at run-time)  -->
         <created by="Debbie Lockett" on="2015-03-11"/>
         <dependency type="spec" value="XQ31+"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <test><![CDATA[
             declare variable $xsl as xs:string :="<xsl:stylesheet version='3.0' xmlns:xsl='http://www.w3.org/1999/XSL/Transform'>
                 <xsl:variable name='dateTime' static='yes' select='current-dateTime()'/>
@@ -706,6 +735,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
     <test-case name="fn-transform-28">
         <description>Transform using serialized delivery-format option, and serialization-params (no indent)</description>
         <created by="Debbie Lockett" on="2015-03-13"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <environment ref="works-mod-uri2"/>
         <test>fn:transform(map {"stylesheet-location" : $render, "source-node" : fn:doc($uri), "delivery-format" : "serialized",
             "serialization-params" : map { QName("","indent"): "no" } })</test>
@@ -722,6 +752,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
     <test-case name="fn-transform-29">
         <description>Transform using serialized delivery-format option, and serialization-params (yes indent)</description>
         <created by="Debbie Lockett" on="2015-03-13"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <environment ref="works-mod-uri2"/>
         <test>fn:transform(map {"stylesheet-location" : $render, "source-node" : fn:doc($uri), "delivery-format" : "serialized",
             "serialization-params" : map { QName("","indent"): "yes" } })</test>
@@ -738,6 +769,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
     <test-case name="fn-transform-30">
         <description>Transforms using serialized delivery-format option, and serialization-params (yes and no indent)</description>
         <created by="Debbie Lockett" on="2015-03-13"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <environment ref="works-mod-uri2"/>
         <test>let $out1 := fn:transform(map {"stylesheet-location" : $render, "source-node" : fn:doc($uri), "delivery-format" : "serialized",
             "serialization-params" : map { QName("","indent"): "yes" } })?output,
@@ -754,6 +786,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
         <description>Transform using option serialization-params, to output result as html (with delivery-format serialized)</description>
         <created by="Debbie Lockett" on="2015-03-13"/>
         <dependency type="spec" value="XQ31+"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <test>
             <![CDATA[
                     let $in := xs:string("<books>
@@ -794,6 +827,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         <description>Transform using option serialization-params, to output result as xml (with delivery-format serialized)</description>
         <created by="Debbie Lockett" on="2015-03-13"/>
         <dependency type="spec" value="XQ31+"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <test>
             <![CDATA[
                     let $in := xs:string("<books>
@@ -835,6 +869,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         <created by="Debbie Lockett" on="2015-03-25"/>
         <modified by="Debbie Lockett" on="2015-04-13" change="added base-output-uri option"/>
         <dependency type="spec" value="XQ31+"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <test><![CDATA[
                     declare variable $xsl as xs:string :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' version='3.0'>
                                                 <xsl:template match='/'> <xsl:for-each select='//section'>
@@ -863,6 +898,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
     <test-case name="fn-transform-34">
         <description>Transform using option base-output-uri, and saved delivery-format</description>
         <created by="Debbie Lockett" on="2015-03-25"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <environment ref="works-mod-local"/>
         <test>fn:transform(map {"stylesheet-node" : $render, "source-node" : $works,
             "base-output-uri" : resolve-uri("transform/sandbox/fn-transform-34.xml", static-base-uri()),
@@ -879,6 +915,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
     <test-case name="fn-transform-35">
         <description>Transform using option base-output-uri, and saved delivery-format</description>
         <created by="Debbie Lockett" on="2015-03-25"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <environment ref="works-mod-uri2"/>
         <test>fn:transform(map {"stylesheet-location" : $render, "source-node" : fn:doc($uri),
             "base-output-uri" : resolve-uri("transform/sandbox/fn-transform-35.xml", static-base-uri()),
@@ -907,6 +944,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
             indent)</description>
         <created by="Debbie Lockett" on="2015-03-25"/>
         <modified by="Debbie Lockett" on="2015-04-02" change="Assertions added to check use of serialization-param"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <environment ref="works-mod-uri2"/>
         <test>fn:transform(map {"stylesheet-location" : $render, "source-node" : fn:doc($uri),
             "base-output-uri" : resolve-uri("transform/sandbox/fn-transform-36.xml", static-base-uri()),
@@ -931,6 +969,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         <description>Transform using saved delivery-format option, and serialization-params (no
             indent)</description>
         <created by="Debbie Lockett" on="2015-04-02"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <environment ref="works-mod-uri2"/>
         <test>fn:transform(map {"stylesheet-location" : $render, "source-node" : fn:doc($uri),
             "base-output-uri" : resolve-uri("transform/sandbox/fn-transform-36a.xml", static-base-uri()),
@@ -956,6 +995,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
             base-output-uri options</description>
         <created by="Debbie Lockett" on="2015-03-25"/>
         <dependency type="spec" value="XQ31+"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <test><![CDATA[
                     declare variable $xsl as xs:string :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' version='3.0'>
                                                 <xsl:template match='/'> <xsl:for-each select='//section'>
@@ -994,6 +1034,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         <description>Transform producing multiple result documents, using saved delivery-format and
             base-output-uri options</description>
         <created by="Debbie Lockett" on="2015-03-25"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <environment ref="multiple-result-docs"/>
         <test>fn:transform(map {"stylesheet-node":$multipledocs, "source-node":$sections,
             "base-output-uri" : resolve-uri("transform/sandbox/fn-transform-38/output.html",
@@ -1013,6 +1054,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         <description>Transform producing multiple result documents, using saved delivery-format
             option, but no base-output-uri (xsl:result-document/@href is absolute)</description>
         <created by="Debbie Lockett" on="2015-03-25"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <environment name="multiple-result-docs2">
             <source role="$multipledocs2" file="transform/multipledocs2.xsl"/>
             <source role="$sections" file="transform/sections.xml"/>
@@ -1034,6 +1076,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         <description>Transform producing one result document (as secondary result doc), using saved
             delivery-format and base-output-uri options</description>
         <created by="Debbie Lockett" on="2015-03-25"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <environment name="onedoc">
             <source role="$onedoc" file="transform/onedoc.xsl"/>
             <source role="$sections" file="transform/sections.xml"/>
@@ -1054,6 +1097,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
     <test-case name="fn-transform-41">
         <description>Transform using options stylesheet-node and stylesheet-base-uri</description>
         <created by="Debbie Lockett" on="2015-04-01"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <environment>
             <source role="$staticbaseuri" file="transform/staticbaseuri.xsl"  uri="http://www.w3.org/fots/fn/transform/staticbaseuri.xsl"/>
         </environment>
@@ -1066,6 +1110,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
     <test-case name="fn-transform-42">
         <description>Transform using static base URI default from option stylesheet-node</description>
         <created by="Debbie Lockett" on="2015-04-01"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <environment>
             <source role="$staticbaseuri" file="transform/staticbaseuri.xsl"  uri="http://www.w3.org/fots/fn/transform/staticbaseuri.xsl"/>
         </environment>
@@ -1079,6 +1124,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         <description>Transform producing multiple result documents, using serialized delivery-format and
             base-output-uri options</description>
         <created by="Debbie Lockett" on="2015-04-13"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <environment ref="multiple-result-docs"/>
         <test>fn:transform(map {"stylesheet-node":$multipledocs, "source-node":$sections,
             "base-output-uri" : resolve-uri("transform/sandbox/fn-transform-43/output.html",
@@ -1099,6 +1145,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
             base-output-uri options</description>
         <created by="Debbie Lockett" on="2015-04-13"/>
         <dependency type="spec" value="XQ31+"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <test><![CDATA[
                     declare variable $xsl as xs:string :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' version='3.0'>
                                                 <xsl:template match='/'> <xsl:for-each select='//section'>
@@ -1133,6 +1180,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
     <test-case name="fn-transform-45">
         <description>Transform using option base-output-uri, and serialized delivery-format</description>
         <created by="Debbie Lockett" on="2015-04-13"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <environment ref="works-mod-uri2"/>
         <test>fn:transform(map {"stylesheet-location" : $render, "source-node" : fn:doc($uri),
             "base-output-uri" : resolve-uri("transform/sandbox/fn-transform-45.xml", static-base-uri()),
@@ -1156,6 +1204,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         <description>Transform producing multiple result documents, using serialized delivery-format
             option, but no base-output-uri (xsl:result-document/@href is absolute)</description>
         <created by="Debbie Lockett" on="2015-04-13"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <environment name="multiple-result-docs2">
             <source role="$multipledocs2" file="transform/multipledocs2.xsl"/>
             <source role="$sections" file="transform/sections.xml"/>
@@ -1177,6 +1226,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         <description>Transform producing multiple result documents, using document delivery-format
             option, but no base-output-uri (xsl:result-document/@href is absolute)</description>
         <created by="Debbie Lockett" on="2015-04-13"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <environment name="multiple-result-docs2">
             <source role="$multipledocs2" file="transform/multipledocs2.xsl"/>
             <source role="$sections" file="transform/sections.xml"/>
@@ -1199,6 +1249,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         <created by="Debbie Lockett" on="2015-04-15"/>
         <modified by="Michael Kay" on="2015-11-26" change="avoid HOF dependency in assertions"/>
         <dependency type="spec" value="XQ31+"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <test><![CDATA[
             declare variable $xsl as xs:string :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' version='2.0'>
                 <xsl:template name='main'>
@@ -1227,7 +1278,8 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         <description>Transform using XSLT 3.0 option static-params</description>
         <created by="Debbie Lockett" on="2015-04-15"/>
         <dependency type="spec" value="XQ31+"/>
-        <dependency type="feature" value="fn-transform-XSLT30"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
+        <dependency type="feature" value="fn-transform-XSLT30" satisfied="true"/>
         <test><![CDATA[
             declare variable $xsl as xs:string :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' version='3.0'>
                 <xsl:param name='static-param' static='yes' select='&quot;success&quot;'/>
@@ -1253,7 +1305,8 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         <description>Transform using XSLT 3.0 option static-params</description>
         <created by="Debbie Lockett" on="2015-04-15"/>
         <dependency type="spec" value="XQ31+"/>
-        <dependency type="feature" value="fn-transform-XSLT30"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
+        <dependency type="feature" value="fn-transform-XSLT30" satisfied="true"/>
         <test><![CDATA[
             declare variable $xsl as xs:string :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' version='3.0'>
                 <xsl:param name='static-param' static='yes' select='&quot;success&quot;'/>
@@ -1280,7 +1333,8 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         <description>Transform using XSLT 3.0 option static-params</description>
         <created by="Debbie Lockett" on="2015-04-15"/>
         <dependency type="spec" value="XQ31+"/>
-        <dependency type="feature" value="fn-transform-XSLT30"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
+        <dependency type="feature" value="fn-transform-XSLT30" satisfied="true"/>
         <test><![CDATA[
             declare variable $xsl as xs:string :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' version='3.0'>
                 <xsl:param name='static-param' static='yes' select='&quot;success&quot;'/>
@@ -1307,7 +1361,8 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         <description>Transform using XSLT 3.0 option template-params</description>
         <created by="Debbie Lockett" on="2015-04-15"/>
         <dependency type="spec" value="XQ31+"/>
-        <dependency type="feature" value="fn-transform-XSLT30"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
+        <dependency type="feature" value="fn-transform-XSLT30" satisfied="true"/>
         <test><![CDATA[
             declare variable $xsl as xs:string :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' version='3.0'>
                 <xsl:template name='main'>
@@ -1337,7 +1392,8 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         <description>Transform using XSLT 3.0 option template-params</description>
         <created by="Debbie Lockett" on="2015-04-15"/>
         <dependency type="spec" value="XQ31+"/>
-        <dependency type="feature" value="fn-transform-XSLT30"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
+        <dependency type="feature" value="fn-transform-XSLT30" satisfied="true"/>
         <test><![CDATA[
             declare variable $xsl as xs:string :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' version='3.0'>
                 <xsl:template name='main'>
@@ -1371,7 +1427,8 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         <description>Transform using XSLT 3.0 option template-params</description>
         <created by="Debbie Lockett" on="2015-04-15"/>
         <dependency type="spec" value="XQ31+"/>
-        <dependency type="feature" value="fn-transform-XSLT30"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
+        <dependency type="feature" value="fn-transform-XSLT30" satisfied="true"/>
         <test><![CDATA[
             declare variable $xsl as xs:string :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' version='3.0'>
                 <xsl:template name='main'>
@@ -1405,7 +1462,8 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         <description>Transform using XSLT 3.0 option template-params (note $param1 is tunnel param so not set)</description>
         <created by="Debbie Lockett" on="2015-04-15"/>
         <dependency type="spec" value="XQ31+"/>
-        <dependency type="feature" value="fn-transform-XSLT30"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
+        <dependency type="feature" value="fn-transform-XSLT30" satisfied="true"/>
         <test><![CDATA[
             declare variable $xsl as xs:string :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' version='3.0'>
                 <xsl:template name='main'>
@@ -1439,7 +1497,8 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         <description>Transform using XSLT 3.0 option tunnel-params</description>
         <created by="Debbie Lockett" on="2015-04-15"/>
         <dependency type="spec" value="XQ31+"/>
-        <dependency type="feature" value="fn-transform-XSLT30"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
+        <dependency type="feature" value="fn-transform-XSLT30" satisfied="true"/>
         <test><![CDATA[
             declare variable $xsl as xs:string :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' version='3.0'>
                 <xsl:template name='main'>
@@ -1473,7 +1532,8 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         <description>Transform using XSLT 3.0 options template-params and tunnel-params</description>
         <created by="Debbie Lockett" on="2015-04-15"/>
         <dependency type="spec" value="XQ31+"/>
-        <dependency type="feature" value="fn-transform-XSLT30"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
+        <dependency type="feature" value="fn-transform-XSLT30" satisfied="true"/>
         <test><![CDATA[
             declare variable $xsl as xs:string :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' version='3.0'>
                 <xsl:template name='main'>
@@ -1510,7 +1570,8 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         <description>Transform using XSLT 3.0 options initial-function and function-params</description>
         <created by="Debbie Lockett" on="2015-04-15"/>
         <dependency type="spec" value="XQ31+"/>
-        <dependency type="feature" value="fn-transform-XSLT30"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
+        <dependency type="feature" value="fn-transform-XSLT30" satisfied="true"/>
         <test><![CDATA[
             declare variable $xsl as xs:string :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' 
             xmlns:my='http://www.w3.org/fots/fn/transform/myfunctions' version='3.0'>
@@ -1548,7 +1609,8 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         for version 2.0 stylesheet</description>
         <created by="Debbie Lockett" on="2015-04-15"/>
         <dependency type="spec" value="XQ31+"/>
-        <dependency type="feature" value="fn-transform-XSLT30"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
+        <dependency type="feature" value="fn-transform-XSLT30" satisfied="true"/>
         <test><![CDATA[
             declare variable $xsl as xs:string :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' 
             xmlns:my='http://www.w3.org/fots/fn/transform/myfunctions' version='2.0'>
@@ -1585,7 +1647,8 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         <description>Transform with XSLT 3.0 delivery-format raw</description>
         <created by="Debbie Lockett" on="2015-04-15"/>
         <dependency type="spec" value="XQ31+"/>
-        <dependency type="feature" value="fn-transform-XSLT30"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
+        <dependency type="feature" value="fn-transform-XSLT30" satisfied="true"/>
         <test><![CDATA[
             declare variable $xsl as xs:string :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform'
             xmlns:xs='http://www.w3.org/2001/XMLSchema'
@@ -1611,7 +1674,8 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         <description>Transform using option initial-template with XSLT 3.0 delivery-format raw</description>
         <created by="Debbie Lockett" on="2015-04-15"/>
         <dependency type="spec" value="XQ31+"/>
-        <dependency type="feature" value="fn-transform-XSLT30"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
+        <dependency type="feature" value="fn-transform-XSLT30" satisfied="true"/>
         <test><![CDATA[
             declare variable $xsl as xs:string :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform'
             xmlns:xs='http://www.w3.org/2001/XMLSchema'
@@ -1638,7 +1702,8 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         <description>Transform using XSLT 3.0 options initial-function, function-params, and delivery-format raw</description>
         <created by="Debbie Lockett" on="2015-04-15"/>
         <dependency type="spec" value="XQ31+"/>
-        <dependency type="feature" value="fn-transform-XSLT30"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
+        <dependency type="feature" value="fn-transform-XSLT30" satisfied="true"/>
         <test><![CDATA[
             declare variable $xsl as xs:string :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' 
             xmlns:xs='http://www.w3.org/2001/XMLSchema'
@@ -1672,6 +1737,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
       <created by="O'Neil Delpratt" on="2014-12-09"/>
       <modified by="Debbie Lockett" on="2015-03-05" change="Rename stylesheet-uri as stylesheet-location; change expected error"></modified>
       <environment ref="works-mod-uri2"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
       <test>let $result := fn:transform(map {"stylesheet-location" : $render})return $result?output</test>
       <result>
          <error code="FOXT0002"/>
@@ -1682,6 +1748,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
          <description>Error test case to detect supplied parameters that are mutually exclusive (stylesheet-text and stylesheet-location)</description>
          <created by="O'Neil Delpratt" on="2014-12-09"/>
          <dependency type="spec" value="XQ31+"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
          <environment ref="works-mod-uri2"/>
       <test><![CDATA[
                     declare variable $xsl as xs:string :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' version='3.0'
@@ -1706,6 +1773,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
       <description>Error test case to detect supplied parameters that are mutually exclusive (stylesheet-text and stylesheet-node)</description>
       <created by="O'Neil Delpratt" on="2014-12-09"/>
          <dependency type="spec" value="XQ31+"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
          <environment ref="works-mod-uri2"/>
       <test><![CDATA[
                     declare variable $xsl as xs:string :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' version='3.0'
@@ -1726,6 +1794,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         <description>Error - the type of the value supplied for the option 'xslt-version' is incorrect</description>
         <created by="Debbie Lockett" on="2015-03-05"/>
         <dependency type="spec" value="XQ31+"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <test><![CDATA[
             declare variable $xsl as xs:string :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' version='2.0'>
                 <xsl:template match='/'>
@@ -1745,6 +1814,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         <description>Error - the type of the value supplied for the option 'stylesheet-params' is incorrect</description>
         <created by="Debbie Lockett" on="2015-03-05"/>
         <dependency type="spec" value="XQ31+"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <test><![CDATA[
             declare variable $xsl as xs:string :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' version='2.0'>
                 <xsl:template match='/'>
@@ -1764,6 +1834,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         <description>Error test case to detect supplied parameters that are mutually exclusive (initial-mode and initial-template)</description>
         <created by="Debbie Lockett" on="2015-03-03"/>
         <dependency type="spec" value="XQ31+"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <test><![CDATA[
             declare variable $xsl as xs:string :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' version='2.0'>
             <xsl:template name='start'>
@@ -1786,6 +1857,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
     <test-case name="fn-transform-err-7">
         <description>Error - transform must have some options (at least one stylesheet and one source option)</description>
         <created by="Debbie Lockett" on="2015-03-03"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <test>transform(map{})</test>
         <result>
             <error code="FOXT0002"/>
@@ -1795,6 +1867,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
     <test-case name="fn-transform-err-8"> 
         <description>Error - value supplied for option base-output-uri should be absolute</description>
         <created by="Debbie Lockett" on="2015-03-09"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <environment name="onedoc">
             <source role="$onedoc" file="transform/onedoc.xsl"/>            
             <source role="$sections" file="transform/sections.xml"/>
@@ -1810,6 +1883,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         <description>Error - transform using xsl:include with relative href, using option stylesheet-text, but without stylesheet-base-uri</description>
         <created by="Debbie Lockett" on="2015-03-11"/>
         <dependency type="spec" value="XQ31+"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <test><![CDATA[
             declare variable $xsl as xs:string :="<xsl:stylesheet version='2.0' xmlns:xsl='http://www.w3.org/1999/XSL/Transform'>
                     <xsl:include href='transform/staticbaseuri.xsl'/>
@@ -1825,6 +1899,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         <description>Error - value supplied for stylesheet-base-uri should be absolute</description>
         <created by="Debbie Lockett" on="2015-03-11"/>
         <dependency type="spec" value="XQ31+"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <test><![CDATA[
             declare variable $xsl as xs:string :="<xsl:stylesheet version='2.0' xmlns:xsl='http://www.w3.org/1999/XSL/Transform'>
                     <xsl:include href='transform/staticbaseuri.xsl'/>
@@ -1841,6 +1916,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
     <test-case name="fn-transform-err-10">
         <description>Error - location of output documents (delivery-format saved) undefined; no base-output-uri and xsl:result-document/@href is relative</description>
         <created by="Debbie Lockett" on="2015-04-13"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <environment ref="multiple-result-docs"/>
         <test>fn:transform(map {"stylesheet-node":$multipledocs, "source-node":$sections,
             "delivery-format":"saved"}) => map:keys()</test>
@@ -1852,6 +1928,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
     <test-case name="fn-transform-err-11">
         <description>Error - location of output documents (delivery-format serialized) undefined; no base-output-uri and xsl:result-document/@href is relative</description>
         <created by="Debbie Lockett" on="2015-04-13"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <environment ref="multiple-result-docs"/>
         <test>fn:transform(map {"stylesheet-node":$multipledocs, "source-node":$sections,
             "delivery-format":"serialized"}) => map:keys()</test>
@@ -1863,6 +1940,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
     <test-case name="fn-transform-err-12">
         <description>Error - location of output documents (delivery-format document) undefined; no base-output-uri and xsl:result-document/@href is relative</description>
         <created by="Debbie Lockett" on="2015-04-13"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <environment ref="multiple-result-docs"/>
         <test>fn:transform(map {"stylesheet-node":$multipledocs, "source-node":$sections,
             "delivery-format":"document"}) => map:keys()</test>
@@ -1874,6 +1952,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
     <test-case name="fn-transform-err-13">
         <description>Error - value supplied for the option 'delivery-format' is not one of those allowed</description>
         <created by="Debbie Lockett" on="2015-04-13"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <environment name="multiple-result-docs2">
             <source role="$multipledocs2" file="transform/multipledocs2.xsl"/>
             <source role="$sections" file="transform/sections.xml"/>
@@ -1888,6 +1967,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
     <test-case name="fn-transform-err-14"> 
         <description>Error - value 'raw' supplied for the option 'delivery-format' is not allowed if processor is not XSLT 3.0</description>
         <created by="Debbie Lockett" on="2015-04-13"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <dependency type="feature" value="fn-transform-XSLT30" satisfied="false"/>
         <environment name="multiple-result-docs2">
             <source role="$multipledocs2" file="transform/multipledocs2.xsl"/>
@@ -1905,7 +1985,8 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
             the map supplied in the XSLT 3.0 transform option template-params</description>
         <created by="Debbie Lockett" on="2015-04-15"/>
         <dependency type="spec" value="XQ31+"/>
-        <dependency type="feature" value="fn-transform-XSLT30"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
+        <dependency type="feature" value="fn-transform-XSLT30" satisfied="true"/>
         <test><![CDATA[
             declare variable $xsl as xs:string :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' version='3.0'>
                 <xsl:template name='main'>
@@ -1934,7 +2015,8 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         <description>Error - transform using XSLT 3.0 option initial-function, but without option function-params</description>
         <created by="Debbie Lockett" on="2015-04-15"/>
         <dependency type="spec" value="XQ31+"/>
-        <dependency type="feature" value="fn-transform-XSLT30"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
+        <dependency type="feature" value="fn-transform-XSLT30" satisfied="true"/>
         <test><![CDATA[
             declare variable $xsl as xs:string :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' 
             xmlns:my='http://www.w3.org/fots/fn/transform/myfunctions' version='3.0'>
@@ -1961,5 +2043,37 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         </result>
     </test-case> 
         
+    <test-case name="fn-transform-901">
+      <description>Loads a stylesheet from the location render.xsl, applies it to a document loaded from works-mod.xml, and uses an XPath expression to examine the result</description>
+      <created by="Tim Mills" on="2016-09-07"/>
+      <dependency type="feature" value="fn-transform-XSLT" satisfied="false"/>
+      <environment ref="works-mod-uri2"/>
+      <test>let $result := fn:transform(map {"stylesheet-location" : $render, "source-node" : fn:doc($uri)})return $result?output</test>
+      <result>
+            <error code="FOXT0004" />
+      </result>
+   </test-case>
+
+    <test-case name="fn-transform-902">
+      <description>Transform using XSLT 3.0 option static-params</description>
+      <created by="Tim Mills" on="2016-09-07"/>
+      <dependency type="spec" value="XQ31+"/>
+      <dependency type="feature" value="fn-transform-XSLT" satisfied="false"/>
+      <dependency type="feature" value="fn-transform-XSLT30" satisfied="false"/>
+      <test><![CDATA[
+            declare variable $xsl as xs:string :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' version='3.0'>
+                <xsl:param name='static-param' static='yes' select='&quot;success&quot;'/>
+                <xsl:template match='/'>
+                    <out><xsl:value-of select='$static-param'/></out>
+                </xsl:template>
+            </xsl:stylesheet>";
+            transform(map{"stylesheet-node":parse-xml($xsl), "source-node":parse-xml("<doc>this</doc>"), 
+            "static-params":map{QName('','static-param'):"Hello World"}
+            })
+        ]]></test>
+      <result>
+            <error code="FOXT0004" />
+      </result>        
+    </test-case>
 
 </test-set>

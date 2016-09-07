@@ -5,7 +5,7 @@
     idref="func-load-xquery-module"/>
 
   <dependency type="spec" value="XP31+ XQ31+"/>
-  <dependency type="feature" value="fn-load-xquery-module"/>  
+  <dependency type="feature" value="fn-load-xquery-module" satisfied="true"/>  
   <dependency type="feature" value="higherOrderFunctions"/>  
 
   <environment name="hats" >
@@ -1151,6 +1151,173 @@
     </test>
     <result>
       <assert-deep-eq>("var1", "var2", "func1", "func2")</assert-deep-eq>
+    </result>
+  </test-case>
+  
+  <test-case name="fn-load-xquery-module-901">
+    <description>Checks for an error when calling fn:load-xquery-module without a module-uri.</description>
+    <created by="Tim Mills" on="2016-09-07"/>
+    <dependency type="feature" value="fn-load-xquery-module" satisfied="false"/>  
+    <test>fn:load-xquery-module("")</test>
+    <result>
+      <any-of>
+	<error code="FOQM0006"/>
+	<error code="FOQM0001"/>
+      </any-of>
+    </result>
+  </test-case>
+
+  <test-case name="fn-load-xquery-module-902">
+    <description>Checks for an error when calling fn:load-xquery-module without a module-uri.</description>
+    <created by="Tim Mills" on="2016-09-07"/>
+    <dependency type="feature" value="fn-load-xquery-module" satisfied="false"/>  
+    <test>fn:load-xquery-module("", map{})</test>
+    <result>
+      <any-of>
+	<error code="FOQM0006"/>
+	<error code="FOQM0001"/>
+      </any-of>
+    </result>
+  </test-case>
+
+  <test-case name="fn-load-xquery-module-903">
+    <description>Checks for an error when calling fn:load-xquery-module and the module-uri cannot be resolved.</description>
+    <created by="Tim Mills" on="2016-09-07"/>
+    <dependency type="feature" value="fn-load-xquery-module" satisfied="false"/>  
+    <test>fn:load-xquery-module("http://nonexistent/module")</test>
+    <result>
+	<error code="FOQM0006"/>
+    </result>
+  </test-case>
+
+  <test-case name="fn-load-xquery-module-904">
+    <description>Checks for an error when calling fn:load-xquery-module and the module-uri cannot be resolved.</description>
+    <created by="Tim Mills" on="2016-09-07"/>
+    <dependency type="feature" value="fn-load-xquery-module" satisfied="false"/>  
+    <test>fn:load-xquery-module("http://nonexistent/module", map{})</test>
+    <result>
+	<error code="FOQM0006"/>
+    </result>
+  </test-case>
+
+  <test-case name="fn-load-xquery-module-905">
+    <description>Checks for an error when calling fn:load-xquery-module against an invalid module.</description>
+    <created by="Tim Mills" on="2016-09-07"/>
+    <dependency type="feature" value="fn-load-xquery-module" satisfied="false"/>  
+    <module uri="http://www.w3.org/fots/fn/load-xquery-module/invalid/module" file="load-xquery-module/invalid-module.xqm"/>
+    <test>fn:load-xquery-module("http://www.w3.org/fots/fn/load-xquery-module/invalid/module")</test>
+    <result>
+	<error code="FOQM0006"/>
+    </result>
+  </test-case>
+
+  <test-case name="fn-load-xquery-module-906">
+    <description>Checks for an error when calling fn:load-xquery-module against an invalid module.</description>
+    <created by="Tim Mills" on="2016-09-07"/>
+    <dependency type="feature" value="fn-load-xquery-module" satisfied="false"/>  
+    <module uri="http://www.w3.org/fots/fn/load-xquery-module/invalid/module" file="load-xquery-module/invalid-module.xqm"/>
+    <test>fn:load-xquery-module("http://www.w3.org/fots/fn/load-xquery-module/invalid/module", map{})</test>
+    <result>
+	<error code="FOQM0006"/>
+    </result>
+  </test-case>
+
+  <test-case name="fn-load-xquery-module-907">
+    <description>Checks for an error when calling fn:load-xquery-module and not providing a value for an external var in the module.</description>
+    <created by="Tim Mills" on="2016-09-07"/>
+    <dependency type="feature" value="fn-load-xquery-module" satisfied="false"/>  
+    <module uri="http://www.w3.org/fots/fn/load-xquery-module/external-var/module" file="load-xquery-module/external-var-module.xqm"/>
+    <test>fn:load-xquery-module("http://www.w3.org/fots/fn/load-xquery-module/external-var/module")</test>
+    <result>
+	<error code="FOQM0006"/>
+    </result>
+  </test-case>
+
+  <test-case name="fn-load-xquery-module-908">
+    <description>Checks for an error when calling fn:load-xquery-module and not providing a value for an external var in the module.</description>
+    <created by="Tim Mills" on="2016-09-07"/>
+    <dependency type="feature" value="fn-load-xquery-module" satisfied="false"/>  
+    <module uri="http://www.w3.org/fots/fn/load-xquery-module/external-var/module" file="load-xquery-module/external-var-module.xqm"/>
+    <test>fn:load-xquery-module("http://www.w3.org/fots/fn/load-xquery-module/external-var/module", map{})</test>
+    <result>
+	<error code="FOQM0006"/>
+    </result>
+  </test-case>
+  
+  <test-case name="fn-load-xquery-module-909">
+    <description>Checks for an error when calling fn:load-xquery-module and not providing a context item for the module.</description>
+    <created by="Tim Mills" on="2016-09-07"/>
+    <dependency type="feature" value="fn-load-xquery-module" satisfied="false"/>  
+    <module uri="http://www.w3.org/fots/fn/load-xquery-module/context-item/module" file="load-xquery-module/context-item-module.xqm"/>
+    <test>fn:load-xquery-module("http://www.w3.org/fots/fn/load-xquery-module/context-item/module")</test>
+    <result>
+	<error code="FOQM0006"/>
+    </result>
+  </test-case>
+
+  <test-case name="fn-load-xquery-module-910">
+    <description>Checks for an error when calling fn:load-xquery-module and not providing a context item for the module.</description>
+    <created by="Tim Mills" on="2016-09-07"/>
+    <dependency type="feature" value="fn-load-xquery-module" satisfied="false"/>  
+    <module uri="http://www.w3.org/fots/fn/load-xquery-module/context-item/module" file="load-xquery-module/context-item-module.xqm"/>
+    <test>fn:load-xquery-module("http://www.w3.org/fots/fn/load-xquery-module/context-item/module", map{})</test>
+    <result>
+	<error code="FOQM0006"/>
+    </result>
+  </test-case>
+
+  <test-case name="fn-load-xquery-module-911">
+    <description>Checks for an error when calling fn:load-xquery-module and providing the wrong type of value for an external var in the module.</description>
+    <created by="Tim Mills" on="2016-09-07"/>
+    <dependency type="feature" value="fn-load-xquery-module" satisfied="false"/>  
+    <module uri="http://www.w3.org/fots/fn/load-xquery-module/external-var/module" file="load-xquery-module/external-var-module.xqm"/>
+    <test>fn:load-xquery-module("http://www.w3.org/fots/fn/load-xquery-module/external-var/module", map {"variables" : map { QName("http://www.w3.org/fots/fn/load-xquery-module/external-var/module", "var1") : 1234 }})</test>
+    <result>
+	<error code="FOQM0006"/>
+    </result>
+  </test-case>
+
+  <test-case name="fn-load-xquery-module-912">
+    <description>Checks that a dynamic error caused when fn:load-xquery-module processes a module is returned as is.</description>
+    <created by="Tim Mills" on="2016-09-07"/>
+    <dependency type="feature" value="fn-load-xquery-module" satisfied="false"/>  
+    <module uri="http://www.w3.org/fots/fn/load-xquery-module/dynamic-error/module" file="load-xquery-module/dynamic-error-module.xqm"/>
+    <test>fn:load-xquery-module("http://www.w3.org/fots/fn/load-xquery-module/dynamic-error/module")</test>
+    <result>
+	<error code="FOQM0006"/>
+    </result>
+  </test-case>
+  
+  <test-case name="fn-load-xquery-module-913">
+    <description>Checks that a dynamic error caused when fn:load-xquery-module processes a module is returned as is.</description>
+    <created by="Tim Mills" on="2016-09-07"/>
+    <dependency type="feature" value="fn-load-xquery-module" satisfied="false"/>  
+    <module uri="http://www.w3.org/fots/fn/load-xquery-module/dynamic-error/module" file="load-xquery-module/dynamic-error-module.xqm"/>
+    <test>fn:load-xquery-module("http://www.w3.org/fots/fn/load-xquery-module/dynamic-error/module", map{})</test>
+    <result>
+	<error code="FOQM0006"/>
+    </result>
+  </test-case>
+  
+  <test-case name="fn-load-xquery-module-914">
+    <description>Loads a module.</description>
+    <created by="Tim Mills" on="2016-09-07"/>
+    <dependency type="feature" value="fn-load-xquery-module" satisfied="false"/>  
+    <module uri="http://www.w3.org/fots/fn/load-xquery-module/valid/module" file="load-xquery-module/valid-module.xqm"/>
+    <test>
+      let $module-ns := "http://www.w3.org/fots/fn/load-xquery-module/valid/module",
+       $module := fn:load-xquery-module($module-ns)
+      return
+        let $vars := $module("variables"),
+         $fns := $module("functions")
+        return
+          let $var-values := ($vars(QName($module-ns, "var1")), $vars(QName($module-ns, "var2"))),
+           $fns-values := ($fns(QName($module-ns, "func1"))(0)(), $fns(QName($module-ns, "func2"))(0)())
+          return
+            ($var-values, $fns-values)
+    </test>
+    <result>
+	<error code="FOQM0006"/>
     </result>
   </test-case>
   
