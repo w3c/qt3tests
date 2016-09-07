@@ -291,6 +291,29 @@ return (
             <assert-string-value>1000000</assert-string-value>
         </result>
     </test-case>
+    
+    <test-case name="fold-left-021">
+        <description>fold-left used to apply a finite-state machine, after a problem raised by Roger Costello on xsl-list.</description>
+        <created by="Michael Kay" on="2016-07-20"/>
+        <environment ref="empty"/>
+        <dependency type="spec" value="XQ31+"/>
+        <test><![CDATA[
+            declare variable $in := (<doc><A/><B/>{(1 to 10000)!<C/>}<B/><A/></doc>)/*;
+            declare variable $fsm := map{
+    0: function($x) {if ($x[self::B]) then 1 else 0},
+    1: function($x) {if ($x[self::B]) then 1 else 2},
+    2: function($x) {if ($x[self::B]) then 3 else 2},
+    3: function($x) {3}};
+    
+    fold-left($in, 0, function($state, $node){$fsm($state)($node)}) ne 3
+            ]]></test>
+        <result>
+            <assert-false/>
+        </result>
+    </test-case>
+    
+    
+    
       
    <test-case name="fold-left-101">
       <description>As fold-left-001: test equivalent function given in spec  </description>
