@@ -1462,4 +1462,28 @@
          <assert-eq>3</assert-eq>
       </result>
    </test-case>
+   
+   <test-case name="ElemContentArray-001" covers="array-general">
+      <description> Element constructor with array content </description>
+      <created by="Michael Kay" on="2016-09-06"/>      
+      <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[ 
+      	<e>{[1, 2, 3]}</e>
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<e>1 2 3</e>]]></assert-xml>
+      </result>
+   </test-case>
+   
+   <test-case name="ElemContentArray-002" covers="array-general">
+      <description> Element constructor with array content constructing elements</description>
+      <created by="Michael Kay" on="2016-09-06"/>      
+      <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[ 
+      	<e>{[<f>{[1,<x/>,3]}</f>, <g>{[4, <x/>, 5]}</g>]}</e>
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<e><f>1<x/>3</f><g>4<x/>5</g></e>]]></assert-xml>
+      </result>
+   </test-case>
 </test-set>

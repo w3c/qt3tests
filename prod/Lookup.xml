@@ -869,6 +869,198 @@
          <assert-true/>
       </result>
    </test-case>
+   
+   
+   <!-- tests migrated from the ArrayTest test-set, and renamed s/ArrayTest-0xx/Lookup-2xx/ 2016-09-06 -->
+   
+   <test-case name="Lookup-211" covers="array-general">
+      <description>key must be an integer value</description>
+      <created by="Carla Spruit" on="2014-10-28"/>
+      <modified by="Michael Kay" on="2015-11-26" change="add HOF dependency (dynamic function call)"/>
+      <modified by="Debbie Lockett" on="2016-04-18" change="remove HOF dependency (dynamic function call allowed for arrays/maps)"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>[1, 2, 3](1.1)</test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-212" covers="postfix-lookup">
+      <description>lookup outside of range</description>
+      <created by="Carla Spruit" on="2014-10-28"/>
+      <modified by="O'Neil Delpratt" on="2014-12-16" change="Bug fix relating #27180: Change error code" />
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>[1, 2, 3]?0</test>
+      <result>
+         <error code="FOAY0001"/>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-213" covers="postfix-lookup">
+      <description>lookup outside of range</description>
+      <created by="Carla Spruit" on="2014-10-28"/>
+      <modified by="O'Neil Delpratt" on="2014-12-16" change="Bug fix relating #27180: Change error code" />
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>[1, 2, 3]?4</test>
+      <result>
+         <error code="FOAY0001"/>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-214" covers="array-general">
+      <description>lookup key must be a positive integer</description>
+      <created by="Carla Spruit" on="2014-10-28"/>
+      <modified by="O'Neil Delpratt" on="2014-12-16" change="Bug fix relating #27180: Change error code" />
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>[1, 2, 3](-1)</test>
+      <result>
+         <error code="FOAY0001"/>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-215" covers="postfix-lookup">
+      <description>lookup by using a parenthized expression</description>
+      <created by="Carla Spruit" on="2014-10-28"/>
+      <modified by="Michael Kay" on="2014-11-21" change="assert deep-eq rather than eq"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>let $k := 2 to 3 return ['A', 'B', 'C']?($k)</test>
+      <result>
+         <assert-deep-eq>('B', 'C')</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-216" covers="postfix-lookup">
+      <description>lookup by using a parenthized expression</description>
+      <created by="Carla Spruit" on="2014-10-28"/>
+      <modified by="Michael Kay" on="2014-11-21" change="assert deep-eq rather than eq"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>['A', 'B', 'C']?(2 to 3)</test>
+      <result>
+         <assert-deep-eq>('B', 'C')</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-217" covers="postfix-lookup">
+      <description>lookup by using *</description>
+      <created by="Carla Spruit" on="2014-10-28"/>
+      <modified by="Michael Kay" on="2014-11-21" change="assert deep-eq rather than eq"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>['A', 'B', 'C']?*</test>
+      <result>
+         <assert-deep-eq>('A', 'B', 'C')</assert-deep-eq>
+      </result>
+   </test-case>   
+   
+   <test-case name="Lookup-218" covers="postfix-lookup fn-data">
+      <description>lookup with nested arrays</description>
+      <created by="Carla Spruit" on="2014-10-28"/>
+      <modified by="Michael Kay" on="2014-11-21" change="assert deep-eq rather than eq"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>fn:data([['A', 'B', 'C'], ['D', 'E'], []]?2)</test>
+      <result>
+         <assert-deep-eq>('D', 'E')</assert-deep-eq>
+      </result>
+   </test-case>   
+   
+   <test-case name="Lookup-219" covers="postfix-lookup fn-data">
+      <description>lookup with nested arrays</description>
+      <created by="Carla Spruit" on="2014-10-28"/>
+      <modified by="Michael Kay" on="2014-11-21" change="assert deep-eq rather than eq"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>fn:data([['A', 'B', 'C'], ['D', 'E'], []]?3)</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>   
+   
+   <test-case name="Lookup-220" covers="postfix-lookup">
+      <description>multilevel lookup in nested arrays</description>
+      <created by="Carla Spruit" on="2014-10-28"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>[['A', 'B', 'C'], ['D', 'E'], []]?1?2</test>
+      <result>
+         <assert-eq>'B'</assert-eq>
+      </result>
+   </test-case>   
+   
+   <test-case name="Lookup-221" covers="postfix-lookup fn-data">
+      <description>multilevel wildcard lookup in nested arrays</description>
+      <created by="Carla Spruit" on="2014-10-28"/>
+      <modified by="Michael Kay" on="2014-11-21" change="assert deep-eq rather than eq"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>fn:data([['A', 'B', 'C'], ['D', 'E'], []]?*?*)</test>
+      <result>
+         <assert-deep-eq>('A', 'B', 'C', 'D', 'E')</assert-deep-eq>
+      </result>
+   </test-case>  
+   
+   <test-case name="Lookup-222" covers="postfix-lookup">
+      <description>wildcard lookup in empty array</description>
+      <created by="Carla Spruit" on="2014-10-28"/>
+      <modified by="Michael Kay" on="2014-11-21" change="assert deep-eq rather than eq"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>[]?*</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-223" covers="postfix-lookup">
+      <description>wildcard lookup in empty array</description>
+      <created by="Carla Spruit" on="2014-10-28"/>
+      <modified by="Michael Kay" on="2014-11-21" change="assert deep-eq rather than eq"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>[]?*?*</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>   
+   
+   <test-case name="Lookup-224" covers="postfix-lookup">
+      <description>lookup in empty array</description>
+      <created by="Carla Spruit" on="2014-10-28"/>
+      <modified by="O'Neil Delpratt" on="2014-12-16" change="Bug fix relating #27180: Change error code" />
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>[]?2</test>
+      <result>
+         <error code="FOAY0001"/>
+      </result>
+   </test-case>  
+   
+   
+   <test-case name="Lookup-225" covers="postfix-lookup">
+      <description>lookup in sequence of arrays</description>
+      <created by="Carla Spruit" on="2014-10-28"/>
+      <modified by="Michael Kay" on="2014-11-21" change="assert deep-eq rather than eq"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>(['A', 'B', 'C'], ['D', 'E'])?2</test>
+      <result>
+         <assert-deep-eq>('B', 'E')</assert-deep-eq>
+      </result>
+   </test-case>      
+   
+   <test-case name="Lookup-226" covers="postfix-lookup">
+      <description>lookup in sequence of arrays with empty array</description>
+      <created by="Carla Spruit" on="2014-10-28"/>
+      <modified by="O'Neil Delpratt" on="2014-12-16" change="Bug fix relating #27180: Change error code" />
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>(['A', 'B', 'C'], ['D', 'E'], [])?2</test>
+      <result>
+         <error code="FOAY0001"/>
+      </result>
+   </test-case> 
+   
+   <test-case name="Lookup-227" covers="postfix-lookup">
+      <description>lookup in array with nested map</description>
+      <created by="Carla Spruit" on="2014-10-28"/>
+      <modified by="Michael Kay" on="2014-11-21" change="assert deep-eq rather than eq"/>
+      <environment ref="map"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>[[1, 2, 3], map:entry(3, 5)]?*?3</test>
+      <result>
+         <assert-deep-eq>(3, 5)</assert-deep-eq>
+      </result>
+   </test-case>            
 
 
 </test-set>
