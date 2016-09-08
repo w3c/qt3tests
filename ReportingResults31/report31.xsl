@@ -61,6 +61,7 @@
    <xsl:variable name="testSets"
       select="$catalog//t:test-set/doc(resolve-uri(@file, base-uri(..)))/t:test-set"/>
    <xsl:variable name="testCases" select="$testSets/t:test-case[r:testCaseAppliesToSpec(., 'XQ31') or r:testCaseAppliesToSpec(., 'XP31')]"/>
+   <!--<xsl:variable name="testCases" select="$testSets/t:test-case[r:testCaseAppliesToSpec(., 'XQ31')]"/> -->
 
 
    <!-- Some global variables -->
@@ -453,7 +454,7 @@
 
    <xsl:template match="t:catalog" mode="summary">
       <xsl:variable name="test-sets" select="t:test-set"/>
-
+      <xsl:variable name="testNameTogether" select= "string-join($testCases/@name, ' ')"/>
       <h2>Results by Specification</h2>
       <xsl:for-each-group select="$resultsDocs" group-by="r:test-suite-result/r:product/@language">
          <xsl:sort select="current-grouping-key()"/>
@@ -466,6 +467,7 @@
                <xsl:when test="current-grouping-key() = 'XQ10'">XQuery 1.0</xsl:when>
                <xsl:when test="current-grouping-key() = 'XQ30'">XQuery 3.0</xsl:when>
                <xsl:when test="current-grouping-key() = 'XQ31'">XQuery 3.1</xsl:when>
+               <xsl:when test="current-grouping-key() = 'XQX31'">XQueryX 3.1</xsl:when>
             </xsl:choose>
          </xsl:variable>
 
@@ -501,11 +503,11 @@
                         select="
                            count(.//r:test-case[not(@result = ('n/a',
                            'disputed',
-                           'tooBig'))])"/>
+                           'tooBig')) and contains($testNameTogether, @name)])"/>
                      <xsl:variable name="passes"
                         select="
                            count(.//r:test-case[@result = ('pass',
-                           'wrongError')])"/>
+                           'wrongError') and contains($testNameTogether, @name)])"/>
                      <xsl:variable name="fails" select="$run - $passes"/>
                      <xsl:variable name="syntax"
                         select="
@@ -1078,8 +1080,14 @@
          <xsl:sort select="current-grouping-key()"/>
          <xsl:variable name="sequence" select="position()"/>
          <xsl:variable name="primaryKey" select="current-grouping-key()"/>
-         <h3><a href="dependencyCombo/{$sequence}p{position()}.html"><xsl:value-of
-                  select="current-grouping-key()"/></a> (<xsl:value-of
+         
+         <h3><a href="dependencyCombo/{$sequence}p{position()}.html"><xsl:choose>
+            <xsl:when test="string-length(current-grouping-key())>0">
+               Tests depending on: <xsl:value-of
+                  select="current-grouping-key()"/>
+            </xsl:when>
+            <xsl:otherwise>Test with no dependencies on optional features</xsl:otherwise>
+         </xsl:choose></a> (<xsl:value-of
                select="count(current-group())"/> tests)</h3>
          <!--<xsl:for-each-group select="current-group()" 
             group-by="(.|..)/t:dependency[(@type='feature' and @value=current-grouping-key()) or @type=current-grouping-key()]/concat(@value[not(.=current-grouping-key())], '[', (@satisfied, 'true')[1], ']')">-->
@@ -1447,7 +1455,7 @@
       <xsl:param name="spec" as="xs:string"/>
       <xsl:variable name="dependency"
          select="$testCase/((. | ..)/t:dependency[@type = 'spec'])[last()]/@value"/>
-      <xsl:sequence
+       <xsl:sequence
          select="
             empty($dependency) or
             contains($dependency, $spec) or
@@ -1456,6 +1464,9 @@
             ($spec = 'XQ31' and contains($dependency, 'XQ30+')) or
             ($spec = 'XP31' and contains($dependency, 'XP30+')) or
             ($spec = 'XP31' and contains($dependency, 'XP21+'))"/>
+      <!--<xsl:sequence
+         select="
+         contains($dependency, $spec)"/> -->
 
    </xsl:function>
 
