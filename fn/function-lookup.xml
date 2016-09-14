@@ -39,10 +39,15 @@
               <created by="Tim Mills" on="2012-04-16"/>
           </source>     
       </collection>
+      <resource file="json-to-xml/data001.json"
+                media-type="text/plain"
+                encoding="utf-8"
+                uri="http://www.w3.org/qt3/json/data001-json">
+         <description>UTF-8 encoded plain text.</description>
+         <created by="O'Neil Delpratt" on="2015-02-23"/>
+      </resource>
+      <collation uri="http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind"/>
    </environment>
-
-   
-
    
   <test-case name="fn-function-lookup-001">
     <description>Attempts to look up function fn:node-name.</description>
@@ -4801,5 +4806,1428 @@
          <assert-empty/>
       </result>
    </test-case>
+
+
+  <test-case name="fn-function-lookup-720" 
+             covers="fn-parse-ietf-date">
+    <description>Attempts to look up function fn:parse-ietf-date.</description>
+    <created by="Tim Mills" on="2016-08-19"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'parse-ietf-date'), 1))</test>
+    <result>
+      <assert-true/>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-721" 
+             covers="fn-parse-ietf-date"
+             covers-30="dynamic-function-call">
+    <description>Attempts to invoke function fn:parse-ietf-date.</description>
+    <created by="Tim Mills" on="2016-08-19"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'parse-ietf-date'), 1)('Wed, 20 Aug 2014 19:36:01 GMT')</test>
+    <result>
+      <assert-eq>xs:dateTime('2014-08-20T19:36:01Z')</assert-eq>
+    </result>
+  </test-case>
+
+
+  <test-case name="fn-function-lookup-724" 
+             covers="fn-apply">
+    <description>Attempts to look up function fn:apply#2.</description>
+    <created by="Tim Mills" on="2016-08-19"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'apply'), 2))</test>
+    <result>
+      <assert-true/>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-725" 
+             covers="fn-apply"
+             covers-30="dynamic-function-call">
+    <description>Attempts to invoke function fn:apply#2.</description>
+    <created by="Tim Mills" on="2016-08-19"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'apply'), 2)( abs#1, [-2] )</test>
+    <result>
+      <assert-eq>2</assert-eq>
+    </result>
+  </test-case>
+
+
+  <test-case name="fn-function-lookup-726" 
+             covers="fn-sort">
+    <description>Attempts to look up function fn:sort#1.</description>
+    <created by="Tim Mills" on="2016-08-19"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'sort'), 1))</test>
+    <result>
+      <assert-true/>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-727" 
+             covers="fn-sort"
+             covers-30="dynamic-function-call">
+    <description>Attempts to invoke function fn:sort#1.</description>
+    <created by="Tim Mills" on="2016-08-19"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'sort'), 1)( (3, 2, 1) )</test>
+    <result>
+      <assert-deep-eq>(1, 2, 3)</assert-deep-eq>
+    </result>
+  </test-case>
+
+
+  <test-case name="fn-function-lookup-728" 
+             covers="fn-sort">
+    <description>Attempts to look up function fn:sort#2.</description>
+    <created by="Tim Mills" on="2016-08-19"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'sort'), 2))</test>
+    <result>
+      <assert-true/>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-729" 
+             covers="fn-sort"
+             covers-30="dynamic-function-call">
+    <description>Attempts to invoke function fn:sort#2.</description>
+    <created by="Tim Mills" on="2016-08-19"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'sort'), 2)( (3, 2, 1), () )</test>
+    <result>
+      <assert-deep-eq>(1,2,3)</assert-deep-eq>
+    </result>
+  </test-case>
+
+
+  <test-case name="fn-function-lookup-730" 
+             covers="fn-sort">
+    <description>Attempts to look up function fn:sort#3.</description>
+    <created by="Tim Mills" on="2016-08-19"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'sort'), 1))</test>
+    <result>
+      <assert-true/>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-731" 
+             covers="fn-sort"
+             covers-30="dynamic-function-call">
+    <description>Attempts to invoke function fn:sort#3.</description>
+    <created by="Tim Mills" on="2016-08-19"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'sort'), 3)( (3, 2, 1), (), fn:data#1 )</test>
+    <result>
+      <assert-deep-eq>(1,2,3)</assert-deep-eq>
+    </result>
+  </test-case>
+
+
+  <test-case name="fn-function-lookup-732" 
+             covers="fn-contains-token">
+    <description>Attempts to look up function fn:contains-token.</description>
+    <created by="Tim Mills" on="2016-08-19"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'contains-token'), 2))</test>
+    <result>
+      <assert-true/>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-733" 
+             covers="fn-contains-token"
+             covers-30="dynamic-function-call">
+    <description>Attempts to invoke function fn:contains-token.</description>
+    <created by="Tim Mills" on="2016-08-19"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'contains-token'), 2)( "abc", "abc" )</test>
+    <result>
+      <assert-true />
+    </result>
+  </test-case>
+
+
+  <test-case name="fn-function-lookup-734" 
+             covers="fn-default-language">
+    <description>Attempts to look up function fn:default-language#0.</description>
+    <created by="Tim Mills" on="2016-08-19"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'default-language'), 0))</test>
+    <result>
+      <assert-true/>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-735" 
+             covers="fn-contains-token"
+             covers-30="dynamic-function-call">
+    <description>Attempts to invoke function fn:default-language#0.</description>
+    <created by="Tim Mills" on="2016-08-19"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'default-language'), 0)()</test>
+    <result>
+      <assert-type>xs:language</assert-type>
+    </result>
+  </test-case>
+
+
+  <test-case name="fn-function-lookup-736" 
+             covers="fn-json-doc">
+    <description>Attempts to look up function fn:json-doc#1.</description>
+    <created by="Tim Mills" on="2016-08-19"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'json-doc'), 1))</test>
+    <result>
+      <assert-true/>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-737" 
+             covers="fn-json-doc"
+             covers-30="dynamic-function-call">
+    <description>Attempts to invoke function fn:json-doc#1.</description>
+    <created by="Tim Mills" on="2016-08-19"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <environment>
+      <static-base-uri uri="http://www.w3.org/fots/unparsed-text/" />
+    </environment>
+    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'json-doc'), 1)( 'does-not-exist.txt' )</test>
+    <result>
+       <error code="FOUT1170" />
+    </result>
+  </test-case>
+
+
+  <test-case name="fn-function-lookup-738" 
+             covers="fn-json-doc">
+    <description>Attempts to look up function fn:json-doc#2.</description>
+    <created by="Tim Mills" on="2016-08-19"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'json-doc'), 2))</test>
+    <result>
+      <assert-true/>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-739" 
+             covers="fn-json-doc"
+             covers-30="dynamic-function-call">
+    <description>Attempts to invoke function fn:json-doc#2.</description>
+    <created by="Tim Mills" on="2016-08-19"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <environment>
+      <static-base-uri uri="http://www.w3.org/fots/unparsed-text/" />
+    </environment>
+    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'json-doc'), 2)( 'does-not-exist.txt', map {} )</test>
+    <result>
+       <error code="FOUT1170" />
+    </result>
+  </test-case>
+
+
+  <test-case name="fn-function-lookup-740" 
+             covers="fn-json-to-xml">
+    <description>Attempts to look up function fn:json-to-xml#1.</description>
+    <created by="Tim Mills" on="2016-08-19"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'json-to-xml'), 1))</test>
+    <result>
+      <assert-true/>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-741" 
+             covers="fn-json-to-xml"
+             covers-30="dynamic-function-call">
+    <description>Attempts to invoke function fn:json-to-xml#1.</description>
+    <created by="Tim Mills" on="2016-08-19"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'json-to-xml'), 1)( '{}' )</test>
+    <result>
+            <all-of>
+                <assert-count>1</assert-count>
+                <assert-type>document-node()</assert-type>
+                <assert-xml ignore-prefixes="true"><![CDATA[<map xmlns="http://www.w3.org/2005/xpath-functions"/>]]></assert-xml>
+            </all-of>
+    </result>
+  </test-case>
+
+
+  <test-case name="fn-function-lookup-742" 
+             covers="fn-json-to-xml">
+    <description>Attempts to look up function fn:json-to-xml#2.</description>
+    <created by="Tim Mills" on="2016-08-19"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'json-to-xml'), 2))</test>
+    <result>
+      <assert-true/>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-743" 
+             covers="fn-json-to-xml"
+             covers-30="dynamic-function-call">
+    <description>Attempts to invoke function fn:json-to-xml#2.</description>
+    <created by="Tim Mills" on="2016-08-19"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <environment>
+      <static-base-uri uri="http://www.w3.org/fots/unparsed-text/" />
+    </environment>
+    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'json-to-xml'), 2)( '{}', map {} )</test>
+    <result>
+            <all-of>
+                <assert-count>1</assert-count>
+                <assert-type>document-node()</assert-type>
+                <assert-xml ignore-prefixes="true"><![CDATA[<map xmlns="http://www.w3.org/2005/xpath-functions"/>]]></assert-xml>
+            </all-of>
+    </result>
+  </test-case>
+
+
+  <test-case name="fn-function-lookup-744" 
+             covers="fn-parse-json">
+    <description>Attempts to look up function fn:parse-json#1.</description>
+    <created by="Tim Mills" on="2016-08-19"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'parse-json'), 1))</test>
+    <result>
+      <assert-true/>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-745" 
+             covers="fn-parse-json"
+             covers-30="dynamic-function-call">
+    <description>Attempts to invoke function fn:parse-json#1.</description>
+    <created by="Tim Mills" on="2016-08-19"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'parse-json'), 1)( 'true' )</test>
+    <result>
+       <assert-true />
+    </result>
+  </test-case>
+
+
+  <test-case name="fn-function-lookup-746" 
+             covers="fn-parse-json">
+    <description>Attempts to look up function fn:parse-json#2.</description>
+    <created by="Tim Mills" on="2016-08-19"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'parse-json'), 2))</test>
+    <result>
+      <assert-true/>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-747" 
+             covers="fn-parse-json"
+             covers-30="dynamic-function-call">
+    <description>Attempts to invoke function fn:json-doc#2.</description>
+    <created by="Tim Mills" on="2016-08-19"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'parse-json'), 2)( 'true', map {} )</test>
+    <result>
+       <assert-true />
+    </result>
+  </test-case>
+
+
+  <test-case name="fn-function-lookup-748" 
+             covers="fn-collation-key">
+    <description>Attempts to look up function fn:collation-key#1.</description>
+    <created by="Tim Mills" on="2016-08-19"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'collation-key'), 1))</test>
+    <result>
+      <assert-true/>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-749" 
+             covers="fn-collation-key"
+             covers-30="dynamic-function-call">
+    <description>Attempts to invoke function fn:collation-key#1.</description>
+    <created by="Tim Mills" on="2016-08-19"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'collation-key'), 1)( 'abc' ) eq fn:collation-key('abc')</test>
+    <result>
+       <assert-true />
+    </result>
+  </test-case>
+
+
+  <test-case name="fn-function-lookup-750" 
+             covers="fn-collation-key">
+    <description>Attempts to look up function fn:parse-json#2.</description>
+    <created by="Tim Mills" on="2016-08-19"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'collation-key'), 2))</test>
+    <result>
+      <assert-true/>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-751" 
+             covers="fn-collation-key"
+             covers-30="dynamic-function-call">
+    <description>Attempts to invoke function fn:json-doc#2.</description>
+    <created by="Tim Mills" on="2016-08-19"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'collation-key'), 2)( 'abc', 'http://www.w3.org/2005/xpath-functions/collation/codepoint') eq fn:collation-key('abc')</test>
+    <result>
+       <assert-true />
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-752"
+             covers="fn-trace#1"
+             covers-30="dynamic-function-call">
+    <description>Attempts to look up function fn:tokenize.</description>
+    <created by="Tim Mills" on="2016-08-19"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'tokenize'), 1))</test>
+    <result>
+      <assert-true/>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-753" 
+             covers="fn-trace#1"
+             covers-30="dynamic-function-call">
+    <description>Attempts to invoke function fn:tokenize.</description>
+    <created by="Tim Mills" on="2011-11-28"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'tokenize'), 1)('a b')</test>
+    <result>
+      <assert-deep-eq>('a', 'b')</assert-deep-eq>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-754" 
+             covers="fn-collation-key">
+    <description>Attempts to look up function fn:collation-key#1.</description>
+    <created by="Tim Mills" on="2016-08-19"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'collation-key'), 1))</test>
+    <result>
+      <assert-true/>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-755" 
+             covers="fn-random-number-generator"
+             covers-30="dynamic-function-call">
+    <description>Attempts to invoke function fn:collation-key#1.</description>
+    <created by="Tim Mills" on="2016-08-19"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'collation-key'), 1)( 'abc' ) eq fn:collation-key('abc')</test>
+    <result>
+       <assert-true />
+    </result>
+  </test-case>
+
+
+  <test-case name="fn-function-lookup-756" 
+             covers="fn-random-number-generator">
+    <description>Attempts to look up function fn:random-number-generator#0.</description>
+    <created by="Tim Mills" on="2016-08-19"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'random-number-generator'), 0))</test>
+    <result>
+      <assert-true/>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-757" 
+             covers="fn-random-number-generator"
+             covers-30="dynamic-function-call">
+    <description>Attempts to invoke function fn:random-number-generator#0.</description>
+    <created by="Tim Mills" on="2016-08-19"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'random-number-generator'), 0)()</test>
+    <result>
+            <all-of>
+                <assert-type>map(*)</assert-type>
+                <assert-type>map(xs:string, item())</assert-type>
+            </all-of>       
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-758" 
+             covers="fn-random-number-generator"
+             covers-30="dynamic-function-call">
+    <description>Attempts to invoke function fn:random-number-generator#0.</description>
+    <created by="Tim Mills" on="2016-08-19"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'random-number-generator'), 1)( 0 )</test>
+    <result>
+            <all-of>
+                <assert-type>map(*)</assert-type>
+                <assert-type>map(xs:string, item())</assert-type>
+            </all-of>       
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-759" 
+             covers="fn-load-xquery-module">
+    <description>Attempts to look up function fn:load-xquery-module#1.</description>
+    <created by="Tim Mills" on="2016-08-19"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'load-xquery-module'), 1))</test>
+    <result>
+      <assert-true/>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-760" 
+             covers="fn-load-xquery-module"
+             covers-30="dynamic-function-call">
+    <description>Attempts to invoke function fn:load-xquery-module#1.</description>
+    <created by="Tim Mills" on="2016-08-19"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <dependency type="feature" value="fn-load-xquery-module" satisfied="true"/> 
+    <module uri="http://www.w3.org/fots/fn/load-xquery-module/valid/module" file="load-xquery-module/valid-module.xqm"/>
+    <test>let $module := function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'load-xquery-module'), 1)( "http://www.w3.org/fots/fn/load-xquery-module/valid/module",)
+      return
+        let $vars := $module("variables"),
+         $fns := $module("functions")
+        return
+          let $var-values := ($vars(QName($module-ns, "var1")), $vars(QName($module-ns, "var2"))),
+           $fns-values := ($fns(QName($module-ns, "func1"))(0)(), $fns(QName($module-ns, "func2"))(0)())
+          return
+            ($var-values, $fns-values)
+    </test>
+    <result>
+      <assert-deep-eq>("var1", "var2", "func1", "func2")</assert-deep-eq>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-761" 
+             covers="fn-load-xquery-module"
+             covers-30="dynamic-function-call">
+    <description>Attempts to invoke function fn:load-xquery-module#1.</description>
+    <created by="Tim Mills" on="2016-08-19"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <dependency type="feature" value="fn-load-xquery-module" satisfied="false"/>  
+    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'load-xquery-module'), 1)( 0 )</test>
+    <result>
+      <error code="FOQM0006" />
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-762" 
+             covers="fn-load-xquery-module">
+    <description>Attempts to look up function fn:load-xquery-module#2.</description>
+    <created by="Tim Mills" on="2016-08-19"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'load-xquery-module'), 2))</test>
+    <result>
+      <assert-true/>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-763" 
+             covers="fn-load-xquery-module"
+             covers-30="dynamic-function-call">
+    <description>Attempts to invoke function fn:load-xquery-module#2.</description>
+    <created by="Tim Mills" on="2016-08-19"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <dependency type="feature" value="fn-load-xquery-module" satisfied="true"/> 
+    <module uri="http://www.w3.org/fots/fn/load-xquery-module/context-item/module" file="load-xquery-module/context-item-module.xqm"/>
+    <test><![CDATA[
+      let $module := function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'load-xquery-module'), 2)("http://www.w3.org/fots/fn/load-xquery-module/context-item/module", map{"context-item" : <a><b>hello</b></a>})
+      return
+        let $f := $module("functions")(QName("http://www.w3.org/fots/fn/load-xquery-module/context-item/module", "get-context-child"))(0)
+        return
+          $f()
+    ]]></test>
+    <result>
+      <assert-xml><![CDATA[<b>hello</b>]]></assert-xml>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-764" 
+             covers="fn-load-xquery-module"
+             covers-30="dynamic-function-call">
+    <description>Attempts to invoke function fn:load-xquery-module#2.</description>
+    <created by="Tim Mills" on="2016-08-19"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <dependency type="feature" value="fn-load-xquery-module" satisfied="false"/>  
+    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'load-xquery-module'), 2)( "", map{} )</test>
+    <result>
+      <error code="FOQM0006" />
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-765" 
+             covers="fn-transform">
+    <description>Attempts to look up function fn:transform#1.</description>
+    <created by="Tim Mills" on="2016-08-19"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'transform'), 1))</test>
+    <result>
+      <assert-true/>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-766a" 
+             covers="fn-transform"
+             covers-30="dynamic-function-call">
+    <description>Attempts to invoke function fn:transform#1.</description>
+    <created by="Tim Mills" on="2016-08-19"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <dependency type="feature" value="fn-transform-XSLT" satisfied="true"/>  
+    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'transform'), 1)( 0 )</test>
+    <result>
+            <all-of>
+                <assert-type>map(*)</assert-type>
+                <assert-type>map(xs:string, item())</assert-type>
+            </all-of>       
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-766b" 
+             covers="fn-transform"
+             covers-30="dynamic-function-call">
+    <description>Attempts to invoke function fn:transform#1.</description>
+    <created by="Tim Mills" on="2016-08-19"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <dependency type="feature" value="fn-transform-XSLT" satisfied="false"/>  
+    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'transform'), 1)( map{} )</test>
+    <result>
+      <error code="FOXT0004" />
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-767"
+             covers="array-append">
+    <description>Attempts to look up function array:append#2.</description>
+    <created by="Tim Mills" on="2011-11-28"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'append'), 2))</test>
+    <result>
+      <assert-true/>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-768"
+             covers-30="dynamic-function-call"
+             covers="array-append">
+    <description>Attempts to invoke function array:append#2.</description>
+    <created by="Tim Mills" on="2016-09-09"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'append'), 2)([], 3)</test>
+    <result>
+            <all-of>                
+                <assert-type>array(*)</assert-type>
+                <assert>array:size($result) eq 1</assert>
+                <assert-count>1</assert-count>
+                <assert-deep-eq>[3]</assert-deep-eq>
+            </all-of>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-769"
+             covers="array-filter">
+    <description>Attempts to look up function array:filter#2.</description>
+    <created by="Tim Mills" on="2011-11-28"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'filter'), 2))</test>
+    <result>
+      <assert-true/>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-770"
+             covers-30="dynamic-function-call"
+             covers="array-filter">
+    <description>Attempts to invoke function array:filter#2.</description>
+    <created by="Tim Mills" on="2016-09-09"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'filter'), 2)(["A", "B", 1, 2], function($z) {$z instance of xs:integer})</test>
+    <result>
+            <all-of>
+                <assert-type>array(*)</assert-type>
+                <assert>array:size($result) eq 2</assert>
+                <assert-deep-eq>[1, 2]</assert-deep-eq>
+            </all-of>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-771"
+             covers="array-flatten">
+    <description>Attempts to look up function array:flatten#1.</description>
+    <created by="Tim Mills" on="2016-09-09"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'flatten'), 1))</test>
+    <result>
+      <assert-true/>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-772"
+             covers-30="dynamic-function-call"
+             covers="array-flatten">
+    <description>Attempts to invoke function array:flatten#1.</description>
+    <created by="Tim Mills" on="2016-09-09"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'flatten'), 1)([1, 4, 6, 5, 3])</test>
+    <result>
+            <all-of>                
+                <assert-type>xs:integer*</assert-type>
+                <assert>count($result) eq 5</assert>
+                <assert-deep-eq>1, 4, 6, 5, 3</assert-deep-eq>
+            </all-of>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-773"
+             covers="array-fold-left">
+    <description>Attempts to look up function array:fold-left#3.</description>
+    <created by="Tim Mills" on="2016-09-09"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'fold-left'), 3))</test>
+    <result>
+      <assert-true/>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-774"
+             covers-30="dynamic-function-call"
+             covers="array-fold-left">
+    <description>Attempts to invoke function array:fold-left#3.</description>
+    <created by="Tim Mills" on="2016-09-09"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'fold-left'), 3)([1,2,3,4,5,6], 0, function($z,$a){$z + $a})</test>
+    <result>
+            <all-of>
+                <assert-type>xs:integer</assert-type>
+                <assert-deep-eq>21</assert-deep-eq>
+            </all-of>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-775"
+             covers="array-fold-right">
+    <description>Attempts to look up function array:fold-right#3.</description>
+    <created by="Tim Mills" on="2016-09-09"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'fold-right'), 3))</test>
+    <result>
+      <assert-true/>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-776"
+             covers-30="dynamic-function-call"
+             covers="array-fold-right">
+    <description>Attempts to invoke function array:fold-right#3.</description>
+    <created by="Tim Mills" on="2016-09-09"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'fold-right'), 3)([1,2,3,4,5,6], 0, function($a,$z){$a + $z})</test>
+    <result>
+            <all-of>
+                <assert-type>xs:integer</assert-type>
+                <assert-deep-eq>21</assert-deep-eq>
+            </all-of>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-777"
+             covers="array-for-each-pair">
+    <description>Attempts to look up function array:for-each-pair#3.</description>
+    <created by="Tim Mills" on="2016-09-09"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'for-each-pair'), 3))</test>
+    <result>
+      <assert-true/>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-778"
+             covers-30="dynamic-function-call"
+             covers="array-for-each-pair">
+    <description>Attempts to invoke function array:for-each-pair#3.</description>
+    <created by="Tim Mills" on="2016-09-09"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'for-each-pair'), 3)(["A", "B", "C"], [1, 2, 3], function($x, $y) {[$x, $y]})</test>
+    <result>
+            <all-of>                
+                <assert-type>array(*)</assert-type>
+                <assert>array:size($result) eq 3</assert>
+                <assert-deep-eq>[["A", 1], ["B", 2], ["C", 3]]</assert-deep-eq>
+            </all-of>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-779"
+             covers="array-for-each">
+    <description>Attempts to look up function array:for-each#2.</description>
+    <created by="Tim Mills" on="2016-09-09"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'for-each'), 2))</test>
+    <result>
+      <assert-true/>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-780"
+             covers-30="dynamic-function-call"
+             covers="array-for-each">
+    <description>Attempts to invoke function array:for-each#2.</description>
+    <created by="Tim Mills" on="2016-09-09"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'for-each'), 2)(["A", "B", 1, 2], function($z) {$z instance of xs:integer})</test>
+    <result>
+            <all-of>
+                <assert-type>array(*)</assert-type>
+                <assert>array:size($result) eq 4</assert>
+                <assert-deep-eq>[false(), false(), true(), true()]</assert-deep-eq>
+            </all-of>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-781"
+             covers="array-get">
+    <description>Attempts to look up function array:get#2.</description>
+    <created by="Tim Mills" on="2016-09-09"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'get'), 2))</test>
+    <result>
+      <assert-true/>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-782"
+             covers-30="dynamic-function-call"
+             covers="array-get">
+    <description>Attempts to invoke function array:get#2.</description>
+    <created by="Tim Mills" on="2016-09-09"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'get'), 2)([5,6,7], 1)</test>
+    <result>
+            <all-of>
+                <assert-type>xs:integer</assert-type>
+                <assert-eq>5</assert-eq>                
+            </all-of>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-783"
+             covers="array-head">
+    <description>Attempts to look up function array:head#1.</description>
+    <created by="Tim Mills" on="2016-09-09"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'head'), 1))</test>
+    <result>
+      <assert-true/>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-784"
+             covers-30="dynamic-function-call"
+             covers="array-head">
+    <description>Attempts to invoke function array:head#1.</description>
+    <created by="Tim Mills" on="2016-09-09"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'head'), 1)([5,6,7,8])</test>
+    <result>
+            <all-of>
+                <assert-type>item()*</assert-type>
+                <assert-eq>5</assert-eq>
+            </all-of>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-785"
+             covers="array-insert-before">
+    <description>Attempts to look up function array:insert-before#3.</description>
+    <created by="Tim Mills" on="2016-09-09"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'insert-before'), 3))</test>
+    <result>
+      <assert-true/>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-786"
+             covers-30="dynamic-function-call"
+             covers="array-insert-before">
+    <description>Attempts to invoke function array:insert-before#3.</description>
+    <created by="Tim Mills" on="2016-09-09"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'insert-before'), 3)(["a", "b", "c", "d"], 3, ("x", "y"))</test>
+    <result>
+            <all-of>
+                <assert-type>array(*)</assert-type>
+                <assert>array:size($result) eq 5</assert>
+                <assert-deep-eq>["a", "b", ("x", "y"), "c", "d"]</assert-deep-eq>
+            </all-of>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-787"
+             covers="array-join">
+    <description>Attempts to look up function array:join#1.</description>
+    <created by="Tim Mills" on="2016-09-09"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'join'), 1))</test>
+    <result>
+      <assert-true/>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-788"
+             covers-30="dynamic-function-call"
+             covers="array-join">
+    <description>Attempts to invoke function array:join#1.</description>
+    <created by="Tim Mills" on="2016-09-09"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'join'), 1)(([1,2],[3,4]))</test>
+    <result>
+            <all-of>
+                <assert-type>array(*)</assert-type>
+                <assert>array:size($result) eq 4</assert>
+                <assert-deep-eq>[1,2,3,4]</assert-deep-eq>
+            </all-of>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-789"
+             covers="array-put">
+    <description>Attempts to look up function array:put#3.</description>
+    <created by="Tim Mills" on="2016-09-09"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'put'), 3))</test>
+    <result>
+      <assert-true/>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-790"
+             covers-30="dynamic-function-call"
+             covers="array-put">
+    <description>Attempts to invoke function array:put#3.</description>
+    <created by="Tim Mills" on="2016-09-09"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'put'), 3)(["a", "b", "c", "d"], 3, ("x", "y"))</test>
+    <result>
+            <all-of>
+                <assert-type>array(*)</assert-type>
+                <assert>array:size($result) eq 4</assert>
+                <assert-deep-eq>["a", "b", ("x", "y"), "d"]</assert-deep-eq>
+            </all-of>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-791"
+             covers="array-remove">
+    <description>Attempts to look up function array:remove#2.</description>
+    <created by="Tim Mills" on="2016-09-09"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'remove'), 2))</test>
+    <result>
+      <assert-true/>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-792"
+             covers-30="dynamic-function-call"
+             covers="array-remove">
+    <description>Attempts to invoke function array:remove#2.</description>
+    <created by="Tim Mills" on="2016-09-09"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'remove'), 2)(["a","b","c","d"], 1)</test>
+    <result>
+           <all-of>
+                <assert-type>array(*)</assert-type>
+                <assert>array:size($result) eq 3</assert>
+                <assert-deep-eq>["b", "c", "d"]</assert-deep-eq>
+            </all-of>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-793"
+             covers="array-reverse">
+    <description>Attempts to look up function array:reverse#1.</description>
+    <created by="Tim Mills" on="2016-09-09"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'reverse'), 1))</test>
+    <result>
+      <assert-true/>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-794"
+             covers-30="dynamic-function-call"
+             covers="array-reverse">
+    <description>Attempts to invoke function array:reverse#1.</description>
+    <created by="Tim Mills" on="2016-09-09"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'reverse'), 1)(["a", "b", "c", "d"])</test>
+    <result>
+            <all-of>
+                <assert-type>array(*)</assert-type>
+                <assert>array:size($result) eq 4</assert>
+                <assert-deep-eq>["d", "c", "b", "a"]</assert-deep-eq>
+            </all-of>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-795"
+             covers="array-size">
+    <description>Attempts to look up function array:size#1.</description>
+    <created by="Tim Mills" on="2016-09-09"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'size'), 1))</test>
+    <result>
+      <assert-true/>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-796"
+             covers-30="dynamic-function-call"
+             covers="array-size">
+    <description>Attempts to invoke function array:size#1.</description>
+    <created by="Tim Mills" on="2016-09-09"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'size'), 1)([1])</test>
+    <result>
+      <assert-eq>1</assert-eq>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-797"
+             covers="array-sort">
+    <description>Attempts to look up function array:sort#1.</description>
+    <created by="Tim Mills" on="2016-09-09"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'sort'), 1))</test>
+    <result>
+      <assert-true/>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-798"
+             covers-30="dynamic-function-call"
+             covers="array-sort">
+    <description>Attempts to invoke function array:sort#1.</description>
+    <created by="Tim Mills" on="2016-09-09"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'sort'), 1)(["Red", "green", "blUE", "PINK", "ORanGE"])</test>
+    <result>
+      <assert-deep-eq>["ORanGE", "PINK", "Red", "blUE", "green"]</assert-deep-eq>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-799"
+             covers="array-sort">
+    <description>Attempts to look up function array:sort#2.</description>
+    <created by="Tim Mills" on="2016-09-09"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'sort'), 2))</test>
+    <result>
+      <assert-true/>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-800"
+             covers-30="dynamic-function-call"
+             covers="array-sort">
+    <description>Attempts to invoke function array:sort#2.</description>
+    <created by="Tim Mills" on="2016-09-09"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <environment ref="function-lookup" />
+    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'sort'), 2)(["Red", "green", "blUE", "PINK", "ORanGE"], "http://www.w3.org/2010/09/qt-fots-catalog/collation/caseblind")</test>
+    <result>
+      <assert-deep-eq>["blUE", "green", "ORanGE", "PINK", "Red"]</assert-deep-eq>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-801"
+             covers="array-sort">
+    <description>Attempts to look up function array:sort#3.</description>
+    <created by="Tim Mills" on="2016-09-09"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'sort'), 3))</test>
+    <result>
+      <assert-true/>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-802"
+             covers-30="dynamic-function-call"
+             covers="array-sort">
+    <description>Attempts to invoke function array:sort#3.</description>
+    <created by="Tim Mills" on="2016-09-09"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'sort'), 3)(["Red", "green", "blUE", "PINK", "ORanGE"], "http://www.w3.org/2005/xpath-functions/collation/codepoint", fn:string#1)</test>
+    <result>
+      <assert-deep-eq>["ORanGE", "PINK", "Red", "blUE", "green"]</assert-deep-eq>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-803"
+             covers="array-subarray">
+    <description>Attempts to look up function array:subarray#2.</description>
+    <created by="Tim Mills" on="2016-09-09"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'subarray'), 2))</test>
+    <result>
+      <assert-true/>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-804"
+             covers-30="dynamic-function-call"
+             covers="array-subarray">
+    <description>Attempts to invoke function array:subarray#2.</description>
+    <created by="Tim Mills" on="2016-09-09"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'subarray'), 2)(["a", "b", "c", "d"], 2)</test>
+    <result>
+            <all-of>
+                <assert-type>array(*)</assert-type>
+                <assert>array:size($result) eq 3</assert>
+                <assert-deep-eq>["b", "c", "d"]</assert-deep-eq>
+            </all-of>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-805"
+             covers="array-subarray">
+    <description>Attempts to look up function array:subarray#3.</description>
+    <created by="Tim Mills" on="2016-09-09"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'subarray'), 3))</test>
+    <result>
+      <assert-true/>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-806"
+             covers-30="dynamic-function-call"
+             covers="array-subarray">
+    <description>Attempts to invoke function array:subarray#3.</description>
+    <created by="Tim Mills" on="2016-09-09"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'subarray'), 3)([1, (2,2), 3], 3, 0)</test>
+    <result>
+            <all-of>
+                <assert-type>array(*)</assert-type>
+                <assert>array:size($result) eq 0</assert>
+                <assert-deep-eq>[]</assert-deep-eq>
+            </all-of>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-807"
+             covers="array-tail">
+    <description>Attempts to look up function array:tail#1.</description>
+    <created by="Tim Mills" on="2016-09-09"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'tail'), 1))</test>
+    <result>
+      <assert-true/>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-808"
+             covers-30="dynamic-function-call"
+             covers="array-tail">
+    <description>Attempts to invoke function array:tail#1.</description>
+    <created by="Tim Mills" on="2016-09-09"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/array', 'tail'), 1)([5,6,7,8])</test>
+    <result>
+            <all-of>
+                <assert-type>array(*)</assert-type>
+                <assert>array:size($result) eq 3</assert>
+                <assert-deep-eq>[6,7,8]</assert-deep-eq>
+            </all-of>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-809"
+             covers="map-contains">
+    <description>Attempts to look up function map:contains#2.</description>
+    <created by="Tim Mills" on="2016-09-09"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/map', 'contains'), 2))</test>
+    <result>
+      <assert-true/>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-810"
+             covers-30="dynamic-function-call"
+             covers="map-contains">
+    <description>Attempts to invoke function map:contains#2.</description>
+    <created by="Tim Mills" on="2016-09-09"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/map', 'contains'), 2)(map{}, 0)</test>
+    <result>
+            <assert-false/>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-811"
+             covers="map-entry">
+    <description>Attempts to look up function map:entry#2.</description>
+    <created by="Tim Mills" on="2016-09-09"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/map', 'entry'), 2))</test>
+    <result>
+      <assert-true/>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-812"
+             covers-30="dynamic-function-call"
+             covers="map-entry">
+    <description>Attempts to invoke function map:entry#2.</description>
+    <created by="Tim Mills" on="2016-09-09"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/map', 'entry'), 2)(3, 5)</test>
+    <result>
+            <all-of>
+                <assert-count>1</assert-count>
+                <assert-type>map(*)</assert-type>
+                <assert-type>map(xs:integer, xs:integer)</assert-type>
+                <assert-type>function(xs:anyAtomicType) as xs:integer?</assert-type>
+                <assert>$result(3) eq 5</assert>
+                <assert>map:size($result) eq 1</assert>
+                <assert>map:size(map:remove($result, 3)) eq 0</assert>
+                <assert>map:size(map:remove($result, 1)) eq 1</assert>
+            </all-of>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-813"
+             covers="map-find">
+    <description>Attempts to look up function map:find#2.</description>
+    <created by="Tim Mills" on="2016-09-09"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/map', 'find'), 2))</test>
+    <result>
+      <assert-true/>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-814"
+             covers-30="dynamic-function-call"
+             covers="map-find">
+    <description>Attempts to invoke function map:find#2.</description>
+    <created by="Tim Mills" on="2016-09-09"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/map', 'find'), 2)((), 17)</test>
+    <result>
+      <assert-deep-eq>[]</assert-deep-eq>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-815"
+             covers="map-for-each">
+    <description>Attempts to look up function map:for-each#2.</description>
+    <created by="Tim Mills" on="2016-09-09"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/map', 'for-each'), 2))</test>
+    <result>
+      <assert-true/>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-816"
+             covers-30="dynamic-function-call"
+             covers="map-for-each">
+    <description>Attempts to invoke function map:for-each#2.</description>
+    <created by="Tim Mills" on="2016-09-09"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/map', 'for-each'), 2)(map{}, concat#2)</test>
+    <result>
+            <assert-empty/>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-817"
+             covers="map-get">
+    <description>Attempts to look up function map:get#2.</description>
+    <created by="Tim Mills" on="2016-09-09"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/map', 'get'), 2))</test>
+    <result>
+      <assert-true/>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-818"
+             covers-30="dynamic-function-call"
+             covers="map-get">
+    <description>Attempts to invoke function map:get#2.</description>
+    <created by="Tim Mills" on="2016-09-09"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/map', 'get'), 2)(map{}, 1)</test>
+    <result>
+      <assert-empty />
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-819"
+             covers="map-keys">
+    <description>Attempts to look up function map:keys#1.</description>
+    <created by="Tim Mills" on="2016-09-09"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/map', 'keys'), 1))</test>
+    <result>
+      <assert-true/>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-820"
+             covers-30="dynamic-function-call"
+             covers="map-keys">
+    <description>Attempts to invoke function map:keys#1.</description>
+    <created by="Tim Mills" on="2016-09-09"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/map', 'keys'), 1)(map{})</test>
+    <result>
+            <assert-empty/>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-821"
+             covers="map-merge">
+    <description>Attempts to look up function map:merge#1.</description>
+    <created by="Tim Mills" on="2016-09-09"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/map', 'merge'), 1))</test>
+    <result>
+      <assert-true/>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-822"
+             covers-30="dynamic-function-call"
+             covers="map-merge">
+    <description>Attempts to invoke function map:merge#1.</description>
+    <created by="Tim Mills" on="2016-09-09"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/map', 'merge'), 1)(())</test>
+    <result>
+            <all-of>
+                <assert-count>1</assert-count>
+                <assert-type>map(*)</assert-type>
+                <assert-type>map(xs:date, element()+)</assert-type>
+            </all-of>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-823"
+             covers="map-merge">
+    <description>Attempts to look up function map:merge#2.</description>
+    <created by="Tim Mills" on="2016-09-09"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/map', 'merge'), 2))</test>
+    <result>
+      <assert-true/>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-824"
+             covers-30="dynamic-function-call"
+             covers="map-merge">
+    <description>Attempts to invoke function map:merge#2.</description>
+    <created by="Tim Mills" on="2016-09-09"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/map', 'merge'), 2)((), map{"duplicates":"use-last"})</test>
+    <result>
+            <all-of>
+                <assert-count>1</assert-count>
+                <assert-type>map(*)</assert-type>
+                <assert-type>map(xs:date, element()+)</assert-type>
+            </all-of>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-825"
+             covers="map-put">
+    <description>Attempts to look up function map:put#3.</description>
+    <created by="Tim Mills" on="2016-09-09"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/map', 'put'), 3))</test>
+    <result>
+      <assert-true/>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-826"
+             covers-30="dynamic-function-call"
+             covers="map-put">
+    <description>Attempts to invoke function map:put#3.</description>
+    <created by="Tim Mills" on="2016-09-09"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/map', 'put'), 3)(map{}, "foo", 1 to 5)</test>
+    <result>
+            <all-of>
+                <assert-count>1</assert-count>
+                <assert-type>map(*)</assert-type>
+                <assert-type>map(xs:string, xs:integer+)</assert-type>
+            </all-of>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-827"
+             covers="map-remove">
+    <description>Attempts to look up function map:remove#2.</description>
+    <created by="Tim Mills" on="2016-09-09"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/map', 'remove'), 2))</test>
+    <result>
+      <assert-true/>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-828"
+             covers-30="dynamic-function-call"
+             covers="map-remove">
+    <description>Attempts to invoke function map:remove#2.</description>
+    <created by="Tim Mills" on="2016-09-09"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/map', 'remove'), 2)(map{},1)</test>
+    <result>
+      <assert>map:size($result) eq 0</assert>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-829"
+             covers="map-size">
+    <description>Attempts to look up function map:size#1.</description>
+    <created by="Tim Mills" on="2016-09-09"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>exists(function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/map', 'size'), 1))</test>
+    <result>
+      <assert-true/>
+    </result>
+  </test-case>
+
+  <test-case name="fn-function-lookup-830"
+             covers-30="dynamic-function-call"
+             covers="map-size">
+    <description>Attempts to invoke function map:size#1.</description>
+    <created by="Tim Mills" on="2016-09-09"/>
+    <dependency type="spec" value="XP31+ XQ31+"/>
+    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/map', 'size'), 1)(map{})</test>
+    <result>
+           <all-of>
+                <assert-eq>0</assert-eq>
+                <assert-type>xs:integer</assert-type>
+            </all-of>
+    </result>
+  </test-case>
 
 </test-set>
