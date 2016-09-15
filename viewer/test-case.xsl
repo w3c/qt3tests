@@ -21,6 +21,8 @@
                 <emph>{$test-case}</emph> in test set <emph>{/t:test-set/@name}</emph>
         </xsl:result-document>
         <xsl:result-document href="#target" method="ixsl:replace-content">
+            <h2>Description</h2>
+            <p>{t:description}</p>
             <h2>History</h2>
             <table cellpadding="10px">
                 <thead>
