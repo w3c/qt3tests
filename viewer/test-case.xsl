@@ -8,11 +8,12 @@
 
     <xsl:variable name="file"
         select="ixsl:location() => substring-after('?src=') => substring-before(';')"/>
+    <xsl:variable name="base" select="substring-before(ixsl:location(), '?')"/>    
     <xsl:variable name="test-case" select="ixsl:location() => substring-after(';case=')"/>
 
     <xsl:template name="main">
         <xsl:result-document href="#title" method="ixsl:replace-content"> File {$file} </xsl:result-document>
-        <xsl:apply-templates select="doc('../' || $file)/*/t:test-case[@name=$test-case]"/>
+        <xsl:apply-templates select="doc(replace($base, 'viewer/test-case.html', $file))/*/t:test-case[@name=$test-case]"/>
     </xsl:template>
 
     <xsl:template match="t:test-case">
@@ -41,7 +42,7 @@
             </div>
             <div>
                 <h2>Dependencies</h2>
-                <xsl:apply-templates select="t:dependency, ../t:dependency[not(@type) = current()/t:dependency/@type]"/>
+                <xsl:apply-templates select="t:dependency, ../t:dependency[not(@type = current()/t:dependency/@type)]"/>
             </div>
             <div>
                 <h2>Test</h2>

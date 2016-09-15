@@ -9,12 +9,13 @@
     <!--<xsl:variable name="doc" as="document-node()" select="doc('http://localhost:8080/qt3/QT3-test-suite/' || ixsl:query-params()?src)"/>
 -->
     <xsl:variable name="file" select="substring-after(ixsl:location(), '?src=')"/>
+    <xsl:variable name="base" select="substring-before(ixsl:location(), '?')"/>
     
     <xsl:template name="main">       
         <xsl:result-document href="#title" method="ixsl:replace-content">
             File {$file}
         </xsl:result-document>
-        <xsl:apply-templates select="doc('../' || $file)"/>
+        <xsl:apply-templates select="doc(replace($base, 'viewer/test-set.html', $file))"/>
     </xsl:template>
     
     <xsl:template match="/">
