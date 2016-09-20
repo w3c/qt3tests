@@ -227,6 +227,19 @@
       </any-of>
     </result>
   </test-case>
+  
+  <test-case name="try-018">
+    <description>Test that the right catch clause is evaluated. Saxon bug report from Florent Georges</description>
+    <created by="Michael Kay after Florent Georges" on="2016-09-18"/>
+    <test>
+      try {1 div 0}
+      catch local:foo | local:bar {'first'}
+      catch * {'second'}  
+    </test>
+    <result>
+      <assert-eq>"second"</assert-eq>
+    </result>
+  </test-case>
 
   <test-case name="no-try-catch-1">
     <description>Without try catch a division by 0 raises a dynamic error.</description>
