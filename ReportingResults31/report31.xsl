@@ -14,6 +14,7 @@
 <!--   2013-06-24    Revision - Changes relating to bug issue #22796 (OND)   -->
 <!--   2013-11-22    Revision - Updates relating to XQueryX reporting (OND)   -->
 <!--   2016-01-18    Revision - Added depedency report including combinations (OND & Kay)   -->
+<!--   2016-09-20    Performance (depends on XSLT 3.0) (MHK)                 -->
 <!--                                                                         -->
 
 
@@ -65,8 +66,9 @@
    <xsl:variable name="testSets"
       select="$catalog//t:test-set/doc(resolve-uri(@file, base-uri(..)))/t:test-set"/>
    <xsl:variable name="testCases" select="$testSets/t:test-case[r:testCaseAppliesToSpec(., 'XQ31') or r:testCaseAppliesToSpec(., 'XP31')]"/>
-   <!--<xsl:variable name="testCases" select="$testSets/t:test-case[r:testCaseAppliesToSpec(., 'XQ31')]"/> -->
-
+   
+   <!-- Index of testcases. Note that the value in the map is not used; we're using the map as a set of names -->
+   <!-- The map is being used essentially as a multi-document version of xsl:key -->
    <xsl:variable name="testCaseNames" as="map(xs:string, element(t:test-case))">
       <xsl:map>
          <xsl:for-each select="$testCases">
@@ -467,7 +469,7 @@
       <xsl:variable name="test-sets" select="t:test-set"/>
       <!--<xsl:variable name="testNameTogether" select= "string-join($testCases/@name, ' ')"/>-->
       <h2>Results by Specification</h2>
-      <xsl:message>Results by Specification</xsl:message>
+      
       <xsl:for-each-group select="$resultsDocs" group-by="r:test-suite-result/r:product/@language">
          <xsl:sort select="current-grouping-key()"/>
 
@@ -482,7 +484,7 @@
                <xsl:when test="current-grouping-key() = 'XQX31'">XQueryX 3.1</xsl:when>
             </xsl:choose>
          </xsl:variable>
-         <xsl:message>Processing <xsl:value-of select="current-grouping-key()"/></xsl:message>
+         
          <blockquote>
             <p>
                <a href="spec/{current-grouping-key()}.html">
@@ -511,19 +513,18 @@
                   <xsl:for-each
                      select="$resultsDocs[*/r:product/@language = current-grouping-key()]">
                      <xsl:sort select="*/r:product/@name"/>
-                     <xsl:message>Processing result doc <xsl:value-of select="document-uri(/)"/></xsl:message>
+                     
                      <xsl:variable name="run"
                         select="
                            count(.//r:test-case[not(@result = ('n/a',
                            'disputed',
                            'tooBig')) and map:contains($testCaseNames, @name)])"/>
-                     <xsl:message>$run = <xsl:value-of select="$run"/></xsl:message>
                      
                      <xsl:variable name="passes"
                         select="
                            count(.//r:test-case[@result = ('pass',
                            'wrongError') and map:contains($testCaseNames, @name)])"/>
-                     <xsl:message>$passes = <xsl:value-of select="$passes"/></xsl:message>
+                     
                      <xsl:variable name="fails" select="$run - $passes"/>
                      <xsl:variable name="syntax"
                         select="
@@ -574,7 +575,6 @@
             </xsl:value-of>
          </blockquote>
 
-         <xsl:message>Details for specs</xsl:message>
          <xsl:result-document href="spec/{current-grouping-key()}.html">
             <html>
                <head>
