@@ -17,9 +17,13 @@
 <!--                                                                         -->
 
 
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0"
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="3.0"
    xmlns:t="http://www.w3.org/2010/09/qt-fots-catalog"
-   xmlns:r="http://www.w3.org/2012/08/qt-fots-results" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   xmlns:r="http://www.w3.org/2012/08/qt-fots-results" 
+   xmlns:xs="http://www.w3.org/2001/XMLSchema"
+   xmlns:map="http://www.w3.org/2005/xpath-functions/map"
+   exclude-result-prefixes="#all"
+   expand-text="no">
 
    <xsl:output method="html" indent="yes"/>
 
@@ -63,6 +67,13 @@
    <xsl:variable name="testCases" select="$testSets/t:test-case[r:testCaseAppliesToSpec(., 'XQ31') or r:testCaseAppliesToSpec(., 'XP31')]"/>
    <!--<xsl:variable name="testCases" select="$testSets/t:test-case[r:testCaseAppliesToSpec(., 'XQ31')]"/> -->
 
+   <xsl:variable name="testCaseNames" as="map(xs:string, element(t:test-case))">
+      <xsl:map>
+         <xsl:for-each select="$testCases">
+            <xsl:map-entry key="string(@name)" select="."/>
+         </xsl:for-each>
+      </xsl:map>
+   </xsl:variable>
 
    <!-- Some global variables -->
 
@@ -454,8 +465,9 @@
 
    <xsl:template match="t:catalog" mode="summary">
       <xsl:variable name="test-sets" select="t:test-set"/>
-      <xsl:variable name="testNameTogether" select= "string-join($testCases/@name, ' ')"/>
+      <!--<xsl:variable name="testNameTogether" select= "string-join($testCases/@name, ' ')"/>-->
       <h2>Results by Specification</h2>
+      <xsl:message>Results by Specification</xsl:message>
       <xsl:for-each-group select="$resultsDocs" group-by="r:test-suite-result/r:product/@language">
          <xsl:sort select="current-grouping-key()"/>
 
@@ -470,7 +482,7 @@
                <xsl:when test="current-grouping-key() = 'XQX31'">XQueryX 3.1</xsl:when>
             </xsl:choose>
          </xsl:variable>
-
+         <xsl:message>Processing <xsl:value-of select="current-grouping-key()"/></xsl:message>
          <blockquote>
             <p>
                <a href="spec/{current-grouping-key()}.html">
@@ -499,15 +511,19 @@
                   <xsl:for-each
                      select="$resultsDocs[*/r:product/@language = current-grouping-key()]">
                      <xsl:sort select="*/r:product/@name"/>
+                     <xsl:message>Processing result doc <xsl:value-of select="document-uri(/)"/></xsl:message>
                      <xsl:variable name="run"
                         select="
                            count(.//r:test-case[not(@result = ('n/a',
                            'disputed',
-                           'tooBig')) and contains($testNameTogether, @name)])"/>
+                           'tooBig')) and map:contains($testCaseNames, @name)])"/>
+                     <xsl:message>$run = <xsl:value-of select="$run"/></xsl:message>
+                     
                      <xsl:variable name="passes"
                         select="
                            count(.//r:test-case[@result = ('pass',
-                           'wrongError') and contains($testNameTogether, @name)])"/>
+                           'wrongError') and map:contains($testCaseNames, @name)])"/>
+                     <xsl:message>$passes = <xsl:value-of select="$passes"/></xsl:message>
                      <xsl:variable name="fails" select="$run - $passes"/>
                      <xsl:variable name="syntax"
                         select="
@@ -558,7 +574,7 @@
             </xsl:value-of>
          </blockquote>
 
-
+         <xsl:message>Details for specs</xsl:message>
          <xsl:result-document href="spec/{current-grouping-key()}.html">
             <html>
                <head>
@@ -1386,7 +1402,10 @@
                <xsl:sort select="./r:test-suite-result/r:product/@name"/>
 
                <xsl:variable name="test" select="key('testCaseByName', $test-name)"
-                  as="element(r:test-case)?"/>
+                  as="element(r:test-case)*"/>
+               
+               <xsl:assert expand-text="yes"
+                  test="count($test) lt 2">Error: {count($test)} tests found named {$test-name} in {document-uri(/)}</xsl:assert>
 
                <!-- Long text causes horizaontal scrolling                          -->
                <!-- IE solution style="word-break:break-all; word-wrap:break-word;" -->
