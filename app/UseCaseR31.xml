@@ -831,11 +831,12 @@ local:deep-put(json-doc("http://www.w3.org/qt3/app/UseCaseR31/bookinfo-json"), "
       <modified by="O'Neil Delpratt" on="2015-09-17" change="Added the XQuery 3.1 Use case to QT3. I also had to change how the JSON document is parsed" />
       <modified by="O'Neil Delpratt" on="2015-10-20" change="Use collection function on JSON document" />
       <modified by="Michael Kay" on="2015-11-26" change="Add dependency on HOF (uses dynamic function call)" />
+      <modified by="Michael Kay" on="2016-09-14" change="Bug 29821: remove namespace declaration so that implicitly-declared external variable can be added at the start of the query" />
       <environment ref="sales-json"/>
       <dependency type="feature" value="higherOrderFunctions"/>
        <dependency type="spec" value="XQ31+"/>
-      <test><![CDATA[declare namespace map="http://www.w3.org/2005/xpath-functions/map";
-map:merge(
+      <test><![CDATA[
+Q{http://www.w3.org/2005/xpath-functions/map}merge(
   for $sales in collection($sales-collection-uri)
   let $pname := $sales('product')
   group by $pname
