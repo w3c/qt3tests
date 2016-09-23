@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="us-ascii"?>
+<?xml version="1.0" encoding="utf-8"?>
 <test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="fn-compare">
    <description>Tests for the compare() function</description>
    <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/"
@@ -537,7 +537,7 @@
    </test-case>
    
    <test-case name="compare-016" covers="html-ascii-case-insensitive">
-      <description>Use HTML case-blind collation: test with non-ASCII letters</description>
+      <description>Use HTML case-blind collation: test with non-ASCII letters (actual order is not defined)</description>
       <created by="Michael Kay" on="2014-12-04"/>
       <environment>
          <collation uri="http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive"/>
@@ -548,6 +548,238 @@
          <assert-false/>
       </result>
    </test-case>
+   
+   <test-case name="compare-017" covers="uca-collation">
+      <description> Use compare() with a UCA collation and primary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:compare("database", "DATABASE", "http://www.w3.org/2013/collation/UCA?lang=en;strength=primary")</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="compare-018" covers="uca-collation">
+      <description> Use compare() with a UCA collation and primary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:compare("database", "DÃTABASE", "http://www.w3.org/2013/collation/UCA?lang=en;strength=primary")</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="compare-019" covers="uca-collation">
+      <description> Use compare() with a UCA collation and primary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:compare("database", "database", "http://www.w3.org/2013/collation/UCA?lang=en;strength=primary")</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="compare-020" covers="uca-collation">
+      <description> Use compare() with a UCA collation and primary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:compare("database", "Databases", "http://www.w3.org/2013/collation/UCA?lang=en;strength=primary")</test>
+      <result>
+         <assert-eq>-1</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="compare-021" covers="uca-collation">
+      <description> Use compare() with a UCA collation and primary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:compare("databases", "Database", "http://www.w3.org/2013/collation/UCA?lang=en;strength=primary")</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="compare-022" covers="uca-collation">
+      <description> Use compare() with a UCA collation and secondary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:compare("database", "DATABASE", "http://www.w3.org/2013/collation/UCA?lang=en;strength=secondary")</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="compare-023" covers="uca-collation">
+      <description> Use compare() with a UCA collation and secondary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:compare("database", "DÃTABASE", "http://www.w3.org/2013/collation/UCA?lang=en;strength=secondary") != 0</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="compare-024" covers="uca-collation">
+      <description> Use compare() with a UCA collation and secondary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:compare("database", "database", "http://www.w3.org/2013/collation/UCA?lang=en;strength=secondary")</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="compare-025" covers="uca-collation">
+      <description> Use compare() with a UCA collation and secondary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:compare("database", "Databases", "http://www.w3.org/2013/collation/UCA?lang=en;strength=secondary")</test>
+      <result>
+         <assert-eq>-1</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="compare-026" covers="uca-collation">
+      <description> Use compare() with a UCA collation and secondary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:compare("databases", "Database", "http://www.w3.org/2013/collation/UCA?lang=en;strength=secondary")</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="compare-027" covers="uca-collation">
+      <description> Use compare() with a UCA collation and tertiary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:compare("database", "dâtabase", "http://www.w3.org/2013/collation/UCA?lang=en;strength=tertiary") = 0</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="compare-028" covers="uca-collation">
+      <description> Use compare() with a UCA collation and tertiary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:compare("database", "DATABASE", "http://www.w3.org/2013/collation/UCA?lang=en;strength=tertiary") = 0</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="compare-029" covers="uca-collation">
+      <description> Use compare() with a UCA collation and tertiary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:compare("database", "database", "http://www.w3.org/2013/collation/UCA?lang=en;strength=tertiary")</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="compare-030" covers="uca-collation">
+      <description> Use compare() with a UCA collation and tertiary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:compare("database", "Database", "http://www.w3.org/2013/collation/UCA?lang=en;strength=tertiary;caseFirst=lower")</test>
+      <result>
+         <assert-eq>-1</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="compare-031" covers="uca-collation">
+      <description> Use compare() with a UCA collation and tertiary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:compare("database", "Database", "http://www.w3.org/2013/collation/UCA?lang=en;strength=tertiary;caseFirst=upper")</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="compare-032" covers="uca-collation">
+      <description> Use compare() with a UCA collation and tertiary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:compare("databases", "Database", "http://www.w3.org/2013/collation/UCA?lang=en;strength=tertiary;caseFirst=lower")</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="compare-033" covers="uca-collation">
+      <description> Use compare() with a UCA collation and tertiary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:compare("dâtabases", "Database", "http://www.w3.org/2013/collation/UCA?lang=en;strength=tertiary;caseFirst=lower")</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="compare-034" covers="uca-collation">
+      <description> Use compare() with a UCA collation with numeric matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:compare("Chap2", "Chap10", "http://www.w3.org/2013/collation/UCA?lang=en;numeric=yes")</test>
+      <result>
+         <assert-eq>-1</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="compare-035" covers="uca-collation">
+      <description> Use compare() with a UCA collation with numeric matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:compare("Chap2-b", "Chap10-b", "http://www.w3.org/2013/collation/UCA?lang=en;numeric=yes")</test>
+      <result>
+         <assert-eq>-1</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="compare-036" covers="uca-collation">
+      <description> Use compare() with a UCA collation : ignore accents but not case</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:compare("DATABASE", "DÃTABASE", "http://www.w3.org/2013/collation/UCA?lang=en;strength=primary;caseLevel=yes")</test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="compare-037" covers="uca-collation">
+      <description> Use compare() with a UCA collation : ignore accents but not case</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:compare("DATABASE", "DÃTAbase", "http://www.w3.org/2013/collation/UCA?lang=en;strength=primary;caseLevel=yes;caseFirst=lower")</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="compare-038" covers="uca-collation">
+      <description> Use compare() with a UCA collation : first accent is the most significant</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:compare("DATABÃSE", "DÃTABASE", "http://www.w3.org/2013/collation/UCA?lang=en;strength=tertiary")</test>
+      <result>
+         <assert-eq>-1</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="compare-039" covers="uca-collation">
+      <description> Use compare() with a UCA collation : last accent is the most significant</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:compare("DATABÃSE", "DÃTABASE", "http://www.w3.org/2013/collation/UCA?lang=en;strength=tertiary;backwards=yes")</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+ 
+   
 
    <test-case name="K2-CompareFunc-1">
       <description>Use a complex collation argument.</description>
