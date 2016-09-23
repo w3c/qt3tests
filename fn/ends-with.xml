@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="us-ascii"?>
+<?xml version="1.0" encoding="utf-8"?>
 <test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="fn-ends-with">
    <description>Tests for the ends-with() function</description>
    <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/"
@@ -207,7 +207,157 @@
       <description> Use ends-with() with a UCA collation </description>
       <created by="Michael Kay" on="2016-09-23"/>
       <dependency type="spec" value="XP31 XQ31"/>
-      <test>fn:ends-with("banana", "ananas", "http://www.w3.org/2013/collation/UCA?lang=en")</test>
+      <test>fn:ends-with("banana", "bana", "http://www.w3.org/2013/collation/UCA?lang=en")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-ends-with-19" covers="uca-collation">
+      <description> Use ends-with() with a UCA collation and primary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:ends-with("database", "BASE", "http://www.w3.org/2013/collation/UCA?lang=en;strength=primary")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-ends-with-20" covers="uca-collation">
+      <description> Use ends-with() with a UCA collation and primary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:ends-with("database", "abaSe", "http://www.w3.org/2013/collation/UCA?lang=en;strength=primary")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-ends-with-21"> covers="uca-collation"
+      <description> Use ends-with() with a UCA collation and primary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:ends-with("database", "bâse", "http://www.w3.org/2013/collation/UCA?lang=en;strength=primary")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-ends-with-22"> covers="uca-collation"
+      <description> Use ends-with() with a UCA collation and primary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:ends-with("dâtabase", "adâtabase", "http://www.w3.org/2013/collation/UCA?lang=en;strength=primary")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-ends-with-23"> covers="uca-collation"
+      <description> Use ends-with() with a UCA collation and primary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:ends-with("âtÅbase", "âtabÃse", "http://www.w3.org/2013/collation/UCA?lang=en;strength=primary")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-ends-with-24" covers="uca-collation">
+      <description> Use ends-with() with a UCA collation and secondary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:ends-with("database", "BASE", "http://www.w3.org/2013/collation/UCA?lang=en;strength=secondary")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-ends-with-25" covers="uca-collation">
+      <description> Use ends-with() with a UCA collation and secondary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:ends-with("database", "abaSe", "http://www.w3.org/2013/collation/UCA?lang=en;strength=secondary")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-ends-with-26"> covers="uca-collation"
+      <description> Use ends-with() with a UCA collation and secondary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:ends-with("database", "bâse", "http://www.w3.org/2013/collation/UCA?lang=en;strength=secondary")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-ends-with-27"> covers="uca-collation"
+      <description> Use ends-with() with a UCA collation and secondary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:ends-with("dâtabâse", "Base", "http://www.w3.org/2013/collation/UCA?lang=en;strength=secondary")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-ends-with-28" covers="uca-collation">
+      <description> Use ends-with() with a UCA collation and tertiary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:ends-with("database", "BASE", "http://www.w3.org/2013/collation/UCA?lang=en;strength=tertiary")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-ends-with-29" covers="uca-collation">
+      <description> Use ends-with() with a UCA collation and tertiary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:ends-with("dataBase", "aBase", "http://www.w3.org/2013/collation/UCA?lang=en;strength=tertiary")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-ends-with-30"> covers="uca-collation"
+      <description> Use ends-with() with a UCA collation and tertiary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:ends-with("database", "bâse", "http://www.w3.org/2013/collation/UCA?lang=en;strength=tertiary")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-ends-with-31"> covers="uca-collation"
+      <description> Use ends-with() with a UCA collation and tertiary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:ends-with("database", "Base", "http://www.w3.org/2013/collation/UCA?lang=en;strength=tertiary")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-ends-with-32"> covers="uca-collation"
+      <description> Use ends-with() with a UCA collation and numeric matching.</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:ends-with("Chapter-001", "Chapter-1", "http://www.w3.org/2013/collation/UCA?lang=en;numeric=yes")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-ends-with-33"> covers="uca-collation"
+      <description> Use ends-with() with a UCA collation and numeric matching.</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:ends-with("Chapter-100", "Chapter-10", "http://www.w3.org/2013/collation/UCA?lang=en;numeric=yes")</test>
       <result>
          <assert-false/>
       </result>

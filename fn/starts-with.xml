@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="us-ascii"?>
+<?xml version="1.0" encoding="utf-8"?>
 <test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="fn-starts-with">
    <description>Tests for the starts-with() function</description>
    <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/"
@@ -210,6 +210,156 @@
       <test>fn:starts-with("banana", "bana", "http://www.w3.org/2013/collation/UCA?lang=en")</test>
       <result>
          <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-starts-with-19" covers="uca-collation">
+      <description> Use starts-with() with a UCA collation and primary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:starts-with("database", "DATA", "http://www.w3.org/2013/collation/UCA?lang=en;strength=primary")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-starts-with-20" covers="uca-collation">
+      <description> Use starts-with() with a UCA collation and primary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:starts-with("database", "databaS", "http://www.w3.org/2013/collation/UCA?lang=en;strength=primary")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-starts-with-21"> covers="uca-collation"
+      <description> Use starts-with() with a UCA collation and primary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:starts-with("database", "dâta", "http://www.w3.org/2013/collation/UCA?lang=en;strength=primary")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-starts-with-22"> covers="uca-collation"
+      <description> Use starts-with() with a UCA collation and primary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:starts-with("dâtabase", "dâtabasen", "http://www.w3.org/2013/collation/UCA?lang=en;strength=primary")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-starts-with-23"> covers="uca-collation"
+      <description> Use starts-with() with a UCA collation and primary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:starts-with("âtÅbase", "âtabÃse", "http://www.w3.org/2013/collation/UCA?lang=en;strength=primary")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-starts-with-24" covers="uca-collation">
+      <description> Use starts-with() with a UCA collation and secondary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:starts-with("database", "DATA", "http://www.w3.org/2013/collation/UCA?lang=en;strength=secondary")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-starts-with-25" covers="uca-collation">
+      <description> Use starts-with() with a UCA collation and secondary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:starts-with("database", "databaS", "http://www.w3.org/2013/collation/UCA?lang=en;strength=secondary")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-starts-with-26"> covers="uca-collation"
+      <description> Use starts-with() with a UCA collation and secondary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:starts-with("database", "dâta", "http://www.w3.org/2013/collation/UCA?lang=en;strength=secondary")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-starts-with-27"> covers="uca-collation"
+      <description> Use starts-with() with a UCA collation and secondary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:starts-with("dâtabase", "Data", "http://www.w3.org/2013/collation/UCA?lang=en;strength=secondary")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-starts-with-28" covers="uca-collation">
+      <description> Use starts-with() with a UCA collation and tertiary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:starts-with("database", "DATA", "http://www.w3.org/2013/collation/UCA?lang=en;strength=tertiary")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-starts-with-29" covers="uca-collation">
+      <description> Use starts-with() with a UCA collation and tertiary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:starts-with("dataBase", "dataBas", "http://www.w3.org/2013/collation/UCA?lang=en;strength=tertiary")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-starts-with-30"> covers="uca-collation"
+      <description> Use starts-with() with a UCA collation and tertiary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:starts-with("database", "dâta", "http://www.w3.org/2013/collation/UCA?lang=en;strength=tertiary")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-starts-with-31"> covers="uca-collation"
+      <description> Use starts-with() with a UCA collation and tertiary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:starts-with("database", "Data", "http://www.w3.org/2013/collation/UCA?lang=en;strength=tertiary")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-starts-with-32"> covers="uca-collation"
+      <description> Use starts-with() with a UCA collation and numeric matching.</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:starts-with("Chapter-001", "Chapter-1", "http://www.w3.org/2013/collation/UCA?lang=en;numeric=yes")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-starts-with-33"> covers="uca-collation"
+      <description> Use starts-with() with a UCA collation and numeric matching.</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:starts-with("Chapter-100", "Chapter-10", "http://www.w3.org/2013/collation/UCA?lang=en;numeric=yes")</test>
+      <result>
+         <assert-false/>
       </result>
    </test-case>
 

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="us-ascii"?>
+<?xml version="1.0" encoding="utf-8"?>
 <test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="fn-contains">
    <description>Tests for the contains() function</description>
    <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/"
@@ -193,7 +193,7 @@
       </result>
    </test-case>
    
-   <test-case name="fn-contains-17">
+   <test-case name="fn-contains-17" covers="uca-collation">
       <description> Use contains() with a UCA collation </description>
       <created by="Michael Kay" on="2016-09-23"/>
       <dependency type="spec" value="XP31 XQ31"/>
@@ -203,15 +203,166 @@
       </result>
    </test-case>
    
-   <test-case name="fn-contains-18">
+   <test-case name="fn-contains-18" covers="uca-collation">
       <description> Use contains() with a UCA collation </description>
       <created by="Michael Kay" on="2016-09-23"/>
       <dependency type="spec" value="XP31 XQ31"/>
-      <test>fn:contains("banana", "ananas", "http://www.w3.org/2013/collation/UCA?lang=en")</test>
+      <test>fn:contains("banana", "bananas", "http://www.w3.org/2013/collation/UCA?lang=en")</test>
       <result>
          <assert-false/>
       </result>
    </test-case>
+   
+   <test-case name="fn-contains-19" covers="uca-collation">
+      <description> Use contains() with a UCA collation and primary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:contains("database", "DATA", "http://www.w3.org/2013/collation/UCA?lang=en;strength=primary")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-contains-20" covers="uca-collation">
+      <description> Use contains() with a UCA collation and primary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:contains("database", "tabaS", "http://www.w3.org/2013/collation/UCA?lang=en;strength=primary")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-contains-21"> covers="uca-collation"
+      <description> Use contains() with a UCA collation and primary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:contains("database", "dâta", "http://www.w3.org/2013/collation/UCA?lang=en;strength=primary")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-contains-22"> covers="uca-collation"
+      <description> Use contains() with a UCA collation and primary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:contains("dâtabase", "âtabase", "http://www.w3.org/2013/collation/UCA?lang=en;strength=primary")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-contains-23"> covers="uca-collation"
+      <description> Use contains() with a UCA collation and primary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:contains("dâtÅbase", "âtabÃse", "http://www.w3.org/2013/collation/UCA?lang=en;strength=primary")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-contains-24" covers="uca-collation">
+      <description> Use contains() with a UCA collation and secondary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:contains("database", "DATA", "http://www.w3.org/2013/collation/UCA?lang=en;strength=secondary")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-contains-25" covers="uca-collation">
+      <description> Use contains() with a UCA collation and secondary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:contains("database", "tabaS", "http://www.w3.org/2013/collation/UCA?lang=en;strength=secondary")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-contains-26"> covers="uca-collation"
+      <description> Use contains() with a UCA collation and secondary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:contains("database", "dâta", "http://www.w3.org/2013/collation/UCA?lang=en;strength=secondary")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-contains-27"> covers="uca-collation"
+      <description> Use contains() with a UCA collation and secondary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:contains("dâtabase", "Data", "http://www.w3.org/2013/collation/UCA?lang=en;strength=secondary")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-contains-28" covers="uca-collation">
+      <description> Use contains() with a UCA collation and tertiary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:contains("database", "DATA", "http://www.w3.org/2013/collation/UCA?lang=en;strength=tertiary")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-contains-29" covers="uca-collation">
+      <description> Use contains() with a UCA collation and tertiary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:contains("dataBase", "taBas", "http://www.w3.org/2013/collation/UCA?lang=en;strength=tertiary")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-contains-30"> covers="uca-collation"
+      <description> Use contains() with a UCA collation and tertiary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:contains("database", "dâta", "http://www.w3.org/2013/collation/UCA?lang=en;strength=tertiary")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-contains-31"> covers="uca-collation"
+      <description> Use contains() with a UCA collation and tertiary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:contains("database", "Data", "http://www.w3.org/2013/collation/UCA?lang=en;strength=tertiary")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-contains-32"> covers="uca-collation"
+      <description> Use contains() with a UCA collation and numeric matching.</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:contains("Chapter-001", "Chapter-1", "http://www.w3.org/2013/collation/UCA?lang=en;numeric=yes")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-contains-33"> covers="uca-collation"
+      <description> Use contains() with a UCA collation and numeric matching.</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:contains("Chapter-100", "Chapter-10", "http://www.w3.org/2013/collation/UCA?lang=en;numeric=yes")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
 
    <test-case name="K-ContainsFunc-1">
       <description> A test whose essence is: `contains()`. </description>

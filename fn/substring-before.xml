@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="us-ascii"?>
+<?xml version="1.0" encoding="utf-8"?>
 <test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="fn-substring-before">
    <description/>
    <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/"
@@ -304,6 +304,176 @@
          "http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive")</test>
       <result>
          <assert-eq>"b"</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-substring-before-27" covers="uca-collation">
+      <description> Use substring-before() with a UCA collation </description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:substring-before("banana", "ana", "http://www.w3.org/2013/collation/UCA?lang=en")</test>
+      <result>
+         <assert-eq>"b"</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-substring-before-28" covers="uca-collation">
+      <description> Use substring-before() with a UCA collation </description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:substring-before("banana", "ananas", "http://www.w3.org/2013/collation/UCA?lang=en")</test>
+      <result>
+         <assert-eq>""</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-substring-before-29" covers="uca-collation">
+      <description> Use substring-before() with a UCA collation and primary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:substring-before("database", "BASE", "http://www.w3.org/2013/collation/UCA?lang=en;strength=primary")</test>
+      <result>
+         <assert-eq>"data"</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-substring-before-30" covers="uca-collation">
+      <description> Use substring-before() with a UCA collation and primary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:substring-before("database", "tabaS", "http://www.w3.org/2013/collation/UCA?lang=en;strength=primary")</test>
+      <result>
+         <assert-eq>"da"</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-substring-before-31"> covers="uca-collation"
+      <description> Use substring-before() with a UCA collation and primary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:substring-before("database", "âta", "http://www.w3.org/2013/collation/UCA?lang=en;strength=primary")</test>
+      <result>
+         <assert-eq>"d"</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-substring-before-32"> covers="uca-collation"
+      <description> Use substring-before() with a UCA collation and primary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:substring-before("dâtabase", "âtabase", "http://www.w3.org/2013/collation/UCA?lang=en;strength=primary")</test>
+      <result>
+         <assert-eq>"d"</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-substring-before-33"> covers="uca-collation"
+      <description> Use substring-before() with a UCA collation and primary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:substring-before("dâtÅbase", "âtabÃse", "http://www.w3.org/2013/collation/UCA?lang=en;strength=primary")</test>
+      <result>
+         <assert-eq>"d"</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-substring-before-34" covers="uca-collation">
+      <description> Use substring-before() with a UCA collation and secondary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:substring-before("database", "BASE", "http://www.w3.org/2013/collation/UCA?lang=en;strength=secondary")</test>
+      <result>
+         <assert-eq>"data"</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-substring-before-35" covers="uca-collation">
+      <description> Use substring-before() with a UCA collation and secondary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:substring-before("database", "tabaS", "http://www.w3.org/2013/collation/UCA?lang=en;strength=secondary")</test>
+      <result>
+         <assert-eq>"da"</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-substring-before-36"> covers="uca-collation"
+      <description> Use substring-before() with a UCA collation and secondary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:substring-before("database", "bâs", "http://www.w3.org/2013/collation/UCA?lang=en;strength=secondary")</test>
+      <result>
+         <assert-eq>""</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-substring-before-37"> covers="uca-collation"
+      <description> Use substring-before() with a UCA collation and secondary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:substring-before("dâtabase", "Base", "http://www.w3.org/2013/collation/UCA?lang=en;strength=secondary")</test>
+      <result>
+         <assert-eq>"dâta"</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-substring-before-38" covers="uca-collation">
+      <description> Use substring-before() with a UCA collation and tertiary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:substring-before("database", "BASE", "http://www.w3.org/2013/collation/UCA?lang=en;strength=tertiary")</test>
+      <result>
+         <assert-eq>""</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-substring-before-39" covers="uca-collation">
+      <description> Use substring-before() with a UCA collation and tertiary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:substring-before("dataBase", "taBas", "http://www.w3.org/2013/collation/UCA?lang=en;strength=tertiary")</test>
+      <result>
+         <assert-eq>"da"</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-substring-before-40"> covers="uca-collation"
+      <description> Use substring-before() with a UCA collation and tertiary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:substring-before("database", "bâse", "http://www.w3.org/2013/collation/UCA?lang=en;strength=tertiary")</test>
+      <result>
+         <assert-eq>""</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-substring-before-41"> covers="uca-collation"
+      <description> Use substring-before() with a UCA collation and tertiary matching</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:substring-before("database", "Base", "http://www.w3.org/2013/collation/UCA?lang=en;strength=tertiary")</test>
+      <result>
+         <assert-eq>""</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-substring-before-42"> covers="uca-collation"
+      <description> Use substring-before() with a UCA collation and numeric matching.</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:substring-before("Chapter-001", "ter-1", "http://www.w3.org/2013/collation/UCA?lang=en;numeric=yes")</test>
+      <result>
+         <assert-eq>"Chap"</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-substring-before-43"> covers="uca-collation"
+      <description> Use substring-before() with a UCA collation and numeric matching.</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:substring-before("Chapter-100", "Chapter-10", "http://www.w3.org/2013/collation/UCA?lang=en;numeric=yes")</test>
+      <result>
+         <assert-eq>""</assert-eq>
       </result>
    </test-case>
 
