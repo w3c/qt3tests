@@ -323,6 +323,7 @@ it put its sooty foot.</fn:non-match></fn:analyze-string-result>]]></assert-xml>
 	<assert-eq>concat('Mary', codepoints-to-string(13), 'Jones')</assert-eq>
       </result>
    </test-case>
+   
    <test-case name="analyzeString-027" covers-30="regex-dot-matching-cr">
       <description> "." does NOT match CR in default mode</description>
       <created by="Tim Mills" on="2012-09-25"/>
@@ -332,6 +333,23 @@ it put its sooty foot.</fn:non-match></fn:analyze-string-result>]]></assert-xml>
 	<assert-eq>concat('y', codepoints-to-string(13), 'J')</assert-eq>
       </result>
    </test-case>
+   
+   <test-case name="analyzeString-028">
+      <description> Result of analyze-string must have the right in-scope namespaces </description>
+      <created by="Michael Kay" on="2016-09-26"/>
+      <dependency type="spec" value="XQ31"/>
+      <test>
+         declare function local:namespaces($e as element(*)) as map(xs:string, xs:anyURI) {
+           map:merge(in-scope-prefixes($e) ! map{. : namespace-uri-for-prefix(., $e)})
+         };
+         let $m := local:namespaces(analyze-string((), "abc"))
+         return sort($m?*)
+      </test>
+      <result>
+         <assert-deep-eq>"http://www.w3.org/2005/xpath-functions", "http://www.w3.org/XML/1998/namespace"</assert-deep-eq>
+      </result>
+   </test-case>
+   
    <test-case name="analyzeString-901">
       <description> analyze-string, error, bad regex pattern</description>
       <created by="Michael Kay" on="2009-10-18"/>
