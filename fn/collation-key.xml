@@ -82,9 +82,99 @@
             <assert-true/>
         </result>
     </test-case>
-    
-         
    
+   <test-case name="collation-key-008">
+      <description>Simple comparison using a case-blind collation</description>
+      <created by="Michael Kay, Saxonica" on="2016-09-28"/>
+      <test>let $C := "http://www.w3.org/2013/collation/UCA?lang=en;strength=primary"
+         return collation-key("abc", $C) eq collation-key("ABC", $C)
+      </test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="collation-key-009u">
+      <description>Ordered comparison using a case-sensitive collation</description>
+      <created by="Michael Kay, Saxonica" on="2016-09-28"/>
+      <test>let $C := "http://www.w3.org/2013/collation/UCA?lang=en;caseFirst=upper"
+         return collation-key("abc", $C) gt collation-key("ABC", $C)
+      </test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="collation-key-009l">
+      <description>Ordered comparison using a case-sensitive collation</description>
+      <created by="Michael Kay, Saxonica" on="2016-09-28"/>
+      <test>let $C := "http://www.w3.org/2013/collation/UCA?lang=en;caseFirst=lower"
+         return collation-key("abc", $C) gt collation-key("ABC", $C)
+      </test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="collation-key-010">
+      <description>Equality comparison using the HTML case-blind collation</description>
+      <created by="Michael Kay, Saxonica" on="2016-09-28"/>
+      <test>let $C := "http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive"
+         return collation-key("abc", $C) eq collation-key("ABC", $C)
+      </test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="collation-key-011">
+      <description>Collation keys for default collation are xs:base64Binary values (bug 29853)</description>
+      <created by="Michael Kay" on="2016-09-28"/>
+      <test>collation-key("abc")</test>
+      <result>
+         <assert-type>xs:base64Binary</assert-type>
+      </result>
+   </test-case>
+   
+   <test-case name="collation-key-012">
+      <description>Collation keys for UCA collation are xs:base64Binary values (bug 29853)</description>
+      <created by="Michael Kay" on="2016-09-28"/>
+      <test>let $C := "http://www.w3.org/2013/collation/UCA?lang=en;caseFirst=upper"
+         return collation-key("abc", $C)</test>
+      <result>
+         <assert-type>xs:base64Binary</assert-type>
+      </result>
+   </test-case>
+   
+   <test-case name="collation-key-013">
+      <description>Collation keys for UCA collation are xs:base64Binary values (bug 29853)</description>
+      <created by="Michael Kay" on="2016-09-28"/>
+      <test>let $C := "http://www.w3.org/2013/collation/UCA?lang=en;caseFirst=upper"
+         return collation-key("abc", $C)</test>
+      <result>
+         <assert-type>xs:base64Binary</assert-type>
+      </result>
+   </test-case>
+   
+   <test-case name="collation-key-014">
+      <description>Collation keys for HTML collation are xs:base64Binary values (bug 29853)</description>
+      <created by="Michael Kay" on="2016-09-28"/>
+      <test>let $C := "http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive"
+         return collation-key("abc", $C)</test>
+      <result>
+         <assert-type>xs:base64Binary</assert-type>
+      </result>
+   </test-case>
+   
+   <test-case name="collation-key-015">
+      <description>Codepoint collation keys work correctly for surrogate pairs</description>
+      <created by="Michael Kay" on="2016-09-28"/>
+      <test>collation-key(codepoints-to-string((37, 65500, 37))) lt collation-key(codepoints-to-string((37, 100000, 37))) </test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+      
    <test-case name="collation-key-101">
       <description>Basic test with HTML5 collation</description>
       <created by="Michael Kay" on="2014-12-04"/>
