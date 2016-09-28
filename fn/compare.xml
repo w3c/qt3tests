@@ -778,9 +778,67 @@
          <assert-eq>1</assert-eq>
       </result>
    </test-case>
- 
    
-
+   <test-case name="compare-040" covers="uca-collation">
+      <description> Use compare() with a UCA collation : alternate=blanked : spaces insignificant at the tertiary level</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:compare("database", "data base", "http://www.w3.org/2013/collation/UCA?lang=en;alternate=blanked;strength=tertiary") = 0</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="compare-041" covers="uca-collation">
+      <description> Use compare() with a UCA collation : alternate=blanked : spaces insignificant at the quaternary level</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:compare("database", "data base", "http://www.w3.org/2013/collation/UCA?lang=en;alternate=blanked;strength=quaternary") = 0</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="compare-042" covers="uca-collation">
+      <description> Use compare() with a UCA collation : alternate=blanked : spaces significant at the identical level</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:compare("database", "data base", "http://www.w3.org/2013/collation/UCA?lang=en;alternate=blanked;strength=identical") = 0</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="compare-043" covers="uca-collation">
+      <description> Use compare() with a UCA collation : alternate=shifted : spaces insignificant at the tertiary level</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:compare("database", "data base", "http://www.w3.org/2013/collation/UCA?lang=en;alternate=shifted;strength=tertiary") = 0</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="compare-044" covers="uca-collation">
+      <description> Use compare() with a UCA collation : alternate=shifted : spaces significant at the quaternary level</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:compare("database", "data base", "http://www.w3.org/2013/collation/UCA?lang=en;alternate=shifted;strength=quaternary") = 0</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="compare-045" covers="uca-collation">
+      <description> Use compare() with a UCA collation : alternate=shifted : spaces significant at the identical level</description>
+      <created by="Michael Kay" on="2016-09-23"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>fn:compare("database", "data base", "http://www.w3.org/2013/collation/UCA?lang=en;alternate=shifted;strength=identical") = 0</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
    <test-case name="K2-CompareFunc-1">
       <description>Use a complex collation argument.</description>
       <created by="Frans Englich" on="2007-11-26"/>
