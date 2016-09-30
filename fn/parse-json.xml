@@ -736,6 +736,61 @@
          <assert-deep-eq>map{"x":"\\","y":"\u0025"}</assert-deep-eq>
       </result>
    </test-case>
+   <test-case name="fn-parse-json-107">
+      <description>
+         If the escape option is set to true, escape sequences are retained in their escaped form, 
+         whether or not they represent valid characters.
+      </description>
+      <created by="Michael Kay" on="2016-09-29"/>
+      <test>parse-json('{"\\":"x", "\u0025":"y"}', map{'escape':true()})</test>
+      <result>
+         <assert-deep-eq>map{"\\":"x", "\u0025":"y"}</assert-deep-eq>
+      </result>
+   </test-case>
+   <test-case name="fn-parse-json-108">
+      <description>
+         If the escape option is set to true, keys are compared in their escaped form
+         when testing for duplicates.
+      </description>
+      <created by="Michael Kay" on="2016-09-29"/>
+      <test>parse-json('{"%":"x", "\u0025":"y"}', map{'escape':true()})</test>
+      <result>
+         <assert-deep-eq>map{"%":"x", "\u0025":"y"}</assert-deep-eq>
+      </result>
+   </test-case>
+   <test-case name="fn-parse-json-109">
+      <description>
+         If the escape option is set to true, keys are compared in their escaped form
+         when testing for duplicates.
+      </description>
+      <created by="Michael Kay" on="2016-09-29"/>
+      <test>parse-json('{"/":"x", "\/":"y"}', map{'escape':true(), 'duplicates':'reject'})</test>
+      <result>
+         <error code="FOJS0003"/>
+      </result>
+   </test-case>
+   <test-case name="fn-parse-json-110">
+      <description>
+         If the escape option is set to true, keys are compared in their escaped form
+         when testing for duplicates.
+      </description>
+      <created by="Michael Kay" on="2016-09-29"/>
+      <test>parse-json('{"'||codepoints-to-string((10, 37))||'":"x", "\n%":"y"}', map{'escape':true(), 'duplicates':'reject'})</test>
+      <result>
+         <error code="FOJS0003"/>
+      </result>
+   </test-case>
+   <test-case name="fn-parse-json-111">
+      <description>
+         If the escape option is set to true, keys are compared in their escaped form
+         when testing for duplicates.
+      </description>
+      <created by="Michael Kay" on="2016-09-29"/>
+      <test>parse-json('{"%\u0010%":"x", "%\n%":"y"}', map{'escape':true(), 'duplicates':'reject'})</test>
+      <result>
+         <assert-deep-eq>map{"%\u0010%":"x", "%\n%":"y"}</assert-deep-eq>
+      </result>
+   </test-case>
   
    <!-- things that a liberal parser might allow -->
 
