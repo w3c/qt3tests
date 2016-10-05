@@ -745,6 +745,39 @@ declare option output:html-version  "5.0";
       </result>
    </test-case>
 
+  <test-case name="Serialization-xhtml-41" covers="serialization-general">
+      <description>Test the XHTML serialization output method - empty array</description>
+      <created by="Tim Mills" on="2016-09-30"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[
+declare boundary-space strip;
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+declare option output:method  "xhtml";
+declare option output:indent  "no";
+declare option output:html-version  "4.0";
 
+let $html := <html><body><area/><base/><br/><col/><embed/><frame/><hr/><img/><input/><isindex/><link/><meta/><param/></body></html>
+return [ $html ]
+]]></test>
+      <result>
+         <serialization-matches><![CDATA[<html><body><area></area><base></base><br></br><col></col><embed></embed><frame></frame><hr></hr><img></img><input></input><isindex></isindex><link></link><meta></meta><param></param></body></html>]]></serialization-matches>
+      </result>
+   </test-case>
+ 
+  <test-case name="Serialization-xhtml-42" covers="serialization-general">
+      <description>Test the XHTML serialization output method - empty map</description>
+      <created by="Tim Mills" on="2016-09-30"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[
+ 
+     	declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "xhtml";
+        map { } 
+
+      ]]></test>
+      <result>
+         <assert-serialization-error code="SENR0001"/>
+      </result>
+   </test-case>
 
 </test-set>

@@ -247,5 +247,36 @@
       </result>
    </test-case>
 
+  <test-case name="Serialization-text-19" covers="serialization-general">
+      <description>Test the HTML serialization output method - empty array</description>
+      <created by="Tim Mills" on="2016-09-30"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[
+ 
+     	declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "text";
+        [1, 2, 3, 4, 5] 
+
+      ]]></test>
+      <result>
+         <serialization-matches><![CDATA[1 2 3 4 5]]></serialization-matches>
+      </result>
+   </test-case>
+
+  <test-case name="Serialization-text-20" covers="serialization-general">
+      <description>Test the HTML serialization output method - empty map</description>
+      <created by="Tim Mills" on="2016-09-30"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[
+ 
+     	declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "html";
+        map { } 
+
+      ]]></test>
+      <result>
+         <assert-serialization-error code="SENR0001"/>
+      </result>
+   </test-case>
 
 </test-set>
