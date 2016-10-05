@@ -457,6 +457,54 @@
       </result>
    </test-case>
    
+   <test-case name="inline-fn-034">
+      <description>Inline function accessing global variable in XQuery</description>
+      <created by="Michael Kay" on="2016-10-03"/>
+      <dependency type="spec" value="XQ30+"/>
+      <environment>
+         <param name="p" select="7" declared="true"/>
+      </environment>
+      <test>
+         declare variable $p as xs:integer external;
+         declare variable $f := function($a) {$a + $p};
+         $f(12)
+      </test>
+      <result>
+         <assert-eq>19</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="inline-fn-035">
+      <description>Inline function with closure accessing global variables and functions in XQuery</description>
+      <created by="Michael Kay" on="2016-10-03"/>
+      <dependency type="spec" value="XQ30+"/>
+      <environment>
+         <param name="p" select="7" declared="true"/>
+      </environment>
+      <test>
+         declare variable $p as xs:integer external;
+         declare function local:negate($x) {-$x};
+         declare variable $f := let $x := $p return function($a) {local:negate($a + $x + $p)};
+         $f(12)
+      </test>
+      <result>
+         <assert-eq>-26</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="inline-fn-036">
+      <description>Body of inline function fails type-checking</description>
+      <created by="Michael Kay" on="2016-10-03"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>
+         let $f := function($x as xs:double) {1 to $x}
+         return $f(3)
+      </test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
 
    
 </test-set>
