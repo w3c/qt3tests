@@ -238,14 +238,15 @@
       <modified by="Michael Kay" on="2015-07-17" change="Change keyword unescape->escape"/>
       <modified by="Debbie Lockett" on="2015-08-07" change="Change expected result, quotes not escaped, see bug #28995"/>
       <modified by="Michael Kay" on="2016-09-29" change="Change expected result, existing escapes are retained, see bug #29872"/>
+      <modified by="Michael Kay" on="2016-10-04" change="Revert previous change, see reopening of bug #28812"/>
       <environment ref="json-files"/>
       <test>
          fn:json-to-xml(unparsed-text('http://www.w3.org/qt3/json/escapeText-json'), map{'escape':true()})//j:string
       </test>
       <result>
          <all-of>
-                <assert-type>element(j:string)</assert-type>
-            <assert>$result/self::*:string eq 'Data with \" within it'</assert>
+            <assert-type>element(j:string)</assert-type>
+            <assert>$result/self::*:string eq 'Data with " within it'</assert>
             <assert>$result/self::*:string/@key eq 'key'</assert>
             <assert>namespace-uri($result/self::*:string) eq 'http://www.w3.org/2005/xpath-functions'</assert>
             </all-of>
@@ -406,6 +407,7 @@
       <modified by="Michael Kay" on="2015-07-17" change="Change keyword unescape->escape"/>
       <modified by="Debbie Lockett" on="2015-08-07" change="Result change see bug #28996"/>
       <modified by="Michael Kay" on="2016-09-29" change="Result change see bug #29872"/>
+      <modified by="Michael Kay" on="2016-10-04" change="Revert previous change, see reopening of bug #28812"/>
       <environment ref="json-ns"/>
       <dependency type="xml-version" value="1.0"/>
       <test>
@@ -414,7 +416,7 @@
       <result>
          <assert-xml ignore-prefixes="true"><![CDATA[<map 
          xmlns="http://www.w3.org/2005/xpath-functions"
-         ><string key="a" escaped="true">\u000C</string
+         ><string key="a" escaped="true">\f</string
          ><string key="\u0007" escaped-key="true">bell</string></map>
          ]]></assert-xml> 
       </result>
@@ -772,15 +774,13 @@
       <modified by="Debbie Lockett" on="2015-08-07" change="Result change (plus description edit), see bug #28998"/>
       <modified by="Christian Gruen" on="2015-10-21" change="Schema import dependency removed."/>
       <modified by="Michael Kay" on="2016-09-29" change="Spec change, bug 29872, escaped characters retain their escaped form."/>
+      <modified by="Michael Kay" on="2016-10-04" change="Revert previous change, see reopening of bug #28812"/>
       <environment ref="json-ns"/>
       <test>
          fn:json-to-xml('{"\n":1, "\u000A":2}', map{'escape':true(), 'duplicates':'reject'})
       </test>
         <result>
-           <assert-xml ignore-prefixes="true"><![CDATA[<map 
-         xmlns="http://www.w3.org/2005/xpath-functions"><number key="\n" escaped-key="true"
-         >1</number><number key="\u000A" escaped-key="true">2</number></map>
-         ]]></assert-xml>
+           <error code="FOJS0003"/>
         </result>
    </test-case>
 
@@ -915,9 +915,10 @@
       <created by="Debbie Lockett" on="2015-08-10"/>
       <modified by="Michael Kay" on="2016-08-30" change="spec change, solidus is now escaped"/>
       <modified by="Michael Kay" on="2016-09-29" change="spec change, bug29872, escape sequences in the input are retained unchanged"/>
+      <modified by="Michael Kay" on="2016-10-04" change="Revert previous change, see reopening of bug #28812"/>
       <test>json-to-xml('"\\\/\"\r\t\u0020"', map {'escape':true()})</test>
       <result>
-         <assert-xml ignore-prefixes="true"><![CDATA[<string xmlns="http://www.w3.org/2005/xpath-functions" escaped="true">\\\/\"\r\t\u0020</string>]]></assert-xml>
+         <assert-xml ignore-prefixes="true"><![CDATA[<string xmlns="http://www.w3.org/2005/xpath-functions" escaped="true">\\/"\r\t </string>]]></assert-xml>
       </result>
    </test-case>
 

@@ -727,24 +727,24 @@
    </test-case>
    <test-case name="fn-parse-json-106">
       <description>
-         If the escape option is set to true, escape sequences are retained in their escaped form, 
-         whether or not they represent valid characters.
+         If the escape option is set to true, escape sequences are used only for special characters.
       </description>
       <created by="Michael Kay" on="2016-09-23"/>
+      <modified by="Michael Kay" on="2016-10-04" change="see reopening of bug 28812"/>
       <test>parse-json('{"x":"\\", "y":"\u0025"}', map{'escape':true()})</test>
       <result>
-         <assert-deep-eq>map{"x":"\\","y":"\u0025"}</assert-deep-eq>
+         <assert-deep-eq>map{"x":"\\","y":"%"}</assert-deep-eq>
       </result>
    </test-case>
    <test-case name="fn-parse-json-107">
       <description>
-         If the escape option is set to true, escape sequences are retained in their escaped form, 
-         whether or not they represent valid characters.
+         If the escape option is set to true, escape sequences are used only for special characters.
       </description>
       <created by="Michael Kay" on="2016-09-29"/>
+      <modified by="Michael Kay" on="2016-10-04" change="see reopening of bug 28812"/>
       <test>parse-json('{"\\":"x", "\u0025":"y"}', map{'escape':true()})</test>
       <result>
-         <assert-deep-eq>map{"\\":"x", "\u0025":"y"}</assert-deep-eq>
+         <assert-deep-eq>map{"\\":"x", "%":"y"}</assert-deep-eq>
       </result>
    </test-case>
    <test-case name="fn-parse-json-108">
@@ -753,9 +753,10 @@
          when testing for duplicates.
       </description>
       <created by="Michael Kay" on="2016-09-29"/>
-      <test>parse-json('{"%":"x", "\u0025":"y"}', map{'escape':true()})</test>
+      <modified by="Michael Kay" on="2016-10-04" change="see reopening of bug 28812"/>
+      <test>parse-json('{"%":"x", "\u0025":"y"}', map{'escape':true(), 'duplicates':'reject'})</test>
       <result>
-         <assert-deep-eq>map{"%":"x", "\u0025":"y"}</assert-deep-eq>
+         <error code="FOJS0003"/>
       </result>
    </test-case>
    <test-case name="fn-parse-json-109">
