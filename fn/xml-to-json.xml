@@ -896,6 +896,22 @@
             <error code="FOJS0006"/>
       </result>
    </test-case>
+   
+   <test-case name="xml-to-json-070">
+      <description>
+         Converting a subtree of a valid tree: test case for bug 29917.
+         Currently invalid because the selected element has a 'key' attribute which is not allowed.
+      </description>
+      <created by="Michael Kay" on="2016-10-06"/>
+      <dependency type="spec" value="XP31 XQ31"/>
+      <test>
+         let $x := json-to-xml('[{ "givenNames": ["Michael", "Howard"], "surname": "Kay"}]')
+         return xml-to-json($x//*[@key='givenNames'])
+      </test>
+      <result>
+         <error code="FOJS0006"/>
+      </result>
+   </test-case>
 
    <test-case name="xml-to-json-C-001">
       <description>Invalid input</description>
