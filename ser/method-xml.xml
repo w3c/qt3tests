@@ -674,8 +674,9 @@
   </test-case>
 
   <test-case name="Serialization-xml-01" covers="serialization-general">
-      <description>Test the XML serialization output method - empty array</description>
+      <description>Test the XML serialization output method - non-empty array</description>
       <created by="Tim Mills" on="2016-09-30"/>
+      <modified by="Michael Kay" on="2016-10-07" change="define a more precise result"/>
       <dependency type="spec" value="XQ31+"/>
       <test><![CDATA[
       	declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
@@ -684,7 +685,7 @@
         [1, 2, 3, 4, 5]
       ]]></test>
       <result>
-         <serialization-matches><![CDATA[1|2|3|4|5]]></serialization-matches>
+         <serialization-matches><![CDATA[<\?xml[^>]+>1\|2\|3\|4\|5$]]></serialization-matches>
       </result>
    </test-case>
 
