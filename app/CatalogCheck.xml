@@ -107,6 +107,7 @@
         declare function local:needs-xq($t as element(fots:test-case)) as xs:boolean {
             let $spec := $t/fots:dependency[@type='spec'][1]
             return exists($spec) and contains($spec/@value, 'XQ') and not(contains($spec/@value, 'XP'))
+               and not(starts-with($t/@name, 'fo-test-' (: special exemption for generated tests :)))
         };
         let $testsets := //fots:test-set/@file/doc(resolve-uri(., base-uri(..)))
         let $nsenvs :=
@@ -134,6 +135,7 @@
         declare function local:needs-xq($t as element(fots:test-case)) as xs:boolean {
             let $spec := $t/fots:dependency[@type='spec'][1]
             return exists($spec) and contains($spec/@value, 'XQ') and not(contains($spec/@value, 'XP'))
+               and not(starts-with($t/@name, 'fo-test-' (: special exemption for generated tests :)))
         };
         let $testsets := //fots:test-set/@file/doc(resolve-uri(., base-uri(..)))
         let $nsenvs :=
@@ -310,6 +312,7 @@
         for $test in $testsets//fots:test-case
         where not(exists($test/(@covers | ../@covers)))
         where exists($test/((fots:dependency | ../fots:dependency)[@type='spec' and contains(@value, '31')]))
+        where not(starts-with($test/@name, 'fo-test-' (: special exemption for generated tests :)))
         return <out test="{$test/@name}"/>
       ]]></test>
     <result>
