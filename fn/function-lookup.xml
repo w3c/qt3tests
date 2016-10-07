@@ -5383,13 +5383,20 @@
     <description>Attempts to invoke function fn:transform#1.</description>
     <created by="Tim Mills" on="2016-08-19"/>
     <modified by="Tim Mills" on="2016-10-07" change="See Bug 29915"/>
+    <modified by="Michael Kay" on="2016-10-07" change="See Bug 29915"/>
     <dependency type="spec" value="XP31+ XQ31+"/>
     <dependency type="feature" value="fn-transform-XSLT" satisfied="true"/>  
-    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'transform'), 1)( map{} )</test>
+    <test><![CDATA[
+      function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'transform'), 1)( map{
+        'stylesheet-text': '<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"><xsl:template match="/"><out/></xsl:template></xsl:stylesheet>',
+        'source-node': doc("function-lookup/collection-1.xml")
+      } )]]></test>
     <result>
             <all-of>
                 <assert-type>map(*)</assert-type>
                 <assert-type>map(xs:string, item())</assert-type>
+                <assert>$result("output") instance of document-node()</assert>
+                <assert>exists($result("output")/out)</assert>
             </all-of>       
     </result>
   </test-case>
