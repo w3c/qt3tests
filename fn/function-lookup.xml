@@ -5288,12 +5288,12 @@
              covers="fn-load-xquery-module"
              covers-30="dynamic-function-call">
     <description>Attempts to invoke function fn:load-xquery-module#1.</description>
-    <!-- See bug 29914 -->
     <created by="Tim Mills" on="2016-08-19"/>
+    <modified by="Tim Mills" on="2016-10-07" change="See Bug 29914"/>
     <dependency type="spec" value="XP31+ XQ31+"/>
     <dependency type="feature" value="fn-load-xquery-module" satisfied="true"/> 
     <module uri="http://www.w3.org/fots/fn/load-xquery-module/valid/module" file="load-xquery-module/valid-module.xqm"/>
-    <test>let $module := function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'load-xquery-module'), 1)("http://www.w3.org/fots/fn/load-xquery-module/valid/module")
+    <test>let $module-ns := "http://www.w3.org/fots/fn/load-xquery-module/valid/module", $module := function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'load-xquery-module'), 1)($module-ns)
       return
         let $vars := $module("variables"),
          $fns := $module("functions")
@@ -5381,11 +5381,11 @@
              covers="fn-transform"
              covers-30="dynamic-function-call">
     <description>Attempts to invoke function fn:transform#1.</description>
-    <!-- See bug 29915 -->
     <created by="Tim Mills" on="2016-08-19"/>
+    <modified by="Tim Mills" on="2016-10-07" change="See Bug 29915"/>
     <dependency type="spec" value="XP31+ XQ31+"/>
     <dependency type="feature" value="fn-transform-XSLT" satisfied="true"/>  
-    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'transform'), 1)( 0 )</test>
+    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'transform'), 1)( map{} )</test>
     <result>
             <all-of>
                 <assert-type>map(*)</assert-type>
