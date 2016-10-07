@@ -1258,6 +1258,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         <description>Transform using option base-output-uri, and serialized delivery-format</description>
         <created by="Debbie Lockett" on="2015-04-13"/>
         <modified by="Abel Braaksma" on="2016-09-22" change="use function-style map lookup"/>
+        <modified by="Michael Kay" on="2016-10-07" change="see bug 29922"/>
         <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <environment ref="works-mod-uri2"/>
         <test>fn:transform(map {"stylesheet-location" : $render, "source-node" : fn:doc($uri),
@@ -1267,13 +1268,10 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
             <all-of>
                 <assert-type>map(*)</assert-type>
                 <assert>map:size($result) = 1</assert>
-                <assert>not(map:contains($result, "output"))</assert>
-                <assert>contains(map:keys($result), 'fn-transform-45.xml')</assert>
-                <assert>$result("output") instance of xs:string</assert>
-                <assert><![CDATA[contains($result("output"), "<works>")]]></assert>
-                <assert>count(parse-xml($result("output"))//employee) > 3</assert>
-                <assert>some $key in map:keys($result) satisfies ends-with($key,
-                    'transform/sandbox/fn-transform-45.xml')</assert>
+                <assert>ends-with(map:keys($result)[1], 'transform/sandbox/fn-transform-45.xml')</assert>
+                <assert>$result(map:keys($result)[1]) instance of xs:string</assert>
+                <assert>contains($result(map:keys($result)[1]), "&lt;works>")</assert>
+                <assert>count(parse-xml($result(map:keys($result)[1]))//employee) > 3</assert>
             </all-of>
         </result>
     </test-case>
