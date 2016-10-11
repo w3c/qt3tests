@@ -3874,39 +3874,28 @@ Tak, tak, tak! - da kommen sie.
    <test-case name="fo-test-d3e8480">
       <description>Test case for fn:analyze-string</description>
       <created by="generate-qt3-test-set.xsl" on="2016-09-26"/>
+      <modified by="Josh Spiegel" on="2016-10-11" change="Bug 29932"/>
       <environment ref="global"/>
       <test>
         fn:analyze-string("2008-12-03",
                   "^(\d+)\-(\d+)\-(\d+)$")
       </test>
       <result>
-         <assert-xml><![CDATA[
-<analyze-string-result xmlns="http://www.w3.org/2005/xpath-functions">
-  <match><group nr="1">2008</group>-<group nr="2">12</group>-<group nr="3">03</group></match>
-</analyze-string-result>]]></assert-xml>
+         <assert-xml><![CDATA[<analyze-string-result xmlns="http://www.w3.org/2005/xpath-functions"><match><group nr="1">2008</group>-<group nr="2">12</group>-<group nr="3">03</group></match></analyze-string-result>]]></assert-xml>
       </result>
    </test-case>
 
    <test-case name="fo-test-d3e8486">
       <description>Test case for fn:analyze-string</description>
       <created by="generate-qt3-test-set.xsl" on="2016-09-26"/>
+      <modified by="Josh Spiegel" on="2016-10-11" change="Bug 29932"/>
       <environment ref="global"/>
       <test>
         fn:analyze-string("A1,C15,,D24, X50,",
                   "([A-Z])([0-9]+)")
       </test>
       <result>
-         <assert-xml><![CDATA[
-<analyze-string-result xmlns="http://www.w3.org/2005/xpath-functions">                  
-  <match><group nr="1">A</group><group nr="2">1</group></match>
-  <non-match>,</non-match>
-  <match><group nr="1">C</group><group nr="2">15</group></match>
-  <non-match>,,</non-match>
-  <match><group nr="1">D</group><group nr="2">24</group></match>
-  <non-match>, </non-match>
-  <match><group nr="1">X</group><group nr="2">50</group></match>
-  <non-match>,</non-match>
-</analyze-string-result>]]></assert-xml>
+         <assert-xml><![CDATA[<analyze-string-result xmlns="http://www.w3.org/2005/xpath-functions"><match><group nr="1">A</group><group nr="2">1</group></match><non-match>,</non-match><match><group nr="1">C</group><group nr="2">15</group></match><non-match>,,</non-match><match><group nr="1">D</group><group nr="2">24</group></match><non-match>, </non-match><match><group nr="1">X</group><group nr="2">50</group></match><non-match>,</non-match></analyze-string-result>]]></assert-xml>
       </result>
    </test-case>
 
@@ -7845,20 +7834,13 @@ Himmlische, dein Heiligtum.&lt;/p&gt;}
    <test-case name="fo-test-d3e25667">
       <description>Test case for fn:json-to-xml</description>
       <created by="generate-qt3-test-set.xsl" on="2016-09-26"/>
+      <modified by="Josh Spiegel" on="2016-10-11" change="Bug 29932"/>
       <environment ref="global"/>
       <test>
         json-to-xml('{"x": 1, "y": [3,4,5]}')
       </test>
       <result>
-         <assert-xml><![CDATA[
-<map xmlns="http://www.w3.org/2005/xpath-functions">
-  <number key="x">1</number>
-  <array key="y">
-   <number>3</number>
-   <number>4</number>
-   <number>5</number>
-  </array>
-</map>]]></assert-xml>
+         <assert-xml><![CDATA[<map xmlns="http://www.w3.org/2005/xpath-functions"><number key="x">1</number><array key="y"><number>3</number><number>4</number><number>5</number></array></map>]]></assert-xml>
       </result>
    </test-case>
 
@@ -7877,33 +7859,27 @@ Himmlische, dein Heiligtum.&lt;/p&gt;}
    <test-case name="fo-test-d3e25677">
       <description>Test case for fn:json-to-xml</description>
       <created by="generate-qt3-test-set.xsl" on="2016-09-26"/>
+      <modified by="Josh Spiegel" on="2016-10-11" change="Bug 29932"/>
       <environment ref="global"/>
       <test>
         json-to-xml('{"x": "\\", "y": "\u0025"}')
       </test>
       <result>
-         <assert-xml><![CDATA[
-<map xmlns="http://www.w3.org/2005/xpath-functions">
-  <string key="x">\</string>
-  <string key="y">%</string>
-</map>]]></assert-xml>
+         <assert-xml><![CDATA[<map xmlns="http://www.w3.org/2005/xpath-functions"><string key="x">\</string><string key="y">%</string></map>]]></assert-xml>
       </result>
    </test-case>
 
    <test-case name="fo-test-d3e25682">
       <description>Test case for fn:json-to-xml</description>
       <created by="generate-qt3-test-set.xsl" on="2016-09-26"/>
+      <modified by="Josh Spiegel" on="2016-10-11" change="Bug 29932"/>
       <environment ref="global"/>
       <test>
         json-to-xml('{"x": "\\", "y": "\u0025"}', map{'escape':
                   true()})
       </test>
       <result>
-         <assert-xml><![CDATA[
-<map xmlns="http://www.w3.org/2005/xpath-functions">
-  <string escaped="true" key="x">\\</string>
-  <string key="y">%</string>
-</map>]]></assert-xml>
+         <assert-xml><![CDATA[<map xmlns="http://www.w3.org/2005/xpath-functions"><string escaped="true" key="x">\\</string><string key="y">%</string></map>]]></assert-xml>
       </result>
    </test-case>
 
