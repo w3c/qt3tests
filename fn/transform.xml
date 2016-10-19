@@ -1816,6 +1816,42 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
             </all-of>
         </result>
     </test-case>
+    
+    <test-case name="fn-transform-65">
+        <descriptionxx>Transform using serialization-param cdata-section-elements</descriptionxx>
+        <created by="Michael Kay" on="2016-10-19"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
+        <environment ref="works-mod-uri2"/>
+        <test><![CDATA[declare variable $xsl as xs:string :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform'
+            xmlns:xs='http://www.w3.org/2001/XMLSchema'
+            xmlns:my='http://www.w3.org/fots/fn/transform/myfunctions' version='2.0'>
+            <xsl:output cdata-section-elements='b my:b'/>
+            <xsl:template name='main'>
+              <my:a>
+                <my:b>green</my:b>
+                <my:c>blue</my:c>
+                <b>red</b>
+                <c>pink</c>
+                <d>black</d>
+              </my:a>
+            </xsl:template>  
+        </xsl:stylesheet>";
+            transform(map{"stylesheet-text":$xsl,
+            "initial-template": fn:QName('','main'),
+            "delivery-format" : "serialized",
+            "serialization-params": map{'cdata-section-elements': (QName('http://www.w3.org/fots/fn/transform/myfunctions','c'), QName('', 'c'))}
+            })]]></test>
+        <result>
+            <all-of>
+                <assert>$result("output") instance of xs:string</assert>
+                <assert><![CDATA[contains($result("output"), "[CDATA[green]]")]]></assert>
+                <assert><![CDATA[contains($result("output"), "[CDATA[blue]]")]]></assert>
+                <assert><![CDATA[contains($result("output"), "[CDATA[red]]")]]></assert>
+                <assert><![CDATA[contains($result("output"), "[CDATA[pink]]")]]></assert>
+                <assert><![CDATA[contains($result("output"), "<d>black</d>")]]></assert>
+            </all-of>
+        </result>
+    </test-case>
 
 
     <test-case name="fn-transform-err-1">
