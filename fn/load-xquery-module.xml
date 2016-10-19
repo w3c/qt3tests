@@ -83,10 +83,13 @@
     <description>Checks for an error when calling fn:load-xquery-module and not providing a value for an external var in the module.</description>
     <created by="Adam Retter" on="2015-02-01"/>
     <modified by="Debbie Lockett" on="2015-05-11" change="Added module element"/>
+    <modified by="TIm Mills" on="2016-10-19" change="See Bug 29930"/>
     <module uri="http://www.w3.org/fots/fn/load-xquery-module/external-var/module" file="load-xquery-module/external-var-module.xqm"/>
-    <test>fn:load-xquery-module("http://www.w3.org/fots/fn/load-xquery-module/external-var/module")</test>
+    <test>let $module-ns := "http://www.w3.org/fots/fn/load-xquery-module/external-var/module",
+              $module := fn:load-xquery-module($module-ns)
+          return $module("variables")(QName($module-ns,'var1'))</test>
     <result>
-      <error code="FOQM0004"/>
+      <error code="XPDY0002"/>
     </result>
   </test-case>
 
@@ -94,10 +97,13 @@
     <description>Checks for an error when calling fn:load-xquery-module and not providing a value for an external var in the module.</description>
     <created by="Adam Retter" on="2015-02-01"/>
     <modified by="Debbie Lockett" on="2015-05-11" change="Added module element"/>
+    <modified by="TIm Mills" on="2016-10-19" change="See Bug 29930"/>
     <module uri="http://www.w3.org/fots/fn/load-xquery-module/external-var/module" file="load-xquery-module/external-var-module.xqm"/>
-    <test>fn:load-xquery-module("http://www.w3.org/fots/fn/load-xquery-module/external-var/module", map{})</test>
+    <test>let $module-ns := "http://www.w3.org/fots/fn/load-xquery-module/external-var/module",
+              $module := fn:load-xquery-module($module-ns, map{})
+          return $module("variables")(QName($module-ns,'var1'))</test>
     <result>
-      <error code="FOQM0004"/>
+      <error code="XPDY0002"/>
     </result>
   </test-case>
   
@@ -105,10 +111,12 @@
     <description>Checks for an error when calling fn:load-xquery-module and not providing a context item for the module.</description>
     <created by="Adam Retter" on="2015-02-01"/>
     <modified by="Debbie Lockett" on="2015-05-11" change="Added module element"/>
+    <modified by="TIm Mills" on="2016-10-19" change="See Bug 29930"/>
     <module uri="http://www.w3.org/fots/fn/load-xquery-module/context-item/module" file="load-xquery-module/context-item-module.xqm"/>
-    <test>fn:load-xquery-module("http://www.w3.org/fots/fn/load-xquery-module/context-item/module")</test>
+    <test>let $module-ns := "http://www.w3.org/fots/fn/load-xquery-module/context-item/module", $module := fn:load-xquery-module($module-ns)
+          return $module("variables")(QName($module-ns,'context'))</test>
     <result>
-      <error code="FOQM0004"/>
+      <error code="XPDY0002"/>
     </result>
   </test-case>
 
@@ -117,9 +125,10 @@
     <created by="Adam Retter" on="2015-02-01"/>
     <modified by="Debbie Lockett" on="2015-05-11" change="Added module element"/>
     <module uri="http://www.w3.org/fots/fn/load-xquery-module/context-item/module" file="load-xquery-module/context-item-module.xqm"/>
-    <test>fn:load-xquery-module("http://www.w3.org/fots/fn/load-xquery-module/context-item/module", map{})</test>
+    <test>let $module-ns := "http://www.w3.org/fots/fn/load-xquery-module/context-item/module", $module := fn:load-xquery-module($module-ns, map{})
+          return $module("variables")(QName($module-ns,'context'))</test>
     <result>
-      <error code="FOQM0004"/>
+      <error code="XPDY0002"/>
     </result>
   </test-case>
 
@@ -939,9 +948,9 @@
   <test-case name="fn-load-xquery-module-060">
     <description>Checks for an error when calling fn:load-xquery-module and providing the wrong type of value for the context item.</description>
     <created by="Debbie Lockett" on="2015-06-01"/>
+    <modified by="Tim Mills" on="2016-10-19" change="See Bug 29937"/>
     <module uri="http://www.w3.org/fots/fn/load-xquery-module/context-item/module" file="load-xquery-module/context-item2-module.xqm"/>
-    <test>fn:load-xquery-module("http://www.w3.org/fots/fn/load-xquery-module/context-item/module", 
-      map{"context-item" : "item"})</test>
+    <test>let $module-ns := "http://www.w3.org/fots/fn/load-xquery-module/context-item/module", $module := fn:load-xquery-module($module-ns, map{"context-item" : "item"}) return $module("variables")(QName($module-ns, "context"))</test>
     <result>
       <error code="FOQM0005"/>
     </result>
@@ -967,11 +976,12 @@
   <test-case name="fn-load-xquery-module-062">
     <description>Checks for an error when calling fn:load-xquery-module but variables option value has wrong type.</description>
     <created by="Debbie Lockett" on="2015-06-04"/>
+    <modified by="Tim Mills" on="2016-10-19" change="See Bug 29935" />
     <module uri="http://www.w3.org/fots/fn/load-xquery-module/valid/module" file="load-xquery-module/valid-module.xqm"/>
     <test>fn:load-xquery-module("http://www.w3.org/fots/fn/load-xquery-module/valid/module", 
       map{"variables" : "v"})</test>
     <result>
-      <error code="FOQM0007"/>
+      <error code="XPTY0004"/>
     </result>
   </test-case>
   
@@ -980,6 +990,7 @@
     <created by="Debbie Lockett" on="2015-06-04"/>
     <modified by="Debbie Lockett" on="2015-07-15" change="Added return statement in query"/>
     <modified by="Debbie Lockett" on="2015-09-04" change="Use XPath syntax in test"/>
+    <modified by="Tim Mills" on="2016-10-19" change="See Bug 29935" />
     <module uri="http://www.w3.org/fots/fn/load-xquery-module/valid/module" file="load-xquery-module/valid-module.xqm"/>    
     <test>
       let $module-ns := "http://www.w3.org/fots/fn/load-xquery-module/valid/module",
@@ -987,7 +998,7 @@
       return $module
     </test>
     <result>
-      <error code="FOQM0007"/>
+      <error code="XPTY0004"/>
     </result>
   </test-case>
   
@@ -1030,6 +1041,7 @@
     <created by="Debbie Lockett" on="2015-06-04"/>
     <modified by="Debbie Lockett" on="2015-07-15" change="Added return statement in query"/>
     <modified by="Debbie Lockett" on="2015-09-04" change="Use XPath syntax in test"/>
+    <modified by="Tim Mills" on="2016-10-19" change="See Bug 29935" />
     <module uri="http://www.w3.org/fots/fn/load-xquery-module/valid/module" file="load-xquery-module/valid-module.xqm"/>    
     <test>
       let $module-ns := "http://www.w3.org/fots/fn/load-xquery-module/valid/module",
@@ -1037,7 +1049,7 @@
       return $module
     </test>
     <result>
-      <error code="FOQM0007"/>
+      <error code="XPTY0004"/>
     </result>
   </test-case>
   
@@ -1046,6 +1058,7 @@
     <created by="Debbie Lockett" on="2015-06-04"/>
     <modified by="Debbie Lockett" on="2015-07-15" change="Added return statement in query"/>
     <modified by="Debbie Lockett" on="2015-09-04" change="Use XPath syntax in test"/>
+    <modified by="Tim Mills" on="2016-09-19" change="See Bug 29935"/>
     <module uri="http://www.w3.org/fots/fn/load-xquery-module/valid/module" file="load-xquery-module/valid-module.xqm"/>    
     <test>
       let $module-ns := "http://www.w3.org/fots/fn/load-xquery-module/valid/module",
@@ -1053,7 +1066,7 @@
       return $module
     </test>
     <result>
-      <error code="FOQM0007"/>
+      <error code="XPTY0004"/>
     </result>
   </test-case>
   
@@ -1126,6 +1139,7 @@
     <created by="Debbie Lockett" on="2015-06-09"/>
     <modified by="Debbie Lockett" on="2015-07-15" change="Added return statement in query"/>
     <modified by="Debbie Lockett" on="2015-09-04" change="Use XPath syntax in test"/>
+    <modified by="Tim Mills" on="2016-09-19" change="See Bug 29935"/>
     <module uri="http://www.w3.org/fots/fn/load-xquery-module/valid/module" file="load-xquery-module/valid-module.xqm"/>  
     <test>
       let $module-ns := "http://www.w3.org/fots/fn/load-xquery-module/valid/module",
@@ -1133,7 +1147,7 @@
       return $module
     </test>
     <result>
-      <error code="FOQM0007"/>
+      <error code="XPTY0004"/>
     </result>       
   </test-case>
   
