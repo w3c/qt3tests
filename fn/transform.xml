@@ -1819,7 +1819,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
     </test-case>
     
     <test-case name="fn-transform-65">
-        <descriptionxx>Transform using serialization-param cdata-section-elements</descriptionxx>
+        <description>Transform using serialization-param cdata-section-elements</description>
         <created by="Michael Kay" on="2016-10-19"/>
         <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <environment ref="works-mod-uri2"/>
@@ -1855,7 +1855,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
     </test-case>
     
     <test-case name="fn-transform-66">
-        <descriptionxx>Transform using serialization-param suppress-indentation</descriptionxx>
+        <description>Transform using serialization-param suppress-indentation</description>
         <created by="Michael Kay" on="2016-10-19"/>
         <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <environment ref="works-mod-uri2"/>
@@ -1890,6 +1890,35 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         </result>
     </test-case>
 
+    <test-case name="fn-transform-67">
+        <description>Transform using merged character maps</description>
+        <created by="Michael Kay" on="2016-10-19"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
+        <environment ref="works-mod-uri2"/>
+        <test><![CDATA[declare variable $xsl as xs:string :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform'
+            xmlns:xs='http://www.w3.org/2001/XMLSchema'
+            xmlns:my='http://www.w3.org/fots/fn/transform/myfunctions' version='2.0'>
+            <xsl:output use-character-maps='map-one'/>
+            <xsl:character-map name='map-one'>
+              <xsl:output-character character='-' string='(hyphen)'/>
+              <xsl:output-character character='*' string='(asterisk)'/>
+            </xsl:character-map>  
+            <xsl:template name='main'>
+              <out>a-b*c</out>
+            </xsl:template>  
+        </xsl:stylesheet>";
+            transform(map{"stylesheet-text":$xsl,
+            "initial-template": fn:QName('','main'),
+            "delivery-format" : "serialized",
+            "serialization-params": map{'use-character-maps': map{'*':'(star)'}}
+            })]]></test>
+        <result>
+            <all-of>
+                <assert>$result("output") instance of xs:string</assert>
+                <assert><![CDATA[contains($result("output"), "<out>a(hyphen)b(star)c</out>")]]></assert>
+            </all-of>
+        </result>
+    </test-case>
 
     <test-case name="fn-transform-err-1">
       <description>Loads a stylesheet from the location render.xsl, but fails to supply a source document</description>
