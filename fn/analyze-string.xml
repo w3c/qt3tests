@@ -337,7 +337,9 @@ it put its sooty foot.</fn:non-match></fn:analyze-string-result>]]></assert-xml>
    <test-case name="analyzeString-028" covers="map-general">
       <description> Result of analyze-string must have the right in-scope namespaces </description>
       <created by="Michael Kay" on="2016-09-26"/>
-      <dependency type="spec" value="XQ31"/>
+      <modified by="Tim Mills" on="2016-10-19" change="Reference map env"/>
+      <environment ref="map" />
+      <dependency type="spec" value="XQ31+"/>
       <test>
          declare function local:namespaces($e as element(*)) as map(xs:string, xs:anyURI) {
            map:merge(in-scope-prefixes($e) ! map{. : namespace-uri-for-prefix(., $e)})
