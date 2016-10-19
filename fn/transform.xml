@@ -1852,6 +1852,42 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
             </all-of>
         </result>
     </test-case>
+    
+    <test-case name="fn-transform-66">
+        <descriptionxx>Transform using serialization-param suppress-indentation</descriptionxx>
+        <created by="Michael Kay" on="2016-10-19"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
+        <environment ref="works-mod-uri2"/>
+        <test><![CDATA[declare variable $xsl as xs:string :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform'
+            xmlns:xs='http://www.w3.org/2001/XMLSchema'
+            xmlns:my='http://www.w3.org/fots/fn/transform/myfunctions' version='3.0'>
+            <xsl:output indent='yes' suppress-indentation='b my:b'/>
+            <xsl:template name='main'>
+              <my:a>
+                <my:b><t>green</t></my:b>
+                <my:c><t>blue</t></my:c>
+                <b><t>red</t></b>
+                <c><t>pink</t></c>
+                <d><t>black</t></d>
+              </my:a>
+            </xsl:template>  
+        </xsl:stylesheet>";
+            transform(map{"stylesheet-text":$xsl,
+            "initial-template": fn:QName('','main'),
+            "delivery-format" : "serialized",
+            "serialization-params": map{'suppress-indentation': (QName('http://www.w3.org/fots/fn/transform/myfunctions','c'), QName('', 'c'))}
+            })]]></test>
+        <result>
+            <all-of>
+                <assert>$result("output") instance of xs:string</assert>
+                <assert><![CDATA[contains($result("output"), "><t>green</t><")]]></assert>
+                <assert><![CDATA[contains($result("output"), "><t>blue</t><")]]></assert>
+                <assert><![CDATA[contains($result("output"), "><t>red</t><")]]></assert>
+                <assert><![CDATA[contains($result("output"), "><t>pink</t><")]]></assert>
+                <assert><![CDATA[matches($result("output"), ">\s+<t>black</t>\s+<")]]></assert>
+            </all-of>
+        </result>
+    </test-case>
 
 
     <test-case name="fn-transform-err-1">
