@@ -149,8 +149,9 @@
     <test-case name="map-merge-006d">
         <description>Evaluate the function map:merge() with duplicates in the input maps</description>
         <created by="Michael Kay, Saxonica" on="2016-07-26"/>
+        <modified by="Tim Mills" on="2016-10-19" change="See Bug 29929" />
         <environment ref="map"/>
-        <test>map:merge((map:entry("foo", 3), map:entry("foo", 4)), map{"duplicates": "unspecified"})</test>
+        <test>map:merge((map:entry("foo", 3), map:entry("foo", 4)), map{"duplicates": "use-any"})</test>
         <result>
             <any-of>
                 <assert>deep-equal(map:get($result, "foo"), 3)</assert>
