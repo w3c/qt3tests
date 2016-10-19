@@ -206,6 +206,7 @@
         <created by="O'Neil Delpratt" on="2014-12-09"/>
         <modified by="Debbie Lockett" on="2015-03-05" change="Fix stylesheet, use of fn:QName(), and result assertion"/>
         <modified by="Abel Braaksma" on="2016-09-22" change="Added XP31+ dependency, use function-style map lookup"/>
+        <modified by="Michael Kay" on="2016-10-19" change="Bug 29440/29443: serialization params aligned with fn:serialize()"/>
         <dependency type="spec" value="XQ31+ XP31+"/>
         <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <test>
@@ -237,7 +238,7 @@ let $style := xs:string('<xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.
         </html>
     </xsl:template>
 </xsl:stylesheet>')
-return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, "serialization-params": map{QName("","indent"): "yes"} } )("output")]]>
+return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, "serialization-params": map{"indent": true()} } )("output")]]>
         </test>
         <result>
             <assert>$result//b = 'XSLT'</assert>
@@ -803,10 +804,11 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
         <description>Transform using serialized delivery-format option, and serialization-params (no indent)</description>
         <created by="Debbie Lockett" on="2015-03-13"/>
         <modified by="Abel Braaksma" on="2016-09-22" change="use function-style map lookup"/>
+        <modified by="Michael Kay" on="2016-10-18" change="Bug 29440/29443: serialization params changed"/>
         <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <environment ref="works-mod-uri2"/>
         <test>fn:transform(map {"stylesheet-location" : $render, "source-node" : fn:doc($uri), "delivery-format" : "serialized",
-            "serialization-params" : map { QName("","indent"): "no" } })</test>
+            "serialization-params" : map { "indent": false() } })</test>
         <result>
             <all-of>
                 <assert>$result("output") instance of xs:string</assert>
@@ -821,10 +823,11 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
         <description>Transform using serialized delivery-format option, and serialization-params (yes indent)</description>
         <created by="Debbie Lockett" on="2015-03-13"/>
         <modified by="Abel Braaksma" on="2016-09-22" change="use function-style map lookup"/>
+        <modified by="Michael Kay" on="2016-10-19" change="Bug 29440/29443: serialization params changed"/>
         <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <environment ref="works-mod-uri2"/>
         <test>fn:transform(map {"stylesheet-location" : $render, "source-node" : fn:doc($uri), "delivery-format" : "serialized",
-            "serialization-params" : map { QName("","indent"): "yes" } })</test>
+            "serialization-params" : map { "indent": true() } })</test>
         <result>
             <all-of>
                 <assert>$result("output") instance of xs:string</assert>
@@ -839,12 +842,13 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
         <description>Transforms using serialized delivery-format option, and serialization-params (yes and no indent)</description>
         <created by="Debbie Lockett" on="2015-03-13"/>
         <modified by="Abel Braaksma" on="2016-09-22" change="use function-style map lookup"/>
+        <modified by="Michael Kay" on="2016-10-19" change="Bug 29440/29443: serialization params changed"/>
         <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <environment ref="works-mod-uri2"/>
         <test>let $out1 := fn:transform(map {"stylesheet-location" : $render, "source-node" : fn:doc($uri), "delivery-format" : "serialized",
-            "serialization-params" : map { QName("","indent"): "yes" } })("output"),
+            "serialization-params" : map { "indent":true() } })("output"),
             $out2 := fn:transform(map {"stylesheet-location" : $render, "source-node" : fn:doc($uri), "delivery-format" : "serialized",
-            "serialization-params" : map { QName("","indent"): "no" } })("output")
+            "serialization-params" : map { "indent":false() } })("output")
             return $out1 eq $out2
         </test>
         <result>
@@ -856,6 +860,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
         <description>Transform using option serialization-params, to output result as html (with delivery-format serialized)</description>
         <created by="Debbie Lockett" on="2015-03-13"/>
         <modified by="Abel Braaksma" on="2016-09-22" change="Added XP31+ dependency, use function-style map lookup"/>
+        <modified by="Michael Kay" on="2016-10-19" change="Bug 29440/29443: serialization params changed"/>
         <dependency type="spec" value="XQ31+ XP31+"/>
         <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <test>
@@ -887,7 +892,7 @@ let $style := xs:string('<xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.
     </xsl:template>
 </xsl:stylesheet>')
 return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, "delivery-format":"serialized",
-"serialization-params": map{QName("","method"): "html"} } )("output")]]>
+"serialization-params": map{"method": "html" }} )("output")]]>
         </test>
         <result>
             <assert><![CDATA[contains($result, '<br>')]]></assert>
@@ -898,6 +903,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         <description>Transform using option serialization-params, to output result as xml (with delivery-format serialized)</description>
         <created by="Debbie Lockett" on="2015-03-13"/>
         <modified by="Abel Braaksma" on="2016-09-22" change="Added XP31+ dependency, use function-style map lookup"/>
+        <modified by="Michael Kay" on="2016-10-19" change="Bug 29440/29443: serialization params changed"/>
         <dependency type="spec" value="XQ31+"/>
         <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <test>
@@ -929,7 +935,7 @@ let $style := xs:string('<xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.
     </xsl:template>
 </xsl:stylesheet>')
 return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, "delivery-format":"serialized",
-"serialization-params": map{QName("","method"): "xml"} } )("output")]]>
+"serialization-params": map{"method": "xml"} } )("output")]]>
         </test>
         <result>
             <assert><![CDATA[contains($result, '<br/>')]]></assert>
@@ -1016,11 +1022,12 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
             indent)</description>
         <created by="Debbie Lockett" on="2015-03-25"/>
         <modified by="Debbie Lockett" on="2015-04-02" change="Assertions added to check use of serialization-param"/>
+        <modified by="Michael Kay" on="2016-10-19" change="Bug 29440/29443: serialization params changed"/>
         <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <environment ref="works-mod-uri2"/>
         <test>fn:transform(map {"stylesheet-location" : $render, "source-node" : fn:doc($uri),
             "base-output-uri" : resolve-uri("transform/sandbox/fn-transform-36.xml", static-base-uri()),
-            "delivery-format" : "saved", "serialization-params" : map { QName("","indent"): "yes" }
+            "delivery-format" : "saved", "serialization-params" : map { "indent": true() }
             })</test>
         <result>
             <all-of>
@@ -1041,11 +1048,12 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         <description>Transform using saved delivery-format option, and serialization-params (no
             indent)</description>
         <created by="Debbie Lockett" on="2015-04-02"/>
+        <modified by="Michael Kay" on="2016-10-19" change="Bug 29440/29443: serialization params changed"/>
         <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <environment ref="works-mod-uri2"/>
         <test>fn:transform(map {"stylesheet-location" : $render, "source-node" : fn:doc($uri),
             "base-output-uri" : resolve-uri("transform/sandbox/fn-transform-36a.xml", static-base-uri()),
-            "delivery-format" : "saved", "serialization-params" : map { QName("","indent"): "no" }
+            "delivery-format" : "saved", "serialization-params" : map { "indent": false() }
             })</test>
         <result>
             <all-of>
