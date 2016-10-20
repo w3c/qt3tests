@@ -1983,6 +1983,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
     <test-case name="fn-transform-err-4">
         <description>Error - the type of the value supplied for the option 'xslt-version' is incorrect</description>
         <created by="Debbie Lockett" on="2015-03-05"/>
+        <modified by="Tim Mills" on="2016-10-20" change="See Bug 29944" />
         <dependency type="spec" value="XQ31+"/>
         <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <test><![CDATA[
@@ -1996,13 +1997,14 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
             transform(map{"stylesheet-text":$xsl, "source-node":parse-xml("<doc>this</doc>"), "xslt-version":"2.0" })
         ]]></test>
         <result>
-            <error code="FOXT0002"/>
+            <error code="XPTY0004"/>
         </result>
     </test-case>
 
     <test-case name="fn-transform-err-5">
         <description>Error - the type of the value supplied for the option 'stylesheet-params' is incorrect</description>
         <created by="Debbie Lockett" on="2015-03-05"/>
+        <modified by="Tim Mills" on="2016-10-20" change="See Bug 29944" />
         <dependency type="spec" value="XQ31+"/>
         <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <test><![CDATA[
@@ -2016,7 +2018,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
             transform(map{"stylesheet-text":$xsl, "source-node":parse-xml("<doc>this</doc>"), "stylesheet-params":"v" })
         ]]></test>
         <result>
-            <error code="FOXT0002"/>
+            <error code="XPTY0004"/>
         </result>
     </test-case>
 
