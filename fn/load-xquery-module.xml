@@ -148,8 +148,11 @@
     <created by="Adam Retter" on="2015-02-01"/>
     <modified by="Debbie Lockett" on="2015-05-11" change="Added module element"/>
     <modified by="Michael Kay" on="2015-07-13" change="Mixing timezones is no longer an error; added new dynamic error"/>
+    <modified by="Tim Mills" on="2016-10-21" change="See Bug 29936"/>
     <module uri="http://www.w3.org/fots/fn/load-xquery-module/dynamic-error/module" file="load-xquery-module/dynamic-error-module.xqm"/>
-    <test>fn:load-xquery-module("http://www.w3.org/fots/fn/load-xquery-module/dynamic-error/module")</test>
+    <test>
+      let $module-ns :="http://www.w3.org/fots/fn/load-xquery-module/dynamic-error/module", $module := fn:load-xquery-module($module-ns)
+      return $module('variables')(QName($module-ns, "cause-dynamic-error"))        </test>
     <result>
       <error code="FOAR0001"/>
     </result>
