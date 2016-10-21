@@ -776,7 +776,8 @@
          when testing for duplicates.
       </description>
       <created by="Michael Kay" on="2016-09-29"/>
-      <test>parse-json('{"'||codepoints-to-string((10, 37))||'":"x", "\n%":"y"}', map{'escape':true(), 'duplicates':'reject'})</test>
+      <modified by="Michael Kay" on="2016-10-21" change="see bug29934"/>
+      <test>parse-json('{"\u000a\u0025":"x", "\n%":"y"}', map{'escape':true(), 'duplicates':'reject'})</test>
       <result>
          <error code="FOJS0003"/>
       </result>
@@ -792,6 +793,7 @@
          <assert-deep-eq>map{"%\u0010%":"x", "%\n%":"y"}</assert-deep-eq>
       </result>
    </test-case>
+   
   
    <!-- things that a liberal parser might allow -->
 
@@ -1059,6 +1061,19 @@
           <assert-type>item()?</assert-type>
           <error code="FOJS0001"/>
         </any-of>
+      </result>
+   </test-case>
+   <test-case name="fn-parse-json-840">
+      <description>
+         Raw unescaped control characters are not allowed in JSON input.
+      </description>
+      <created by="Michael Kay" on="2016-10-21"/>
+      <test>parse-json('{"'||codepoints-to-string((10, 37))||'":"x", "yyy":"y"}', map{'liberal':true()})</test>
+      <result>
+         <any-of>
+            <assert-type>item()?</assert-type>
+            <error code="FOJS0001"/>
+         </any-of>
       </result>
    </test-case>
     
@@ -1490,7 +1505,7 @@
 
    <test-case name="fn-parse-json-947">
       <description>Syntax error</description>
-      <created by="TIm Mills" on="2016-06-03"/>
+      <created by="Tim Mills" on="2016-06-03"/>
       <dependency type="spec" value="XQ31+"/>
       <test>parse-json('{"a" "b"}')</test>
       <result>
@@ -1500,7 +1515,7 @@
 
    <test-case name="fn-parse-json-948">
       <description>Syntax error</description>
-      <created by="TIm Mills" on="2016-06-03"/>
+      <created by="Tim Mills" on="2016-06-03"/>
       <dependency type="spec" value="XQ31+"/>
       <test>parse-json('{"a"')</test>
       <result>
@@ -1510,7 +1525,7 @@
 
    <test-case name="fn-parse-json-949">
       <description>Syntax error</description>
-      <created by="TIm Mills" on="2016-06-03"/>
+      <created by="Tim Mills" on="2016-06-03"/>
       <dependency type="spec" value="XQ31+"/>
       <test>parse-json('314eg')</test>
       <result>
@@ -1520,7 +1535,7 @@
 
    <test-case name="fn-parse-json-950">
       <description>Syntax error</description>
-      <created by="TIm Mills" on="2016-06-03"/>
+      <created by="Tim Mills" on="2016-06-03"/>
       <dependency type="spec" value="XQ31+"/>
       <test>parse-json('3.14eg')</test>
       <result>
@@ -1530,7 +1545,7 @@
 
    <test-case name="fn-parse-json-951">
       <description>Syntax error</description>
-      <created by="TIm Mills" on="2016-06-03"/>
+      <created by="Tim Mills" on="2016-06-03"/>
       <dependency type="spec" value="XQ31+"/>
       <test>parse-json('3.14Eg')</test>
       <result>
@@ -1540,9 +1555,42 @@
 
    <test-case name="fn-parse-json-952">
       <description>Syntax error</description>
-      <created by="TIm Mills" on="2016-06-03"/>
+      <created by="Tim Mills" on="2016-06-03"/>
       <dependency type="spec" value="XQ31+"/>
       <test>parse-json('3.14Eg')</test>
+      <result>
+         <error code="FOJS0001"/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-parse-json-953">
+      <description>
+         Raw unescaped control characters are not allowed in JSON input.
+      </description>
+      <created by="Michael Kay" on="2016-10-21"/>
+      <test>parse-json('{"'||codepoints-to-string((10, 37))||'":"x", "yyy":"y"}')</test>
+      <result>
+         <error code="FOJS0001"/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-parse-json-954">
+      <description>
+         Unescaped backslash is not allowed in JSON input.
+      </description>
+      <created by="Michael Kay" on="2016-10-21"/>
+      <test>parse-json('"aaa\"')</test>
+      <result>
+         <error code="FOJS0001"/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-parse-json-955">
+      <description>
+         Unescaped backslash is not allowed in JSON input.
+      </description>
+      <created by="Michael Kay" on="2016-10-21"/>
+      <test>parse-json('"111\333"')</test>
       <result>
          <error code="FOJS0001"/>
       </result>
