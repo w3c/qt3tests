@@ -448,20 +448,28 @@
    <test-case name="fn-substring-after-42" covers="uca-collation">
       <description> Use substring-after() with a UCA collation and numeric matching.</description>
       <created by="Michael Kay" on="2016-09-23"/>
+      <modified by="Michael Kay" on="2016-10-07" change="substring matching on numeric collations is not well defined"/>
       <dependency type="spec" value="XP31 XQ31"/>
       <test>fn:substring-after("Chapter-001-section-2", "ter-1", "http://www.w3.org/2013/collation/UCA?lang=en;numeric=yes")</test>
       <result>
-         <assert-eq>"-section-2"</assert-eq>
+         <any-of>
+            <assert-eq>"-section-2"</assert-eq>
+            <error code="FOCH0004"/>
+         </any-of>
       </result>
    </test-case>
    
    <test-case name="fn-substring-after-43" covers="uca-collation">
       <description> Use substring-after() with a UCA collation and numeric matching.</description>
       <created by="Michael Kay" on="2016-09-23"/>
+      <modified by="Michael Kay" on="2016-10-07" change="substring matching on numeric collations is not well defined"/>     
       <dependency type="spec" value="XP31 XQ31"/>
       <test>fn:substring-after("Chapter-100-bis", "Chapter-10", "http://www.w3.org/2013/collation/UCA?lang=en;numeric=yes")</test>
       <result>
-         <assert-eq>""</assert-eq>
+         <any-of>
+            <assert-eq>""</assert-eq>
+            <error code="FOCH0004"/>
+         </any-of>
       </result>
    </test-case>
    
