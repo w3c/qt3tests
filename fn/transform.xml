@@ -753,12 +753,11 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
 
     <test-case name="fn-transform-26">
         <description>Transform using cache option true</description>
-        <!-- Test attempts to check that caching has actually taken place, but fails to do so
-            (static variable is re-evaluated at run-time)  -->
         <created by="Debbie Lockett" on="2015-03-11"/>
         <modified by="Michael Kay" on="2015-12-14" change="result now indicates whether caching took place"/>
         <dependency type="spec" value="XQ31+"/>
         <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
+        <modified by="O'Neil Delpratt" on="2016-10-24" change="Bug fix relating to issue #29942" />
         <test><![CDATA[
             declare variable $xsl as xs:string :="<xsl:stylesheet version='3.0' xmlns:xsl='http://www.w3.org/1999/XSL/Transform'>
                 <xsl:variable name='dateTime' static='yes' select='current-dateTime()'/>
@@ -766,25 +765,21 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
                     <x><xsl:value-of select='$dateTime'/></x>
                 </xsl:template>
             </xsl:stylesheet>";
-            let $output1 := fn:transform(map {"stylesheet-text" : $xsl, "source-node" : parse-xml("<doc1/>"), "cache":true()})?output//x
-            let $output2 := fn:transform(map {"stylesheet-text" : $xsl, "source-node" : parse-xml("<doc2/>")})?output//x
-            return $output1 eq $output2
+            let $output1 := fn:transform(map {"stylesheet-text" : $xsl, "source-node" : parse-xml("<doc1/>"), "cache":true()})?output//x/string()
+            let $output2 := fn:transform(map {"stylesheet-text" : $xsl, "source-node" : parse-xml("<doc2/>")})?output//x/string()
+            return trace($output1,'output1') eq trace($output2,'output2')
             ]]></test>
         <result>
-            <any-of>
-                <assert>true()</assert>  <!-- caching seems to have taken place -->
-                <assert>false()</assert> <!-- caching seems not to have taken place -->
-            </any-of>
+            <assert-true/>  <!-- caching seems to have taken place -->
         </result>
     </test-case>
 
     <test-case name="fn-transform-27">
         <description>Transform using cache option false</description>
-        <!-- Test attempts to check that caching has NOT actually taken place, but fails to do so
-            (static variable is re-evaluated at run-time)  -->
         <created by="Debbie Lockett" on="2015-03-11"/>
         <dependency type="spec" value="XQ31+"/>
         <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
+        <modified by="O'Neil Delpratt" on="2016-10-24" change="Bug fix relating to issue #29942" />
         <test><![CDATA[
             declare variable $xsl as xs:string :="<xsl:stylesheet version='3.0' xmlns:xsl='http://www.w3.org/1999/XSL/Transform'>
                 <xsl:variable name='dateTime' static='yes' select='current-dateTime()'/>
@@ -792,12 +787,12 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
                     <x><xsl:value-of select='$dateTime'/></x>
                 </xsl:template>
             </xsl:stylesheet>";
-            let $output1 := fn:transform(map {"stylesheet-text" : $xsl, "source-node" : parse-xml("<doc1/>"), "cache":false()})?output//x
-            let $output2 := fn:transform(map {"stylesheet-text" : $xsl, "source-node" : parse-xml("<doc2/>"), "cache":false()})?output//x
-            return concat(string($output1), ' ', string($output2))
+            let $output1 := fn:transform(map {"stylesheet-text" : $xsl, "source-node" : parse-xml("<doc1/>"), "cache":false()})?output//x/string()
+            let $output2 := fn:transform(map {"stylesheet-text" : $xsl, "source-node" : parse-xml("<doc2/>"), "cache":false()})?output//x/string()
+            return trace($output1,'output1') eq trace($output2,'output2')
             ]]></test>
         <result>
-            <assert>true()</assert>
+            <assert-false/>
         </result>
     </test-case>
 
