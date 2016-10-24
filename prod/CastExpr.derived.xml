@@ -1532,12 +1532,23 @@
       <description> test casting -0000 to xs:gYear </description>
       <created by="Oliver Hallam" on="2008-05-22"/>
       <modified by="O'Neil Delpratt" on="2016-09-20" change="Bug #29547: XSD dependency is 1.1 changed assertion to true" />
+      <modified by="O'Neil Delpratt" on="2016-10-24" change="Bug #29547: Split test into two according to bug issue" />
+      <dependency type="xsd-version" value="1.0" />
+      <test>"-0000" cast as xs:gYear</test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+
+   <test-case name="cbcl-cast-gYear-003a">
+      <description> test casting -0000 to xs:gYear (test case taken from cbcl-cast-gYear-003) </description>
+      <created by="O'Neil Delpratt" on="2016-10-24"/>
       <dependency type="xsd-version" value="1.1" />
       <test>"-0000" cast as xs:gYear</test>
       <result>
          <any-of>
-            <error code="FODT0001" />
-            <error code="FORG0001"/>
+            <error code="FODT0001"/>
+           <assert-deep-eq>xs:gYear('0000')</assert-deep-eq>
          </any-of>
       </result>
    </test-case>
