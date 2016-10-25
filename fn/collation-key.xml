@@ -95,14 +95,16 @@
    </test-case>
    
    <test-case name="collation-key-009u">
-      <description>Ordered comparison using a case-sensitive collation</description>
-      <created by="Michael Kay, Saxonica" on="2016-09-28"/>
-      <test>let $C := "http://www.w3.org/2013/collation/UCA?lang=en;caseFirst=upper"
+       <description>Ordered comparison using a case-sensitive collation</description>
+       <created by="Michael Kay, Saxonica" on="2016-09-28"/>
+       <modified by="O'Neil Delpratt" on="2016-10-25" change="Bug #29931: Added dependency advanced-uca-fallback"/>
+       <dependency type="feature" value="advanced-uca-fallback"/>
+       <test>let $C := "http://www.w3.org/2013/collation/UCA?lang=en;caseFirst=upper"
          return collation-key("abc", $C) gt collation-key("ABC", $C)
-      </test>
-      <result>
-         <assert-true/>
-      </result>
+        </test>
+        <result>
+            <assert-true/>
+        </result>
    </test-case>
    
    <test-case name="collation-key-009l">
