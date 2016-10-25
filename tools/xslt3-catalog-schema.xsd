@@ -249,10 +249,60 @@
                 </div>
             </xs:documentation>
         </xs:annotation>
-        <xs:attribute name="select" type="xs:string" use="optional"/>
-        <xs:attribute name="as" type="xs:string" use="optional"/>
-        <xs:attribute name="source" type="xs:string" use="optional"/>
-        <xs:attribute name="static" type="yesNoType" use="optional"/>
+        <xs:attribute name="select" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>
+                    <div>
+                        <h3>select attribute</h3>
+                        <p>The <code>select</code> attribute takes an XPath expression that 
+                            evaluates to a typed instance of an item, or the empty sequence.
+                            It should not raise an error as param evaluation is API dependent 
+                            behavior. You can use the <code>as</code> attribute to document the
+                            expected type, but for conversion of the type, use <code>cast as</code>
+                            or a similar XPath expression</p>
+                    </div>
+                </xs:documentation>
+            </xs:annotation>
+
+        </xs:attribute>
+        <xs:attribute name="as" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>
+                    <div>
+                        <h3>as attribute</h3>
+                        <p>The <code>as</code> attribute can be used to hint what the expected type is.
+                            No casting or conversion takes place to that type and it is not
+                            an error if the type is different. This attribute is only there for
+                            documentation purposes, i.e. to make the test-case more understandable</p>
+                    </div>
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="source" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation>
+                    <div>
+                        <h3>source attribute</h3>
+                        <p>The <code>source</code> attribute can be used instead of the <code>select</code> attribute
+                            and should point to a document that can be read and reached with the <code>fn:doc</code> function.
+                            The result of the <code>fn:doc</code> function, i.e. a document node, becomes the value of the param.</p>
+                    </div>
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="static" type="yesNoType" use="optional">
+            <xs:annotation>
+                <xs:documentation>
+                    <div>
+                        <h3>static attribute</h3>
+                        <p>The <code>static</code> attrtibute, when set to "yes", means that the
+                            parameter is a static parameter. Use this when you have a parameter 
+                            declared with static="yes" in your stylesheet. The default is "no".
+                            Not applicable to non-global parameters.</p>
+                    </div>
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
     </xs:complexType>
     <xs:complexType name="namedParamType">
         <xs:annotation>
@@ -280,7 +330,17 @@
         </xs:annotation>
         <xs:complexContent>
             <xs:extension base="namedParamType">
-                <xs:attribute name="tunnel" type="yesNoType" use="optional"/>
+                <xs:attribute name="tunnel" type="yesNoType" use="optional">
+            <xs:annotation>
+                <xs:documentation>
+                    <div>
+                        <h3>tunnel attribute</h3>
+                        <p>The <code>tunnel</code> attribute can be used for parameters that are 
+                            declared as tunneled in the stylesheet. Not applicable to global parameters.</p>
+                    </div>
+                </xs:documentation>
+            </xs:annotation>
+                </xs:attribute>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -295,16 +355,13 @@
                     <p>The value to be bound to the variable is given in the select attribute, which
                         should be a simple XPath expression - typically a literal, or a simple call
                         on a constructor function.</p>
+                    <p>The <code>as</code> attribute can be used to hint what the expected type is,
+                        However, no casting or conversion takes place to that type and it is not
+                        an error if the type is different. This attribute is only there for
+                        documentation purposes, i.e. to make the test-case more understandable</p>
                 </div>
             </xs:documentation>
         </xs:annotation>
-        <!--<xs:complexType>
-            <xs:attribute name="name" type="xs:NCName" use="required"/>
-            <xs:attribute name="select" type="xs:string" use="optional"/>
-            <xs:attribute name="as" type="xs:string" use="optional"/>
-            <xs:attribute name="source" type="xs:string" use="optional"/>
-            <xs:attribute name="static" type="yesNoType" use="optional"/>
-        </xs:complexType>-->
     </xs:element>
 
 
@@ -791,6 +848,7 @@
                         <xs:simpleType>
                             <xs:restriction base="xs:string">
                                 <xs:enumeration value="backwards_compatibility"/>
+                                <xs:enumeration value="dtd"/>
                                 <xs:enumeration value="disabling_output_escaping"/>
                                 <xs:enumeration value="dynamic_evaluation"/>
                                 <xs:enumeration value="higher_order_functions"/>
@@ -1548,6 +1606,16 @@
             <xs:sequence>
                 <xs:element ref="abstractAssertion"/>
             </xs:sequence>
+            <xs:attribute name="early-exit-possible" type="xs:boolean" use="optional">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>This attribute is documentary; it indicates a streaming test where there is a known
+                        execution strategy that evaluates the query without reading the source document to completion.
+                        Streaming test drivers may wish to monitor whether the implementation quits parsing early
+                        for tests carrying this label; but there is no conformance implication if not.</p>
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
         </xs:complexType>
     </xs:element>
 
