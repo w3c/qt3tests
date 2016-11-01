@@ -1932,6 +1932,271 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
             </all-of>
         </result>
     </test-case>
+    
+    <test-case name="fn-transform-68">
+        <description>Transform with a request for a specific product</description>
+        <created by="Michael Kay" on="2016-11-01"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
+        <test><![CDATA[declare variable $xsl as xs:string :=``[<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform'
+            xmlns:xs='http://www.w3.org/2001/XMLSchema'
+            xmlns:saxon='http://saxon.sf.net/'
+            xmlns:my='http://www.w3.org/fots/fn/transform/myfunctions' version='2.0'> 
+            <xsl:template name='main'>
+              <out><xsl:value-of select="saxon:in-summer-time(xs:dateTime('2016-07-01T00:00:00'), 'Europe/London')"/></out>
+            </xsl:template>  
+        </xsl:stylesheet>]``;
+        transform(map{"stylesheet-text":$xsl,
+            "initial-template": fn:QName('','main'),
+            "delivery-format" : "serialized",
+            "requested-properties" : map{fn:QName('http://www.w3.org/1999/XSL/Transform','vendor'):'Saxonica'}
+            })]]></test>
+        <result>
+            <any-of>
+                <error code="FOXT0001"/>
+                <assert><![CDATA[contains($result("output"), ">true</out>")]]></assert>
+            </any-of>
+        </result>
+    </test-case>
+    
+    <test-case name="fn-transform-69">
+        <description>Transform with a request for a specific product</description>
+        <created by="Michael Kay" on="2016-11-01"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
+        <test><![CDATA[declare variable $xsl as xs:string :=``[<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform'
+            xmlns:xs='http://www.w3.org/2001/XMLSchema'
+            xmlns:xalan='http://xml.apache.org'
+            xmlns:my='http://www.w3.org/fots/fn/transform/myfunctions' version='2.0'>
+            <xsl:variable name="v">
+              <a><b>42</b></a>
+            </xsl:variable>  
+            <xsl:template name='main'>
+              <out product="{system-property('xsl:vendor')}"><xsl:value-of select="xalan:node-set($v)/a/b"/></out>
+            </xsl:template>  
+        </xsl:stylesheet>]``;
+        transform(map{"stylesheet-text":$xsl,
+            "initial-template": fn:QName('','main'),
+            "delivery-format" : "serialized",
+            "requested-properties" : map{fn:QName('http://www.w3.org/1999/XSL/Transform','product-name'):'Xalan'}
+            })]]></test>
+        <result>
+            <any-of>
+                <error code="FOXT0001"/>
+                <assert><![CDATA[contains($result("output"), ">true</out>")]]></assert>
+            </any-of>
+        </result>
+    </test-case>
+    
+    <test-case name="fn-transform-70">
+        <description>Transform with a request for a schema-aware transformer</description>
+        <created by="Michael Kay" on="2016-11-01"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
+        <test><![CDATA[declare variable $xsl as xs:string :=``[<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform'
+            xmlns:xs='http://www.w3.org/2001/XMLSchema'
+            xmlns:chrono='http://chronology.com/' version='2.0'>
+            <xsl:import-schema>
+              <xs:schema targetNamespace="http://chronology.com/">
+                <xs:simpleType name="c4">
+                  <xs:restriction base="xs:string">
+                    <xs:pattern value="...."/>
+                  </xs:restriction>  
+                </xs:simpleType>
+              </xs:schema>
+            </xsl:import-schema>
+            <xsl:template name='main'>
+              <out><xsl:value-of select="chrono:c4('abcd')"/></out>
+            </xsl:template>  
+        </xsl:stylesheet>]``;
+        transform(map{"stylesheet-text":$xsl,
+            "initial-template": fn:QName('','main'),
+            "delivery-format" : "serialized",
+            "requested-properties" : map{fn:QName('http://www.w3.org/1999/XSL/Transform','is-schema-aware'):true()}
+            })]]></test>
+        <result>
+            <any-of>
+                <error code="FOXT0001"/>
+                <assert><![CDATA[contains($result("output"), ">abcd</out>")]]></assert>
+            </any-of>
+        </result>
+    </test-case>
+    
+    <test-case name="fn-transform-71">
+        <description>Transform with a request for a non-schema-aware transformer</description>
+        <created by="Michael Kay" on="2016-11-01"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
+        <test><![CDATA[declare variable $xsl as xs:string :=``[<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform'
+            xmlns:xs='http://www.w3.org/2001/XMLSchema'
+            xmlns:chrono='http://chronology.com/' version='2.0'>
+            <xsl:import-schema>
+              <xs:schema targetNamespace="http://chronology.com/">
+                <xs:simpleType name="c4">
+                  <xs:restriction base="xs:string">
+                    <xs:pattern value="...."/>
+                  </xs:restriction>  
+                </xs:simpleType>
+              </xs:schema>
+            </xsl:import-schema>
+            <xsl:template name='main'>
+              <out><xsl:value-of select="chrono:c4('abcd')"/></out>
+            </xsl:template>  
+        </xsl:stylesheet>]``;
+        transform(map{"stylesheet-text":$xsl,
+            "initial-template": fn:QName('','main'),
+            "delivery-format" : "serialized",
+            "requested-properties" : map{fn:QName('http://www.w3.org/1999/XSL/Transform','is-schema-aware'):false()}
+            })]]></test>
+        <result>
+            <any-of>
+                <error code="FOXT0001"/>
+                <error code="XTSE1650"/>
+            </any-of>
+        </result>
+    </test-case>
+    
+    <test-case name="fn-transform-72">
+        <description>Transform with a request for a transformer that supports backwards compatibility mode</description>
+        <created by="Michael Kay" on="2016-11-01"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
+        <test><![CDATA[declare variable $xsl as xs:string :=``[<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform'
+            version='2.0'>
+            <xsl:template name='main'>
+              <out><xsl:value-of select="substring(current-date(), 1, 2) = '20'" version="1.0"/></out>
+            </xsl:template>  
+        </xsl:stylesheet>]``;
+        transform(map{"stylesheet-text":$xsl,
+            "initial-template": fn:QName('','main'),
+            "delivery-format" : "serialized",
+            "requested-properties" : map{fn:QName('http://www.w3.org/1999/XSL/Transform','supports-backwards-compatibility'):true()}
+            })]]></test>
+        <result>
+            <any-of>
+                <error code="FOXT0001"/>
+                <assert><![CDATA[contains($result("output"), ">true</out>")]]></assert>
+            </any-of>
+        </result>
+    </test-case>
+    
+    <test-case name="fn-transform-73">
+        <description>Transform with a request for a transformer that does not support backwards compatibility mode</description>
+        <created by="Michael Kay" on="2016-11-01"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
+        <test><![CDATA[declare variable $xsl as xs:string :=``[<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform'
+            version='2.0'>
+            <xsl:template name='main'>
+              <out><xsl:value-of select="substring(current-date(), 1, 2) = '20'" version="1.0"/></out>
+            </xsl:template>  
+        </xsl:stylesheet>]``;
+        transform(map{"stylesheet-text":$xsl,
+            "initial-template": fn:QName('','main'),
+            "delivery-format" : "serialized",
+            "requested-properties" : map{fn:QName('http://www.w3.org/1999/XSL/Transform','supports-backwards-compatibility'):false()}
+            })]]></test>
+        <result>
+            <any-of>
+                <error code="FOXT0001"/>
+                <error code="XTDE0160"/>
+            </any-of>
+        </result>
+    </test-case>
+    
+    <test-case name="fn-transform-74">
+        <description>Transform with a request for a transformer that supports the namespace axis</description>
+        <created by="Michael Kay" on="2016-11-01"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
+        <test><![CDATA[declare variable $xsl as xs:string :=``[<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform'
+            version='2.0'>
+            <xsl:template match="/">
+              <out><xsl:value-of select="*/namespace::xsl"/></out>
+            </xsl:template>  
+        </xsl:stylesheet>]``;
+        transform(map{"stylesheet-text":$xsl,
+            "source-node": parse-xml($xsl),
+            "delivery-format" : "serialized",
+            "requested-properties" : map{fn:QName('http://www.w3.org/1999/XSL/Transform','supports-namespace-axis'):true()}
+            })]]></test>
+        <result>
+            <any-of>
+                <error code="FOXT0001"/>
+                <assert><![CDATA[contains($result("output"), ">http://www.w3.org/1999/XSL/Transform</out>")]]></assert>
+            </any-of>
+        </result>
+    </test-case>
+    
+    <test-case name="fn-transform-75">
+        <description>Transform with a request for a transformer that does not support the namespace axis</description>
+        <created by="Michael Kay" on="2016-11-01"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
+        <test><![CDATA[declare variable $xsl as xs:string :=``[<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform'
+            version='2.0'>
+            <xsl:template match="/">
+              <out><xsl:value-of select="*/namespace::xsl"/></out>
+            </xsl:template>  
+        </xsl:stylesheet>]``;
+        transform(map{"stylesheet-text":$xsl,
+            "source-node": parse-xml($xsl),
+            "delivery-format" : "serialized",
+            "requested-properties" : map{fn:QName('http://www.w3.org/1999/XSL/Transform','supports-namespace-axis'):false()}
+            })]]></test>
+        <result>
+            <any-of>
+                <error code="FOXT0001"/>
+                <error code="*"/>
+            </any-of>
+        </result>
+    </test-case>
+    
+    <test-case name="fn-transform-76">
+        <description>Transform with a request for a transformer that supports streaming</description>
+        <created by="Michael Kay" on="2016-11-01"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
+        <test><![CDATA[declare variable $xsl as xs:string :=``[<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform'
+            version='3.0'>
+            <xsl:mode streamable="yes"/>
+            <xsl:template match="/">
+              <out><xsl:value-of select="x/y/z"/></out>
+            </xsl:template> 
+            <xsl:template name="main">
+              <out>ok</out>
+            </xsl:template> 
+        </xsl:stylesheet>]``;
+        transform(map{"stylesheet-text":$xsl,
+            "delivery-format" : "serialized",
+            "initial-template": fn:QName('','main'),
+            "requested-properties" : map{fn:QName('http://www.w3.org/1999/XSL/Transform','supports-streaming'):true()}
+            })]]></test>
+        <result>
+            <any-of>
+                <error code="FOXT0001"/>
+                <assert><![CDATA[contains($result("output"), ">ok</out>")]]></assert>
+            </any-of>
+        </result>
+    </test-case>
+    
+    <test-case name="fn-transform-77">
+        <description>Transform with a request for a transformer that supports streaming, but the stylesheet is not streamable</description>
+        <created by="Michael Kay" on="2016-11-01"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
+        <test><![CDATA[declare variable $xsl as xs:string :=``[<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform'
+            version='3.0'>
+            <xsl:mode streamable="yes"/>
+            <xsl:template match="/">
+              <out><xsl:value-of select="x/y + x/z"/></out>
+            </xsl:template> 
+            <xsl:template name="main">
+              <out>ok</out>
+            </xsl:template> 
+        </xsl:stylesheet>]``;
+        transform(map{"stylesheet-text":$xsl,
+            "delivery-format" : "serialized",
+            "initial-template": fn:QName('','main'),
+            "requested-properties" : map{fn:QName('http://www.w3.org/1999/XSL/Transform','supports-streaming'):true()}
+            })]]></test>
+        <result>
+            <any-of>
+                <error code="FOXT0001"/>
+                <error code="XTSE3430"/>
+            </any-of>
+        </result>
+    </test-case>
 
     <test-case name="fn-transform-err-1">
       <description>Loads a stylesheet from the location render.xsl, but fails to supply a source document</description>
