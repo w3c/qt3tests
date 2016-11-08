@@ -764,10 +764,10 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
         <description>Transform using cache option true</description>
         <created by="Debbie Lockett" on="2015-03-11"/>
         <modified by="Michael Kay" on="2015-12-14" change="result now indicates whether caching took place"/>
+        <modified by="O'Neil Delpratt" on="2016-10-24" change="Bug fix relating to issue #29942" />
         <modified by="Tim Mills" on="2016-10-25" change="Bug 29942"/>
         <dependency type="spec" value="XQ31+"/>
         <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
-        <modified by="O'Neil Delpratt" on="2016-10-24" change="Bug fix relating to issue #29942" />
         <test><![CDATA[
             declare variable $xsl as xs:string :="<xsl:stylesheet version='3.0' xmlns:xsl='http://www.w3.org/1999/XSL/Transform'>
                 <xsl:variable name='dateTime' static='yes' select='current-dateTime()'/>
@@ -790,9 +790,9 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
     <test-case name="fn-transform-27">
         <description>Transform using cache option false</description>
         <created by="Debbie Lockett" on="2015-03-11"/>
+        <modified by="O'Neil Delpratt" on="2016-10-24" change="Bug fix relating to issue #29942" />
         <dependency type="spec" value="XQ31+"/>
         <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
-        <modified by="O'Neil Delpratt" on="2016-10-24" change="Bug fix relating to issue #29942" />
         <test><![CDATA[
             declare variable $xsl as xs:string :="<xsl:stylesheet version='3.0' xmlns:xsl='http://www.w3.org/1999/XSL/Transform'>
                 <xsl:variable name='dateTime' static='yes' select='current-dateTime()'/>
@@ -2194,6 +2194,29 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
             <any-of>
                 <error code="FOXT0001"/>
                 <error code="XTSE3430"/>
+            </any-of>
+        </result>
+    </test-case>
+    
+    <test-case name="fn-transform-78">
+        <description>Transform with a request for a transformer that supports XPath 3.1</description>
+        <created by="Michael Kay" on="2016-11-01"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
+        <test><![CDATA[declare variable $xsl as xs:string :=``[<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform'
+            version='3.0'> 
+            <xsl:template name="main">
+              <out><xsl:value-of select="array{1,2,3}(2)"/></out>
+            </xsl:template> 
+        </xsl:stylesheet>]``;
+        transform(map{"stylesheet-text":$xsl,
+            "delivery-format" : "serialized",
+            "initial-template": fn:QName('','main'),
+            "requested-properties" : map{fn:QName('http://www.w3.org/1999/XSL/Transform','xpath-version'):"3.1"}
+            })]]></test>
+        <result>
+            <any-of>
+                <error code="FOXT0001"/>
+                <assert><![CDATA[contains($result("output"), ">2</out>")]]></assert>
             </any-of>
         </result>
     </test-case>
