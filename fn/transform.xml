@@ -140,12 +140,12 @@
                                                 <xsl:result-document href='section{position()}.html'>
                                                 <xsl:value-of select='.' />
                                                 </xsl:result-document> </xsl:for-each>
-                                                </xsl:template> </xsl:stylesheet>";
+                                                </xsl:template> </xsl:stylesheet>"
                      , $xml := "<doc>
                                                    <section>sect1</section>
                                                    <section>sect2</section>
-                                                   </doc>";
-
+                                                   </doc>"
+                    return
                     element{xs:QName('html')}{
                         element {xs:QName('body')} {
                             for $x in fn:transform(map{"xslt-version":2.0, "stylesheet-text":$xsl,
@@ -307,7 +307,8 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
                         <xsl:value-of select='.' />
                     </out>
                 </xsl:template>
-            </xsl:stylesheet>";
+            </xsl:stylesheet>"
+            return
             transform(map{"stylesheet-text":$xsl, "source-node":parse-xml("<doc>this</doc>") })
         ]]></test>
         <result>
@@ -333,7 +334,8 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
                         <xsl:value-of select='.' />
                     </out>
                 </xsl:template>
-            </xsl:stylesheet>";
+            </xsl:stylesheet>"
+            return
             transform(map{"stylesheet-node":parse-xml($xsl), "source-node":parse-xml("<doc>this</doc>") })
         ]]></test>
         <result>
@@ -385,7 +387,8 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
                         <xsl:value-of select='.' />
                     </out>
                 </xsl:template>
-            </xsl:stylesheet>";
+            </xsl:stylesheet>"
+            return
             transform(map{"stylesheet-text":$xsl, "source-node":parse-xml("<doc>this</doc>"), "initial-template": fn:QName('','main') })
         ]]>
         </test>
@@ -416,7 +419,8 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
                         <xsl:value-of select='.' />
                     </out>
                 </xsl:template>
-            </xsl:stylesheet>";
+            </xsl:stylesheet>"
+            return
             transform(map{"stylesheet-text":$xsl, "source-node":parse-xml("<doc>this</doc>"), "initial-template": fn:QName('http://www.example.com','main') })
         ]]>
         </test>
@@ -445,7 +449,8 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
                 <xsl:template name='app:main'>
                     <out>that</out>
                 </xsl:template>
-            </xsl:stylesheet>";
+            </xsl:stylesheet>"
+            return
             transform(map{"stylesheet-text":$xsl, "initial-template": fn:QName('http://www.example.com','main') })
         ]]>
         </test>
@@ -475,7 +480,8 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
                         <xsl:value-of select='.' />
                     </out>
                 </xsl:template>
-            </xsl:stylesheet>";
+            </xsl:stylesheet>"
+            return
             transform(map{"stylesheet-text":$xsl, "source-node":parse-xml("<doc>this</doc>"), "initial-mode": fn:QName('','main') })
         ]]>
         </test>
@@ -500,12 +506,13 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
                                                 <xsl:template match='/'> <xsl:for-each select='//section'>
                                                 <xsl:result-document href='section{position()}.html'> <!-- instructions content here -->
                                                 </xsl:result-document> </xsl:for-each>
-                                                </xsl:template> </xsl:stylesheet>";
+                                                </xsl:template> </xsl:stylesheet>"
                     , $xml := "<doc>
                                                    <section>sect1</section>
                                                    <section>sect2</section>
                                                    <section>sect3</section>
-                                                   </doc>";
+                                                   </doc>"
+                    return
             fn:transform(map {"stylesheet-text": $xsl, "source-node": parse-xml($xml),
             "base-output-uri":"http://www.w3.org/fots/fn/transform/output-doc.xml"})]]>
         </test>
@@ -544,12 +551,13 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
                     </body>
                 </html>
                                                 </xsl:result-document> </xsl:for-each>
-                                                </xsl:template> </xsl:stylesheet>";
+                                                </xsl:template> </xsl:stylesheet>"
                     , $xml := "<doc>
                                                    <section>sect1</section>
                                                    <section>sect2</section>
                                                    <section>sect3</section>
-                                                   </doc>";
+                                                   </doc>"
+                    return
             fn:transform(map {"stylesheet-text": $xsl, "source-node": parse-xml($xml),
             "base-output-uri":"http://www.w3.org/fots/fn/transform/output-doc.xml"})]]>
         </test>
@@ -651,7 +659,8 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
                     <xsl:template name='main'>
                     <x><xsl:value-of select='static-base-uri()'/></x>
                     </xsl:template>
-                    </xsl:stylesheet>";
+                    </xsl:stylesheet>"
+            return
             fn:transform(map {"stylesheet-text" : $xsl, "initial-template" : QName('','main'), "stylesheet-base-uri": "http://www.example.com"})?output
             ]]></test>
         <result>
@@ -671,7 +680,8 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
                     <xsl:template name='main'>
                     <x><xsl:value-of select='static-base-uri()'/></x>
                     </xsl:template>
-                    </xsl:stylesheet>";
+                    </xsl:stylesheet>"
+            return
             fn:transform(map {"stylesheet-node" : parse-xml($xsl), "initial-template" : QName('','main'), "stylesheet-base-uri": "http://www.example.com"})?output
             ]]></test>
         <result>
@@ -722,7 +732,8 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
         <test><![CDATA[
             let $xsl  :="<xsl:stylesheet version='2.0' xmlns:xsl='http://www.w3.org/1999/XSL/Transform'>
                     <xsl:include href='transform/staticbaseuri.xsl'/>
-                    </xsl:stylesheet>";
+                    </xsl:stylesheet>"
+            return
             fn:transform(map {"stylesheet-text" : $xsl, "initial-template" : QName('','main'), "stylesheet-base-uri": string(static-base-uri())})?output
             ]]></test>
         <result>
@@ -780,7 +791,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
                 <xsl:template match='/'>
                     <x><xsl:value-of select='$dateTime'/></x>
                 </xsl:template>
-            </xsl:stylesheet>";
+            </xsl:stylesheet>"
             let $output1 := fn:transform(map {"stylesheet-text" : $xsl, "source-node" : parse-xml("<doc1/>"), "cache":true()})?output//x/string()
             let $output2 := fn:transform(map {"stylesheet-text" : $xsl, "source-node" : parse-xml("<doc2/>")})?output//x/string()
             return trace($output1,'output1') eq trace($output2,'output2')
@@ -805,7 +816,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
                 <xsl:template match='/'>
                     <x><xsl:value-of select='$dateTime'/></x>
                 </xsl:template>
-            </xsl:stylesheet>";
+            </xsl:stylesheet>"
             let $output1 := fn:transform(map {"stylesheet-text" : $xsl, "source-node" : parse-xml("<doc1/>"), "cache":false()})?output//x/string()
             let $output2 := fn:transform(map {"stylesheet-text" : $xsl, "source-node" : parse-xml("<doc2/>"), "cache":false()})?output//x/string()
             return trace($output1,'output1') eq trace($output2,'output2')
@@ -969,12 +980,13 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
                                                 <xsl:template match='/'> <xsl:for-each select='//section'>
                                                 <xsl:result-document href='section{position()}.html'> <!-- instructions content here -->
                                                 </xsl:result-document> </xsl:for-each>
-                                                </xsl:template> </xsl:stylesheet>";
+                                                </xsl:template> </xsl:stylesheet>"
                     , $xml := "<doc>
                                                    <section>sect1</section>
                                                    <section>sect2</section>
                                                    <section>sect3</section>
-                                                   </doc>";
+                                                   </doc>"
+                    return
             fn:transform(map {"stylesheet-text": $xsl, "source-node": parse-xml($xml),
             "base-output-uri" : resolve-uri("transform/sandbox/fn-transform-33.xml", static-base-uri()),
             "delivery-format":"serialized"})]]>
@@ -1103,12 +1115,13 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
                                                         </body>
                                                     </html>
                                                 </xsl:result-document> </xsl:for-each>
-                                                </xsl:template> </xsl:stylesheet>";
+                                                </xsl:template> </xsl:stylesheet>"
                     , $xml := "<doc>
                                                    <section>sect1</section>
                                                    <section>sect2</section>
                                                    <section>sect3</section>
-                                                   </doc>";
+                                                   </doc>"
+                    return
             fn:transform(map {"stylesheet-text": $xsl, "source-node": parse-xml($xml),
             "base-output-uri" : resolve-uri("transform/sandbox/fn-transform-37/output.html", static-base-uri()),
             "delivery-format":"saved"})]]>
@@ -1264,7 +1277,8 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
                                                    <section>sect1</section>
                                                    <section>sect2</section>
                                                    <section>sect3</section>
-                                                   </doc>";
+                                                   </doc>"
+                    return
             fn:transform(map {"stylesheet-text": $xsl, "source-node": parse-xml($xml),
             "base-output-uri" : resolve-uri("transform/sandbox/fn-transform-44/output.xml", static-base-uri()),
             "delivery-format":"serialized"})]]>
@@ -1363,7 +1377,8 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
                         <xsl:value-of select='.' />
                     </out>
                 </xsl:template>
-            </xsl:stylesheet>";
+            </xsl:stylesheet>"
+            return
             transform(map{"stylesheet-text":$xsl, "source-node":parse-xml("<doc>this</doc>"),
             "initial-template": fn:QName('','main'),
             "another-option" : "dummy"})
@@ -1392,7 +1407,8 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
                 <xsl:template match='/'>
                     <out><xsl:value-of select='$static-param'/></out>
                 </xsl:template>
-            </xsl:stylesheet>";
+            </xsl:stylesheet>"
+            return
             transform(map{"stylesheet-node":parse-xml($xsl), "source-node":parse-xml("<doc>this</doc>"),
             "static-params":map{QName('','static-param'):"Hello World"}
             })
@@ -1420,7 +1436,8 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
                 <xsl:template match='/'>
                     <out><xsl:value-of select='$static-param'/><xsl:value-of select='$alt-param'/></out>
                 </xsl:template>
-            </xsl:stylesheet>";
+            </xsl:stylesheet>"
+            return
             transform(map{"stylesheet-node":parse-xml($xsl), "source-node":parse-xml("<doc>this</doc>"),
             "static-params":map{QName('','static-param'):"Hello"}
             })
@@ -1448,7 +1465,8 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
                 <xsl:template match='/'>
                     <out><xsl:value-of select='$static-param'/><xsl:value-of select='$alt-param'/></out>
                 </xsl:template>
-            </xsl:stylesheet>";
+            </xsl:stylesheet>"
+            return
             transform(map{"stylesheet-node":parse-xml($xsl), "source-node":parse-xml("<doc>this</doc>"),
             "static-params":map{QName('','static-param'):"Hello", QName('','alt-param'):"World"}
             })
@@ -1477,7 +1495,8 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
                         <xsl:value-of select='$template-param' />
                     </out>
                 </xsl:template>
-            </xsl:stylesheet>";
+            </xsl:stylesheet>"
+            return
             transform(map{"stylesheet-text":$xsl, "source-node":parse-xml("<doc>this</doc>"),
             "initial-template": fn:QName('','main'),
             "template-params": map{QName('','template-param'):"new"}
@@ -1512,7 +1531,8 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
                         <xsl:value-of select='$param3' />
                     </out>
                 </xsl:template>
-            </xsl:stylesheet>";
+            </xsl:stylesheet>"
+            return
             transform(map{"stylesheet-text":$xsl, "source-node":parse-xml("<doc>this</doc>"),
             "initial-template": fn:QName('','main'),
             "template-params": map{QName('','param1'):"new1", QName('','param2'):"new2", QName('','param4'):"new4"}
@@ -1547,7 +1567,8 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
                         <xsl:value-of select='$param3' />
                     </out>
                 </xsl:template>
-            </xsl:stylesheet>";
+            </xsl:stylesheet>"
+            return
             transform(map{"stylesheet-text":$xsl, "source-node":parse-xml("<doc>this</doc>"),
             "initial-template": fn:QName('','main'),
             "template-params": map{QName('','param1'):"new1", QName('','param2'):"new2"}
@@ -1582,7 +1603,8 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
                         <xsl:value-of select='$param3' />
                     </out>
                 </xsl:template>
-            </xsl:stylesheet>";
+            </xsl:stylesheet>"
+            return
             transform(map{"stylesheet-text":$xsl, "source-node":parse-xml("<doc>this</doc>"),
             "initial-template": fn:QName('','main'),
             "template-params": map{QName('','param1'):"new1", QName('','param2'):"new2", QName('','param4'):"new4"}
@@ -1617,7 +1639,8 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
                         <xsl:value-of select='$param3' />
                     </out>
                 </xsl:template>
-            </xsl:stylesheet>";
+            </xsl:stylesheet>"
+            return
             transform(map{"stylesheet-text":$xsl, "source-node":parse-xml("<doc>this</doc>"),
             "initial-template": fn:QName('','main'),
             "tunnel-params": map{QName('','param1'):"tunnel1", QName('','param2'):"tunnel2"}
@@ -1652,7 +1675,8 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
                         <xsl:value-of select='$param3' />
                     </out>
                 </xsl:template>
-            </xsl:stylesheet>";
+            </xsl:stylesheet>"
+            return
             transform(map{"stylesheet-text":$xsl, "source-node":parse-xml("<doc>this</doc>"),
             "initial-template": fn:QName('','main'),
             "template-params": map{QName('','param1'):"new1", QName('','param2'):"new2", QName('','param4'):"new4"},
@@ -1693,7 +1717,8 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
                         <xsl:value-of select='.' />
                     </out>
                 </xsl:template>
-            </xsl:stylesheet>";
+            </xsl:stylesheet>"
+            return
             transform(map{"stylesheet-text":$xsl, "source-node":parse-xml("<doc>this</doc>"),
             "initial-function": fn:QName('http://www.w3.org/fots/fn/transform/myfunctions','user-function'),
             "function-params": ["new1","new2"]
@@ -1732,7 +1757,8 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
                         <xsl:value-of select='.' />
                     </out>
                 </xsl:template>
-            </xsl:stylesheet>";
+            </xsl:stylesheet>"
+            return
             transform(map{"stylesheet-text":$xsl, "source-node":parse-xml("<doc>this</doc>"),
             "initial-function": fn:QName('http://www.w3.org/fots/fn/transform/myfunctions','user-function'),
             "function-params": ["new1","new2"]
@@ -1762,7 +1788,8 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
                 <xsl:template match='/' as='xs:integer'>
                     <xsl:sequence select='count(//*)'/>
                 </xsl:template>
-            </xsl:stylesheet>";
+            </xsl:stylesheet>"
+            return
             transform(map{"stylesheet-text":$xsl, "source-node":parse-xml("<one><two/><three/><four/></one>"),
             "delivery-format":"raw"})
         ]]></test>
@@ -1789,7 +1816,8 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
                 <xsl:template name='main' as='xs:integer'>
                     <xsl:sequence select='count(//*)'/>
                 </xsl:template>
-            </xsl:stylesheet>";
+            </xsl:stylesheet>"
+            return
             transform(map{"stylesheet-text":$xsl, "source-node":parse-xml("<one><two/><three/><four/></one>"),
             "initial-template": QName('','main'),
             "delivery-format":"raw"})
@@ -2267,11 +2295,12 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
                                                 <xsl:template name='app:main' > <xsl:for-each select='section'>
                                                 <xsl:result-document href='section{position()}.html'> <!-- instructions content here -->
                                                 </xsl:result-document> </xsl:for-each>
-                                                </xsl:template> </xsl:stylesheet>";
+                                                </xsl:template> </xsl:stylesheet>"
                     , $xml := "<doc>
                                                    <section>sect1</section>
                                                    <section>sect2</section>
-                                                   </doc>";
+                                                   </doc>"
+                    return
 
             let $result := fn:transform(map {"stylesheet-text": $xsl,"stylesheet-location" : $render, "source-node":fn:parse-xml($xml)})return $result?output]]>
       </test>
@@ -2292,7 +2321,8 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
                                                 <xsl:template name='app:main' > <xsl:for-each select='section'>
                                                 <xsl:result-document href='section{position()}.html'> <!-- instructions content here -->
                                                 </xsl:result-document> </xsl:for-each>
-                                                </xsl:template> </xsl:stylesheet>";
+                                                </xsl:template> </xsl:stylesheet>"
+                    return
 
             let $result := fn:transform(map {"stylesheet-text": $xsl,"stylesheet-node" : fn:doc($render), "source-node" : fn:doc($uri)})return $result?output]]>
       </test>
@@ -2314,7 +2344,8 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
                         <xsl:value-of select='.' />
                     </out>
                 </xsl:template>
-            </xsl:stylesheet>";
+            </xsl:stylesheet>"
+            return
             transform(map{"stylesheet-text":$xsl, "source-node":parse-xml("<doc>this</doc>"), "xslt-version":"2.0" })
         ]]></test>
         <result>
@@ -2335,7 +2366,8 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
                         <xsl:value-of select='.' />
                     </out>
                 </xsl:template>
-            </xsl:stylesheet>";
+            </xsl:stylesheet>"
+            return
             transform(map{"stylesheet-text":$xsl, "source-node":parse-xml("<doc>this</doc>"), "stylesheet-params":"v" })
         ]]></test>
         <result>
@@ -2358,7 +2390,8 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
                         <xsl:value-of select='.' />
                     </out>
                 </xsl:template>
-            </xsl:stylesheet>";
+            </xsl:stylesheet>"
+            return
             transform(map{"stylesheet-text":$xsl, "source-node":parse-xml("<doc>this</doc>"), "initial-mode": fn:QName('','main'), "initial-template": fn:QName('','start') })
         ]]>
         </test>
@@ -2402,7 +2435,8 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         <test><![CDATA[
             let $xsl  :="<xsl:stylesheet version='2.0' xmlns:xsl='http://www.w3.org/1999/XSL/Transform'>
                     <xsl:include href='transform/staticbaseuri.xsl'/>
-                    </xsl:stylesheet>";
+                    </xsl:stylesheet>"
+            return
             fn:transform(map {"stylesheet-text" : $xsl, "initial-template" : QName('','main')})?output
             ]]></test>
         <result>
@@ -2418,7 +2452,8 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         <test><![CDATA[
             let $xsl  :="<xsl:stylesheet version='2.0' xmlns:xsl='http://www.w3.org/1999/XSL/Transform'>
                     <xsl:include href='transform/staticbaseuri.xsl'/>
-                    </xsl:stylesheet>";
+                    </xsl:stylesheet>"
+            return
             fn:transform(map {"stylesheet-text" : $xsl, "initial-template" : QName('','main'),
             "stylesheet-base-uri": "transform/include.xsl"
             })?output
@@ -2519,7 +2554,8 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
                         <xsl:value-of select='$param3' />
                     </out>
                 </xsl:template>
-            </xsl:stylesheet>";
+            </xsl:stylesheet>"
+            return
             transform(map{"stylesheet-text":$xsl, "source-node":parse-xml("<doc>this</doc>"),
             "initial-template": fn:QName('','main'),
             "template-params": map{QName('','param1'):"new1", QName('','param2'):"new2"}
@@ -2552,7 +2588,8 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
                         <xsl:value-of select='.' />
                     </out>
                 </xsl:template>
-            </xsl:stylesheet>";
+            </xsl:stylesheet>"
+            return
             transform(map{"stylesheet-text":$xsl, "source-node":parse-xml("<doc>this</doc>"),
             "initial-function": fn:QName('http://www.w3.org/fots/fn/transform/myfunctions','user-function')
             })
@@ -2587,7 +2624,8 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
                 <xsl:template match='/'>
                     <out><xsl:value-of select='$static-param'/></out>
                 </xsl:template>
-            </xsl:stylesheet>";
+            </xsl:stylesheet>"
+            return
             transform(map{"stylesheet-node":parse-xml($xsl), "source-node":parse-xml("<doc>this</doc>"), 
             "static-params":map{QName('','static-param'):"Hello World"}
             })
