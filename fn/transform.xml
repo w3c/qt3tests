@@ -1948,14 +1948,14 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         <created by="Michael Kay" on="2016-11-01"/>
         <modified by="Michael Kay" on="2016-11-09" change="Make it valid XP31, bug 29993"/>
         <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
-        <test><![CDATA[let $xsl  :=``[<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform'
+        <test><![CDATA[let $xsl  := "<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform'
             xmlns:xs='http://www.w3.org/2001/XMLSchema'
             xmlns:saxon='http://saxon.sf.net/'
             xmlns:my='http://www.w3.org/fots/fn/transform/myfunctions' version='2.0'> 
             <xsl:template name='main'>
-              <out><xsl:value-of select="saxon:in-summer-time(xs:dateTime('2016-07-01T00:00:00'), 'Europe/London')"/></out>
+              <out><xsl:value-of select=""saxon:in-summer-time(xs:dateTime('2016-07-01T00:00:00'), 'Europe/London')""/></out>
             </xsl:template>  
-        </xsl:stylesheet>]``;
+        </xsl:stylesheet>" return
         transform(map{"stylesheet-text":$xsl,
             "initial-template": fn:QName('','main'),
             "delivery-format" : "serialized",
@@ -1974,17 +1974,17 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         <created by="Michael Kay" on="2016-11-01"/>
         <modified by="Michael Kay" on="2016-11-09" change="Make it valid XP31, bug 29993"/>
         <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
-        <test><![CDATA[let $xsl  :=``[<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform'
+        <test><![CDATA[let $xsl  := "<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform'
             xmlns:xs='http://www.w3.org/2001/XMLSchema'
             xmlns:xalan='http://xml.apache.org'
             xmlns:my='http://www.w3.org/fots/fn/transform/myfunctions' version='2.0'>
-            <xsl:variable name="v">
+            <xsl:variable name='v'>
               <a><b>42</b></a>
             </xsl:variable>  
             <xsl:template name='main'>
-              <out product="{system-property('xsl:vendor')}"><xsl:value-of select="xalan:node-set($v)/a/b"/></out>
+              <out product=""{system-property('xsl:vendor')}""><xsl:value-of select='xalan:node-set($v)/a/b'/></out>
             </xsl:template>  
-        </xsl:stylesheet>]``;
+        </xsl:stylesheet>" return
         transform(map{"stylesheet-text":$xsl,
             "initial-template": fn:QName('','main'),
             "delivery-format" : "serialized",
@@ -2003,22 +2003,22 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         <created by="Michael Kay" on="2016-11-01"/>
         <modified by="Michael Kay" on="2016-11-09" change="Make it valid XP31, bug 29993"/>
         <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
-        <test><![CDATA[let $xsl  :=``[<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform'
+        <test><![CDATA[let $xsl  := "<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform'
             xmlns:xs='http://www.w3.org/2001/XMLSchema'
             xmlns:chrono='http://chronology.com/' version='2.0'>
             <xsl:import-schema>
-              <xs:schema targetNamespace="http://chronology.com/">
-                <xs:simpleType name="c4">
-                  <xs:restriction base="xs:string">
-                    <xs:pattern value="...."/>
+              <xs:schema targetNamespace='http://chronology.com/'>
+                <xs:simpleType name='c4'>
+                  <xs:restriction base='xs:string'>
+                    <xs:pattern value='....'/>
                   </xs:restriction>  
                 </xs:simpleType>
               </xs:schema>
             </xsl:import-schema>
             <xsl:template name='main'>
-              <out><xsl:value-of select="chrono:c4('abcd')"/></out>
+              <out><xsl:value-of select=""chrono:c4('abcd')""/></out>
             </xsl:template>  
-        </xsl:stylesheet>]``;
+        </xsl:stylesheet>" return
         transform(map{"stylesheet-text":$xsl,
             "initial-template": fn:QName('','main'),
             "delivery-format" : "serialized",
@@ -2037,22 +2037,22 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         <created by="Michael Kay" on="2016-11-01"/>
         <modified by="Michael Kay" on="2016-11-09" change="Make it valid XP31, bug 29993"/>
         <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
-        <test><![CDATA[let $xsl  :=``[<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform'
+        <test><![CDATA[let $xsl  := "<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform'
             xmlns:xs='http://www.w3.org/2001/XMLSchema'
             xmlns:chrono='http://chronology.com/' version='2.0'>
             <xsl:import-schema>
-              <xs:schema targetNamespace="http://chronology.com/">
-                <xs:simpleType name="c4">
-                  <xs:restriction base="xs:string">
-                    <xs:pattern value="...."/>
+              <xs:schema targetNamespace='http://chronology.com/'>
+                <xs:simpleType name='c4'>
+                  <xs:restriction base='xs:string'>
+                    <xs:pattern value='....'/>
                   </xs:restriction>  
                 </xs:simpleType>
               </xs:schema>
             </xsl:import-schema>
             <xsl:template name='main'>
-              <out><xsl:value-of select="chrono:c4('abcd')"/></out>
+              <out><xsl:value-of select=""chrono:c4('abcd')""/></out>
             </xsl:template>  
-        </xsl:stylesheet>]``;
+        </xsl:stylesheet>" return
         transform(map{"stylesheet-text":$xsl,
             "initial-template": fn:QName('','main'),
             "delivery-format" : "serialized",
@@ -2071,12 +2071,12 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         <created by="Michael Kay" on="2016-11-01"/>
         <modified by="Michael Kay" on="2016-11-09" change="Make it valid XP31, bug 29993"/>
         <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
-        <test><![CDATA[let $xsl  :=``[<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform'
+        <test><![CDATA[let $xsl  := "<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform'
             version='2.0'>
             <xsl:template name='main'>
-              <out><xsl:value-of select="substring(current-date(), 1, 2) = '20'" version="1.0"/></out>
+              <out><xsl:value-of select=""substring(current-date(), 1, 2) = '20'"" version='1.0'/></out>
             </xsl:template>  
-        </xsl:stylesheet>]``;
+        </xsl:stylesheet>" return
         transform(map{"stylesheet-text":$xsl,
             "initial-template": fn:QName('','main'),
             "delivery-format" : "serialized",
@@ -2095,12 +2095,12 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         <created by="Michael Kay" on="2016-11-01"/>
         <modified by="Michael Kay" on="2016-11-09" change="Make it valid XP31, bug 29993"/>
         <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
-        <test><![CDATA[let $xsl  :=``[<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform'
+        <test><![CDATA[let $xsl  := "<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform'
             version='2.0'>
             <xsl:template name='main'>
-              <out><xsl:value-of select="substring(current-date(), 1, 2) = '20'" version="1.0"/></out>
+              <out><xsl:value-of select=""substring(current-date(), 1, 2) = '20'"" version='1.0'/></out>
             </xsl:template>  
-        </xsl:stylesheet>]``;
+        </xsl:stylesheet>" return
         transform(map{"stylesheet-text":$xsl,
             "initial-template": fn:QName('','main'),
             "delivery-format" : "serialized",
@@ -2119,12 +2119,12 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         <created by="Michael Kay" on="2016-11-01"/>
         <modified by="Michael Kay" on="2016-11-09" change="Make it valid XP31, bug 29993"/>
         <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
-        <test><![CDATA[let $xsl  :=``[<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform'
+        <test><![CDATA[let $xsl  := "<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform'
             version='2.0'>
-            <xsl:template match="/">
-              <out><xsl:value-of select="*/namespace::xsl"/></out>
+            <xsl:template match='/'>
+              <out><xsl:value-of select='*/namespace::xsl'/></out>
             </xsl:template>  
-        </xsl:stylesheet>]``;
+        </xsl:stylesheet>" return
         transform(map{"stylesheet-text":$xsl,
             "source-node": parse-xml($xsl),
             "delivery-format" : "serialized",
@@ -2143,9 +2143,9 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         <created by="Michael Kay" on="2016-11-01"/>
         <modified by="Michael Kay" on="2016-11-09" change="Make it valid XP31, bug 29993"/>
         <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
-        <test><![CDATA[let $xsl  :=`"<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform'
+        <test><![CDATA[let $xsl  := "<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform'
             version='2.0'>
-            <xsl:template match=''/'>
+            <xsl:template match='/'>
               <out><xsl:value-of select='*/namespace::xsl'/></out>
             </xsl:template>  
         </xsl:stylesheet>" return
