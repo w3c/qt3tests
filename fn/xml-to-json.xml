@@ -903,13 +903,14 @@
          Currently invalid because the selected element has a 'key' attribute which is not allowed.
       </description>
       <created by="Michael Kay" on="2016-10-06"/>
+      <modified by="Michael Kay" on="2016-10-18" change="Bug 29917 was accepted; expected results therefore change"/>
       <dependency type="spec" value="XP31 XQ31"/>
       <test>
          let $x := json-to-xml('[{ "givenNames": ["Michael", "Howard"], "surname": "Kay"}]')
          return xml-to-json($x//*[@key='givenNames'])
       </test>
       <result>
-         <error code="FOJS0006"/>
+         <assert-eq>'["Michael","Howard"]'</assert-eq>
       </result>
    </test-case>
 
