@@ -10,6 +10,7 @@
    <test-case name="annotation-1">
       <description>A function annotation</description>
       <created by="Josh Spiegel" on="2012-01-08"/>
+      <modified by="Michael Kay" on="2016-10-12" change="avoid assert-xml when result is an atomic value"/>
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
          declare namespace eg = "http://example.com";
@@ -19,13 +20,14 @@
          local:foo()
       ]]></test>
       <result>
-         <assert-xml><![CDATA[bar]]></assert-xml>
+         <assert-eq>"bar"</assert-eq>
       </result>
    </test-case>
 
    <test-case name="annotation-2">
       <description>A variable annotation</description>
       <created by="Josh Spiegel" on="2012-01-08"/>
+      <modified by="Michael Kay" on="2016-10-12" change="avoid assert-xml when result is an atomic value"/>
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
          declare namespace eg = "http://example.com";
@@ -33,7 +35,7 @@
          $foo
       ]]></test>
       <result>
-         <assert-xml><![CDATA[bar]]></assert-xml>
+         <assert-eq>"bar"</assert-eq>
       </result>
    </test-case>
 
@@ -41,6 +43,7 @@
       <description>An inline function annotation</description>
       <created by="Josh Spiegel" on="2012-01-08"/>
       <modified by="Michael Kay" on="2014-03-19" change="added dependency"/>        
+      <modified by="Michael Kay" on="2016-10-12" change="avoid assert-xml when result is an atomic value"/>
       <dependency type="feature" value="higherOrderFunctions"/>
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
@@ -48,7 +51,7 @@
          %eg:sequential function () { "bar" } ()
       ]]></test>
       <result>
-         <assert-xml><![CDATA[bar]]></assert-xml>
+         <assert-eq>"bar"</assert-eq>
       </result>
    </test-case>
 
@@ -484,6 +487,7 @@
       <description>An inline function annotation with parameters</description>
       <created by="Michael Kay" on="2012-12-15"/>
       <modified by="Josh Spiegel" on="2014-05-29" change="added dependency"/> 
+      <modified by="Michael Kay" on="2016-10-12" change="avoid assert-xml when result is an atomic value"/>
       <dependency type="spec" value="XQ30+"/>
       <dependency type="feature" value="higherOrderFunctions"/>
       <test>
@@ -491,7 +495,7 @@
          %eg:sequential("abc", 3) function () { "bar" } ()
       </test>
       <result>
-         <assert-xml><![CDATA[bar]]></assert-xml>
+         <assert-eq>"bar"</assert-eq>
       </result>
    </test-case>
    
@@ -499,6 +503,7 @@
       <description>An inline function annotation using an EQName</description>
       <created by="Michael Kay" on="2012-12-15"/>
       <modified by="Josh Spiegel" on="2014-05-29" change="added dependency"/> 
+      <modified by="Michael Kay" on="2016-10-12" change="avoid assert-xml when result is an atomic value"/>
       <dependency type="spec" value="XQ30+"/>
       <dependency type="feature" value="higherOrderFunctions"/>
       <test><![CDATA[
@@ -506,7 +511,7 @@
          % Q{http://example.com}sequential("abc", 3) function () { "bar" } ()
       ]]></test>
       <result>
-         <assert-xml><![CDATA[bar]]></assert-xml>
+         <assert-eq>"bar"</assert-eq>
       </result>
    </test-case>
    
@@ -514,6 +519,7 @@
       <description>An inline function with multiple annotations </description>
       <created by="Michael Kay" on="2012-12-15"/>
       <modified by="Josh Spiegel" on="2014-05-29" change="added dependency"/>
+      <modified by="Michael Kay" on="2016-10-12" change="avoid assert-xml when result is an atomic value"/>
       <dependency type="spec" value="XQ30+"/>
       <dependency type="feature" value="higherOrderFunctions"/>
       <test><![CDATA[
@@ -521,7 +527,7 @@
          %eg:sequential("abc", 3) %eg:memo-function function () { "bar" } ()
       ]]></test>
       <result>
-         <assert-xml><![CDATA[bar]]></assert-xml>
+         <assert-eq>"bar"</assert-eq>
       </result>
    </test-case>
    
@@ -583,6 +589,40 @@
       ]]></test>
       <result>
          <error code="XQST0045"/>
+      </result>
+   </test-case>
+   
+   <test-case name="annotation-37" covers="map-general">
+      <description>
+         Two function annotations with the same name and different values. 
+         (Nothing in the spec to prevent this.)</description>
+      <created by="Michael Kay" on="2016-10-12"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         declare namespace a = "http://www.example.org/annotation";
+         declare %a:translucent("true") %a:translucent("false") function local:foo() {
+            "bar"
+         };
+         local:foo()
+      ]]></test>
+      <result>
+         <assert-eq>"bar"</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="annotation-38" covers="map-general">
+      <description>
+         Two variable annotations with the same name and different values. 
+         (Nothing in the spec to prevent this.)</description>
+      <created by="Michael Kay" on="2016-10-12"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         declare namespace a = "http://www.example.org/annotation";
+         declare %a:translucent("true") %a:translucent("false") variable $foo := "bar";
+         $foo
+      ]]></test>
+      <result>
+         <assert-eq>"bar"</assert-eq>
       </result>
    </test-case>
 
@@ -848,6 +888,41 @@
          () instance of %opts:x function(*) 
       ]]></test>
       <result><error code="XQST0045"/></result>
+   </test-case>
+   
+   <test-case name="annotation-assertion-19" covers-30="annotation-assertions">
+      <description>
+         Two annotation assertions with the same name
+         Tests the parsing of annotation assertions. 
+      </description>
+      <created by="Michael Kay" on="2016-10-12"/>        
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         declare namespace eg = "http://example.com";
+         () instance of %eg:x(1) %eg:x(2) function(xs:integer) as xs:string
+      ]]></test>
+      <result><assert-false/></result>
+   </test-case>
+   
+   <test-case name="annotation-assertion-20" covers-30="annotation-assertions">
+      <description>
+         In a list of function annotation assertions, %public and %private can be mixed. 
+      </description>
+      <created by="Michael Kay" on="2016-10-12"/>        
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         declare namespace eg = "http://example.com";
+         declare %public function local:three() as xs:integer {3};
+         local:three#0 instance of %public %private function(xs:integer) as xs:integer
+      ]]></test>
+      <result>
+         <any-of>
+            <assert-true/>
+            <assert-false/>
+         </any-of>
+      </result>
    </test-case>
 
 </test-set>
