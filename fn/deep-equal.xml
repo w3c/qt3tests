@@ -2454,6 +2454,42 @@
       </result>
    </test-case>
    
+   <test-case name="K2-SeqDeepEqualFunc-41">
+      <description>List of one integer equals union of one integer</description>
+      <created by="Michael Kay" on="2016-11-25"/>
+      <environment ref="perverse"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaValidation"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test><![CDATA[
+        import schema namespace p = "http://www.w3.org/XQueryTest/perversity";
+        let $w := validate strict {<p:list><p:e>12</p:e></p:list>}
+        let $y := validate strict {<p:union><p:e>12</p:e></p:union>}
+        return deep-equal($w/p:e, $y/p:e)
+      ]]></test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="K2-SeqDeepEqualFunc-42">
+      <description>Empty List of integers not equal to empty string</description>
+      <created by="Michael Kay" on="2016-11-25"/>
+      <environment ref="perverse"/>
+      <dependency type="spec" value="XQ10+"/>
+      <dependency type="feature" value="schemaValidation"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test><![CDATA[
+        import schema namespace p = "http://www.w3.org/XQueryTest/perversity";
+        let $w := validate strict {<p:list><p:e></p:e></p:list>}
+        let $y := validate strict {<p:union><p:e></p:e></p:union>}
+        return deep-equal($w/p:e, $y/p:e)
+      ]]></test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
    
    <test-case name="cbcl-deep-equal-001">
       <description> Test deep-equal ignores processing instructions and comments in elements. </description>

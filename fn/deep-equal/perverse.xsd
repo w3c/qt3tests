@@ -30,6 +30,14 @@
     </xs:simpleContent>
   </xs:complexType>
   
+  <xs:simpleType name="list">
+    <xs:list itemType="xs:integer"/>
+  </xs:simpleType>
+  
+  <xs:simpleType name="union">
+    <xs:union memberTypes="xs:integer xs:string"/>
+  </xs:simpleType>
+  
   <xs:element name="elementOnly">
     <xs:complexType>
       <xs:sequence>
@@ -58,6 +66,22 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element name="e" type="p:simple"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  
+  <xs:element name="list">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="e" type="p:list"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  
+  <xs:element name="union">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="e" type="p:union"/>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
