@@ -561,10 +561,13 @@ defg
       <description>Composite test executing regular expressions from Perl-derived test file </description>
       <created by="Michael Kay" on="2015-05-20"/>
       <modified by="Michael Kay" on="2015-12-02" change="Changed p303 and p908 as per bug 29253"/>
+      <modified by="Michael Kay" on="2016-12-03" change="Added XSD 1.0 dependency as per bug 29253"/>
       <environment>
         <source role="." file="matches/perl-tests.xml"/>
       </environment>
       <dependency type="spec" value="XQ30+"/>
+      <dependency type="xsd-version" value="1.0"/> <!-- See bug 30029 - four of the subtests assume XSD 1.0 rules on hyphens -->
+      
       <test><![CDATA[
         declare namespace err="http://www.w3.org/2005/xqt-errors";
       	<results>{
@@ -593,6 +596,15 @@ defg
       <description> Unescaped left parens inside a charClass are allowed and don't affect the subexpression count</description>
       <created by="Michael Kay" on="2016-02-09"/>
       <test>fn:matches("ab()cd()ef()gh", "^(ab)([()]*)(cd)([)(]*)ef\4gh$")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-matches-52">
+      <description> A use case involving backtracking and ambiguit</description>
+      <created by="Michael Kay" on="2016-12-03"/>
+      <test>fn:matches("aaababaaabaa", "^(a*b?a*){3,3}$")</test>
       <result>
          <assert-true/>
       </result>
