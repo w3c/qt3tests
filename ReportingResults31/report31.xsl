@@ -80,6 +80,7 @@
 
    <!-- Some global variables -->
 
+   <xsl:variable name="whitelist" select="doc('../results/result-submissions-31/testcases-whitelist.xml')"/>
 
    <xsl:variable name="includeSummaryColumn" as="xs:boolean" select="count($resultsDocs) gt 1"/>
 
@@ -106,11 +107,12 @@
    <xsl:variable name="backgroundcolor" select="'lightcyan'"/>
    <xsl:variable name="groupcolor" select="'paleturquoise'"/>
    <xsl:variable name="whitelist-testset" select="('app-CatalogCheck')"/>
-   <xsl:variable name="whitelist-testcase" select="('Catalog002','collation-key-009u', 'compare-031', 'compare-034', 'compare-031'
+   <!--<xsl:variable name="whitelist-testcase" select="('Catalog002','collation-key-009u', 'compare-031', 'compare-034', 'compare-031'
       ,'compare-034', 'compare-035', 'compare-037', 'compare-039', 'compare-040', 'compare-041', 'compare-043'
       ,'fn-contains-32', 'fn-contains-33', 'fn-contains-34', 'fn-contains-36', 'fn-contains-38', 'fn-starts-with-32'
       ,'fn-starts-with-33', 'fn-substring-after-42', 'fn-substring-after-43', 'fn-ends-with-32', 'fn-substring-before-42', 'annotation-37',  'annotation-38', 'annotation-assertion-19', 'annotation-assertion-20','K2-SeqDeepEqualFunc-41', 'K2-SeqDeepEqualFunc-42', 'fn-lang-31', 'fn-lang-32')"/>
-
+-->
+   <xsl:variable name="whitelist-testcase" select="$whitelist//exception/@test-case"/> 
    <xsl:function name="r:status-color" as="xs:string">
       <xsl:param name="status" as="xs:string?"/>
 
@@ -186,6 +188,15 @@
                   <xsl:value-of select="$FOTSversion"/>
                   <xsl:text>. Implementations that have used older versions of the test suite are noted.</xsl:text>
                </p>
+               
+               <p>The report excludes:</p>
+               <ul>
+                  <li>Tests added to the test suite in the last few weeks (because many of the result submissions do not include these tests)</li>
+                  <li>Tests in the catalog test set that failed because of problems in the test catalog</li>
+                  <li>Tests in the fn:transform test set (because a late specification change means that a significant number of these
+                  tests need to be rewritten, and because many of the tests depend on optional features which have not been codified.)</li>
+               </ul>
+               
 
                <p> When results are listed as number/number/number, then indicate pass/failed/total.
                   Passed and failed together may not equal total, due to tests not run or not
@@ -979,11 +990,33 @@
                            for $t in current-group()
                            return
                               (if (count($resultsDocs/key('testCaseByName', $t/@name[not(. = $whitelist-testcase)])[@result = ('pass',
-                              'wrongError')]) = $minPasses) then
+                              'wrongError')]) lt 2) then
                                  $t
                               else
                                  ())"/>
-                     <p style="{if ($minPasses = 0) then 'color:red' else 'color:grey'}">
+                     <p>Tests passed by fewer than two implementations:</p>
+                     <table frame="hsides" rules="groups" border="1" bordercolor="black"
+                        bgcolor="pink" cellpadding="4">
+                        <thead>
+                           <tr>
+                              <th>Test name</th>
+                              <th>Passes</th>
+                              <th>Explanation</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           <xsl:for-each select="$sparseTests">
+                              <xsl:sort select="@name"/>
+                              <xsl:variable name="tname" select="@name"/>
+                              <tr>
+                                 <td><a href="testSets/{../@name}.html"><xsl:value-of select="@name"/></a></td>
+                                 <td><xsl:value-of select="count($resultsDocs/key('testCaseByName', $tname)[@result = ('pass', 'wrongError')])"/></td>
+                                 <td><xsl:value-of select="$whitelist//explanation[@test-case=$tname]/reason"/></td>
+                              </tr>
+                           </xsl:for-each>
+                        </tbody>
+                     </table>
+                     <!--<p style="{if ($minPasses = 0) then 'color:red' else 'color:grey'}">
                         <xsl:number value="count($sparseTests)" format="Ww"/>
                         <xsl:value-of
                            select="
@@ -998,7 +1031,11 @@
                               else
                                  'only one implementation'"
                         />
-                     </p>
+                        <xsl:if test="count($sparseTests) le 12">
+                           <xsl:text>-\- specifically: </xsl:text>
+                           <xsl:value-of select="$sparseTests/@name" separator=", "/>
+                        </xsl:if>
+                     </p>-->
                   </xsl:if>
                </blockquote>
 
@@ -1140,11 +1177,33 @@
                      for $t in current-group()
                      return
                         (if (count($resultsDocs/key('testCaseByName', $t/@name)[@result = ('pass',
-                        'wrongError')]) = $minPasses) then
+                        'wrongError')]) lt 2) then
                            $t
                         else
                            ())"/>
-               <p style="{if ($minPasses = 0) then 'color:red' else 'color:grey'}">
+               <p>Tests passed by fewer than two implementations:</p>
+               <table  frame="hsides" rules="groups" border="1" bordercolor="black"
+                  bgcolor="pink" cellpadding="4">
+                  <thead>
+                     <tr>
+                        <th>Test name</th>
+                        <th>Passes</th>
+                        <th>Explanation</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <xsl:for-each select="$sparseTests">
+                        <xsl:sort select="@name"/>
+                        <xsl:variable name="tname" select="@name"/>
+                        <tr>
+                           <td><a href="testSets/{../@name}.html"><xsl:value-of select="@name"/></a></td>
+                           <td><xsl:value-of select="count($resultsDocs/key('testCaseByName', $tname)[@result = ('pass', 'wrongError')])"/></td>
+                           <td><xsl:value-of select="$whitelist//explanation[@test-case=$tname]/reason"/></td>
+                        </tr>
+                     </xsl:for-each>
+                  </tbody>
+               </table>
+               <!--<p style="{if ($minPasses = 0) then 'color:red' else 'color:grey'}">
                   <xsl:number value="count($sparseTests)" format="Ww"/>
                   <xsl:value-of
                      select="
@@ -1159,7 +1218,11 @@
                         else
                            'only one implementation'"
                   />
-               </p>
+                  <xsl:if test="count($sparseTests) le 12">
+                     <xsl:text>-\- specifically: </xsl:text>
+                     <xsl:value-of select="$sparseTests/@name" separator=", "/>
+                  </xsl:if>
+               </p>-->
             </xsl:if>
          </blockquote>
 
@@ -1172,7 +1235,7 @@
                </head>
                <body>
                   <p>
-                     <button type="button" onclick="window.location='../report.html'">Main
+                     <button type="button" onclick="window.location='../report31.html'">Main
                         Report</button>
                      <xsl:text>&#xa0;&#xa0;</xsl:text>
                      <button type="button"
@@ -1257,7 +1320,29 @@
                         $t
                      else
                         ())"/>
-            <blockquote>
+            <p>Tests passed by fewer than two implementations:</p>
+            <table frame="hsides" rules="groups" border="1" bordercolor="black"
+               bgcolor="pink" cellpadding="4">
+               <thead>
+                  <tr>
+                     <th>Test name</th>
+                     <th>Passes</th>
+                     <th>Explanation</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <xsl:for-each select="$sparseTests">
+                     <xsl:sort select="@name"/>
+                     <xsl:variable name="tname" select="@name"/>
+                     <tr>
+                        <td><a href="testSets/{../@name}.html"><xsl:value-of select="@name"/></a></td>
+                        <td><xsl:value-of select="count($resultsDocs/key('testCaseByName', $tname)[@result = ('pass', 'wrongError')])"/></td>
+                        <td><xsl:value-of select="$whitelist//explanation[@test-case=$tname]/reason"/></td>
+                     </tr>
+                  </xsl:for-each>
+               </tbody>
+            </table>
+            <!--<blockquote>
                <p style="{if ($minPasses = 0) then 'color:red' else 'color:grey'}">
                   <xsl:number value="count($sparseTests)" format="Ww"/>
                   <xsl:value-of
@@ -1274,7 +1359,7 @@
                            'only one implementation'"
                   />
                </p>
-            </blockquote>
+            </blockquote>-->
          </xsl:if>
 
          <xsl:result-document href="new/{if(contains(., '#')) then replace(.,'#','-') else .}.html">
