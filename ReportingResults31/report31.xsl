@@ -15,6 +15,7 @@
 <!--   2013-11-22    Revision - Updates relating to XQueryX reporting (OND)   -->
 <!--   2016-01-18    Revision - Added depedency report including combinations (OND & Kay)   -->
 <!--   2016-09-20    Performance (depends on XSLT 3.0) (MHK)                 -->
+<!--   2016-12-06    Create white-list of test sets and test cases (OND)     -->
 <!--                                                                         -->
 
 
@@ -65,8 +66,8 @@
    <xsl:variable name="changesDoc" select="document('changes.xml', $catalog)"/>
    <xsl:variable name="testSets"
       select="$catalog//t:test-set/doc(resolve-uri(@file, base-uri(..)))/t:test-set"/>
-   <xsl:variable name="testCases" select="$testSets/t:test-case[r:testCaseAppliesToSpec(., 'XQ31') or r:testCaseAppliesToSpec(., 'XP31')]"/>
-   
+   <xsl:variable name="testCases" select="$testSets/t:test-case[(r:testCaseAppliesToSpec(., 'XQ31') or r:testCaseAppliesToSpec(., 'XP31')) and not(@name = $whitelist-testcase)]"/>
+  
    <!-- Index of testcases. Note that the value in the map is not used; we're using the map as a set of names -->
    <!-- The map is being used essentially as a multi-document version of xsl:key -->
    <xsl:variable name="testCaseNames" as="map(xs:string, element(t:test-case))">
@@ -104,12 +105,17 @@
    <xsl:variable name="untestedcolor" select="'white'"/>
    <xsl:variable name="backgroundcolor" select="'lightcyan'"/>
    <xsl:variable name="groupcolor" select="'paleturquoise'"/>
+   <xsl:variable name="whitelist-testset" select="('app-CatalogCheck')"/>
+   <xsl:variable name="whitelist-testcase" select="('Catalog002','collation-key-009u', 'compare-031', 'compare-034', 'compare-031'
+      ,'compare-034', 'compare-035', 'compare-037', 'compare-039', 'compare-040', 'compare-041', 'compare-043'
+      ,'fn-contains-32', 'fn-contains-33', 'fn-contains-34', 'fn-contains-36', 'fn-contains-38', 'fn-starts-with-32'
+      ,'fn-starts-with-33', 'fn-substring-after-42', 'fn-substring-after-43', 'fn-ends-with-32', 'fn-substring-before-42', 'annotation-37',  'annotation-38', 'annotation-assertion-19', 'annotation-assertion-20','K2-SeqDeepEqualFunc-41', 'K2-SeqDeepEqualFunc-42', 'fn-lang-31', 'fn-lang-32')"/>
 
    <xsl:function name="r:status-color" as="xs:string">
       <xsl:param name="status" as="xs:string?"/>
 
       <xsl:choose>
-         <xsl:when test="empty($status)">salmon</xsl:when>
+         <xsl:when test="empty($status)">lightgrey</xsl:when>
          <xsl:when test="$status = 'pass'">palegreen</xsl:when>
          <xsl:when test="$status = 'wrongError'">lightgreen</xsl:when>
          <xsl:when test="$status = 'fail'">tomato</xsl:when>
@@ -771,7 +777,7 @@
                         select="
                            count($results/r:test-case[@result = ('pass',
                            'wrongError')])"/>
-                     <xsl:variable name="failed"
+                      <xsl:variable name="failed"
                         select="
                            count($results/r:test-case[@result = ('fail',
                            'notRun')])"/>
@@ -912,7 +918,7 @@
    </xsl:template>
 
    <xsl:template name="dependencyList">
-      
+     
       <xsl:for-each-group select="$testCases"
          group-by="
             (. | ..)/(t:dependency[@type = 'feature']/string(@value),
@@ -960,10 +966,10 @@
                            ')'"
                         separator=""/>
                   </p>
-
+                  
                   <xsl:variable name="minPasses"
                      select="
-                        min(for $t in current-group()/@name
+                     min(for $t in current-group()/@name
                         return
                            count($resultsDocs/key('testCaseByName', $t)[@result = ('pass',
                            'wrongError')]))"/>
@@ -972,12 +978,12 @@
                         select="
                            for $t in current-group()
                            return
-                              (if (count($resultsDocs/key('testCaseByName', $t/@name)[@result = ('pass',
+                              (if (count($resultsDocs/key('testCaseByName', $t/@name[not(. = $whitelist-testcase)])[@result = ('pass',
                               'wrongError')]) = $minPasses) then
                                  $t
                               else
                                  ())"/>
-                     <p style="color:red">
+                     <p style="{if ($minPasses = 0) then 'color:red' else 'color:grey'}">
                         <xsl:number value="count($sparseTests)" format="Ww"/>
                         <xsl:value-of
                            select="
@@ -1138,7 +1144,7 @@
                            $t
                         else
                            ())"/>
-               <p style="color:red">
+               <p style="{if ($minPasses = 0) then 'color:red' else 'color:grey'}">
                   <xsl:number value="count($sparseTests)" format="Ww"/>
                   <xsl:value-of
                      select="
@@ -1226,8 +1232,8 @@
          <xsl:variable name="desc" select="$changesDoc//change[@id = current()]/string()"/>
          <xsl:variable name="relevant-test-cases"
             select="
-               $testSets[tokenize(@covers, ' ') = $changei]/t:test-case |
-               $testSets/t:test-case[tokenize(@covers, ' ') = $changei]"/>
+            $testSets[tokenize(@covers, ' ') = $changei]/t:test-case[not(@name = $whitelist-testcase)] |
+               $testSets/t:test-case[not(@name = $whitelist-testcase) and tokenize(@covers, ' ') = $changei]"/>
          <p>
             <a href="new/{.}.html">
                <xsl:value-of select="$desc"/>
@@ -1246,13 +1252,13 @@
                select="
                   for $t in $relevant-test-cases
                   return
-                     (if (count($resultsDocs/key('testCaseByName', $t/@name)[@result = ('pass',
+                  (if (count($resultsDocs/key('testCaseByName', $t/@name[not(. = $whitelist-testcase)])[@result = ('pass',
                      'wrongError')]) = $minPasses) then
                         $t
                      else
                         ())"/>
             <blockquote>
-               <p style="color:red">
+               <p style="{if ($minPasses = 0) then 'color:red' else 'color:grey'}">
                   <xsl:number value="count($sparseTests)" format="Ww"/>
                   <xsl:value-of
                      select="
@@ -1326,8 +1332,9 @@
    <!-- Generate the test group hierarchy for the left-most column           -->
    <!--                                                                      -->
    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  -->
-
-   <xsl:template match="t:test-case">
+   <xsl:template match="t:test-case[@name = $whitelist-testcase]" />
+      
+   <xsl:template match="t:test-case[not(@name = $whitelist-testcase)]">
 
       <xsl:variable name="test-name" select="@name"/>
       <xsl:variable name="creator" select="./t:created/@by"/>
@@ -1337,7 +1344,7 @@
       <xsl:variable name="failedresults">
          <xsl:for-each select="$resultsDocs">
             <xsl:variable name="results" select="key('testCaseByName', $test-name)"/>
-            <xsl:if test="count($results[@result = 'fail']) > 0">
+            <xsl:if test="count($results[@result = 'fail' and not(@name = $whitelist-testcase)]) > 0">
                <xsl:value-of select="1"/>
             </xsl:if>
          </xsl:for-each>
@@ -1368,6 +1375,7 @@
                            <b><xsl:value-of select="$test-name"/>:</b>
                            <br/>
                            <br/>
+                           <b>Created on: </b><xsl:value-of select="./t:created/@on"/><br/>
                            <b>Spec Dependencies</b>:<br/>
                            <xsl:for-each select="t:dependency, ../t:dependency">
                               <xsl:value-of select="@type"/> = <xsl:value-of select="@value"/> <br/>
@@ -1413,7 +1421,7 @@
                <!-- Some suggest  style="overflow-x:hidden;"                        -->
 
                <td valign="top">
-                  <xsl:attribute name="bgcolor" select="r:status-color($test/@result)"/>
+                  <xsl:attribute name="bgcolor" select="if($test/../@name=$whitelist-testset or $test/@name=$whitelist-testcase) then 'white' else r:status-color($test/@result)"/>
                   <xsl:choose>
                      <xsl:when test="$test">
                         <xsl:value-of select="$test/@result"/>
