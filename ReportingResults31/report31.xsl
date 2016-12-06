@@ -1235,7 +1235,7 @@
                </head>
                <body>
                   <p>
-                     <button type="button" onclick="window.location='../report31.html'">Main
+                     <button type="button" onclick="window.location='../report.html'">Main
                         Report</button>
                      <xsl:text>&#xa0;&#xa0;</xsl:text>
                      <button type="button"

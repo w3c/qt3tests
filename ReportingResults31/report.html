@@ -1,5 +1,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
    <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></meta>
       <title>QT3 Test Suite Result Summary</title>
    </head>
    <body><a name="top"></a><center>
@@ -7,9 +8,21 @@
       </center>
       <p></p>
       <blockquote>
-         <p> This document contains the results of running the <a href="http://dev.w3.org/2011/QT3-test-suite/">QT3 Test Suite</a> on seven implementations of XQuery and XPath. 
+         <p> This document contains the results of running the <a href="http://dev.w3.org/2011/QT3-test-suite/">QT3 Test Suite</a> on six implementations of XQuery and XPath. 
          </p>
          <p>The latest version of this test suite is QT3 3.1. Implementations that have used older versions of the test suite are noted.</p>
+         <p>The report excludes:</p>
+         <ul>
+            <li>Tests added to the test suite in the last few weeks (because many of the result submissions
+               do not include these tests)
+            </li>
+            <li>Tests in the catalog test set that failed because of problems in the test catalog</li>
+            <li>Tests in the fn:transform test set (because a late specification change means that
+               a significant number of these
+               tests need to be rewritten, and because many of the tests depend on optional features
+               which have not been codified.)
+            </li>
+         </ul>
          <p> When results are listed as number/number/number, then indicate pass/failed/total.
             Passed and failed together may not equal total, due to tests not run or not
             reported. 
@@ -22,11 +35,11 @@
       <h2><a name="summary"></a>Summarized Results:
       </h2>
       <blockquote>
-         <p>Total number of test cases: 30463</p>
-         <p>Total number of implementation reports: 7</p>
+         <p>Total number of test cases: 30462</p>
+         <p>Total number of implementation reports: 6</p>
          <h2 xmlns="">Results by Specification</h2>
          <blockquote xmlns="">
-            <p><a href="spec/XP31.html">XPath 3.1 (21598 tests)</a></p>
+            <p><a href="spec/XP31.html">XPath 3.1 (21597 tests)</a></p>
             <table frame="hsides" rules="groups" border="1" bordercolor="black" bgcolor="lightcyan" cellpadding="4">
                <thead bgcolor="paleturquoise">
                   <tr>
@@ -59,7 +72,7 @@
             </table>
          </blockquote>
          <blockquote xmlns="">
-            <p><a href="spec/XQ31.html">XQuery 3.1 (30419 tests)</a></p>
+            <p><a href="spec/XQ31.html">XQuery 3.1 (30418 tests)</a></p>
             <table frame="hsides" rules="groups" border="1" bordercolor="black" bgcolor="lightcyan" cellpadding="4">
                <thead bgcolor="paleturquoise">
                   <tr>
@@ -96,19 +109,11 @@
                      <td>30312</td>
                      <td>99.91</td>
                   </tr>
-                  <tr>
-                     <td bgcolor="paleturquoise">anonymous</td>
-                     <td bgcolor="paleturquoise">r3721380</td>
-                     <td>26101</td>
-                     <td>566</td>
-                     <td>26667</td>
-                     <td>97.88</td>
-                  </tr>
                </tbody>
             </table>
          </blockquote>
          <blockquote xmlns="">
-            <p><a href="spec/XQX31.html">XQueryX 3.1 (14843 tests)</a></p>
+            <p><a href="spec/XQX31.html">XQueryX 3.1 (14842 tests)</a></p>
             <table frame="hsides" rules="groups" border="1" bordercolor="black" bgcolor="lightcyan" cellpadding="4">
                <thead bgcolor="paleturquoise">
                   <tr>
@@ -153,7 +158,48 @@
             <blockquote xmlns="">
                <p><a href="dependency/21p1.html">schemaImport</a><i> satisfied </i>(755 tests)
                </p>
-               <p style="color:grey">Six tests were passed by only one implementation</p>
+               <p>Tests passed by fewer than two implementations:</p>
+               <table frame="hsides" rules="groups" border="1" bordercolor="black" bgcolor="pink" cellpadding="4">
+                  <thead>
+                     <tr>
+                        <th>Test name</th>
+                        <th>Passes</th>
+                        <th>Explanation</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td><a href="testSets/prod-SchemaImport.html">substitution-020</a></td>
+                        <td>1</td>
+                        <td>Test requires an XSD 1.1 processor</td>
+                     </tr>
+                     <tr>
+                        <td><a href="testSets/prod-SchemaImport.html">substitution-021</a></td>
+                        <td>1</td>
+                        <td>Test requires an XSD 1.1 processor</td>
+                     </tr>
+                     <tr>
+                        <td><a href="testSets/prod-SchemaImport.html">substitution-022</a></td>
+                        <td>1</td>
+                        <td>Test requires an XSD 1.1 processor</td>
+                     </tr>
+                     <tr>
+                        <td><a href="testSets/prod-SchemaImport.html">substitution-023</a></td>
+                        <td>1</td>
+                        <td>Test requires an XSD 1.1 processor</td>
+                     </tr>
+                     <tr>
+                        <td><a href="testSets/prod-SchemaImport.html">substitution-024</a></td>
+                        <td>1</td>
+                        <td>Test requires an XSD 1.1 processor</td>
+                     </tr>
+                     <tr>
+                        <td><a href="testSets/prod-SchemaImport.html">substitution-025</a></td>
+                        <td>1</td>
+                        <td>Test requires an XSD 1.1 processor</td>
+                     </tr>
+                  </tbody>
+               </table>
             </blockquote>
             <h3 xmlns="">schemaValidation</h3>
             <blockquote xmlns="">
@@ -191,10 +237,191 @@
          <h2><a name="optComboFeatures">Results for Optional Features in Combination</a></h2>
          (<a href="#top">Top of page</a>) 
          <blockquote>
-            <h3 xmlns=""><a href="dependencyCombo/1p1.html">Test with no dependencies on optional features</a> (27238 tests)
+            <h3 xmlns=""><a href="dependencyCombo/1p1.html">Test with no dependencies on optional features</a> (27237 tests)
             </h3>
             <blockquote xmlns="">
-               <p style="color:red">Five tests were passed by no implementations</p>
+               <p>Tests passed by fewer than two implementations:</p>
+               <table frame="hsides" rules="groups" border="1" bordercolor="black" bgcolor="pink" cellpadding="4">
+                  <thead>
+                     <tr>
+                        <th>Test name</th>
+                        <th>Passes</th>
+                        <th>Explanation</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td><a href="testSets/method-adaptive.html">Serialization-adaptive-37</a></td>
+                        <td>1</td>
+                        <td>Test requires an XSD 1.1 processor</td>
+                     </tr>
+                     <tr>
+                        <td><a href="testSets/misc-XMLEdition.html">XML10-4ed-Excluded-char-1</a></td>
+                        <td>0</td>
+                        <td>Test designed for products that don't yet support XML 5th Edition</td>
+                     </tr>
+                     <tr>
+                        <td><a href="testSets/misc-XMLEdition.html">XML11-1ed-Included-char-1</a></td>
+                        <td>0</td>
+                        <td>Test designed for products that don't yet support XML 5th Edition</td>
+                     </tr>
+                     <tr>
+                        <td><a href="testSets/prod-CastExpr.derived.html">cbcl-cast-gYear-003a</a></td>
+                        <td>0</td>
+                        <td>Test requires an XSD 1.1 processor</td>
+                     </tr>
+                     <tr>
+                        <td><a href="testSets/prod-CastExpr.derived.html">cbcl-cast-gYearMonth-004</a></td>
+                        <td>1</td>
+                        <td>Test requires an XSD 1.1 processor</td>
+                     </tr>
+                     <tr>
+                        <td><a href="testSets/fn-collection.html">collection-004</a></td>
+                        <td>0</td>
+                        <td>Test designed for processors that allow collection stability to be disabled</td>
+                     </tr>
+                     <tr>
+                        <td><a href="testSets/fn-collection.html">collection-008</a></td>
+                        <td>0</td>
+                        <td>Test designed for processors that allow collection stability to be disabled</td>
+                     </tr>
+                     <tr>
+                        <td><a href="testSets/fn-collection.html">collection-010</a></td>
+                        <td>1</td>
+                        <td>Test assumes a form of collection URI that products are not required to support</td>
+                     </tr>
+                     <tr>
+                        <td><a href="testSets/app-Walmsley.html">d1e78807</a></td>
+                        <td>1</td>
+                        <td>Test uses fn:transform</td>
+                     </tr>
+                     <tr>
+                        <td><a href="testSets/app-Walmsley.html">d1e78807b</a></td>
+                        <td>1</td>
+                        <td>Test uses fn:transform</td>
+                     </tr>
+                     <tr>
+                        <td><a href="testSets/prod-EQName.html">eqname-023</a></td>
+                        <td>1</td>
+                        <td>XPath-only test requiring support for the namespace axis (deprecated feature)</td>
+                     </tr>
+                     <tr>
+                        <td><a href="testSets/fn-lower-case.html">fn-lower-case-19</a></td>
+                        <td>1</td>
+                        <td>Test results vary depending on Unicode version</td>
+                     </tr>
+                     <tr>
+                        <td><a href="testSets/fn-normalize-unicode.html">fn-normalize-unicode-11</a></td>
+                        <td>0</td>
+                        <td>Test results are specific to Unicode 5.2</td>
+                     </tr>
+                     <tr>
+                        <td><a href="testSets/fn-normalize-unicode.html">fn-normalize-unicode-11-6-2</a></td>
+                        <td>1</td>
+                        <td>Test results are specific to Unicode 6.2</td>
+                     </tr>
+                     <tr>
+                        <td><a href="testSets/fn-upper-case.html">fn-upper-case-19</a></td>
+                        <td>1</td>
+                        <td>Test results vary depending on Unicode version</td>
+                     </tr>
+                     <tr>
+                        <td><a href="testSets/fn-matches.re.html">re00288</a></td>
+                        <td>1</td>
+                        <td>Test results vary depending on Unicode version</td>
+                     </tr>
+                     <tr>
+                        <td><a href="testSets/fn-matches.re.html">re00370</a></td>
+                        <td>1</td>
+                        <td>Test results vary depending on Unicode version</td>
+                     </tr>
+                     <tr>
+                        <td><a href="testSets/fn-matches.re.html">re00480</a></td>
+                        <td>1</td>
+                        <td>Test results vary depending on Unicode version</td>
+                     </tr>
+                     <tr>
+                        <td><a href="testSets/op-same-key.html">same-key-008</a></td>
+                        <td>1</td>
+                        <td>Test dependencies in metadata misdocumented?</td>
+                     </tr>
+                     <tr>
+                        <td><a href="testSets/op-same-key.html">same-key-025</a></td>
+                        <td>1</td>
+                        <td>Test dependencies in metadata misdocumented?</td>
+                     </tr>
+                     <tr>
+                        <td><a href="testSets/xs-error.html">xs-error-017</a></td>
+                        <td>1</td>
+                        <td>Test requires an XSD 1.1 processor</td>
+                     </tr>
+                     <tr>
+                        <td><a href="testSets/xs-error.html">xs-error-018</a></td>
+                        <td>1</td>
+                        <td>Test requires an XSD 1.1 processor</td>
+                     </tr>
+                     <tr>
+                        <td><a href="testSets/xs-error.html">xs-error-019</a></td>
+                        <td>1</td>
+                        <td>Test requires an XSD 1.1 processor</td>
+                     </tr>
+                     <tr>
+                        <td><a href="testSets/xs-error.html">xs-error-020</a></td>
+                        <td>1</td>
+                        <td>Test requires an XSD 1.1 processor</td>
+                     </tr>
+                     <tr>
+                        <td><a href="testSets/xs-error.html">xs-error-021</a></td>
+                        <td>1</td>
+                        <td>Test requires an XSD 1.1 processor</td>
+                     </tr>
+                     <tr>
+                        <td><a href="testSets/xs-error.html">xs-error-022</a></td>
+                        <td>1</td>
+                        <td>Test requires an XSD 1.1 processor</td>
+                     </tr>
+                     <tr>
+                        <td><a href="testSets/xs-error.html">xs-error-023</a></td>
+                        <td>1</td>
+                        <td>Test requires an XSD 1.1 processor</td>
+                     </tr>
+                     <tr>
+                        <td><a href="testSets/xs-error.html">xs-error-025</a></td>
+                        <td>1</td>
+                        <td>Test requires an XSD 1.1 processor</td>
+                     </tr>
+                     <tr>
+                        <td><a href="testSets/xs-error.html">xs-error-027</a></td>
+                        <td>1</td>
+                        <td>Test requires an XSD 1.1 processor</td>
+                     </tr>
+                     <tr>
+                        <td><a href="testSets/xs-error.html">xs-error-028</a></td>
+                        <td>1</td>
+                        <td>Test requires an XSD 1.1 processor</td>
+                     </tr>
+                     <tr>
+                        <td><a href="testSets/xs-error.html">xs-error-029</a></td>
+                        <td>1</td>
+                        <td>Test requires an XSD 1.1 processor</td>
+                     </tr>
+                     <tr>
+                        <td><a href="testSets/xs-error.html">xs-error-031</a></td>
+                        <td>1</td>
+                        <td>Test requires an XSD 1.1 processor</td>
+                     </tr>
+                     <tr>
+                        <td><a href="testSets/xs-error.html">xs-error-045</a></td>
+                        <td>1</td>
+                        <td>Test requires an XSD 1.1 processor</td>
+                     </tr>
+                     <tr>
+                        <td><a href="testSets/xs-error.html">xs-error-046</a></td>
+                        <td>1</td>
+                        <td>Test requires an XSD 1.1 processor</td>
+                     </tr>
+                  </tbody>
+               </table>
             </blockquote>
             <h3 xmlns=""><a href="dependencyCombo/2p2.html">
                   Tests depending on:  not (serialization) </a> (2 tests)
@@ -236,7 +463,48 @@
                   Tests depending on: schemaImport</a> (584 tests)
             </h3>
             <blockquote xmlns="">
-               <p style="color:grey">Six tests were passed by only one implementation</p>
+               <p>Tests passed by fewer than two implementations:</p>
+               <table frame="hsides" rules="groups" border="1" bordercolor="black" bgcolor="pink" cellpadding="4">
+                  <thead>
+                     <tr>
+                        <th>Test name</th>
+                        <th>Passes</th>
+                        <th>Explanation</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td><a href="testSets/prod-SchemaImport.html">substitution-020</a></td>
+                        <td>1</td>
+                        <td>Test requires an XSD 1.1 processor</td>
+                     </tr>
+                     <tr>
+                        <td><a href="testSets/prod-SchemaImport.html">substitution-021</a></td>
+                        <td>1</td>
+                        <td>Test requires an XSD 1.1 processor</td>
+                     </tr>
+                     <tr>
+                        <td><a href="testSets/prod-SchemaImport.html">substitution-022</a></td>
+                        <td>1</td>
+                        <td>Test requires an XSD 1.1 processor</td>
+                     </tr>
+                     <tr>
+                        <td><a href="testSets/prod-SchemaImport.html">substitution-023</a></td>
+                        <td>1</td>
+                        <td>Test requires an XSD 1.1 processor</td>
+                     </tr>
+                     <tr>
+                        <td><a href="testSets/prod-SchemaImport.html">substitution-024</a></td>
+                        <td>1</td>
+                        <td>Test requires an XSD 1.1 processor</td>
+                     </tr>
+                     <tr>
+                        <td><a href="testSets/prod-SchemaImport.html">substitution-025</a></td>
+                        <td>1</td>
+                        <td>Test requires an XSD 1.1 processor</td>
+                     </tr>
+                  </tbody>
+               </table>
             </blockquote>
             <h3 xmlns=""><a href="dependencyCombo/12p12.html">
                   Tests depending on: schemaImport + schemaValidation</a> (117 tests)
@@ -329,6 +597,30 @@
             </p>
             <p xmlns=""><a href="new/fn-parse-json.html">Add fn:parse-json function</a> (160 tests)
             </p>
+            <p xmlns=""><a href="new/fn-transform.html">Add fn:transform function</a> (5 tests)
+            </p>
+            <p xmlns="">Tests passed by fewer than two implementations:</p>
+            <table xmlns="" frame="hsides" rules="groups" border="1" bordercolor="black" bgcolor="pink" cellpadding="4">
+               <thead>
+                  <tr>
+                     <th>Test name</th>
+                     <th>Passes</th>
+                     <th>Explanation</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr>
+                     <td><a href="testSets/app-Walmsley.html">d1e78807</a></td>
+                     <td>1</td>
+                     <td>Test uses fn:transform</td>
+                  </tr>
+                  <tr>
+                     <td><a href="testSets/app-Walmsley.html">d1e78807b</a></td>
+                     <td>1</td>
+                     <td>Test uses fn:transform</td>
+                  </tr>
+               </tbody>
+            </table>
             <p xmlns=""><a href="new/fn-collation-key.html">Add fn:collation-key function</a> (32 tests)
             </p>
             <p xmlns=""><a href="new/fn-collection.html">Change error codes returned by fn:collection Generalised fn:collection function to
@@ -371,6 +663,28 @@
             </p>
             <p xmlns=""><a href="new/op-same-key.html">Add op:same-key() operator</a> (27 tests)
             </p>
+            <p xmlns="">Tests passed by fewer than two implementations:</p>
+            <table xmlns="" frame="hsides" rules="groups" border="1" bordercolor="black" bgcolor="pink" cellpadding="4">
+               <thead>
+                  <tr>
+                     <th>Test name</th>
+                     <th>Passes</th>
+                     <th>Explanation</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr>
+                     <td><a href="testSets/op-same-key.html">same-key-008</a></td>
+                     <td>1</td>
+                     <td>Test dependencies in metadata misdocumented?</td>
+                  </tr>
+                  <tr>
+                     <td><a href="testSets/op-same-key.html">same-key-025</a></td>
+                     <td>1</td>
+                     <td>Test dependencies in metadata misdocumented?</td>
+                  </tr>
+               </tbody>
+            </table>
             <p xmlns=""><a href="new/map-merge.html">Add the map function map:merge</a> (48 tests)
             </p>
             <p xmlns=""><a href="new/map-remove.html">Add the map function map:remove</a> (26 tests)
@@ -429,9 +743,23 @@
             </p>
             <p xmlns=""><a href="new/adaptive-serialization.html">Adaptive serialization method</a> (84 tests)
             </p>
-            <blockquote xmlns="">
-               <p style="color:grey">One test was passed by only one implementation</p>
-            </blockquote>
+            <p xmlns="">Tests passed by fewer than two implementations:</p>
+            <table xmlns="" frame="hsides" rules="groups" border="1" bordercolor="black" bgcolor="pink" cellpadding="4">
+               <thead>
+                  <tr>
+                     <th>Test name</th>
+                     <th>Passes</th>
+                     <th>Explanation</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr>
+                     <td><a href="testSets/method-adaptive.html">Serialization-adaptive-37</a></td>
+                     <td>1</td>
+                     <td>Test requires an XSD 1.1 processor</td>
+                  </tr>
+               </tbody>
+            </table>
             <p xmlns=""><a href="new/serialization-general.html">General features of the serialization added in 3.1 spec</a> (13 tests)
             </p>
          </blockquote>
