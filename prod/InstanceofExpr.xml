@@ -1466,6 +1466,26 @@
          <assert-true/>
        </result>
    </test-case>
+   
+   <test-case name="instanceof142" covers-30="type-derivation-with-unions">
+      <description>Instance of a substitution group defined with a union type; result is true
+        because the element name sub-U is a member of the substitution group and the type xs:integer
+        is substitutable for the (union) type of the head of the substitution group
+      </description>
+      <created by="Michael Kay" on="2016-12-21"/>
+      <environment ref="ListUnionTypes"/>
+      <dependency type="spec" value="XQ30+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test><![CDATA[
+         xquery version "3.0";
+         declare namespace s = 'http://www.w3.org/XQueryTest/ListUnionTypes' ;
+        import schema "http://www.w3.org/XQueryTest/ListUnionTypes";
+         (validate strict { <s:cuckoo><s:sub-U>12</s:sub-U></s:cuckoo> }) /* instance of schema-element(s:u)
+       ]]></test>
+      <result>
+         <assert-true/> 
+      </result>
+   </test-case>
  
    <test-case name="K-SeqExprInstanceOf-1">
       <description> A test whose essence is: `1 instance of item()`. </description>
