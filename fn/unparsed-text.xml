@@ -722,5 +722,17 @@
          <error code="FOUT1170"/>
       </result>
    </test-case>
+   
+   <test-case name="fn-unparsed-text-054">
+      <description>Test the stability of the "unparsed-text" function</description>
+      <created by="Michael Kay" on="2016-12-28"/>
+      <test>
+         for $t1 in unparsed-text('http://date.jsontest.com') return
+         every $i in 1 to 50 satisfies unparsed-text(translate(concat('http://date.jsontest.com', $i), '0123456789', '')) eq $t1 
+      </test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
 
 </test-set>
