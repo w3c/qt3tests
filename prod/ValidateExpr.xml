@@ -88,6 +88,17 @@
       </schema>   
    </environment>
    
+   <environment name="abstract">
+      <schema uri="http://myns" file="ValidateExpr/AbstractType/schema.xsd">
+         <description>A schema containing an abstract type definition</description>
+         <created by="Petr K" on="2016-12-08"/>
+      </schema>
+      <source role="." file="ValidateExpr/AbstractType/obj.xml" validation="skip">
+         <description>Document containing an element with an xsi:type to be used for validation</description>
+         <created by="Petr K" on="2016-12-08"/>
+      </source>
+   </environment>
+   
    <dependency type="spec" value="XQ10+"/>
    <dependency type="feature" value="schemaImport"/>
    <dependency type="feature" value="schemaValidation"/>
@@ -996,6 +1007,19 @@
       ]]></test>
       <result>
          <assert-xml><![CDATA[<hat>8</hat>]]></assert-xml>
+      </result>
+   </test-case>
+   
+   <test-case name="validate-as-107">
+      <description>Validate an element using xsi:type (Saxon bug 3062)</description>
+      <created by="Michael Kay after Petr K" on="2016-12-08"/>
+      <environment ref="abstract"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+        validate{ ./dummy/* }
+      ]]></test>
+      <result>
+         <assert>/*:object/*:field = 'value'</assert>
       </result>
    </test-case>
 
