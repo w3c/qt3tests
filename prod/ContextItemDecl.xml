@@ -499,6 +499,65 @@
       <assert-eq>"e"</assert-eq>
     </result>
   </test-case>
+  
+  <test-case name="contextDecl-056">
+    <description>Two modules constrain the context item type, and the types overlap</description>
+    <created by="Michael Kay" on="2016-12-31"/>
+    <environment>
+      <schema uri="http://www.w3.org/XQueryTest/unionListDefined" file="SchemaImport/unionListDefined.xsd">
+        <description>A Schema of union and list defined types</description>
+        <created by="O'Neil Delpratt" on="2011-10-27"/>
+      </schema>
+      <context-item select="4"/>
+    </environment>
+    <module uri="http://www.w3.org/TestModules/libmodule4" file="ContextItemDecl/libmodule-4.xq"/>
+    <test>
+      import module namespace m="http://www.w3.org/TestModules/libmodule4";
+      declare context item as xs:numeric external;
+      $m:v eq 4
+    </test>
+    <result>
+      <assert-true/>
+    </result>
+  </test-case>
+  
+  <test-case name="contextDecl-057">
+    <description>Two modules constrain the context item type, and the types are disjoint (type error may be reported statically)</description>
+    <created by="Michael Kay" on="2016-12-31"/>
+    <environment>
+      <schema uri="http://www.w3.org/XQueryTest/unionListDefined" file="SchemaImport/unionListDefined.xsd">
+        <description>A Schema of union and list defined types</description>
+        <created by="O'Neil Delpratt" on="2011-10-27"/>
+      </schema>
+      <context-item select="current-date()"/>
+    </environment>
+    <module uri="http://www.w3.org/TestModules/libmodule4" file="ContextItemDecl/libmodule-4.xq"/>
+    <test>
+      import module namespace m="http://www.w3.org/TestModules/libmodule4";
+      declare context item as xs:date external;
+      $m:v eq 4
+    </test>
+    <result>
+      <error code="XPTY0004"/>
+    </result>
+  </test-case>
+  
+  <test-case name="contextDecl-058">
+    <description>Two modules constrain the context item type, and the types overlap</description>
+    <created by="Michael Kay" on="2016-12-31"/>
+    <environment>
+      <context-item select="['blue', 'green']"/>
+    </environment>
+    <module uri="http://www.w3.org/TestModules/libmodule5" file="ContextItemDecl/libmodule-5.xq"/>
+    <test>
+      import module namespace m="http://www.w3.org/TestModules/libmodule5";
+      declare context item as array(xs:string) external;
+      $m:v eq 'green'
+    </test>
+    <result>
+      <assert-true/>
+    </result>
+  </test-case>
    
 
 
