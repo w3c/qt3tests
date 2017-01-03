@@ -455,20 +455,36 @@
    <test-case name="K2-InScopePrefixesFunc-11">
       <description> Check the in-scope namespaces of different elements, constructed with direct constructors. </description>
       <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="Michael Kay" on="2017-01-03" change="remove reliance on serialization of results"/>
       <dependency type="spec" value="XQ10+"/>
-      <test><![CDATA[declare default element namespace "http://www.example.com/"; let $i := <e> <a xmlns=""/> <b xmlns="http://www.example.com/"/> <c xmlns="http://www.example.com/Second"/> </e> return (count(in-scope-prefixes($i)), count(in-scope-prefixes(exactly-one($i/*[namespace-uri() eq ""]))), count(in-scope-prefixes(exactly-one($i/b))), count(in-scope-prefixes(exactly-one($i/*[namespace-uri() eq "http://www.example.com/Second"]))), $i)]]></test>
+      <test><![CDATA[
+         declare default element namespace "http://www.example.com/"; 
+         let $i := <e> <a xmlns=""/> <b xmlns="http://www.example.com/"/> <c xmlns="http://www.example.com/Second"/> </e> 
+         return (count(in-scope-prefixes($i)), 
+                 count(in-scope-prefixes(exactly-one($i/*[namespace-uri() eq ""]))), 
+                 count(in-scope-prefixes(exactly-one($i/b))), 
+                 count(in-scope-prefixes(exactly-one($i/*[namespace-uri() eq "http://www.example.com/Second"])))
+                )]]></test>
       <result>
-         <assert-xml><![CDATA[2 1 2 2<e xmlns="http://www.example.com/"><a xmlns=""/><b/><c xmlns="http://www.example.com/Second"/></e>]]></assert-xml>
+         <assert-deep-eq>2, 1, 2, 2</assert-deep-eq>
       </result>
    </test-case>
 
    <test-case name="K2-InScopePrefixesFunc-12">
       <description> Check the in-scope namespaces of different elements, constructed with computed constructors. </description>
       <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="Michael Kay" on="2017-01-03" change="remove reliance on serialization of results"/>
       <dependency type="spec" value="XQ10+"/>
-      <test>declare default element namespace "http://www.example.com/"; let $i := element e { element {QName("", "a")} {}, element {QName("http://www.example.com/", "b")} {}, element {QName("http://www.example.com/Second", "c")} {} } return (count(in-scope-prefixes($i)), count(in-scope-prefixes(exactly-one($i/*[namespace-uri() eq ""]))), count(in-scope-prefixes(exactly-one($i/b))), count(in-scope-prefixes(exactly-one($i/*[namespace-uri() eq "http://www.example.com/Second"]))), $i)</test>
+      <test>
+         declare default element namespace "http://www.example.com/"; 
+         let $i := element e { element {QName("", "a")} {}, element {QName("http://www.example.com/", "b")} {}, element {QName("http://www.example.com/Second", "c")} {} } 
+         return (count(in-scope-prefixes($i)), 
+                 count(in-scope-prefixes(exactly-one($i/*[namespace-uri() eq ""]))), 
+                 count(in-scope-prefixes(exactly-one($i/b))), 
+                 count(in-scope-prefixes(exactly-one($i/*[namespace-uri() eq "http://www.example.com/Second"])))
+                )</test>
       <result>
-         <assert-xml><![CDATA[2 1 2 2<e xmlns="http://www.example.com/"><a xmlns=""/><b/><c xmlns="http://www.example.com/Second"/></e>]]></assert-xml>
+         <assert-deep-eq>2, 1, 2, 2</assert-deep-eq>
       </result>
    </test-case>
 
@@ -621,8 +637,11 @@
    <test-case name="K2-InScopePrefixesFunc-26">
       <description> . </description>
       <created by="Frans Englich" on="2008-01-04"/>
+      <modified by="Michael Kay" on="2017-01-03" change="remove reliance on serialization of results"/>
       <dependency type="spec" value="XQ10+"/>
-      <test><![CDATA[let $i := <e> { attribute {QName("http://example.com/", "prefix:attributeName")} {()} } </e> return ($i, for $ps in in-scope-prefixes($i) order by $ps return $ps)]]></test>
+      <test><![CDATA[
+         let $i := <e> { attribute {QName("http://example.com/", "prefix:attributeName")} {()} } </e> 
+         return document {$i, for $ps in in-scope-prefixes($i) order by $ps return $ps}]]></test>
       <result>
          <assert-xml><![CDATA[<e xmlns:prefix="http://example.com/" prefix:attributeName=""/>prefix xml]]></assert-xml>
       </result>
@@ -641,8 +660,17 @@
    <test-case name="K2-InScopePrefixesFunc-28">
       <description> Check in-scope declaration of a tree fragment overriding and undeclaration the default namespace. </description>
       <created by="Frans Englich" on="2008-01-09"/>
+      <modified by="Michael Kay" on="2017-01-03" change="remove reliance on serialization of results"/>
       <dependency type="spec" value="XQ10+"/>
-      <test><![CDATA[declare default element namespace "http://www.example.com/"; let $i := <e> <a xmlns=""/> <b xmlns="http://www.example.com/"/> <c xmlns="http://www.example.com/Second"/> </e> return (count(in-scope-prefixes($i)), count(in-scope-prefixes(exactly-one($i/*[namespace-uri() eq ""]))), count(in-scope-prefixes(exactly-one($i/b))), count(in-scope-prefixes(exactly-one($i/*[namespace-uri() eq "http://www.example.com/Second"]))), $i)]]></test>
+      <test><![CDATA[
+         declare default element namespace "http://www.example.com/"; 
+         let $i := <e> <a xmlns=""/> <b xmlns="http://www.example.com/"/> <c xmlns="http://www.example.com/Second"/> </e> 
+         return document{
+                (count(in-scope-prefixes($i)), 
+                 count(in-scope-prefixes(exactly-one($i/*[namespace-uri() eq ""]))), 
+                 count(in-scope-prefixes(exactly-one($i/b))), 
+                 count(in-scope-prefixes(exactly-one($i/*[namespace-uri() eq "http://www.example.com/Second"]))), 
+                $i)}]]></test>
       <result>
          <assert-xml><![CDATA[2 1 2 2<e xmlns="http://www.example.com/"><a xmlns=""/><b/><c xmlns="http://www.example.com/Second"/></e>]]></assert-xml>
       </result>
