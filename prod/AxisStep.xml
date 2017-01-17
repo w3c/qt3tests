@@ -5271,12 +5271,16 @@ tour:main()
    <test-case name="cbcl-path-nodes-and-atomics">
       <description> A test with both nodes and atomics appearing in a (not last) step </description>
       <created by="Oliver Hallam" on="2008-08-20"/>
+      <modified by="O'Neil Delpratt" on="2017-01-17" change="Bug fix relating to #30038" />
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[
         declare function local:f($x) { if ($x mod 2 = 1) then <a/> else "a" };
         let $y := for $x in (1 to 10) return <e>{$x}</e> return $y/local:f(.)/a]]></test>
       <result>
-         <error code="XPTY0019"/>
+         <any-of>
+            <error code="XPTY0018"/>
+            <error code="XPTY0019"/>
+         </any-of>
       </result>
    </test-case>
    
