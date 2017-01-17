@@ -2457,44 +2457,6 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         </result>
     </test-case>
 
-    <test-case name="fn-transform-err-10">
-        <description>Error - location of output documents (delivery-format saved) undefined; no base-output-uri and xsl:result-document/@href is relative</description>
-        <created by="Debbie Lockett" on="2015-04-13"/>
-        <modified by="Abel Braaksma" on="2016-09-22" change="use function-style map lookup"/>
-        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
-        <environment ref="multiple-result-docs"/>
-        <test>let $res := fn:transform(map {"stylesheet-node":$multipledocs, "source-node":$sections,
-            "delivery-format":"saved"}) return map:keys($res)</test>
-        <result>
-            <error code="FOXT0002"/>
-        </result>
-    </test-case>
-
-    <test-case name="fn-transform-err-11">
-        <description>Error - location of output documents (delivery-format serialized) undefined; no base-output-uri and xsl:result-document/@href is relative</description>
-        <created by="Debbie Lockett" on="2015-04-13"/>
-        <modified by="Abel Braaksma" on="2016-09-22" change="use function-style map lookup"/>
-        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
-        <environment ref="multiple-result-docs"/>
-        <test>let $res := fn:transform(map {"stylesheet-node":$multipledocs, "source-node":$sections,
-            "delivery-format":"serialized"}) return map:keys($res)</test>
-        <result>
-            <error code="FOXT0002"/>
-        </result>
-    </test-case>
-
-    <test-case name="fn-transform-err-12">
-        <description>Error - location of output documents (delivery-format document) undefined; no base-output-uri and xsl:result-document/@href is relative</description>
-        <created by="Debbie Lockett" on="2015-04-13"/>
-        <modified by="Abel Braaksma" on="2016-09-22" change="use function-style map lookup"/>
-        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
-        <environment ref="multiple-result-docs"/>
-        <test>let $res := fn:transform(map {"stylesheet-node":$multipledocs, "source-node":$sections,
-            "delivery-format":"document"}) return map:keys($res)</test>
-        <result>
-            <error code="FOXT0002"/>
-        </result>
-    </test-case>
 
     <test-case name="fn-transform-err-13">
         <description>Error - value supplied for the option 'delivery-format' is not one of those allowed</description>
