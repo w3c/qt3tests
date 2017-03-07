@@ -2438,25 +2438,6 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         </result>
     </test-case>
 
-    <test-case name="fn-transform-err-9a">
-        <description>Error - value supplied for stylesheet-base-uri should be absolute</description>
-        <created by="Debbie Lockett" on="2015-03-11"/>
-        <dependency type="spec" value="XQ31+"/>
-        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
-        <test><![CDATA[
-            let $xsl  :="<xsl:stylesheet version='2.0' xmlns:xsl='http://www.w3.org/1999/XSL/Transform'>
-                    <xsl:include href='transform/staticbaseuri.xsl'/>
-                    </xsl:stylesheet>"
-            return
-            fn:transform(map {"stylesheet-text" : $xsl, "initial-template" : QName('','main'),
-            "stylesheet-base-uri": "transform/include.xsl"
-            })?output
-            ]]></test>
-        <result>
-            <error code="FOXT0002"/>
-        </result>
-    </test-case>
-
 
     <test-case name="fn-transform-err-13">
         <description>Error - value supplied for the option 'delivery-format' is not one of those allowed</description>
