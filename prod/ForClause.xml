@@ -1838,13 +1838,14 @@
    </test-case>
 
    <test-case name="ForExprType057">
-      <description> FLWOR expressions with type declaration. Type declaration matcing text nodes </description>
+      <description> FLWOR expressions with type declaration. Type declaration matching text nodes </description>
       <created by="Mike Rorke" on="2005-09-13"/>
+      <modified by="Michael Kay" on="2017-03-17" change="avoid reliance on implicit document node creation"/>
       <environment ref="fsx_NS2"/>
       <dependency type="spec" value="XQ10+"/>
       <test>
         declare namespace fs="http://www.example.com/filesystem"; 
-        for $test as text() in (//fs:Folder)[1]/fs:File/fs:FileName/text() return $test
+        document{for $test as text() in (//fs:Folder)[1]/fs:File/fs:FileName/text() return $test}
       </test>
       <result>
          <assert-xml>File00000000000File00000000001File00000000002</assert-xml>
@@ -1854,11 +1855,12 @@
    <test-case name="ForExprType058">
       <description> FLWOR expressions with type declaration. Type declaration matcing XML comment nodes </description>
       <created by="Mike Rorke" on="2005-09-13"/>
+      <modified by="Michael Kay" on="2017-03-17" change="avoid reliance on implicit document node creation"/>
       <environment ref="fsx_NS2"/>
       <dependency type="spec" value="XQ10+"/>
       <test>
         declare namespace fs="http://www.example.com/filesystem"; 
-        for $test as comment() in (//fs:Folder)[1]/comment() return $test
+        document{for $test as comment() in (//fs:Folder)[1]/comment() return $test}
       </test>
       <result>
          <assert-xml><![CDATA[<!-- This is a comment for File00000000000 --><!-- This is a comment for File00000000001 --><!-- This is a comment for File00000000002 -->]]></assert-xml>
