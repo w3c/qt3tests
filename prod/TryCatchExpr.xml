@@ -1356,10 +1356,11 @@
   <test-case name="try-catch-optimizations-2">
     <description>If the evaluation of an expression inside a try/catch is rewritten or deferred in this way, it must take its try/catch context with it.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
+    <modified by="Michael Kay" on="2017-03-17" change="avoid assert-xml for non-XML results"/>
     <environment ref="err"/>
     <test>try { fn:error() } catch * { 0 }, try { fn:error() } catch err:FOER0000 { 1}</test>
     <result>
-      <assert-xml>0 1</assert-xml>
+      <assert-deep-eq>0, 1</assert-deep-eq>
     </result>
   </test-case>
   

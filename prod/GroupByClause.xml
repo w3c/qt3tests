@@ -353,13 +353,14 @@
    <test-case name="group-015">
       <description>No value comparisons are available to compare the grouping keys.</description>
       <created by="Josh Spiegel" on="2012-10-02"/>
+      <modified by="Michael Kay" on="2017-03-17" change="avoid assert-xml for non-XML results"/>
       <test>
           for $x in (true(), "true", xs:QName("true"))
           group by $x
           return $x
       </test>
       <result>
-         <assert-xml><![CDATA[true true true]]></assert-xml>
+        <assert-permutation>true(), "true", xs:QName("true")</assert-permutation>
       </result>
    </test-case>
 
