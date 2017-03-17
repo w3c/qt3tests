@@ -190,10 +190,16 @@
    <test-case name="CondExpr017">
       <description>FileName: CondExpr017  if where branches return different valid types </description>
       <created by="Mike Rorke" on="2005-03-17"/>
+      <modified by="Michael Kay" on="2017-03-17" change="Avoid implicit use of XML serialization for testing the result"/>
       <environment ref="fsx"/>
       <test>for $file in (//Folder)[1]/File return if( $file/FileName='File00000000000' ) then $file/FileName else data( $file/FileName )</test>
       <result>
-         <assert-xml><![CDATA[<FileName>File00000000000</FileName>File00000000001 File00000000002 File00000000003 File00000000004 File00000000005 File00000000006 File00000000007 File00000000008 File00000000009 File00000000010 File00000000011 File00000000012 File00000000013 File00000000014 File00000000015 File00000000016 File00000000017 File00000000018 File00000000019 File00000000020 File00000000021 File00000000022 File00000000023 File00000000024 File00000000025 File00000000026 File00000000027 File00000000028 File00000000029 File00000000030]]></assert-xml>
+         <all-of>
+            <assert-count>31</assert-count>
+            <assert>$result[1][. instance of element(FileName)][. = 'File00000000000']</assert>
+            <assert>every $r in subsequence($result,2) satisfies $r instance of xs:untypedAtomic</assert>
+            <assert>string-join(subsequence($result,2), ' ') eq "File00000000001 File00000000002 File00000000003 File00000000004 File00000000005 File00000000006 File00000000007 File00000000008 File00000000009 File00000000010 File00000000011 File00000000012 File00000000013 File00000000014 File00000000015 File00000000016 File00000000017 File00000000018 File00000000019 File00000000020 File00000000021 File00000000022 File00000000023 File00000000024 File00000000025 File00000000026 File00000000027 File00000000028 File00000000029 File00000000030"</assert>
+         </all-of>
       </result>
    </test-case>
 
