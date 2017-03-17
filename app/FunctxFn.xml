@@ -3013,10 +3013,14 @@
    <test-case name="functx-fn-number-all">
       <description/>
       <created by="Frans Englich" on="2008-05-16"/>
+      <modified by="Michael Kay" on="2017-03-17" change="make construction of document node explicit"/>
       <environment ref="functx_prices"/>
       <dependency type="spec" value="XP30+ XQ10+"/>
-      <test>let $priceDoc := (/) return (number( $priceDoc//prod[1]/price), number( $priceDoc//prod[1]/@currency), number('29.99'), number('ABC'), number( () ), $priceDoc// prod/price[number() &gt;
-         35])</test>
+      <test>
+         let $priceDoc := (/) 
+         return document{(number( $priceDoc//prod[1]/price), number( $priceDoc//prod[1]/@currency), 
+                          number('29.99'), number('ABC'), number( () ), 
+                          $priceDoc// prod/price[number() &gt; 35])}</test>
       <result>
          <assert-xml><![CDATA[29.99 NaN 29.99 NaN NaN<price currency="USD">69.99</price><price currency="USD">39.99</price>]]></assert-xml>
       </result>
@@ -3612,9 +3616,13 @@
    <test-case name="functx-fn-root-all">
       <description/>
       <created by="Frans Englich" on="2008-05-16"/>
+      <modified by="Michael Kay" on="2017-03-17" change="make construction of document node explicit"/>
       <environment ref="functx_order"/>
       <dependency type="spec" value="XQ10+"/>
-      <test><![CDATA[let $in-xml := <a><x>123</x></a> return (root( (/) //item[1]), root($in-xml/x))]]></test>
+      <test><![CDATA[
+         let $in-xml := <a><x>123</x></a> 
+         return document{(root( (/) //item[1]), root($in-xml/x))}
+      ]]></test>
       <result>
          <assert-xml><![CDATA[<order num="00299432" date="2006-09-15" cust="0221A">
   <item dept="WMN" num="557" quantity="1" color="beige"/>

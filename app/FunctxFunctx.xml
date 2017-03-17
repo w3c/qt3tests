@@ -1979,16 +1979,35 @@
    <test-case name="functx-functx-dynamic-path-all">
       <description>~ : Dynamically evaluates a simple XPath path : : @author Priscilla Walmsley, Datypic : @version 1.0 : @see http://www.xqueryfunctions.com/xq/functx_dynamic-path.html : @param $parent the root to start from : @param $path the path expression ~ : Whether a name matches a list of names or name wildcards : : @author Priscilla Walmsley, Datypic : @version 1.0 : @see http://www.xqueryfunctions.com/xq/functx_name-test.html : @param $testname the name to test : @param $names the list of names or name wildcards ~ : Performs substring-after, returning the entire string if it does not contain the delimiter : : @author Priscilla Walmsley, Datypic : @version 1.0 : @see http://www.xqueryfunctions.com/xq/functx_substring-after-if-contains.html : @param $arg the string to substring : @param $delim the delimiter ~ : Performs substring-before, returning the entire string if it does not contain the delimiter : : @author Priscilla Walmsley, Datypic : @version 1.0 : @see http://www.xqueryfunctions.com/xq/functx_substring-before-if-contains.html : @param $arg the string to substring : @param $delim the delimiter </description>
       <created by="Frans Englich" on="2008-05-16"/>
+      <modified by="Michael Kay" on="2017-03-17" change="Make construction of document node explicit"/>
       <test><![CDATA[declare namespace functx = "http://www.example.com/";
                     (:~ : Dynamically evaluates a simple XPath path : : @author Priscilla Walmsley, Datypic : @version 1.0 : @see http://www.xqueryfunctions.com/xq/functx_dynamic-path.html : @param $parent the root to start from : @param $path the path expression :)
-         declare function functx:dynamic-path ( $parent as node() , $path as xs:string ) as item()* { let $nextStep := functx:substring-before-if-contains($path,'/') let $restOfSteps := substring-after($path,'/') for $child in ($parent/*[functx:name-test(name(),$nextStep)], $parent/@*[functx:name-test(name(), substring-after($nextStep,'@'))]) return if ($restOfSteps) then functx:dynamic-path($child, $restOfSteps) else $child } ;
+         declare function functx:dynamic-path ( $parent as node() , $path as xs:string ) as item()* { 
+            let $nextStep := functx:substring-before-if-contains($path,'/') 
+            let $restOfSteps := substring-after($path,'/') 
+            for $child in ($parent/*[functx:name-test(name(),$nextStep)], $parent/@*[functx:name-test(name(), substring-after($nextStep,'@'))]) 
+            return if ($restOfSteps) then functx:dynamic-path($child, $restOfSteps) else $child 
+         } ;
                     (:~ : Whether a name matches a list of names or name wildcards : : @author Priscilla Walmsley, Datypic : @version 1.0 : @see http://www.xqueryfunctions.com/xq/functx_name-test.html : @param $testname the name to test : @param $names the list of names or name wildcards :)
-         declare function functx:name-test ( $testname as xs:string? , $names as xs:string* ) as xs:boolean { $testname = $names or $names = '*' or functx:substring-after-if-contains($testname,':') = (for $name in $names return substring-after($name,'*:')) or substring-before($testname,':') = (for $name in $names[contains(.,':*')] return substring-before($name,':*')) } ;
+         declare function functx:name-test ( $testname as xs:string? , $names as xs:string* ) as xs:boolean { 
+            $testname = $names or $names = '*' or functx:substring-after-if-contains($testname,':') = (
+               for $name in $names return substring-after($name,'*:')) or substring-before($testname,':') = (for $name in $names[contains(.,':*')] 
+               return substring-before($name,':*')) 
+         } ;
                     (:~ : Performs substring-after, returning the entire string if it does not contain the delimiter : : @author Priscilla Walmsley, Datypic : @version 1.0 : @see http://www.xqueryfunctions.com/xq/functx_substring-after-if-contains.html : @param $arg the string to substring : @param $delim the delimiter :)
-         declare function functx:substring-after-if-contains ( $arg as xs:string? , $delim as xs:string ) as xs:string? { if (contains($arg,$delim)) then substring-after($arg,$delim) else $arg } ;
+         declare function functx:substring-after-if-contains ( $arg as xs:string? , $delim as xs:string ) as xs:string? { 
+            if (contains($arg,$delim)) then substring-after($arg,$delim) else $arg 
+         } ;
                     (:~ : Performs substring-before, returning the entire string if it does not contain the delimiter : : @author Priscilla Walmsley, Datypic : @version 1.0 : @see http://www.xqueryfunctions.com/xq/functx_substring-before-if-contains.html : @param $arg the string to substring : @param $delim the delimiter :)
-         declare function functx:substring-before-if-contains ( $arg as xs:string? , $delim as xs:string ) as xs:string? { if (contains($arg,$delim)) then substring-before($arg,$delim) else $arg } ;
-                    let $in-xml := <authors> <author test="abc"> <first>Kate</first> <last>Jones</last> </author> <author> <first>John</first> <a:last xmlns:a="http://a">Doe</a:last> </author> </authors> return (functx:dynamic-path( $in-xml,'author/first'), name(functx:dynamic-path( $in-xml,'author/@test')), functx:dynamic-path( $in-xml,'author'), functx:dynamic-path( $in-xml,'author/a:last'))]]></test>
+         declare function functx:substring-before-if-contains ( $arg as xs:string? , $delim as xs:string ) as xs:string? { 
+            if (contains($arg,$delim)) then substring-before($arg,$delim) else $arg 
+         } ;
+         let $in-xml := <authors> <author test="abc"> <first>Kate</first> <last>Jones</last> </author> <author> <first>John</first> <a:last xmlns:a="http://a">Doe</a:last> </author> </authors> 
+         return document{(functx:dynamic-path( $in-xml,'author/first'), 
+                 name(functx:dynamic-path( $in-xml,'author/@test')), 
+                 functx:dynamic-path( $in-xml,'author'), 
+                 functx:dynamic-path( $in-xml,'author/a:last'))}
+      ]]></test>
       <result>
          <assert-xml><![CDATA[<first>Kate</first><first>John</first>test<author test="abc"><first>Kate</first><last>Jones</last></author><author><first>John</first><a:last xmlns:a="http://a">Doe</a:last></author><a:last xmlns:a="http://a">Doe</a:last>]]></assert-xml>
       </result>
@@ -6757,10 +6776,13 @@ let $lines := 'a
    <test-case name="functx-functx-sort-as-numeric-all">
       <description>~ : Sorts a sequence of numeric values or nodes : : @author Priscilla Walmsley, Datypic : @version 1.0 : @see http://www.xqueryfunctions.com/xq/functx_sort-as-numeric.html : @param $seq the sequence to sort </description>
       <created by="Frans Englich" on="2008-05-16"/>
+      <modified by="Michael Kay" on="2017-03-17" change="make construction of document node explicit"/>
       <test><![CDATA[declare namespace functx = "http://www.example.com/";
                     (:~ : Sorts a sequence of numeric values or nodes : : @author Priscilla Walmsley, Datypic : @version 1.0 : @see http://www.xqueryfunctions.com/xq/functx_sort-as-numeric.html : @param $seq the sequence to sort :)
          declare function functx:sort-as-numeric ( $seq as item()* ) as item()* { for $item in $seq order by number($item) return $item } ;
-                    let $in-xml := <in-xml> <f>1</f> <f>35</f> <e>4</e> </in-xml> return (functx:sort-as-numeric(('1','100','99')), functx:sort-as-numeric($in-xml/*))]]></test>
+         let $in-xml := <in-xml> <f>1</f> <f>35</f> <e>4</e> </in-xml> 
+         return document{(functx:sort-as-numeric(('1','100','99')), functx:sort-as-numeric($in-xml/*))}
+      ]]></test>
       <result>
          <assert-xml><![CDATA[1 99 100<f>1</f><e>4</e><f>35</f>]]></assert-xml>
       </result>
@@ -6793,10 +6815,15 @@ let $lines := 'a
    <test-case name="functx-functx-sort-case-insensitive-all">
       <description>~ : Sorts a sequence of values or nodes regardless of capitalization : : @author Priscilla Walmsley, Datypic : @version 1.0 : @see http://www.xqueryfunctions.com/xq/functx_sort-case-insensitive.html : @param $seq the sequence to sort </description>
       <created by="Frans Englich" on="2008-05-16"/>
+      <modified by="Michael Kay" on="2017-03-17" change="make creation of document node explicit"/>
       <test><![CDATA[declare namespace functx = "http://www.example.com/";
                     (:~ : Sorts a sequence of values or nodes regardless of capitalization : : @author Priscilla Walmsley, Datypic : @version 1.0 : @see http://www.xqueryfunctions.com/xq/functx_sort-case-insensitive.html : @param $seq the sequence to sort :)
-         declare function functx:sort-case-insensitive ( $seq as item()* ) as item()* { for $item in $seq order by upper-case(string($item)) return $item } ;
-                    let $in-xml := <in-xml> <f>a</f> <f>c</f> <e>B</e> </in-xml> return (functx:sort-case-insensitive(('a','c','B')), functx:sort-case-insensitive($in-xml/*))]]></test>
+         declare function functx:sort-case-insensitive ( $seq as item()* ) as item()* { 
+            for $item in $seq order by upper-case(string($item)) return $item 
+         } ;
+         let $in-xml := <in-xml> <f>a</f> <f>c</f> <e>B</e> </in-xml> 
+         return document{(functx:sort-case-insensitive(('a','c','B')), functx:sort-case-insensitive($in-xml/*))}
+      ]]></test>
       <result>
          <assert-xml><![CDATA[a B c<f>a</f><e>B</e><f>c</f>]]></assert-xml>
       </result>
@@ -6841,10 +6868,15 @@ let $lines := 'a
    <test-case name="functx-functx-sort-all">
       <description>~ : Sorts a sequence of values or nodes : : @author Priscilla Walmsley, Datypic : @version 1.0 : @see http://www.xqueryfunctions.com/xq/functx_sort.html : @param $seq the sequence to sort </description>
       <created by="Frans Englich" on="2008-05-16"/>
+      <modified by="Michael Kay" on="2017-03-17" change="make construction of document node explicit"/>
       <test><![CDATA[declare namespace functx = "http://www.example.com/";
                     (:~ : Sorts a sequence of values or nodes : : @author Priscilla Walmsley, Datypic : @version 1.0 : @see http://www.xqueryfunctions.com/xq/functx_sort.html : @param $seq the sequence to sort :)
-         declare function functx:sort ( $seq as item()* ) as item()* { for $item in $seq order by $item return $item } ;
-                    let $in-xml := <in-xml> <f>c</f> <f>a</f> <e>b</e> </in-xml> return (functx:sort(('c','a','b')), functx:sort($in-xml/*))]]></test>
+         declare function functx:sort ( $seq as item()* ) as item()* { 
+            for $item in $seq order by $item return $item 
+         };
+         let $in-xml := <in-xml> <f>c</f> <f>a</f> <e>b</e> </in-xml> 
+         return document{(functx:sort(('c','a','b')), functx:sort($in-xml/*))}
+       ]]></test>
       <result>
          <assert-xml><![CDATA[a b c<f>a</f><e>b</e><f>c</f>]]></assert-xml>
       </result>
