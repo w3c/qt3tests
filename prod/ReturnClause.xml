@@ -54,11 +54,12 @@
    <test-case name="ReturnExpr004">
       <description> For+Where+Return - filters in 'Where' expr and in 'Return' expr using predicate </description>
       <created by="Jinghao Liu" on="2003-02-10"/>
+      <modified by="Michael Kay" on="2017-03-17" change="avoid assert-xml for non-XML results"/>
       <environment ref="fsx"/>
       <dependency type="spec" value="XQ10+"/>
       <test>for $f in /MyComputer//File where $f/@creation_date="08/06/00" return $f/SecurityObject/Denies/Deny[security/right]/user/string()</test>
       <result>
-         <assert-xml>system\Toshiko</assert-xml>
+         <assert-string-value>system\Toshiko</assert-string-value>
       </result>
    </test-case>
 
