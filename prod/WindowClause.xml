@@ -326,6 +326,7 @@ return
    <test-case name="WindowingUseCase04">
       <description> use case 4: Calculate the moving average of temperature values for the 3 last seconds. </description>
       <created by="Matthias Brantner" on="2011-07-28"/>
+      <modified by="Michael Kay" on="2017-03-17" change="avoid assert-xml for non-XML results"/>
       <environment ref="WindowingUseCases04"/>
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
@@ -340,13 +341,14 @@ return
   avg( $w/@temp )
       ]]></test>
       <result>
-         <assert-xml><![CDATA[8 9 17 18]]></assert-xml>
+         <assert-deep-eq>8, 9, 17, 18</assert-deep-eq>
       </result>
    </test-case>
 
    <test-case name="WindowingUseCase04S">
       <description> use case 4: Calculate the moving average of temperature values for the 3 last seconds. </description>
       <created by="Matthias Brantner" on="2011-07-28"/>
+      <modified by="Michael Kay" on="2017-03-17" change="avoid assert-xml for non-XML results"/>
       <environment ref="WindowingUseCases04S"/>
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
@@ -361,13 +363,14 @@ return
   avg( $w/@temp )
       ]]></test>
       <result>
-         <assert-xml><![CDATA[8 9 17 18]]></assert-xml>
+         <assert-deep-eq>8, 9, 17, 18</assert-deep-eq>
       </result>
    </test-case>
 
    <test-case name="WindowingUseCase05">
       <description> use case 5: Single exponential smoothing (3 last values and smoothing factor 0.2) </description>
       <created by="Matthias Brantner" on="2011-07-28"/>
+      <modified by="Michael Kay" on="2017-03-17" change="avoid assert-xml for non-XML results"/>
       <environment ref="WindowingUseCases04"/>
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
@@ -382,13 +385,14 @@ return
       (1 - $SMOOTH_CONST) * data($w[1]/@temp) ), 2)
       ]]></test>
       <result>
-        <assert-xml><![CDATA[8.88 8.68 12.32 15.24 23.92]]></assert-xml>
+        <assert-deep-eq>8.88, 8.68, 12.32, 15.24, 23.92</assert-deep-eq>
       </result>
    </test-case>
 
    <test-case name="WindowingUseCase05S">
       <description> use case 5: Single exponential smoothing (3 last values and smoothing factor 0.2) </description>
       <created by="Matthias Brantner" on="2011-07-28"/>
+      <modified by="Michael Kay" on="2017-03-17" change="avoid assert-xml for non-XML results"/>
       <environment ref="WindowingUseCases04S"/>
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
@@ -403,7 +407,7 @@ return
       (1 - $SMOOTH_CONST) * data($w[1]/@temp) ), 2)
       ]]></test>
       <result>
-        <assert-xml><![CDATA[8.88 8.68 12.32 15.24 23.92]]></assert-xml>
+        <assert-deep-eq>8.88, 8.68, 12.32, 15.24, 23.92</assert-deep-eq>
       </result>
    </test-case>
 
@@ -1846,6 +1850,7 @@ return
     <test-case name="TumblingWindowExpr534">
         <description>Tumbling Window Clause, overwrite all variables of preceding for clauses</description>
         <created by="Matthias Brantner" on="2011-12-02"/>
+        <modified by="Michael Kay" on="2017-03-17" change="avoid assert-xml for non-XML results"/>
         <dependency type="spec" value="XQ30+"/>
         <test><![CDATA[
           for $x1 in 11
@@ -1867,13 +1872,14 @@ return
             )
         ]]></test>
         <result>
-          <assert-xml><![CDATA[1 2 3 4 5 6 7 8 9 10 1 1 2 10 10 9]]></assert-xml>
+          <assert-string-value>1 2 3 4 5 6 7 8 9 10 1 1 2 10 10 9</assert-string-value>
         </result>
     </test-case>
 
     <test-case name="SlidingWindowExpr534">
         <description>Sliding Window Clause, overwrite all variables of preceding for clauses</description>
         <created by="Matthias Brantner" on="2011-12-02"/>
+        <modified by="Michael Kay" on="2017-03-17" change="avoid assert-xml for non-XML results"/>
         <dependency type="spec" value="XQ30+"/>
         <test><![CDATA[
           for $x1 in 11
@@ -1895,7 +1901,7 @@ return
             )
         ]]></test>
         <result>
-          <assert-xml><![CDATA[1 2 3 4 5 6 7 8 9 10 1 1 2 10 10 9 2 3 4 5 6 7 8 9 10 2 2 1 3 10 10 9 3 4 5 6 7 8 9 10 3 3 2 4 10 10 9 4 5 6 7 8 9 10 4 4 3 5 10 10 9 5 6 7 8 9 10 5 5 4 6 10 10 9 6 7 8 9 10 6 6 5 7 10 10 9 7 8 9 10 7 7 6 8 10 10 9 8 9 10 8 8 7 9 10 10 9 9 10 9 9 8 10 10 10 9 10 10 10 9 10 10 9]]></assert-xml>
+          <assert-string-value>1 2 3 4 5 6 7 8 9 10 1 1 2 10 10 9 2 3 4 5 6 7 8 9 10 2 2 1 3 10 10 9 3 4 5 6 7 8 9 10 3 3 2 4 10 10 9 4 5 6 7 8 9 10 4 4 3 5 10 10 9 5 6 7 8 9 10 5 5 4 6 10 10 9 6 7 8 9 10 6 6 5 7 10 10 9 7 8 9 10 7 7 6 8 10 10 9 8 9 10 8 8 7 9 10 10 9 9 10 9 9 8 10 10 10 9 10 10 10 9 10 10 9</assert-string-value>
         </result>
     </test-case>
 
@@ -2280,6 +2286,7 @@ return
     <test-case name="TumblingWindowExpr551">
         <description>Tumbling Window Clause, checking sequence type of value of each window</description>
         <created by="Matthias Brantner" on="2011-12-02"/>
+        <modified by="Michael Kay" on="2017-03-17" change="avoid assert-xml for non-XML results"/>
         <dependency type="spec" value="XQ30+"/>
         <test><![CDATA[
           for tumbling window $w in (1 to 10)
@@ -2288,7 +2295,7 @@ return
           return $w instance of xs:integer
         ]]></test>
         <result>
-          <assert-xml><![CDATA[false false false false false]]></assert-xml>
+          <assert-deep-eq>false(), false(), false(), false(), false()</assert-deep-eq>
         </result>
     </test-case>
 
