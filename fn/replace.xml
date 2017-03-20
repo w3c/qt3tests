@@ -749,10 +749,23 @@ abracadabra", "\n","with")</test>
    <test-case name="K2-ReplaceFunc-8">
       <description> Use fn:replace inside user function. </description>
       <created by="Frans Englich" on="2008-06-06"/>
+      <modified by="Michael Kay" on="2017-01-04" change="remove dependency on XML serialization"/>
       <dependency type="spec" value="XQ10+"/>
-      <test><![CDATA[declare function local:doReplace($input as xs:string?, $pattern as xs:string, $replacement as xs:string) as xs:string { fn:replace($input, $pattern, $replacement) }; <result> <para>{fn:replace("ThiY Ybcd.", "Y", "Q")}</para> <para>{local:doReplace("ThiY iY a abYY.", "Y", "Q")}</para> </result>, fn:replace("ThiY abcdY.", "Y", "Q"), local:doReplace("ThiY iY a abYY.", "Y", "Q")]]></test>
+      <test><![CDATA[
+         declare function local:doReplace($input as xs:string?, $pattern as xs:string, $replacement as xs:string) as xs:string { 
+            fn:replace($input, $pattern, $replacement) 
+         }; 
+         <result> <para>{fn:replace("ThiY Ybcd.", "Y", "Q")}</para> <para>{local:doReplace("ThiY iY a abYY.", "Y", "Q")}</para> </result>, 
+         fn:replace("ThiY abcdY.", "Y", "Q"), 
+         local:doReplace("ThiY iY a abYY.", "Y", "Q")
+      ]]></test>
       <result>
-         <assert-xml><![CDATA[<result><para>ThiQ Qbcd.</para><para>ThiQ iQ a abQQ.</para></result>ThiQ abcdQ. ThiQ iQ a abQQ.]]></assert-xml>
+         <all-of>
+            <assert>$result[1]/para[1] = "ThiQ Qbcd."</assert>
+            <assert>$result[1]/para[2] = "ThiQ iQ a abQQ."</assert>
+            <assert>$result[2] = "ThiQ abcdQ."</assert>
+            <assert>$result[3] = "ThiQ iQ a abQQ."</assert>
+         </all-of>
       </result>
    </test-case>
    
