@@ -498,4 +498,23 @@ r:random-sequence(200)]]></test>
         </result>
     </test-case>
     
+    <test-case name="fn-random-number-generator-44">
+        <description>Use fold-left() to generate a sequence of random numbers</description>
+        <created by="Michael Kay" on="2017-01-12"/>
+        <test>fold-left(1 to 10, random-number-generator(), 
+                function($z, $i){ head($z)('next')(), tail($z), head($z)('number')}) => tail()
+        </test>
+        <result>
+            <all-of>
+                <assert>count($result) = 10</assert>
+                <assert>count(distinct-values($result)) ge 9</assert>
+                  <!-- One pair of duplicates might happen occasionally, more than one needs investigation -->
+                <assert-type>xs:double+</assert-type>
+                <assert>every $x in $result satisfies ($x ge 0 and $x lt 1)</assert>
+            </all-of>
+        </result>
+    </test-case>
+    
+    
+    
 </test-set>
