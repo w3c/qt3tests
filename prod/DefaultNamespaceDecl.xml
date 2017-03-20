@@ -591,10 +591,20 @@
    <test-case name="K2-DefaultNamespaceProlog-6">
       <description> Ensure the default element namespace is properly handled with default namespace attribute declarations. </description>
       <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="Michael Kay" on="2017-01-03" change="Remove dependency on XML serialization"/>
       <dependency type="spec" value="XQ10+"/>
-      <test><![CDATA[declare default element namespace "http://example.com/"; namespace-uri-from-QName(xs:QName("localName")), <e xmlns=""> { " | ", namespace-uri-from-QName(xs:QName("localName")) } </e>, namespace-uri-from-QName(xs:QName("localName"))]]></test>
+      <test><![CDATA[
+         declare default element namespace "http://example.com/"; 
+         namespace-uri-from-QName(xs:QName("localName")), 
+         <e xmlns=""> { " | ", namespace-uri-from-QName(xs:QName("localName")) } </e>, 
+         namespace-uri-from-QName(xs:QName("localName"))
+      ]]></test>
       <result>
-         <assert-xml><![CDATA[http://example.com/<e> |  </e>http://example.com/]]></assert-xml>
+         <all-of>
+            <assert>$result[1] eq "http://example.com/"</assert>
+            <assert>$result[2][self::e] eq " |  "</assert>
+            <assert>$result[3] eq "http://example.com/"</assert>
+         </all-of>
       </result>
    </test-case>
 
