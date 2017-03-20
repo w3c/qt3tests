@@ -1522,6 +1522,8 @@
    <test-case name="cbcl-cast-gYear-002">
       <description> test casting 0000 to xs:gYear </description>
       <created by="Oliver Hallam" on="2008-05-22"/>
+      <modified by="Michael Kay" on="2017-03-17" change="add dependency on XSD 1.0"/> 
+      <dependency type="xsd-version" value="1.0" />
       <test>"0000" cast as xs:gYear</test>
       <result>
          <error code="FORG0001"/>
@@ -1556,6 +1558,8 @@
    <test-case name="cbcl-cast-gYearMonth-003">
       <description> test cast year 0000 xs:gYearMonth </description>
       <created by="Oliver Hallam" on="2008-05-22"/>
+      <modified by="Michael Kay" on="2017-03-17" change="add dependency on XSD 1.0"/> 
+      <dependency type="xsd-version" value="1.0" />
       <test>"0000-05" cast as xs:gYearMonth</test>
       <result>
          <error code="FORG0001"/>
@@ -1566,13 +1570,11 @@
       <description> test cast year 0000 xs:gYearMonth </description>
       <created by="Oliver Hallam" on="2008-05-22"/>
       <modified by="O'Neil Delpratt" on="2016-09-20" change="Bug #29547: Since XSD dependency is 1.1 changed assertion to true" />
+      <changed by="Michael Kay" on="2017-03-20" change="Bug #29547: Since XSD dependency is 1.1 changed assertion (previous change didn't do what it said)" />
       <dependency type="xsd-version" value="1.1" />
       <test>"-0000-05" cast as xs:gYearMonth</test>
       <result>
-         <any-of>
-            <error code="FODT0001" />
-            <error code="FORG0001"/>
-         </any-of>
+         <assert-string-value>0000-05</assert-string-value>
       </result>
    </test-case>
 
