@@ -457,10 +457,18 @@
    <test-case name="op-concatenate-mix-args-019">
       <description>Written By: Ravindranath Chennnoju  Use an external variable with op:concatenate </description>
       <created by="Ravindranath Chennoju" on="2005-05-25"/>
+      <modified by="Michael Kay" on="2017-01-04" change="avoid assuming XML serialization of result"/>
       <environment ref="bib"/>
       <test>//book/price, (), (1)</test>
       <result>
-         <assert-xml><![CDATA[<price>65.95</price><price>65.95</price><price>39.95</price><price>129.95</price>1]]></assert-xml>
+         <all-of>
+            <assert>count($result) = 5</assert>
+            <assert>$result[1][self::price][.="65.95"]</assert>
+            <assert>$result[2][self::price][.="65.95"]</assert>
+            <assert>$result[3][self::price][.="39.95"]</assert>
+            <assert>$result[4][self::price][.="129.95"]</assert>
+            <assert>$result[5] eq 1</assert>
+         </all-of>
       </result>
    </test-case>
 
