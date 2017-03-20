@@ -227,20 +227,22 @@
    <test-case name="K2-ancestor-or-selfAxis-1">
       <description> Apply axis ancestor on a single element. </description>
       <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="Michael Kay" on="2017-01-03" change="avoid reliance on serialization"/>
       <dependency type="spec" value="XQ10+"/>
-      <test><![CDATA[1, <element/>/ancestor-or-self::node(), 1]]></test>
+      <test><![CDATA[<out>{1, <element/>/ancestor-or-self::node(), 1}</out>]]></test>
       <result>
-         <assert-xml><![CDATA[1<element/>1]]></assert-xml>
+         <assert-xml><![CDATA[<out>1<element/>1</out>]]></assert-xml>
       </result>
    </test-case>
 
    <test-case name="K2-ancestor-or-selfAxis-2">
       <description> Apply axis ancestor to a single processing instruction. </description>
       <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="Michael Kay" on="2017-01-03" change="avoid reliance on serialization"/>
       <dependency type="spec" value="XQ10+"/>
-      <test><![CDATA[1, <?target data?>/ancestor-or-self::node(), 1]]></test>
+      <test><![CDATA[<out>{1, <?target data?>/ancestor-or-self::node(), 1}</out>]]></test>
       <result>
-         <assert-xml><![CDATA[1<?target data?>1]]></assert-xml>
+         <assert-xml><![CDATA[<out>1<?target data?>1</out>]]></assert-xml>
       </result>
    </test-case>
 
@@ -257,30 +259,41 @@
    <test-case name="K2-ancestor-or-selfAxis-4">
       <description> Apply axis ancestor to a single comment. </description>
       <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="Michael Kay" on="2017-01-03" change="avoid reliance on serialization"/>
       <dependency type="spec" value="XQ10+"/>
-      <test><![CDATA[1, <!-- content -->/ancestor-or-self::node(), 1]]></test>
+      <test><![CDATA[<out>{1, <!-- content -->/ancestor-or-self::node(), 1}</out>]]></test>
       <result>
-         <assert-xml><![CDATA[1<!-- content -->1]]></assert-xml>
+         <assert-xml><![CDATA[<out>1<!-- content -->1</out>]]></assert-xml>
       </result>
    </test-case>
 
    <test-case name="K2-ancestor-or-selfAxis-5">
       <description> Apply axis ancestor-or-self to a single document node. </description>
       <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="Michael Kay" on="2017-01-03" change="avoid reliance on serialization"/>
       <dependency type="spec" value="XQ10+"/>
       <test>1, document {()}/ancestor-or-self::node(), 1</test>
       <result>
-         <assert-xml>11</assert-xml>
+         <all-of>
+            <assert>$result[1] eq 1</assert>
+            <assert>$result[2] instance of document-node()</assert>
+            <assert>$result[3] eq 1</assert>
+         </all-of>
       </result>
    </test-case>
 
    <test-case name="K2-ancestor-or-selfAxis-6">
       <description> Apply axis ancestor to a single text node. </description>
       <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="Michael Kay" on="2017-01-03" change="avoid reliance on serialization"/>
       <dependency type="spec" value="XQ10+"/>
       <test>1, text {""}/ancestor-or-self::node(), 1</test>
       <result>
-         <assert-xml>11</assert-xml>
+         <all-of>
+            <assert>$result[1] eq 1</assert>
+            <assert>$result[2] instance of text()</assert>
+            <assert>$result[3] eq 1</assert>
+         </all-of>
       </result>
    </test-case>
 
