@@ -352,6 +352,38 @@ it put its sooty foot.</fn:non-match></fn:analyze-string-result>]]></assert-xml>
       </result>
    </test-case>
    
+   <test-case name="analyzeString-029" covers="map-general">
+      <description> Matching groups within repeated clause </description>
+      <created by="Michael Kay after Martin Honnen" on="2017-03-13"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         let $data :=
+           <Root>
+             <DATA>/OPDH/FLOWING SOLUTION/SGDE/Number0983713/EKPH/Sample test/some other keys/</DATA>
+             <DATA>/some other keys/afdsf/SGDE/Number0983713/some other keys/PIHSAGA/OPDH/FLOWING SOLUTION/some other keys/No exception/EKPH/Sample test/some other keys/</DATA>
+           </Root>
+         return document{<out>{  
+           $data/DATA!analyze-string(., '(/OPDH/|/EKPH/|/SGDE/|/some other keys/)(.*?)(/OPDH/|/EKPH/|/SGDE/|/some other keys/)((.*?)(/OPDH/|/EKPH/|/SGDE/|/some other keys/))*')
+         }</out>}  
+      ]]></test>
+      <result>
+         <all-of>
+            <assert>$result/out/fn:analyze-string-result[1]/fn:match[1]/fn:group[@nr=1] = '/OPDH/'</assert>
+            <assert>$result/out/fn:analyze-string-result[1]/fn:match[1]/fn:group[@nr=2] = 'FLOWING SOLUTION'</assert>
+            <assert>$result/out/fn:analyze-string-result[1]/fn:match[1]/fn:group[@nr=3] = '/SGDE/'</assert>
+            <assert>$result/out/fn:analyze-string-result[1]/fn:match[1]/fn:group[@nr=4] = 'Sample test/some other keys/'</assert>
+            <assert>$result/out/fn:analyze-string-result[1]/fn:match[1]//fn:group[@nr=5][../@nr=4] = 'Sample test'</assert>
+            <assert>$result/out/fn:analyze-string-result[1]/fn:match[1]//fn:group[@nr=6][../@nr=4] = '/some other keys/'</assert>
+            <assert>$result/out/fn:analyze-string-result[2]/fn:match[1]/fn:group[@nr=1] = '/some other keys/'</assert>
+            <assert>$result/out/fn:analyze-string-result[2]/fn:match[1]/fn:group[@nr=2] = 'afdsf'</assert>
+            <assert>$result/out/fn:analyze-string-result[2]/fn:match[1]/fn:group[@nr=3] = '/SGDE/'</assert>
+            <assert>$result/out/fn:analyze-string-result[2]/fn:match[1]/fn:group[@nr=4] = 'Sample test/some other keys/'</assert>
+            <assert>$result/out/fn:analyze-string-result[2]/fn:match[1]//fn:group[@nr=5][../@nr=4] = 'Sample test'</assert>
+            <assert>$result/out/fn:analyze-string-result[2]/fn:match[1]//fn:group[@nr=6][../@nr=4] = '/some other keys/'</assert>
+         </all-of>
+      </result>
+   </test-case>  
+   
    <test-case name="analyzeString-901">
       <description> analyze-string, error, bad regex pattern</description>
       <created by="Michael Kay" on="2009-10-18"/>
