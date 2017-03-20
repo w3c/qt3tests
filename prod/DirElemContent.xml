@@ -1437,12 +1437,13 @@
    <test-case name="K2-DirectConElemContent-48">
       <description> Serialize an undeclaration. </description>
       <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="Michael Kay" on="2017-03-20" change="make document construction explicit"/>
       <dependency type="spec" value="XQ10+"/>
-      <test><![CDATA[
+      <test><![CDATA[document{
       	<e xmlns="http://www.example.com/"> <a xmlns=""/> </e>, 
       	<e xmlns="http://www.example.com/"> <a xmlns=""/> </e>/count(in-scope-prefixes(a)), 
       	<e xmlns="http://www.example.com/"> <a xmlns=""> <b xmlns=""/> </a> </e>
-      ]]></test>
+      }]]></test>
       <result>
          <assert-xml><![CDATA[<e xmlns="http://www.example.com/"><a xmlns=""/></e>1<e xmlns="http://www.example.com/"><a xmlns=""><b/></a></e>]]></assert-xml>
       </result>
