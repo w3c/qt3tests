@@ -4627,10 +4627,11 @@ tour:main()
    <test-case name="K2-Axes-68">
       <description> Apply the descendant-or-self axis on an element, as operand to the comma operator.</description>
       <created by="Frans Englich" on="2007-11-26+01:00"/>
+      <modified by="Michael Kay" on="2017-01-03" change="avoid reliance on serialization"/>
       <dependency type="spec" value="XQ10+"/>
-      <test><![CDATA[1, <e/>/descendant-or-self::node(), 1]]></test>
+      <test><![CDATA[<out>{1, <e/>/descendant-or-self::node(), 1}</out>]]></test>
       <result>
-         <assert-xml><![CDATA[1<e/>1]]></assert-xml>
+         <assert-xml><![CDATA[<out>1<e/>1</out>]]></assert-xml>
       </result>
    </test-case>
 
@@ -4647,10 +4648,11 @@ tour:main()
    <test-case name="K2-Axes-70">
       <description> Apply the descendant-or-self axis on an element that has an attribute, as operand to the comma operator.</description>
       <created by="Frans Englich" on="2007-11-26+01:00"/>
+      <modified by="Michael Kay" on="2017-01-03" change="avoid reliance on serialization"/>
       <dependency type="spec" value="XQ10+"/>
-      <test><![CDATA[1, <e attr=""/>/descendant-or-self::node(), 1]]></test>
+      <test><![CDATA[<out>{1, <e attr=""/>/descendant-or-self::node(), 1}</out>]]></test>
       <result>
-         <assert-xml><![CDATA[1<e attr=""/>1]]></assert-xml>
+         <assert-xml><![CDATA[<out>1<e attr=""/>1</out>]]></assert-xml>
       </result>
    </test-case>
 
@@ -4812,10 +4814,12 @@ tour:main()
         that inference can assert might produce attributes.
       </description>
       <created by="Frans Englich" on="2007-11-26+01:00"/>
+      <modified by="Michael Kay" on="2017-01-03" change="avoid reliance on serialization"/>
       <environment ref="TopMany"/>
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[
-        declare variable $root as document-node() := . treat as document-node(); 
+        declare variable $root as document-node() := . treat as document-node();
+        <out>
         <empty> { (: attribute axis, and all other axes that inference can assert might produce attributes. 
              These are placed first, so we don't raise XQTY0024. :) 
              $root/foo/child::attribute(foo), 
@@ -4900,11 +4904,10 @@ tour:main()
              $root//document-node()/self::processing-instruction(), 
              $root//document-node()/self::element(), 
              $root//document-node()/self::text(), 
-             $root//document-node()/self::comment() } </empty>, 
-             exists($root//*/attribute()/descendant-or-self::node())]]></test>
+             $root//document-node()/self::comment() } </empty><ex>{exists($root//*/attribute()/descendant-or-self::node())}</ex></out>]]></test>
       <result>
          <any-of>
-            <assert-xml><![CDATA[<empty/>true]]></assert-xml>
+            <assert-xml><![CDATA[<out><empty/><ex>true</ex></out>]]></assert-xml>
             <error code="XPST0005"/>
          </any-of>
       </result>
