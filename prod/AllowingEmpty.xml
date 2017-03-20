@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="us-ascii"?>
+<?xml version="1.0" encoding="utf-8"?>
 <test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="prod-AllowingEmpty" covers-30="allowing-empty">
    <description>Tests for the "outer for" clause - "for $x allowing empty"</description>
    <link type="spec" document="http://www.w3.org/TR/xpath-functions-30/"
@@ -254,4 +254,16 @@
          <assert-xml><![CDATA[<out><a p="0" q="0">,</a></out>]]></assert-xml>
       </result>
    </test-case>
+   
+   <test-case name="outer-019">
+      <description>outer for clause, nested, statically empty (Saxon bug 3150)</description>
+      <created by="Michael Kay after Christian Grün" on="2017-03-14"/>
+      <test>for $c allowing empty in () return exactly-one($c)</test>
+      <result>
+         <error code="FORG0005"/>
+      </result>
+   </test-case>
+   
+   
+   
 </test-set>
