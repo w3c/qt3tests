@@ -3014,15 +3014,24 @@
       <description/>
       <created by="Frans Englich" on="2008-05-16"/>
       <modified by="Michael Kay" on="2017-03-17" change="make construction of document node explicit"/>
+      <modified by="Michael Kay" on="2017-03-28" change="see bug 30081"/>
       <environment ref="functx_prices"/>
       <dependency type="spec" value="XP30+ XQ10+"/>
       <test>
          let $priceDoc := (/) 
-         return document{(number( $priceDoc//prod[1]/price), number( $priceDoc//prod[1]/@currency), 
+         return (number( $priceDoc//prod[1]/price), number( $priceDoc//prod[1]/@currency), 
                           number('29.99'), number('ABC'), number( () ), 
-                          $priceDoc// prod/price[number() &gt; 35])}</test>
+                          $priceDoc// prod/price[number() &gt; 35])</test>
       <result>
-         <assert-xml><![CDATA[29.99 NaN 29.99 NaN NaN<price currency="USD">69.99</price><price currency="USD">39.99</price>]]></assert-xml>
+         <all-of>
+            <assert>$result[1] eq 29.99</assert>
+            <assert>$result[2] ne $result[2] (:NaN:)</assert>
+            <assert>$result[3] eq 29.99</assert>
+            <assert>$result[4] ne $result[4] (:NaN:)</assert>
+            <assert>$result[5] ne $result[5] (:NaN:)</assert>
+            <assert>$result[6][self::price][@currency='USD'][.='69.99']</assert>
+            <assert>$result[7][self::price][@currency='USD'][.='39.99']</assert>
+         </all-of>
       </result>
    </test-case>
 
