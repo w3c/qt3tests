@@ -821,32 +821,34 @@
    </test-case>
    
    <test-case name="xml-to-json-064">
-      <description>Invalid position of escaped-key attribute</description>
+      <description>(Was) Invalid position of escaped-key attribute</description>
       <created by="Michael Kay" on="2015-03-09"/>
       <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <modified by="Debbie Lockett" on="2015-08-04" change="Error code change for bug 29021"/>
+      <modified by="Michael Kay" on="2017-04-05" change="See bug 30077; this is now allowed as a result of bug 29917"/>
       <dependency type="spec" value="XQ31"/>
       <test><![CDATA[
         xml-to-json(<map xmlns="http://www.w3.org/2005/xpath-functions"
         escaped-key="0"><string key="\t">tab</string></map>)
        ]]></test>
       <result>
-            <error code="FOJS0006"/>
+            <assert-eq>'{"\\t":"tab"}'</assert-eq>
       </result>
    </test-case>
    
    <test-case name="xml-to-json-065">
-      <description>Invalid position of escaped attribute</description>
+      <description>(Was) Invalid position of escaped attribute</description>
       <created by="Michael Kay" on="2015-03-09"/>
       <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
       <modified by="Debbie Lockett" on="2015-08-04" change="Error code change for bug 29021"/>
+      <modified by="Michael Kay" on="2017-04-05" change="See bug 30077; this is now allowed as a result of bug 29917"/>
       <dependency type="spec" value="XQ31"/>
       <test><![CDATA[
         xml-to-json(<map xmlns="http://www.w3.org/2005/xpath-functions"
          escaped="0"><string key="\t">tab</string></map>)
        ]]></test>
       <result>
-            <error code="FOJS0006"/>
+         <assert-eq>'{"\\t":"tab"}'</assert-eq>
       </result>
    </test-case>
    
@@ -1080,13 +1082,14 @@
    </test-case>
    
    <test-case name="xml-to-json-C-016">
-      <description>Invalid input</description>
+      <description>(Was) Invalid input</description>
       <created by="Michael Kay" on="2016-04-22"/>
+      <modified by="Michael Kay" on="2017-04-05" change="See bug 30077; this is now allowed as a result of bug 29917"/>     
       <environment ref="xml-to-json-C"/>
       <dependency type="spec" value="XP31+ XQ31+"/>
       <test>xml-to-json(//*:template[@name="t016"]/*:variable/*)</test>
       <result>
-         <error code="FOJS0006"/>
+         <assert-string-value>"xxxx"</assert-string-value>
       </result>
    </test-case>
    
