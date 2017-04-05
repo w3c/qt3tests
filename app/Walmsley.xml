@@ -2737,34 +2737,7 @@ document {<p>There are 4 products in the catalog.</p>}
          <assert-true/>
       </result>
    </test-case>
-   <test-case name="d1e78807b" covers="fn-transform">
-      <description>A-268b</description>
-      <created by="Priscilla Walmsley" on="2015-07-14"/>
-      <modified by="Debbie Lockett, Saxonica" on="2016-04-21" change="edit environment and relative
-         URIs, in response to bug 29582"/>
-      <dependency type="feature" value="fn-transform-XSLT" satisfied="true"/>
-      <environment>
-         <source file="Walmsley/catalog.xml" uri="Walmsley/catalog.xml"/>
-         <source file="Walmsley/render2.xsl" uri="Walmsley/render2.xsl"/>
-      </environment>
-      <test><![CDATA[
-         deep-equal(
- let $result := transform(
-  map {
-    "stylesheet-location" : "Walmsley/render2.xsl",
-    "source-node" : doc("Walmsley/catalog.xml"),
-    "stylesheet-params": map { QName("","label"): "Note",
-                                QName("","msg"): "Hi!"},
-    "base-output-uri" : resolve-uri("Walmsley/out.xml"),
-    "delivery-format" : "saved"
-  })
-return doc($result?*) ,
-document {<p>Note: Hi!. There are 4 products.</p>}
-)]]></test>
-      <result>
-         <assert-true/>
-      </result>
-   </test-case>
+   
    <test-case name="d1e78807c" covers="fn-json-to-xml">
       <description>json-to-xml simple</description>
       <created by="Priscilla Walmsley" on="2015-07-14"/>
