@@ -2501,6 +2501,8 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         <created by="Debbie Lockett" on="2015-03-09"/>
         <modified by="Abel Braaksma" on="2016-09-22" change="use function-style map lookup"/>
         <modified by="Michael Kay" on="2017-04-05" change="No longer an error"/>
+        <modified by="Michael Kay" on="2017-05-15" change="If the value [of base-output-uri] is a relative reference, 
+            it is resolved against the static base URI of the fn:transform function call"/>
         <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <environment>
             <source role="$sbu" file="transform/staticbaseuri.xsl"/>
@@ -2511,9 +2513,9 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
                                 "initial-template" : QName("", "main"),
                                 "base-output-uri" : "fn/transform/output.xml", 
                                 "delivery-format" : "serialized"})
-                          ?("output")</test>
+                          ?*</test>
         <result>
-            <assert>$result = 'fn/transform/output.xml&lt;/x>'</assert>
+            <assert>ends-with($result, 'fn/transform/staticbaseuri.xsl&lt;/x>')</assert>
         </result>
     </test-case>
 
@@ -2559,12 +2561,16 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         <created by="Debbie Lockett" on="2015-04-13"/>
         <modified by="Abel Braaksma" on="2016-09-22" change="use function-style map lookup"/>
         <modified by="Michael Kay" on="2016-11-30" change="Bug 29951 - delivery=saved has been dropped"/>
+        <modified by="Michael Kay" on="2017-05-15" change="When no base-output-uri is supplied, the implementation may supply a default"/>
         <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <environment ref="multiple-result-docs"/>
         <test>let $res := fn:transform(map {"stylesheet-node":$multipledocs, "source-node":$sections,
-            "delivery-format":"serialized"}) return map:keys($res)</test>
+            "delivery-format":"serialized"}) return map:keys($res)!tokenize(., '/')[last()]</test>
         <result>
-            <error code="FOXT0002"/>
+            <any-of>
+                <error code="FOXT0002"/>
+                <assert-permutation>"section1.html", "section2.html", "section3.html"</assert-permutation>
+            </any-of>           
         </result>
     </test-case>
 
@@ -2572,12 +2578,16 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         <description>Error - location of output documents (delivery-format serialized) undefined; no base-output-uri and xsl:result-document/@href is relative</description>
         <created by="Debbie Lockett" on="2015-04-13"/>
         <modified by="Abel Braaksma" on="2016-09-22" change="use function-style map lookup"/>
+        <modified by="Michael Kay" on="2017-05-15" change="When no base-output-uri is supplied, the implementation may supply a default"/>
         <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <environment ref="multiple-result-docs"/>
         <test>let $res := fn:transform(map {"stylesheet-node":$multipledocs, "source-node":$sections,
-            "delivery-format":"serialized"}) return map:keys($res)</test>
+            "delivery-format":"serialized"}) return map:keys($res)!tokenize(., '/')[last()]</test>
         <result>
-            <error code="FOXT0002"/>
+            <any-of>
+                <error code="FOXT0002"/>
+                <assert-permutation>"section1.html", "section2.html", "section3.html"</assert-permutation>
+            </any-of> 
         </result>
     </test-case>
 
@@ -2585,12 +2595,16 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         <description>Error - location of output documents (delivery-format document) undefined; no base-output-uri and xsl:result-document/@href is relative</description>
         <created by="Debbie Lockett" on="2015-04-13"/>
         <modified by="Abel Braaksma" on="2016-09-22" change="use function-style map lookup"/>
+        <modified by="Michael Kay" on="2017-05-15" change="When no base-output-uri is supplied, the implementation may supply a default"/>
         <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <environment ref="multiple-result-docs"/>
         <test>let $res := fn:transform(map {"stylesheet-node":$multipledocs, "source-node":$sections,
-            "delivery-format":"document"}) return map:keys($res)</test>
+            "delivery-format":"document"}) return map:keys($res)!tokenize(., '/')[last()]</test>
         <result>
-            <error code="FOXT0002"/>
+            <any-of>
+                <error code="FOXT0002"/>
+                <assert-permutation>"section1.html", "section2.html", "section3.html"</assert-permutation>
+            </any-of> 
         </result>
     </test-case>
 
