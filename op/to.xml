@@ -344,6 +344,60 @@
          <assert-deep-eq>4, 5</assert-deep-eq>
       </result>
    </test-case>
+   
+   <test-case name="rangeExpr-36">
+      <description>General comparison involving range expressions</description>
+      <created by="Michael Kay" on="2017-05-26"/>
+      <test>year-from-date(current-date()) = 1 to 5000</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="rangeExpr-37">
+      <description>General comparison involving range expressions</description>
+      <created by="Michael Kay" on="2017-05-26"/>
+      <test>year-from-date(current-date()) = 5000 to 10000</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="rangeExpr-38">
+      <description>General comparison involving range expressions: many-to-many</description>
+      <created by="Michael Kay" on="2017-05-26"/>
+      <test>year-from-date(current-date()) to 4000 = 1500 to 2500</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="rangeExpr-39">
+      <description>General comparison involving range expressions: empty endpoint to range</description>
+      <created by="Michael Kay" on="2017-05-26"/>
+      <test>1000 = 1 to year-from-date(current-date())[. gt 3000]</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="rangeExpr-40">
+      <description>General comparison involving range expressions: empty operand</description>
+      <created by="Michael Kay" on="2017-05-26"/>
+      <test>1 to 5000 = year-from-date(current-date())[. gt 3000]</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="rangeExpr-41">
+      <description>General comparison involving range expressions in a predicate</description>
+      <created by="Michael Kay" on="2017-05-26"/>
+      <test>(1 to 5000)[position() = 2001 to 2020]</test>
+      <result>
+         <assert-deep-eq>2001 to 2020</assert-deep-eq>
+      </result>
+   </test-case>
 
    <test-case name="K-RangeExpr-1">
       <description> Since the left operand has the static cardinality zero-or-more, implementations using the static typing feature may raise XPTY0004. </description>
