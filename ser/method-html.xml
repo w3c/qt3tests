@@ -28,6 +28,7 @@ declare option output:version  "4.0";
       <description>Test that HTML 5.0 elements with empty content model are serialized using only a start tag</description>
       <created by="Henry Zongaro" on="2012-10-26"/>
       <modified by="O'Neil Delpratt" on="2013-05-30" change="added dependency inline with bug issue #21868"/>
+      <modified by="Michael Kay" on="2017-06-18" change="removed 'command' element, see bug 30119"/>
       <dependency type="feature" value="serialization" satisfied="true"/>
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
@@ -37,11 +38,11 @@ declare option output:method  "html";
 declare option output:indent  "no";
 declare option output:version  "5.0";
 
-<html><body><area/><base/><br/><col/><command/><embed/><hr/><img/><input/><keygen/><link/><meta/><param/><source/><track/><wbr/></body></html>
+<html><body><area/><base/><br/><col/><embed/><hr/><img/><input/><keygen/><link/><meta/><param/><source/><track/><wbr/></body></html>
 ]]></test>
       <result>
          <all-of>
-           <serialization-matches><![CDATA[<html><body><area><base><br><col><command><embed><hr><img><input><keygen><link><meta><param><source><track><wbr></body></html>]]></serialization-matches>
+           <serialization-matches><![CDATA[<html><body><area><base><br><col><embed><hr><img><input><keygen><link><meta><param><source><track><wbr></body></html>]]></serialization-matches>
            <serialization-matches flags="i"><![CDATA[<!DOCTYPE .*]]></serialization-matches>
          </all-of>
       </result>
