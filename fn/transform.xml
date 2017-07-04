@@ -1051,6 +1051,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         <modified by="Michael Kay" on="2016-10-19" change="Bug 29440/29443: serialization params changed"/>
         <modified by="Michael Kay" on="2016-11-30" change="Bug 29951 - delivery=saved has been dropped"/>
         <modified by="Michael Kay" on="2017-04-05" change="Correct expected results"/>
+        <modified by="O'Neil Delpratt" on="2017-07-04" change="Bug 30134 - Changed affected assert elements using doc function"/>
         <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <environment ref="works-mod-uri2"/>
         <test>fn:transform(map {"stylesheet-location" : $render, "source-node" : fn:doc($uri),
@@ -1064,9 +1065,12 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
                 <assert>ends-with(map:keys($result), 'transform/sandbox/fn-transform-36.xml')</assert>
                 <assert>$result?* instance of xs:string</assert>
                 <assert>count(parse-xml($result?*)//employee) > 3</assert>
-                <assert><![CDATA[contains(serialize(doc(map:keys($result))), "<works>")]]></assert>
-                <assert><![CDATA[contains(serialize(doc(map:keys($result))), "</works>")]]></assert>
-                <assert><![CDATA[not(contains(serialize(doc(map:keys($result))), "<body><works>"))]]></assert>
+                <!--<assert><![CDATA[contains(serialize(doc(map:keys($result))), "<works>")]]></assert>-->
+                <assert><![CDATA[contains($result?*, "<works>")]]></assert>
+                <!--<assert><![CDATA[contains(serialize(doc(map:keys($result))), "</works>")]]></assert>-->
+                <assert><![CDATA[contains($result?*, "</works>")]]></assert>
+                <!--<assert><![CDATA[not(contains(serialize(doc(map:keys($result))), "<body><works>"))]]></assert>-->
+                <assert><![CDATA[not(contains($result?*, "<body><works>"))]]></assert>
             </all-of>
         </result>
     </test-case>
@@ -1077,6 +1081,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         <created by="Debbie Lockett" on="2015-04-02"/>
         <modified by="Michael Kay" on="2016-10-19" change="Bug 29440/29443: serialization params changed"/>
         <modified by="Michael Kay" on="2016-11-30" change="Bug 29951 - delivery=saved has been dropped"/>
+        <modified by="O'Neil Delpratt" on="2017-07-04" change="Bug 30134 - Changed affected assert elements using doc function"/>
         <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <environment ref="works-mod-uri2"/>
         <test>fn:transform(map {"stylesheet-location" : $render, "source-node" : fn:doc($uri),
@@ -1090,9 +1095,12 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
                 <assert>ends-with(map:keys($result), 'transform/sandbox/fn-transform-36a.xml')</assert>
                 <assert>$result?* instance of xs:string</assert>
                 <assert>count(parse-xml($result?*)//employee) > 3</assert>
-                <assert><![CDATA[contains(serialize(doc(map:keys($result))), "<works>")]]></assert>
-                <assert><![CDATA[contains(serialize(doc(map:keys($result))), "</works>")]]></assert>
-                <assert><![CDATA[contains(serialize(doc(map:keys($result))), "<body><works>")]]></assert>
+                <!--<assert><![CDATA[contains(serialize(doc(map:keys($result))), "<works>")]]></assert>-->
+                <assert><![CDATA[contains($result?*, "<works>")]]></assert>
+                <!--<assert><![CDATA[contains(serialize(doc(map:keys($result))), "</works>")]]></assert>-->
+                <assert><![CDATA[contains($result?*, "</works>")]]></assert>
+                <!--<assert><![CDATA[not(contains(serialize(doc(map:keys($result))), "<body><works>"))]]></assert>-->
+                <assert><![CDATA[contains($result?*, "<body><works>")]]></assert>
             </all-of>
         </result>
     </test-case>
@@ -1102,6 +1110,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
             base-output-uri options</description>
         <created by="Debbie Lockett" on="2015-03-25"/>
         <modified by="Michael Kay" on="2016-11-30" change="Bug 29951 - delivery=saved has been dropped"/>
+        <modified by="O'Neil Delpratt" on="2017-07-04" change="Bug 30134 - Changed affected assert elements using doc function"/>
         <dependency type="spec" value="XQ31+"/>
         <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <test><![CDATA[
@@ -1134,7 +1143,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
                 <assert>contains(string-join(map:keys($result)),"section1")</assert>
                 <assert>some $key in map:keys($result) satisfies ends-with($key,
                     'transform/sandbox/fn-transform-37/section3-page.html')</assert>
-                <assert><![CDATA[some $key in map:keys($result) satisfies doc($key)//h1 = 'Section 2']]></assert>
+                <assert><![CDATA[some $key in map:keys($result) satisfies parse-xml(map:get($result, $key))//h1 = 'Section 2']]></assert>
             </all-of>
         </result>
     </test-case>
@@ -1144,6 +1153,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
             base-output-uri options</description>
         <created by="Debbie Lockett" on="2015-03-25"/>
         <modified by="Abel Braaksma" on="2016-09-22" change="Added XP31+ dependency, use function-style map lookup"/>
+        <modified by="O'Neil Delpratt" on="2017-07-04" change="Bug 30134 - commented out affected assert elements using doc function"/>
         <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <environment ref="multiple-result-docs"/>
         <test>let $res := fn:transform(map {"stylesheet-node":$multipledocs, "source-node":$sections,
@@ -1155,7 +1165,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
                 <assert>contains(string-join($result), 'section1.html')</assert>
                 <assert>some $key in $result satisfies ends-with($key,
                     'transform/sandbox/fn-transform-38/section3.html')</assert>
-                <assert><![CDATA[some $key in $result satisfies doc($key)//h1 = 'Header for section 2']]></assert>
+                <!--<assert><![CDATA[some $key in $result satisfies doc($key)//h1 = 'Header for section 2']]></assert>-->
             </all-of>
         </result>
     </test-case>
@@ -1166,6 +1176,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         <created by="Debbie Lockett" on="2015-03-25"/>
         <modified by="Abel Braaksma" on="2016-09-22" change="Added XP31+ dependency, use function-style map lookup"/>
         <modified by="Michael Kay" on="2016-11-30" change="Bug 29951 - delivery=saved has been dropped"/>
+        <modified by="O'Neil Delpratt" on="2017-07-04" change="Bug 30134 - Changed affected assert elements using doc function"/>
         <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <environment name="multiple-result-docs2">
             <source role="$multipledocs2" file="transform/multipledocs2.xsl"/>
@@ -1179,7 +1190,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
                 <assert>contains(string-join($result), 'section1.html')</assert>
                 <assert>some $key in $result satisfies ends-with($key,
                     'transform/sandbox/fn-transform-39/section3.html')</assert>
-                <assert><![CDATA[some $key in $result satisfies doc($key)//h1 = 'Header for section 2']]></assert>
+                <!--<assert><![CDATA[some $key in $result satisfies doc($key)//h1 = 'Header for section 2']]></assert>-->
             </all-of>
         </result>
     </test-case>
