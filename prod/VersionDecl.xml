@@ -208,9 +208,13 @@
    <test-case name="version_declaration-021">
       <description> "2.0" is a plausible version string, but not supported. </description>
       <created by="Michael Dyck" on="2012-09-10"/>
-      <test>xquery version "2.0"; 1,2</test>
+      <modified by="Michael Kay" on="2017-07-11" change="see bug 30135; the 3.1 spec does not mandate an error here"/>
+      <test>xquery version "2.0"; 1.2</test>
       <result>
-         <error code="XQST0031"/>
+         <any-of>
+            <assert-eq>1.2</assert-eq>
+            <error code="XQST0031"/>
+         </any-of>
       </result>
    </test-case>
 
