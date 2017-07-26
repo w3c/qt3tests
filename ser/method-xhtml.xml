@@ -779,5 +779,64 @@ return [ $html ]
          <assert-serialization-error code="SENR0001"/>
       </result>
    </test-case>
+  
+  <test-case name="Serialization-xhtml-50" >
+    <description>Prefix normalization: XHTML namespace</description>
+    <created by="Michael Kay" on="2017-07-26"/>
+    <dependency type="spec" value="XQ31+"/>
+    <test><![CDATA[
+declare boundary-space strip;
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+declare option output:method  "xhtml";
+declare option output:indent  "no";
+declare option output:html-version  "5.0";
 
+<h:html xmlns:h="http://www.w3.org/1999/xhtml">
+  <h:head><h:title>Test doc</h:title></h:head>
+  <h:body><h:h1>Header</h:h1><h:p>Content</h:p></h:body>
+</h:html>]]></test>
+    <result>
+      <serialization-matches><![CDATA[<html xmlns="http://www.w3.org/1999/xhtml"><head><meta.*?/><title>Test doc</title></head><body><h1>Header</h1><p>Content</p></body></html>]]></serialization-matches>
+    </result>
+  </test-case>
+  
+  <test-case name="Serialization-xhtml-51" >
+    <description>Prefix normalization: SVG namespace</description>
+    <created by="Michael Kay" on="2017-07-26"/>
+    <dependency type="spec" value="XQ31+"/>
+    <test><![CDATA[
+declare boundary-space strip;
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+declare option output:method  "xhtml";
+declare option output:indent  "no";
+declare option output:html-version  "5.0";
+
+<h:html xmlns:h="http://www.w3.org/1999/xhtml">
+  <h:body><h:h1>Header</h:h1><h:p>Content</h:p><svg:svg xmlns:svg="http://www.w3.org/2000/svg"><svg:rectangle/></svg:svg></h:body>
+</h:html>]]></test>
+    <result>
+      <serialization-matches><![CDATA[<svg xmlns="http://www.w3.org/2000/svg"><rectangle></rectangle></svg>]]></serialization-matches>
+    </result>
+  </test-case>
+  
+  <test-case name="Serialization-xhtml-52" >
+    <description>Prefix normalization: MathML namespace</description>
+    <created by="Michael Kay" on="2017-07-26"/>
+    <dependency type="spec" value="XQ31+"/>
+    <test><![CDATA[
+declare boundary-space strip;
+declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+declare option output:method  "xhtml";
+declare option output:indent  "no";
+declare option output:html-version  "5.0";
+
+<h:html xmlns:h="http://www.w3.org/1999/xhtml">
+  <h:body><h:h1>Pythagoras</h:h1><h:p><m:math xmlns:m="http://www.w3.org/1998/Math/MathML"> <m:mrow> <m:msup><m:mi> a </m:mi><m:mn>2</m:mn></m:msup> <m:mo> + </m:mo> <m:msup><m:mi> b </m:mi><m:mn>2</m:mn></m:msup> <m:mo> = </m:mo> <m:msup><m:mi> c </m:mi><m:mn>2</m:mn></m:msup> </m:mrow> </m:math></h:p></h:body>
+</h:html>]]></test>
+    <result>
+      <serialization-matches><![CDATA[<math xmlns="http://www.w3.org/1998/Math/MathML"><mrow><msup><mi> a </mi>]]></serialization-matches>
+    </result>
+  </test-case>
+  
+ 
 </test-set>
