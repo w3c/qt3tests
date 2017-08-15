@@ -6,7 +6,7 @@
     xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.w3.org/2012/10/xslt-test-catalog"
     xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning" vc:minVersion="1.0" vc:maxVersion="1.10000001">
 
-    <xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="../xml.xsd"
+    <xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="xml.xsd"
         xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"/>
 
     <xs:annotation>
@@ -468,7 +468,7 @@
                     <p> An element which provides information about a source xml file used as input
                         to test cases.</p>
                     <p> The <code>role</code> and <code>uri</code> attributes indicate how the
-                        source document is made avaiable to queries (as the context item, as the
+                        source document is made available to queries (as the context item, as the
                         value of an external variable, or as a URI that can be supplied to the doc()
                         function.)</p>
                     <p>Where <code>role="."</code> is specified, the <code>select</code> attribute
@@ -847,6 +847,7 @@
                     <xs:attribute name="value">
                         <xs:simpleType>
                             <xs:restriction base="xs:string">
+                                <xs:enumeration value="advanced-uca-fallback"/>
                                 <xs:enumeration value="backwards_compatibility"/>
                                 <xs:enumeration value="dtd"/>
                                 <xs:enumeration value="disabling_output_escaping"/>
@@ -1128,6 +1129,27 @@
             </xs:complexContent>
         </xs:complexType>
     </xs:element>
+    
+    <xs:element name="unicode-version" substitutionGroup="dependency">
+        <xs:annotation>
+            <xs:documentation>
+                <p>Indicates a test that dependent is on a certain Unicode version</p>
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:restriction base="dependencyType">
+                    <xs:attribute name="value">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:pattern value="[0-9]+.[0-9]"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
+                </xs:restriction>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
 
     <xs:element name="collation_uri" substitutionGroup="dependency">
         <xs:annotation>
@@ -1278,6 +1300,16 @@
             <xs:documentation>
                 <p>Indicates whether or not the document() function throws an error if the
                     underlying call on doc() fails</p>
+            </xs:documentation>
+        </xs:annotation>
+    </xs:element>
+    
+    <xs:element name="extension-function" substitutionGroup="dependency" type="dependencyType">
+        <xs:annotation>
+            <xs:documentation>
+                <p>Indicates that the test depends on availability of an extension function. Such tests are acceptable
+                only if the extension function has a community-defined specification. The "value" attribute should be
+                in the form "Q{namespaceURI}local#arity"</p>
             </xs:documentation>
         </xs:annotation>
     </xs:element>
@@ -1448,8 +1480,10 @@
         <xs:annotation>
             <xs:documentation>
                 <p>Gives the name of the mode to be used as the entry point for the transformation,
-                    with possible parameters. </p><p>To transmit parameters for an invocation in the
+                    with possible parameters. </p>
+                <p>To transmit parameters for an invocation in the
                     stylesheet's default mode, use #default, for the unnamed mode, use #unnamed.</p>
+                <p>It is also possible to specify the initial match selection.</p>
             </xs:documentation>
         </xs:annotation>
         <xs:complexType>
@@ -1465,6 +1499,16 @@
                 <xs:simpleType>                    
                     <xs:union memberTypes="xs:QName specialInitialModeNames" />
                 </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="select" use="optional" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>
+                        <p>If the select attribute is present, it defines the initial match selection. The
+                        value is an XPath expression, which is evaluated with an absent focus. In the absence
+                        of the select attribute, the initial match selection is the same as the global
+                        context item.</p>
+                    </xs:documentation>
+                </xs:annotation>
             </xs:attribute>
         </xs:complexType>
     </xs:element>
@@ -2249,7 +2293,7 @@
                     or static variables or parameters. Use 'static-expression-context' if the resource
                     should be made available for the doc() function inside the static expression context.
                     In absence of this attribute, the value defaults to 'dynamic-expression-context'.</p>
-                    <p>The presence of this attribute does not dicate whether or not the document is available
+                    <p>The presence of this attribute does not indicate whether or not the document is available
                     during the static phase when set to its default, however, when set to 'static-expression-context',
                     the document <strong>must</strong> be available in the static context. Regardless of this setting
                     the document is always available to the dynamic context (unless the <code>@role</code> attribute is used).</p>
@@ -2330,16 +2374,16 @@
                 <div>
                     <h3>role</h3>
                     <p>Describes how a source document is made available to the query.</p>
-                    <p>The value "." indicates that the source document will be the context item for
-                        the query.</p>
-                    <p>A value in the form <code>$varname</code> indicates that the source document
-                        will be made available as the value of the external variable
-                            <code>$varname</code>. This variable will <i>not</i> be declared in the
-                        query (this is to allow the mechanism to be used in XPath). The query will
-                        always be such that it is possible to add <code>declare variable</code>
-                        declarations at the start before compiling the query.</p>
-                    <p>If the source document is to be made available to the query using the doc()
-                        function, the "source" element should have a "uri" attribute, and the "role"
+                    <p>The value "." indicates that the source document will be the global
+                        context item for the stylesheet. In addition, in the absence of 
+                        <code>test/initial-mode/@select</code>, a source
+                        with <code>role="."</code> also acts as the initial match selection 
+                        when apply-templates invocation is used.
+                        If a select attribute is also present then the global context item 
+                        and initial match selection is the node selected by the select expression 
+                        relative to this source document (there should be exactly one).</p>
+                    <p>If the source document is to be made available to the transformation using the doc()
+                        or document() function, the "source" element should have a "uri" attribute, and the "role"
                         attribute should be absent.</p>
                     <p>The "role" attribute should be omitted if the source is part of a collection
                         definition.</p>
