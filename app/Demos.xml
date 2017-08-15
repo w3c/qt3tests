@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="us-ascii"?>
 <test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="app-Demos">
-   <description>Some XQuery demonstration programs from CBCL</description>
+   <description>Some XQuery demonstration programs from CBCL and elsewhere</description>
 
 
    <test-case name="sudoku">
@@ -165,6 +165,19 @@
          <all-of>
            <assert>starts-with(normalize-space(string-join($result, ' ')), 'P3 64 64 255 0 0 0')</assert>
            <assert>ends-with(normalize-space(string-join($result, ' ')), '125 119 179 125 118 178 124 118 177 124 117 176')</assert>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="RexParser">
+      <description>A parser written in XQuery generated using REx (Saxon bug 3260)</description>
+      <created by="Michael Kay via Gunther Rademacher" on="2017-06-12"/>
+      <test file="Demos/RexParser.xq"/>
+      <result>
+         <all-of>
+            <assert>every $i in (1,3,5,7,9,11) satisfies $result/self::S/*[$i][self::B[TOKEN='a']]</assert>
+            <assert>every $i in (2,4,6,8,10,12) satisfies $result/self::S/*[$i][self::TOKEN='d']</assert>
+            <assert>$result/self::S/*[13][self::EOF]</assert>
          </all-of>
       </result>
    </test-case>
