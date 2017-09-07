@@ -41,7 +41,14 @@
          <created by="O'Neil Delpratt" on="2014-12-09"/>
       </source>
       <param name="variable-uri" as="xs:string" select="'http://www.w3.org/fots/fn/transform/variable.xsl'" declared="false"/>
-   </environment>    
+   </environment>
+    
+    <environment name="variable-with-context">
+        <source role="$stylesheet" file="transform/variable-with-context.xsl">
+            <description>Stylesheet</description>
+            <created by="Michael Kay" on="2017-09-07"/>
+        </source>
+    </environment>
     
     <environment name="multiple-result-docs">
         <source role="$multipledocs" file="transform/multipledocs.xsl"/>
@@ -121,7 +128,6 @@
          <assert-true/>
       </result>
    </test-case>
-
     <test-case name="fn-transform-2">
         <description>This test case demonstrates the ability to retrieve multiple result documents. Transform depends on XSLT 3.0 processor</description>
         <created by="O'Neil Delpratt" on="2014-12-09"/>
@@ -165,7 +171,7 @@
         <modified by="Debbie Lockett" on="2015-03-05" change="Fix variable $in, use of fn:QName(), and result assertions; and change test-case description"/>
         <modified by="Abel Braaksma" on="2016-09-22" change="Added XP31+ dependency, there is no XQ31 specific syntax"/>
         <modified by="Michael Kay" on="2016-11-09" change="Make it valid XP31, bug 29993"/>
-	<dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
+	    <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <environment ref="variable-uri"/>
         <test>
             <![CDATA[
@@ -2366,6 +2372,120 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
             </any-of>
         </result>
     </test-case>
+    
+    <test-case name="fn-transform-82a">
+        <description>Value of global context item</description>
+        <created by="Michael Kay" on="2017-09-07"/>
+        <environment ref="variable-with-context"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
+        <test><![CDATA[
+           let $in := parse-xml("<dummy/>")
+           return transform(map{
+              "source-node": $in, 
+              "stylesheet-node": $stylesheet,
+              "xslt-version": 3.0
+           })?output
+        ]]></test>
+        <result>
+            <all-of>
+                <assert>$result/out/@root-is-doc = "true"</assert>
+                <assert>$result/out/@this-is-doc = "true"</assert>
+                <assert>$result/out = ""</assert>
+            </all-of>
+        </result>
+    </test-case>
+    
+    <test-case name="fn-transform-82b">
+        <description>Value of global context item</description>
+        <created by="Michael Kay" on="2017-09-07"/>
+        <environment ref="variable-with-context"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
+        <test><![CDATA[
+           let $in := parse-xml("<dummy/>")
+           return transform(map{
+              "source-node": $in/*, 
+              "stylesheet-node": $stylesheet,
+              "xslt-version": 3.0
+           })?output
+        ]]></test>
+        <result>
+            <all-of>
+                <assert>$result/out/@root-is-doc = "true"</assert>
+                <assert>$result/out/@this-is-doc = "false"</assert>
+                <assert>$result/out = ""</assert>
+            </all-of>
+        </result>
+    </test-case>
+    
+    <test-case name="fn-transform-82c">
+        <description>Value of global context item</description>
+        <created by="Michael Kay" on="2017-09-07"/>
+        <environment ref="variable-with-context"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
+        <test><![CDATA[
+           let $in := parse-xml("<dummy/>")
+           return transform(map{
+              "source-node": $in,
+              "global-context-item": $in/*,
+              "stylesheet-node": $stylesheet,
+              "xslt-version": 3.0
+           })?output
+        ]]></test>
+        <result>
+            <all-of>
+                <assert>$result/out/@root-is-doc = "false"</assert>
+                <assert>$result/out/@this-is-doc = "true"</assert>
+                <assert>$result/out = "dummy"</assert>
+            </all-of>
+        </result>
+    </test-case>
+    
+    <test-case name="fn-transform-82d">
+        <description>Value of global context item</description>
+        <created by="Michael Kay" on="2017-09-07"/>
+        <environment ref="variable-with-context"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
+        <test><![CDATA[
+           let $in := parse-xml("<dummy/>")
+           return transform(map{
+              "source-node": $in/*,
+              "global-context-item": $in,
+              "stylesheet-node": $stylesheet,
+              "xslt-version": 3.0
+           })?output
+        ]]></test>
+        <result>
+            <all-of>
+                <assert>$result/out/@root-is-doc = "true"</assert>
+                <assert>$result/out/@this-is-doc = "false"</assert>
+                <assert>$result/out = ""</assert>
+            </all-of>
+        </result>
+    </test-case>
+    
+    <test-case name="fn-transform-82e">
+        <description>Value of global context item (2.0 processor - global-context-item ignored)</description>
+        <created by="Michael Kay" on="2017-09-07"/>
+        <environment ref="variable-with-context"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
+        <test><![CDATA[
+           let $in := parse-xml("<dummy/>")
+           return transform(map{
+              "source-node": $in/*,
+              "global-context-item": $in/*,
+              "stylesheet-node": $stylesheet,
+              "xslt-version": 2.0
+           })?output
+        ]]></test>
+        <result>
+            <all-of>
+                <assert>$result/out/@root-is-doc = "true"</assert>
+                <assert>$result/out/@this-is-doc = "false"</assert>
+                <assert>$result/out = ""</assert>
+            </all-of>
+        </result>
+    </test-case>
+    
 
     <test-case name="fn-transform-err-1">
       <description>Loads a stylesheet from the location render.xsl, but fails to supply a source document</description>
