@@ -1066,6 +1066,21 @@
       </result>
    </test-case>
    
+   <test-case name="orderBy68">
+      <description>Attempt to sort a sequence containing xs:untypedAtomic and xs:date</description>
+      <created by="Michael Kay" on="2017-09-18"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+         declare variable $in := <in><e on="2017-09-18"/><e on="2016-04-15"/><e on="2012-07-09"/></in>;
+         for $j in ($in//e/@on, xs:date('1999-12-17')) 
+         order by $j 
+         return $j
+      ]]></test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
 
    <test-case name="orderbylocal-1">
       <description> Evaluation of "order by" clause with the "order by" clause of a FLWR expression set to "$x ", where $x is a set of Strings and the ordering mode set to ascending Uses a locally defined sequence. </description>
