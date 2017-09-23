@@ -213,6 +213,76 @@
          <assert-xml><![CDATA[<out>Baa</out>]]></assert-xml>
       </result>
    </test-case>
+   
+   <test-case name="switch-014">
+      <description> switch test, QName value </description>
+      <created by="Michael Kay after Christian Gruen" on="2017-09-22"/>
+      <test> 
+         let $v := xs:QName('a')
+         return switch($v)
+            case $v return 1
+            default return 2
+      </test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="switch-015">
+      <description> switch test, xs:date value </description>
+      <created by="Michael Kay after Christian Gruen" on="2017-09-22"/>
+      <test> 
+         let $v := xs:date('2001-01-01')
+         return switch($v)
+         case $v return 1
+         default return 2
+      </test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="switch-016">
+      <description> switch test, xs:date value one with timezone </description>
+      <created by="Michael Kay" on="2017-09-22"/>
+      <test> 
+         let $v := xs:dateTime('2001-01-01T12:00:00')
+         return switch($v)
+         case current-dateTime() return 1
+         default return 2
+      </test>
+      <result>
+         <assert-eq>2</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="switch-017">
+      <description> switch test, xs:dateTime value one with timezone </description>
+      <created by="Michael Kay" on="2017-09-22"/>
+      <test> 
+         let $v := current-dateTime()
+         return switch($v)
+         case xs:dateTime('2001-01-01T12:00:00') return 1
+         default return 2
+      </test>
+      <result>
+         <assert-eq>2</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="switch-018">
+      <description> switch test, xs:time value both with timezone</description>
+      <created by="Michael Kay" on="2017-09-22"/>
+      <test> 
+         let $v := xs:time('00:00:00Z')
+         return switch($v)
+         case xs:time('24:00:00Z') return 1
+         default return 2
+      </test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
 
    <test-case name="switch-901">
       <description> switch, type error, switch operand &gt;1 item </description>
