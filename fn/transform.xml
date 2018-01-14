@@ -2486,6 +2486,35 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         </result>
     </test-case>
     
+    <test-case name="fn-transform-83">
+        <description>Use initial-match-selection in place of source-node</description>
+        <created by="Michael Kay" on="2018-01-12"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
+        <environment ref="works-mod-uri2"/>
+        <test>let $result := fn:transform(map {"stylesheet-location" : $render, "initial-match-selection" : fn:doc($uri)})return $result?output</test>
+        <result>
+            <assert>count($result//employee) > 0</assert>
+        </result>
+    </test-case>
+    
+    <test-case name="fn-transform-84">
+        <description>Use initial-match-selection to select atomic values</description>
+        <created by="Michael Kay" on="2018-01-12"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
+        <environment ref="works-mod-uri2"/>
+        <test><![CDATA[let $xsl  := "<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' xmlns:xs='http://www.w3.org/2001/XMLSchema'
+            version='3.0'> 
+            <xsl:template match='.' as='xs:integer'>
+              <xsl:sequence select='. * .'/>
+            </xsl:template> 
+        </xsl:stylesheet>" return
+        transform(map{"stylesheet-text":$xsl,
+            "delivery-format" : "raw",
+            "initial-match-selection": 1 to 5
+            })?output]]></test><result>
+            <assert>deep-equal($result, (1, 4, 9, 16, 25))</assert>
+        </result>
+    </test-case>
 
     <test-case name="fn-transform-err-1">
       <description>Loads a stylesheet from the location render.xsl, but fails to supply a source document</description>
@@ -2833,6 +2862,17 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
             })
         ]]>
         </test>
+        <result>
+            <error code="FOXT0002"/>
+        </result>
+    </test-case>
+    
+    <test-case name="fn-transform-err-17">
+        <description>Use initial-match-selection as well as source-node</description>
+        <created by="Michael Kay" on="2018-01-12"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
+        <environment ref="works-mod-uri2"/>
+        <test>let $result := fn:transform(map {"stylesheet-location" : $render, "initial-match-selection" : fn:doc($uri), "source-node" : fn:doc($uri)})return $result?output</test>
         <result>
             <error code="FOXT0002"/>
         </result>
