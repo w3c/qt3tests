@@ -2877,6 +2877,20 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
             <error code="FOXT0002"/>
         </result>
     </test-case>
+    
+    <test-case name="fn-transform-err-18">
+        <description>Stylesheet params should be supplied as QNames, not strings</description>
+        <created by="Michael Kay" on="2018-01-21"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
+        <environment ref="works-mod-uri2"/>
+        <test>let $result := fn:transform(map {"stylesheet-location" : $render, 
+                                               "source-node" : fn:doc($uri), 
+                                               "stylesheet-params" : map{ "debug": true()}
+                                          }) return $result?output</test>
+        <result>
+            <error code="FOXT0002"/>
+        </result>
+    </test-case>
 
     <test-case name="fn-transform-901">
       <description>Loads a stylesheet from the location render.xsl, applies it to a document loaded from works-mod.xml, and uses an XPath expression to examine the result</description>
