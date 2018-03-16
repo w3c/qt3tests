@@ -573,7 +573,20 @@
       <description> Two nested typeswitches. </description>
       <created by="Frans Englich" on="2007-11-26"/>
       <dependency type="spec" value="XQ10+"/>
-      <test><![CDATA[declare variable $i := (attribute name {"content"}, <a attr="content"/>, <e/>, 1, "str", <!-- a comment -->); <d> { typeswitch(typeswitch($i) case $b as element(e) return concat("Found an element by name ", $b) case $b as element() return comment{concat("Found: ", $b)} case $c as attribute(doesntMatch) return $c/.. default $def return $def) case $str as xs:string return "A string" case $attr as attribute() return string($attr) default $def return $def } </d>]]></test>
+      <test><![CDATA[
+         declare variable $i := (attribute name {"content"}, <a attr="content"/>, <e/>, 1, "str", <!-- a comment -->); 
+         <d> { 
+            typeswitch(
+               typeswitch($i) 
+                  case $b as element(e) return concat("Found an element by name ", $b) 
+                  case $b as element() return comment{concat("Found: ", $b)} 
+                  case $c as attribute(doesntMatch) return $c/.. 
+                  default $def return $def) 
+               case $str as xs:string return "A string" 
+               case $attr as attribute() return string($attr) 
+               default $def return $def 
+          } </d>]]>
+      </test>
       <result>
          <assert-xml><![CDATA[<d name="content"><a attr="content"/><e/>1 str<!-- a comment --></d>]]></assert-xml>
       </result>
