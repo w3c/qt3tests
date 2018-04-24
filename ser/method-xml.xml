@@ -704,5 +704,21 @@
          <assert-serialization-error code="SENR0001"/>
       </result>
    </test-case>
+  
+  <test-case name="Serialization-xml-03">
+    <description>Test the XML serialization method - use parameter file - use-character-map (Saxon bug 3729)</description>
+    <created by="Michael Kay" on="2018-03-27"/>
+    <test><![CDATA[
+ 
+        declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:parameter-document "xml/xml-character-map.xml";
+        
+        <out att="abc">XabcX</out>
+
+      ]]></test>
+    <result>
+      <serialization-matches><![CDATA[<out att=['"]AAABBBCCC['"]>XAAABBBCCCX</out>]]></serialization-matches>
+    </result>
+  </test-case>
 
 </test-set>
