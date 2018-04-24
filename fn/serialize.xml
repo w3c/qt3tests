@@ -1338,7 +1338,27 @@
         <result>
             <assert><![CDATA[contains($result,">  <")]]></assert>
         </result>
-    </test-case>       
+    </test-case>
+    
+    <test-case name="serialize-html-001" covers="fn-serialize">
+        <description>serialize test - html method</description>
+        <created by="Michael Kay, Saxonica" on="2018-04-16"/>
+        <dependency type="spec" value="XQ31+"/>
+        <test><![CDATA[
+            let $doc := <html><head/><body><p>Hello World!</p></body></html>
+            let $params := map {
+            "method" : "html",
+            "html-version" : 5.0
+            }       
+            return serialize($doc, $params)
+        ]]></test>
+        <result>
+            <all-of>
+                <assert>matches($result,'DOCTYPE HTML')</assert>
+                <assert>matches($result,'&lt;meta http-equiv')</assert>
+            </all-of>
+        </result>
+    </test-case>
     
     <!-- XPath 3.1 tests JSON serialization output method -->
     <test-case name="serialize-json-001" covers="fn-serialize json-output">
