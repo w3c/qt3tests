@@ -720,5 +720,23 @@
       <serialization-matches><![CDATA[<out att=['"]AAABBBCCC['"]>XAAABBBCCCX</out>]]></serialization-matches>
     </result>
   </test-case>
+  
+  <test-case name="Serialization-xml-04">
+    <description>Test the XML serialization method - use parameter file - explicit declaration overrides parameter document</description>
+    <created by="Michael Kay" on="2018-05-01"/>
+    <test><![CDATA[
+ 
+        declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:indent "no";
+        declare option output:parameter-document "xml/param-doc-04.xml";
+        declare option output:omit-xml-declaration "yes";
+        
+        <out><in>XXX</in></out>
+
+      ]]></test>
+    <result>
+      <serialization-matches><![CDATA[^<out><in><!\[CDATA\[XXX\]\]></in></out>$]]></serialization-matches>
+    </result>
+  </test-case>
 
 </test-set>
