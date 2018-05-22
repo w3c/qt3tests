@@ -115,6 +115,13 @@
          <description>Multi-line UTF-16 encoded plain text.</description>
          <created by="Tim Mills" on="2012-01-05"/>
       </resource>
+      <resource file="unparsed-text/text-with-surrogates.txt"
+         media-type="text/plain"
+         encoding="utf-8"
+         uri="http://www.w3.org/fots/unparsed-text/text-with-surrogates.txt">
+         <description>Text with a surrogate pair straddling a 2048-byte boundary.</description>
+         <created by="T Hatanaka" on="2018-05-15"/>
+      </resource>
    </environment>
 
    <environment name="unparsed-text-with-base-uri">
@@ -734,6 +741,18 @@
       </test>
       <result>
          <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-unparsed-text-055">
+      <description>Unparsed text reading a file with a surrogate pair at an awkward position</description>
+      <created by="Michael Kay" on="2018-05-15"/>
+      <environment ref="unparsed-text" />
+      <test>
+         string-length(unparsed-text('http://www.w3.org/fots/unparsed-text/text-with-surrogates.txt')) 
+      </test>
+      <result>
+         <assert-eq>2048</assert-eq>
       </result>
    </test-case>
 
