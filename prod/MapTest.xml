@@ -294,11 +294,12 @@
    <test-case name="MapTest-047" covers="map-size map-general">
       <description>empty map type (assumes dynamic type checking)</description>
       <created by="Michael Kay" on="2018-03-13"/>
+      <modified by="Michael Kay" on="2018-07-24" change="Use valid XPath syntax for let expression"/>
       <environment ref="map"/>
       <dependency type="feature" value="higherOrderFunctions"/>
       <test>
-         let $f := function() as map(xs:integer, xs:string) {map{}}
-         let $g := function($m as map(xs:string, xs:integer)) as xs:boolean {map:size($m) = 0}
+         let $f := function() as map(xs:integer, xs:string) {map{}},
+             $g := function($m as map(xs:string, xs:integer)) as xs:boolean {map:size($m) = 0}
          return $g($f())
       </test>
       <result>
