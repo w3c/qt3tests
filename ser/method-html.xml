@@ -1124,7 +1124,113 @@ return [ $html ]
     </result>
   </test-case>
   
+  <test-case name="Serialization-html-55" covers-30="html-output">
+    <description>Test suppress-indentation for HTML method</description>
+    <created by="Michael Kay" on="2018-07-15"/>
+    <dependency type="feature" value="serialization" satisfied="true"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test><![CDATA[
+      declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+      declare option output:method  "html";
+      declare option output:indent  "yes";
+      declare option output:version  "5.0";
+      declare option output:suppress-indentation  "li td";
+      <html><body>
+         <ul>
+           <li><p>One</p></li>
+           <li><p>Two</p></li>
+           <li><p>Three</p></li>
+         </ul>  
+      </body></html>
+    ]]></test>
+    <result>
+      <all-of>
+        <serialization-matches><![CDATA[<li><p>One</p></li>]]></serialization-matches>
+        <serialization-matches><![CDATA[<li><p>Two</p></li>]]></serialization-matches>
+        <serialization-matches><![CDATA[<ul>\s+<li]]></serialization-matches>
+      </all-of>
+    </result>
+  </test-case>
   
+  <test-case name="Serialization-html-56" covers-30="html-output">
+    <description>Test suppress-indentation for HTML method</description>
+    <created by="Michael Kay" on="2018-07-15"/>
+    <dependency type="feature" value="serialization" satisfied="true"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test><![CDATA[
+      declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+      declare option output:method  "html";
+      declare option output:indent  "yes";
+      declare option output:version  "5.0";
+      declare option output:suppress-indentation  "TABLE";
+      <html><body>
+         <table>
+           <tr>
+            <td><p>One</p></td>
+            <td><p>yes</p></td>
+           </tr>
+           <tr>
+            <td><p>Two</p></td>
+            <td><p>yes</p></td>
+           </tr>
+           <tr>
+            <td><p>Three</p></td>
+            <td><p>yes</p></td>
+           </tr>
+         </table>  
+      </body></html>
+    ]]></test>
+    <result>
+      <all-of>
+        <serialization-matches><![CDATA[<table><tr><td><p>One</p></td><td>]]></serialization-matches>
+        <serialization-matches><![CDATA[<table>[^ ]*</table>]]></serialization-matches>
+        <serialization-matches><![CDATA[<body>\s+<table]]></serialization-matches>
+      </all-of>
+    </result>
+  </test-case>
+  
+  <test-case name="Serialization-html-57" covers-30="html-output">
+    <description>Test suppressing indenting of inline elements for HTML 5.0 - math element</description>
+    <created by="Michael Kay" on="2018-07-15"/>
+    <dependency type="feature" value="serialization" satisfied="true"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test><![CDATA[
+      declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+      declare namespace math = "http://www.w3.org/1998/Math/MathML";
+      declare option output:method  "html";
+      declare option output:indent  "yes";
+      declare option output:version  "5.0";
+      declare option output:suppress-indentation  "math:MROW math:MFENCED";
+      <html><body><div>
+	The Fraction 
+	@=<math xmlns='http://www.w3.org/1998/Math/MathML'  display='inline'>
+		<mfrac>
+			<mrow>
+				<mi>a</mi>
+				<mo>+</mo>
+				<mi>b</mi>
+			</mrow>
+			<mrow>
+				<msup>
+					<mfenced separators=" ">
+						<mi>c</mi>
+						<mo>+</mo>
+						<mi>d</mi>
+					</mfenced>
+					<mi>3</mi>
+				</msup>
+			</mrow>
+		</mfrac>
+	</math>=@
+	may be real!</div></body></html>
+    ]]></test>
+    <result>
+      <all-of>
+        <serialization-matches><![CDATA[<mrow><mi>a</mi><mo>\+</mo><mi>b</mi></mrow>]]></serialization-matches>
+        <serialization-matches><![CDATA[<mfenced separators=" "><mi>c</mi><mo>\+</mo><mi>d</mi></mfenced>]]></serialization-matches>
+      </all-of>
+    </result>
+  </test-case>
   
 
 </test-set>
