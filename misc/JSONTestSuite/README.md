@@ -1,6 +1,23 @@
 # JSON Parsing Test Suite
 A comprehensive test suite for RFC 8259 compliant JSON parsers
 
+**Preface**
+
+This directory contains a snapshot of the JSON test cases at http://github.com/nst/JSONTestSuite.
+
+The snapshot was taken on 2018-08-01 and may be replaced with a later snapshot.
+
+The snapshot omits test drivers, test results, and other material that can be found in the GitHub repository.
+
+The XQuery test driver relies on fn:uri-collection to read the contents of the test directory.
+It runs all the tests in the `test_parsing` directory: tests prefixed `y_` must parse without
+failure; tests prefixed `n_` must report a syntax error; and tests prefixed `i_` pass unconditionally
+(but report to the results file whether parsing succeeded or failed).
+
+Michael Kay, 2018-08-01 
+
+**Original README**
+
 This repository was created as an appendix to the article [Parsing JSON is a Minefield 💣](http://seriot.ch/parsing_json.php).
 
 **/parsers/**
