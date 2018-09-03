@@ -304,6 +304,7 @@
   <test-case name="Catalog014">
     <description> Check that for every test marked as dependent on 3.1, there is coverage metadata. </description>
     <created by="O'Neil Delpratt" on="2015-01-20"/>
+    <modified by="Michael Kay" on="2018-08-17" change="add exeption for new generated JSON tests"/>
     <environment ref="catalog"/>
     <dependency type="spec" value="XQ30+"/>
     <test><![CDATA[
@@ -313,6 +314,7 @@
         where not(exists($test/(@covers | ../@covers)))
         where exists($test/((fots:dependency | ../fots:dependency)[@type='spec' and contains(@value, '31')]))
         where not(starts-with($test/@name, 'fo-test-' (: special exemption for generated tests :)))
+        where $test/../@name ne 'misc-JsonTestSuite' (: special exemption for generated JSON tests :)
         return <out test="{$test/@name}"/>
       ]]></test>
     <result>
