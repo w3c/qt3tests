@@ -25,10 +25,7 @@ xquery version "3.1";
       <dependency type="spec" value="XQ31+"/>
       <test>json-doc('JSONTestSuite/test_parsing/{$name}.json')</test>
       <result>{
-         if ($name eq "y_string_nonCharacterInUTF-8_U+FFFF") then
-             (: special case: the test is valid JSON but contains characters not allowed in XDM :)
-             <error code="FOUT1190"/>
-         else if ($name => starts-with('y')) then
+         if ($name => starts-with('y')) then
              <assert>count($result) lt 2</assert>
          else if ($name => starts-with('n')) then
              <error code="FOJS0001"/>
