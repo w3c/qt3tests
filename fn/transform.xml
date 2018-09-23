@@ -2559,11 +2559,15 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
       <created by="O'Neil Delpratt" on="2014-12-09"/>
       <modified by="Debbie Lockett" on="2015-03-05" change="Rename stylesheet-uri as stylesheet-location; change expected error"></modified>
       <modified by="Abel Braaksma" on="2016-09-22" change="use function-style map lookup"/>
+      <modified by="Michael Kay" on="2018-09-22" change="allow alternative error code, based on careful reading of the spec"/>
       <environment ref="works-mod-uri2"/>
         <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
       <test>let $result := fn:transform(map {"stylesheet-location" : $render})return $result("output")</test>
       <result>
-         <error code="FOXT0002"/>
+          <any-of>
+              <error code="FOXT0002"/>
+              <error code="XTDE0040"/>
+          </any-of>       
       </result>
    </test-case>
 
@@ -2739,6 +2743,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         <description>Error - value supplied for stylesheet-base-uri should be absolute</description>
         <created by="Debbie Lockett" on="2015-03-11"/>
         <modified by="Michael Kay" on="2016-11-30" change="No longer an error : bug 30023"/>
+        <modified by="Michael Kay" on="2018-09-23" change="As we were saying, this is no longer an error..."/>
         <dependency type="spec" value="XQ31+"/>
         <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <test><![CDATA[
@@ -2751,7 +2756,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
             })?output
             ]]></test>
         <result>
-            <error code="FOXT0002"/>
+            <assert>ends-with($result/x, 'fn/transform/staticbaseuri.xsl')</assert>
         </result>
     </test-case>
 
@@ -2762,10 +2767,11 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         <modified by="Michael Kay" on="2016-11-30" change="Bug 29951 - delivery=saved has been dropped"/>
         <modified by="Michael Kay" on="2017-05-15" change="When no base-output-uri is supplied, the implementation may supply a default"/>
         <modified by="Michael Kay" on="2018-05-21" change="See bug 30209 regarding empty/absent principal result document"/>
+        <modified by="Michael Kay" on="2018-09-22" change="Mismatched quotes - test was returning an unintended error"/>
         <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <environment ref="multiple-result-docs"/>
         <test>let $res := fn:transform(map {"stylesheet-node":$multipledocs, "source-node":$sections,
-            "delivery-format":"serialized"}) return map:keys($res)[.!="output']!tokenize(., '/')[last()]</test>
+            "delivery-format":"serialized"}) return map:keys($res)[.!='output']!tokenize(., '/')[last()]</test>
         <result>
             <any-of>
                 <error code="FOXT0002"/>
@@ -2780,10 +2786,11 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         <modified by="Abel Braaksma" on="2016-09-22" change="use function-style map lookup"/>
         <modified by="Michael Kay" on="2017-05-15" change="When no base-output-uri is supplied, the implementation may supply a default"/>
         <modified by="Michael Kay" on="2018-05-21" change="See bug 30209 regarding empty/absent principal result document"/>
+        <modified by="Michael Kay" on="2018-09-22" change="Mismatched quotes - test was returning an unintended error"/>
         <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <environment ref="multiple-result-docs"/>
         <test>let $res := fn:transform(map {"stylesheet-node":$multipledocs, "source-node":$sections,
-            "delivery-format":"serialized"}) return map:keys($res)[.!="output']!tokenize(., '/')[last()]</test>
+            "delivery-format":"serialized"}) return map:keys($res)[.!='output']!tokenize(., '/')[last()]</test>
         <result>
             <any-of>
                 <error code="FOXT0002"/>
@@ -2798,10 +2805,11 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         <modified by="Abel Braaksma" on="2016-09-22" change="use function-style map lookup"/>
         <modified by="Michael Kay" on="2017-05-15" change="When no base-output-uri is supplied, the implementation may supply a default"/>
         <modified by="Michael Kay" on="2018-05-21" change="See bug 30209 regarding empty/absent principal result document"/>
+        <modified by="Michael Kay" on="2018-09-22" change="Mismatched quotes - test was returning an unintended error"/>
         <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <environment ref="multiple-result-docs"/>
         <test>let $res := fn:transform(map {"stylesheet-node":$multipledocs, "source-node":$sections,
-            "delivery-format":"document"}) return map:keys($res)[.!="output']!tokenize(., '/')[last()]</test>
+            "delivery-format":"document"}) return map:keys($res)[.!='output']!tokenize(., '/')[last()]</test>
         <result>
             <any-of>
                 <error code="FOXT0002"/>
