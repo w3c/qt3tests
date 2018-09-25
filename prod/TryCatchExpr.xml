@@ -215,6 +215,11 @@
   <test-case name="try-017">
     <description>No context item is a dynamic error (but no context node is a type error...)</description>
     <created by="Michael Kay" on="2013-04-16"/>
+    <modified by="Michael Kay" on="2018-09-24" change="Expected error conditions. The two possible conditions to report are
+      XPDY0002 (the context item is absent) and XPTY0020 (the context item is not a node). Both conditions are true, but
+      for some reason one of them is a dynamic error and the other is a type error. If a type error is reported, it should be XPTY0020
+      and not XPTY0004. Note, however, many other tests in the test suite require XPDY0002 here (for example prod-AxisStep/K2-Steps-1),
+      which prevents static reporting of the error."/>
     <environment ref="err"/>
     <test>
       declare function local:f() { a };
@@ -223,7 +228,7 @@
     <result>
       <any-of>
       	<assert-true/>
-      	<error code="XPTY0004"/>
+      	<error code="XPTY0020"/>
       </any-of>
     </result>
   </test-case>
