@@ -424,4 +424,14 @@
             <assert-deep-eq>1 to 2000</assert-deep-eq>
         </result>
     </test-case>
+    
+    <test-case name="map-merge-026">
+        <description>Second argument mustn't be empty</description>
+        <created by="Michael Kay, Saxonica" on="2018-11-23"/>
+        <environment ref="map"/>
+        <test>map:merge((1 to 100)!map:entry('z', .), if (current-date() lt xs:date('1900-01-01')) then map{'duplicates':'combine'} else ())?z</test>
+        <result>
+            <error code="XPTY0004"/>
+        </result>
+    </test-case>
 </test-set>
