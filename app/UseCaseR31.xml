@@ -721,6 +721,7 @@ return $rot]]></test>
       <created by="Jonathan Robie, EMC Corporation" on="2014-04-24"/>
       <modified by="O'Neil Delpratt" on="2015-09-17" change="Added the XQuery 3.1 Use case to QT3" />
       <modified by="Michael Kay" on="2015-11-26" change="Add dependency on HOF (uses dynamic function call)" />
+      <modified by="Michael Kay" on="2018-12-03" change="Eliminate dependency on unpredictable ordering of map:keys()" />
       <environment ref="json-docs"/>
       <dependency type="feature" value="higherOrderFunctions"/>
       <dependency type="spec" value="XQ31+"/>
@@ -730,6 +731,7 @@ declare namespace array = "http://www.w3.org/2005/xpath-functions/array";
 
 let $input := json-doc('http://www.w3.org/qt3/app/UseCaseR31/employees-json')
 for $k in map:keys($input)
+order by $k descending
 return
   <department name="{ $k }">
     {
