@@ -272,6 +272,18 @@
     </result>
   </test-case>
   
+  <test-case name="try-021">
+    <description>Use err:additional: value is implementation-defined, but variable must exist</description>
+    <created by="Michael Kay" on="2019-02-12"/>
+    <environment ref="err"/><test><![CDATA[
+        declare function local:f($d as xs:integer) { 10 div $d };
+        try { local:f(0) } catch * {"caught " || count($err:additional)}
+      ]]></test>
+    <result>
+      <assert>starts-with($result, 'caught')</assert>
+    </result>
+  </test-case>
+  
   <test-case name="no-try-catch-1">
     <description>Without try catch a division by 0 raises a dynamic error.</description>
     <created by="Ghislain Fourny" on="2011-07-28"/>
