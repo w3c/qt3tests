@@ -1483,8 +1483,21 @@ defg
 
    <test-case name="cbcl-matches-038">
       <description> test a large exact quantifier </description>
-      <created by="Tim Mills" on="2008-07-17"/>      
+      <created by="Tim Mills" on="2008-07-17"/>
+      <modified by="Zachary Dean" on="2019-08-16" change="Some RegEx processors only have 16 bits available for the quantifier. Adds FORX0002"/>
       <test>fn:matches('aaa', 'a{2147483647}')</test>
+      <result>
+         <any-of>
+            <assert-false/>
+            <error code="FORX0002"/>
+         </any-of>
+      </result>
+   </test-case>
+   
+   <test-case name="cbcl-matches-038a">
+      <description> test a large exact quantifier in the 16-bit range </description>
+      <created by="Zachary Dean" on="2019-08-16"/>      
+      <test>fn:matches('aaa', 'a{65535}')</test>
       <result>
          <assert-false/>
       </result>
