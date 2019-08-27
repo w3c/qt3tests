@@ -1343,6 +1343,7 @@
     <test-case name="serialize-html-001" covers="fn-serialize">
         <description>serialize test - html method</description>
         <created by="Michael Kay, Saxonica" on="2018-04-16"/>
+        <modified by="Zachary Dean" on="2019-08-27" change="Also allow lowercase html in DOCTYPE"/>
         <dependency type="spec" value="XQ31+"/>
         <test><![CDATA[
             let $doc := <html><head/><body><p>Hello World!</p></body></html>
@@ -1354,7 +1355,7 @@
         ]]></test>
         <result>
             <all-of>
-                <assert>matches($result,'DOCTYPE HTML')</assert>
+                <assert>matches($result,'DOCTYPE (HTML|html)')</assert>
                 <assert>matches($result,'&lt;meta http-equiv')</assert>
             </all-of>
         </result>
@@ -1363,6 +1364,7 @@
     <test-case name="serialize-html-002" covers="fn-serialize">
         <description>serialize test - html method - html-version as xs:integer</description>
         <created by="Michael Kay, Saxonica" on="2018-05-14"/>
+        <modified by="Zachary Dean" on="2019-08-27" change="Also allow lowercase html in DOCTYPE"/>
         <dependency type="spec" value="XQ31+"/>
         <test><![CDATA[
             let $doc := <html><head/><body><p>Hello World!</p></body></html>
@@ -1374,7 +1376,7 @@
         ]]></test>
         <result>
             <all-of>
-                <assert>matches($result,'DOCTYPE HTML')</assert>
+                <assert>matches($result,'DOCTYPE (HTML|html)')</assert>
                 <assert>matches($result,'&lt;meta http-equiv')</assert>
             </all-of>
         </result>
