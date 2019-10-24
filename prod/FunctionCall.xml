@@ -882,6 +882,21 @@
       </result>
    </test-case>
    
+   <test-case name="FunctionCall-055">
+      <description>Test for no implicit casting (Saxon bug 4336).</description>
+      <created by="Michael Kay after Jirka Kosek" on="2019-10-09"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+         declare function local:product ($s as xs:double+) as xs:double { 
+            if (not($s[2])) then $s[1] else $s[1] * local:product($s[position() > 1]) 
+         };  
+         local:product((1, '2', 3)) (: '2' is not xs:double, error should be raised :)
+      ]]></test>
+      <result>
+         <error code="XPTY0004"/>
+      </result>
+   </test-case>
+   
    <test-case name="K-FunctionCallExpr-1">
       <description> A test whose essence is: `func-does-not-exist(1, 2, 3)`. </description>
       <created by="Frans Englich" on="2007-11-26"/>
