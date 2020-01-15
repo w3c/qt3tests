@@ -200,10 +200,14 @@
     <description>Attempts to invoke function fn:base-uri.</description>
     <created by="Tim Mills" on="2011-11-28"/>
     <modified by="Tim Mills" on="2012-05-01" change="Context-dependent function invocation now permitted" />
+    <modified by="Michael Kay" on="2020-01-14" change="Removed the need for the test driver to create a source doc with a specific base URI" />
     <environment ref="function-lookup" />
-    <test>/root/function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'base-uri'), 0)()</test>
+    <test>
+      let $baseUriFn := /root/function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'base-uri'), 0)
+      return /root/extra/$baseUriFn()
+    </test>
     <result>
-      <assert-string-value>http://www.w3.org/fots/fn/function-lookup/function-lookup.xml</assert-string-value>
+      <assert-eq>"http://www.w3.org/fots/fn/function-lookup/function-lookup.xml"</assert-eq>
     </result>
   </test-case>
   <test-case name="fn-function-lookup-019">
@@ -217,8 +221,12 @@
   <test-case name="fn-function-lookup-020" covers-30="dynamic-function-call">
     <description>Attempts to invoke function fn:base-uri.</description>
     <created by="Tim Mills" on="2011-11-28"/>
+    <modified by="Michael Kay" on="2020-01-14" change="Removed the need for the test driver to create a source doc with a specific base URI" />
     <environment ref="function-lookup" />
-    <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'base-uri'), 1)(/)</test>
+    <test>
+      let $baseUriFn := function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'base-uri'), 1)
+      return $baseUriFn(/root)
+    </test>
     <result>
       <assert-string-value>http://www.w3.org/fots/fn/function-lookup/function-lookup.xml</assert-string-value>
     </result>
@@ -235,10 +243,14 @@
     <description>Attempts to invoke function fn:document-uri.</description>
     <created by="Tim Mills" on="2011-11-28"/>
     <modified by="Tim Mills" on="2012-05-01" change="Context-dependent function invocation now permitted" />
+    <modified by="Michael Kay" on="2020-01-15" change="Ensure the document URI at evaluation time is different"/>
     <environment ref="function-lookup" />
-    <test>/function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'document-uri'), 0)()</test>
+    <test><![CDATA[
+      let $fn := /function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'document-uri'), 0)
+      return parse-xml('<a/>')!$fn()
+    ]]></test>
     <result>
-      <assert-string-value>http://www.w3.org/fots/fn/function-lookup/function-lookup.xml</assert-string-value>
+      <assert>ends-with($result, 'function-lookup/function-lookup.xml')</assert>
     </result>
   </test-case>
   <test-case name="fn-function-lookup-023">
@@ -252,10 +264,11 @@
   <test-case name="fn-function-lookup-024" covers-30="dynamic-function-call">
     <description>Attempts to invoke function fn:document-uri.</description>
     <created by="Tim Mills" on="2011-11-28"/>
+    <modified by="Michael Kay" on="2020-01-15" change="Test driver no longer needs to set a special document URI"/>
     <environment ref="function-lookup" />
     <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions', 'document-uri'), 1)(/)</test>
     <result>
-      <assert-string-value>http://www.w3.org/fots/fn/function-lookup/function-lookup.xml</assert-string-value>
+      <assert>ends-with($result, 'function-lookup/function-lookup.xml')</assert>
     </result>
   </test-case>
   <test-case name="fn-function-lookup-025">
