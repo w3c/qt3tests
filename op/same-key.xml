@@ -171,22 +171,31 @@
    </test-case>
    
    <test-case name="same-key-008">
-       <description>op:same-key over numerics</description>
+       <description>op:same-key over numerics.
+       MHK notes 2020-01-12. I've added parens to make the operator precedence clearer; I'm not sure
+       it's what the test author actually intended, but it's how it gets parsed. ('cast as' binds
+       more tightly than 'div'). This leaves the issue that the test is assuming (and indeed testing)
+       that a double value (D) is the "same key" as (D cast as xs:decimal), and I'm not sure the spec
+       guarantees this. Specifically, the "same key" algorithm converts D to an decimal without any
+       loss of precision, whereas (D cast as xs:decimal) is allowed to lose precision. Perhaps this
+       is why the test has a dependency on "arbitraryPrecisionDecimal" - it's assuming that the explicit
+       cast operation, if this dependency is satisfied, will not lose precision. 
+       </description>
        <created by="Josh Spiegel" on="2015-07-22"/>
        <modified by="Michael Kay" on="2015-11-26" change="avoid HOF dependency in assertions"/>
        <dependency type="feature" value="arbitraryPrecisionDecimal"/>
        <test>
             map {
-              1 div 3 cast as xs:float : "float",
-              1 div 3 cast as xs:double : "double",
-              1 div 3 cast as xs:integer : "integer"
+              1 div (3 cast as xs:float) : "float",
+              1 div (3 cast as xs:double) : "double",
+              1 div (3 cast as xs:integer) : "integer"
             }
        </test>
        <result>
           <all-of>
-             <assert>$result?((1 div 3 cast as xs:float)   cast as xs:decimal) eq "float"</assert> 
-             <assert>$result?((1 div 3 cast as xs:double)  cast as xs:decimal) eq "double"</assert> 
-             <assert>$result?((1 div 3 cast as xs:integer) cast as xs:decimal) eq "integer"</assert> 
+             <assert>$result?((1 div (3 cast as xs:float))   cast as xs:decimal) eq "float"</assert> 
+             <assert>$result?((1 div (3 cast as xs:double))  cast as xs:decimal) eq "double"</assert> 
+             <assert>$result?((1 div (3 cast as xs:integer)) cast as xs:decimal) eq "integer"</assert> 
           </all-of>
        </result>
    </test-case>
