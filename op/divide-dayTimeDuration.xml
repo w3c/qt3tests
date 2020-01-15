@@ -599,12 +599,15 @@ together with the numeric-equal operator "ge".
    
 
    <test-case name="cbcl-divide-dayTimeDuration-003">
-      <description> test possible overflow in divison of xs:dayTimeDuration by </description>
+      <description> test possible overflow in divison of large xs:dayTimeDuration by one-half</description>
       <created by="Tim Mills" on="2008-05-14"/>
-      
+      <modified by="Michael Kay" on="2020-01-14" change="allow success result, limits are implementation defined"/>
       <test>xs:dayTimeDuration("P9223372036854775807D") div 0.5</test>
       <result>
-         <error code="FODT0002"/>
+         <any-of>
+            <assert-eq>xs:dayTimeDuration("P18446744073709551614D")</assert-eq>
+            <error code="FODT0002"/>
+         </any-of>
       </result>
    </test-case>
    
