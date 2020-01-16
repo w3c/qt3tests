@@ -120,19 +120,21 @@
     <test-case name="parse-xml-fragment-011">
         <description>parse-xml-fragment test - built-in entity references are OK</description>
         <created by="Michael Kay, Saxonica" on="2012-07-05"/>        
+        <modified by="Michael Kay, Saxonica" on="2020-01-14" change="simplify testing of result assertion"/>
         <environment name="empty"/>
-        <test>parse-xml-fragment(codepoints-to-string((38, 108, 116, 59)))</test>
+        <test>string(parse-xml-fragment(codepoints-to-string((38, 108, 116, 59))))</test>
         <result>
-            <assert-string-value>&lt;</assert-string-value>
+            <assert-eq>"&lt;"</assert-eq>
         </result>
     </test-case>
     <test-case name="parse-xml-fragment-012">
         <description>parse-xml-fragment test - numeric character references are OK</description>
-        <created by="Michael Kay, Saxonica" on="2012-07-05"/>        
+        <created by="Michael Kay, Saxonica" on="2012-07-05"/>
+        <modified by="Michael Kay, Saxonica" on="2020-01-14" change="simplify testing of result assertion"/>
         <environment name="empty"/>
-        <test>parse-xml-fragment(codepoints-to-string((38, 35, 51, 56, 59)))</test>
+        <test>string(parse-xml-fragment(codepoints-to-string((38, 35, 51, 56, 59))))</test>
         <result>
-            <assert-string-value>&amp;</assert-string-value>
+            <assert-eq>"&amp;"</assert-eq>
         </result>
     </test-case>
     <test-case name="parse-xml-fragment-013">

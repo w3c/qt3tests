@@ -728,9 +728,10 @@
       <description>Unpaired surrogate</description>
       <created by="Michael Kay" on="2015-03-10"/>
       <modified by="Michael Kay" on="2015-06-23" change="Namespace change for bug 28174"/>
+      <modified by="Michael Kay" on="2020-01-07" change="Can't assume fallback function will see \uDEAD and not \udead"/>
       <dependency type="feature" value="higherOrderFunctions"/>
       <test>
-         fn:json-to-xml('"oh dear \uDEAD"', map{'fallback':function($s){substring($s, 3)}})
+         fn:json-to-xml('"oh dear \uDEAD"', map{'fallback':function($s){upper-case($s) => substring(3)}})
       </test>
       <result>
          <assert-xml ignore-prefixes="true"><![CDATA[<string 

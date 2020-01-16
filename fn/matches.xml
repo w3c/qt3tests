@@ -1100,10 +1100,13 @@ defg
    <test-case name="cbcl-matches-004">
       <description> test a very large exact quantifier </description>
       <created by="Tim Mills" on="2008-07-17"/>
-      
+      <modified by="Michael Kay" on="2020-01-07" change="Add a success result; this is not an error defined in the spec"/>
       <test>fn:matches('aaa', 'a{99999999999999999999999999}')</test>
       <result>
-         <error code="FORX0002"/>
+         <any-of>
+            <assert-false/>
+            <error code="FORX0002"/>
+         </any-of>
       </result>
    </test-case>
    
