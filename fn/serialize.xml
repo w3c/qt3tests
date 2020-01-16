@@ -44,6 +44,22 @@
             <assert>contains($result,'atomic')</assert>
         </result>
     </test-case>
+    <test-case name="serialize-xml-003b">
+        <description>serialize test - with list of params as nodes</description>
+        <created by="Debbie Lockett" on="2019-11-19"/>
+        <environment>        
+            <source role="." file="../docs/atomic.xml"/>
+            <source role="$params" file="serialize/params-003.xml">
+                <description>Serialization parameters as XML</description>
+                <created by="Debbie Lockett" on="2019-11-19"/>
+            </source>
+        </environment>
+        <dependency type="spec" value="XP30+ XQ30+"/>
+        <test>serialize(., $params/*)</test>
+        <result>
+            <assert>contains($result,'atomic')</assert>
+        </result>
+    </test-case>
     <test-case name="serialize-xml-004">
         <description>serialize test - with list of properties, but no Method set</description>
         <created by="ONeil Delpratt, Saxonica" on="2010-10-05"/>
@@ -58,6 +74,22 @@
               </output:serialization-parameters>
           return serialize(., $params)
         ]]></test>
+        <result>
+            <assert>contains($result,'atomic')</assert>
+        </result>
+    </test-case>
+    <test-case name="serialize-xml-004b">
+        <description>serialize test - with list of properties, but no Method set</description>
+        <created by="Debbie Lockett" on="2019-11-19"/>
+        <environment>        
+            <source role="." file="../docs/atomic.xml"/>
+            <source role="$params" file="serialize/params-004.xml">
+                <description>Serialization parameters as XML</description>
+                <created by="Debbie Lockett" on="2019-11-19"/>
+            </source>
+        </environment>
+        <dependency type="spec" value="XP30+ XQ30+"/>
+        <test>serialize(., $params/*)</test>
         <result>
             <assert>contains($result,'atomic')</assert>
         </result>
@@ -82,6 +114,22 @@
             <error code="SEPM0017"/>
         </result>
     </test-case>
+    <test-case name="serialize-xml-005b">
+        <description>serialize test: Error - specified the use-character-map property</description>
+        <created by="Debbie Lockett" on="2019-11-19"/>
+        <environment>        
+            <source role="." file="../docs/atomic.xml"/>
+            <source role="$params" file="serialize/params-005.xml">
+                <description>Serialization parameters as XML</description>
+                <created by="Debbie Lockett" on="2019-11-19"/>
+            </source>
+        </environment>
+        <dependency type="spec" value="XP30+ XQ30+"/>
+        <test>serialize(., $params/*)</test>
+        <result>
+            <error code="SEPM0017"/>
+        </result>
+    </test-case>
     <test-case name="serialize-xml-006">
         <description>serialize test: specified the cdata-section-element property, space separated
             QNames</description>
@@ -100,6 +148,23 @@
               </output:serialization-parameters>
           return serialize(., $params)
         ]]></test>
+        <result>
+            <assert>contains($result,'atomic')</assert>
+        </result>
+    </test-case>
+    <test-case name="serialize-xml-006b">
+        <description>serialize test: specified the cdata-section-element property, space separated
+            QNames</description>
+        <created by="Debbie Lockett" on="2019-11-19"/>
+        <environment>        
+            <source role="." file="../docs/atomic.xml"/>
+            <source role="$params" file="serialize/params-006.xml">
+                <description>Serialization parameters as XML</description>
+                <created by="Debbie Lockett" on="2019-11-19"/>
+            </source>
+        </environment>
+        <dependency type="spec" value="XP30+ XQ30+"/>
+        <test>serialize(., $params/*)</test>
         <result>
             <assert>contains($result,'atomic')</assert>
         </result>
@@ -151,6 +216,40 @@
             <assert>contains($result,'atomic')</assert>
         </result>
     </test-case>
+    <test-case name="serialize-xml-007b">
+        <description>serialize test: list of properties, but one is an unrecognized name 
+            in a vendor namespace (no error, it is ignored)</description>
+        <created by="Debbie Lockett" on="2019-11-19"/>
+        <environment>        
+            <source role="." file="../docs/atomic.xml"/>
+            <source role="$params" file="serialize/params-007.xml">
+                <description>Serialization parameters as XML</description>
+                <created by="Debbie Lockett" on="2019-11-19"/>
+            </source>
+        </environment>
+        <dependency type="spec" value="XP30+ XQ30+"/>
+        <test>serialize(., $params/*)</test>
+        <result>
+            <error code="SEPM0017"/>
+        </result>
+    </test-case>
+    <test-case name="serialize-xml-007c">
+        <description>serialize test: list of properties, but one is an unrecognized name (no error,
+            it is ignored)</description>
+        <created by="Debbie Lockett" on="2019-11-19"/>
+        <environment>        
+            <source role="." file="../docs/atomic.xml"/>
+            <source role="$params" file="serialize/params-007c.xml">
+                <description>Serialization parameters as XML</description>
+                <created by="Debbie Lockett" on="2019-11-19"/>
+            </source>
+        </environment>
+        <dependency type="spec" value="XP30+ XQ30+"/>
+        <test>serialize(., $params/*)</test>
+        <result>
+            <assert>contains($result,'atomic')</assert>
+        </result>
+    </test-case>
     <test-case name="serialize-xml-008">
         <description>serialize test: New suppress-indentation parameter</description>
         <created by="Michael Kay, Saxonica" on="2010-10-07"/>
@@ -180,6 +279,29 @@
             </all-of>
         </result>
     </test-case>
+    <test-case name="serialize-xml-008b">
+        <description>serialize test: New suppress-indentation parameter</description>
+        <created by="Debbie Lockett" on="2019-11-19"/>
+        <environment>
+            <source role="." file="serialize/serialize-008-src.xml">
+                <description>File to be serialized</description>
+                <created by="Michael Kay" on="2010-10-07"/>
+            </source>
+            <source role="$params" file="serialize/params-008.xml">
+                <description>Serialization parameters as XML</description>
+                <created by="Debbie Lockett" on="2019-11-19"/>
+            </source>
+        </environment>
+        <dependency type="spec" value="XP30+ XQ30+"/>
+        <test>serialize(., $params/*)</test>
+        <result>
+            <all-of>
+                <assert>matches($result,'\n\s+&lt;title>')</assert>
+                <assert>matches($result,'\n\s+&lt;p>')</assert>
+                <assert>not(matches($result,'\n\s+&lt;code>'))</assert>
+            </all-of>
+        </result>
+    </test-case>
     <test-case name="serialize-xml-009">
         <description>serialize test: Error - bad value for indent parameter</description>
         <created by="Michael Kay, Saxonica" on="2010-10-05"/>
@@ -197,6 +319,22 @@
               </output:serialization-parameters>
           return serialize(., $params)
         ]]></test>
+        <result>
+            <error code="SEPM0017"/>
+        </result>
+    </test-case>
+    <test-case name="serialize-xml-009b">
+        <description>serialize test: Error - bad value for indent parameter</description>
+        <created by="Debbie Lockett" on="2019-11-19"/>
+        <environment>        
+            <source role="." file="../docs/atomic.xml"/>
+            <source role="$params" file="serialize/params-009.xml">
+                <description>Serialization parameters as XML</description>
+                <created by="Debbie Lockett" on="2019-11-19"/>
+            </source>
+        </environment>
+        <dependency type="spec" value="XP30+ XQ30+"/>
+        <test>serialize(., $params/*)</test>
         <result>
             <error code="SEPM0017"/>
         </result>
@@ -264,6 +402,22 @@
             <error code="SEPM0017"/>
         </result>
     </test-case>
+    <test-case name="serialize-xml-014b">
+        <description>serialize test - with invalid attribute</description>
+        <created by="Debbie Lockett" on="2019-11-19"/>
+        <environment>        
+            <source role="." file="../docs/atomic.xml"/>
+            <source role="$params" file="serialize/params-014.xml">
+                <description>Serialization parameters as XML</description>
+                <created by="Debbie Lockett" on="2019-11-19"/>
+            </source>
+        </environment>
+        <dependency type="spec" value="XP30+ XQ30+"/>
+        <test>serialize(., $params/*)</test>
+        <result>
+            <error code="SEPM0017"/>
+        </result>
+    </test-case>
     
     <test-case name="serialize-xml-015">
         <description>serialize test - with invalid attribute</description>
@@ -279,6 +433,22 @@
               </output:serialization-parameters>
           return serialize(., $params)
         ]]></test>
+        <result>
+            <error code="SEPM0017"/>
+        </result>
+    </test-case>
+    <test-case name="serialize-xml-015b">
+        <description>serialize test - with invalid attribute</description>
+        <created by="Debbie Lockett" on="2019-11-19"/>
+        <environment>        
+            <source role="." file="../docs/atomic.xml"/>
+            <source role="$params" file="serialize/params-015.xml">
+                <description>Serialization parameters as XML</description>
+                <created by="Debbie Lockett" on="2019-11-19"/>
+            </source>
+        </environment>
+        <dependency type="spec" value="XP30+ XQ30+"/>
+        <test>serialize(., $params/*)</test>
         <result>
             <error code="SEPM0017"/>
         </result>
@@ -302,6 +472,22 @@
             <error code="SEPM0017"/>
         </result>
     </test-case>
+    <test-case name="serialize-xml-016b">
+        <description>serialize test - with disallowed element</description>
+        <created by="Debbie Lockett" on="2019-11-19"/>
+        <environment>        
+            <source role="." file="../docs/atomic.xml"/>
+            <source role="$params" file="serialize/params-016.xml">
+                <description>Serialization parameters as XML</description>
+                <created by="Debbie Lockett" on="2019-11-19"/>
+            </source>
+        </environment>
+        <dependency type="spec" value="XP30+ XQ30+"/>
+        <test>serialize(., $params/*)</test>
+        <result>
+            <error code="SEPM0017"/>
+        </result>
+    </test-case>
     
     <test-case name="serialize-xml-017">
         <description>serialize test - with wrong namespace</description>
@@ -320,6 +506,22 @@
             <error code="XPTY0004"/>
         </result>
     </test-case>
+    <test-case name="serialize-xml-017b">
+        <description>serialize test - with wrong namespace</description>
+        <created by="Debbie Lockett" on="2019-11-19"/>
+        <environment>        
+            <source role="." file="../docs/atomic.xml"/>
+            <source role="$params" file="serialize/params-017.xml">
+                <description>Serialization parameters as XML</description>
+                <created by="Debbie Lockett" on="2019-11-19"/>
+            </source>
+        </environment>
+        <dependency type="spec" value="XP30+ XQ30+"/>
+        <test>serialize(., $params/*)</test>
+        <result>
+            <error code="XPTY0004"/>
+        </result>
+    </test-case>
     
     <test-case name="serialize-xml-018">
         <description>serialize test - with wrong outermost element</description>
@@ -334,6 +536,22 @@
               </output:serialization-parameters-wrong>
           return serialize(., $params)
         ]]></test>
+        <result>
+            <error code="XPTY0004"/>
+        </result>
+    </test-case>
+    <test-case name="serialize-xml-018b">
+        <description>serialize test - with wrong outermost element</description>
+        <created by="Debbie Lockett" on="2019-11-19"/>
+        <environment>        
+            <source role="." file="../docs/atomic.xml"/>
+            <source role="$params" file="serialize/params-018.xml">
+                <description>Serialization parameters as XML</description>
+                <created by="Debbie Lockett" on="2019-11-19"/>
+            </source>
+        </environment>
+        <dependency type="spec" value="XP30+ XQ30+"/>
+        <test>serialize(., $params/*)</test>
         <result>
             <error code="XPTY0004"/>
         </result>
@@ -357,6 +575,22 @@
             <error code="SEPM0019"/>
         </result>
     </test-case>
+    <test-case name="serialize-xml-019b">
+        <description>serialize test - with duplicated element</description>
+        <created by="Debbie Lockett" on="2019-11-19"/>
+        <environment>        
+            <source role="." file="../docs/atomic.xml"/>
+            <source role="$params" file="serialize/params-019.xml">
+                <description>Serialization parameters as XML</description>
+                <created by="Debbie Lockett" on="2019-11-19"/>
+            </source>
+        </environment>
+        <dependency type="spec" value="XP30+ XQ30+"/>
+        <test>serialize(., $params/*)</test>
+        <result>
+            <error code="SEPM0019"/>
+        </result>
+    </test-case>
     
     <test-case name="serialize-xml-020">
         <description>serialize test - with disallowed no-namespace element</description>
@@ -371,6 +605,22 @@
               </output:serialization-parameters>
           return serialize(., $params)
         ]]></test>
+        <result>
+            <error code="SEPM0017"/>
+        </result>
+    </test-case>
+    <test-case name="serialize-xml-020b">
+        <description>serialize test - with disallowed no-namespace element</description>
+        <created by="Debbie Lockett" on="2019-11-19"/>
+        <environment>        
+            <source role="." file="../docs/atomic.xml"/>
+            <source role="$params" file="serialize/params-020.xml">
+                <description>Serialization parameters as XML</description>
+                <created by="Debbie Lockett" on="2019-11-19"/>
+            </source>
+        </environment>
+        <dependency type="spec" value="XP30+ XQ30+"/>
+        <test>serialize(., $params/*)</test>
         <result>
             <error code="SEPM0017"/>
         </result>
@@ -391,6 +641,22 @@
               </output:serialization-parameters>
           return serialize(., $params)
         ]]></test>
+        <result>
+            <error code="SEPM0017"/>
+        </result>
+    </test-case>
+    <test-case name="serialize-xml-021b">
+        <description>serialize test - with bad attribute on character map</description>
+        <created by="Debbie Lockett" on="2019-11-19"/>
+        <environment>        
+            <source role="." file="../docs/atomic.xml"/>
+            <source role="$params" file="serialize/params-021.xml">
+                <description>Serialization parameters as XML</description>
+                <created by="Debbie Lockett" on="2019-11-19"/>
+            </source>
+        </environment>
+        <dependency type="spec" value="XP30+ XQ30+"/>
+        <test>serialize(., $params/*)</test>
         <result>
             <error code="SEPM0017"/>
         </result>
@@ -416,6 +682,22 @@
             <error code="SEPM0017"/>
         </result>
     </test-case>
+    <test-case name="serialize-xml-022b">
+        <description>serialize test - with invalid child of character map</description>
+        <created by="Debbie Lockett" on="2019-11-19"/>
+        <environment>        
+            <source role="." file="../docs/atomic.xml"/>
+            <source role="$params" file="serialize/params-022.xml">
+                <description>Serialization parameters as XML</description>
+                <created by="Debbie Lockett" on="2019-11-19"/>
+            </source>
+        </environment>
+        <dependency type="spec" value="XP30+ XQ30+"/>
+        <test>serialize(., $params/*)</test>
+        <result>
+            <error code="SEPM0017"/>
+        </result>
+    </test-case>
     
     <test-case name="serialize-xml-023">
         <description>serialize test - with character map - must be a single character</description>
@@ -432,6 +714,22 @@
               </output:serialization-parameters>
           return serialize(., $params)
         ]]></test>
+        <result>
+            <error code="SEPM0017"/>
+        </result>
+    </test-case>
+    <test-case name="serialize-xml-023b">
+        <description>serialize test - with character map - must be a single character</description>
+        <created by="Debbie Lockett" on="2019-11-19"/>
+        <environment>        
+            <source role="." file="../docs/atomic.xml"/>
+            <source role="$params" file="serialize/params-023.xml">
+                <description>Serialization parameters as XML</description>
+                <created by="Debbie Lockett" on="2019-11-19"/>
+            </source>
+        </environment>
+        <dependency type="spec" value="XP30+ XQ30+"/>
+        <test>serialize(., $params/*)</test>
         <result>
             <error code="SEPM0017"/>
         </result>
@@ -457,6 +755,22 @@
             <error code="SEPM0018"/>
         </result>
     </test-case>
+    <test-case name="serialize-xml-024b">
+        <description>serialize test - with character map - duplicate mappings</description>
+        <created by="Debbie Lockett" on="2019-11-19"/>
+        <environment>        
+            <source role="." file="../docs/atomic.xml"/>
+            <source role="$params" file="serialize/params-024.xml">
+                <description>Serialization parameters as XML</description>
+                <created by="Debbie Lockett" on="2019-11-19"/>
+            </source>
+        </environment>
+        <dependency type="spec" value="XP30+ XQ30+"/>
+        <test>serialize(., $params/*)</test>
+        <result>
+            <error code="SEPM0018"/>
+        </result>
+    </test-case>
     
     <test-case name="serialize-xml-025">
         <description>serialize test - with duplicated element in user namespace</description>
@@ -473,6 +787,22 @@
               </output:serialization-parameters>
           return serialize(., $params)
         ]]></test>
+        <result>
+            <error code="SEPM0019"/>
+        </result>
+    </test-case>
+    <test-case name="serialize-xml-025b">
+        <description>serialize test - with duplicated element in user namespace</description>
+        <created by="Debbie Lockett" on="2019-11-19"/>
+        <environment>        
+            <source role="." file="../docs/atomic.xml"/>
+            <source role="$params" file="serialize/params-025.xml">
+                <description>Serialization parameters as XML</description>
+                <created by="Debbie Lockett" on="2019-11-19"/>
+            </source>
+        </environment>
+        <dependency type="spec" value="XP30+ XQ30+"/>
+        <test>serialize(., $params/*)</test>
         <result>
             <error code="SEPM0019"/>
         </result>
@@ -497,6 +827,22 @@
             <assert>contains($result,'atomic')</assert>
         </result>
     </test-case>
+    <test-case name="serialize-xml-026b">
+        <description>serialize test - with ignored element in user namespace</description>
+        <created by="Debbie Lockett" on="2019-11-19"/>
+        <environment>        
+            <source role="." file="../docs/atomic.xml"/>
+            <source role="$params" file="serialize/params-026.xml">
+                <description>Serialization parameters as XML</description>
+                <created by="Debbie Lockett" on="2019-11-19"/>
+            </source>
+        </environment>
+        <dependency type="spec" value="XP30+ XQ30+"/>
+        <test>serialize(., $params/*)</test>
+        <result>
+            <assert>contains($result,'atomic')</assert>
+        </result>
+    </test-case>
     
     <test-case name="serialize-xml-027">
         <description>serialize test - omit-xml-declaration</description>
@@ -515,6 +861,22 @@
             <assert>not(contains($result,'&lt;?xml'))</assert>
         </result>
     </test-case>
+    <test-case name="serialize-xml-027b">
+        <description>serialize test - omit-xml-declaration</description>
+        <created by="Debbie Lockett" on="2019-11-19"/>
+        <environment>        
+            <source role="." file="../docs/atomic.xml"/>
+            <source role="$params" file="serialize/params-027.xml">
+                <description>Serialization parameters as XML</description>
+                <created by="Debbie Lockett" on="2019-11-19"/>
+            </source>
+        </environment>
+        <dependency type="spec" value="XP30+ XQ30+"/>
+        <test>serialize(., $params/*)</test>
+        <result>
+            <assert>not(contains($result,'&lt;?xml'))</assert>
+        </result>
+    </test-case>
     
     <test-case name="serialize-xml-028">
         <description>serialize test - omit-xml-declaration</description>
@@ -529,6 +891,22 @@
               </output:serialization-parameters>
           return serialize(., $params)
         ]]></test>
+        <result>
+            <assert>contains($result,'&lt;?xml')</assert>
+        </result>
+    </test-case>
+    <test-case name="serialize-xml-028b">
+        <description>serialize test - omit-xml-declaration</description>
+        <created by="Debbie Lockett" on="2019-11-19"/>
+        <environment>        
+            <source role="." file="../docs/atomic.xml"/>
+            <source role="$params" file="serialize/params-028.xml">
+                <description>Serialization parameters as XML</description>
+                <created by="Debbie Lockett" on="2019-11-19"/>
+            </source>
+        </environment>
+        <dependency type="spec" value="XP30+ XQ30+"/>
+        <test>serialize(., $params/*)</test>
         <result>
             <assert>contains($result,'&lt;?xml')</assert>
         </result>
@@ -552,6 +930,22 @@
             <assert>contains($result,'standalone="no"')</assert>
         </result>
     </test-case>
+    <test-case name="serialize-xml-029b">
+        <description>serialize test - standalone</description>
+        <created by="Debbie Lockett" on="2019-11-19"/>
+        <environment>        
+            <source role="." file="../docs/atomic.xml"/>
+            <source role="$params" file="serialize/params-029.xml">
+                <description>Serialization parameters as XML</description>
+                <created by="Debbie Lockett" on="2019-11-19"/>
+            </source>
+        </environment>
+        <dependency type="spec" value="XP30+ XQ30+"/>
+        <test>serialize(., $params/*)</test>
+        <result>
+            <assert>contains($result,'standalone="no"')</assert>
+        </result>
+    </test-case>
     
     <test-case name="serialize-xml-030">
         <description>serialize test - standalone</description>
@@ -571,6 +965,22 @@
             <assert>contains($result,'standalone="yes"')</assert>
         </result>
     </test-case>
+    <test-case name="serialize-xml-030b">
+        <description>serialize test - standalone</description>
+        <created by="Debbie Lockett" on="2019-11-19"/>
+        <environment>        
+            <source role="." file="../docs/atomic.xml"/>
+            <source role="$params" file="serialize/params-030.xml">
+                <description>Serialization parameters as XML</description>
+                <created by="Debbie Lockett" on="2019-11-19"/>
+            </source>
+        </environment>
+        <dependency type="spec" value="XP30+ XQ30+"/>
+        <test>serialize(., $params/*)</test>
+        <result>
+            <assert>contains($result,'standalone="yes"')</assert>
+        </result>
+    </test-case>
     
     <test-case name="serialize-xml-031">
         <description>serialize test - standalone</description>
@@ -586,6 +996,22 @@
               </output:serialization-parameters>
           return serialize(., $params)
         ]]></test>
+        <result>
+            <assert>not(contains($result,'standalone'))</assert>
+        </result>
+    </test-case>
+    <test-case name="serialize-xml-031b">
+        <description>serialize test - standalone</description>
+        <created by="Debbie Lockett" on="2019-11-19"/>
+        <environment>        
+            <source role="." file="../docs/atomic.xml"/>
+            <source role="$params" file="serialize/params-031.xml">
+                <description>Serialization parameters as XML</description>
+                <created by="Debbie Lockett" on="2019-11-19"/>
+            </source>
+        </environment>
+        <dependency type="spec" value="XP30+ XQ30+"/>
+        <test>serialize(., $params/*)</test>
         <result>
             <assert>not(contains($result,'standalone'))</assert>
         </result>
@@ -614,7 +1040,26 @@
         <result>
             <assert>contains($result,'£')</assert>
         </result>
-    </test-case>    
+    </test-case>
+    <test-case name="serialize-xml-032b">
+        <description>serialize test - with character map</description>
+        <created by="Debbie Lockett" on="2019-11-19"/>
+        <environment>        
+            <source role="." file="serialize/serialize-032-src.xml">
+                <description>File to be serialized</description>
+                <created by="Debbie Lockett, Saxonica" on="2015-05-22"/>
+            </source>
+            <source role="$params" file="serialize/params-032.xml">
+                <description>Serialization parameters as XML</description>
+                <created by="Debbie Lockett" on="2019-11-19"/>
+            </source>
+        </environment>
+        <dependency type="spec" value="XP30+ XQ30+"/>
+        <test>serialize(., $params/*)</test>
+        <result>
+            <assert>contains($result,'£')</assert>
+        </result>
+    </test-case>
     
     <test-case name="serialize-xml-033" >
         <description>serialize test - item-separator property, with sequence as first arg</description>
@@ -629,6 +1074,21 @@
               </output:serialization-parameters>
           return serialize(1 to 10, $params)
         ]]></test>
+        <result>
+            <assert>matches($result,'1\|2\|3\|4\|5\|6\|7\|8\|9\|10')</assert>
+        </result>
+    </test-case>
+    <test-case name="serialize-xml-033b" >
+        <description>serialize test - item-separator property, with sequence as first arg</description>
+        <created by="Debbie Lockett" on="2019-11-19"/>
+        <environment>
+            <source role="$params" file="serialize/params-033.xml">
+                <description>Serialization parameters as XML</description>
+                <created by="Debbie Lockett" on="2019-11-19"/>
+            </source>
+        </environment>
+        <dependency type="spec" value="XP30+ XQ30+"/>
+        <test>serialize(1 to 10, $params/*)</test>
         <result>
             <assert>matches($result,'1\|2\|3\|4\|5\|6\|7\|8\|9\|10')</assert>
         </result>
@@ -648,6 +1108,25 @@
               </output:serialization-parameters>
           return serialize((1 to 4)!text{.}, $params)
         ]]></test>
+        <result>
+            <assert>contains($result,'1==2==3==4')</assert>
+        </result>
+    </test-case>
+    <test-case name="serialize-xml-034b" >
+        <description>serialize test - item-separator property, with sequence of text nodes as first arg</description>
+        <created by="Debbie Lockett" on="2019-11-19"/>
+        <environment>
+            <source role="." file="serialize/serialize-034-src.xml">
+                <description>File to be serialized</description>
+                <created by="Debbie Lockett" on="2019-11-19"/>
+            </source>
+            <source role="$params" file="serialize/params-034.xml">
+                <description>Serialization parameters as XML</description>
+                <created by="Debbie Lockett" on="2019-11-19"/>
+            </source>
+        </environment>
+        <dependency type="spec" value="XP30+ XQ30+"/>
+        <test>serialize(./doc/x/text(), $params/*)</test>
         <result>
             <assert>contains($result,'1==2==3==4')</assert>
         </result>
@@ -679,6 +1158,27 @@
             <assert>matches($result,'section xmlns:p=["'']["'']')</assert>
         </result>
     </test-case>
+    <test-case name="serialize-xml-035b" >
+        <description>serialize test - XML 1.1 serialization with undeclare-prefixes</description>
+        <created by="Debbie Lockett" on="2019-11-19"/>
+        <environment>        
+            <source role="." file="serialize/serialize-035-src.xml">
+                <description>File to be serialized</description>
+                <created by="Debbie Lockett, Saxonica" on="2015-05-26"/>
+            </source>
+            <source role="$params" file="serialize/params-035.xml">
+                <description>Serialization parameters as XML</description>
+                <created by="Debbie Lockett" on="2019-11-19"/>
+            </source>
+        </environment>
+        <dependency type="spec" value="XP30+ XQ30+"/>
+        <dependency type="feature" value="serialization" satisfied="true"/>
+        <dependency type="xml-version" value="1.1"/>
+        <test>serialize(., $params/*)</test>
+        <result>
+            <assert>matches($result,'section xmlns:p=["'']["'']')</assert>
+        </result>
+    </test-case>
     
     <test-case name="serialize-xml-036" >
         <description>serialize test - XML 1.1 serialization with undeclare-prefixes</description>
@@ -704,6 +1204,30 @@
               </output:serialization-parameters>
           return serialize(., $params)
         ]]></test>
+        <result>
+            <all-of>
+                <assert>matches($result,'version\s*=\s*["'']1.1["'']')</assert>
+                <assert>not(matches($result,'section\s+xmlns:p=["'']["'']'))</assert>
+            </all-of>  
+        </result>
+    </test-case>
+    <test-case name="serialize-xml-036b" >
+        <description>serialize test - XML 1.1 serialization with undeclare-prefixes</description>
+        <created by="Debbie Lockett" on="2019-11-19"/>
+        <environment>        
+            <source role="." file="serialize/serialize-035-src.xml">
+                <description>File to be serialized</description>
+                <created by="Debbie Lockett, Saxonica" on="2015-05-26"/>
+            </source>
+            <source role="$params" file="serialize/params-036.xml">
+                <description>Serialization parameters as XML</description>
+                <created by="Debbie Lockett" on="2019-11-19"/>
+            </source>
+        </environment>
+        <dependency type="spec" value="XP30+ XQ30+"/>
+        <dependency type="feature" value="serialization" satisfied="true"/>
+        <dependency type="xml-version" value="1.1"/>
+        <test>serialize(., $params/*)</test>
         <result>
             <all-of>
                 <assert>matches($result,'version\s*=\s*["'']1.1["'']')</assert>
@@ -964,6 +1488,24 @@
             <assert-false/>
         </result>
     </test-case>
+    <test-case name="serialize-xml-120b" covers="fn-serialize">
+        <description>serialize test - params supplied as map: error - disallowed no-namespace entry</description>
+        <!-- The key of the entry is an xs:string value in the cases of parameter names defined in 
+            these specifications, or an xs:QName (with non-absent namespace) in the case of 
+            implementation-defined serialization parameters. -->
+        <created by="Debbie Lockett" on="2019-11-19"/>
+        <environment>        
+            <source role="." file="serialize/serialize-xml-120-src.xml">
+                <description>File to be serialized</description>
+                <created by="Debbie Lockett, Saxonica" on="2019-11-19"/>
+            </source>
+        </environment>
+        <dependency type="spec" value="XP30+ XQ30+"/>
+        <test>serialize(., map { QName("","indent") : true(), "omit-xml-declaration" : true() })</test>
+        <result>
+            <assert>not(contains($result,' '))</assert>
+        </result>
+    </test-case>
     
     <test-case name="serialize-xml-123" covers="fn-serialize">
         <description>serialize test - params supplied as map: error - character map key must be a single character</description>
@@ -1169,6 +1711,22 @@
             <assert>contains($result,'1==2==3==4')</assert>
         </result>
     </test-case>
+    <test-case name="serialize-xml-134b" covers="fn-serialize">
+        <description>serialize test - params supplied as map, item-separator property</description>
+        <created by="Debbie Lockett" on="2019-11-19"/>
+        <environment>
+            <source role="." file="serialize/serialize-034-src.xml">
+                <description>File to be serialized</description>
+                <created by="Debbie Lockett" on="2019-11-19"/>
+            </source>
+        </environment>
+        <dependency type="spec" value="XP30+ XQ30+"/>
+        <test>serialize(./doc/x/text(), map {"method" : "xml", "omit-xml-declaration" : true(), "item-separator" : "==" })
+        </test>
+        <result>
+            <assert>contains($result,'1==2==3==4')</assert>
+        </result>
+    </test-case>
     
     <test-case name="serialize-xml-135" covers="fn-serialize">
         <description>serialize test - params supplied as map, XML 1.1 serialization with undeclare-prefixes</description>
@@ -1234,7 +1792,22 @@
         <result>
             <assert>exists(parse-xml($result)/e)</assert>
         </result>
-    </test-case>    
+    </test-case>
+    <test-case name="serialize-xml-137b" covers="fn-serialize">
+        <description>2nd argument is empty</description>
+        <created by="Debbie Lockett" on="2019-11-19"/>
+        <environment>        
+            <source role="." file="serialize/serialize-xml-137-src.xml">
+                <description>File to be serialized</description>
+                <created by="Debbie Lockett, Saxonica" on="2019-11-19"/>
+            </source>
+        </environment>
+        <dependency type="spec" value="XP30+ XQ30+"/>
+        <test>serialize(., ())</test>
+        <result>
+            <assert>exists(parse-xml($result)/e)</assert>
+        </result>
+    </test-case>
     
     <test-case name="serialize-xml-138" covers="fn-serialize">
         <description>Options from JSON</description>
@@ -1260,6 +1833,21 @@
             <assert>parse-xml($result)/e/string() eq "json"</assert>
         </result>
     </test-case>
+    <test-case name="serialize-xml-138b" covers="fn-serialize">
+        <description>Options from JSON</description>
+        <created by="Debbie Lockett" on="2019-11-19"/>
+        <environment>        
+            <source role="." file="serialize/serialize-xml-138-src.xml">
+                <description>File to be serialized</description>
+                <created by="Debbie Lockett, Saxonica" on="2019-11-19"/>
+            </source>
+        </environment>
+        <dependency type="spec" value="XP30+ XQ30+"/>
+        <test>serialize(., parse-json('{"method" : "xml", "indent" : true, "use-character-maps" : { "x" : "j", "m" : "so", "l" : "n" } }'))</test>
+        <result>
+            <assert>parse-xml($result)/e/string() eq "json"</assert>
+        </result>
+    </test-case>
     
     <test-case name="serialize-xml-139" covers="fn-serialize">
         <description>Strange key in a character mapping (option parameter conventions apply) </description>
@@ -1273,6 +1861,21 @@
         ]]></test>
         <result>
 	      <error code="XPTY0004" />
+        </result>
+    </test-case>
+    <test-case name="serialize-xml-139b" covers="fn-serialize">
+        <description>Strange key in a character mapping (option parameter conventions apply) </description>
+        <created by="Debbie Lockett" on="2019-11-19"/>
+        <environment>        
+            <source role="." file="serialize/serialize-xml-138-src.xml">
+                <description>File to be serialized</description>
+                <created by="Debbie Lockett, Saxonica" on="2019-11-19"/>
+            </source>
+        </environment>
+        <dependency type="spec" value="XP30+ XQ30+"/>
+        <test>serialize(., map { 'use-character-maps' : map { QName("http://example.org","xyz") : "abc" } })</test>
+        <result>
+            <error code="XPTY0004" />
         </result>
     </test-case>
     
@@ -1297,7 +1900,27 @@
         <result>
 	      <error code="XPTY0004" />
         </result>
-    </test-case>     
+    </test-case>
+    <test-case name="serialize-xml-140b" covers="fn-serialize">
+        <description>Character mappings and option parameter conventions. Rules are not recursive
+            for map value supplied for use-character-maps (required xs:string, element given)</description>
+        <created by="Debbie Lockett" on="2019-11-19"/>
+        <environment>        
+            <source role="." file="serialize/serialize-xml-138-src.xml">
+                <description>File to be serialized</description>
+                <created by="Debbie Lockett, Saxonica" on="2019-11-19"/>
+            </source>
+            <source role="$e" file="serialize/serialize-xml-140-src.xml">
+                <description>File to be serialized</description>
+                <created by="Debbie Lockett, Saxonica" on="2019-11-19"/>
+            </source>
+        </environment>
+        <dependency type="spec" value="XP30+ XQ30+"/>
+        <test>serialize(., map {'use-character-maps' : map {'x': xs:untypedAtomic('j'), 'm':$e/e, 'l':'n'}})</test>
+        <result>
+            <error code="XPTY0004" />
+        </result>
+    </test-case>
       
     <test-case name="serialize-xml-141" covers="fn-serialize">
         <description>Character mappings and option parameter conventions (required xs:string, QName given)</description>
@@ -1319,6 +1942,22 @@
             <error code="XPTY0004"/>
         </result>
     </test-case>
+    <test-case name="serialize-xml-141b" covers="fn-serialize">
+        <description>Character mappings and option parameter conventions. Rules are not recursive
+            for map value supplied for use-character-maps (required xs:string, untypedAtomic and QName given)</description>
+        <created by="Debbie Lockett" on="2019-11-19"/>
+        <environment>        
+            <source role="." file="serialize/serialize-xml-138-src.xml">
+                <description>File to be serialized</description>
+                <created by="Debbie Lockett, Saxonica" on="2019-11-19"/>
+            </source>
+        </environment>
+        <dependency type="spec" value="XP30+ XQ30+"/>
+        <test>serialize(., map {'use-character-maps' : map {'x': xs:untypedAtomic('j'), 'm':'so', 'l': xs:QName('n')}})</test>
+        <result>
+            <error code="XPTY0004" />
+        </result>
+    </test-case>
     
     <test-case name="serialize-xml-142" covers="fn-serialize">
         <description>Multiple untypedAtomic conversions in one map</description>
@@ -1335,6 +1974,21 @@
                return     
                   serialize((<e/>,<f/>), $options)
         ]]></test>
+        <result>
+            <assert><![CDATA[contains($result,">  <")]]></assert>
+        </result>
+    </test-case>
+    <test-case name="serialize-xml-142b" covers="fn-serialize">
+        <description>Multiple untypedAtomic conversions in one map</description>
+        <created by="Debbie Lockett" on="2019-11-19"/>
+        <environment>        
+            <source role="." file="serialize/serialize-xml-142-src.xml">
+                <description>File to be serialized</description>
+                <created by="Debbie Lockett, Saxonica" on="2019-11-19"/>
+            </source>
+        </environment>
+        <dependency type="spec" value="XP30+ XQ30+"/>
+        <test>serialize(./x/*, map {'method' : 'xml', 'indent' : xs:untypedAtomic('false'), 'item-separator' : xs:untypedAtomic('  ') })</test>
         <result>
             <assert><![CDATA[contains($result,">  <")]]></assert>
         </result>
@@ -1360,6 +2014,24 @@
             </all-of>
         </result>
     </test-case>
+    <test-case name="serialize-html-001b" covers="fn-serialize">
+        <description>serialize test - html method</description>
+        <created by="Debbie Lockett" on="2019-11-19"/>
+        <environment>        
+            <source role="." file="serialize/serialize-html-001-src.xml">
+                <description>File to be serialized</description>
+                <created by="Debbie Lockett, Saxonica" on="2019-11-19"/>
+            </source>
+        </environment>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>serialize(., map { "method" : "html", "html-version" : 5.0 } )</test>
+        <result>
+            <all-of>
+                <assert>matches($result,'DOCTYPE (HTML|html)')</assert>
+                <assert>matches($result,'&lt;meta http-equiv')</assert>
+            </all-of>
+        </result>
+    </test-case>
     
     <test-case name="serialize-html-002" covers="fn-serialize">
         <description>serialize test - html method - html-version as xs:integer</description>
@@ -1374,6 +2046,24 @@
             }       
             return serialize($doc, $params)
         ]]></test>
+        <result>
+            <all-of>
+                <assert>matches($result,'DOCTYPE (HTML|html)')</assert>
+                <assert>matches($result,'&lt;meta http-equiv')</assert>
+            </all-of>
+        </result>
+    </test-case>
+    <test-case name="serialize-html-002b" covers="fn-serialize">
+        <description>serialize test - html method - html-version as xs:integer</description>
+        <created by="Debbie Lockett" on="2019-11-19"/>
+        <environment>        
+            <source role="." file="serialize/serialize-html-001-src.xml">
+                <description>File to be serialized</description>
+                <created by="Debbie Lockett, Saxonica" on="2019-11-19"/>
+            </source>
+        </environment>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>serialize(., map { "method" : "html", "html-version" : 5 } )</test>
         <result>
             <all-of>
                 <assert>matches($result,'DOCTYPE (HTML|html)')</assert>
@@ -1530,6 +2220,21 @@
             <assert-true/>
         </result>
     </test-case>
+    <test-case name="serialize-json-008b" covers="fn-serialize json-output">
+        <description>serialize test - params supplied as map, json output method, $arg is a comment node</description>
+        <created by="Debbie Lockett" on="2019-11-19"/>
+        <environment>        
+            <source role="." file="serialize/serialize-json-008-src.xml">
+                <description>File to be serialized</description>
+                <created by="Debbie Lockett, Saxonica" on="2019-11-19"/>
+            </source>
+        </environment>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>serialize(./doc/comment(), map { "method" : "json", "json-node-output-method" : "xml" })</test>
+        <result>
+            <assert>matches($result, '"&lt;!-- hello world --&gt;"')</assert>
+        </result>
+    </test-case>
     
     <test-case name="serialize-json-009" covers="fn-serialize json-output">
         <description>serialize test - params supplied as map, json output method, $arg is an array of nodes</description>
@@ -1552,6 +2257,25 @@
         </test>
         <result>
             <assert-true/>
+        </result>
+    </test-case>
+    <test-case name="serialize-json-009b" covers="fn-serialize json-output">
+        <description>serialize test - params supplied as map, json output method, $arg is an array of nodes</description>
+        <created by="Debbie Lockett" on="2019-11-19"/>
+        <environment>        
+            <source role="." file="serialize/serialize-json-009-src.xml">
+                <description>File to be serialized</description>
+                <created by="Debbie Lockett, Saxonica" on="2019-11-19"/>
+            </source>
+            <source role="$doc" file="serialize/serialize-json-009-doc.xml">
+                <description>File to be serialized</description>
+                <created by="Debbie Lockett, Saxonica" on="2019-11-19"/>
+            </source>
+        </environment>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>serialize(array{./doc/node(), $doc}, map { "method" : "json", "json-node-output-method" : "xml" })</test>
+        <result>
+            <assert>matches($result, '\["a","&lt;\?a b\?&gt;","&lt;!--a--&gt;","&lt;a&gt;b&lt;\\/a&gt;","&lt;a&gt;b&lt;\\/a&gt;"\]')</assert>
         </result>
     </test-case>
     
