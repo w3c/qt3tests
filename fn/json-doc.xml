@@ -478,13 +478,17 @@
       <description>Unpaired surrogates: escape true</description>
       <created by="Debbie Lockett" on="2015-06-15"/>
       <modified by="Michael Kay" on="2015-07-17" change="Change keyword unescape->escape"/>
+      <modified by="Debbie Lockett" on="2020-01-16" change="Allow lower case HEX"/>
       <environment ref="json-doc-map"/>
       <dependency type="xml-version" value="1.0"/>
       <test>
          fn:json-doc('http://www.w3.org/qt3/json/mapUnescapeUnpaired10-json', map{'escape':true()})
       </test>
       <result>
-         <assert-deep-eq>map{"a":"\uDA00", "\uDD00":"bell"}</assert-deep-eq>
+         <any-of>
+            <assert-deep-eq>map{"a":"\uDA00", "\uDD00":"bell"}</assert-deep-eq>
+            <assert-deep-eq>map{"a":"\uda00", "\udd00":"bell"}</assert-deep-eq>
+         </any-of>
       </result>
    </test-case>
    
