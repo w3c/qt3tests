@@ -463,7 +463,75 @@
     </result>
   </test-case>
   
+  <test-case name="group-021">
+    <description> Basic grouping test, using nodes as input, with type declaration of the grouping variable.
+    Type declaration is not allowed if there is no ":= value" clause</description>
+    <created by="Michael Kay" on="2020-02-04"/>
+    <environment ref="works-mod"/>
+    <test> 
+      for $x in //employee 
+      let $key := $x/@gender 
+      group by $key as xs:untypedAtomic+
+      return concat($key, ':',  
+      string-join(for $e in $x return $e/@name, ',')) 
+    </test>
+    <result>
+      <error code="XPST0003"/>
+    </result>
+  </test-case>
   
+  <test-case name="group-022">
+    <description> Basic grouping test, using nodes as input, with type declaration of the grouping 
+      variable. Fails because there is no implicit conversion of xs:untypedAtomic to the required
+      type.
+    </description>
+    <created by="Michael Kay" on="2020-02-04"/>
+    <environment ref="works-mod"/>
+    <test> 
+      for $x in //employee 
+      group by $key as xs:string := $x/@gender
+      return concat($key, ':',  
+      string-join(for $e in $x return $e/@name, ',')) 
+    </test>
+    <result>
+      <error code="XPTY0004"/>
+    </result>
+  </test-case>
+  
+  <test-case name="group-023">
+    <description> Basic grouping test, using nodes as input, with type declaration of the grouping 
+      variable. Fails because the declared type is the post-atomization type
+    </description>
+    <created by="Michael Kay" on="2020-02-04"/>
+    <environment ref="works-mod"/>
+    <test> 
+      for $x in //employee 
+      group by $key as attribute(*) := $x/@gender 
+      return concat($key, ':',  
+      string-join(for $e in $x return $e/@name, ',')) 
+    </test>
+    <result>
+      <error code="XPTY0004"/>
+    </result>
+  </test-case>
+  
+  <test-case name="group-024">
+    <description> Basic grouping test, with type declaration and binding of the grouping variable </description>
+    <created by="Michael Kay" on="2020-02-04"/>
+    <environment ref="works-mod"/>
+    <test> 
+      for $x in //employee 
+      group by $key as xs:untypedAtomic := $x/@gender
+      return concat($key, ':',  
+      string-join(for $e in $x return $e/@name, ',')) 
+    </test>
+    <result>
+      <assert-permutation>
+        "female:Jane Doe 1,Jane Doe 3,Jane Doe 5,Jane Doe 7,Jane Doe 9,Jane Doe 11,Jane Doe 13",
+        "male:John Doe 2,John Doe 4,John Doe 6,John Doe 8,John Doe 10,John Doe 12"
+      </assert-permutation>
+    </result>
+  </test-case>
   
   
    

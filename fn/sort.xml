@@ -276,6 +276,43 @@
          <assert-deep-eq>89, 33, 21</assert-deep-eq>
       </result>
    </test-case>
+   
+   <test-case name="fn-sort-23">
+      <description>Related to Bugzilla #5183, effect of type promotion in fn:distinct-values;
+         explore the effect of non-transitivity on fn:sort.
+      
+         The first test assertion asserts that there are no two values in the sorted sequence such that
+         the first value (in sequence order) is greater than the second value.
+         
+         The second test assertion accepts that this might not always be the case, given pathological input.
+         
+         The worst-case outcome is that sorting may not terminate; some sort algorithms will fail
+         to terminate if the "lt" relation used by the comparator is not transitive.
+      
+      </description>
+      <created by="Michael Kay" on="2020-01-28"/>
+      <test><![CDATA[
+         let $input := (xs:float(  '1.0'), 
+                        xs:decimal('1.0000000000100000000001'),
+                        xs:decimal('1.0000000000100000000002'),
+                        xs:double( '1.00000000001'),
+                        xs:float(  '1.00000000001'),
+                        xs:decimal('1.00000000001000000000011'),
+                        xs:decimal('1.00000000001000000000012'),
+                        xs:decimal('1.00000000001'),
+                        xs:double( '1.0000000000100000000001')),
+         $more := ($input, reverse($input), $input),               
+         $sorted := trace(sort($more))
+         return empty(for $i in 1 to count($sorted), $j in $i+1 to count($sorted) 
+                      return 'x'[$sorted[$i] gt $sorted[$j]])
+         ]]></test>
+      <result>
+         <any-of>
+            <assert-true/>  <!-- Sorting delivered a sorted result -->
+            <assert-false/>  <!-- The task completed, but the result is not perfectly sorted -->
+         </any-of>
+      </result>
+   </test-case>
 
    <!--* ##fractions *-->
 
