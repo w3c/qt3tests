@@ -672,6 +672,71 @@
       <serialization-matches><![CDATA[<?xml]]></serialization-matches>
     </result>
   </test-case>
+  
+  <test-case name="K2-Serialization-40" >
+    <description>Indentation with xml:space="preserve"</description>
+    <created by="Michael Kay" on="2020-03-18"/>
+    <dependency type="feature" value="serialization" satisfied="true"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test><![CDATA[
+      	declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "xml";
+        declare option output:indent "yes";
+        <test><a xml:space="preserve"><x/></a><b/></test>
+      ]]></test>
+    <result>
+      <all-of>
+        <serialization-matches><![CDATA[<test>\s+<a]]></serialization-matches>
+        <serialization-matches><![CDATA[<a xml:space=['"]preserve['"]><x/></a>]]></serialization-matches>
+        <serialization-matches><![CDATA[</a>\s+<b/>]]></serialization-matches>
+        <serialization-matches><![CDATA[<b/>\s+</test>]]></serialization-matches>
+      </all-of>
+    </result>
+  </test-case>
+  
+  <test-case name="K2-Serialization-41" >
+    <description>Indentation with xml:space="preserve"</description>
+    <created by="Michael Kay" on="2020-03-18"/>
+    <dependency type="feature" value="serialization" satisfied="true"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test><![CDATA[
+      	declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "xml";
+        declare option output:indent "yes";
+        (: The spec says: Element constructors treat attributes named xml:space as ordinary attributes. 
+           An xml:space attribute does not affect the handling of whitespace by an element constructor. :)
+        <test><a xml:space="preserve"> <x/> </a><b/></test>
+      ]]></test>
+    <result>
+      <all-of>
+        <serialization-matches><![CDATA[<test>\s+<a]]></serialization-matches>
+        <serialization-matches><![CDATA[<a xml:space=['"]preserve['"]><x/></a>]]></serialization-matches>
+        <serialization-matches><![CDATA[</a>\s+<b/>]]></serialization-matches>
+        <serialization-matches><![CDATA[<b/>\s+</test>]]></serialization-matches>
+      </all-of>
+    </result>
+  </test-case>
+  
+  <test-case name="K2-Serialization-42" >
+    <description>Indentation with xml:space="preserve"</description>
+    <created by="Michael Kay" on="2020-03-18"/>
+    <dependency type="feature" value="serialization" satisfied="true"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test><![CDATA[
+      	declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "xml";
+        declare option output:indent "yes";
+        <test><a xml:space="preserve">{' '}<x/>{' '} </a><b/></test>
+      ]]></test>
+    <result>
+      <all-of>
+        <serialization-matches><![CDATA[<test>\s+<a]]></serialization-matches>
+        <serialization-matches><![CDATA[<a xml:space=['"]preserve['"]> <x/> </a>]]></serialization-matches>
+        <serialization-matches><![CDATA[</a>\s+<b/>]]></serialization-matches>
+        <serialization-matches><![CDATA[<b/>\s+</test>]]></serialization-matches>
+      </all-of>
+    </result>
+  </test-case>
 
   <test-case name="Serialization-xml-01" covers="serialization-general">
       <description>Test the XML serialization output method - non-empty array</description>
