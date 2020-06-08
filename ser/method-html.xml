@@ -1232,5 +1232,43 @@ return [ $html ]
     </result>
   </test-case>
   
+  <test-case name="Serialization-html-58" covers-30="html-output">
+    <description>Test output of processing instructions (useless but defined in the spec). HTML4</description>
+    <created by="Michael Kay" on="2020-05-04"/>
+    <dependency type="feature" value="serialization" satisfied="true"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test><![CDATA[
+      declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+      declare option output:method  "html";
+      declare option output:indent  "yes";
+      declare option output:version  "4.0";
+      <html><head/><body><p><?pi data?></p></body></html>
+    ]]></test>
+    <result>
+      <all-of>
+        <serialization-matches><![CDATA[<p><\?pi data></p>]]></serialization-matches>
+      </all-of>
+    </result>
+  </test-case>
+  
+  <test-case name="Serialization-html-59" covers-30="html-output">
+    <description>Test output of processing instructions (useless but defined in the spec). HTML5</description>
+    <created by="Michael Kay" on="2020-05-04"/>
+    <dependency type="feature" value="serialization" satisfied="true"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test><![CDATA[
+      declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+      declare option output:method  "html";
+      declare option output:indent  "yes";
+      declare option output:version  "5";
+      <html><head/><body><p><?pi data?></p></body></html>
+    ]]></test>
+    <result>
+      <all-of>
+        <serialization-matches><![CDATA[<p><\?pi data></p>]]></serialization-matches>
+      </all-of>
+    </result>
+  </test-case>
+  
 
 </test-set>
