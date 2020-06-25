@@ -437,6 +437,28 @@
         </result>
     </test-case>
     
+    <test-case name="array-sort-027">
+        <description>Sort using a map to generate sort keys</description>
+        <created by="Michael Kay" on="2020-06-25"/>
+        <dependency type="feature" value="higherOrderFunctions"/>
+        <environment ref="map"/>
+        <test>array:sort(["Monday", "Friday", "Tuesday"], (), map{"Monday":1, "Tuesday":2, "Wednesday":3, "Thursday":4, "Friday":5})</test>
+        <result>
+            <assert-deep-eq>["Monday", "Tuesday", "Friday"]</assert-deep-eq>
+        </result>
+    </test-case>
+    
+    <test-case name="array-sort-028">
+        <description>Sort using an array to generate sort keys</description>
+        <created by="Michael Kay" on="2020-06-25"/>
+        <dependency type="feature" value="higherOrderFunctions"/>
+        <environment ref="map"/>
+        <test>array:sort(array{1 to 5}, (), [10, 9, 8, 7, 6])</test>
+        <result>
+            <assert-deep-eq>[5, 4, 3, 2, 1]</assert-deep-eq>
+        </result>
+    </test-case>
+    
     <test-case name="array-sort-collation-1">
         <description>array:sort#1 uses the default collation</description>
         <created by="Michael Kay" on="2016-08-18"/>
