@@ -97,6 +97,28 @@
         </result>
     </test-case>
     
+    <test-case name="array-for-each-008">
+        <description>Using a map as the mapping function</description>
+        <created by="Michael Kay" on="2020-06-25"/>
+        <dependency type="feature" value="higherOrderFunctions"/>
+        <environment ref="map"/>
+        <test>array:for-each(["Monday", "Friday", "Tuesday"], map{"Monday":true(), "Tuesday":false(), "Wednesday":true(), "Thursday":4, "Friday":true()})</test>
+        <result>
+            <assert-deep-eq>[true(), true(), false()]</assert-deep-eq>
+        </result>
+    </test-case>
+    
+    <test-case name="array-for-each-009">
+        <description>Using an array as the mapping function</description>
+        <created by="Michael Kay" on="2020-06-25"/>
+        <dependency type="feature" value="higherOrderFunctions"/>
+        <environment ref="map"/>
+        <test>array:for-each(array{5 to 9}, [1, 2, 3, 4, true(), false(), true(), false(), true()])</test>
+        <result>
+            <assert-deep-eq>[true(), false(), true(), false(), true()]</assert-deep-eq>
+        </result>
+    </test-case>
+    
  
 
 </test-set>

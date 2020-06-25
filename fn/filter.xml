@@ -83,6 +83,28 @@
                 <assert-deep-eq>2, 4, 6, 8, 10, 12, 14, 16, 18, 20</assert-deep-eq>
         </result>
     </test-case>
+   <test-case name="filter-007">
+      <description>Map used as filter</description>
+      <created by="Michael Kay" on="2020-06-25"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+            filter((4, 5, 6), map{4: true(), 5: false(), 6: true()})
+        ]]></test>
+      <result>
+         <assert-deep-eq>4, 6</assert-deep-eq>
+      </result>
+   </test-case>
+   <test-case name="filter-008">
+      <description>Array used as filter</description>
+      <created by="Michael Kay" on="2020-06-25"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+            filter((4, 5, 6), [1, 2, 3, true(), false(), true()])
+        ]]></test>
+      <result>
+         <assert-deep-eq>4, 6</assert-deep-eq>
+      </result>
+   </test-case>
     <test-case name="filter-901">
         <description>filter function - not a boolean</description>
         <created by="Michael Kay" on="2010-02-10"/>

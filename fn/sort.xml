@@ -313,6 +313,28 @@
          </any-of>
       </result>
    </test-case>
+   
+   <test-case name="fn-sort-24">
+      <description>Sort using a map to generate sort keys</description>
+      <created by="Michael Kay" on="2020-06-25"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <environment ref="map"/>
+      <test>fn:sort(("Monday", "Friday", "Tuesday"), (), map{"Monday":1, "Tuesday":2, "Wednesday":3, "Thursday":4, "Friday":5})</test>
+      <result>
+         <assert-deep-eq>"Monday", "Tuesday", "Friday"</assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-sort-25">
+      <description>Sort using an array to generate sort keys</description>
+      <created by="Michael Kay" on="2020-06-25"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <environment ref="map"/>
+      <test>fn:sort(1 to 5, (), [10, 9, 8, 7, 6])</test>
+      <result>
+         <assert-deep-eq>5, 4, 3, 2, 1</assert-deep-eq>
+      </result>
+   </test-case>
 
    <!--* ##fractions *-->
 
