@@ -130,6 +130,28 @@
         </result>
     </test-case>
     
+    <test-case name="array-filter-011">
+        <description>Filter using a map as the predicate</description>
+        <created by="Michael Kay" on="2020-06-25"/>
+        <dependency type="feature" value="higherOrderFunctions"/>
+        <environment ref="array"/>
+        <test>array:filter(["Monday", "Friday", "Tuesday"], map{"Monday":true(), "Tuesday":false(), "Wednesday":true(), "Thursday":4, "Friday":true()})</test>
+        <result>
+            <assert-deep-eq>["Monday", "Friday"]</assert-deep-eq>
+        </result>
+    </test-case>
+    
+    <test-case name="array-filter-012">
+        <description>Filter using an array as the predicate</description>
+        <created by="Michael Kay" on="2020-06-25"/>
+        <dependency type="feature" value="higherOrderFunctions"/>
+        <environment ref="array"/>
+        <test>array:filter(array{5 to 9}, [1, 2, 3, 4, true(), false(), true(), false(), true()])</test>
+        <result>
+            <assert-deep-eq>[5, 7, 9]</assert-deep-eq>
+        </result>
+    </test-case>
+    
     
     
     
