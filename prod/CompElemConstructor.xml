@@ -65,6 +65,28 @@
          <error code="XPST0081"/>
       </result>
    </test-case>
+   
+   <test-case name="Constr-compelem-name-4">
+      <description> Expanded QName with braced URI literal for computed attribute constructor
+         (Prompted by Saxon bug 4662 from Christian Gruen) </description>
+      <created by="Michael Kay" on="2020-08-01"/>
+      <dependency type="spec" value="XQ30+" />
+      <test>element Q{http://example.com/x}x { }</test>
+      <result>
+         <assert>$result[self::*[local-name()='x' and namespace-uri()='http://example.com/x']]</assert>
+      </result>
+   </test-case>
+   
+   <test-case name="Constr-compelem-name-5">
+      <description> Expanded QName with braced URI literal for computed attribute constructor, no namespace
+         (Prompted by Saxon bug 4662 from Christian Gruen) </description>
+      <created by="Michael Kay" on="2020-08-01"/>
+      <dependency type="spec" value="XQ30+" />
+      <test>element Q{}x {}</test>
+      <result>
+         <assert>$result[self::*[local-name()='x' and namespace-uri()='']]</assert>
+      </result>
+   </test-case>
 
    <test-case name="Constr-compelem-compname-1">
       <description> empty computed name </description>
@@ -238,6 +260,50 @@
       <test>element {xs:untypedAtomic('el em')} {'text'}</test>
       <result>
          <error code="XQDY0074"/>
+      </result>
+   </test-case>
+   
+   <test-case name="Constr-compelem-name-20">
+      <description> Expanded QName with braced URI literal for computed attribute constructor
+         (Prompted by Saxon bug 4662 from Christian Gruen) </description>
+      <created by="Michael Kay" on="2020-08-01"/>
+      <dependency type="spec" value="XQ30+" />
+      <test>element {"Q{http://example.com/x}x"} { }</test>
+      <result>
+         <assert>$result[self::*[local-name()='x' and namespace-uri()='http://example.com/x']]</assert>
+      </result>
+   </test-case>
+   
+   <test-case name="Constr-compelem-name-21">
+      <description> Expanded QName with braced URI literal for computed attribute constructor, no namespace
+         (Prompted by Saxon bug 4662 from Christian Gruen) </description>
+      <created by="Michael Kay" on="2020-08-01"/>
+      <dependency type="spec" value="XQ30+" />
+      <test>element {"Q{}x"} {}</test>
+      <result>
+         <assert>$result[self::*[local-name()='x' and namespace-uri()='']]</assert>
+      </result>
+   </test-case>
+   
+   <test-case name="Constr-compelem-name-22">
+      <description> Expanded QName with braced URI literal for computed attribute constructor
+         (Prompted by Saxon bug 4662 from Christian Gruen) </description>
+      <created by="Michael Kay" on="2020-08-01"/>
+      <dependency type="spec" value="XQ30+" />
+      <test>element {" Q{http://example.com/x}x " || current-date()} { }</test>
+      <result>
+         <assert>$result[self::*[starts-with(local-name(),'x') and namespace-uri()='http://example.com/x']]</assert>
+      </result>
+   </test-case>
+   
+   <test-case name="Constr-compelem-name-23">
+      <description> Expanded QName with braced URI literal for computed attribute constructor, no namespace
+         (Prompted by Saxon bug 4662 from Christian Gruen) </description>
+      <created by="Michael Kay" on="2020-08-01"/>
+      <dependency type="spec" value="XQ30+" />
+      <test>element {" Q{}x" || current-date() || " "} {}</test>
+      <result>
+         <assert>$result[self::*[starts-with(local-name(),'x') and namespace-uri()='']]</assert>
       </result>
    </test-case>
 
