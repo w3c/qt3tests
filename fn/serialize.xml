@@ -2739,4 +2739,52 @@
         </result>
     </test-case>
     
+    <test-case name="serialize-adaptive-001">
+        <description>Adaptive method, atomic values</description>
+        <created by="Michael Kay, Saxonica" on="2020-06-30"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>serialize((1,2,3), map{'method':'adaptive', 'item-separator':';'})</test>
+        <result>
+            <assert-string-value>1;2;3</assert-string-value>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-adaptive-002">
+        <description>Adaptive method, nodes</description>
+        <created by="Michael Kay, Saxonica" on="2020-06-30"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test><![CDATA[
+            serialize((parse-xml('<a/>'), parse-xml('<b/>')),
+            map{'method':'adaptive', 'item-separator':';', 'indent':false(), 'omit-xml-declaration':true()})
+        ]]></test>
+        <result>
+            <assert-string-value><![CDATA[<a/>;<b/>]]></assert-string-value>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-adaptive-003">
+        <description>Adaptive method, free-standing attribute nodes</description>
+        <created by="Michael Kay, Saxonica" on="2020-06-30"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test><![CDATA[
+            serialize((parse-xml('<a x="1"/>')/a/@x, parse-xml('<b y="2"/>')/b/@y),
+            map{'method':'adaptive', 'item-separator':';', 'indent':false(), 'omit-xml-declaration':true()})
+        ]]></test>
+        <result>
+            <assert-string-value><![CDATA[x="1";y="2"]]></assert-string-value>
+        </result>
+    </test-case>
+    
+    <test-case name="serialize-adaptive-004">
+        <description>Adaptive method, maps</description>
+        <created by="Michael Kay, Saxonica" on="2020-06-30"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>serialize((map{1:true(), 2:false()}, map{8:80, 9:90}),
+            map{'method':'adaptive', 'item-separator':';', 'indent':false(), 'omit-xml-declaration':true()})</test>
+        <result>
+            <!-- Other outputs are possible -->
+            <assert-string-value>map{1:true(),2:false()};map{8:80,9:90}</assert-string-value>
+        </result>
+    </test-case>
+    
 </test-set>
