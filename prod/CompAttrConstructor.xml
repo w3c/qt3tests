@@ -270,8 +270,9 @@
       <description> Expanded QName with braced URI literal for computed attribute constructor
          (Prompted by Saxon bug 4662 from Christian Gruen) </description>
       <created by="Michael Kay" on="2020-08-01"/>
+      <modified by="Christian Gruen" on="2020-08-03" change="timezone fix"/>
       <dependency type="spec" value="XQ30+" />
-      <test>element x { attribute {" Q{http://example.com/x}y" || current-date()} { } }</test>
+      <test>element x { attribute {" Q{http://example.com/x}y" || year-from-date(current-date())} { } }</test>
       <result>
          <assert>$result[self::x/@*[starts-with(local-name(), 'y') and namespace-uri()='http://example.com/x']]</assert>
       </result>
@@ -281,8 +282,9 @@
       <description> Expanded QName with braced URI literal for computed attribute constructor, no namespace
          (Prompted by Saxon bug 4662 from Christian Gruen) </description>
       <created by="Michael Kay" on="2020-08-01"/>
+      <modified by="Christian Gruen" on="2020-08-03" change="timezone fix"/>
       <dependency type="spec" value="XQ30+" />
-      <test>element x { attribute {"Q{}y" || current-date()} { } }</test>
+      <test>element x { attribute {"Q{}y" || year-from-date(current-date())} { } }</test>
       <result>
          <assert>$result[self::x/@*[starts-with(local-name(), 'y') and namespace-uri()='']]</assert>
       </result>
