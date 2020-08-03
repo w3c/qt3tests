@@ -2040,5 +2040,99 @@
          <assert-empty/>
       </result>
    </test-case>
-      
+
+   <test-case name="filter-limits-004">
+      <description>Test numeric predicates at integer limits</description>
+      <created by="Christian Gruen" on="2020-08-03"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+for $i in (-1, 0, 1, 2147483647, 2147483648, 2147483649, 4294967295, 4294967296, 4294967297,
+  -2147483647, -2147483648, -2147483649, -4294967295, -4294967296, -4294967297)
+return $i[$i]
+      ]]></test>
+      <result>
+         <assert-string-value>1</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="filter-limits-005">
+      <description>Test numeric predicates at integer limits</description>
+      <created by="Christian Gruen" on="2020-08-03"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+for $i in (-1, 0, 1, 2147483647, 2147483648, 2147483649, 4294967295, 4294967296, 4294967297,
+  -2147483647, -2147483648, -2147483649, -4294967295, -4294967296, -4294967297)
+return $i[number(<_>{ $i }</_>)]
+      ]]></test>
+      <result>
+         <assert-string-value>1</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="filter-limits-006">
+      <description>Test numeric predicates at integer limits</description>
+      <created by="Christian Gruen" on="2020-08-03"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+for $i in (-1, 0, 1, 2147483647, 2147483648, 2147483649, 4294967295, 4294967296, 4294967297,
+  -2147483647, -2147483648, -2147483649, -4294967295, -4294967296, -4294967297)
+return $i[xs:integer($i)]
+      ]]></test>
+      <result>
+         <assert-string-value>1</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="filter-limits-007">
+      <description>Test numeric predicates at integer limits</description>
+      <created by="Christian Gruen" on="2020-08-03"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+for $i in (-1, 0, 1, 2147483647, 2147483648, 2147483649, 4294967295, 4294967296, 4294967297,
+  -2147483647, -2147483648, -2147483649, -4294967295, -4294967296, -4294967297) ! <_>{ . }</_>
+return $i[number($i)]
+      ]]></test>
+      <result>
+         <assert-string-value>1</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="filter-limits-008">
+      <description>Test numeric predicates at integer limits</description>
+      <created by="Christian Gruen" on="2020-08-03"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+(-1, 0, 1, 2147483647, 2147483648, 2147483649, 4294967295, 4294967296, 4294967297,
+  -2147483647, -2147483648, -2147483649, -4294967295, -4294967296, -4294967297) ! .[.]
+      ]]></test>
+      <result>
+         <assert-string-value>1</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="filter-limits-009">
+      <description>Test numeric predicates at integer limits</description>
+      <created by="Christian Gruen" on="2020-08-03"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+(-1, 0, 1, 2147483647, 2147483648, 2147483649, 4294967295, 4294967296, 4294967297,
+  -2147483647, -2147483648, -2147483649, -4294967295, -4294967296, -4294967297) ! .[position() = .]
+      ]]></test>
+      <result>
+         <assert-string-value>1</assert-string-value>
+      </result>
+   </test-case>
+
+   <test-case name="filter-limits-010">
+      <description>Test numeric predicates at integer limits</description>
+      <created by="Christian Gruen" on="2020-08-03"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[
+count((-1, 0, 1, 2147483647, 2147483648, 2147483649, 4294967295, 4294967296, 4294967297,
+  -2147483647, -2147483648, -2147483649, -4294967295, -4294967296, -4294967297) ! .[1 + . - .])
+      ]]></test>
+      <result>
+         <assert-string-value>15</assert-string-value>
+      </result>
+   </test-case>
 </test-set>
