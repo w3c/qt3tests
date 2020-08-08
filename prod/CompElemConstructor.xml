@@ -804,4 +804,154 @@
          <error code="XQDY0096"/>
       </result>
    </test-case>
+
+   <test-case name="Constr-compelem-eqname-1">
+      <description> Constructor with expanded QName, whitespaces</description>
+      <created by="Christian Gruen" on="2020-08-04"/>
+      <dependency type="spec" value="XQ30+" />
+      <test>element { " Q{ }x " } {}</test>
+      <result>
+         <assert>$result[local-name() = 'x' and namespace-uri() = '']</assert>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-compelem-eqname-2">
+      <description> Constructor with expanded QName, whitespaces</description>
+      <created by="Christian Gruen" on="2020-08-04"/>
+      <dependency type="spec" value="XQ30+" />
+      <test>element { " Q{ _   _ }x " } {}</test>
+      <result>
+         <assert>$result[local-name() = 'x' and namespace-uri() = '_ _']</assert>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-compelem-eqname-3">
+      <description> Constructor with expanded QName, whitespaces</description>
+      <created by="Christian Gruen" on="2020-08-04"/>
+      <dependency type="spec" value="XQ30+" />
+      <test>element { " xml:x " } {}</test>
+      <result>
+         <assert>$result[name() = 'xml:x' and namespace-uri() = 'http://www.w3.org/XML/1998/namespace']</assert>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-compelem-eqname-entities-1">
+      <description> Constructor with expanded QName, entities</description>
+      <created by="Christian Gruen" on="2020-08-04"/>
+      <dependency type="spec" value="XQ30+" />
+      <test><![CDATA[ element Q{&#x20;}x {} ]]></test>
+      <result>
+         <assert><![CDATA[ $result[local-name() = 'x' and namespace-uri() = ' '] ]]></assert>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-compelem-eqname-entities-2">
+      <description> Constructor with expanded QName, entities</description>
+      <created by="Christian Gruen" on="2020-08-04"/>
+      <dependency type="spec" value="XQ30+" />
+      <test><![CDATA[ element { "Q{&#x20;}x" } {} ]]></test>
+      <result>
+         <assert><![CDATA[ $result[local-name() = 'x' and namespace-uri() = ' '] ]]></assert>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-compelem-eqname-entities-3">
+      <description> Constructor with expanded QName, entities</description>
+      <created by="Christian Gruen" on="2020-08-04"/>
+      <dependency type="spec" value="XQ30+" />
+      <test><![CDATA[ element Q{&#x22;&#x26;}x {} ]]></test>
+      <result>
+         <assert><![CDATA[ $result[local-name() = 'x' and namespace-uri() = ``["&]``] ]]></assert>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-compelem-eqname-entities-4">
+      <description> Constructor with expanded QName, entities</description>
+      <created by="Christian Gruen" on="2020-08-04"/>
+      <dependency type="spec" value="XQ30+" />
+      <test><![CDATA[ element { "Q{&#x22;&#x26;}x" } {} ]]></test>
+      <result>
+         <assert><![CDATA[ $result[local-name() = 'x' and namespace-uri() = ``["&]``] ]]></assert>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-compelem-eqname-entities-5">
+      <description> Constructor with expanded QName, entities</description>
+      <created by="Christian Gruen" on="2020-08-04"/>
+      <dependency type="spec" value="XQ30+" />
+      <test><![CDATA[ element Q{&#x7b;&#x7d;}x {} ]]></test>
+      <result>
+         <assert><![CDATA[ $result[local-name() = 'x' and namespace-uri() = '{}'] ]]></assert>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-compelem-eqname-error-1">
+      <description> Constructor with expanded QName, errors</description>
+      <created by="Christian Gruen" on="2020-08-04"/>
+      <dependency type="spec" value="XQ30+" />
+      <test>element { "xml: x" } {}</test>
+      <result>
+         <error code="XQDY0074"/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-compelem-eqname-error-2">
+      <description> Constructor with expanded QName, errors</description>
+      <created by="Christian Gruen" on="2020-08-04"/>
+      <dependency type="spec" value="XQ30+" />
+      <test>element { "a:x" } {}</test>
+      <result>
+         <error code="XQDY0074"/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-compelem-eqname-error-3">
+      <description> Constructor with expanded QName, errors</description>
+      <created by="Christian Gruen" on="2020-08-04"/>
+      <dependency type="spec" value="XQ30+" />
+      <test>element Q{{}x {}</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-compelem-eqname-error-4">
+      <description> Constructor with expanded QName, errors</description>
+      <created by="Christian Gruen" on="2020-08-04"/>
+      <dependency type="spec" value="XQ30+" />
+      <test>element Q{}}x {}</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-compelem-eqname-error-5">
+      <description> Constructor with expanded QName, errors</description>
+      <created by="Christian Gruen" on="2020-08-04"/>
+      <dependency type="spec" value="XQ30+" />
+      <test>element { "Q{{}x" } {}</test>
+      <result>
+         <error code="XQDY0074"/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-compelem-eqname-error-6">
+      <description> Constructor with expanded QName, errors</description>
+      <created by="Christian Gruen" on="2020-08-04"/>
+      <dependency type="spec" value="XQ30+" />
+      <test>element { "Q{&#x7b;}x" } {}</test>
+      <result>
+         <error code="XQDY0074"/>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-compelem-eqname-error-7">
+      <description> Constructor with expanded QName, errors</description>
+      <created by="Christian Gruen" on="2020-08-04"/>
+      <dependency type="spec" value="XQ30+" />
+      <test>element { "Q{&#x7d;}x" } {}</test>
+      <result>
+         <error code="XQDY0074"/>
+      </result>
+   </test-case>
 </test-set>
