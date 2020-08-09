@@ -1232,40 +1232,46 @@
    <test-case name="Constr-compattr-eqname-entities-1">
       <description> Constructor with expanded QName, entities</description>
       <created by="Christian Gruen" on="2020-08-04"/>
+      <modified by="Michael Kay" on="2020-08-09" 
+         change="Avoid use of Q{&#x20;}x which raises questions about whitespace normalization of URIs"/>
       <dependency type="spec" value="XQ30+" />
-      <test><![CDATA[ attribute Q{&#x20;}x {} ]]></test>
+      <test><![CDATA[ attribute Q{z&#x20;z}x {} ]]></test>
       <result>
-         <assert><![CDATA[ $result[local-name() = 'x' and namespace-uri() = ' '] ]]></assert>
+         <assert><![CDATA[ $result[local-name() = 'x' and namespace-uri() = 'z z'] ]]></assert>
       </result>
    </test-case>
 
    <test-case name="Constr-compattr-eqname-entities-2">
       <description> Constructor with expanded QName, entities</description>
       <created by="Christian Gruen" on="2020-08-04"/>
+      <modified by="Michael Kay" on="2020-08-09" 
+            change="Avoid use of Q{&#x20;}x which raises questions about whitespace normalization of URIs"/>
       <dependency type="spec" value="XQ30+" />
-      <test><![CDATA[ attribute { "Q{&#x20;}x" } {} ]]></test>
+      <test><![CDATA[ attribute { "Q{z&#x20;z}x" } {} ]]></test>
       <result>
-         <assert><![CDATA[ $result[local-name() = 'x' and namespace-uri() = ' '] ]]></assert>
+         <assert>$result[local-name() = 'x' and namespace-uri() = 'z z']</assert>
       </result>
    </test-case>
 
    <test-case name="Constr-compattr-eqname-entities-3">
       <description> Constructor with expanded QName, entities</description>
       <created by="Christian Gruen" on="2020-08-04"/>
+      <modified by="Michael Kay" on="2020-08-09" change="Test suite requires assertions to be XPath, not XQuery"/>
       <dependency type="spec" value="XQ30+" />
       <test><![CDATA[ attribute Q{&#x22;&#x26;}x {} ]]></test>
       <result>
-         <assert><![CDATA[ $result[local-name() = 'x' and namespace-uri() = ``["&]``] ]]></assert>
+         <assert>$result[local-name() = 'x' and deep-equal(string-to-codepoints(namespace-uri()), (34, 38))]</assert>
       </result>
    </test-case>
 
    <test-case name="Constr-compattr-eqname-entities-4">
       <description> Constructor with expanded QName, entities</description>
       <created by="Christian Gruen" on="2020-08-04"/>
+      <modified by="Michael Kay" on="2020-08-09" change="Test suite requires assertions to be XPath, not XQuery"/>
       <dependency type="spec" value="XQ30+" />
       <test><![CDATA[ attribute { "Q{&#x22;&#x26;}x" } {} ]]></test>
       <result>
-         <assert><![CDATA[ $result[local-name() = 'x' and namespace-uri() = ``["&]``] ]]></assert>
+         <assert>$result[local-name() = 'x' and deep-equal(string-to-codepoints(namespace-uri()), (34, 38))]</assert>
       </result>
    </test-case>
 
