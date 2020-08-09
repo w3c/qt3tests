@@ -67,7 +67,7 @@
    </test-case>
    
    <test-case name="Constr-compelem-name-4">
-      <description> Expanded QName with braced URI literal for computed attribute constructor
+      <description> Expanded QName with braced URI literal for computed element constructor
          (Prompted by Saxon bug 4662 from Christian Gruen) </description>
       <created by="Michael Kay" on="2020-08-01"/>
       <dependency type="spec" value="XQ30+" />
@@ -78,7 +78,7 @@
    </test-case>
    
    <test-case name="Constr-compelem-name-5">
-      <description> Expanded QName with braced URI literal for computed attribute constructor, no namespace
+      <description> Expanded QName with braced URI literal for computed element constructor, no namespace
          (Prompted by Saxon bug 4662 from Christian Gruen) </description>
       <created by="Michael Kay" on="2020-08-01"/>
       <dependency type="spec" value="XQ30+" />
@@ -264,7 +264,7 @@
    </test-case>
    
    <test-case name="Constr-compelem-name-20">
-      <description> Expanded QName with braced URI literal for computed attribute constructor
+      <description> Expanded QName with braced URI literal for computed element constructor
          (Prompted by Saxon bug 4662 from Christian Gruen) </description>
       <created by="Michael Kay" on="2020-08-01"/>
       <dependency type="spec" value="XQ30+" />
@@ -275,7 +275,7 @@
    </test-case>
    
    <test-case name="Constr-compelem-name-21">
-      <description> Expanded QName with braced URI literal for computed attribute constructor, no namespace
+      <description> Expanded QName with braced URI literal for computed element constructor, no namespace
          (Prompted by Saxon bug 4662 from Christian Gruen) </description>
       <created by="Michael Kay" on="2020-08-01"/>
       <dependency type="spec" value="XQ30+" />
@@ -286,7 +286,7 @@
    </test-case>
    
    <test-case name="Constr-compelem-name-22">
-      <description> Expanded QName with braced URI literal for computed attribute constructor
+      <description> Expanded QName with braced URI literal for computed element constructor
          (Prompted by Saxon bug 4662 from Christian Gruen) </description>
       <created by="Michael Kay" on="2020-08-01"/>
       <modified by="Christian Gruen" on="2020-08-03" change="timezone fix"/>
@@ -298,7 +298,7 @@
    </test-case>
    
    <test-case name="Constr-compelem-name-23">
-      <description> Expanded QName with braced URI literal for computed attribute constructor, no namespace
+      <description> Expanded QName with braced URI literal for computed element constructor, no namespace
          (Prompted by Saxon bug 4662 from Christian Gruen) </description>
       <created by="Michael Kay" on="2020-08-01"/>
       <modified by="Christian Gruen" on="2020-08-03" change="timezone fix"/>
@@ -888,6 +888,26 @@
       <test><![CDATA[ element Q{&#x7b;&#x7d;}x {} ]]></test>
       <result>
          <assert><![CDATA[ $result[local-name() = 'x' and namespace-uri() = '{}'] ]]></assert>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-compelem-eqname-entities-6">
+      <description> Constructor with expanded QName, entities</description>
+      <created by="Christian Gruen" on="2020-08-09"/>
+      <dependency type="spec" value="XQ30+" />
+      <test><![CDATA[ element Q{&#x20;}x {} ]]></test>
+      <result>
+         <assert>$result[local-name() = 'x' and namespace-uri() = '']</assert>
+      </result>
+   </test-case>
+
+   <test-case name="Constr-compelem-eqname-entities-7">
+      <description> Constructor with expanded QName, entities</description>
+      <created by="Christian Gruen" on="2020-08-09"/>
+      <dependency type="spec" value="XQ30+" />
+      <test><![CDATA[ element Q{&#x20;}x {} ]]></test>
+      <result>
+         <assert>empty($result[local-name() = 'x' and namespace-uri() = ' '])</assert>
       </result>
    </test-case>
 
