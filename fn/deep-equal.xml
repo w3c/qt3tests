@@ -1380,18 +1380,26 @@
    <test-case name="K-SeqDeepEqualFunc-4">
       <description> A test whose essence is: `deep-equal("a string", "a string", "http://www.example.com/COLLATION/NOT/SUPPORTED")`. </description>
       <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="Christian Gruen" on="2020-08-11" change="Identical arguments will never yield false"/>
       <test>deep-equal("a string", "a string", "http://www.example.com/COLLATION/NOT/SUPPORTED")</test>
       <result>
-         <error code="FOCH0002"/>
+        <any-of>
+          <assert-string-value>true</assert-string-value>
+          <error code="FOCH0002"/>
+        </any-of>
       </result>
    </test-case>
 
    <test-case name="K-SeqDeepEqualFunc-5">
       <description> A test whose essence is: `deep-equal("a string", "a string", ())`. </description>
       <created by="Frans Englich" on="2007-11-26"/>
+      <modified by="Christian Gruen" on="2020-08-11" change="Identical arguments will never yield false"/>
       <test>deep-equal("a string", "a string", ())</test>
       <result>
-         <error code="XPTY0004"/>
+        <any-of>
+          <assert-string-value>true</assert-string-value>
+          <error code="XPTY0004"/>
+        </any-of>
       </result>
    </test-case>
 
@@ -2579,9 +2587,13 @@
    <test-case name="K2-SeqDeepEqualFunc-43">
       <description>An error evaluating an argument (as distinct from a comparison error) is propagated (Saxon bug 3714)</description>
       <created by="Michael Kay" on="2018-03-09"/>
+      <modified by="Christian Gruen" on="2020-08-11" change="Arguents have different result size, evaluation can be skipped"/>
       <test>deep-equal((0 to year-from-date(current-date()))!(10 idiv .), 11 to 22)</test>
       <result>
-         <error code="FOAR0001"/>
+         <any-of>
+          <assert-string-value>false</assert-string-value>
+          <error code="FOAR0001"/>
+        </any-of>
       </result>
    </test-case>
    
