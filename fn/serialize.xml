@@ -1495,13 +1495,14 @@
             implementation-defined serialization parameters. -->
         <created by="Debbie Lockett" on="2019-11-19"/>
         <modified by="Debbie Lockett" on="2020-07-09" change="Source should be XML 1.0"/>
+        <modified by="Benito van der Zander" on="2020-09-24" change="test depends on 3.1 spec"/>
         <environment>        
             <source role="." file="serialize/serialize-xml-120-src.xml">
                 <description>File to be serialized</description>
                 <created by="Debbie Lockett, Saxonica" on="2019-11-19"/>
             </source>
         </environment>
-        <dependency type="spec" value="XP30+ XQ30+"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
         <test>serialize(., map { QName("","indent") : true(), "omit-xml-declaration" : true() })</test>
         <result>
             <assert>not(contains($result,' '))</assert>
@@ -1715,13 +1716,14 @@
     <test-case name="serialize-xml-134b" covers="fn-serialize">
         <description>serialize test - params supplied as map, item-separator property</description>
         <created by="Debbie Lockett" on="2019-11-19"/>
+        <modified by="Benito van der Zander" on="2020-09-24" change="test depends on 3.1 spec"/>
         <environment>
             <source role="." file="serialize/serialize-034-src.xml">
                 <description>File to be serialized</description>
                 <created by="Debbie Lockett" on="2019-11-19"/>
             </source>
         </environment>
-        <dependency type="spec" value="XP30+ XQ30+"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
         <test>serialize(./doc/x/text(), map {"method" : "xml", "omit-xml-declaration" : true(), "item-separator" : "==" })
         </test>
         <result>
@@ -1839,13 +1841,14 @@
         <description>Options from JSON</description>
         <created by="Debbie Lockett" on="2019-11-19"/>
         <modified by="Debbie Lockett" on="2020-07-09" change="Source should be XML 1.0"/>
+        <modified by="Benito van der Zander" on="2020-09-24" change="test depends on 3.1 spec"/>
         <environment>        
             <source role="." file="serialize/serialize-xml-138-src.xml">
                 <description>File to be serialized</description>
                 <created by="Debbie Lockett, Saxonica" on="2019-11-19"/>
             </source>
         </environment>
-        <dependency type="spec" value="XP30+ XQ30+"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
         <test>serialize(., parse-json('{"method" : "xml", "indent" : true, "use-character-maps" : { "x" : "j", "m" : "so", "l" : "n" } }'))</test>
         <result>
             <assert>parse-xml($result)/e/string() eq "json"</assert>
@@ -1870,13 +1873,14 @@
         <description>Strange key in a character mapping (option parameter conventions apply) </description>
         <created by="Debbie Lockett" on="2019-11-19"/>
         <modified by="Debbie Lockett" on="2020-07-09" change="Source should be XML 1.0"/>
+        <modified by="Benito van der Zander" on="2020-09-24" change="test depends on 3.1 spec"/>
         <environment>        
             <source role="." file="serialize/serialize-xml-138-src.xml">
                 <description>File to be serialized</description>
                 <created by="Debbie Lockett, Saxonica" on="2019-11-19"/>
             </source>
         </environment>
-        <dependency type="spec" value="XP30+ XQ30+"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
         <test>serialize(., map { 'use-character-maps' : map { QName("http://example.org","xyz") : "abc" } })</test>
         <result>
             <error code="XPTY0004" />
@@ -1910,6 +1914,7 @@
             for map value supplied for use-character-maps (required xs:string, element given)</description>
         <created by="Debbie Lockett" on="2019-11-19"/>
         <modified by="Debbie Lockett" on="2020-07-09" change="Source should be XML 1.0"/>
+        <modified by="Benito van der Zander" on="2020-09-24" change="test depends on 3.1 spec"/>
         <environment>        
             <source role="." file="serialize/serialize-xml-138-src.xml">
                 <description>File to be serialized</description>
@@ -1920,7 +1925,7 @@
                 <created by="Debbie Lockett, Saxonica" on="2019-11-19"/>
             </source>
         </environment>
-        <dependency type="spec" value="XP30+ XQ30+"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
         <test>serialize(., map {'use-character-maps' : map {'x': xs:untypedAtomic('j'), 'm':$e/e, 'l':'n'}})</test>
         <result>
             <error code="XPTY0004" />
@@ -1952,13 +1957,14 @@
             for map value supplied for use-character-maps (required xs:string, untypedAtomic and QName given)</description>
         <created by="Debbie Lockett" on="2019-11-19"/>
         <modified by="Debbie Lockett" on="2020-07-09" change="Source should be XML 1.0"/>
+        <modified by="Benito van der Zander" on="2020-09-24" change="test depends on 3.1 spec"/>
         <environment>        
             <source role="." file="serialize/serialize-xml-138-src.xml">
                 <description>File to be serialized</description>
                 <created by="Debbie Lockett, Saxonica" on="2019-11-19"/>
             </source>
         </environment>
-        <dependency type="spec" value="XP30+ XQ30+"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
         <test>serialize(., map {'use-character-maps' : map {'x': xs:untypedAtomic('j'), 'm':'so', 'l': xs:QName('n')}})</test>
         <result>
             <error code="XPTY0004" />
@@ -1988,13 +1994,14 @@
         <description>Multiple untypedAtomic conversions in one map</description>
         <created by="Debbie Lockett" on="2019-11-19"/>
         <modified by="Debbie Lockett" on="2020-07-09" change="Source should be XML 1.0"/>
+        <modified by="Benito van der Zander" on="2020-09-24" change="test depends on 3.1 spec"/>
         <environment>        
             <source role="." file="serialize/serialize-xml-142-src.xml">
                 <description>File to be serialized</description>
                 <created by="Debbie Lockett, Saxonica" on="2019-11-19"/>
             </source>
         </environment>
-        <dependency type="spec" value="XP30+ XQ30+"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
         <test>serialize(./x/*, map {'method' : 'xml', 'indent' : xs:untypedAtomic('false'), 'item-separator' : xs:untypedAtomic('  ') })</test>
         <result>
             <assert><![CDATA[contains($result,">  <")]]></assert>
