@@ -32,6 +32,33 @@
          <error code="FORG0001"/>
       </result>
    </test-case>
+   
+   <test-case name="xs-dateTimeStamp-4">
+      <description>Make sure an attempt to create an xs:dateTimeStamp() w/o a timezone fails</description>
+      <created by="Michael Kay" on="2020-09-27"/>
+      <test>xs:dateTimeStamp(xs:dateTime("2011-07-28T12:34:56"))</test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+   
+   <test-case name="xs-dateTimeStamp-5">
+      <description>Cast from xs:date with timezone</description>
+      <created by="Michael Kay" on="2020-09-27"/>
+      <test>xs:dateTimeStamp(xs:date("2011-07-28+01:00"))</test>
+      <result>
+         <assert-string-value>2011-07-28T00:00:00+01:00</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="xs-dateTimeStamp-6">
+      <description>Cast from xs:date with timezone</description>
+      <created by="Michael Kay" on="2020-09-27"/>
+      <test>current-date() castable as xs:dateTimeStamp</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
 
 
 
