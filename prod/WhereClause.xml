@@ -457,6 +457,36 @@
          <assert-string-value>-2 -1 1 2</assert-string-value>
       </result>
    </test-case>
+   
+   <test-case name="WhereExpr034" covers-30="default-external-var">
+      <description>A where clause that doesn't depend on the previous for clause (Saxon optimisation bug 4765)</description>
+      <created by="Michael Kay" on="2020-09-29"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>
+         for $i in 1 to 10
+         for $j in 10 to 14
+         where $i lt 5
+         return if ($i mod 2 eq 1) then $i + $j else ()
+      </test>
+      <result>
+         <assert-string-value>11 12 13 14 15 13 14 15 16 17</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="WhereExpr035" covers-30="default-external-var">
+      <description>Alternative way of writing WhereExpr034 that triggers Saxon optimisation bug 4765</description>
+      <created by="Michael Kay" on="2020-09-29"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>
+         for $i in 1 to 10
+         return 
+            for $j in 10 to 14
+            return if ($i lt 5 and $i mod 2 eq 1) then $i + $j else ()
+      </test>
+      <result>
+         <assert-string-value>11 12 13 14 15 13 14 15 16 17</assert-string-value>
+      </result>
+   </test-case>
 
    <test-case name="whereClause-1">
       <description> use of where clause involving an "or" expression. Use fn:true() </description>
@@ -951,7 +981,15 @@
       <description/>
       <created by="Nick Jones" on="2010-03-24"/>      
       <dependency type="spec" value="XQ10+"/>
-      <test><![CDATA[<tbody> { let $rows := <tables> <table> <row> <entry>Acetazolamide</entry> <entry>Acetazolamide</entry> </row> <row> <entry>Acetazolamide sodium</entry> <entry>Acetazolamide sodium</entry> </row> </table> <table> <row> <entry>Acetylcholine chloride</entry> <entry>Acetylcholine chloride</entry> </row> </table> <table> <row> <entry>Acetylcysteine</entry> <entry>Acetylcysteine</entry> </row> <row> <entry>Acetylcysteine sodium</entry> <entry>Acetylcysteine sodium</entry> </row> </table> </tables>/table/row return for $g in distinct-values($rows/entry[2][string(.)]) order by $g return let $matches := for $row in $rows where $g = string($row/entry[2][string(.)]) return $row/entry[1] return <entry> { $matches/( <link> { node() } </link>, text { if (position() lt last()) then '; ' else () } ) } </entry> } </tbody>]]></test>
+      <test><![CDATA[<tbody> { 
+         let $rows := <tables> <table> <row> <entry>Acetazolamide</entry> <entry>Acetazolamide</entry> </row> <row> <entry>Acetazolamide sodium</entry> <entry>Acetazolamide sodium</entry> </row> </table> <table> <row> <entry>Acetylcholine chloride</entry> <entry>Acetylcholine chloride</entry> </row> </table> <table> <row> <entry>Acetylcysteine</entry> <entry>Acetylcysteine</entry> </row> <row> <entry>Acetylcysteine sodium</entry> <entry>Acetylcysteine sodium</entry> </row> </table> </tables>/table/row 
+         return for $g in distinct-values($rows/entry[2][string(.)])  
+                order by $g 
+                return let $matches := for $row in $rows 
+                                       where $g = string($row/entry[2][string(.)]) 
+                                       return $row/entry[1] 
+                       return <entry> { $matches/( <link> { node() } </link>, text { if (position() lt last()) then '; ' else () } ) } </entry> 
+         } </tbody>]]></test>
       <result>
          <assert-xml>&lt;tbody&gt;&lt;entry&gt;&lt;link&gt;Acetazolamide&lt;/link&gt;&lt;/entry&gt;&lt;entry&gt;&lt;link&gt;Acetazolamide sodium&lt;/link&gt;&lt;/entry&gt;&lt;entry&gt;&lt;link&gt;Acetylcholine chloride&lt;/link&gt;&lt;/entry&gt;&lt;entry&gt;&lt;link&gt;Acetylcysteine&lt;/link&gt;&lt;/entry&gt;&lt;entry&gt;&lt;link&gt;Acetylcysteine sodium&lt;/link&gt;&lt;/entry&gt;&lt;/tbody&gt;</assert-xml>
       </result>
