@@ -2504,6 +2504,8 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
     <test-case name="fn-transform-82e">
         <description>Value of global context item (2.0 processor - global-context-item ignored)</description>
         <created by="Michael Kay" on="2017-09-07"/>
+        <modified by="Michael Kay" on="2020-10-01" 
+            change="Alternative results for XSLT 3.0, see https://github.com/w3c/qt3tests/issues/30"/>
         <environment ref="variable-with-context"/>
         <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <test><![CDATA[
@@ -2516,12 +2518,22 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
            })?output
         ]]></test>
         <result>
-            <all-of>
-                <assert>$result/out/@root-is-doc = "true"</assert>
-                <assert>$result/out/@this-is-doc = "false"</assert>
-                <assert>$result/out = ""</assert>
-            </all-of>
-        </result>
+            <any-of>
+                <all-of>
+                    <assert>$result/out/@root-is-doc = "true"</assert>
+                    <assert>$result/out/@this-is-doc = "false"</assert>
+                    <assert>$result/out/@xslt-version = "2.0"</assert>
+                    <assert>$result/out = ""</assert>
+                </all-of>
+                <all-of>
+                    <assert>$result/out/@root-is-doc = "false"</assert>
+                    <assert>$result/out/@this-is-doc = "false"</assert>
+                    <assert>$result/out/@xslt-version = "3.0"</assert>
+                    <assert>$result/out = "dummy"</assert>
+                </all-of>
+                <error code="FOXT0001"/>
+            </any-of>
+        </result>           
     </test-case>
     
     <test-case name="fn-transform-83">
