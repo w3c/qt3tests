@@ -629,6 +629,7 @@
       <description>No quotes and no escaping when a map value has length > 1</description>
       <created by="Michael Kay" on="2015-07-13"/>
       <modified by="Michael Kay" on="2015-07-18" change="Implement spec change"/>
+      <modified by="Benito van der Zander" on="2020-10-23" change="allow different quotes"/>
       <dependency type="spec" value="XQ31+"/>
       <test><![CDATA[
  
@@ -640,7 +641,12 @@
 
       ]]></test>
       <result>
-        <serialization-matches><![CDATA[^map\{"a":\("quotes \(""\)","apos \('\)"\)\}$]]></serialization-matches>
+        <any-of>
+          <serialization-matches><![CDATA[^map\{"a":\("quotes \(""\)","apos \('\)"\)\}$]]></serialization-matches>
+          <serialization-matches><![CDATA[^map\{"a":\('quotes \("\)','apos \(''\)'\)\}$]]></serialization-matches>
+          <serialization-matches><![CDATA[^map\{"a":\("quotes \(""\)",'apos \(''\)'\)\}$]]></serialization-matches>
+          <serialization-matches><![CDATA[^map\{"a":\('quotes \("\)',"apos \('\)"\)\}$]]></serialization-matches>
+        </any-of>
       </result>
    </test-case>
 
