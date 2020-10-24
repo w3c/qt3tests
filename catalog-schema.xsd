@@ -787,32 +787,33 @@
                 <div>
                     <h3>module</h3>
                     <p>
-                        Defines an XQuery library module imported by a test case. The module element has an @uri attribute
-                        giving the module URI and an @file attribute giving the location of the module (relative to the test 
+                        Defines an XQuery library module imported by a test case. The module element has an <code>@uri</code> attribute
+                        giving the module URI and an <code>@file</code> attribute giving the location of the module (relative to the test 
                         set document).
                     </p>
                     <p>
-                        The query will contain an "import module" declaration
-                        referencing the same module URI, with no "at" location (except where the "at" attribute is being
-                        specifically tested, in which case the results are undefined.)
+                        If the query contains an "import module" declaration
+                        referencing the same module URI, with no "at" location, then the library module is to be found
+                        at the location given by the <code>@file</code> attribute.
                     </p>
                     <p>
-                        If a query contains several module elements giving the same module URI and different file
+                        If the query metadata contains several module elements giving the same module URI and different file
                         locations, the processor is expected to import all the modules referenced.
                     </p>
-                    <p>
-                        (The semantics of "import module" in XQuery are to a considerable extent implementation-defined.
-                        A processor that is not able to work the way these tests expects is therefore no necessarily
-                        non-conformant; for example it can be argued that the language specification does not require
-                        a processor to allow multiple modules with the same module URI. Processors are therefore at 
-                        liberty to omit the running of these tests, and to report them as not run on the grounds that
-                        they have unsatisfied dependencies.)
-                    </p>
+                    <p>If the query contains an "import module" declaration containing one or more "at" location hints,
+                    then the test metadata should contain for each of these location hints, a <code>module</code>
+                    element whose <code>@uri</code> attribute matches the module namespace, and whose <code>@location</code>
+                    attribute matches the location hint (the match being done after absolutizing both URIs against their
+                    respective base URIs). Each location hint then results in a module being loaded from the corresponding
+                    file, identified by the <code>@file</code> attribute.</p>
+                    <p>Location hints are used only when testing XQuery 3.0 or higher, since in 1.0 their semantics
+                    were almost entirely implementation-defined.</p>
                 </div> 
             </xs:documentation>
         </xs:annotation>
         <xs:complexType>
             <xs:attribute name="uri" type="xs:anyURI"/>
+            <xs:attribute name="location" type="xs:anyURI" use="optional"/>
             <xs:attribute name="file" type="xs:anyURI"/>
         </xs:complexType>
     </xs:element>

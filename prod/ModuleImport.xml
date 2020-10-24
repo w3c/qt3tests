@@ -1010,6 +1010,22 @@
          <error code="XQST0070"/>
       </result>
    </test-case>
+  
+  <test-case name="modules-30">
+    <description>Test loading two modules with the same module namespace (see https://github.com/w3c/qt3tests/issues/31)</description>
+    <created by="Michael Kay" on="2020-10-24"/>
+    <module uri="http://www.w3.org/TestModules/m30/test" location="http://www.w3.org/modules/test1" file="ModuleImport/m30/test1.xq"/>
+    <module uri="http://www.w3.org/TestModules/m30/test" location="http://www.w3.org/modules/test2" file="ModuleImport/m30/test2.xq"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test><![CDATA[
+        import module namespace m="http://www.w3.org/TestModules/m30/test" 
+             at "http://www.w3.org/modules/test1", "http://www.w3.org/modules/test2"; 
+        $m:one + $m:two
+      ]]></test>
+    <result>
+      <assert-eq>3</assert-eq>
+    </result>
+  </test-case>
    
    <test-case name="K-ModuleImport-1">
       <description> Module import with empty target namespace. </description>
