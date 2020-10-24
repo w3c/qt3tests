@@ -1026,6 +1026,91 @@
       <assert-eq>3</assert-eq>
     </result>
   </test-case>
+  
+  <test-case name="modules-31">
+    <description>
+      Test loading two modules with the same module namespace by different routes.
+    
+      XQuery 3.1 states in 4.12.2:
+      
+      If one module contains an "import module" declaration with the target namespace M, 
+      then all public variables and public functions in the contexts of modules whose target 
+      namespace is M must be accessible in the importing module, regardless whether the participation 
+      of the imported module was directly due to this "import module" declaration.
+      
+      This implies that function impl:f1 should be accessible to the main query body, even though
+      it is in module impl2 which is not directly imported by the main query body.
+    </description>
+    <created by="Michael Kay after Adam Retter" on="2020-10-24"/>
+    <module uri="http://example.com/impl" location="http://example.com/impl1.xqm" file="ModuleImport/m31/impl1.xqm"/>
+    <module uri="http://example.com/impl" location="http://example.com/impl2.xqm" file="ModuleImport/m31/impl2.xqm"/>
+    <module uri="http://example.com/other" location="http://example.com/other.xqm" file="ModuleImport/m31/other.xqm"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test><![CDATA[
+        import module namespace impl = "http://example.com/impl" at "http://example.com/impl1.xqm";
+        import module namespace other = "http://example.com/other" at "http://example.com/other.xqm";
+        <result>
+          <impl>{impl:f1("hello")}</impl>
+          <other>{other:do("hello", "world")}</other>
+        </result>
+      ]]></test>
+    <result>
+      <assert>/result/impl</assert>
+    </result>
+  </test-case>
+  
+  <test-case name="modules-32">
+    <description>
+      Test loading two modules with the same module namespace.
+    </description>
+    <created by="Michael Kay after Adam Retter" on="2020-10-24"/>
+    <module uri="http://example.com/impl" location="http://example.com/impl1.xqm" file="ModuleImport/m32/impl1.xqm"/>
+    <module uri="http://example.com/impl" location="http://example.com/impl2.xqm" file="ModuleImport/m32/impl2.xqm"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test><![CDATA[
+        import module namespace impl = "http://example.com/impl" at "http://example.com/impl1.xqm", "http://example.com/impl2.xqm";
+        document {
+          <result>
+              <impl>{impl:f1("hello")}</impl>
+              <other>{impl:f1("hello", "world")}</other>
+          </result>
+        }
+      ]]></test>
+    <result>
+      <all-of>
+        <assert>/result/impl = "hello"</assert>
+        <assert>/result/other = "helloworld"</assert>
+      </all-of>
+    </result>
+  </test-case>
+  
+  <test-case name="modules-33">
+    <description>
+      Attempting function-lookup on a function that in a transitively-loaded query module
+    </description>
+    <created by="Michael Kay after Adam Retter" on="2020-10-24"/>
+    <module uri="http://example.com/other" location="http://example.com/other.xqm" file="ModuleImport/m33/other.xqm"/>
+    <module uri="http://example.com/impl" location="http://example.com/impl2.xqm" file="ModuleImport/m32/impl2.xqm"/>
+    <dependency type="spec" value="XQ31+"/>
+    <test><![CDATA[
+        import module namespace other = "http://example.com/other" at "http://example.com/other.xqm";
+        document {
+          <result>
+            <other>{other:do("hello", "world")}</other>
+            <transitive>{fn:function-lookup(fn:QName("http://example.com/impl", "f1"), 2)("oh", "dear")}</transitive>
+          </result>
+        }
+      ]]></test>
+    <result>
+      <all-of>
+        <assert>/result/other="helloworld"</assert>
+        <assert>/result/transitive="ohdear"</assert>
+      </all-of>
+    </result>
+  </test-case>
+  
+  
+  
    
    <test-case name="K-ModuleImport-1">
       <description> Module import with empty target namespace. </description>
