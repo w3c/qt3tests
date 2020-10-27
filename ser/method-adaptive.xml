@@ -93,6 +93,8 @@
       <description>Test the adaptive serialization output method - document node</description>
       <created by="Andrew Coleman" on="2015-02-11"/>
       <modified by="Michael Kay" on="2015-07-18" change="Anchor the assertion regex"/>
+      <modified by="Debbie Lockett" on="2020-10-27" 
+       change="Corrected expected results. Inclusion of XML declaration is implementation defined. See Saxon bug 4647"/>
       <dependency type="spec" value="XQ31+"/>
       <test><![CDATA[
  
@@ -103,7 +105,7 @@
 
       ]]></test>
       <result>
-        <serialization-matches><![CDATA[^<test>content</test>$]]></serialization-matches>
+        <serialization-matches><![CDATA[^(<\?xml[^<]+>)?<test>content</test>$]]></serialization-matches>
       </result>
    </test-case>
 
@@ -111,6 +113,8 @@
       <description>Test the adaptive serialization output method - element node</description>
       <created by="Andrew Coleman" on="2015-02-11"/>
       <modified by="Michael Kay" on="2015-07-18" change="Anchor the assertion regex"/>
+      <modified by="Debbie Lockett" on="2020-10-27" 
+       change="Corrected expected results. Inclusion of XML declaration is implementation defined. See Saxon bug 4647"/>
       <dependency type="spec" value="XQ31+"/>
       <test><![CDATA[
  
@@ -121,7 +125,7 @@
 
       ]]></test>
       <result>
-        <serialization-matches><![CDATA[^<test>content</test>$]]></serialization-matches>
+        <serialization-matches><![CDATA[^(<\?xml[^<]+>)?<test>content</test>$]]></serialization-matches>
       </result>
    </test-case>
 
@@ -129,6 +133,8 @@
       <description>Test the adaptive serialization output method - text node</description>
       <created by="Andrew Coleman" on="2015-02-11"/>
       <modified by="Michael Kay" on="2015-07-18" change="Anchor the assertion regex"/>
+      <modified by="Debbie Lockett" on="2020-10-27" 
+       change="Corrected expected results. Inclusion of XML declaration is implementation defined. See Saxon bug 4647"/>
       <dependency type="spec" value="XQ31+"/>
       <test><![CDATA[
  
@@ -139,7 +145,7 @@
 
       ]]></test>
       <result>
-        <serialization-matches><![CDATA[^content$]]></serialization-matches>
+        <serialization-matches><![CDATA[^(<\?xml[^<]+>)?content$]]></serialization-matches>
       </result>
    </test-case>
 
@@ -147,6 +153,8 @@
       <description>Test the adaptive serialization output method - comment node</description>
       <created by="Andrew Coleman" on="2015-02-11"/>
       <modified by="Michael Kay" on="2015-07-18" change="Anchor the assertion regex"/>
+      <modified by="Debbie Lockett" on="2020-10-27" 
+       change="Corrected expected results. Inclusion of XML declaration is implementation defined. See Saxon bug 4647"/>
       <dependency type="spec" value="XQ31+"/>
       <test><![CDATA[
  
@@ -157,7 +165,7 @@
 
       ]]></test>
       <result>
-        <serialization-matches><![CDATA[^<!--comment-->$]]></serialization-matches>
+        <serialization-matches><![CDATA[^(<\?xml[^<]+>)?<!--comment-->$]]></serialization-matches>
       </result>
    </test-case>
 
@@ -166,6 +174,8 @@
       <created by="Andrew Coleman" on="2015-02-11"/>
       <modified by="Christian Gruen" on="2012-02-19" change="regular expression fixed"/>
       <modified by="Michael Kay" on="2015-07-18" change="Anchor the assertion regex"/>
+      <modified by="Debbie Lockett" on="2020-10-27" 
+       change="Corrected expected results. Inclusion of XML declaration is implementation defined. See Saxon bug 4647"/>
       <dependency type="spec" value="XQ31+"/>
       <test><![CDATA[
  
@@ -176,7 +186,7 @@
 
       ]]></test>
       <result>
-        <serialization-matches><![CDATA[^<\?target instruction \?>$]]></serialization-matches>
+        <serialization-matches><![CDATA[^(<\?xml[^<]+>)?<\?target instruction \?>$]]></serialization-matches>
       </result>
    </test-case>
 
@@ -357,6 +367,8 @@
       <description>Test the adaptive serialization output method - array with attribute node</description>
       <created by="Andrew Coleman" on="2015-02-11"/>
       <modified by="Michael Kay" on="2015-07-18" change="Implement spec change"/>
+      <modified by="Debbie Lockett" on="2020-10-27" 
+       change="Corrected expected results. Inclusion of XML declaration is implementation defined. See Saxon bug 4647"/>
       <dependency type="spec" value="XQ31+"/>
       <test><![CDATA[
  
@@ -367,7 +379,7 @@
 
       ]]></test>
       <result>
-        <serialization-matches><![CDATA[^\[[(]?<element>content</element>[)]?,[(]?att-name="att-value"[)]?\]$]]></serialization-matches>
+        <serialization-matches><![CDATA[^\[[(]?(<\?xml[^<]+>)?<element>content</element>[)]?,[(]?att-name="att-value"[)]?\]$]]></serialization-matches>
       </result>
    </test-case>
 
@@ -490,6 +502,8 @@
       <modified by="Christian Gruen" on="2015-02-19" change="query and regular expression fixed"/>
       <modified by="Michael Kay" on="2015-07-18" change="Implement spec change"/>
       <modified by="Michael Kay" on="2015-11-27" change="Add HOF dependency"/>
+      <modified by="Debbie Lockett" on="2020-10-27" 
+       change="Corrected expected results. Inclusion of XML declaration is implementation defined. See Saxon bug 4647"/>
       <dependency type="spec" value="XQ31+"/>
       <dependency type="feature" value="higherOrderFunctions"/>
      
@@ -502,7 +516,7 @@
 
       ]]></test>
       <result>
-        <serialization-matches><![CDATA[^\[[(]?fn:exists#1[)]?,[(]?1[)]?,[(]?<element>content</element>[)]?,\(\),[(]?\(anonymous-function\)#1[)]?,[(]?map\{"infinity":INF[)]?\},[(]?"json-string"[)]?\]$]]></serialization-matches>
+        <serialization-matches><![CDATA[^\[[(]?fn:exists#1[)]?,[(]?1[)]?,[(]?(<\?xml[^<]+>)?<element>content</element>[)]?,\(\),[(]?\(anonymous-function\)#1[)]?,[(]?map\{"infinity":INF[)]?\},[(]?"json-string"[)]?\]$]]></serialization-matches>
       </result>
    </test-case>
    
