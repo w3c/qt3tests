@@ -418,5 +418,35 @@
             <assert-eq>2</assert-eq>
         </result>
     </test-case>
+    
+    <test-case name="ArrowPostfix-108">
+        <description>ArgumentList may include a placeholder</description>
+        <created by="Michael Kay" on="2020-11-22"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $usd := "$" => concat(?) return $usd(3)</test>
+        <result>
+            <assert-eq>"$3"</assert-eq>
+        </result>
+    </test-case>
+    
+    <test-case name="ArrowPostfix-109">
+        <description>A map may be used as a function</description>
+        <created by="Michael Kay" on="2020-11-22"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $days := map{"Mo": "Monday", "Tu": "Tuesday"} return "Tu" => $days()</test>
+        <result>
+            <assert-eq>"Tuesday"</assert-eq>
+        </result>
+    </test-case>
+    
+    <test-case name="ArrowPostfix-110">
+        <description>A map may be used as a function</description>
+        <created by="Michael Kay" on="2020-11-22"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>"Tu" => (map{"Mo": "Monday", "Tu": "Tuesday"})()</test>
+        <result>
+            <assert-eq>"Tuesday"</assert-eq>
+        </result>
+    </test-case>
 
 </test-set>
