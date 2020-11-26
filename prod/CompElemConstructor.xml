@@ -308,6 +308,17 @@
          <assert>$result[self::*[starts-with(local-name(),'x') and namespace-uri()='']]</assert>
       </result>
    </test-case>
+   
+   <test-case name="Constr-compelem-name-24">
+      <description> Lexical QName with whitespace as element name
+         (Prompted by Saxon bug 4662 from Christian Gruen) </description>
+      <created by="Michael Kay" on="2020-08-01"/>
+      <dependency type="spec" value="XQ30+" />
+      <test>element {" x" || year-from-date(current-date()) || " "} {}</test>
+      <result>
+         <assert>$result[self::*[starts-with(local-name(),'x') and namespace-uri()='']]</assert>
+      </result>
+   </test-case>
 
    <test-case name="Constr-compelem-adjtext-1">
       <description> merge adjacent atomic values to text node </description>
