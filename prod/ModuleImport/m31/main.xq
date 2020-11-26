@@ -6,4 +6,5 @@ import module namespace other = "http://example.com/other" at "other.xqm";
 <result>
     <impl>{impl:f1("hello")}</impl>
     <other>{other:do("hello", "world")}</other>
+    <var>{$impl:v1}</var>
 </result>

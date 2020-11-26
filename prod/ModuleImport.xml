@@ -1049,13 +1049,20 @@
     <test><![CDATA[
         import module namespace impl = "http://example.com/impl" at "http://example.com/impl1.xqm";
         import module namespace other = "http://example.com/other" at "http://example.com/other.xqm";
-        <result>
-          <impl>{impl:f1("hello")}</impl>
-          <other>{other:do("hello", "world")}</other>
-        </result>
+        document {
+          <result>
+            <impl>{impl:f1("hello")}</impl>
+            <other>{other:do("hello", "world")}</other>
+            <var>{$impl:v1}</var>
+          </result>
+        }
       ]]></test>
     <result>
-      <assert>/result/impl</assert>
+      <all-of>
+        <assert>/result/impl = "hello"</assert>
+        <assert>/result/other = "helloworld"</assert>
+        <assert>/result/var = "42"</assert>
+      </all-of>
     </result>
   </test-case>
   
@@ -1086,7 +1093,12 @@
   
   <test-case name="modules-33">
     <description>
-      Attempting function-lookup on a function that in a transitively-loaded query module
+      Attempting function-lookup on a function present in a transitively-loaded query module.
+      
+      Although this function is not present in the static context of the main module, it is
+      implementation-defined whether it is present in the dynamic context, because this is allowed
+      to contain functions beyond those present in the static context. This test therefore
+      has alternative valid results.
     </description>
     <created by="Michael Kay after Adam Retter" on="2020-10-24"/>
     <module uri="http://example.com/other" location="http://example.com/other.xqm" file="ModuleImport/m33/other.xqm"/>
@@ -1097,14 +1109,18 @@
         document {
           <result>
             <other>{other:do("hello", "world")}</other>
-            <transitive>{fn:function-lookup(fn:QName("http://example.com/impl", "f1"), 2)("oh", "dear")}</transitive>
+            <transitive>{let $f1 := fn:function-lookup(fn:QName("http://example.com/impl", "f1"), 2)
+                         return if (exists($f1)) then $f1("oh", "dear") else "***"}</transitive>
           </result>
         }
       ]]></test>
     <result>
       <all-of>
         <assert>/result/other="helloworld"</assert>
-        <assert>/result/transitive="ohdear"</assert>
+        <any-of>
+          <assert>/result/transitive="ohdear"</assert>
+          <assert>/result/transitive="***"</assert>
+        </any-of>
       </all-of>
     </result>
   </test-case>
