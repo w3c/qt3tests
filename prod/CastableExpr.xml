@@ -6101,7 +6101,89 @@
       <result>
         <assert-true/>
       </result>
-   </test-case>     
+   </test-case>   
+   
+   <test-case name="CastableAs663">
+      <description>Input is a sequence</description>
+      <created by="Michael Kay" on="2020-11-10"/>
+      <dependency type="spec" value="XP20+ XQ10+"/>
+      <test>
+         (1 to 5) castable as xs:integer
+      </test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+
+   <test-case name="CastableAs664">
+      <description>Input is an array (can be atomized, but cast fails)</description>
+      <created by="Michael Kay" on="2020-11-10"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>
+         [1,2,3,4,5] castable as xs:integer
+      </test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="CastableAs665">
+      <description>Input is a singleton array (can be atomized, and cast succeeds)</description>
+      <created by="Michael Kay" on="2020-11-10"/>
+      <environment ref="derived"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>
+         [5] castable as xs:integer
+      </test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="CastableAs666">
+      <description>Input is a map (cannot be atomized)</description>
+      <created by="Michael Kay" on="2020-11-10"/>
+      <modified by="Michael Kay" on="2020-11-19" change="Change expected error code"/>
+      <environment ref="derived"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>
+         map{} castable as xs:integer
+      </test>
+      <result>
+         <error code="FOTY0013"/>
+      </result>
+   </test-case>
+   
+   <test-case name="CastableAs667">
+      <description>Input is a complex array (can be atomized, and cast succeeds)</description>
+      <created by="Michael Kay" on="2020-11-10"/>
+      <environment ref="derived"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>
+         [[], (), [[3, ()]]] castable as xs:integer
+      </test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="CastableAs668">
+      <description>Input is a complex array (cannot be atomized)</description>
+      <created by="Michael Kay" on="2020-11-10"/>
+      <modified by="Michael Kay" on="2020-11-19" change="Change expected error code"/>
+      <environment ref="derived"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <dependency type="feature" value="schemaImport"/>
+      <test>
+         [[], (), [[3, map{}]]] castable as xs:integer
+      </test>
+      <result>
+         <error code="FOTY0013"/>
+      </result>
+   </test-case>
         
 
    <test-case name="K-SeqExprCastable-1">
