@@ -539,6 +539,29 @@
          <assert-deep-eq>1, 6, 7, 5, 3, 2, 4</assert-deep-eq>
       </result>
    </test-case>
+   
+   <test-case name="fn-sort-spec-6">
+      <description>Variable length sort keys: XPath version of fn-sort-spec-5</description>
+      <created by="Michael Kay" on="2020-11-19"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <dependency type="feature" value="higherOrderFunctions"/>
+      <test><![CDATA[let
+	  $employees := parse-xml("<emps>
+	    <emp id='1'><name><last>Cawcutt</last></name></emp>
+	    <emp id='2'><name><first>Hans</first><last>Gro&#xeb;r</last></name></emp>
+	    <emp id='3'><name><first>Domingo</first><last>De Silveira</last></name></emp>
+	    <emp id='4'><name><first>Keith</first><last>O'Brien</last></name></emp>
+	    <emp id='5'><name><first>Susan</first><last>Cawcutt</last></name></emp>
+	    <emp id='6'><name><first>Martin</first><last>Cawcutt</last></name></emp>
+	    <emp id='7'><name><first>Martin</first><first>James</first><last>Cawcutt</last></name></emp>
+	  </emps>"  
+	    )
+	    return fn:sort($employees//emp, default-collation(), function($emp) {$emp/name/last, $emp/name/first}) ! number(@id)
+     ]]></test>
+      <result>
+         <assert-deep-eq>1, 6, 7, 5, 3, 2, 4</assert-deep-eq>
+      </result>
+   </test-case>
 
    <test-case name="fn-sort-collation-1">
       <description>fn:sort#1 uses the default collation</description>
