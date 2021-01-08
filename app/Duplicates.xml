@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="app-Duplicates">
+   <description>Tests for finding duplicate values, inspired by an online thread
+     (https://app.slack.com/client/T011VK9115Z/C011NLXE4DU/thread/C011NLXE4DU-1609281865.214300).
+   </description>
+
+   <test-case name="duplicates-index-of-1">
+      <description>Finds duplicate values with fn:index-of (I).</description>
+      <created by="Christian Grün (contributed by Daniel Zimmel)" on="2021-01-08"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+let $seq := (1 to 1000, 1, 1)
+return distinct-values($seq)[count(index-of($seq, .)) > 1]
+       ]]></test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="duplicates-index-of-2">
+      <description>Finds duplicate values with fn:index-of (II).</description>
+      <created by="Christian Grün (contributed by Daniel Zimmel)" on="2021-01-08"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+let $seq := (1 to 1000, 1, 1)
+return distinct-values($seq[count(index-of($seq, .)) gt 1])
+       ]]></test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="duplicates-index-of-3">
+      <description>Finds duplicate values with fn:index-of (III).</description>
+      <created by="Christian Grün (contributed by Dimitre Novatchev)" on="2021-01-08"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+let $seq := (1 to 1000, 1, 1)
+return $seq[index-of($seq, .)[2]]
+       ]]></test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="duplicates-for-each-pair-1">
+      <description>Finds duplicate values with fn:for-each-pair.</description>
+      <created by="Christian Grün (contributed by Michael Kay)" on="2021-01-08"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+let $seq := (1 to 1000, 1, 1)
+let $sorted := sort($seq)
+return for-each-pair($sorted, tail($sorted), function($x, $y) {
+  if ($x eq $y) then $x else ()
+}) => distinct-values()
+       ]]></test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="duplicates-group-by-1">
+      <description>Finds duplicate values with group by (I).</description>
+      <created by="Christian Grün (contributed by Gerrit Imsieke)" on="2021-01-08"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+for $h in (1 to 1000, 1, 1)
+let $k := $h
+group by $k
+where count($h) gt 1
+return $h[1]
+       ]]></test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="duplicates-group-by-2">
+      <description>Finds duplicate values with group by (II).</description>
+      <created by="Christian Grün" on="2021-01-08"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+let $seq := (1 to 1000, 1, 1)
+for $h in $seq
+let $k := $h
+group by $k
+where count($h) > 1
+return $k
+       ]]></test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="duplicates-maps-1">
+      <description>Finds duplicate values with maps (I).</description>
+      <created by="Christian Grün (contributed by Mads Hansen)" on="2021-01-08"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+let $seq := (1 to 1000, 1, 1)
+let $map := map:merge(
+  ($seq ! map:entry(string(.), .)),
+  map { "duplicates": "combine" }
+)
+return map:keys($map) ! map:get($map, .)[position() = 2]
+       ]]></test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="duplicates-maps-2">
+      <description>Finds duplicate values with maps (II).</description>
+      <created by="Christian Grün (contributed by Liam Quin)" on="2021-01-08"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+let $seq := (1 to 1000, 1, 1)
+let $minocc := 1
+let $counts := fold-left(
+  $seq,
+  map { },
+  function($sofar as item()*, $this as xs:integer) {
+    let $seen := ($sofar($this), 0)[1]
+    return map:merge((map { $this : $seen +1 }, $sofar))
+})
+return map:keys($counts)[$counts(.) gt $minocc]
+       ]]></test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="duplicates-maps-3">
+      <description>Finds duplicate values with maps (III).</description>
+      <created by="Christian Grün" on="2021-01-08"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+let $seq := (1 to 1000, 1, 1)
+let $counts := fold-left($seq, map { }, function($sofar, $this) {
+  map:put($sofar, $this, head(($sofar($this) + 1, 1)))
+})
+return map:for-each($counts, function($key, $count) {
+  $key[$count > 1]
+})
+       ]]></test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="duplicates-maps-4">
+      <description>Finds duplicate values with maps (IV).</description>
+      <created by="Christian Grün (contributed by Dimitre Novatchev)" on="2021-01-08"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+let $seq := (1 to 1000, 1, 1)
+let $contains := map:contains#2
+let $put := map:put#3
+let $map := fold-left(
+  $seq,
+  map { 'distinct': map {}, 'dups': map{} },
+  function($accum as map(*), $current as xs:integer) {
+    if($contains($accum?distinct, $current)) then (
+      $put($accum, 'dups', $put($accum?dups, $current, ()))
+    ) else (
+      $put($accum, 'distinct', $put($accum?distinct, $current, ()))
+    )
+  }
+)
+return map:keys($map?dups)
+       ]]></test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="duplicates-windows-1">
+      <description>Finds duplicate values with windows.</description>
+      <created by="Christian Grün" on="2021-01-08"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+let $seq := (1 to 1000, 1, 1)
+for tumbling window $w in sort($seq)
+  start when true()
+  end $e next $n when $e != $n
+return $w[2]
+       ]]></test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="duplicates-filter-1">
+      <description>Finds duplicate values with filter expression (I).</description>
+      <created by="Christian Grün" on="2021-01-08"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+let $seq := (1 to 1000, 1, 1)
+for $item in distinct-values($seq)
+where count($seq[. = $item]) > 1
+return $item
+       ]]></test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="duplicates-filter-2">
+      <description>Finds duplicate values with filter expression (II).</description>
+      <created by="Christian Grün" on="2021-01-08"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+let $seq := (1 to 10, reverse(10 to 20), tail(20 to 30))
+for $item in distinct-values($seq)
+where count($seq[. = $item]) > 1
+return $item
+       ]]></test>
+      <result>
+         <assert-eq>10</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="duplicates-filter-3">
+      <description>Finds duplicate values with filter expression (III).</description>
+      <created by="Christian Grün" on="2021-01-08"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+let $seq := (1 to 10, reverse(10 to 20), tail(20 to 30), 31)
+for $item in distinct-values($seq)
+where count($seq[. = $item]) - 1
+return $item
+       ]]></test>
+      <result>
+         <assert-eq>10</assert-eq>
+      </result>
+   </test-case>
+</test-set>
