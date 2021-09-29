@@ -369,4 +369,36 @@
          <assert-string-value>12</assert-string-value>
       </result>
    </test-case>
+   
+   <test-case name="K2-ConText-16">
+      <description>Argument to text constructor is an empty sequence (Saxon bug 5061)</description>
+      <created by="Michael Kay after Christian Gruen" on="2021-08-11"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[let $t := text { <_/>[text()] }
+                     return count(data($t))]]></test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="K2-ConText-17">
+      <description>Argument to text constructor is an empty sequence (Saxon bug 5061)</description>
+      <created by="Michael Kay after Christian Gruen" on="2021-08-11"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[count(data(text { <_/>[text()] }))]]></test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="K2-ConText-18">
+      <description>Argument to text constructor is an empty sequence (Saxon bug 5061)</description>
+      <created by="Michael Kay after Christian Gruen" on="2021-08-13"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test><![CDATA[count(string(text { }))]]></test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+   
 </test-set>
