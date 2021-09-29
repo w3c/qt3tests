@@ -1060,7 +1060,49 @@
       <result>
          <assert-deep-eq>(3, 5)</assert-deep-eq>
       </result>
-   </test-case>            
+   </test-case>
+   
+   <test-case name="Lookup-228" covers="postfix-lookup">
+      <description>lookup applied to an empty sequence</description>
+      <created by="Michael Kay" on="2021-08-10"/>
+      <environment ref="works-mod"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>(//nothing) ? 3</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case> 
+   
+   <test-case name="Lookup-229" covers="postfix-lookup">
+      <description>lookup applied to an empty sequence</description>
+      <created by="Michael Kay" on="2021-08-10"/>
+      <environment ref="works-mod"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>(//nothing) ? *</test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+   
+   <test-case name="Lookup-230" covers="postfix-lookup">
+      <description>lookup whose operand needs atomizing</description>
+      <created by="Michael Kay after Christian Gruen" on="2021-08-13"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[ [0]?(<_>1</_>) ]]></test>
+      <result>
+         <assert-eq>0</assert-eq>
+      </result>
+   </test-case> 
+   
+   <test-case name="Lookup-231" covers="postfix-lookup">
+      <description>See what the parser does with X?(*) - it means X?(child::*)</description>
+      <created by="Michael Kay" on="2021-08-13"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>map{'a':1}?(*)</test>
+      <result>
+         <error code="XPDY0002"/>
+      </result>
+   </test-case> 
 
 
 </test-set>
