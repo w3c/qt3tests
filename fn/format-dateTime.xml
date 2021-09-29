@@ -1141,6 +1141,7 @@ dcccxvii; dcccxxxiv; dcccli; dccclxviii; dccclxxxv; cmii; cmxix; cmxxxvi; cmliii
          Reproduce the table in section 9.8.4.6 of the spec (penultimate row), but with dateTime values in winter    
       </description>
       <created by="Michael Kay, Saxonica" on="2018-04-26"/>
+      <modified by="Michael Kay, Saxonica" on="2021-03-29" change="added alternative results as delivered by Java 11"/>
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
          <out>{
@@ -1156,8 +1157,8 @@ dcccxvii; dcccxxxiv; dcccli; dccclxviii; dccclxxxv; cmii; cmxix; cmxxxvi; cmliii
          <!-- Alternative results are possible, feel free to add them -->
          <!-- MHK note 2020-08-14: this test is working in Saxon with JDK 8 but fails with JDK 11 -->
          <all-of>
-            <assert>$result/self::out/time/s[1] = 'HST'</assert>
-            <assert>$result/self::out/time/s[2] = 'EST'</assert>
+            <assert>$result/self::out/time/s[1] = ('HST', 'GMT-10:00')</assert>
+            <assert>$result/self::out/time/s[2] = ('EST', 'GMT-05:00')</assert>
             <assert>$result/self::out/time/s[3] = ('GMT', 'UTC', 'Z')</assert>
             <assert>$result/self::out/time/s[4] = 'IST'</assert>
             <assert>$result/self::out/time/s[5] = '+13:00'</assert>
@@ -1170,6 +1171,7 @@ dcccxvii; dcccxxxiv; dcccli; dccclxviii; dccclxxxv; cmii; cmxix; cmxxxvi; cmliii
          Reproduce the table in section 9.8.4.6 of the spec (last row), but with dateTime values in winter    
       </description>
       <created by="Michael Kay, Saxonica" on="2018-04-25"/>
+      <modified by="Michael Kay, Saxonica" on="2021-03-29" change="added alternative results as delivered by Java 11"/>
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
          <out>{
@@ -1184,11 +1186,11 @@ dcccxvii; dcccxxxiv; dcccli; dccclxviii; dccclxxxv; cmii; cmxix; cmxxxvi; cmliii
       <result>
          <!-- Alternative results are possible, feel free to add them -->
          <all-of>
-            <assert>$result/self::out/time/s[1] = '17:00 EST'</assert>
-            <assert>$result/self::out/time/s[2] = '12:00 EST'</assert>
-            <assert>$result/self::out/time/s[3] = '07:00 EST'</assert>
-            <assert>$result/self::out/time/s[4] = '01:30 EST'</assert>
-            <assert>$result/self::out/time/s[5] = '18:00 EST'</assert>
+            <assert>$result/self::out/time/s[1] = ('17:00 EST', '17:00 GMT-05:00')</assert>
+            <assert>$result/self::out/time/s[2] = ('12:00 EST', '12:00 GMT-05:00')</assert>
+            <assert>$result/self::out/time/s[3] = ('07:00 EST', '07:00 GMT-05:00')</assert>
+            <assert>$result/self::out/time/s[4] = ('01:30 EST', '01:30 GMT-05:00')</assert>
+            <assert>$result/self::out/time/s[5] = ('18:00 EST', '18:00 GMT-05:00')</assert>
          </all-of>
       </result>
    </test-case>
@@ -1198,6 +1200,7 @@ dcccxvii; dcccxxxiv; dcccli; dccclxviii; dccclxxxv; cmii; cmxix; cmxxxvi; cmliii
          Reproduce the table in section 9.8.4.6 of the spec (penultimate row), but with dateTime values in summer    
       </description>
       <created by="Michael Kay, Saxonica" on="2018-04-26"/>
+      <modified by="Michael Kay, Saxonica" on="2021-03-29" change="added alternative results as delivered by Java 11"/>
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
          <out>{
@@ -1212,11 +1215,11 @@ dcccxvii; dcccxxxiv; dcccli; dccclxviii; dccclxxxv; cmii; cmxix; cmxxxvi; cmliii
       <result>
          <!-- Alternative results are possible, feel free to add them -->
          <all-of>
-            <assert>$result/self::out/time/s[1] = 'HST'</assert>
-            <assert>$result/self::out/time/s[2] = 'CDT'</assert>
+            <assert>$result/self::out/time/s[1] = ('HST', 'GMT-10:00')</assert>
+            <assert>$result/self::out/time/s[2] = ('CDT', 'GMT-05:00')</assert>
             <assert>$result/self::out/time/s[3] = ('GMT', 'UTC', 'Z')</assert>
-            <assert>$result/self::out/time/s[4] = 'IST'</assert>
-            <assert>$result/self::out/time/s[5] = '+13:00'</assert>
+            <assert>$result/self::out/time/s[4] = ('IST')</assert>
+            <assert>$result/self::out/time/s[5] = ('+13:00')</assert>
          </all-of>
       </result>
    </test-case>
@@ -1226,6 +1229,7 @@ dcccxvii; dcccxxxiv; dcccli; dccclxviii; dccclxxxv; cmii; cmxix; cmxxxvi; cmliii
          Reproduce the table in section 9.8.4.6 of the spec (last row), but with dateTime values in summer    
       </description>
       <created by="Michael Kay, Saxonica" on="2018-04-25"/>
+      <modified by="Michael Kay, Saxonica" on="2021-03-29" change="added alternative results as delivered by Java 11"/>
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
          <out>{
@@ -1240,11 +1244,11 @@ dcccxvii; dcccxxxiv; dcccli; dccclxviii; dccclxxxv; cmii; cmxix; cmxxxvi; cmliii
       <result>
          <!-- Alternative results are possible, feel free to add them -->
          <all-of>
-            <assert>$result/self::out/time/s[1] = '18:00 EDT'</assert>
-            <assert>$result/self::out/time/s[2] = '13:00 EDT'</assert>
-            <assert>$result/self::out/time/s[3] = '08:00 EDT'</assert>
-            <assert>$result/self::out/time/s[4] = '02:30 EDT'</assert>
-            <assert>$result/self::out/time/s[5] = '19:00 EDT'</assert>
+            <assert>$result/self::out/time/s[1] = ('18:00 EDT', '18:00 GMT-04:00')</assert>
+            <assert>$result/self::out/time/s[2] = ('13:00 EDT', '13:00 GMT-04:00')</assert>
+            <assert>$result/self::out/time/s[3] = ('08:00 EDT', '08:00 GMT-04:00')</assert>
+            <assert>$result/self::out/time/s[4] = ('02:30 EDT', '02:30 GMT-04:00')</assert>
+            <assert>$result/self::out/time/s[5] = ('19:00 EDT', '19:00 GMT-04:00')</assert>
          </all-of>
       </result>
    </test-case>
