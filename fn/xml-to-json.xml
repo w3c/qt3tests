@@ -1017,6 +1017,30 @@
          <assert-eq>'"\\\/\\"'</assert-eq>
       </result>
    </test-case>
+   
+   <test-case name="xml-to-json-081">
+      <description>Invalid text node child of fn:map</description>
+      <created by="Michael Kay" on="2021-08-16"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[
+        xml-to-json(<map xmlns="http://www.w3.org/2005/xpath-functions"><string key="t">tab</string>blubber<string key="u">undo</string></map>)
+       ]]></test>
+      <result>
+         <error code="FOJS0006"/>
+      </result>
+   </test-case>
+   
+   <test-case name="xml-to-json-082">
+      <description>Invalid text node child of fn:array</description>
+      <created by="Michael Kay" on="2021-08-16"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[
+        xml-to-json(<array xmlns="http://www.w3.org/2005/xpath-functions"><string>tab</string>blubber<string>undo</string></array>)
+       ]]></test>
+      <result>
+         <error code="FOJS0006"/>
+      </result>
+   </test-case>
 
    <test-case name="xml-to-json-C-001">
       <description>Invalid input</description>
