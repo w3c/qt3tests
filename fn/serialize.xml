@@ -2087,6 +2087,23 @@
             </all-of>
         </result>
     </test-case>
+    <test-case name="serialize-html-003" covers="fn-serialize">
+        <description>serialize test - html method - HTML5 fragment - no DOCTYPE</description>
+        <created by="Michael Kay, Saxonica" on="2021-07-21"/>
+        <dependency type="spec" value="XQ31+"/>
+        <test><![CDATA[
+            let $doc := <html><head/><body><p>Hello World!</p></body></html>
+            let $params := map {
+            "method" : "html",
+            "html-version" : 5,
+            "indent" : false()
+            }       
+            return serialize($doc//body, $params)
+        ]]></test>
+        <result>
+            <assert-string-value><![CDATA[<body><p>Hello World!</p></body>]]></assert-string-value>
+        </result>
+    </test-case>
     
     <!-- XPath 3.1 tests JSON serialization output method -->
     <test-case name="serialize-json-001" covers="fn-serialize json-output">
