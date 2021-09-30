@@ -593,6 +593,20 @@
          <assert-string-value>1</assert-string-value>
       </result>
    </test-case>
+   
+   <test-case name="whereClause-12">
+      <description>A Saxon optimization bug - #4870</description>
+      <created by="Michael Kay after Christian Gruen" on="2021-01-07"/>
+      <test>
+         let $seq := (1, reverse(1 to 2))
+         for $item in distinct-values($seq)
+         where count($seq[. = $item]) > 1
+         return $item
+      </test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
 
    <test-case name="K-WhereExpr-1">
       <description> A for/where combination where the cardinality of the return statement is crucially affected by the binding sequence. </description>

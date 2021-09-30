@@ -711,9 +711,13 @@
       <created by="Michael Kay, Saxonica" on="2010-12-13"/>
       <modified by="Michael Kay" on="2012-05-17" change="changed expected result for 1e100 div 3 as per bug 14934"/>
       <modified by="Michael Kay" on="2012-05-18" change="split compound test into separate parts"/>
+      <modified by="Michael Kay" on="2021-06-06" change="allow fewer significant digits in result"/>
       <test>format-number(1E100 div 3,'#####################')</test>
       <result>
-        <assert-string-value>3333333333333333000000000000000000000000000000000000000000000000000000000000000000000000000000000000</assert-string-value>
+        <any-of>
+          <assert-string-value>3333333333333333000000000000000000000000000000000000000000000000000000000000000000000000000000000000</assert-string-value>
+          <assert-string-value>3333333333333330000000000000000000000000000000000000000000000000000000000000000000000000000000000000</assert-string-value>
+        </any-of>
       </result>
    </test-case>     
 
@@ -3469,7 +3473,7 @@
       <created by="Tim Mills" on="2015-09-30"/>
       <test>format-number(xs:double('0'), '#.##')</test>
       <result>
-	<assert-string-value>.0</assert-string-value>
+	        <assert-string-value>.0</assert-string-value>
       </result>
    </test-case>
 
@@ -3478,7 +3482,7 @@
       <created by="Tim Mills" on="2015-09-30"/>
       <test>format-number(xs:double('0'), '0.00')</test>
       <result>
-	<assert-string-value>0.00</assert-string-value>
+	        <assert-string-value>0.00</assert-string-value>
       </result>
    </test-case>
 

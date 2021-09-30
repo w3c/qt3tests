@@ -3,6 +3,18 @@
    <description>Tests the fn:contains-token() function</description>
    <link type="spec" document="http://www.w3.org/TR/xpath-functions-31/"
          idref="func-contains-token"/>
+   
+   <environment name="dyn">
+      <param name="zls"
+         select="''"
+         declared="true"/>
+      <param name="empty"
+         select="()"
+         declared="true"/>
+      <param name="zero"
+         select="0"
+         declared="true"/>
+   </environment>
 
    <test-case name="fn-contains-token-09">
       <description> contains-token#2, empty string </description>
@@ -14,6 +26,17 @@
       </result>
    </test-case>
    
+   <test-case name="fn-contains-token-09-dyn">
+      <description> contains-token#2, empty string, dynamic </description>
+      <created by="Michael Kay" on="2021-05-15"/>
+      <environment ref="dyn"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test>declare variable $zls external; contains-token($zls, $zls)</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
    <test-case name="fn-contains-token-10">
       <description> contains-token#2, empty sequence </description>
       <created by="Michael Kay" on="2014-12-05"/>
@@ -21,6 +44,17 @@
       <test>contains-token((), "")</test>
       <result>
 	    <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-contains-token-10-dyn">
+      <description> contains-token#2, empty sequence, dynamic </description>
+      <created by="Michael Kay" on="2021-05-15"/>
+      <environment ref="dyn"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test>declare variable $empty external; declare variable $zls external; contains-token($empty, $zls)</test>
+      <result>
+         <assert-false/>
       </result>
    </test-case>
    
@@ -41,6 +75,18 @@
       <test>contains-token(codepoints-to-string((9, 10, 13, 32, 13, 10, 9)), "")</test>
       <result>
 	    <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-contains-token-12-dyn">
+      <description> contains-token#2, various whitespace chars, dynamic </description>
+      <created by="Michael Kay" on="2021-05-15"/>
+      <environment ref="dyn"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test>declare variable $zero external; declare variable $zls external; 
+         contains-token(codepoints-to-string(($zero+9, 10, 13, 32, 13, 10, 9)), $zls)</test>
+      <result>
+         <assert-false/>
       </result>
    </test-case>
    
@@ -158,6 +204,18 @@
       </result>
    </test-case>
    
+   <test-case name="fn-contains-token-39-dyn">
+      <description> contains-token#2, empty string, dynamic </description>
+      <created by="Michael Kay" on="2021-05-15"/>
+      <environment ref="dyn"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test>declare variable $zls external; 
+         contains-token($zls, "zz")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
    <test-case name="fn-contains-token-40">
       <description> contains-token#2, empty sequence </description>
       <created by="Michael Kay" on="2014-12-05"/>
@@ -165,6 +223,18 @@
       <test>contains-token((), "zz")</test>
       <result>
 	    <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-contains-token-40-dyn">
+      <description> contains-token#2, empty sequence, dynamic </description>
+      <created by="Michael Kay" on="2021-05-15"/>
+      <environment ref="dyn"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test>declare variable $empty external; 
+         contains-token($empty, "zz")</test>
+      <result>
+         <assert-false/>
       </result>
    </test-case>
    
@@ -388,6 +458,45 @@
 	    <assert-false/>
       </result>
    </test-case>
+   
+   <test-case name="fn-contains-token-72-dyn">
+      <description> contains-token#2, HTML5 collation, dynamic collation</description>
+      <created by="Michael Kay" on="2021-05-15"/>
+      <environment ref="dyn"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test>declare variable $zls external; 
+         contains-token("the quick brown fox", "quiCK", $zls || "http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive")</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-contains-token-73">
+      <description> contains-token#2, empty string, HTML5 collation </description>
+      <created by="Michael Kay" on="2014-12-05"/>
+      <environment>
+         <collation uri="http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive"/>
+      </environment>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>contains-token("", "quick", "http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-contains-token-73-dyn">
+      <description> contains-token#2, empty string, HTML5 collation, dynamic input</description>
+      <created by="Michael Kay" on="2021-05-15"/>
+      <environment ref="dyn"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test>declare variable $zls external; 
+         contains-token($zls, "quick", "http://www.w3.org/2005/xpath-functions/collation/html-ascii-case-insensitive")</test>
+      <result>
+         <assert-false/>
+      </result>
+   </test-case>
+   
+   
    
 
 </test-set>

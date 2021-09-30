@@ -2452,9 +2452,10 @@
 
 
    <test-case name="XQST0046_01">
-      <description> check that bad namespace declarations are reported correctly </description>
+      <description> check that bad xml:base URIs are reported correctly </description>
       <created by="Tim Mills" on="2008-05-16"/>
       <modified by="Tim Mills" on="2011-11-06" change="Also accept XQST0046"/>
+      <modified by="Michael Kay" on="2021-06-15" change="Allow the relative base URI to be absolutized"/>
       <dependency type="spec" value="XQ10+"/>
       <test><![CDATA[base-uri(<a xml:base="%gg" />)]]></test>
       <result>
@@ -2462,6 +2463,8 @@
             <error code="XQST0046"/>
             <error code="FORG0001"/>
             <assert-string-value>%gg</assert-string-value>
+            <assert>ends-with($result, '/%gg')</assert>
+            <assert>ends-with($result, '/%25gg')</assert>
          </any-of>
       </result>
    </test-case>

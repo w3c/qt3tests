@@ -717,9 +717,13 @@
   <test-case name="fn-function-lookup-080" covers-30="dynamic-function-call">
     <description>Attempts to invoke function math:tan.</description>
     <created by="Tim Mills" on="2011-11-28"/>
+    <modified by="Michael Kay" on="2021-06-07" change="relax required precision"/>
     <test>function-lookup(fn:QName('http://www.w3.org/2005/xpath-functions/math', 'tan'), 1)(1e0)</test>
     <result>
-      <assert-string-value>1.5574077246549023</assert-string-value>
+      <any-of>
+        <assert-string-value>1.557407724654902</assert-string-value>
+        <assert-string-value>1.5574077246549023</assert-string-value>
+      </any-of>
     </result>
   </test-case>
   <test-case name="fn-function-lookup-081">

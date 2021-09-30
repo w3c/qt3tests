@@ -181,6 +181,23 @@
             <assert-eq>2</assert-eq>
         </result>
     </test-case>
+    <test-case name="map-size-015">
+        <description>Size of map after a sequence of additions and removals</description>
+        <created by="Michael Kay, Saxonica" on="2021-01-02"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <environment ref="map"/>
+        <test>
+            map:merge(((1 to 20)!map{.: 0}, (10 to 30)!map{.: 0}), map{'duplicates':'combine'}) (:30:)
+            => map:remove((4, 8, 12)) (:27:)
+            => map:put(50, 0) (:28:)
+            => map:put(4, 0) (:29:)
+            => map:put(1, 0) (:29:)
+            => map:size()
+        </test>
+        <result>
+            <assert-eq>29</assert-eq>
+        </result>
+    </test-case>
     
  
 

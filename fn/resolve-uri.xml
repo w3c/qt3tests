@@ -25,11 +25,16 @@
    </test-case>
 
    <test-case name="fn-resolve-uri-3">
-      <description> Evaluation of resolve-uri function with an invalid URI value for first argument. </description>
+      <description> 
+         Evaluation of resolve-uri function with an invalid URI value for first argument.
+         Note (MHK). ":" can't be an absolute URI because the scheme name can't be empty.
+         And it can't be a relative URI reference because the first path segment cannot
+         contain a ":".
+      </description>
       <created by="Carmelo Montanez" on="2005-11-21"/>
       <test>fn:resolve-uri(":","http://www.example.com/")</test>
       <result>
-         <error code="FORG0002"/>
+            <error code="FORG0002"/>
       </result>
    </test-case>
 
@@ -82,11 +87,20 @@
    </test-case>
 
    <test-case name="fn-resolve-uri-9">
-      <description> Evaluation of resolve-uri function with relative argument set to an absolute URI and given as a an argument to fn:upper-case function (Two argument version of function). Use the fn-string function. </description>
+      <description> 
+         Evaluation of resolve-uri function with relative argument set to an absolute URI 
+         and given as a an argument to fn:upper-case function (Two argument version of function). 
+         Use the fn-string function. 
+      </description>
       <created by="Carmelo Montanez" on="2005-11-21"/>
+      <modified by="Michael Kay" on="2021-06-07" 
+         change="Normalization of the scheme and authority parts is acceptable"/>
       <test>fn:string(fn:resolve-uri(fn:upper-case("examples"),fn:upper-case("http://www.examples.com/")))</test>
       <result>
-         <assert-string-value>HTTP://WWW.EXAMPLES.COM/EXAMPLES</assert-string-value>
+         <any-of>
+            <assert-string-value>HTTP://WWW.EXAMPLES.COM/EXAMPLES</assert-string-value>
+            <assert-string-value>http://www.examples.com/EXAMPLES</assert-string-value>
+         </any-of>
       </result>
    </test-case>
 

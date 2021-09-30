@@ -146,12 +146,16 @@
    <test-case name="fn-static-base-15">
       <description>Rely on test case environment for the base URI (this should work under XPath, but depends on the test driver) </description>
       <created by="Michael Kay" on="2011-07-01"/>
+      <modified by="Michael Kay" on="2021-06-15" change="allow the URI to be normalized"/>
       <environment>
          <static-base-uri uri="http://www.example.com"/>
       </environment>
       <test>static-base-uri()</test>
       <result>
-         <assert-string-value>http://www.example.com</assert-string-value>
+         <any-of>
+            <assert-string-value>http://www.example.com</assert-string-value>
+            <assert-string-value>http://www.example.com/</assert-string-value>
+         </any-of>
       </result>
    </test-case>
 

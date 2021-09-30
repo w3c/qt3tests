@@ -22,12 +22,44 @@
          <created by="Michael Kay" on="2010-12-08"/>
       </source>
    </environment>
+   
+   <environment name="dyn">
+      <param name="zero-float"
+         select="xs:float(0.0e0)"
+         declared="true"/>
+      <param name="NaN-float"
+         select="xs:float(number('NaN'))"
+         declared="true"/>
+      <param name="zero-double"
+         select="0e0"
+         declared="true"/>
+      <param name="NaN-double"
+         select="number('NaN')"
+         declared="true"/>
+      <param name="zero-int"
+         select="0"
+         declared="true"/>
+      <param name="empty"
+         select="()"
+         declared="true"/>
+   </environment>
 
    <test-case name="fn-ceilingint1args-1">
       <description> Evaluates The "ceiling" function with the arguments set as follows: $arg = xs:int(lower bound) </description>
       <created by="Carmelo Montanez" on="2004-12-13"/>
       <environment ref="emptydoc"/>
       <test>fn:ceiling(xs:int("-2147483648"))</test>
+      <result>
+         <assert-eq>-2147483648</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-ceilingint1args-1-dyn">
+      <description>Test: as ceilingint1args-1, dynamic</description>
+      <created by="Michael Kay" on="2021-05-15"/>
+      <environment ref="dyn"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>declare variable $zero-int external; fn:ceiling($zero-int + xs:int("-2147483648"))</test>
       <result>
          <assert-eq>-2147483648</assert-eq>
       </result>
@@ -92,6 +124,17 @@
          <assert-eq>-999999999999999999</assert-eq>
       </result>
    </test-case>
+   
+   <test-case name="fn-ceilingdec1args-1-dyn">
+      <description>Test: as ceilingdec1args-1, dynamic</description>
+      <created by="Michael Kay" on="2021-05-15"/>
+      <environment ref="dyn"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>declare variable $zero-int external; fn:ceiling($zero-int + xs:decimal("-999999999999999999"))</test>
+      <result>
+         <assert-eq>-999999999999999999</assert-eq>
+      </result>
+   </test-case>
 
    <test-case name="fn-ceilingdec1args-2">
       <description> Evaluates The "ceiling" function with the arguments set as follows: $arg = xs:decimal(mid range) </description>
@@ -122,6 +165,17 @@
          <assert-string-value>-1.7976931348623157E308</assert-string-value>
       </result>
    </test-case>
+   
+   <test-case name="fn-ceilingdbl1args-1-dyn">
+      <description>Test: as ceilingdbl1args-1, dynamic</description>
+      <created by="Michael Kay" on="2021-05-15"/>
+      <environment ref="dyn"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>declare variable $zero-double external; fn:ceiling($zero-double + xs:double("-1.7976931348623157E308"))</test>
+      <result>
+         <assert-string-value>-1.7976931348623157E308</assert-string-value>
+      </result>
+   </test-case>
 
    <test-case name="fn-ceilingdbl1args-2">
       <description> Evaluates The "ceiling" function with the arguments set as follows: $arg = xs:double(mid range) </description>
@@ -148,6 +202,17 @@
       <created by="Carmelo Montanez" on="2004-12-13"/>
       <environment ref="emptydoc"/>
       <test>fn:ceiling(xs:float("-3.4028235E38"))</test>
+      <result>
+         <assert-string-value>-3.4028235E38</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-ceilingflt1args-1-dyn">
+      <description>Test: as ceilingflt1args-1, dynamic</description>
+      <created by="Michael Kay" on="2021-05-15"/>
+      <environment ref="dyn"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>declare variable $zero-float external; fn:ceiling($zero-float + xs:float("-3.4028235E38"))</test>
       <result>
          <assert-string-value>-3.4028235E38</assert-string-value>
       </result>
@@ -438,6 +503,17 @@
       <created by="Frans Englich" on="2007-11-26"/>
       <environment ref="emptydoc"/>
       <test>empty(ceiling(()))</test>
+      <result>
+         <assert-true/>
+      </result>
+   </test-case>
+   
+   <test-case name="K-CeilingFunc-3-dyn">
+      <description>Test: as K-CeilingFunc-3, dynamic</description>
+      <created by="Michael Kay" on="2021-05-15"/>
+      <environment ref="dyn"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>declare variable $empty external; empty(ceiling($empty))</test>
       <result>
          <assert-true/>
       </result>
@@ -789,6 +865,20 @@
          </all-of>
       </result>
    </test-case>
+   
+   <test-case name="fn-ceiling-double-8-dyn">
+      <description>Test: as fn-ceiling-double-8, dynamic</description>
+      <created by="Michael Kay" on="2021-05-15"/>
+      <environment ref="dyn"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>declare variable $NaN-double external; ceiling($NaN-double)</test>
+      <result>
+         <all-of>
+            <assert-string-value>NaN</assert-string-value>
+            <assert-type>xs:double</assert-type>
+         </all-of>
+      </result>
+   </test-case>
 
    <test-case name="fn-ceiling-double-9">
       <description>Basic test of ceiling(double)</description>
@@ -915,6 +1005,20 @@
       <description>Basic test of ceiling(float))</description>
       <created by="Michael Kay" on="2011-06-24"/>
       <test>ceiling(xs:float(xs:float('NaN')))</test>
+      <result>
+         <all-of>
+            <assert-string-value>NaN</assert-string-value>
+            <assert-type>xs:float</assert-type>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-ceiling-float-8-dyn">
+      <description>Test: as fn-ceiling-float-8, dynamic</description>
+      <created by="Michael Kay" on="2021-05-15"/>
+      <environment ref="dyn"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>declare variable $NaN-float external; ceiling($NaN-float)</test>
       <result>
          <all-of>
             <assert-string-value>NaN</assert-string-value>

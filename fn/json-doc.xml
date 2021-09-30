@@ -14,6 +14,13 @@
          <description>UTF-8 encoded plain text.</description>
          <created by="O'Neil Delpratt" on="2015-02-23"/>
       </resource>
+     <resource file="json-to-xml/data002.json"
+        media-type="text/plain"
+        encoding="utf-8"
+        uri="http://www.w3.org/qt3/json/data002-json">
+        <description>UTF-8 encoded plain text.</description>
+        <created by="O'Neil Delpratt" on="2015-02-23"/>
+     </resource>
       <resource file="json-to-xml/escapeText.json"
                 media-type="text/plain"
                 encoding="utf-8"
@@ -391,8 +398,45 @@
       <result>
          <assert-string-value>Data with " within it</assert-string-value>
       </result>
-   </test-case>  
-      
+   </test-case>
+   
+   <!--[
+   {"a1": "string",
+    "b1": 23.5,
+    "c1": true,
+    "d1": null,
+    "e1": [1, 2, 3],
+    "f1": {"x":7, "y":8}
+   },
+   {"a2": "string",
+    "b2": 23.5,
+    "c2": true,
+    "d2": null,
+    "e2": [1, 2, 3],
+    "f2": {"x":7, "y":8}
+   }  
+]-->
+   
+   <test-case name="json-doc-013">
+      <description>More complex JSON document containing maps</description>
+      <created by="Michael Kay" on="2021-01-03"/>
+      <environment ref="json-files"/>
+      <test>fn:json-doc('http://www.w3.org/qt3/json/data002-json')</test>
+      <result>
+         <all-of>
+            <assert-count>1</assert-count>
+            <assert-type>array(map(*))</assert-type>
+            <assert>$result?1?a1 = "string"</assert>
+            <assert>$result?1?b1 = 23.5</assert>
+            <assert>$result?1?c1 = true()</assert>
+            <assert>$result?1?d1 => empty()</assert>
+            <assert>$result?1?e1 => deep-equal([1, 2, 3])</assert>
+            <assert>$result?1?f1?x = 7</assert>
+            <assert>$result?1?f1?y = 8</assert>
+         </all-of>
+      </result>
+   </test-case>
+   
    <test-case name="json-doc-018">
       <description>Duplicate entries in a map: default is use-first</description>
       <created by="Debbie Lockett" on="2015-06-15"/>

@@ -2610,7 +2610,16 @@
       <description> test fn:count </description>
       <created by="Tim Mills" on="2008-04-11"/>
       <dependency type="spec" value="XQ10+"/>    
-      <test>declare function local:primes($n as xs:integer) { if ($n lt 2) then 1 else for $i in 2 to $n return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) then $i else () }; count(local:primes(100)) lt xs:double("INF")</test>
+      <test>
+         declare function local:primes($n as xs:integer) { 
+           if ($n lt 2) 
+           then 1 
+           else for $i in 2 to $n 
+                return if (every $x in 2 to ($i - 1) satisfies ($i mod $x ne 0)) 
+                       then $i 
+                       else () 
+         }; 
+         count(local:primes(100)) lt xs:double("INF")</test>
       <result>
          <assert-true/>
       </result>

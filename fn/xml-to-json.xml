@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="fn-xml-to-json" covers="fn-xml-to-json">
-  <description>xml-to-json() function introduced in XPath 3.1</description>
-  <link type="spec" document="http://www.w3.org/TR/xpath-functions-31/"
+   <description>xml-to-json() function introduced in XPath 3.1</description>
+   <link type="spec" document="http://www.w3.org/TR/xpath-functions-31/"
     idref="func-json-to-xml"/>
-   
+
    <environment name="xml-to-json-C">
       <source role="." file="xml-to-json/xml-to-json-C.xsl">
          <!-- Taken from the XSLT30 test file of the same name. Although this is XSLT code, it is used here simply as data -->
          <created by="Michael Kay" on="2016-04-22"/>
       </source>
    </environment>
-   
+
    <environment name="xml-to-json-D">
       <source role="." file="xml-to-json/xml-to-json-D.xsl">
          <!-- Taken from the XSLT30 test file of the same name, with modifications when testing comments and PIs.
@@ -23,61 +23,61 @@
 
    <test-case name="xml-to-json-001">
       <description>simple "null" content, not indented</description>
-       <created by="Michael Kay" on="2014-07-19"/>
+      <created by="Michael Kay" on="2014-07-19"/>
       <modified by="O'Neil Delpratt" on="2015-02-24" change="This test case was ported from the XSLT30 test suite" />
       <test>xml-to-json(json-to-xml('null',map{'liberal':true()}))</test>
       <result>
-            <assert-eq>"null"</assert-eq>
+         <assert-eq>"null"</assert-eq>
       </result>
    </test-case>
 
    <test-case name="xml-to-json-002">
       <description>simple "null" content, not indented</description>
-       <created by="Michael Kay" on="2014-07-19"/>
+      <created by="Michael Kay" on="2014-07-19"/>
       <modified by="O'Neil Delpratt" on="2015-02-24" change="This test case was ported from the XSLT30 test suite" />
       <test>xml-to-json(json-to-xml('null',map{'liberal':true()}))</test>
       <result>
-            <assert-eq>"null"</assert-eq>
+         <assert-eq>"null"</assert-eq>
       </result>
    </test-case>
 
-      <test-case name="xml-to-json-003">
+   <test-case name="xml-to-json-003">
       <description>simple "null" content, not indented</description>
-       <created by="Michael Kay" on="2014-07-19"/>
+      <created by="Michael Kay" on="2014-07-19"/>
       <modified by="O'Neil Delpratt" on="2015-02-24" change="This test case was ported from the XSLT30 test suite" />
       <test>xml-to-json(json-to-xml('null',map{'liberal':true()}))</test>
       <result>
-            <assert-eq>"null"</assert-eq>
+         <assert-eq>"null"</assert-eq>
       </result>
    </test-case>
 
    <test-case name="xml-to-json-004">
       <description>simple "true" content, not indented</description>
-       <created by="Michael Kay" on="2014-07-19"/>
+      <created by="Michael Kay" on="2014-07-19"/>
       <modified by="O'Neil Delpratt" on="2015-02-24" change="This test case was ported from the XSLT30 test suite" />
       <test>xml-to-json(json-to-xml('true'))</test>
       <result>
-            <assert-eq>"true"</assert-eq>
+         <assert-eq>"true"</assert-eq>
       </result>
    </test-case>
 
    <test-case name="xml-to-json-005">
       <description>simple "false" content</description>
-       <created by="Michael Kay" on="2014-07-19"/>
+      <created by="Michael Kay" on="2014-07-19"/>
       <modified by="O'Neil Delpratt" on="2015-02-24" change="This test case was ported from the XSLT30 test suite" />
       <test>xml-to-json(json-to-xml('false'))</test>
       <result>
-            <assert-eq>"false"</assert-eq>
+         <assert-eq>"false"</assert-eq>
       </result>
    </test-case>
 
    <test-case name="xml-to-json-006">
       <description>simple "number" content</description>
-       <created by="Michael Kay" on="2014-07-19"/>
+      <created by="Michael Kay" on="2014-07-19"/>
       <modified by="O'Neil Delpratt" on="2015-02-24" change="This test case was ported from the XSLT30 test suite" />
       <test>xml-to-json(json-to-xml('93.7'))</test>
       <result>
-            <assert-eq>"93.7"</assert-eq>
+         <assert-eq>"93.7"</assert-eq>
       </result>
    </test-case>
 
@@ -86,11 +86,11 @@
       <created by="Michael Kay" on="2014-07-19"/>
       <modified by="O'Neil Delpratt" on="2015-02-24" change="This test case was ported from the XSLT30 test suite" />
       <dependency type="spec" value="XQ31+"/>
-       <test>
+      <test>
            declare variable $in := '"London"';
           xml-to-json(json-to-xml($in))</test>
       <result>
-            <assert-eq>'"London"'</assert-eq>
+         <assert-eq>'"London"'</assert-eq>
       </result>
    </test-case>
 
@@ -103,7 +103,7 @@
            declare variable $in := '""';
           xml-to-json(json-to-xml($in))</test>
       <result>
-            <assert-eq>'""'</assert-eq>
+         <assert-eq>'""'</assert-eq>
       </result>
    </test-case>
 
@@ -113,7 +113,7 @@
       <modified by="O'Neil Delpratt" on="2015-02-24" change="This test case was ported from the XSLT30 test suite" />
       <test>xml-to-json(json-to-xml('[]'))</test>
       <result>
-            <assert-eq>'[]'</assert-eq>
+         <assert-eq>'[]'</assert-eq>
       </result>
    </test-case>
 
@@ -123,7 +123,7 @@
       <modified by="O'Neil Delpratt" on="2015-02-24" change="This test case was ported from the XSLT30 test suite" />
       <test>xml-to-json(json-to-xml('[34]'))</test>
       <result>
-            <assert-eq>'[34]'</assert-eq>
+         <assert-eq>'[34]'</assert-eq>
       </result>
    </test-case>
 
@@ -133,7 +133,7 @@
       <modified by="O'Neil Delpratt" on="2015-02-24" change="This test case was ported from the XSLT30 test suite" />
       <test>xml-to-json(json-to-xml('[true, false]'))</test>
       <result>
-            <assert-eq>'[true,false]'</assert-eq>
+         <assert-eq>'[true,false]'</assert-eq>
       </result>
    </test-case>
 
@@ -143,7 +143,7 @@
       <modified by="O'Neil Delpratt" on="2015-02-24" change="This test case was ported from the XSLT30 test suite" />
       <test>xml-to-json(json-to-xml('["A", "B", "C", "D", "E"]'))</test>
       <result>
-            <assert-eq>'["A","B","C","D","E"]'</assert-eq>
+         <assert-eq>'["A","B","C","D","E"]'</assert-eq>
       </result>
    </test-case>
 
@@ -153,7 +153,7 @@
       <modified by="O'Neil Delpratt" on="2015-02-24" change="This test case was ported from the XSLT30 test suite" />
       <test>xml-to-json(json-to-xml('{}'))</test>
       <result>
-            <assert-eq>'{}'</assert-eq>
+         <assert-eq>'{}'</assert-eq>
       </result>
    </test-case>
 
@@ -161,9 +161,9 @@
       <description>1 entry map</description>
       <created by="Michael Kay" on="2014-07-19"/>
       <modified by="O'Neil Delpratt" on="2015-02-24" change="This test case was ported from the XSLT30 test suite" />
-       <test>xml-to-json(json-to-xml('{"A":true}'))</test>
+      <test>xml-to-json(json-to-xml('{"A":true}'))</test>
       <result>
-            <assert-eq>'{"A":true}'</assert-eq>
+         <assert-eq>'{"A":true}'</assert-eq>
       </result>
    </test-case>
 
@@ -171,9 +171,9 @@
       <description>five entry map</description>
       <created by="Michael Kay" on="2014-07-19"/>
       <modified by="O'Neil Delpratt" on="2015-02-24" change="This test case was ported from the XSLT30 test suite" />
-       <test>xml-to-json(json-to-xml('{"A":1, "B":2, "C":3, "D":4, "E":5}'))</test>
+      <test>xml-to-json(json-to-xml('{"A":1, "B":2, "C":3, "D":4, "E":5}'))</test>
       <result>
-            <assert-eq>'{"A":1,"B":2,"C":3,"D":4,"E":5}'</assert-eq>
+         <assert-eq>'{"A":1,"B":2,"C":3,"D":4,"E":5}'</assert-eq>
       </result>
    </test-case>
 
@@ -181,9 +181,9 @@
       <description>complex map</description>
       <created by="Michael Kay" on="2014-07-19"/>
       <modified by="O'Neil Delpratt" on="2015-02-24" change="This test case was ported from the XSLT30 test suite" />
-       <test>xml-to-json(json-to-xml('{"A":[1,2], "B":[true,false], "C":["Paris","London","Berlin"], "D":[1, true, "on"], "E":[null, null]}'))</test>
+      <test>xml-to-json(json-to-xml('{"A":[1,2], "B":[true,false], "C":["Paris","London","Berlin"], "D":[1, true, "on"], "E":[null, null]}'))</test>
       <result>
-            <assert-eq>'{"A":[1,2],"B":[true,false],"C":["Paris","London","Berlin"],"D":[1,true,"on"],"E":[null,null]}'</assert-eq>
+         <assert-eq>'{"A":[1,2],"B":[true,false],"C":["Paris","London","Berlin"],"D":[1,true,"on"],"E":[null,null]}'</assert-eq>
       </result>
    </test-case>
 
@@ -192,12 +192,12 @@
       <created by="Michael Kay" on="2014-07-19"/>
       <modified by="O'Neil Delpratt" on="2015-02-24" change="This test case was ported from the XSLT30 test suite" />
       <modified by="Michael Kay" on="2016-07-20" change="Solidus is now escaped: see bug 29665" />
-       <test>xml-to-json(json-to-xml('"\\\/\"\r\t\n\u0020"'))</test>
+      <test>xml-to-json(json-to-xml('"\\\/\"\r\t\n\u0020"'))</test>
       <result>
-            <assert-eq>'"\\\/\"\r\t\n "'</assert-eq>
+         <assert-eq>'"\\\/\"\r\t\n "'</assert-eq>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-021">
       <description>simple "null" content</description>
       <created by="Michael Kay" on="2015-03-09"/>
@@ -207,10 +207,10 @@
         xml-to-json(<null xmlns="http://www.w3.org/2005/xpath-functions"/>)
        ]]></test>
       <result>
-            <assert-eq>"null"</assert-eq>
+         <assert-eq>"null"</assert-eq>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-022">
       <description>simple true content</description>
       <created by="Michael Kay" on="2015-03-09"/>
@@ -220,7 +220,7 @@
         xml-to-json(<boolean xmlns="http://www.w3.org/2005/xpath-functions">true</boolean>)
        ]]></test>
       <result>
-            <assert-eq>"true"</assert-eq>
+         <assert-eq>"true"</assert-eq>
       </result>
    </test-case>
 
@@ -233,10 +233,10 @@
         xml-to-json(<number xmlns="http://www.w3.org/2005/xpath-functions">23</number>)
        ]]></test>
       <result>
-            <assert-eq>"23"</assert-eq>
+         <assert-eq>"23"</assert-eq>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-024">
       <description>simple string content</description>
       <created by="Michael Kay" on="2015-03-09"/>
@@ -246,10 +246,10 @@
         xml-to-json(<string xmlns="http://www.w3.org/2005/xpath-functions">banana</string>)
        ]]></test>
       <result>
-            <assert-eq>'"banana"'</assert-eq>
+         <assert-eq>'"banana"'</assert-eq>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-025">
       <description>boolean with whitespace (bug 28180)</description>
       <created by="Michael Kay" on="2015-03-09"/>
@@ -259,10 +259,10 @@
         xml-to-json(<boolean xmlns="http://www.w3.org/2005/xpath-functions"> false </boolean>)
        ]]></test>
       <result>
-            <assert-eq>"false"</assert-eq>
+         <assert-eq>"false"</assert-eq>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-026">
       <description>number with leading zeroes and whitespace (bug 28180)</description>
       <created by="Michael Kay" on="2015-03-09"/>
@@ -272,10 +272,10 @@
         xml-to-json(<number xmlns="http://www.w3.org/2005/xpath-functions"> +005 </number>)
        ]]></test>
       <result>
-            <assert-eq>"5"</assert-eq>
+         <assert-eq>"5"</assert-eq>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-027">
       <description>whitespace string (bug 28180)</description>
       <created by="Michael Kay" on="2015-03-09"/>
@@ -286,10 +286,10 @@
         xml-to-json(<string xmlns="http://www.w3.org/2005/xpath-functions">   </string>)
        ]]></test>
       <result>
-            <assert-eq>'"   "'</assert-eq>
+         <assert-eq>'"   "'</assert-eq>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-028">
       <description>array with comments and whitespace</description>
       <created by="Michael Kay" on="2015-03-09"/>
@@ -300,10 +300,10 @@
         xml-to-json(<array xmlns="http://www.w3.org/2005/xpath-functions"> <null/> <!--comma--> <null/>   </array>)
        ]]></test>
       <result>
-            <assert-eq>"[null,null]"</assert-eq>
+         <assert-eq>"[null,null]"</assert-eq>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-029">
       <description>map with comments and whitespace</description>
       <created by="Michael Kay" on="2015-03-09"/>
@@ -314,10 +314,10 @@
         xml-to-json(<map xmlns="http://www.w3.org/2005/xpath-functions"> <null key="a"/> <!--comma--> <null key="b"/>   </map>)
        ]]></test>
       <result>
-            <assert-eq>'{"a":null,"b":null}'</assert-eq>
+         <assert-eq>'{"a":null,"b":null}'</assert-eq>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-030">
       <description>Document node wrapper</description>
       <created by="Michael Kay" on="2015-03-09"/>
@@ -328,10 +328,10 @@
         xml-to-json(document{<array xmlns="http://www.w3.org/2005/xpath-functions"><null/><null/></array>})
        ]]></test>
       <result>
-            <assert-eq>"[null,null]"</assert-eq>
+         <assert-eq>"[null,null]"</assert-eq>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-031">
       <description>Use a namespace prefix</description>
       <created by="Michael Kay" on="2015-03-09"/>
@@ -342,10 +342,10 @@
         xml-to-json(document{<jj:array xmlns:jj="http://www.w3.org/2005/xpath-functions"><jj:null/><jj:null/></jj:array>})
        ]]></test>
       <result>
-            <assert-eq>"[null,null]"</assert-eq>
+         <assert-eq>"[null,null]"</assert-eq>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-032">
       <description>Wrong namespace</description>
       <created by="Michael Kay" on="2015-03-09"/>
@@ -356,10 +356,10 @@
         xml-to-json(document{<jj:array xmlns:jj="http://www.w3.org/2005/xpath-functions/not-json"><jj:null/><jj:null/></jj:array>})
        ]]></test>
       <result>
-           <error code="FOJS0006"/>
+         <error code="FOJS0006"/>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-033">
       <description>Invalid XML: contains disallowed attributes</description>
       <created by="Michael Kay" on="2015-03-09"/>
@@ -371,10 +371,10 @@
         xml-to-json(<map xmlns="http://www.w3.org/2005/xpath-functions"> <null key="a" yek="z"/> <null key="b"/>   </map>)
        ]]></test>
       <result>
-            <error code="FOJS0006"/>
+         <error code="FOJS0006"/>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-034">
       <description>Invalid XML: contains disallowed elements</description>
       <created by="Michael Kay" on="2015-03-09"/>
@@ -386,10 +386,10 @@
         xml-to-json(<map xmlns="http://www.w3.org/2005/xpath-functions"> <null key="a"/> <null key="b"/> <yek key="c"/>  </map>)
        ]]></test>
       <result>
-            <error code="FOJS0006"/>
+         <error code="FOJS0006"/>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-035">
       <description>Invalid XML: contains missing attribute</description>
       <created by="Michael Kay" on="2015-03-09"/>
@@ -400,10 +400,10 @@
         xml-to-json(<map xmlns="http://www.w3.org/2005/xpath-functions"><null/><null/></map>)
        ]]></test>
       <result>
-            <error code="FOJS0006"/>
+         <error code="FOJS0006"/>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-036">
       <description>Invalid XML: contains duplicate keys</description>
       <created by="Michael Kay" on="2015-03-09"/>
@@ -414,10 +414,10 @@
         xml-to-json(<map xmlns="http://www.w3.org/2005/xpath-functions"><null key="a"/><null key="a"/></map>)
        ]]></test>
       <result>
-            <error code="FOJS0006"/>
+         <error code="FOJS0006"/>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-037">
       <description>String split by a comment</description>
       <created by="Michael Kay" on="2015-03-09"/>
@@ -427,10 +427,10 @@
         xml-to-json(<string xmlns="http://www.w3.org/2005/xpath-functions">ban<!--c-->ana</string>)
        ]]></test>
       <result>
-            <assert-eq>'"banana"'</assert-eq>
+         <assert-eq>'"banana"'</assert-eq>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-038">
       <description>Number split by a comment</description>
       <created by="Michael Kay" on="2015-03-09"/>
@@ -440,10 +440,10 @@
         xml-to-json(<number xmlns="http://www.w3.org/2005/xpath-functions">2<!--c-->7</number>)
        ]]></test>
       <result>
-            <assert-eq>'27'</assert-eq>
+         <assert-eq>'27'</assert-eq>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-039">
       <description>Boolean split by a comment</description>
       <created by="Michael Kay" on="2015-03-09"/>
@@ -454,10 +454,10 @@
         xml-to-json(<boolean xmlns="http://www.w3.org/2005/xpath-functions">tr<!--c-->ue</boolean>)
        ]]></test>
       <result>
-            <assert-eq>'true'</assert-eq>
+         <assert-eq>'true'</assert-eq>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-040">
       <description>Invalid child of string</description>
       <created by="Michael Kay" on="2015-03-09"/>
@@ -469,10 +469,10 @@
         xml-to-json(<string xmlns="http://www.w3.org/2005/xpath-functions">ok<null/></string>)
        ]]></test>
       <result>
-            <error code="FOJS0006"/>
+         <error code="FOJS0006"/>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-041">
       <description>Invalid child of number</description>
       <created by="Michael Kay" on="2015-03-09"/>
@@ -484,10 +484,10 @@
         xml-to-json(<number xmlns="http://www.w3.org/2005/xpath-functions">17<string>qq</string></number>)
        ]]></test>
       <result>
-            <error code="FOJS0006"/>
+         <error code="FOJS0006"/>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-042">
       <description>Invalid child of boolean</description>
       <created by="Michael Kay" on="2015-03-09"/>
@@ -499,10 +499,10 @@
         xml-to-json(<boolean xmlns="http://www.w3.org/2005/xpath-functions">true<string>qq</string></boolean>)
        ]]></test>
       <result>
-            <error code="FOJS0006"/>
+         <error code="FOJS0006"/>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-043">
       <description>Invalid child of null</description>
       <created by="Michael Kay" on="2015-03-09"/>
@@ -513,10 +513,10 @@
         xml-to-json(<null xmlns="http://www.w3.org/2005/xpath-functions"><null/></null>)
        ]]></test>
       <result>
-            <error code="FOJS0006"/>
+         <error code="FOJS0006"/>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-044">
       <description>Invalid child of null</description>
       <created by="Michael Kay" on="2015-03-09"/>
@@ -527,10 +527,10 @@
         xml-to-json(<null xmlns="http://www.w3.org/2005/xpath-functions"><null/></null>)
        ]]></test>
       <result>
-            <error code="FOJS0006"/>
+         <error code="FOJS0006"/>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-045">
       <description>Effect of xsi:type (bug 28181)</description>
       <created by="Michael Kay" on="2015-03-09"/>
@@ -543,10 +543,10 @@
             xmlns:xs="http://www.w3.org/2001/XMLSchema">231</number>)
        ]]></test>
       <result>
-            <assert-eq>"231"</assert-eq>
+         <assert-eq>"231"</assert-eq>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-046">
       <description>Validated content</description>
       <created by="Michael Kay" on="2015-03-09"/>
@@ -558,10 +558,10 @@
         xml-to-json(validate strict {<number>-23.7</number>})
        ]]></test>
       <result>
-            <assert-eq>"-23.7"</assert-eq>
+         <assert-eq>"-23.7"</assert-eq>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-047">
       <description>Validated content. Validation fails because xsi:type isn't derived from j:numberType</description>
       <created by="Michael Kay" on="2015-03-09"/>
@@ -575,10 +575,10 @@
             xmlns:xs="http://www.w3.org/2001/XMLSchema">-23</number>})
        ]]></test>
       <result>
-            <error code="XQDY0027"/>
+         <error code="XQDY0027"/>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-048">
       <description>Invalid content</description>
       <created by="Michael Kay" on="2015-03-09"/>
@@ -594,10 +594,10 @@
             xmlns:xs="http://www.w3.org/2001/XMLSchema">-23.7</number>})
        ]]></test>
       <result>
-            <error code="XQDY0027"/>
+         <error code="XQDY0027"/>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-049">
       <description>String that needs escaping</description>
       <created by="Michael Kay" on="2015-03-09"/>
@@ -607,10 +607,10 @@
         xml-to-json(<string xmlns="http://www.w3.org/2005/xpath-functions">abc&#xa;def</string>)
        ]]></test>
       <result>
-            <assert-eq>'"abc\ndef"'</assert-eq>
+         <assert-eq>'"abc\ndef"'</assert-eq>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-050">
       <description>String that needs escaping</description>
       <created by="Michael Kay" on="2015-03-09"/>
@@ -621,10 +621,10 @@
         xml-to-json(<string xmlns="http://www.w3.org/2005/xpath-functions">abc&#x7;def</string>)
        ]]></test>
       <result>
-            <assert-eq>'"abc\u0007def"'</assert-eq>
+         <assert-eq>'"abc\u0007def"'</assert-eq>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-051">
       <description>Key that needs escaping</description>
       <created by="Michael Kay" on="2015-03-09"/>
@@ -634,10 +634,10 @@
         xml-to-json(<map xmlns="http://www.w3.org/2005/xpath-functions"><string key="&#x9;">tab</string></map>)
        ]]></test>
       <result>
-            <assert-eq>'{"\t":"tab"}'</assert-eq>
+         <assert-eq>'{"\t":"tab"}'</assert-eq>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-052">
       <description>Key marked as escaped</description>
       <created by="Michael Kay" on="2015-03-09"/>
@@ -648,10 +648,10 @@
         ><string escaped-key="true" key="\t">tab</string></map>)
        ]]></test>
       <result>
-            <assert-eq>'{"\t":"tab"}'</assert-eq>
+         <assert-eq>'{"\t":"tab"}'</assert-eq>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-053">
       <description>Key marked as not escaped</description>
       <created by="Michael Kay" on="2015-03-09"/>
@@ -662,10 +662,10 @@
         ><string escaped-key="0" key="\t">tab</string></map>)
        ]]></test>
       <result>
-            <assert-eq>'{"\\t":"tab"}'</assert-eq>
+         <assert-eq>'{"\\t":"tab"}'</assert-eq>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-054">
       <description>String marked as escaped</description>
       <created by="Michael Kay" on="2015-03-09"/>
@@ -680,10 +680,10 @@
         </map>)
        ]]></test>
       <result>
-            <assert-eq>'{"t1":"\t","t2":"\\t","t3":"\t","t4":"\t"}'</assert-eq>
+         <assert-eq>'{"t1":"\t","t2":"\\t","t3":"\t","t4":"\t"}'</assert-eq>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-055">
       <description>String marked as not escaped</description>
       <created by="Michael Kay" on="2015-03-09"/>
@@ -694,10 +694,10 @@
         ><string escaped="false" key="tab">\t</string></map>)
        ]]></test>
       <result>
-            <assert-eq>'{"tab":"\\t"}'</assert-eq>
+         <assert-eq>'{"tab":"\\t"}'</assert-eq>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-056">
       <description>Indent</description>
       <created by="Michael Kay" on="2015-03-09"/>
@@ -709,10 +709,10 @@
         return translate(normalize-space($result), ' ', '')
        ]]></test>
       <result>
-            <assert-eq>'{"a":1,"b":2}'</assert-eq>
+         <assert-eq>'{"a":1,"b":2}'</assert-eq>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-057">
       <description>Indent</description>
       <created by="Michael Kay" on="2015-03-09"/>
@@ -724,11 +724,11 @@
         return normalize-space($result) eq $result
        ]]></test>
       <result>
-            <!-- technically indent=true could have a null implementation but we assume it does something -->
-            <assert-false/>
+         <!-- technically indent=true could have a null implementation but we assume it does something -->
+         <assert-false/>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-058">
       <description>Indent=false</description>
       <created by="Michael Kay" on="2015-03-09"/>
@@ -740,10 +740,10 @@
         return normalize-space($result) eq $result
        ]]></test>
       <result>
-            <assert-true/>
+         <assert-true/>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-059">
       <description>Indent=rubbish</description>
       <created by="Michael Kay" on="2015-03-09"/>
@@ -759,7 +759,7 @@
          <error code="XPTY0004"/>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-060">
       <description>Unknown options are ignored</description>
       <created by="Michael Kay" on="2015-03-09"/>
@@ -771,10 +771,10 @@
         return normalize-space($result) eq $result
        ]]></test>
       <result>
-            <assert-true/>
+         <assert-true/>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-061">
       <description>Validated content with maps and arrays</description>
       <created by="Michael Kay" on="2015-03-09"/>
@@ -786,10 +786,10 @@
         xml-to-json(validate strict {json-to-xml('{"a":2, "b\\":[null, true, false, "xyz\t"]}')})
        ]]></test>
       <result>
-            <assert-eq>'{"a":2,"b\\":[null,true,false,"xyz\t"]}'</assert-eq>
+         <assert-eq>'{"a":2,"b\\":[null,true,false,"xyz\t"]}'</assert-eq>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-062">
       <description>Invalid value of escaped-key attribute</description>
       <created by="Michael Kay" on="2015-03-09"/>
@@ -804,7 +804,7 @@
          <error code="FOJS0006"/>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-063">
       <description>Invalid value of escaped attribute</description>
       <created by="Michael Kay" on="2015-03-09"/>
@@ -819,7 +819,7 @@
          <error code="FOJS0006"/>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-064">
       <description>(Was) Invalid position of escaped-key attribute</description>
       <created by="Michael Kay" on="2015-03-09"/>
@@ -832,10 +832,10 @@
         escaped-key="0"><string key="\t">tab</string></map>)
        ]]></test>
       <result>
-            <assert-eq>'{"\\t":"tab"}'</assert-eq>
+         <assert-eq>'{"\\t":"tab"}'</assert-eq>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-065">
       <description>(Was) Invalid position of escaped attribute</description>
       <created by="Michael Kay" on="2015-03-09"/>
@@ -851,25 +851,25 @@
          <assert-eq>'{"\\t":"tab"}'</assert-eq>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-066">
       <description>Empty sequence</description>
       <created by="Michael Kay" on="2015-03-10"/>
       <test>xml-to-json(())</test>
       <result>
-          <assert-empty/>
+         <assert-empty/>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-067">
       <description>Empty sequence</description>
       <created by="Michael Kay" on="2015-03-10"/>
       <test>xml-to-json((), map{})</test>
       <result>
-          <assert-empty/>
+         <assert-empty/>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-068">
       <description>Attributes in other namespaces are OK</description>
       <created by="Michael Kay" on="2015-03-09"/>
@@ -880,10 +880,10 @@
          xml:base="http://www.w3.org"><string key="t">tab</string></map>)
        ]]></test>
       <result>
-            <assert-eq>'{"t":"tab"}'</assert-eq>
+         <assert-eq>'{"t":"tab"}'</assert-eq>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-069">
       <description>Attributes in JSON namespace are not OK</description>
       <created by="Michael Kay" on="2015-03-09"/>
@@ -895,10 +895,10 @@
          j:base="http://www.w3.org"><j:string key="t">tab</j:string></j:map>)
        ]]></test>
       <result>
-            <error code="FOJS0006"/>
+         <error code="FOJS0006"/>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-070">
       <description>
          Converting a subtree of a valid tree: test case for bug 29917.
@@ -915,7 +915,7 @@
          <assert-eq>'["Michael","Howard"]'</assert-eq>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-071">
       <description>A valid JSON escape sequence is copied unchanged to the output</description>
       <created by="Michael Kay" on="2017-12-22"/>
@@ -925,7 +925,7 @@
          <assert-eq>'"\\\b\f\n\r\t\/\\\u00a0\u00A0\ud83d\udc4A\\"'</assert-eq>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-072">
       <description>Any unescaped occurrence of .... is replaced by an escape sequence</description>
       <created by="Michael Kay" on="2017-12-22"/>
@@ -936,7 +936,7 @@
          <assert-eq>'"\b\t\n\f\r\"\/"'</assert-eq>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-073">
       <description>Any other character in the range 1-31, 127-159 .... is replaced by \uHHHH</description>
       <created by="Michael Kay" on="2017-12-22"/>
@@ -947,7 +947,7 @@
          <assert-eq>'"\u0001\u0002\u0003\u0004\u0005\u0006\u0007\u000B\u000E\u000F\u0010\u0011\u0012\u0013\u0014\u0015\u0016\u0017\u0018\u0019\u001A\u001B\u001C\u001D\u001E\u001F\u007F\u0080\u0081\u0082\u0083\u0084\u0085\u0086\u0087\u0088\u0089\u008A\u008B\u008C\u008D\u008E\u008F\u0090\u0091\u0092\u0093\u0094\u0095\u0096\u0097\u0098\u0099\u009A\u009B\u009C\u009D\u009E\u009F"'</assert-eq>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-074">
       <description>An invalid escape sequence results in a dynamic error</description>
       <created by="Michael Kay" on="2017-12-22"/>
@@ -957,7 +957,7 @@
          <error code="FOJS0007"/>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-075">
       <description>An invalid escape sequence results in a dynamic error</description>
       <created by="Michael Kay" on="2017-12-22"/>
@@ -967,7 +967,7 @@
          <error code="FOJS0007"/>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-076">
       <description>An invalid escape sequence results in a dynamic error</description>
       <created by="Michael Kay" on="2017-12-22"/>
@@ -977,7 +977,7 @@
          <error code="FOJS0007"/>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-077">
       <description>An invalid escape sequence results in a dynamic error</description>
       <created by="Michael Kay" on="2017-12-22"/>
@@ -987,7 +987,7 @@
          <error code="FOJS0007"/>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-078">
       <description>An invalid escape sequence results in a dynamic error</description>
       <created by="Michael Kay" on="2017-12-22"/>
@@ -997,7 +997,7 @@
          <error code="FOJS0007"/>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-079">
       <description>Unescaped quote after escaped backslash</description>
       <created by="Michael Kay" on="2017-12-22"/>
@@ -1007,7 +1007,7 @@
          <assert-eq>'"\\\"\\"'</assert-eq>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-080">
       <description>Unescaped solidus after escaped backslash</description>
       <created by="Michael Kay" on="2017-12-22"/>
@@ -1019,7 +1019,7 @@
    </test-case>
    
    <test-case name="xml-to-json-081">
-      <description>Invalid text node child of fn:map</description>
+      <description>Invalid text node child of fn:map (Saxon bug 5065)</description>
       <created by="Michael Kay" on="2021-08-16"/>
       <dependency type="spec" value="XQ31+"/>
       <test><![CDATA[
@@ -1052,7 +1052,7 @@
          <error code="XPTY0004"/>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-C-002">
       <description>Invalid input</description>
       <created by="Michael Kay" on="2016-04-22"/>
@@ -1063,7 +1063,7 @@
          <error code="FOJS0006"/>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-C-003">
       <description>Invalid input</description>
       <created by="Michael Kay" on="2016-04-22"/>
@@ -1074,7 +1074,7 @@
          <error code="FOJS0006"/>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-C-004">
       <description>Invalid input</description>
       <created by="Michael Kay" on="2016-04-22"/>
@@ -1085,7 +1085,7 @@
          <error code="FOJS0006"/>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-C-005">
       <description>Invalid input</description>
       <created by="Michael Kay" on="2016-04-22"/>
@@ -1096,7 +1096,7 @@
          <error code="FOJS0006"/>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-C-006">
       <description>Invalid input</description>
       <created by="Michael Kay" on="2016-04-22"/>
@@ -1107,7 +1107,7 @@
          <error code="FOJS0006"/>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-C-007">
       <description>Invalid input</description>
       <created by="Michael Kay" on="2016-04-22"/>
@@ -1118,7 +1118,7 @@
          <error code="FOJS0006"/>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-C-008">
       <description>Invalid input</description>
       <created by="Michael Kay" on="2016-04-22"/>
@@ -1129,7 +1129,7 @@
          <error code="FOJS0006"/>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-C-009">
       <description>Invalid input</description>
       <created by="Michael Kay" on="2016-04-22"/>
@@ -1140,7 +1140,7 @@
          <error code="FOJS0006"/>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-C-010">
       <description>Invalid input</description>
       <created by="Michael Kay" on="2016-04-22"/>
@@ -1151,7 +1151,7 @@
          <error code="FOJS0006"/>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-C-011">
       <description>Invalid input</description>
       <created by="Michael Kay" on="2016-04-22"/>
@@ -1162,7 +1162,7 @@
          <error code="FOJS0006"/>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-C-012">
       <description>Invalid input</description>
       <created by="Michael Kay" on="2016-04-22"/>
@@ -1173,7 +1173,7 @@
          <error code="FOJS0006"/>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-C-013">
       <description>Invalid input</description>
       <created by="Michael Kay" on="2016-04-22"/>
@@ -1184,7 +1184,7 @@
          <error code="FOJS0006"/>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-C-014">
       <description>Invalid input</description>
       <created by="Michael Kay" on="2016-04-22"/>
@@ -1195,7 +1195,7 @@
          <error code="FOJS0006"/>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-C-015">
       <description>Invalid input</description>
       <created by="Michael Kay" on="2016-04-22"/>
@@ -1206,11 +1206,11 @@
          <error code="FOJS0006"/>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-C-016">
       <description>(Was) Invalid input</description>
       <created by="Michael Kay" on="2016-04-22"/>
-      <modified by="Michael Kay" on="2017-04-05" change="See bug 30077; this is now allowed as a result of bug 29917"/>     
+      <modified by="Michael Kay" on="2017-04-05" change="See bug 30077; this is now allowed as a result of bug 29917"/>
       <environment ref="xml-to-json-C"/>
       <dependency type="spec" value="XP31+ XQ31+"/>
       <test>xml-to-json(//*:template[@name="t016"]/*:variable/*)</test>
@@ -1218,7 +1218,7 @@
          <assert-string-value>"xxxx"</assert-string-value>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-C-017">
       <description>Invalid input</description>
       <created by="Michael Kay" on="2016-04-22"/>
@@ -1229,7 +1229,7 @@
          <error code="FOJS0007"/>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-C-018">
       <description>Invalid input</description>
       <created by="Michael Kay" on="2016-04-22"/>
@@ -1240,7 +1240,7 @@
          <error code="FOJS0007"/>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-D-001">
       <description>Valid input - strings</description>
       <created by="Michael Kay" on="2016-04-22"/>
@@ -1251,7 +1251,7 @@
          <assert-eq>'"a"'</assert-eq>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-D-002">
       <description>Valid input - strings</description>
       <created by="Michael Kay" on="2016-04-22"/>
@@ -1262,7 +1262,7 @@
          <assert-eq>'"a"'</assert-eq>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-D-003">
       <description>Valid input - strings</description>
       <created by="Michael Kay" on="2016-04-22"/>
@@ -1273,7 +1273,7 @@
          <assert-eq>'"\""'</assert-eq>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-D-004">
       <description>Valid input - strings</description>
       <created by="Michael Kay" on="2016-04-22"/>
@@ -1284,7 +1284,7 @@
          <assert-eq>'"\\"'</assert-eq>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-D-005">
       <description>Valid input - strings</description>
       <created by="Michael Kay" on="2016-04-22"/>
@@ -1295,7 +1295,7 @@
          <assert-eq>'"\uD834\uDD1E"'</assert-eq>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-D-006">
       <description>Valid input - strings</description>
       <created by="Michael Kay" on="2016-04-22"/>
@@ -1306,7 +1306,7 @@
          <assert-eq>'"\\\""'</assert-eq>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-D-007">
       <description>Valid input - strings</description>
       <created by="Michael Kay" on="2016-04-22"/>
@@ -1317,7 +1317,7 @@
          <assert-eq>'"\\\\"'</assert-eq>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-D-008">
       <description>Valid input - strings</description>
       <created by="Michael Kay" on="2016-04-22"/>
@@ -1328,7 +1328,7 @@
          <assert-eq>'"\\uD834\\uDD1E"'</assert-eq>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-D-009">
       <description>Valid input - strings</description>
       <created by="Michael Kay" on="2016-04-22"/>
@@ -1339,7 +1339,7 @@
          <assert-eq>'"  "'</assert-eq>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-D-010">
       <description>Valid input - strings</description>
       <created by="Michael Kay" on="2016-04-22"/>
@@ -1350,7 +1350,7 @@
          <assert-eq>'"-\"-"'</assert-eq>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-D-011">
       <description>Valid input - strings</description>
       <created by="Michael Kay" on="2016-04-22"/>
@@ -1361,7 +1361,7 @@
          <assert-eq>'"-\n-"'</assert-eq>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-D-012">
       <description>Valid input - strings</description>
       <created by="Michael Kay" on="2016-04-22"/>
@@ -1372,7 +1372,7 @@
          <assert-eq>'"-\r-"'</assert-eq>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-D-013">
       <description>Valid input - strings</description>
       <created by="Michael Kay" on="2016-04-22"/>
@@ -1383,7 +1383,7 @@
          <assert-eq>'"-\t-"'</assert-eq>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-D-014">
       <description>Valid input - strings</description>
       <created by="Michael Kay" on="2016-04-22"/>
@@ -1394,7 +1394,7 @@
          <assert-eq>'"-\u007F-"'</assert-eq>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-D-016">
       <description>Valid input - strings</description>
       <created by="Michael Kay" on="2016-04-22"/>
@@ -1405,7 +1405,7 @@
          <assert-eq>'"-\u007F-"'</assert-eq>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-D-101">
       <description>Valid input - booleans</description>
       <created by="Michael Kay" on="2016-04-22"/>
@@ -1416,7 +1416,7 @@
          <assert-eq>'false'</assert-eq>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-D-102">
       <description>Valid input - booleans</description>
       <created by="Michael Kay" on="2016-04-22"/>
@@ -1427,7 +1427,7 @@
          <assert-eq>'true'</assert-eq>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-D-103">
       <description>Valid input - booleans</description>
       <created by="Michael Kay" on="2016-04-22"/>
@@ -1438,7 +1438,7 @@
          <assert-eq>'false'</assert-eq>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-D-104">
       <description>Valid input - booleans</description>
       <created by="Michael Kay" on="2016-04-22"/>
@@ -1449,7 +1449,7 @@
          <assert-eq>'true'</assert-eq>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-D-201">
       <description>Valid input - numbers</description>
       <created by="Michael Kay" on="2016-04-22"/>
@@ -1460,7 +1460,7 @@
          <assert-eq>'7'</assert-eq>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-D-202">
       <description>Valid input - numbers</description>
       <created by="Michael Kay" on="2016-04-22"/>
@@ -1471,7 +1471,7 @@
          <assert-eq>'-0'</assert-eq>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-D-203">
       <description>Valid input - numbers</description>
       <created by="Michael Kay" on="2016-04-22"/>
@@ -1482,7 +1482,7 @@
          <assert-eq>'1.0E6'</assert-eq>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-D-204">
       <description>Valid input - numbers</description>
       <created by="Michael Kay" on="2016-04-22"/>
@@ -1493,7 +1493,7 @@
          <assert-eq>'-0.000001'</assert-eq>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-D-205">
       <description>Valid input - numbers</description>
       <created by="Michael Kay" on="2016-04-22"/>
@@ -1504,7 +1504,7 @@
          <assert-eq>'0.001'</assert-eq>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-D-206">
       <description>Valid input - numbers</description>
       <created by="Michael Kay" on="2016-04-22"/>
@@ -1515,7 +1515,7 @@
          <assert-eq>'23'</assert-eq>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-D-301">
       <description>Valid input - null</description>
       <created by="Michael Kay" on="2016-04-22"/>
@@ -1526,7 +1526,7 @@
          <assert-eq>'null'</assert-eq>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-D-302">
       <description>Valid input - null</description>
       <created by="Michael Kay" on="2016-04-22"/>
@@ -1537,7 +1537,7 @@
          <assert-eq>'null'</assert-eq>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-D-303">
       <description>Valid input - null</description>
       <created by="Michael Kay" on="2016-04-22"/>
@@ -1548,7 +1548,7 @@
          <assert-eq>'null'</assert-eq>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-D-401">
       <description>Valid input - arrays</description>
       <created by="Michael Kay" on="2016-04-22"/>
@@ -1559,7 +1559,7 @@
          <assert-eq>'[]'</assert-eq>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-D-402">
       <description>Valid input - arrays</description>
       <created by="Michael Kay" on="2016-04-22"/>
@@ -1570,7 +1570,7 @@
          <assert-eq>'[]'</assert-eq>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-D-403">
       <description>Valid input - arrays</description>
       <created by="Michael Kay" on="2016-04-22"/>
@@ -1581,7 +1581,7 @@
          <assert-eq>'[]'</assert-eq>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-D-404">
       <description>Valid input - arrays</description>
       <created by="Michael Kay" on="2016-04-22"/>
@@ -1592,7 +1592,7 @@
          <assert-eq>'[null]'</assert-eq>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-D-405">
       <description>Valid input - arrays</description>
       <created by="Michael Kay" on="2016-04-22"/>
@@ -1603,7 +1603,7 @@
          <assert-eq>'["(",null,null,")"]'</assert-eq>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-D-406">
       <description>Valid input - arrays</description>
       <created by="Michael Kay" on="2016-04-22"/>
@@ -1614,7 +1614,7 @@
          <assert-eq>'["(",null,null,")"]'</assert-eq>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-D-407">
       <description>Valid input - arrays</description>
       <created by="Michael Kay" on="2016-04-22"/>
@@ -1625,7 +1625,7 @@
          <assert-eq>'[null]'</assert-eq>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-D-501">
       <description>Maps: duplicates after escaping</description>
       <created by="Michael Kay" on="2016-04-22"/>
@@ -1637,7 +1637,7 @@
          <error code="FOJS0006"/>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-D-502">
       <description>Maps: duplicates after escaping</description>
       <created by="Michael Kay" on="2016-04-22"/>
@@ -1649,7 +1649,7 @@
          <error code="FOJS0006"/>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-D-503">
       <description>Maps: duplicates after escaping</description>
       <created by="Michael Kay" on="2016-04-22"/>
@@ -1661,7 +1661,7 @@
          <error code="FOJS0006"/>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-D-504">
       <description>Valid input - maps</description>
       <created by="Michael Kay" on="2016-04-22"/>
@@ -1672,7 +1672,7 @@
          <assert-eq>'{"\"":"1"}'</assert-eq>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-D-505">
       <description>Valid input - maps</description>
       <created by="Michael Kay" on="2016-04-22"/>
@@ -1683,7 +1683,7 @@
          <assert-eq>'{"\\":"1"}'</assert-eq>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-D-506">
       <description>Valid input - maps</description>
       <created by="Michael Kay" on="2016-04-22"/>
@@ -1694,7 +1694,7 @@
          <assert-eq>'{"\uD834\uDD1E":"1"}'</assert-eq>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-D-507">
       <description>Valid input - maps</description>
       <created by="Michael Kay" on="2016-04-22"/>
@@ -1706,7 +1706,7 @@
          <assert-eq>'{"\"":"1","\\\"":"0"}'</assert-eq>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-D-508">
       <description>Valid input - maps</description>
       <created by="Michael Kay" on="2016-04-22"/>
@@ -1717,7 +1717,7 @@
          <assert-eq>'{"A":"1","B":"  "}'</assert-eq>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-D-509">
       <description>Valid input - maps</description>
       <created by="Michael Kay" on="2016-04-22"/>
@@ -1728,7 +1728,7 @@
          <assert-eq>'{"-\n-":"1"}'</assert-eq>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-D-510">
       <description>Valid input - maps</description>
       <created by="Michael Kay" on="2016-04-22"/>
@@ -1739,7 +1739,7 @@
          <assert-eq>'{"-\r-":"1"}'</assert-eq>
       </result>
    </test-case>
-   
+
    <test-case name="xml-to-json-D-511">
       <description>Valid input - maps</description>
       <created by="Michael Kay" on="2016-04-22"/>
@@ -1750,9 +1750,8 @@
          <assert-eq>'{"-\t-":"1"}'</assert-eq>
       </result>
    </test-case>
-   
 
-
+ 
 
 
 </test-set>

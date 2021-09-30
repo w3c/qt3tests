@@ -676,6 +676,8 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
     <test-case name="fn-transform-18">
         <description>Transform using options stylesheet-text and stylesheet-base-uri</description>
         <created by="Debbie Lockett" on="2015-03-11"/>
+        <modified by="Michael Kay" on="2021-05-29" 
+            change="allow trailing slash on URI (different string representation of the same URI)"/>
         <dependency type="spec" value="XQ31+"/>
         <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <test><![CDATA[
@@ -688,7 +690,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
             fn:transform(map {"stylesheet-text" : $xsl, "initial-template" : QName('','main'), "stylesheet-base-uri": "http://www.example.com"})?output
             ]]></test>
         <result>
-            <assert>$result/x = 'http://www.example.com'</assert>
+            <assert>$result/x = ('http://www.example.com', 'http://www.example.com/')</assert>
         </result>
     </test-case>
 
@@ -696,6 +698,8 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
         <description>Transform using options stylesheet-node and stylesheet-base-uri</description>
         <created by="Debbie Lockett" on="2015-03-11"/>
         <modified by="Tim Mills" on="2016-10-25" change="Bug 29946"/>
+        <modified by="Michael Kay" on="2021-05-29" 
+            change="allow trailing slash on URI (different string representation of the same URI)"/>
         <dependency type="spec" value="XQ31+"/>
         <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <test><![CDATA[
@@ -710,7 +714,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
             ]]></test>
         <result>
 	    <any-of>
-            <assert>$result/x = 'http://www.example.com'</assert>
+	        <assert>$result/x = ('http://www.example.com', 'http://www.example.com/')</assert>
             <assert>$result/x = 'http://www.example.com/base'</assert>
 	    </any-of>
         </result>
@@ -836,12 +840,13 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
         <modified by="O'Neil Delpratt" on="2016-10-24" change="Bug fix relating to issue #29942" />
         <modified by="O'Neil Delpratt" on="2016-11-17" change="Bug fix relating to issue #29965" />
         <modified by="Michael Kay" on="2017-04-07" change="Now runs in XPath as suggested by bug 29997"/>
+        <modified by="Michael Kay" on="2021-06-15" change="Slow the transform down a bit to ensure the times are different"/>
         <dependency type="feature" value="fn-transform-XSLT30" satisfied="true"/>
         <test><![CDATA[
             let $xsl  :="<xsl:stylesheet version='3.0' xmlns:xsl='http://www.w3.org/1999/XSL/Transform'>
                 <xsl:variable name='dateTime' static='yes' select='current-dateTime()'/>
                 <xsl:template match='/'>
-                    <x><xsl:value-of select='$dateTime'/></x>
+                    <x dither='{sum((-100000 to +100000)!(.*.))}'><xsl:value-of select='$dateTime'/></x>
                 </xsl:template>
             </xsl:stylesheet>"
             return let $output1 := fn:transform(map {"stylesheet-text" : $xsl, "source-node" : parse-xml("<doc1/>"), "cache":false()})?output//x/string()
@@ -1260,6 +1265,8 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         <created by="Debbie Lockett" on="2015-04-01"/>
         <modified by="Abel Braaksma" on="2016-09-22" change="use function-style map lookup"/>
         <modified by="Tim Mills" on="2016-10-25" change="Bug 29946"/>
+        <modified by="Michael Kay" on="2021-05-29" 
+            change="allow trailing slash on URI (different string representation of the same URI)"/>
         <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <environment>
             <source role="$staticbaseuri" file="transform/staticbaseuri.xsl"  uri="http://www.w3.org/fots/fn/transform/staticbaseuri.xsl"/>
@@ -1267,7 +1274,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         <test>fn:transform(map {"stylesheet-node" : $staticbaseuri, "initial-template" : QName('','main'), "stylesheet-base-uri": "http://www.example.com"})("output")</test>
         <result>
 	    <any-of>
-            <assert>$result/x = 'http://www.example.com'</assert>
+	        <assert>$result/x = ('http://www.example.com', 'http://www.example.com/')</assert>
             <assert>$result/x = 'http://www.w3.org/fots/fn/transform/staticbaseuri.xsl'</assert>
 	    </any-of>
         </result>
@@ -2735,7 +2742,9 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
     </test-case>
 
     <test-case name="fn-transform-err-9">
-        <description>Error - transform using xsl:include with relative href, using option stylesheet-text, but without stylesheet-base-uri</description>
+        <description>Error - transform using xsl:include with relative href, 
+            using option stylesheet-text, but without stylesheet-base-uri
+        </description>
         <created by="Debbie Lockett" on="2015-03-11"/>
         <dependency type="spec" value="XQ31+"/>
         <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />

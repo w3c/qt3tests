@@ -24,12 +24,44 @@
          <created by="Michael Kay" on="2010-12-08"/>
       </source>
    </environment>
+   
+   <environment name="dyn">
+      <param name="zero-float"
+         select="xs:float(0.0e0)"
+         declared="true"/>
+      <param name="NaN-float"
+         select="xs:float(number('NaN'))"
+         declared="true"/>
+      <param name="zero-double"
+         select="0e0"
+         declared="true"/>
+      <param name="NaN-double"
+         select="number('NaN')"
+         declared="true"/>
+      <param name="zero-int"
+         select="0"
+         declared="true"/>
+   </environment>
 
    <test-case name="fn-absint1args-1">
       <description>Test: absint1args-1 The "abs" function with the arguments set as follows: $arg = xs:int(lower bound) </description>
       <created by="Carmelo Montanez" on="2004-12-13"/>
       <environment ref="empty"/>
       <test>fn:abs(xs:int("-2147483648"))</test>
+      <result>
+         <all-of>
+            <assert-eq>2147483648</assert-eq>
+            <assert-type>xs:integer</assert-type>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-absint1args-1-dyn">
+      <description>Test: as absint1args-1, dynamic</description>
+      <created by="Michael Kay" on="2021-05-15"/>
+      <environment ref="dyn"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>declare variable $zero-int external; fn:abs($zero-int + xs:int("-2147483648"))</test>
       <result>
          <all-of>
             <assert-eq>2147483648</assert-eq>
@@ -128,6 +160,20 @@
          </all-of>
       </result>
    </test-case>
+   
+   <test-case name="fn-absdec1args-1-dyn">
+      <description>Test: as absint1args-1, dynamic</description>
+      <created by="Michael Kay" on="2021-05-15"/>
+      <environment ref="dyn"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>declare variable $zero-int external; fn:abs($zero-int + xs:decimal("617375191608514839"))</test>
+      <result>
+         <all-of>
+            <assert-eq>617375191608514839</assert-eq>
+            <assert-type>xs:decimal</assert-type>
+         </all-of>
+      </result>
+   </test-case>
 
    <test-case name="fn-absdec1args-3">
       <description>Test: absdec1args-3 The "abs" function with the arguments set as follows: $arg = xs:decimal(upper bound) </description>
@@ -147,6 +193,20 @@
       <created by="Carmelo Montanez" on="2004-12-13"/>
       <environment ref="empty"/>
       <test>fn:abs(xs:double("-1.7976931348623157E308"))</test>
+      <result>
+         <all-of>
+            <assert-eq>1.7976931348623157E308</assert-eq>
+            <assert-type>xs:double</assert-type>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-absdbl1args-1-dyn">
+      <description>Test: as absdbl1args-1, dynamic</description>
+      <created by="Michael Kay" on="2021-05-15"/>
+      <environment ref="dyn"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>declare variable $zero-double external; fn:abs($zero-double + xs:double("-1.7976931348623157E308"))</test>
       <result>
          <all-of>
             <assert-eq>1.7976931348623157E308</assert-eq>
@@ -186,6 +246,20 @@
       <created by="Carmelo Montanez" on="2004-12-13"/>
       <environment ref="empty"/>
       <test>fn:abs(xs:float("-3.4028235E38"))</test>
+      <result>
+         <all-of>
+            <assert-eq>xs:float(3.4028235E38)</assert-eq>
+            <assert-type>xs:float</assert-type>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-absflt1args-1-dyn">
+      <description>Test: as absflt1args-1, dynamic</description>
+      <created by="Michael Kay" on="2021-05-15"/>
+      <environment ref="dyn"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>declare variable $zero-float external; fn:abs($zero-float + xs:float("-3.4028235E38"))</test>
       <result>
          <all-of>
             <assert-eq>xs:float(3.4028235E38)</assert-eq>
@@ -576,6 +650,20 @@
       <created by="Pulkita Tyagi" on="2005-05-19"/>
       <environment ref="empty"/>
       <test>fn:abs(xs:double("NaN"))</test>
+      <result>
+         <all-of>
+            <assert-string-value>NaN</assert-string-value>
+            <assert-type>xs:double</assert-type>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-abs-more-args-004-dyn">
+      <description>Test: as abs-more-args-004, dynamic</description>
+      <created by="Michael Kay" on="2021-05-15"/>
+      <environment ref="dyn"/>
+      <dependency type="spec" value="XQ10+"/>
+      <test>declare variable $NaN-double external; fn:abs($NaN-double)</test>
       <result>
          <all-of>
             <assert-string-value>NaN</assert-string-value>

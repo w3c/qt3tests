@@ -1142,6 +1142,7 @@ dcccxvii; dcccxxxiv; dcccli; dccclxviii; dccclxxxv; cmii; cmxix; cmxxxvi; cmliii
       </description>
       <created by="Michael Kay, Saxonica" on="2018-04-26"/>
       <modified by="Michael Kay, Saxonica" on="2021-03-29" change="added alternative results as delivered by Java 11"/>
+      <modified by="Michael Kay, Saxonica" on="2021-06-26" change="added further alternative results"/>
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
          <out>{
@@ -1155,12 +1156,11 @@ dcccxvii; dcccxxxiv; dcccli; dccclxviii; dccclxxxv; cmii; cmxix; cmxxxvi; cmliii
       ]]></test>
       <result>
          <!-- Alternative results are possible, feel free to add them -->
-         <!-- MHK note 2020-08-14: this test is working in Saxon with JDK 8 but fails with JDK 11 -->
          <all-of>
-            <assert>$result/self::out/time/s[1] = ('HST', 'GMT-10:00')</assert>
-            <assert>$result/self::out/time/s[2] = ('EST', 'GMT-05:00')</assert>
+            <assert>$result/self::out/time/s[1] = ('HST', 'AKT', 'GMT-10:00', '-10:00')</assert>
+            <assert>$result/self::out/time/s[2] = ('EST', 'ET', 'GMT-05:00', '-05:00')</assert>
             <assert>$result/self::out/time/s[3] = ('GMT', 'UTC', 'Z')</assert>
-            <assert>$result/self::out/time/s[4] = 'IST'</assert>
+            <assert>$result/self::out/time/s[4] = ('IST', 'IT')</assert>
             <assert>$result/self::out/time/s[5] = '+13:00'</assert>
          </all-of>
       </result>
@@ -1172,6 +1172,7 @@ dcccxvii; dcccxxxiv; dcccli; dccclxviii; dccclxxxv; cmii; cmxix; cmxxxvi; cmliii
       </description>
       <created by="Michael Kay, Saxonica" on="2018-04-25"/>
       <modified by="Michael Kay, Saxonica" on="2021-03-29" change="added alternative results as delivered by Java 11"/>
+      <modified by="Michael Kay, Saxonica" on="2021-06-26" change="added further alternative results"/>
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
          <out>{
@@ -1186,11 +1187,11 @@ dcccxvii; dcccxxxiv; dcccli; dccclxviii; dccclxxxv; cmii; cmxix; cmxxxvi; cmliii
       <result>
          <!-- Alternative results are possible, feel free to add them -->
          <all-of>
-            <assert>$result/self::out/time/s[1] = ('17:00 EST', '17:00 GMT-05:00')</assert>
-            <assert>$result/self::out/time/s[2] = ('12:00 EST', '12:00 GMT-05:00')</assert>
-            <assert>$result/self::out/time/s[3] = ('07:00 EST', '07:00 GMT-05:00')</assert>
-            <assert>$result/self::out/time/s[4] = ('01:30 EST', '01:30 GMT-05:00')</assert>
-            <assert>$result/self::out/time/s[5] = ('18:00 EST', '18:00 GMT-05:00')</assert>
+            <assert>$result/self::out/time/s[1] = ('17:00 EST', '17:00 GMT-05:00', '17:00 -05:00', '17:00 ET')</assert>
+            <assert>$result/self::out/time/s[2] = ('12:00 EST', '12:00 GMT-05:00', '12:00 -05:00', '12:00 ET')</assert>
+            <assert>$result/self::out/time/s[3] = ('07:00 EST', '07:00 GMT-05:00', '07:00 -05:00', '07:00 ET')</assert>
+            <assert>$result/self::out/time/s[4] = ('01:30 EST', '01:30 GMT-05:00', '01:30 -05:00', '01:30 ET')</assert>
+            <assert>$result/self::out/time/s[5] = ('18:00 EST', '18:00 GMT-05:00', '18:00 -05:00', '18:00 ET')</assert>
          </all-of>
       </result>
    </test-case>
@@ -1201,6 +1202,7 @@ dcccxvii; dcccxxxiv; dcccli; dccclxviii; dccclxxxv; cmii; cmxix; cmxxxvi; cmliii
       </description>
       <created by="Michael Kay, Saxonica" on="2018-04-26"/>
       <modified by="Michael Kay, Saxonica" on="2021-03-29" change="added alternative results as delivered by Java 11"/>
+      <modified by="Michael Kay, Saxonica" on="2021-06-26" change="added further alternative results"/>
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
          <out>{
@@ -1215,10 +1217,10 @@ dcccxvii; dcccxxxiv; dcccli; dccclxviii; dccclxxxv; cmii; cmxix; cmxxxvi; cmliii
       <result>
          <!-- Alternative results are possible, feel free to add them -->
          <all-of>
-            <assert>$result/self::out/time/s[1] = ('HST', 'GMT-10:00')</assert>
-            <assert>$result/self::out/time/s[2] = ('CDT', 'GMT-05:00')</assert>
+            <assert>$result/self::out/time/s[1] = ('HST', 'GMT-10:00', '-10:00', 'AKT')</assert>
+            <assert>$result/self::out/time/s[2] = ('CDT', 'GMT-05:00', 'ET')</assert>
             <assert>$result/self::out/time/s[3] = ('GMT', 'UTC', 'Z')</assert>
-            <assert>$result/self::out/time/s[4] = ('IST')</assert>
+            <assert>$result/self::out/time/s[4] = ('IST', 'IT')</assert>
             <assert>$result/self::out/time/s[5] = ('+13:00')</assert>
          </all-of>
       </result>
@@ -1230,6 +1232,7 @@ dcccxvii; dcccxxxiv; dcccli; dccclxviii; dccclxxxv; cmii; cmxix; cmxxxvi; cmliii
       </description>
       <created by="Michael Kay, Saxonica" on="2018-04-25"/>
       <modified by="Michael Kay, Saxonica" on="2021-03-29" change="added alternative results as delivered by Java 11"/>
+      <modified by="Michael Kay, Saxonica" on="2021-06-26" change="added further alternative results"/>
       <dependency type="spec" value="XQ30+"/>
       <test><![CDATA[
          <out>{
@@ -1244,11 +1247,11 @@ dcccxvii; dcccxxxiv; dcccli; dccclxviii; dccclxxxv; cmii; cmxix; cmxxxvi; cmliii
       <result>
          <!-- Alternative results are possible, feel free to add them -->
          <all-of>
-            <assert>$result/self::out/time/s[1] = ('18:00 EDT', '18:00 GMT-04:00')</assert>
-            <assert>$result/self::out/time/s[2] = ('13:00 EDT', '13:00 GMT-04:00')</assert>
-            <assert>$result/self::out/time/s[3] = ('08:00 EDT', '08:00 GMT-04:00')</assert>
-            <assert>$result/self::out/time/s[4] = ('02:30 EDT', '02:30 GMT-04:00')</assert>
-            <assert>$result/self::out/time/s[5] = ('19:00 EDT', '19:00 GMT-04:00')</assert>
+            <assert>$result/self::out/time/s[1] = ('18:00 EDT', '18:00 GMT-04:00', '18:00 ET')</assert>
+            <assert>$result/self::out/time/s[2] = ('13:00 EDT', '13:00 GMT-04:00', '13:00 ET')</assert>
+            <assert>$result/self::out/time/s[3] = ('08:00 EDT', '08:00 GMT-04:00', '08:00 ET')</assert>
+            <assert>$result/self::out/time/s[4] = ('02:30 EDT', '02:30 GMT-04:00', '02:30 ET')</assert>
+            <assert>$result/self::out/time/s[5] = ('19:00 EDT', '19:00 GMT-04:00', '19:00 ET')</assert>
          </all-of>
       </result>
    </test-case>
