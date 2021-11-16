@@ -1585,6 +1585,19 @@
         </result>
     </test-case>
     
+    <test-case name="serialize-xml-127a" covers="fn-serialize">
+        <description>serialize test - when params supplied as map, omit-xml-declaration default is true</description>
+        <created by="Debbie Lockett, Saxonica" on="2021-11-16"/>
+        <environment ref="atomic"/>
+        <dependency type="spec" value="XP31+ XQ31+"/>
+        <test>let $params := map { }
+            return serialize(., $params)
+        </test>
+        <result>
+            <assert>not(contains($result,'&lt;?xml'))</assert>
+        </result>
+    </test-case>
+    
     <test-case name="serialize-xml-128" covers="fn-serialize">
         <description>serialize test - params supplied as map, omit-xml-declaration</description>
         <created by="Debbie Lockett, Saxonica" on="2015-05-19"/>
