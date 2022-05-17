@@ -619,6 +619,18 @@ abracadabra", "\n","with")</test>
          <assert-string-value>1A</assert-string-value>
       </result>
    </test-case>
+   
+   <test-case name="fn-replace-58">
+      <description>Evaluation of replace with emoji. Saxon bug 5174.</description>
+      <created by="Michael Kay after Martin Honnen" on="2021-11-24"/>
+      <test>let $in := codepoints-to-string((72, 101, 108, 108, 111, 32, 128512, 128515, 128516, 32, 
+                                             128156, 129446, 32, 252, 228, 246, 36)) 
+         return replace($in, "\p{IsEmoticons}+", "") => string-to-codepoints()</test>
+      <result>
+         <assert-deep-eq>72, 101, 108, 108, 111, 32, 32, 
+            128156, 129446, 32, 252, 228, 246, 36</assert-deep-eq>
+      </result>
+   </test-case>
 
    <test-case name="K-ReplaceFunc-1">
       <description> The flags argument cannot contain whitespace. </description>
