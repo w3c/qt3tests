@@ -2557,6 +2557,113 @@ return
     </result>
   </test-case>
   
+  <test-case name="SlidingWindowExpr561">
+    <description>
+      Sliding Window Clause. Saxon bug 5283.
+      Based on https://stackoverflow.com/questions/70988386/how-do-i-read-data-in-c-sharp-from-an-xml-file-that-has-no-index
+    </description>
+    <created by="Michael Kay" on="2022-02-05"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test><![CDATA[
+  
+          declare variable $input as element(Events) := 
+            <Events>
+              <EventList>
+                 <DATA datetime="2022-02-04 15:00:00" name="mr john" action="leave"/>
+                 <DATA datetime="2022-02-04 15:00:00" name="jane doe" action="leave"/>
+                 <DATA datetime="2022-02-04 14:00:00" name="jane doe" action="enter"/>
+                 <DATA datetime="2022-02-04 13:30:00" name="jane doe" action="leave"/>
+                 <DATA datetime="2022-02-04 13:00:00" name="mr john" action="enter"/>
+                 <DATA datetime="2022-02-04 12:00:00" name="jane doe" action="enter"/>
+                 <DATA datetime="2022-02-03 15:00:00" name="mr john" action="leave"/>
+                 <DATA datetime="2022-02-03 15:00:00" name="jane doe" action="leave"/>
+                 <DATA datetime="2022-02-03 13:00:00" name="mr john" action="enter"/>
+                 <DATA datetime="2022-02-03 12:00:00" name="jane doe" action="enter" />
+              </EventList>
+           </Events>;
+           
+           <Result> {
+             let $trips := (
+               for sliding window $window in reverse($input//DATA)
+                            start $enter when $enter/@action = "enter"
+                            end $leave when $leave/@action = "leave" and $leave/@name = $enter/@name
+               let $entry := xs:dateTime(translate($enter/@datetime, ' ', 'T'))
+               let $departure := xs:dateTime(translate($leave/@datetime, ' ', 'T')) 
+               let $duration := $departure - $entry
+               return <TRIP name="{$enter/@name}" date="{xs:date($entry)}" enter="{$enter/@datetime}" leave="{$leave/@datetime}" duration="{$duration}"/> )                
+             return for $trip in $trips
+               let $tripDate := $trip/@date,
+                   $tripName := $trip/@name
+               
+               group by $tripDate, $tripName
+               let $totalDuration := sum($trip/@duration/xs:dayTimeDuration(.))
+               order by $tripDate descending, $tripName
+               return <DATA datetime="{$tripDate}" name="{$tripName}" totaltime="{$totalDuration div xs:dayTimeDuration('PT1H')}"/> 
+          } </Result>
+ ]]></test>
+    <result>
+      <all-of>
+        <assert>$result/DATA[1][@datetime='2022-02-04'][@name='jane doe'][@totaltime='2.5']</assert>
+        <assert>$result/DATA[2][@datetime='2022-02-04'][@name='mr john'][@totaltime='2']</assert>
+        <assert>$result/DATA[3][@datetime='2022-02-03'][@name='jane doe'][@totaltime='3']</assert>
+        <assert>$result/DATA[4][@datetime='2022-02-03'][@name='mr john'][@totaltime='2']</assert>
+        <assert>not($result/DATA[5])</assert>
+      </all-of>
+    </result>
+  </test-case>
+  
+  <test-case name="SlidingWindowExpr562">
+    <description>
+      Sliding Window Clause. Saxon bug 5283.
+      Based on https://stackoverflow.com/questions/70988386/how-do-i-read-data-in-c-sharp-from-an-xml-file-that-has-no-index
+      Variant of -561 without the intermediate results
+    </description>
+    <created by="Michael Kay" on="2022-02-05"/>
+    <dependency type="spec" value="XQ30+"/>
+    <test><![CDATA[
+  
+          declare variable $input as element(Events) := 
+            <Events>
+              <EventList>
+                 <DATA datetime="2022-02-04 15:00:00" name="mr john" action="leave"/>
+                 <DATA datetime="2022-02-04 15:00:00" name="jane doe" action="leave"/>
+                 <DATA datetime="2022-02-04 14:00:00" name="jane doe" action="enter"/>
+                 <DATA datetime="2022-02-04 13:30:00" name="jane doe" action="leave"/>
+                 <DATA datetime="2022-02-04 13:00:00" name="mr john" action="enter"/>
+                 <DATA datetime="2022-02-04 12:00:00" name="jane doe" action="enter"/>
+                 <DATA datetime="2022-02-03 15:00:00" name="mr john" action="leave"/>
+                 <DATA datetime="2022-02-03 15:00:00" name="jane doe" action="leave"/>
+                 <DATA datetime="2022-02-03 13:00:00" name="mr john" action="enter"/>
+                 <DATA datetime="2022-02-03 12:00:00" name="jane doe" action="enter" />
+              </EventList>
+           </Events>;
+           
+           <Result> {
+               for sliding window $window in reverse($input//DATA)
+                            start $enter when $enter/@action = "enter"
+                            end $leave when $leave/@action = "leave" and $leave/@name = $enter/@name
+               let $entry := xs:dateTime(translate($enter/@datetime, ' ', 'T'))
+               let $departure := xs:dateTime(translate($leave/@datetime, ' ', 'T')) 
+               let $duration := $departure - $entry
+               let $tripDate := xs:date($entry)
+               let $tripName := string($enter/@name)
+               group by $tripDate, $tripName
+               let $totalDuration := sum($duration)
+               order by $tripDate descending, $tripName
+               return <DATA datetime="{$tripDate}" name="{$tripName}" totaltime="{$totalDuration div xs:dayTimeDuration('PT1H')}"/> 
+          } </Result>
+ ]]></test>
+    <result>
+      <all-of>
+        <assert>$result/DATA[1][@datetime='2022-02-04'][@name='jane doe'][@totaltime='2.5']</assert>
+        <assert>$result/DATA[2][@datetime='2022-02-04'][@name='mr john'][@totaltime='2']</assert>
+        <assert>$result/DATA[3][@datetime='2022-02-03'][@name='jane doe'][@totaltime='3']</assert>
+        <assert>$result/DATA[4][@datetime='2022-02-03'][@name='mr john'][@totaltime='2']</assert>
+        <assert>not($result/DATA[5])</assert>
+      </all-of>
+    </result>
+  </test-case>
+  
   
 
     <test-case name="WindowExpr500">
