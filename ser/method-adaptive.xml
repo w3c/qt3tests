@@ -1431,5 +1431,57 @@
 	</any-of>
       </result>
    </test-case>
+  
+  <test-case name="Serialization-adaptive-85" covers="adaptive-serialization">
+    <description>Test the adaptive serialization output method - xs:string escaping (Saxon bug 5387)</description>
+    <created by="Michael Kay" on="2022-03-12"/>
+    <dependency type="spec" value="XQ31+"/>
+    <test><![CDATA[
+     	declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "adaptive";
+        '""'
+      ]]></test>
+    <result>
+      <any-of>
+        <serialization-matches>^'""'$</serialization-matches>
+        <serialization-matches>^""""""$</serialization-matches>
+      </any-of>
+    </result>
+  </test-case>
+  
+  <test-case name="Serialization-adaptive-86" covers="adaptive-serialization">
+    <description>Test the adaptive serialization output method - xs:string escaping (Saxon bug 5387)</description>
+    <created by="Michael Kay" on="2022-03-12"/>
+    <dependency type="spec" value="XQ31+"/>
+    <test><![CDATA[
+     	declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "adaptive";
+        "''"
+      ]]></test>
+    <result>
+      <any-of>
+        <serialization-matches>^"''"$</serialization-matches>
+        <serialization-matches>^''''''$</serialization-matches>
+      </any-of>
+    </result>
+  </test-case>
+  
+  <test-case name="Serialization-adaptive-87" covers="adaptive-serialization">
+    <description>Test the adaptive serialization output method - xs:string escaping (Saxon bug 5387)</description>
+    <created by="Michael Kay" on="2022-03-12"/>
+    <dependency type="spec" value="XQ31+"/>
+    <test><![CDATA[
+     	declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "adaptive";
+        "'""'"
+      ]]></test>
+    <result>
+      <any-of>
+        <serialization-matches>^"'""'"$</serialization-matches>
+        <serialization-matches>^'''"'''$</serialization-matches>
+      </any-of>
+    </result>
+  </test-case>
+  
 
 </test-set>   
