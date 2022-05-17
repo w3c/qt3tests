@@ -356,6 +356,123 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
             </all-of>
         </result>
     </test-case>
+    
+    <test-case name="fn-transform-7a">
+        <description>Same as -7 but passing the xsl:stylesheet element, not the document node</description>
+        <created by="Michael Kay" on="2022-05-17"/>
+        <dependency type="spec" value="XQ31+"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
+        <test><![CDATA[
+            let $xsl  :="<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' version='2.0'>
+                <xsl:template match='/'>
+                    <out>
+                        <xsl:value-of select='.' />
+                    </out>
+                </xsl:template>
+            </xsl:stylesheet>"
+            return
+            transform(map{"stylesheet-node":parse-xml($xsl)/*, "source-node":parse-xml("<doc>this</doc>") })
+        ]]></test>
+        <result>
+            <all-of>
+                <assert-type>map(*)</assert-type>
+                <assert>map:contains($result, "output")</assert>
+                <assert>$result?output instance of node()</assert>
+                <assert>$result?output//out = 'this'</assert>
+            </all-of>
+        </result>
+    </test-case>
+    
+    <test-case name="fn-transform-7b">
+        <description>Same as -7 but using a simplified stylesheet</description>
+        <created by="Michael Kay" on="2022-05-17"/>
+        <dependency type="spec" value="XQ31+"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
+        <test><![CDATA[
+            let $xsl  :="<out xmlns:xsl='http://www.w3.org/1999/XSL/Transform' xsl:version='2.0'>
+                          <xsl:value-of select='.' />
+                         </out>"
+            return
+            transform(map{"stylesheet-node":parse-xml($xsl), "source-node":parse-xml("<doc>this</doc>") })
+        ]]></test>
+        <result>
+            <all-of>
+                <assert-type>map(*)</assert-type>
+                <assert>map:contains($result, "output")</assert>
+                <assert>$result?output instance of node()</assert>
+                <assert>$result?output//out = 'this'</assert>
+            </all-of>
+        </result>
+    </test-case>
+    
+    <test-case name="fn-transform-7c">
+        <description>Same as -7 but using a simplified stylesheet passed as an element</description>
+        <created by="Michael Kay" on="2022-05-17"/>
+        <dependency type="spec" value="XQ31+"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
+        <test><![CDATA[
+            let $xsl  :="<out xmlns:xsl='http://www.w3.org/1999/XSL/Transform' xsl:version='2.0'>
+                          <xsl:value-of select='.' />
+                         </out>"
+            return
+            transform(map{"stylesheet-node":parse-xml($xsl)/*, "source-node":parse-xml("<doc>this</doc>") })
+        ]]></test>
+        <result>
+            <all-of>
+                <assert-type>map(*)</assert-type>
+                <assert>map:contains($result, "output")</assert>
+                <assert>$result?output instance of node()</assert>
+                <assert>$result?output//out = 'this'</assert>
+            </all-of>
+        </result>
+    </test-case>
+    
+    <test-case name="fn-transform-7d">
+        <description>Same as -7 but using a simplified stylesheet passed as an element within a document fragment</description>
+        <created by="Michael Kay" on="2022-05-17"/>
+        <dependency type="spec" value="XQ31+"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
+        <test><![CDATA[
+            let $xsl  :="<noise/>
+                         <out xmlns:xsl='http://www.w3.org/1999/XSL/Transform' xsl:version='2.0'>
+                          <xsl:value-of select='.' />
+                         </out>"
+            return
+            transform(map{"stylesheet-node":parse-xml-fragment($xsl)/out, "source-node":parse-xml("<doc>this</doc>") })
+        ]]></test>
+        <result>
+            <all-of>
+                <assert-type>map(*)</assert-type>
+                <assert>map:contains($result, "output")</assert>
+                <assert>$result?output instance of node()</assert>
+                <assert>$result?output//out = 'this'</assert>
+            </all-of>
+        </result>
+    </test-case>
+    
+    <test-case name="fn-transform-7e">
+        <description>Same as -7 but stylesheet and source are nodes in the same document</description>
+        <created by="Michael Kay" on="2022-05-17"/>
+        <dependency type="spec" value="XQ31+"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
+        <test><![CDATA[
+            let $src  := parse-xml-fragment("<doc>this</doc>
+                         <out xmlns:xsl='http://www.w3.org/1999/XSL/Transform' xsl:version='2.0'>
+                          <xsl:value-of select='/doc' />
+                         </out>")
+            return
+            transform(map{"stylesheet-node":$src/out, "source-node":$src })
+        ]]></test>
+        <result>
+            <all-of>
+                <assert-type>map(*)</assert-type>
+                <assert>map:contains($result, "output")</assert>
+                <assert>$result?output instance of node()</assert>
+                <assert>$result?output//out = 'this'</assert>
+            </all-of>
+        </result>
+    </test-case>
+    
 
     <test-case name="fn-transform-8">
         <description>Transform with minimal options: stylesheet-node, source-node</description>
