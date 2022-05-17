@@ -758,5 +758,21 @@
          <assert-xml><![CDATA[<hours>12</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>20</hours><hours>40</hours><hours>40</hours><hours>40</hours><hours>80</hours><hours>80</hours><hours>80</hours>]]></assert-xml>
       </result>
    </test-case>
+   
+   <test-case name="except-100">
+      <description> Deduplicate a node sequence, retaining order. Saxon bug 5194. </description>
+      <created by="Michael Kay" on="2021-12-30"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[
+         <out>{
+            let $xml := parse-xml('<t><a/><b/><c/></t>'), 
+                $nodes := ($xml/*/a, $xml/*/c, $xml/*/b, $xml/*/b) 
+            return $nodes => fold-left((), function($all, $this) {$all, $this except $all})
+         }</out>
+      ]]></test>
+      <result>
+         <assert-xml><![CDATA[<out><a/><c/><b/></out>]]></assert-xml>
+      </result>
+   </test-case>
 
 </test-set>
