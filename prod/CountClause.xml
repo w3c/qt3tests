@@ -190,6 +190,51 @@
       </result>
    </test-case>
    
+   <test-case name="count-901">
+      <description>Count only allows one variable (Saxon bug 5284)</description>
+      <created by="Michael Kay" on="2022-02-04"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>
+         for $x in 1 to 4 return
+         for $y in 1 to 4
+         count $index, $undex
+         return $index
+      </test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+   
+   <test-case name="count-902">
+      <description>Dollar sign needed before variable name</description>
+      <created by="Michael Kay" on="2022-02-04"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>
+         for $x in 1 to 4 return
+         for $y in 1 to 4
+         count index
+         return $index
+      </test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+   
+   <test-case name="count-903">
+      <description>Variable name is mandatory</description>
+      <created by="Michael Kay" on="2022-02-04"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>
+         for $x in 1 to 4 return
+         for $y in 1 to 4
+         count 
+         return $index
+      </test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+   
    
 
 
