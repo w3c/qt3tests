@@ -88,6 +88,8 @@ declare function raytracer:shade($position as xs:double*,
   let $material := materials:material($shape/@surface, $position)
   let $normal := shapes:normal($position, $shape)
   let $normal := if (vector:dot($direction, $normal) > 0) then -$normal else $normal
+  (: MHK 2022-05-26 - the `then` branch above is never taken; if it were taken, it would
+     crash, because $normal generally holds a sequence of two xs:double values :)
   let $reflected-direction := vector:sub($direction, 
                                  vector:scale($normal, 
                                    2*vector:dot($normal, $direction)))
