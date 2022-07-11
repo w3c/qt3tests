@@ -2689,6 +2689,108 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
             <assert>deep-equal($result, (1, 4, 9, 16, 25))</assert>
         </result>
     </test-case>
+    
+    <test-case name="fn-transform-85">
+        <description>Transform with a post-processing request, delivery-format document, secondary results</description>
+        <created by="Michael Kay" on="2022-06-17"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
+        <test><![CDATA[let $xsl  := "<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform'
+            version='1.0'> 
+            <xsl:template match='/'>
+              <xsl:variable name='in' select='.'/>
+              <xsl:for-each select='1 to 3'>
+                <xsl:result-document href='output{.}'>
+                   <out><xsl:value-of select='number($in/a/b) + .'/></out>
+                </xsl:result-document>
+              </xsl:for-each>             
+            </xsl:template> 
+        </xsl:stylesheet>" 
+        return transform(map{"stylesheet-text" : $xsl,
+                             "delivery-format" : "document",
+                             "base-output-uri" : "http://example.com/",
+                             "source-node"     : parse-xml('<a><b>89</b></a>'),
+                             "post-process"    : function($uri, $doc) { xs:integer($doc/out) + 3 }
+                            }) 
+        ]]></test>
+        <result>
+            <any-of>
+                <error code="FOXT0001"/>
+                <all-of>
+                    <assert>$result("http://example.com/output1") = 93</assert>
+                    <assert>$result("http://example.com/output2") = 94</assert>
+                    <assert>$result("http://example.com/output3") = 95</assert>
+                </all-of>
+            </any-of>
+        </result>
+    </test-case>
+    
+    <test-case name="fn-transform-86">
+        <description>Transform with a post-processing request, delivery-format serialized, secondary results</description>
+        <created by="Michael Kay" on="2022-06-17"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
+        <test><![CDATA[let $xsl  := "<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform'
+            version='1.0'> 
+            <xsl:template match='/'>
+              <xsl:variable name='in' select='.'/>
+              <xsl:for-each select='1 to 3'>
+                <xsl:result-document href='output{.}' omit-xml-declaration='yes'>
+                   <out><xsl:value-of select='number($in/a/b) + .'/></out>
+                </xsl:result-document>
+              </xsl:for-each>             
+            </xsl:template> 
+        </xsl:stylesheet>" 
+        return transform(map{"stylesheet-text" : $xsl,
+                             "delivery-format" : "serialized",
+                             "base-output-uri" : "http://example.com/",
+                             "source-node"     : parse-xml('<a><b>89</b></a>'),
+                             "post-process"    : function($uri, $doc) { replace($doc, 'out>', 'output>') }
+                            }) 
+        ]]></test>
+        <result>
+            <any-of>
+                <error code="FOXT0001"/>
+                <all-of>
+                    <assert>$result("http://example.com/output1") = '&lt;output>90&lt;/output>'</assert>
+                    <assert>$result("http://example.com/output2") = '&lt;output>91&lt;/output>'</assert>
+                    <assert>$result("http://example.com/output3") = '&lt;output>92&lt;/output>'</assert>
+                </all-of>
+            </any-of>
+        </result>
+    </test-case>
+    
+    <test-case name="fn-transform-87">
+        <description>Transform with a post-processing request, delivery-format raw, secondary results</description>
+        <created by="Michael Kay" on="2022-06-17"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
+        <test><![CDATA[let $xsl  := "<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform'
+            version='1.0'> 
+            <xsl:template match='/'>
+              <xsl:variable name='in' select='.'/>
+              <xsl:for-each select='1 to 3'>
+                <xsl:result-document href='output{.}' omit-xml-declaration='yes'>
+                   <xsl:sequence select='number($in/a/b) + .'/>
+                </xsl:result-document>
+              </xsl:for-each>             
+            </xsl:template> 
+        </xsl:stylesheet>" 
+        return transform(map{"stylesheet-text" : $xsl,
+                             "delivery-format" : "raw",
+                             "base-output-uri" : "http://example.com/",
+                             "source-node"     : parse-xml('<a><b>89</b></a>'),
+                             "post-process"    : function($uri, $val) { $val + 5 }
+                            }) 
+        ]]></test>
+        <result>
+            <any-of>
+                <error code="FOXT0001"/>
+                <all-of>
+                    <assert>$result("http://example.com/output1") = 95</assert>
+                    <assert>$result("http://example.com/output2") = 96</assert>
+                    <assert>$result("http://example.com/output3") = 97</assert>
+                </all-of>
+            </any-of>
+        </result>
+    </test-case>
 
     <test-case name="fn-transform-err-1">
       <description>Loads a stylesheet from the location render.xsl, but fails to supply a source document</description>
