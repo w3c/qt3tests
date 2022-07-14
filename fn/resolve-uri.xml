@@ -319,6 +319,23 @@
          </any-of>
       </result>
    </test-case>
+   
+   <test-case name="fn-resolve-uri-33" covers-30="fn-resolve-uri">
+      <description> 
+         The $base URI is a non-hierarchic URI, and $relative is an absolute URI. There are
+         two relevant rules in the spec: (a) FORG0002 is raised if $base is a non-hierarchic URI
+         and (b) if $relative is an absolute URI then it is returned unchanged. This test takes
+         the view that either of these outcomes is legitimate.
+      </description>
+      <created by="Michael Kay" on="2022-07-14"/>
+      <test>resolve-uri("http://www.example.com/books.xml", "urn:doi:234567")</test>
+      <result>
+         <any-of>
+            <assert-string-value>http://www.example.com/books.xml</assert-string-value>
+            <error code="FORG0002"/>
+         </any-of>
+      </result>
+   </test-case>
 
 
    <test-case name="K-ResolveURIFunc-1">

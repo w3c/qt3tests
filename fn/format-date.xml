@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="us-ascii"?>
+<?xml version="1.0" encoding="utf-8"?>
 <test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" name="fn-format-date" covers-30="fn-format-date">
    <description>Tests for the format-date() function</description>
    <link type="spec" document="http://www.w3.org/TR/xpath-functions-11/"
@@ -1779,6 +1779,201 @@
          <error code="FOFD1340"/>
       </result>
    </test-case>
+
+
+
+  <test-case name="format-date-de101">
+      <description>German month names</description>
+      <created by="Michael Kay, Saxonica" on="2021-12-01"/>
+      <environment>
+         <param name="d" as="xs:date" select="xs:date('2003-12-07')"/>
+      </environment>
+      <dependency type="language" value="de"/>
+      <test>for $i in 1 to 12 return let $d2 := $d + xs:yearMonthDuration('P1M')*$i return
+         format-date($d2, '[MN]', 'de', (), ()) </test>
+      <result>
+         <assert-string-value normalize-space="true">
+            JANUAR FEBRUAR MÄRZ APRIL MAI JUNI JULI AUGUST SEPTEMBER OKTOBER NOVEMBER DEZEMBER
+         </assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="format-date-de102">
+      <description>German month names</description>
+      <created by="Michael Kay, Saxonica" on="2021-12-01"/>
+      <environment>
+         <param name="d" as="xs:date" select="xs:date('2003-12-07')"/>
+      </environment>
+      <dependency type="language" value="de"/>
+      <test>for $i in 1 to 12 return let $d2 := $d + xs:yearMonthDuration('P1M')*$i return
+         format-date($d2, '[Mn]', 'de', (), ()) </test>
+      <result>
+         <assert-string-value normalize-space="true">
+            januar februar märz april mai juni juli august september oktober november dezember
+         </assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="format-date-de103">
+      <description>German month names</description>
+      <created by="Michael Kay, Saxonica" on="2021-12-01"/>
+      <environment>
+         <param name="d" as="xs:date" select="xs:date('2003-12-07')"/>
+      </environment>
+      <dependency type="language" value="de"/>
+      <test>
+         for $i in 1 to 12 
+         return let $d2 := $d + xs:yearMonthDuration('P1M')*$i 
+         return format-date($d2, '[MNn]', 'de', (), ()) </test>
+      <result>
+         <assert-string-value normalize-space="true">
+            Januar Februar März April Mai Juni Juli August September Oktober November Dezember
+         </assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="format-date-de104">
+      <description>German month names</description>
+      <created by="Michael Kay, Saxonica" on="2021-12-01"/>
+      <environment>
+         <param name="d" as="xs:date" select="xs:date('2003-12-07')"/>
+      </environment>
+      <dependency type="language" value="de"/>
+      <test>
+         for $i in 1 to 12 
+         return let $d2 := $d + xs:yearMonthDuration('P1M')*$i 
+         return format-date($d2, '[MN,3-3]', 'de', (), ()) 
+      </test>
+      <result>
+         <assert-string-value normalize-space="true">JAN FEB MÄR APR MAI JUN JUL AUG SEP OKT NOV DEZ</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="format-date-de105">
+      <description>German month names</description>
+      <created by="Michael Kay, Saxonica" on="2021-12-01"/>
+      <environment>
+         <param name="d" as="xs:date" select="xs:date('2003-12-07')"/>
+      </environment>
+      <dependency type="language" value="de"/>
+      <test>
+         for $i in 1 to 12 
+         return let $d2 := $d + xs:yearMonthDuration('P1M')*$i 
+         return format-date($d2, '[Mn,3-3]', 'de', (), ()) 
+      </test>
+      <result>
+         <assert-string-value normalize-space="true">jan feb mär apr mai jun jul aug sep okt nov dez</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="format-date-de106">
+      <description>German month names</description>
+      <created by="Michael Kay, Saxonica" on="2021-12-01"/>
+      <environment>
+         <param name="d" as="xs:date" select="xs:date('2003-12-07')"/>
+      </environment>
+      <dependency type="language" value="de"/>
+      <test>
+         for $i in 1 to 12 
+         return let $d2 := $d + xs:yearMonthDuration('P1M')*$i 
+         return format-date($d2, '[MNn,3-3]', 'de', (), ()) 
+      </test>
+      <result>
+         <assert-string-value normalize-space="true">Jan Feb Mär Apr Mai Jun Jul Aug Sep Okt Nov Dez</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="format-date-de111">
+      <description>German weekday names</description>
+      <created by="Michael Kay, Saxonica" on="2021-12-01"/>
+      <environment>
+         <param name="d" as="xs:date" select="xs:date('2003-12-07')"/>
+      </environment>
+      <dependency type="language" value="de"/>
+      <test>for $i in 1 to 7 return let $d2 := $d + xs:dayTimeDuration('P1D')*$i return
+         format-date($d2, '[FN]', 'de', (), ()) </test>
+      <result>
+         <assert-string-value normalize-space="true">
+            MONTAG DIENSTAG MITTWOCH DONNERSTAG FREITAG SAMSTAG SONNTAG
+         </assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="format-date-de112">
+      <description>German weekday names</description>
+      <created by="Michael Kay, Saxonica" on="2021-12-01"/>
+      <environment>
+         <param name="d" as="xs:date" select="xs:date('2003-12-07')"/>
+      </environment>
+      <dependency type="language" value="de"/>
+      <test>for $i in 1 to 7 return let $d2 := $d + xs:dayTimeDuration('P1D')*$i return
+         format-date($d2, '[Fn]', 'de', (), ()) </test>
+      <result>
+         <assert-string-value normalize-space="true">
+            montag dienstag mittwoch donnerstag freitag samstag sonntag
+         </assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="format-date-de113">
+      <description>German weekday names</description>
+      <created by="Michael Kay, Saxonica" on="2021-12-01"/>
+      <environment>
+         <param name="d" as="xs:date" select="xs:date('2003-12-07')"/>
+      </environment>
+      <dependency type="language" value="de"/>
+      <test>for $i in 1 to 7 return let $d2 := $d + xs:dayTimeDuration('P1D')*$i return
+         format-date($d2, '[FNn]', 'de', (), ()) </test>
+      <result>
+         <assert-string-value normalize-space="true">
+            Montag Dienstag Mittwoch Donnerstag Freitag Samstag Sonntag
+         </assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="format-date-de114">
+      <description>German weekday names</description>
+      <created by="Michael Kay, Saxonica" on="2021-12-01"/>
+      <environment>
+         <param name="d" as="xs:date" select="xs:date('2003-12-07')"/>
+      </environment>
+      <dependency type="language" value="de"/>
+      <test>for $i in 1 to 7 return let $d2 := $d + xs:dayTimeDuration('P1D')*$i return
+         format-date($d2, '[FN,2-2]', 'de', (), ()) </test>
+      <result>
+         <assert-string-value>MO DI MI DO FR SA SO</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="format-date-de115">
+      <description>German weekday names</description>
+      <created by="Michael Kay, Saxonica" on="2021-12-01"/>
+      <environment>
+         <param name="d" as="xs:date" select="xs:date('2003-12-07')"/>
+      </environment>
+      <dependency type="language" value="de"/>
+      <test>for $i in 1 to 7 return let $d2 := $d + xs:dayTimeDuration('P1D')*$i return
+         format-date($d2, '[Fn,2-2]', 'de', (), ()) </test>
+      <result>
+         <assert-string-value>mo di mi do fr sa so</assert-string-value>
+      </result>
+   </test-case>
+   
+   <test-case name="format-date-de116">
+      <description>German weekday names</description>
+      <created by="Michael Kay, Saxonica" on="2021-12-01"/>
+      <environment>
+         <param name="d" as="xs:date" select="xs:date('2003-12-07')"/>
+      </environment>
+      <dependency type="language" value="de"/>
+      <test>for $i in 1 to 7 return let $d2 := $d + xs:dayTimeDuration('P1D')*$i return
+         format-date($d2, '[FNn,2-2]', 'de', (), ()) </test>
+      <result>
+         <assert-string-value>Mo Di Mi Do Fr Sa So</assert-string-value>
+      </result>
+   </test-case>
+   
+   
 
 
 

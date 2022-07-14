@@ -1483,5 +1483,40 @@
     </result>
   </test-case>
   
+  <test-case name="Serialization-adaptive-88" covers="adaptive-serialization">
+    <description>Test the adaptive serialization output method - attribute node -escaping - Saxon bug 5603</description>
+    <created by="Michael Kay" on="2022-07-13"/>
+    <dependency type="spec" value="XQ31+"/>
+    <test><![CDATA[
+ 
+     	declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "adaptive";
+        
+        attribute att-name { "att&lt;&amp;&gt;value" }
+
+      ]]></test>
+    <result>
+      <serialization-matches><![CDATA[^att-name\s*=\s*['"]att&lt;&amp;&gt;value['"]$]]></serialization-matches>
+    </result>
+  </test-case>
+  
+  <test-case name="Serialization-adaptive-89" covers="adaptive-serialization">
+    <description>Test the adaptive serialization output method - text node - escaping - Saxon bug 5604</description>
+    <created by="Michael Kay" on="2022-07-13"/>
+    <dependency type="spec" value="XQ31+"/>
+    <test><![CDATA[
+ 
+     	declare namespace output = "http://www.w3.org/2010/xslt-xquery-serialization";
+        declare option output:method "adaptive";
+        declare option output:omit-xml-declaration "yes";
+        
+        <a> &lt;-&gt; </a> / text()
+
+      ]]></test>
+    <result>
+      <serialization-matches><![CDATA[^ &lt;-&gt; $]]></serialization-matches>
+    </result>
+  </test-case>
+  
 
 </test-set>   
