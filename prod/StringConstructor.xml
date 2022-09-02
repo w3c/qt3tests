@@ -384,6 +384,96 @@ bottles]``
       </result>
    </test-case>
    
+   <test-case name="string-constructor-029">
+      <description>Entity references are not expanded</description>
+      <created by="Michael Kay" on="2022-08-17"/>
+      <test><![CDATA[
+        declare variable $n external := <e>10</e>; 
+        <a>{``[There were &lt; 10 green bottles]``}</a>
+      ]]></test>
+      <result>
+         <all-of>
+            <assert-type>element(a)</assert-type>
+            <assert-eq><![CDATA["There were &lt; 10 green bottles"]]></assert-eq>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="string-constructor-030">
+      <description>Character references are not expanded</description>
+      <created by="Michael Kay" on="2022-08-17"/>
+      <test><![CDATA[
+        declare variable $n external := <e>10</e>; 
+        <a>{``[There were &#x003C; 10 green bottles]``}</a>
+      ]]></test>
+      <result>
+         <all-of>
+            <assert-type>element(a)</assert-type>
+            <assert-eq><![CDATA["There were &#x003C; 10 green bottles"]]></assert-eq>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="string-constructor-031">
+      <description>Entity references are not expanded - string constructor with enclosed expressions</description>
+      <created by="Michael Kay" on="2022-08-17"/>
+      <test><![CDATA[
+        declare variable $n external := <e>10</e>; 
+        <a>{``[There were &lt; `{10}` green bottles]``}</a>
+      ]]></test>
+      <result>
+         <all-of>
+            <assert-type>element(a)</assert-type>
+            <assert-eq><![CDATA["There were &lt; 10 green bottles"]]></assert-eq>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="string-constructor-032">
+      <description>Character references are not expanded - string constructor with enclosed expression</description>
+      <created by="Michael Kay" on="2022-08-17"/>
+      <test><![CDATA[
+        declare variable $n external := <e>10</e>; 
+        <a>{``[There were &#x003C; `{10}` green bottles]``}</a>
+      ]]></test>
+      <result>
+         <all-of>
+            <assert-type>element(a)</assert-type>
+            <assert-eq><![CDATA["There were &#x003C; 10 green bottles"]]></assert-eq>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="string-constructor-033">
+      <description>Entity references are not expanded - string constructor with enclosed expressions</description>
+      <created by="Michael Kay" on="2022-08-17"/>
+      <test><![CDATA[
+        declare variable $n external := <e>10</e>; 
+        <a>{``[There were `{10}` &lt; green bottles]``}</a>
+      ]]></test>
+      <result>
+         <all-of>
+            <assert-type>element(a)</assert-type>
+            <assert-eq><![CDATA["There were 10 &lt; green bottles"]]></assert-eq>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="string-constructor-034">
+      <description>Character references are not expanded - string constructor with enclosed expression</description>
+      <created by="Michael Kay" on="2022-08-17"/>
+      <test><![CDATA[
+        declare variable $n external := <e>10</e>; 
+        <a>{``[There were `{10}` &#x003C; green bottles]``}</a>
+      ]]></test>
+      <result>
+         <all-of>
+            <assert-type>element(a)</assert-type>
+            <assert-eq><![CDATA["There were 10 &#x003C; green bottles"]]></assert-eq>
+         </all-of>
+      </result>
+   </test-case>
+   
    
    
    
