@@ -2162,6 +2162,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
         <description>Transform with a request for a specific product</description>
         <created by="Michael Kay" on="2016-11-01"/>
         <modified by="Michael Kay" on="2016-11-09" change="Make it valid XP31, bug 29993"/>
+        <modified by="Michael Kay" on="2022-08-01" change="Different error code if Saxon-HE is loaded, see bug GitHub/w3c/qt3tests #44"/>
         <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <test><![CDATA[let $xsl  := "<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform'
             xmlns:xs='http://www.w3.org/2001/XMLSchema'
@@ -2178,7 +2179,8 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
             })]]></test>
         <result>
             <any-of>
-                <error code="FOXT0001"/>
+                <error code="FOXT0001"/> <!-- thrown if Saxon is not available -->
+                <error code="XPST0017"/> <!-- thrown if run with Saxon-HE -->
                 <assert><![CDATA[contains($result("output"), ">true</out>")]]></assert>
             </any-of>
         </result>
