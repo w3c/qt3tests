@@ -1171,6 +1171,23 @@
     </result>
   </test-case>
   
+  <test-case name="fn-load-xquery-module-074">
+    <description>Tests that private variables and functions are not included. (Saxon bug 5639)</description>
+    <created by="Michael Kay" on="2022-09-02"/>
+    <module uri="http://www.w3.org/fots/fn/load-xquery-module/valid/module" file="load-xquery-module/valid-module.xqm"/>    
+    <test>
+      let $module-ns := "http://www.w3.org/fots/fn/load-xquery-module/valid/module",
+      $module := fn:load-xquery-module($module-ns, map{"xquery-version" : 3.1})
+      return
+      ( $module("variables")(QName($module-ns, "var3")), 
+        $module("functions")(QName($module-ns, "func3"))
+      )
+    </test>
+    <result>
+      <assert-empty/>
+    </result>
+  </test-case>
+  
   <test-case name="fn-load-xquery-module-901">
     <description>Checks for an error when calling fn:load-xquery-module without a module-uri.</description>
     <created by="Tim Mills" on="2016-09-07"/>
