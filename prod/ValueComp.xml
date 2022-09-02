@@ -569,6 +569,20 @@
       </result>
    </test-case>
    
+   <test-case name="value-comparison-15">
+      <description> Value comparison where the types are not known statically, but the same types are used repeatedly.</description>
+      <created by="Michael Kay" on="2022-08-06"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test>
+         let $one := ("a", "b", "c", "d", 12, 13) return
+         let $two := ("a", "B", "c", "D", 12, 14) return
+         for-each-pair($one, $two, function($a, $b){$a eq $b})
+      </test>
+      <result>
+         <assert-deep-eq>true(), false(), true(), false(), true(), false()</assert-deep-eq>
+      </result>
+   </test-case>
+   
    <test-case name="value-comp-eq-string-1">
       <description> Value comparison on strings. </description>
       <created by="Michael Kay" on="2014-10-15"/>
