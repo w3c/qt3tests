@@ -1041,7 +1041,22 @@
          <error code="FOJS0006"/>
       </result>
    </test-case>
-
+   
+   <test-case name="xml-to-json-083">
+      <description>Invalid child of json:string (Saxon bug 5683)</description>
+      <created by="Michael Kay after Martynas Jusevicius" on="2022-09-13"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test><![CDATA[
+        xml-to-json(<json:map xmlns:json="http://www.w3.org/2005/xpath-functions"><json:string key="v"><json:array><json:string>42</json:string></json:array></json:string></json:map>)
+       ]]></test>
+      <result>
+         <error code="FOJS0006"/>
+      </result>
+   </test-case>
+   
+   
+   
+   
    <test-case name="xml-to-json-C-001">
       <description>Invalid input</description>
       <created by="Michael Kay" on="2016-04-22"/>
