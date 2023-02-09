@@ -842,6 +842,8 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
         <created by="Debbie Lockett" on="2015-03-11"/>
         <modified by="Abel Braaksma" on="2016-09-22" change="use function-style map lookup"/>
         <modified by="Tim Mills" on="2016-10-25" change="Bug 29946"/>
+        <modified by="Debbie Lockett" on="2022-09-28" 
+            change="allow trailing slash on URI (different string representation of the same URI)"/>
         <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
         <environment>
             <source role="$staticbaseuri" file="transform/staticbaseuri.xsl"  uri="http://www.w3.org/fots/fn/transform/staticbaseuri.xsl"/>
@@ -851,7 +853,7 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style }
                                 "stylesheet-base-uri": "http://www.example.com"})("output")</test>
         <result>
 	    <any-of>
-            <assert>$result/x = 'http://www.example.com'</assert>
+	        <assert>$result/x = ('http://www.example.com', 'http://www.example.com/')</assert>
             <assert>$result/x = 'http://www.w3.org/fots/fn/transform/staticbaseuri.xsl'</assert>
 	    </any-of>
         </result>
