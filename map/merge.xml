@@ -434,4 +434,25 @@
             <error code="XPTY0004"/>
         </result>
     </test-case>
+    
+    <test-case name="map-merge-027">
+        <description>Use map:merge() to invert a map, combining duplicates (SaxonJS bug 5855)</description>
+        <created by="Debbie Lockett, Saxonica" on="2023-02-22"/>
+        <environment ref="map"/>
+        <test>let $m := map{'a': (1, 2), 'b': 2, 'c': 1, 'd': 3} 
+            return map:merge( 
+                for $key in map:keys($m) return for $val in map:get($m, $key) return map{$val : $key}, 
+                map{'duplicates': 'combine'})</test>
+        <result>
+            <all-of>
+                <assert-count>1</assert-count>
+                <assert-type>map(*)</assert-type>
+                <assert-type>map(xs:integer, xs:string*)</assert-type>
+                <assert>deep-equal(map:keys($result), (1, 2, 3))</assert>
+                <assert>deep-equal($result(1), ("a", "c"))</assert>
+                <assert>deep-equal($result(2), ("a", "b"))</assert>
+                <assert>deep-equal($result(3), ("d"))</assert>
+            </all-of>
+        </result>
+    </test-case>
 </test-set>
