@@ -2795,6 +2795,26 @@ return transform(map{"source-node":fn:parse-xml($in), "stylesheet-text":$style, 
             </any-of>
         </result>
     </test-case>
+    
+    <test-case name="fn-transform-88">
+        <description>Transform with default mode</description>
+        <created by="Michael Kay" on="2023-04-05"/>
+        <dependency type="feature" value="fn-transform-XSLT" satisfied="true" />
+        <test><![CDATA[let $xsl  := "<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform'
+            version='3.0' default-mode='x'> 
+            <xsl:template match='/' mode='#unnamed'>WRONG</xsl:template>
+            <xsl:template match='/' mode='x'>RIGHT</xsl:template>
+        </xsl:stylesheet>" 
+        return transform(map{"stylesheet-text" : $xsl,
+                             "delivery-format" : "raw",
+                             "base-output-uri" : "http://example.com/",
+                             "source-node"     : parse-xml('<a><b>89</b></a>')
+                            }) 
+        ]]></test>
+        <result>
+            <assert>string($result("http://example.com/")) = 'RIGHT'</assert>
+        </result>
+    </test-case>
 
     <test-case name="fn-transform-err-1">
       <description>Loads a stylesheet from the location render.xsl, but fails to supply a source document</description>
