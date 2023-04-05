@@ -2610,10 +2610,16 @@
    <test-case name="n_structure_null-byte-outside-string">
       <description>JSONTestSuite test case n_structure_null-byte-outside-string</description>
       <created by="Michael Kay, Saxonica" on="2018-08-01"/>
+      <modified by="Michael Kay, Saxonica" on="2022-12-16" change="
+         Since the second byte of the input is a null byte, the processor may incorrectly infer UTF-16LE encoding,
+         and then fail to decode the file, leading to an I/O error (FOUT1200) rather than a parsing error (FOJS0001)"/>
       <dependency type="spec" value="XQ31+"/>
       <test>json-doc('JSONTestSuite/test_parsing/n_structure_null-byte-outside-string.json')</test>
       <result>
-         <error code="FOJS0001"/>
+         <any-of>
+            <error code="FOJS0001"/>
+            <error code="FOUT1200"/>
+         </any-of>
       </result>
    </test-case>
    <test-case name="i_structure_UTF-8_BOM_empty_object">
