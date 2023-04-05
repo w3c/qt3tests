@@ -1654,6 +1654,19 @@
          <assert-deep-eq>"E1P1", "E2P1", "E4P4"</assert-deep-eq>
       </result>
    </test-case>
+   
+   <test-case name="predicates-36">
+      <description> Variant of -35 that depends on position(), to prevent indexing. Saxon bug 5822 </description>
+      <created by="Michael Kay" on="2023-02-15"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <environment ref="works"/>
+      <test>(/works/employee[(xs:integer(hours) eq 40, empnum, number(hours) - 39, position() - 3000) 
+         = xs:untypedAtomic("1"||substring(string(current-date()), 200))]) ! (empnum || pnum)</test>
+      <result>
+         <assert-deep-eq>"E1P1", "E2P1", "E4P4"</assert-deep-eq>
+      </result>
+   </test-case>
+   
 
    <test-case name="predicatesns-1">
       <description> Evaluation of a simple predicate with a "true" value (uses "fn:true"). Use of fn:count to avoid empty file. Not Schema dependent. </description>
