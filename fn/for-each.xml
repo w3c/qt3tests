@@ -80,9 +80,17 @@
             return for-each($data/*, $f)[not(. instance of attribute())]
         </test>
         <result>
-            <assert-xml>&lt;b bid="b"&gt;&lt;b1/&gt;&lt;/b&gt;&lt;b1/&gt;&lt;c cid="c"&gt;&lt;c1/&gt;&lt;/c&gt;&lt;c1/&gt;</assert-xml>
+            <all-of>
+                <assert>count($result) = 4</assert>
+                <assert>$result[1][self::b][@bid='b'][child::b1]</assert>
+                <assert>$result[2][self::b1]</assert>
+                <assert>$result[3][self::c][@cid='c'][child::c1]</assert>
+                <assert>$result[4][self::c1]</assert>
+            </all-of>
+            <!--<assert-xml>&lt;b bid="b"&gt;&lt;b1/&gt;&lt;/b&gt;&lt;b1/&gt;&lt;c cid="c"&gt;&lt;c1/&gt;&lt;/c&gt;&lt;c1/&gt;</assert-xml>-->
         </result>
     </test-case>
+    
     <test-case name="for-each-007">
         <description>for-each function - input is an empty sequence</description>
         <created by="Michael Kay" on="2010-02-10"/>
