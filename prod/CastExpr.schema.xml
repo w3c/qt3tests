@@ -652,6 +652,20 @@
             <assert-eq>32</assert-eq>
       </result>
    </test-case>
+  
+  <test-case name="user-defined-11">
+    <description> Declare function that conflicts with a constructor function for a user-defined type </description>
+    <created by="Michael Kay" on="2023-04-03"/>
+    <environment ref="user-defined-types"/>
+    <dependency type="spec" value="XQ10+"/>
+    <test>
+      import schema namespace myType="http://www.w3.org/XQueryTest/userDefinedTypes";
+      declare function myType:sizeType($a as xs:integer) {$a + 1};
+      myType:sizeType(16) + myType:floatBased (16)</test>
+    <result>
+      <error code="XQST0034"/>
+    </result>
+  </test-case>
 
    <test-case name="CastAs-UnionType-1" covers-30="cast-to-union">
        <description>Test the union type that should return an xs:integer value</description>
