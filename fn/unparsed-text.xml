@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="us-ascii"?>
+<?xml version="1.0" encoding="utf-8"?>
 <test-set xmlns="http://www.w3.org/2010/09/qt-fots-catalog" 
    name="fn-unparsed-text" covers-30="fn-unparsed-text">
    <description>Tests for the unparsed-text() function</description>
@@ -81,6 +81,12 @@
          <description>Invalid XML.</description>
          <created by="Tim Mills" on="2012-01-05"/>
          <modified by="O'Neil Delpratt" on="2012-10-16" change="Added the encoding attribute"/>
+      </resource>
+      <resource file="unparsed-text/text-xml-unknown-encoding.xml" 
+         media-type="application/xml"
+         uri="http://www.w3.org/fots/unparsed-text/text-xml-unknown-encoding.xml">
+         <description>XML with encoding declaration where encoding is unknown (Saxon bug 5952)</description>
+         <created by="Michael Kay" on="2023-04-02"/>
       </resource>
       <resource file="unparsed-text/unknown-encoding.txt" 
                 uri="http://www.w3.org/fots/unparsed-text/unknown-encoding.txt">
@@ -783,6 +789,24 @@
       </test>
       <result>
          <assert-eq>2048</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-unparsed-text-056">
+      <description>
+         $href refers to an XML file whose encoding is unknown (Saxon bug 5952).
+         Note: it's not entirely clear what the spec says about this. Reasonable interpretations are
+         (a) to throw an error saying "unknown encoding", or (b) to ignore the encoding in the XML
+         declaration and use other ways of inferring an encoding.
+      </description>
+      <created by="Michael Kay" on="2023-04-02"/>
+      <environment ref="unparsed-text" />
+      <test>fn:unparsed-text("http://www.w3.org/fots/unparsed-text/text-xml-unknown-encoding.xml")</test>
+      <result>
+         <any-of>
+            <error code="FOUT1190" />
+            <assert-string-value><![CDATA[<?xml version="1.0" encoding="unknown"?><text>hello world</text>]]></assert-string-value>
+         </any-of>  
       </result>
    </test-case>
 
