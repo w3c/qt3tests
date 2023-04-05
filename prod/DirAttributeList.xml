@@ -96,6 +96,26 @@
          <assert-xml><![CDATA[<elem attr="value"/>]]></assert-xml>
       </result>
    </test-case>
+   
+   <test-case name="Constr-attr-syntax-11">
+      <description> Spurious quote character </description>
+      <created by="Michael Kay" on="2023-01-31"/>
+      <test><![CDATA[<elem attr=`value`/>]]></test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+   
+   <test-case name="Constr-attr-syntax-12">
+      <description> Whitespace around equals sign </description>
+      <created by="Michael Kay" on="2023-01-31"/>
+      <test><![CDATA[<elem attr
+         =
+         "value" />]]></test>
+      <result>
+         <assert-xml><![CDATA[<elem attr="value"/>]]></assert-xml>
+      </result>
+   </test-case>
 
    <test-case name="Constr-attr-parent-1">
       <description> Attribute parent element </description>
