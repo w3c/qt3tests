@@ -261,6 +261,30 @@
       </result>
    </test-case>
 
+   <test-case name="last-26">
+      <description> selection with last() in predicate which contains path expressions </description>
+      <created by="Shuxin Li" on="2023-06-21"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         document{<A><B/><C/></A>}//*[head(./*/last()) <= 1]
+      ]]></test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+
+   <test-case name = "last-27">
+      <description> simple node selection with last() </description>
+      <created by="Shuxin Li" on="2023-06-21"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         count(document{<A><B/></A>}//*[last() <= 1])
+      ]]></test>
+      <result>
+         <assert-eq>2</assert-eq>
+      </result>
+   </test-case>
+
    <test-case name="K-ContextLastFunc-1">
       <description> A test whose essence is: `last(1)`. </description>
       <created by="Frans Englich" on="2007-11-26"/>
