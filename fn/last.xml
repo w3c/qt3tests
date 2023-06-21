@@ -264,7 +264,10 @@
    <test-case name="last-26">
       <description> selection with last() in predicate which contains path expressions </description>
       <created by="Shuxin Li" on="2023-06-21"/>
-      <test>document{<A><B/><C/></A>}//*[head(./*/last()) <= 1]</test>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         document{<A><B/><C/></A>}//*[head(./*/last()) <= 1]
+      ]]></test>
       <result>
          <assert-empty/>
       </result>
@@ -273,7 +276,10 @@
    <test-case name = "last-27">
       <description> simple node selection with last() </description>
       <created by="Shuxin Li" on="2023-06-21"/>
-      <test>count(document{<A><B/></A>}//*[last() <= 1])</test>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         count(document{<A><B/></A>}//*[last() <= 1])
+      ]]></test>
       <result>
          <assert-eq>2</assert-eq>
       </result>
