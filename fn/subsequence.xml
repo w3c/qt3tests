@@ -220,6 +220,26 @@
       </result>
    </test-case>
 
+   <test-case name="fn-subsequence-mix-args-025">
+      <description>composite query of subsequence with map operator and count function</description>
+      <created by="Shuxin Li" on="2023-06-21"/>
+      <test><![CDATA[
+         document{<M id="1"/>}/M/count(subsequence(. ! (., @id), 1, 2))
+      ]]></test>
+      <result>
+         <assert-eq>2</assert-eq>
+      </result>
+   </test-case>
+
+   <test-case name="fn-subsequence-mix-args-026">
+      <description>mixed sequence operations with tail and subsequence</description>
+      <created by="Shuxin Li" on="2023-06-21"/>
+      <test>tail(subsequence((1 to 2),1,2))</test>
+      <result>
+         <assert-eq>2</assert-eq>
+      </result>
+   </test-case>
+
    <test-case name="K-SeqSubsequenceFunc-1">
       <description> A test whose essence is: `subsequence()`. </description>
       <created by="Frans Englich" on="2007-11-26"/>
