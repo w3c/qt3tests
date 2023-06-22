@@ -427,6 +427,30 @@
       </result>
    </test-case>
 
+   <test-case name="op-numeric-multiplymix2args-10">
+      <description> Simple multiplication test on xml document, with zero as second operand </description>
+      <created by="Shuxin Li" on="2023-06-21"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         document{<A>-1</A>}//A[(text() * 0) = 6]
+      ]]></test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+
+   <test-case name="op-numeric-multiplymix2args-11">
+      <description> Simple multiplication test on xml document, with negative number as second operand </description>
+      <created by="Shuxin Li" on="2023-06-21"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         document{<A>-1</A>}//A[text()*(-1)>2]
+      ]]></test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+
    <test-case name="K-NumericMultiply-1">
       <description> A test whose essence is: `xs:double(6) * xs:double(2) eq 12`. </description>
       <created by="Frans Englich" on="2007-11-26"/>
