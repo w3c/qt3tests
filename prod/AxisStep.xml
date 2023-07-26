@@ -3931,6 +3931,18 @@ tour:main()
       </result>
    </test-case>
 
+   <test-case name="Axes128">
+      <description> self axis selection with self-contradicting predicates applied </description>
+      <created by="Shuxin Li" on="2023-06-21"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         document{<G y="a"></G>}//G[@y <= "a"]/self::*[@y > "a"]
+      ]]></test>
+      <result>
+         <assert-empty/>
+      </result>
+   </test-case>
+
 
    <test-case name="axis-err-1">
       <description> Evaluation of a step axis, which operates on a non node context item.</description>
