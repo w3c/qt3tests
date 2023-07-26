@@ -273,7 +273,7 @@
       </result>
    </test-case>
 
-   <test-case name = "last-27">
+   <test-case name="last-27">
       <description> simple node selection with last() </description>
       <created by="Shuxin Li" on="2023-06-21"/>
       <dependency type="spec" value="XQ30+"/>
@@ -282,6 +282,19 @@
       ]]></test>
       <result>
          <assert-eq>2</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="last-28">
+      <description> last() on RHS of "/" </description>
+      <created by="Michael Kay after Shuxin Li" on="2023-06-23"/>
+      <dependency type="spec" value="XQ30+"/>
+      <test><![CDATA[
+         let $in := document{<A><B/></A>}
+         return $in//*[((.,.)/parent::*/last() ! (. > 1)) = true()]
+      ]]></test>
+      <result>
+         <assert-empty/>
       </result>
    </test-case>
 
