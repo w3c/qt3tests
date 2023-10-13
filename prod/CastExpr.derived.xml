@@ -712,10 +712,12 @@
    <test-case name="cbcl-cast-dayTimeDuration-001">
       <description> test cast to xs:dayTimeDuration with overflow </description>
       <created by="Tim Mills" on="2008-04-25"/>
+      <modified by="Michael Kay" on="2023-09-11" change="allow success"/>
       <test>"P11768614336404564651D" cast as xs:dayTimeDuration</test>
       <result>
          <any-of>
             <error code="FODT0002"/>
+            <assert-eq>xs:dayTimeDuration("P11768614336404564651D")</assert-eq>
          </any-of>
       </result>
    </test-case>
@@ -724,9 +726,13 @@
       <description> test cast to xs:dayTimeDuration with overflow </description>
       <created by="Tim Mills" on="2008-04-25"/>
       <modified by="Michael Kay" on="2020-01-10" change="change from duration to dayTimeDuration to match the description"/>
+      <modified by="Michael Kay" on="2023-09-11" change="allow success"/>
       <test>"-P11768614336404564651D" cast as xs:dayTimeDuration</test>
       <result>
-         <error code="FODT0002"/>
+         <any-of>
+            <error code="FODT0002"/>
+            <assert-eq>xs:dayTimeDuration("-P11768614336404564651D")</assert-eq>
+         </any-of>
       </result>
    </test-case>
 
