@@ -466,12 +466,14 @@
       <created by="Tim Mills" on="2008-05-16"/>
       <modified by="O'Neil Delpratt" on="2013-05-02"
          change="Added error code FODT0002. See bug issue #21900"/>
+      <modified by="Michael Kay" on="2023-09-11" change="allow success"/>
       <test>xs:dayTimeDuration('P5999999999999999999DT00H00M01S') div
          xs:dayTimeDuration('P0DT00H00M0.000001S')</test>
       <result>
          <any-of>
             <error code="FOAR0002"/>
             <error code="FODT0002"/>
+            <assert-eq>518399999999999999913601000000</assert-eq>
          </any-of>
       </result>
    </test-case>
@@ -1017,11 +1019,15 @@
    <test-case name="FODT0002-1">
       <description> check that duration functions throw FODT0002 </description>
       <created by="Tim Mills" on="2008-05-16"/>
+      <modified by="Michael Kay" on="2023-09-11" change="allow success"/>
 
       <test>xs:dayTimeDuration('P5999999999999999999DT00H00M01S') +
          xs:dayTimeDuration('P4999999999999999999DT00H00M01S')</test>
       <result>
-         <error code="FODT0002"/>
+         <any-of>
+            <error code="FODT0002"/>
+            <assert-eq>xs:dayTimeDuration("P10999999999999999998DT2S")</assert-eq>
+         </any-of>
       </result>
    </test-case>
 
@@ -1029,10 +1035,14 @@
    <test-case name="FODT0002-2">
       <description> check that duration functions throw FODT0002 </description>
       <created by="Tim Mills" on="2008-05-16"/>
+      <modified by="Michael Kay" on="2023-09-11" change="allow success"/>
 
       <test>xs:dayTimeDuration('P5999999999999999999DT00H00M01S') * 2</test>
       <result>
-         <error code="FODT0002"/>
+         <any-of>
+            <error code="FODT0002"/>
+            <assert-eq>xs:dayTimeDuration("P11999999999999999998DT2S")</assert-eq>
+         </any-of>
       </result>
    </test-case>
 
@@ -1040,10 +1050,14 @@
    <test-case name="FODT0002-3">
       <description> check that duration functions throw FODT0002 </description>
       <created by="Tim Mills" on="2008-05-16"/>
+      <modified by="Michael Kay" on="2023-09-11" change="allow success"/>
 
       <test>xs:dayTimeDuration('P5999999999999999999DT00H00M01S') div 0.5</test>
       <result>
-         <error code="FODT0002"/>
+         <any-of>
+            <error code="FODT0002"/>
+            <assert-eq>xs:dayTimeDuration("P11999999999999999998DT2S")</assert-eq>
+         </any-of>
       </result>
    </test-case>
 
@@ -1051,11 +1065,15 @@
    <test-case name="FODT0002-4">
       <description> check that duration functions throw FODT0002 </description>
       <created by="Tim Mills" on="2008-05-16"/>
+      <modified by="Michael Kay" on="2023-09-11" change="allow success"/>
 
       <test>xs:dayTimeDuration('P5999999999999999999DT00H00M01S') -
          xs:dayTimeDuration('-P5999999999999999999DT00H00M01S')</test>
       <result>
-         <error code="FODT0002"/>
+         <any-of>
+            <error code="FODT0002"/>
+            <assert-eq>xs:dayTimeDuration("P11999999999999999998DT2S")</assert-eq>
+         </any-of>
       </result>
    </test-case>
 
