@@ -2081,9 +2081,13 @@
    <test-case name="cbcl-avg-002">
       <description> Test fn:avg overflows correctly with xs:dayTimeDurations</description>
       <created by="Oliver Hallam" on="2008-04-11"/>
+      <modified by="Michael Kay" on="2023-09-11" change="allow success"/>
       <test>fn:avg((xs:dayTimeDuration("P9223372036854775807D"), xs:dayTimeDuration("P1D")))</test>
       <result>
-         <error code="FODT0002"/>
+         <any-of>
+            <error code="FODT0002"/>
+            <assert-eq>xs:dayTimeDuration("P4611686018427387904D")</assert-eq>
+         </any-of>
       </result>
    </test-case>
    

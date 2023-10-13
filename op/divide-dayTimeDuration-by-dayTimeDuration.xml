@@ -383,12 +383,14 @@ together with the numeric-equal operator "ge".
 
    <test-case name="cbcl-divide-dayTimeDuration-by-dayTimeDuration-002">
       <description> test division of xs:dayTimeDuration by a small duration </description>
-      <created by="Tim Mills" on="2008-05-14"/>      
+      <created by="Tim Mills" on="2008-05-14"/>
+      <modified by="Michael Kay" on="2023-09-11" change="add success result"/>      
       <test>xs:dayTimeDuration("P9223372036854775807D") div xs:dayTimeDuration("P0DT0H0M0.000000001S")</test>
       <result>
          <any-of>
-           <error code="FOAR0002"/>
-           <error code="FODT0002"/>
+            <error code="FOAR0002"/>
+            <error code="FODT0002"/>
+            <assert-eq>796899343984252629724800000000000</assert-eq> 
          </any-of>         
       </result>
    </test-case>   

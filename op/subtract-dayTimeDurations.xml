@@ -544,11 +544,20 @@ together with the numeric-equal operator "ge".
    <test-case name="cbcl-subtract-dayTimeDurations-003">
       <description> test subtraction of large dayTimeDuration </description>
       <created by="Tim Mills" on="2008-05-16"/>
+      <modified by="Michael Kay" on="2023-09-11" change="add success result"/>
       <dependency type="spec" value="XQ10+"/>
       
-      <test>declare function local:dayTimeDuration($days as xs:integer, $hours as xs:integer ) { xs:dayTimeDuration(concat('P', $days, 'DT', $hours, 'H')) }; xs:dayTimeDuration("-P5000000000000000000D") - local:dayTimeDuration(5000000000000000000, 1)</test>
+      <test>
+       declare function local:dayTimeDuration($days as xs:integer, $hours as xs:integer ) { 
+         xs:dayTimeDuration(concat('P', $days, 'DT', $hours, 'H')) 
+       }; 
+       xs:dayTimeDuration("-P5000000000000000000D") - local:dayTimeDuration(5000000000000000000, 1)
+      </test>
       <result>
-         <error code="FODT0002"/>
+         <any-of>
+            <error code="FODT0002"/>
+            <assert-eq>xs:dayTimeDuration("-P10000000000000000000DT1H")</assert-eq>
+         </any-of>
       </result>
    </test-case>
    
