@@ -35,9 +35,10 @@ $arg2 = xs:double(lower bound)
 *******************************************************
 </description>
       <created by="Carmelo Montanez" on="2004-12-13"/>
+      <modified by="Michael Kay" on="2023-09-11" change="allow small values other than zero"/>
       <test>xs:dayTimeDuration("P15DT11H59M59S") div xs:double("-1.7976931348623157E308")</test>
       <result>
-         <assert-string-value>PT0S</assert-string-value>
+         <assert>abs(seconds-from-duration($result)) lt 1e-100</assert>
       </result>
    </test-case>
    <test-case name="op-divide-dayTimeDuration2args-3">
@@ -53,9 +54,10 @@ $arg2 = xs:double(lower bound)
 *******************************************************
 </description>
       <created by="Carmelo Montanez" on="2004-12-13"/>
+      <modified by="Michael Kay" on="2023-09-11" change="allow small values other than zero"/>
       <test>xs:dayTimeDuration("P31DT23H59M59S") div xs:double("-1.7976931348623157E308")</test>
       <result>
-         <assert-string-value>PT0S</assert-string-value>
+         <assert>abs(seconds-from-duration($result)) lt 1e-100</assert>
       </result>
    </test-case>
    <test-case name="op-divide-dayTimeDuration2args-4">

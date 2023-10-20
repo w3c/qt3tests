@@ -6741,6 +6741,84 @@
       </result>
    </test-case>
    
+   <test-case name="CastAs688">
+      <description>
+         Leading decimal point in duration values. This is contentious:
+         XSD 1.0 clearly requires a digit before and after the decimal
+         point. XSD 1.1 apparently doesn't, but this is believed to
+         be an error in the spec.
+      </description>
+      <created by="Michael Kay" on="2023-09-12"/>
+      <test>xs:duration('PT.5S')</test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+   
+   <test-case name="CastAs689">
+      <description>
+         Leading decimal point in duration values. This is contentious:
+         XSD 1.0 clearly requires a digit before and after the decimal
+         point. XSD 1.1 apparently doesn't, but this is believed to
+         be an error in the spec.
+      </description>
+      <created by="Michael Kay" on="2023-09-12"/>
+      <test>xs:dayTimeDuration('PT10M.5S')</test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+   
+   <test-case name="CastAs690">
+      <description>
+         Trailing decimal point in duration values. This is contentious:
+         XSD 1.0 clearly requires a digit before and after the decimal
+         point. XSD 1.1 apparently doesn't, but this is believed to
+         be an error in the spec.
+      </description>
+      <created by="Michael Kay" on="2023-09-12"/>
+      <test>xs:duration('PT30.S')</test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+   
+   <test-case name="CastAs691">
+      <description>
+         Trailing decimal point in duration values. This is contentious:
+         XSD 1.0 clearly requires a digit before and after the decimal
+         point. XSD 1.1 apparently doesn't, but this is believed to
+         be an error in the spec.
+      </description>
+      <created by="Michael Kay" on="2023-09-12"/>
+      <test>xs:dayTimeDuration('PT10M30.S')</test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+   
+   <test-case name="CastAs692">
+      <description>
+         Disallow exponential notation in duration values.
+      </description>
+      <created by="Michael Kay" on="2023-09-12"/>
+      <test>xs:dayTimeDuration('PT10M1e2S')</test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+   
+   <test-case name="CastAs693">
+      <description>
+         Disallow exponential notation in duration values.
+      </description>
+      <created by="Michael Kay" on="2023-09-12"/>
+      <test>xs:yearMonthDuration('P1e3M')</test>
+      <result>
+         <error code="FORG0001"/>
+      </result>
+   </test-case>
+   
    
 
   <test-case name="CastAsNamespaceSensitiveType-1" covers-30="cast-to-qname-errors">
