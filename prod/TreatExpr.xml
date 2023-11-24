@@ -254,6 +254,26 @@
          <assert-eq>20</assert-eq>
       </result>
    </test-case>
+   
+   <test-case name="treat-as-26">
+      <description> Can't treat an xs:anyURI as an xs:string even though it's promotable (Saxon bug 6239) </description>
+      <created by="Michael Kay" on="2023-11-04"/>
+      <dependency type="spec" value="XP30+ XQ10+"/>
+      <test>string-join(("a", xs:anyURI("b"), "c", xs:anyURI("d"))[position() lt 3] treat as xs:string*)</test>
+      <result>
+         <error code="XPDY0050"/>
+      </result>
+   </test-case>
+   
+   <test-case name="treat-as-27">
+      <description> Can't treat an xs:anyURI as an xs:string even though it's promotable </description>
+      <created by="Michael Kay" on="2023-11-04"/>
+      <dependency type="spec" value="XP30+ XQ10+"/>
+      <test>string-join(("a", xs:anyURI("b"), "c", xs:anyURI("d"))[position() lt 2] treat as xs:string*)</test>
+      <result>
+         <assert-eq>"a"</assert-eq>
+      </result>
+   </test-case>
 
    <test-case name="K-SeqExprTreat-1">
       <description> A test whose essence is: `3 treat as xs:string`. </description>
