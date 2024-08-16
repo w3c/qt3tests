@@ -240,33 +240,92 @@
    <test-case name="PathExpr-17">
       <description> Leading lone slash syntax contraints - array constructor is allowed</description>
       <created by="Michael Kay" on="2024-07-07"/>
+      <modified by="Michael Kay" on="2024-08-16" change="assertion must not use XQ syntax"/>
       <environment ref="OneTopElement"/>
       <dependency type="spec" value="XP31+ XQ31+"/>
       <test>/[bid, bid]</test>
       <result>
-         <assert-deep-eq>[<bid>23</bid>, <bid>23</bid>]</assert-deep-eq>
-      </result>
-   </test-case>
-   
-   <test-case name="PathExpr-18">
-      <description> Leading lone slash syntax contraints - square array constructor is allowed</description>
-      <created by="Michael Kay" on="2024-07-07"/>
-      <environment ref="OneTopElement"/>
-      <dependency type="spec" value="XP31+ XQ31+"/>
-      <test>/[bid, bid]</test>
-      <result>
-         <assert-deep-eq>[<bid>23</bid>, <bid>23</bid>]</assert-deep-eq>
+         <all-of>
+            <assert-type>array(element(bid))</assert-type>
+            <assert>$result?1 = 23</assert>
+            <assert>$result?2 = 23</assert>
+         </all-of>
       </result>
    </test-case>
    
    <test-case name="PathExpr-19">
       <description> Leading lone slash syntax contraints - curly array constructor is allowed</description>
       <created by="Michael Kay" on="2024-07-07"/>
+      <modified by="Michael Kay" on="2024-08-16" change="assertion must not use XQ syntax"/>
       <environment ref="OneTopElement"/>
       <dependency type="spec" value="XP31+ XQ31+"/>
       <test>/array{bid, bid}</test>
       <result>
-         <assert-deep-eq>[<bid>23</bid>, <bid>23</bid>]</assert-deep-eq>
+         <all-of>
+            <assert-type>array(element(bid))</assert-type>
+            <assert>$result?1 = 23</assert>
+            <assert>$result?2 = 23</assert>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="PathExpr-20">
+      <description> Leading lone slash syntax contraints - function call is allowed</description>
+      <created by="Michael Kay" on="2024-07-07"/>
+      <environment ref="OneTopElement"/>
+      <dependency type="spec" value="XP31+ XQ31+"/>
+      <test>/count(bid)</test>
+      <result>
+         <assert-eq>1</assert-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="PathExpr-21">
+      <description> Leading lone slash syntax contraints - ordered{} is allowed</description>
+      <created by="Michael Kay" on="2024-07-07"/>
+      <modified by="Michael Kay" on="2024-08-16" change="assertion must not use XQ syntax"/>
+      <environment ref="OneTopElement"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test>/ordered{bid}</test>
+      <result>
+         <all-of>
+            <assert-type>element(bid)</assert-type>
+            <assert>$result = 23</assert>
+         </all-of>
+         <assert-deep-eq><![CDATA[ <bid>23</bid> ]]></assert-deep-eq>
+      </result>
+   </test-case>
+   
+   <test-case name="PathExpr-22">
+      <description> Leading lone slash syntax contraints - `instance of` is not allowed</description>
+      <created by="Michael Kay" on="2024-07-07"/>
+      <environment ref="OneTopElement"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test>/ instance of document-node()</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+   
+   <test-case name="PathExpr-23">
+      <description> Leading lone slash syntax contraints - `cast as` is not allowed</description>
+      <created by="Michael Kay" on="2024-07-07"/>
+      <environment ref="OneTopElement"/>
+      <dependency type="spec" value="XQ31+"/>
+      <test>/ cast as document-node()</test>
+      <result>
+         <error code="XPST0003"/>
+      </result>
+   </test-case>
+   
+   <test-case name="PathExpr-24">
+      <description> Leading lone slash syntax contraints - numeric literal is allowed</description>
+      <created by="Michael Kay" on="2024-07-07"/>
+      <environment ref="OneTopElement"/>
+      <dependency type="spec" value="XP40+ XQ40+"/>
+      <test>/42</test>
+      <result>
+         <assert-eq>42</assert-eq>
       </result>
    </test-case>
 </test-set>
