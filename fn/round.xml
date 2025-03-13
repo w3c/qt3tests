@@ -2468,6 +2468,22 @@
       </result>
    </test-case>
    
+   <test-case name="fn-round2args-6" covers-30="fn-round">
+      <description>
+        Tests the two-argument form of round() - Saxon bug 6537
+      </description>
+      <created by="Michael Kay" on="2024-09-16"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:round(-0.125e0, 2)</test>
+      <result>
+         <all-of>
+            <assert-eq>-0.12e0</assert-eq>
+            <assert-type>xs:double</assert-type>
+         </all-of>
+      </result>
+   </test-case>
+   
+   
    <test-case name="fn-round2args-1f" covers-30="fn-round">
       <description>Tests the two-argument form of round() - float version</description>
       <created by="Michael Kay" on="2014-08-14"/>
@@ -2531,6 +2547,21 @@
       <result>
          <all-of>
             <assert-eq>xs:float(-0.4e0)</assert-eq>
+            <assert-type>xs:float</assert-type>
+         </all-of>
+      </result>
+   </test-case>
+   
+   <test-case name="fn-round2args-6f" covers-30="fn-round">
+      <description>
+        Tests the two-argument form of round() - Saxon bug 6537
+      </description>
+      <created by="Michael Kay" on="2024-09-16"/>
+      <dependency type="spec" value="XP30+ XQ30+"/>
+      <test>fn:round(xs:float(-0.125e0), 2)</test>
+      <result>
+         <all-of>
+            <assert-eq>xs:float(-0.12e0)</assert-eq>
             <assert-type>xs:float</assert-type>
          </all-of>
       </result>

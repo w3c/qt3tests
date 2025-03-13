@@ -284,16 +284,17 @@
   <test-case name="Catalog013">
     <description> Test that dependencies on the spec version use correct values </description>
     <created by="Michael Kay" on="2015-01-03"/>
+    <modified by="Michael Kay" on="2024-11-19" change="avoid FORG0006 when tokenize() returns multiple invalid strings"/>
     <environment ref="catalog"/>
     <dependency type="spec" value="XQ10+"/>
     <test><![CDATA[
       declare namespace fots = "http://www.w3.org/2010/09/qt-fots-catalog";
       let $testsets := //fots:test-set/@file/doc(resolve-uri(., base-uri(..)))
       return $testsets//fots:dependency[@type='spec']
-             [tokenize(normalize-space(@value), ' ')[not (. =
+             [exists(tokenize(normalize-space(@value), ' ')[not (. =
                           ('XP20', 'XP20+', 'XP30', 'XP30+', 'XP31', 'XP31+', 
                            'XQ10', 'XQ10+', 'XQ30', 'XQ30+', 'XQ31', 'XQ31+',
-                           'XT30', 'XT30+'))]]/
+                           'XT30', 'XT30+'))])]/
                            concat(../@name, ' => ', @value)
     ]]></test>
     <result>
